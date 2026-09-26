@@ -1,8 +1,12 @@
 # E3 Linux 仅测试身份
 
-此改动位于独立 `cph-identity` 工作树，供 E1 固定基线验收后单独审查和移入。
-当前状态为 **IMPLEMENTED_NOT_DEPLOYED**；没有运行第二套完整 C++ 构建，也未运行
-游戏、安装或卸载验收。工具策略单元测试通过不代表这些实际场景已通过。
+此改动已在 E1 固定基线验收后从独立工作树以 merge commit 移入主实现分支。
+Linux HOME 编译模式、显式隔离 user/config/save 目录的实际安装、路径检查、
+73 项资源校验、核心数据加载和卸载已 **PASS**，CCB 模拟哨兵保持不变。
+测试提交为 `6cd76598a44`，完整命令及退出码见工作区外
+`../evidence/e3-linux-build-attempt4/commands.jsonl`，运行结果见
+`../evidence/e3-linux-main-identity-run4/result.json`。配置、编译和探针均退出 0。
+远端部署仍为 **IMPLEMENTED_NOT_DEPLOYED**，下述 GUI/升级/默认 HOME 启动边界不变。
 永久名称、应用 ID、Android 运行 profile 均未决定；公开发布继续关闭。
 
 ## 行为与接口
@@ -44,7 +48,8 @@ cmake --build /tmp/cph-e1-20260926-bkx10cn5/build --target cataclysm-tiles
 ```
 
 若 E1 选用的是 curses/headless，则目标为 `cataclysm`，不为本任务改变其渲染路线。
-以上命令尚未在本子任务运行，具体构建目录须由主任务保留的
+以上模式已实际运行；失败尝试原样保留，成功目录后缀为 `run4`。重试时使用新
+work-dir 并同步更改 CMAKE_INSTALL_PREFIX。具体构建目录须由主任务保留的
 `linux-build-location.json` 核对；原有 Nix 编译环境和 ASCII 源目录映射继续使用。
 
 运行工具时使用**源构建所对应 checkout 中的工具**，且
