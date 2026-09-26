@@ -9,8 +9,7 @@ set(CATACLYSM_DATA_DIRS
         title
         core
         screenshots
-        xdg
-        help)
+        xdg)
 
 if(CPH_TEST_IDENTITY)
     list(REMOVE_ITEM CATACLYSM_DATA_DIRS xdg)
