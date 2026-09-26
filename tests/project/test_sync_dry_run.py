@@ -148,6 +148,45 @@ class MergeFixture(unittest.TestCase):
                 else:
                     target.write_bytes(previous)
 
+    def test_hidden_worktree_flags_rejected_without_source_changes(self):
+        for flag in ('assume-unchanged', 'skip-worktree'):
+            with self.subTest(flag=flag):
+                self.git('update-index', '--' + flag, 'game.txt')
+                target = self.repo / 'game.txt'
+                target.write_text('hidden user edit\n')
+                self.assertEqual(self.git('status', '--porcelain'), '')
+                before = self.git('ls-files', '-v', '--', 'game.txt')
+                result = self.probe().run()
+                self.assertEqual(result['status'], 'FAIL')
+                self.assertIn('assume-unchanged', result['reason'])
+                self.assertNotIn('candidate_directory', result)
+                self.assertEqual(target.read_text(), 'hidden user edit\n')
+                self.assertEqual(self.git('ls-files', '-v', '--', 'game.txt'),
+                                 before)
+                self.git('update-index', '--no-' + flag, 'game.txt')
+                target.write_text('one\n')
+
+    def test_hidden_flags_added_during_merge_invalidate_result(self):
+        newer = self.upstream()
+        fixture = self
+        for flag in ('assume-unchanged', 'skip-worktree'):
+            with self.subTest(flag=flag):
+                class HiddenEdit(sync.Rehearsal):
+                    def merge(self):
+                        super().merge()
+                        fixture.git('update-index', '--' + flag, 'game.txt')
+                        (fixture.repo / 'game.txt').write_text('hidden\n')
+
+                result = self.probe(newer, cls=HiddenEdit).run()
+                self.assertEqual(result['status'], 'FAIL')
+                self.assertIn('assume-unchanged', result['reason'])
+                self.assertIn('candidate_commit', result)
+                self.assertEqual(self.git('status', '--porcelain'), '')
+                self.assertEqual((self.repo / 'game.txt').read_text(),
+                                 'hidden\n')
+                self.git('update-index', '--no-' + flag, 'game.txt')
+                (self.repo / 'game.txt').write_text('one\n')
+
     def test_source_change_rejected_without_credential_log(self):
         self.git('remote', 'set-url', 'ccb',
                  'https://secret:credential@github.com/other/repo.git')
@@ -170,6 +209,32 @@ class MergeFixture(unittest.TestCase):
         (gitdir / 'info').mkdir(exist_ok=True)
         (gitdir / 'info/grafts').write_text(self.u + '\n')
         self.assertIn('grafts', self.probe().run()['reason'])
+
+    def test_dangling_graft_symlink_rejected(self):
+        graft = self.repo / '.git/info/grafts'
+        graft.parent.mkdir(exist_ok=True)
+        graft.symlink_to('absent-graft-target')
+        result = self.probe().run()
+        self.assertEqual(result['status'], 'FAIL')
+        self.assertIn('grafts', result['reason'])
+        self.assertTrue(graft.is_symlink())
+        self.assertFalse(graft.exists())
+
+    def test_graft_symlink_added_during_merge_invalidate_result(self):
+        newer = self.upstream()
+        fixture = self
+
+        class NewGraft(sync.Rehearsal):
+            def merge(self):
+                super().merge()
+                graft = fixture.repo / '.git/info/grafts'
+                graft.parent.mkdir(exist_ok=True)
+                graft.symlink_to('absent-graft-target')
+
+        result = self.probe(newer, cls=NewGraft).run()
+        self.assertEqual(result['status'], 'FAIL')
+        self.assertIn('grafts', result['reason'])
+        self.assertIn('candidate_commit', result)
 
     def test_git_environment_override_rejected(self):
         with patch.dict(os.environ, {'GIT_CONFIG_COUNT': '0'}):

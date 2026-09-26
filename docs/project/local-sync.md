@@ -45,7 +45,10 @@ receive only a small environment allowlist, preserving HOME unchanged and
 excluding tokens. Config query values (including credential-bearing bad URLs)
 are omitted from logs. No speculative remote credential is needed. The source
 is rechecked at completion; a moving H/U1, dirty state or source/history change
-invalidates that run. Missing promisor objects fail explicitly instead of
+invalidates that run. Both passes reject assume-unchanged/skip-worktree index
+flags, which could otherwise hide user edits, and any graft path including a
+dangling symlink. The tool never clears those flags or edits user files.
+Missing promisor objects fail explicitly instead of
 fetching behind the caller's back.
 
 A conflict retains the candidate working files, Git index, MERGE_HEAD and report

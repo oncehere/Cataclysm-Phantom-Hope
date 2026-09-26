@@ -117,6 +117,10 @@ class Rehearsal:
                         cwd=cwd, allow=(0, 1))[1] == 0
 
     def clean(self):
+        entries = self.value('ls-files', '-v', '-z', *PATHS).split('\0')
+        require(not any(entry and (entry[0].islower() or entry[0] == 'S')
+                        for entry in entries),
+                'assume-unchanged or skip-worktree source is rejected')
         require(not self.value('status', '--porcelain=v1', '-z',
                                '--untracked-files=all',
                                '--ignore-submodules=all', *PATHS),
@@ -141,7 +145,9 @@ class Rehearsal:
         require(not self.value('for-each-ref', '--format=%(refname)',
                                'refs/replace/'), 'replace refs rejected')
         common = (self.repo / self.value('rev-parse', '--git-common-dir'))
-        require(not (common / 'info/grafts').exists(), 'grafts rejected')
+        graft = common / 'info/grafts'
+        require(not graft.exists() and not graft.is_symlink(),
+                'grafts rejected')
         for name in ('cdda', 'ccb'):
             source = self.lock[name]
             key = 'remote.' + source['remote'] + '.url'
