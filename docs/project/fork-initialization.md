@@ -1,4 +1,10 @@
-# E2 initialization review, without deployment
+# E2 read-only preparation and fork deployment
+
+The user explicitly authorized `oncehere/Cataclysm-Phantom-Hope` on 2026-09-26.
+Its native CDDA fork, initial history upload and default-branch selection were
+performed separately from this read-only tool. See [the actual deployment
+receipt](fork-deployment.md). Actions and automatic merge remain disabled;
+required PR checks have not been deployed or validated.
 
 `prepare_fork.py` only reads local Git and, when explicitly requested, GitHub.
 There is no remote-write code path and no execution flag. Its structured
@@ -50,8 +56,10 @@ disabled.
 
 Exit 1 means local trust/preflight failed; exit 2 is invalid CLI usage; exit 3
 means a review report was produced with specific blocked remote prerequisites.
-This is `IMPLEMENTED_NOT_DEPLOYED`, not E2 completion. The tests use synthetic
+The tool alone is `IMPLEMENTED_NOT_DEPLOYED`, not E2 completion. The tests use synthetic
 Git histories and explicitly simulated API responses, not real fork creation,
-branch protection or platform acceptance. Resume by supplying the target and
-resolving only the named blockers, then separately authorizing/deploying the
-reviewed initialization sequence.
+branch protection or platform acceptance. It intentionally reports an existing
+fork as requiring an explicit modification scope. That conservative diagnostic
+does not revoke the user's recorded authorization or prove a deployment failed.
+Use the receipt and current remote read-backs for the deployed target; never
+rerun native fork creation or replace an existing branch to silence this check.

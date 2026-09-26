@@ -9,8 +9,11 @@
 开始，第一项自有提交 `166042538d8` 的父提交及 tree 与 U 完全一致。
 CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 5322 个后续提交/986 个 merge 保留；没有全面同步 CDDA、squash 或强推。
-目标 `OWNER/REPO` 未提供，没有 `origin`，三个来源 remote 的 push URL
-均为 `DISABLED`。本地独立克隆不等于已经建立 GitHub fork。
+用户随后明确授权 `oncehere/Cataclysm-Phantom-Hope`，已通过 GitHub 原生 fork
+机制创建、核验 CDDA parent，并上传原历史到新 `main`。远端默认分支现为 `main`；
+继承的 `master` 保持原 SHA。`origin` 已指向该目标，四个 remote 的 push URL
+均保持 `DISABLED`；本轮实际上传使用明确目标 URL 和固定 SHA，不依赖默认 push。
+远端执行及失败闭环详见 [fork-deployment.md](fork-deployment.md)。
 部分更早历史仍带 promisor 元数据；没有宣称所有历史 blob 都已离线齐备。
 当前 U 工作树及本轮所需历史对象已核验；后续缺失对象必须显式获取后再验收。
 
@@ -19,7 +22,8 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 | 范围 | 状态 | 真实执行与证据 |
 |---|---|---|
 | E0 本地历史、U tree、环境和工作流隔离 | PASS | preflight 与负例；29 个继承 workflow 原样移到非活动目录，活动入口为零；外部 action 内部行为未运行 |
-| E2 目标个人 CDDA fork | BLOCKED | 未明确目标；只读准备工具已实现，无远程写入 |
+| E2 个人 CDDA fork、历史上传和默认分支 | PASS | 原生 fork 的 parent 为 CDDA；固定种子提交及 tree 已远端回读；继承 master 未变 |
+| E2 受控 CI 与分支门槛 | NOT_RUN | 最小 CI 入口/可信 collector 尚未实现和部署，Actions 关闭；不称 main 已受保护 |
 | E1 翻译冷启动 | PASS | 真实 CCB 发布资源，摘要核验，49 个 MO、24 个许可/署名；无 TX_TOKEN、历史 artifact 或缓存依赖；实际中文加载通过 |
 | E1 Linux 真实编译及最小回归 | PASS | 测试提交 c9ffec15d30；configure/build/版本检查及下列 5 组测试均退出 0 |
 | E3 Linux 测试身份 | PASS（限定范围） | 测试提交 6cd76598a44；安装、5 种路径解析、73 项资源、核心数据加载、卸载及 CCB 哨兵均通过 |
@@ -83,8 +87,8 @@ E3 使用同一编译缓存做实际增量构建。两个场景的源码、配�
 
 ## 外部条件与继续执行
 
-最小配置清单见 [resume.md](resume.md)。当前仅缺目标信息就足以阻止远程写入，
-不影响上述本地修复。真实 GitHub required checks、分支规则、自动同步合入、
+最小配置清单见 [resume.md](resume.md)。目标和管理权限已核实，E2 fork 与历史
+上传已实际完成。真实 GitHub required checks、分支规则、自动同步合入、
 四平台打包/必要签名和每日公开开发版均未启用；稳定版没有发布入口。
 永久身份、Android 验收 profile 等设计决定仍待明确，没有用测试 ID 或临时签名
 包公开发布。无需向聊天提供任何秘密。
@@ -107,7 +111,7 @@ E4—E7 的以下小步已经独立提交并集成；各自范围为 **IMPLEMENT
 同一提交下整个 `tools/project`、`tests/project` 的原 flake8 规则、U 到 HEAD
 的 `git diff --check` 和 workflow quarantine 检查均退出 0。
 
-最终命令及全部 stdout/stderr 摘要见工作区
+初次本地交付时的命令及全部 stdout/stderr 摘要见工作区
 `evidence/final-validation/commands.jsonl`：
 
 - `preflight.py --repo ... --github`：exit 0；本地历史及 CDDA/CCB API 对象核验 PASS，
@@ -134,7 +138,7 @@ SHA 冒充移动 ref，拒绝 Git 隐藏修改标志与悬空 graft，拒绝其�
 
 ```text
 LOCAL_IMPLEMENTATION_READY = false
-HISTORY_AND_FORK_VERIFIED = false
+HISTORY_AND_FORK_VERIFIED = true
 WINDOWS_LINUX_GATE_VERIFIED = false
 AUTO_SYNC_AND_MERGE_ENABLED = false
 FOUR_PLATFORM_RELEASE_READY = false
@@ -142,15 +146,16 @@ DAILY_DEV_RELEASE_ENABLED = false
 STABLE_RELEASE_ENABLED = false
 ```
 
-本地基础实现已验证，但完整可信执行链/发布事务尚未实现，目标 fork 和跨平台条件
-尚缺，所以这些总开关均不能为 true。当前 diff 应为空，各个逻辑改动与必要修复均有
-独立提交，继承 merge 历史保留；没有推送、开 PR、修改 GitHub 设置、购买服务或公开包。
+本地基础实现和真实 fork/历史已验证，但完整可信执行链/发布事务尚未实现，跨平台
+条件仍缺。只有 HISTORY_AND_FORK_VERIFIED 已成立，不能据此开启其他总开关。
+各个逻辑改动与必要修复均有独立提交，继承 merge 历史保留；仅向用户明确的新目标
+上传并修改其初始化设置，没有开 PR、购买服务或公开游戏包。
 
 `last_completed_task`：E0/E1 本地验收、Linux 测试身份生命周期及 E4—E7 上述本地
-组件的合并后工具复验。首期尚未完成。
+组件的合并后工具复验，以及 E2 真实个人 CDDA fork、保留历史的种子上传与默认
+分支切换。首期尚未完成。
 
-下一条可执行恢复入口：明确目标后先运行 `prepare_fork.py --repo <本仓库>
---target OWNER/REPO --github --dry-run` 读取回证；在未明确目标期间仍可完善可信
-collector/CI 入口和 E6 发布事务的本地模型。真实部署前必须接入可用原生 Windows
+下一条可执行恢复入口：在已核验目标上继续实现并审查可信 collector/最小 CI
+入口和 E6 发布事务；不要重复建仓。正常自动合入部署前必须接入可用原生 Windows
 环境、完成相应身份隔离，并在目标 PR 证明规则生效。其他缺口及配置位置集中见
 [resume.md](resume.md)，无须重新做宽泛需求访谈。

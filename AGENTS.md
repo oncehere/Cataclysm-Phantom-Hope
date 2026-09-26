@@ -3,7 +3,10 @@
 Before each implementation task, read `docs/project/execution-spec.md` completely.
 It is the primary CPH specification; earlier research/reviews are background.
 Preserve user changes and upstream history. Never touch `obj-lua/` or global Codex settings.
-Upstream remotes are read-only; no target repository has been authorized yet.
+Upstream remotes are read-only. The explicitly authorized CPH target is
+`oncehere/Cataclysm-Phantom-Hope`; its native CDDA fork and initial history upload
+are recorded in `docs/project/fork-deployment.md`. This does not authorize writes
+to any other repository or enabling unverified automation/public releases.
 No automatic AI, public release, stable channel, or signing in candidate builds.
 Report actual commands, exit codes and evidence; local configuration is not deployment.
 The inherited CCB instructions below still guide source work. CCB-specific external

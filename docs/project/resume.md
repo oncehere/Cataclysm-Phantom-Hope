@@ -1,13 +1,14 @@
 # 缺失条件与恢复入口
 
 这是本轮检查发现的外部条件清单，不要求把密钥发到聊天中，也不把配置文件
-存在当作已经部署。当前没有目标 `origin`，三个来源 remote 的 push URL
-均为 `DISABLED`；本地实现及 Linux 验证可继续。
+存在当作已经部署。目标 `oncehere/Cataclysm-Phantom-Hope` 已由用户明确授权，
+原生 CDDA fork、管理权限和历史上传已核验；`origin` 已配置，默认分支为 `main`。
+执行回证见 [fork-deployment.md](fork-deployment.md)。四个 remote 的 push URL
+均保留 `DISABLED`，需要写入时必须使用明确目标和固定 ref，不猜测或使用默认 push。
 
 | 最小条件 | 仅阻塞的动作 | 配置位置与恢复入口 |
 |---|---|---|
-| 用户明确唯一个人账号 `OWNER/REPO`，以及新建范围 | E2 实际 fork、推送、默认分支/Actions 设置 | 先运行 `prepare_fork.py --repo <isolated-source> --target OWNER/REPO --github`，审查真实账号、CDDA parent 和名称/分支冲突，再执行受控初始化 |
-| 该目标的实际管理权限 | 远端 Actions 与分支规则 | 在目标 GitHub 仓库配置；读取回证，不能仅依赖本地 YAML。保留 merge 历史，不启用线性历史要求 |
+| 经审查的最小 CI 入口和可信结果收集链 | 启用 Actions、配置并验收必需检查 | 目标管理权限已具备；先完成可信 PR 检查链，再启用受控入口并读取回证。继承 master 仍含上游 workflow，仓库 Actions 当前保持关闭；保留 merge 历史，不启用线性历史要求 |
 | 原生 Windows 构建/运行环境及依赖 | Windows 实测、W/L 合入门槛 | 按 `other-platform-probes.md` 准备隔离 Windows runner，运行真实探针；Linux 不能替代 Windows 启动 |
 | 原生 macOS runner、所选架构依赖 | macOS 构建/包检查和四平台发布 | 先复用已审计入口作候选检查；包架构与实际运行架构分别记录，不能擅自增加每日人工批准条件 |
 | Android SDK/NDK/JDK、可用运行环境、明确验收 profile | Android 包/运行验收和四平台发布 | 先探测 ARM64 自动环境；替代 profile 需要明确采纳，兼容架构模拟器结果不能标成 ARM64 包实测 |
@@ -19,9 +20,10 @@
 目标、用临时签名包公开发布，或要求用户提供每日人工测试来掩盖自动化缺项。
 AI 不在日常运行链中；新增设计取舍另行明确。
 
-本轮暂停/恢复边界：活动 workflow 已隔离，未创建定时任务，未推送仓库，
-自动合入、每日公开开发版和稳定版均未启用。保持这一状态不需要远程
-暂停命令。E7 本地暂停、候选封禁和 revision 检查已实现并通过模型测试，入口见
+本轮暂停/恢复边界：main 的继承 workflow 已隔离，仓库 Actions 已关闭并回读确认，
+未创建定时任务；自动合入、每日公开开发版和稳定版均未启用。重新开启 Actions
+前必须审查所有可触发入口，不能因 main 活动 workflow 为零就忽略保留的 master。
+E7 本地暂停、候选封禁和 revision 检查已实现并通过模型测试，入口见
 `operator-controls.md`；E4/E6 实际部署后仍须接入可信控制器，验证在途任务最终
 再检查及远端持久状态恢复。不能把本地工具或此文档当作已部署的控制面。
 
