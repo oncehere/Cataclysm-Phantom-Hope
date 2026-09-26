@@ -1,0 +1,139 @@
+name: CPH Native CI
+run-name: CPH CI PR ${{ inputs.pr_number || github.event.pull_request.number }} base ${{ inputs.base_sha || github.event.pull_request.base.sha }} head ${{ inputs.head_sha || github.event.pull_request.head.sha }}
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Open pull request to verify
+        required: true
+        type: string
+      base_sha:
+        description: Expected current main commit
+        required: true
+        type: string
+      head_sha:
+        description: Expected pull request head commit
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: cph-native-${{ inputs.pr_number || github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    name: CPH Plan
+    if: github.repository == 'oncehere/Cataclysm-Phantom-Hope' && (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      manifest: ${{ steps.plan.outputs.manifest }}
+      merge_sha: ${{ steps.plan.outputs.merge_sha }}
+      control_sha: ${{ steps.plan.outputs.control_sha }}
+    steps:
+      - name: Checkout trusted control revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
+          path: control
+      - name: Bind current PR and merge tree
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CPH_PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
+          CPH_BASE_SHA: ${{ inputs.base_sha || github.event.pull_request.base.sha }}
+          CPH_HEAD_SHA: ${{ inputs.head_sha || github.event.pull_request.head.sha }}
+          CPH_CONTROL_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: python3 control/tools/project/ci_build.py plan
+
+  native:
+    needs: plan
+    if: github.repository == 'oncehere/Cataclysm-Phantom-Hope' && (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main')
+    name: CPH ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux
+            platform: linux
+            runner: ubuntu-24.04
+          - name: Windows
+            platform: windows
+            runner: windows-2022
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 240
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout trusted control revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ needs.plan.outputs.control_sha }}
+          persist-credentials: false
+          path: control
+      - name: Checkout exact merge candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ needs.plan.outputs.merge_sha }}
+          persist-credentials: false
+          fetch-depth: 2
+          path: candidate
+      - name: Install Linux system dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential ninja-build gettext pkg-config zlib1g-dev glslang-tools libflac-dev libogg-dev libvorbis-dev libmpg123-dev libwavpack-dev libfreetype-dev libharfbuzz-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev libasound2-dev libpulse-dev libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev libwayland-bin wayland-protocols libdecor-0-dev libdrm-dev libgbm-dev libudev-dev libegl-dev libgl-dev libgles-dev libvulkan-dev libpipewire-0.3-dev libdbus-1-dev libibus-1.0-dev
+      - name: Install Windows gettext
+        if: matrix.platform == 'windows'
+        id: gettext
+        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2
+        with:
+          msystem: MSYS
+          install: gettext
+          update: false
+          cache: false
+      - name: Configure Windows compiler environment
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $vs = & "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe" -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          foreach ($name in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'WindowsSdkDir', 'WindowsSDKVersion')) {
+            "$name=$([Environment]::GetEnvironmentVariable($name))" >> $env:GITHUB_ENV
+          }
+      - name: Select compatible CMake
+        uses: lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb # pinned inherited action
+        with:
+          cmakeVersion: 3.31.6
+          ninjaVersion: 1.12.1
+      - name: Build and execute required tests
+        env:
+          CPH_CI_PLAN: ${{ needs.plan.outputs.manifest }}
+          CPH_CI_PLATFORM: ${{ matrix.platform }}
+          CPH_MSYS_ROOT: ${{ steps.gettext.outputs.msys2-location }}
+          PYTHONUTF8: '1'
+          PYTHONIOENCODING: utf-8
+        run: python control/tools/project/ci_build.py build --source candidate --work "${{ runner.temp }}/cph-native" --evidence "${{ runner.temp }}/cph-evidence" --parallel 2
+      - name: Preserve logs and evidence on success or failure
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: cph-ci-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/cph-evidence/*.log
+            ${{ runner.temp }}/cph-evidence/*.json
+            ${{ runner.temp }}/cph-evidence/*.jsonl
+            ${{ runner.temp }}/cph-evidence/*.xml
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6
