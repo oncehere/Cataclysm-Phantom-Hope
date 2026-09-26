@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "baseline": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+  "entries": [
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "465b4a48a6b8e1b99a75ccbcdb473e45a3c7e5cc",
+      "decision": "retain",
+      "reason": "User-authorized E0/E2 quarantine: inherited publication, privileged callbacks and PR artifact notifications remain disabled pending target and verified gates."
+    },
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "8c21f0b6211ef07574e0f5199173e998323608d2",
+      "decision": "retain",
+      "reason": "User-authorized E3 native Linux opt-in test identity and isolated default data directories. Permanent identity remains undecided; gettext domain and data formats retained."
+    },
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "e7d1264fc1ccc3258e87aaf56e3bb69b0085a2b0",
+      "decision": "retain",
+      "reason": "E1 Clang 21 build repair: mark the always-throwing Lua callback noreturn; no gameplay design change."
+    },
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "5a8f4e9b32f16f597013aacf6af7b4e6865b93e7",
+      "decision": "retain",
+      "reason": "E1 Clang 21 build repair: mark the always-throwing scheduled Lua task noreturn; no gameplay design change."
+    }
+  ]
+}
