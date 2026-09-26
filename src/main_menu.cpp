@@ -66,6 +66,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "project_identity.h"
 #include "popup.h"
 #include "safemode_ui.h"
 #include "save_snapshot.h"
@@ -956,7 +957,11 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::title( current_holiday ), _( "Cataclysm: Cleanwater Bomb" ) );
+    if( project_identity::is_test() ) {
+        mmenu_title = { project_identity::test_display_name() };
+    } else {
+        mmenu_title = load_file( PATH_INFO::title( current_holiday ), _( "Cataclysm: Cleanwater Bomb" ) );
+    }
     // MOTD
     auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 

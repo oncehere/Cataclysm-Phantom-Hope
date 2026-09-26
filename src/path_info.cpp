@@ -8,6 +8,7 @@
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
+#include "project_identity.h"
 #include "rng.h"
 #include "system_locale.h"
 #include "translations.h"
@@ -109,15 +110,17 @@ void PATH_INFO::init_user_dir( std::string dir )
         user_dir = getenv_or_abort( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
 #elif defined(USE_XDG_DIR)
-        if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
-            dir = std::string( user_dir ) + "/cataclysm-dda/";
+        if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) &&
+            ( *user_dir != '\0' || !project_identity::is_test() ) ) {
+            dir = std::string( user_dir ) + "/" + project_identity::data_component() + "/";
         } else {
             user_dir = getenv_or_abort( "HOME" );
-            dir = std::string( user_dir ) + "/.local/share/cataclysm-dda/";
+            dir = std::string( user_dir ) + "/.local/share/" + project_identity::data_component() +
+                  "/";
         }
 #else
         user_dir = getenv_or_abort( "HOME" );
-        dir = std::string( user_dir ) + "/.cataclysm-dda/";
+        dir = std::string( user_dir ) + "/." + project_identity::data_component() + "/";
 #endif
     }
 #endif
@@ -137,7 +140,7 @@ void PATH_INFO::set_standard_filenames()
 
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
-        datadir_value = base_path_value + "share/cataclysm-dda/";
+        datadir_value = base_path_value + "share/" + project_identity::data_component() + "/";
         prefix = datadir_value;
         prefix_path = datadir_path_value;
 #else
@@ -172,11 +175,12 @@ void PATH_INFO::set_standard_filenames()
 #if defined(USE_XDG_DIR)
     const char *user_dir;
     std::string dir;
-    if( ( user_dir = getenv( "XDG_CONFIG_HOME" ) ) ) {
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
+    if( ( user_dir = getenv( "XDG_CONFIG_HOME" ) ) &&
+        ( *user_dir != '\0' || !project_identity::is_test() ) ) {
+        dir = std::string( user_dir ) + "/" + project_identity::data_component() + "/";
     } else {
         user_dir = getenv_or_abort( "HOME" );
-        dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/.config/" + project_identity::data_component() + "/";
     }
     config_dir_value = dir;
     config_dir_path_value = cata_path{ cata_path::root_path::config, std::filesystem::path{} };

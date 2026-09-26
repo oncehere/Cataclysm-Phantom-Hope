@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.example.cph.IsolationTest</id>
+  <metadata_license>CC-BY-SA-3.0</metadata_license>
+  <project_license>CC-BY-SA-3.0</project_license>
+  <name>CPH Isolation Test</name>
+  <summary>Unpublished application and data isolation test</summary>
+  <launchable type="desktop-id">org.example.cph.IsolationTest.desktop</launchable>
+</component>

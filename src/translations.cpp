@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "get_version.h"
 #include "path_info.h"
+#include "project_identity.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "translation_gendered.h"
@@ -104,5 +105,10 @@ void set_language( const std::string &lang )
     // names.
     SNIPPET.reload_names( PATH_INFO::names() );
 
-    set_title( string_format( _( "Cataclysm: Cleanwater Bomb - %s" ), getVersionString() ) );
+    if( project_identity::is_test() ) {
+        set_title( string_format( "%s - %s", project_identity::test_display_name(),
+                                  getVersionString() ) );
+    } else {
+        set_title( string_format( _( "Cataclysm: Cleanwater Bomb - %s" ), getVersionString() ) );
+    }
 }

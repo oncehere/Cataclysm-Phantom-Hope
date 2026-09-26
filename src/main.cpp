@@ -58,6 +58,7 @@
 #include "help.h"
 #include "input.h"
 #include "input_replay.h"
+#include "json.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
@@ -65,6 +66,7 @@
 #include "ordered_static_globals.h"
 #include "output.h"
 #include "path_info.h"
+#include "project_identity.h"
 #include "rng.h"
 #include "system_locale.h"
 #include "translations.h"
@@ -252,10 +254,11 @@ void printVersionMessage()
     const bool hasSound = false;
 #endif
 
-    printf( "Cataclysm: Cleanwater Bomb %s\n\n"
+    printf( "%s %s\n\n"
             "%ctiles, %csound\n\n"
             "data dir: %s\nuser dir: %s\n",
-            getVersionString(),
+            project_identity::is_test() ? project_identity::test_display_name() :
+            "Cataclysm: Cleanwater Bomb", getVersionString(),
             hasTiles ? '+' : '-',
             hasSound ? '+' : '-',
             PATH_INFO::datadir().c_str(),
@@ -298,6 +301,7 @@ struct cli_opts {
     bool verifyexit = false;
     bool noverify = false;
     bool check_mods = false;
+    bool dump_test_paths = false;
     std::vector<std::string> opts;
     std::string world;
     bool disable_ascii_art = false;
@@ -321,6 +325,16 @@ cli_opts parse_commandline( int argc, const char **argv )
     constexpr std::string_view section_user_directory = "User directories";
     constexpr std::string_view section_accessibility = "Accessibility";
     const std::vector<arg_handler> first_pass_arguments = {{
+            {
+                "--dump-test-paths", {},
+                "Print resolved paths without writing files (CPH test identity builds only)",
+                section_user_directory,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.dump_test_paths = true;
+                    return 0;
+                }
+            },
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -1003,7 +1017,7 @@ int main( int argc, const char *argv[] )
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
     PATH_INFO::init_user_dir( "" );
 #   else
-    PATH_INFO::init_user_dir( "." );
+    PATH_INFO::init_user_dir( project_identity::portable_directory() );
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
@@ -1011,6 +1025,36 @@ int main( int argc, const char *argv[] )
     MAP_SHARING::setDefaults();
 
     cli_opts cli = parse_commandline( argc, const_cast<const char **>( argv ) );
+
+    if( cli.dump_test_paths ) {
+        if( !project_identity::is_test() ) {
+            std::cerr << "--dump-test-paths requires CPH_TEST_IDENTITY.\n";
+            return 1;
+        }
+        JsonOut output( std::cout );
+        output.start_object();
+        output.member( "identity", project_identity::test_display_name() );
+#if defined(USE_XDG_DIR)
+        output.member( "mode", "xdg" );
+#elif defined(USE_HOME_DIR)
+        output.member( "mode", "home" );
+#else
+        output.member( "mode", "portable" );
+#endif
+#if defined(DATA_DIR_PREFIX)
+        output.member( "prefix_data", true );
+#else
+        output.member( "prefix_data", false );
+#endif
+        output.member( "user", PATH_INFO::user_dir() );
+        output.member( "config", PATH_INFO::config_dir() );
+        output.member( "save", PATH_INFO::savedir() );
+        output.member( "data", PATH_INFO::datadir() );
+        output.member( "gettext_domain", PATH_INFO::lang_file() );
+        output.end_object();
+        std::cout << '\n';
+        return 0;
+    }
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
