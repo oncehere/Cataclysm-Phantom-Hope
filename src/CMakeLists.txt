@@ -33,6 +33,17 @@ set(MAIN_CPP ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 set(MESSAGES_CPP ${CMAKE_CURRENT_SOURCE_DIR}/messages.cpp)
 set(RESOURCE_RC ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc)
 
+if(CPH_TEST_IDENTITY)
+    # Only this small translation unit changes flags when the option toggles.
+    set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/project_identity.cpp
+        PROPERTIES COMPILE_DEFINITIONS CPH_TEST_IDENTITY=1)
+    if(USE_PREFIX_DATA_DIR AND RELEASE)
+        # Existing prefix macros are only consumed by these path entry points.
+        set_property(SOURCE ${MAIN_CPP} ${CMAKE_CURRENT_SOURCE_DIR}/path_info.cpp
+            APPEND PROPERTY COMPILE_DEFINITIONS PREFIX DATA_DIR_PREFIX)
+    endif()
+endif()
+
 if (WIN32)
     set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
     set(RSRC_RC_DEP "${RSRC_RC_DEP};${CMAKE_SOURCE_DIR}/data/application_manifest.xml")
@@ -580,3 +591,12 @@ if (MINGW AND NOT RELEASE)
             ${RuntimeLib_SDL_SOUND}
             TYPE BIN)
 endif ()
+
+if(CPH_TEST_IDENTITY)
+    if(TARGET cataclysm)
+        set_target_properties(cataclysm PROPERTIES OUTPUT_NAME cph-isolation-test)
+    endif()
+    if(TARGET cataclysm-tiles)
+        set_target_properties(cataclysm-tiles PROPERTIES OUTPUT_NAME cph-isolation-test-tiles)
+    endif()
+endif()

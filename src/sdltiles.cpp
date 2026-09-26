@@ -81,6 +81,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "project_identity.h"
 #include "sdl_geometry.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
@@ -253,7 +254,8 @@ static void InitSDL()
     // Requires SDL 2.0.18. String used multiple ways, one of them is the game
     // identifying itself when asking to inhibit screensaver via dbus under
     // Linux.
-    SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Cleanwater Bomb" ) );
+    SDL_SetHint( SDL_HINT_APP_NAME, project_identity::is_test() ?
+                 project_identity::test_display_name() : _( "Cataclysm: Cleanwater Bomb" ) );
 #endif
 
 #if defined(__linux__) && SDL_MAJOR_VERSION < 3

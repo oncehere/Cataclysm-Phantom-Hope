@@ -12,6 +12,10 @@ set(CATACLYSM_DATA_DIRS
         xdg
         help)
 
+if(CPH_TEST_IDENTITY)
+    list(REMOVE_ITEM CATACLYSM_DATA_DIRS xdg)
+endif()
+
 if (SOUND)
     list(APPEND CATACLYSM_DATA_DIRS sound)
 endif ()

@@ -22,11 +22,18 @@ option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
+option(CPH_TEST_IDENTITY "Use the unpublished Linux-only CPH isolation test identity." OFF)
+if(CPH_TEST_IDENTITY AND (NOT CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_CROSSCOMPILING OR ANDROID))
+    message(FATAL_ERROR "CPH_TEST_IDENTITY requires a native Linux build.")
+endif()
 cmake_dependent_option(USE_PREFIX_DATA_DIR
     "Use UNIX system directories for game data in release build." ON
     "UNIX" OFF
 )
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
+if(CPH_TEST_IDENTITY AND NOT LOCALIZE)
+    message(FATAL_ERROR "CPH_TEST_IDENTITY validation retains real localization inputs.")
+endif()
 option(LANGUAGES "Compile localization files for specified languages." "")
 option(DYNAMIC_LINKING
         "Use dynamic linking. Or use static to remove MinGW dependency instead." "ON")
@@ -196,13 +203,23 @@ else ()
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if(USE_PREFIX_DATA_DIR)
         if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
-            set(CMAKE_INSTALL_DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda")
-            add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+            if(CPH_TEST_IDENTITY)
+                # Relative destinations allow a safe staged --prefix install.
+                set(CMAKE_INSTALL_DATAROOTDIR "share")
+                set(CMAKE_INSTALL_DATADIR "share/cph-isolation-test")
+                set(CMAKE_INSTALL_DOCDIR "share/doc/cph-isolation-test")
+                set(CMAKE_INSTALL_BINDIR "bin")
+            else()
+                set(CMAKE_INSTALL_DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda")
+            endif()
+            if(NOT CPH_TEST_IDENTITY)
+                add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+                add_definitions(-DDATA_DIR_PREFIX)
+            endif()
             configure_file(
                 "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
                 "${CMAKE_SOURCE_DIR}/src/prefix.h"
                 @ONLY)
-            add_definitions(-DDATA_DIR_PREFIX)
         endif ()
     else()
         set(CMAKE_INSTALL_DATADIR   data)
@@ -531,7 +548,11 @@ endif()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    add_subdirectory(lang)
+    if(CPH_TEST_IDENTITY)
+        include(CMakeModules/CPHTestIdentityTranslations.cmake)
+    else()
+        add_subdirectory(lang)
+    endif()
     add_definitions(-DLOCALIZE)
 endif ()
 
@@ -569,6 +590,23 @@ endif ()
 
 add_subdirectory(src)
 add_subdirectory(data)
+if(CPH_TEST_IDENTITY AND USE_PREFIX_DATA_DIR)
+    set(CPH_TEST_EXECUTABLE "cph-isolation-test")
+    set(CPH_TEST_TERMINAL "true")
+    if(TILES)
+        set(CPH_TEST_EXECUTABLE "cph-isolation-test-tiles")
+        set(CPH_TEST_TERMINAL "false")
+    endif()
+    configure_file(build-data/cph-test/org.example.cph.IsolationTest.desktop.in
+        ${CMAKE_CURRENT_BINARY_DIR}/org.example.cph.IsolationTest.desktop @ONLY)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.example.cph.IsolationTest.desktop
+        DESTINATION share/applications)
+    install(FILES build-data/cph-test/org.example.cph.IsolationTest.metainfo.xml
+        DESTINATION share/metainfo)
+    install(FILES data/xdg/org.cataclysmdda.CataclysmDDA.svg
+        DESTINATION share/icons/hicolor/scalable/apps
+        RENAME org.example.cph.IsolationTest.svg)
+endif()
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
 endif()

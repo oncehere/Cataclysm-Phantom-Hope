@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=CPH Isolation Test
+Comment=Unpublished application and data isolation test
+Exec=@CPH_TEST_EXECUTABLE@
+Icon=org.example.cph.IsolationTest
+Type=Application
+Categories=Game;RolePlaying;
+Terminal=@CPH_TEST_TERMINAL@
