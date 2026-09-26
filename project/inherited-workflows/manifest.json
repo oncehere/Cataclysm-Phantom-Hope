@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "source_repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+  "source_commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+  "workflow_count": 29,
+  "workflows": [
+    {
+      "name": "CBA.yml",
+      "source_path": ".github/workflows/CBA.yml",
+      "blob_id": "86a72085ec3bc9ba497ec98436a636571abb713a",
+      "sha256": "80ea06c3daa0680c44e574bfb8814c75d0dc0264aaca77ec53ac1fa875245f7e",
+      "size": 1531
+    },
+    {
+      "name": "agent-context.yml",
+      "source_path": ".github/workflows/agent-context.yml",
+      "blob_id": "07b6359c4a711727d7b0f0e2085b60eebd86c727",
+      "sha256": "eec8c7881c9f428db8c080c5873810088bfaa92d06de855f435725c942f992dc",
+      "size": 3437
+    },
+    {
+      "name": "assign_mission_target_needs_om_special.yml",
+      "source_path": ".github/workflows/assign_mission_target_needs_om_special.yml",
+      "blob_id": "2a740528a3516de12bd581f9d7461297cf370a05",
+      "sha256": "3f3fcb232d7a403cf7168f5c1989bc1ed4b7bd5bfb77acfd1bec86d62043a069",
+      "size": 553
+    },
+    {
+      "name": "build-translations.yml",
+      "source_path": ".github/workflows/build-translations.yml",
+      "blob_id": "4dc4e6c01fd5a3fb63497604ebe02f1278d865fa",
+      "sha256": "f7c6231c65e2648b020a35e9587522393e707d627480744b8c30874af61b2be2",
+      "size": 4336
+    },
+    {
+      "name": "clang-tidy.yml",
+      "source_path": ".github/workflows/clang-tidy.yml",
+      "blob_id": "edc049cf627da1d93755624c9a0c9377ecff9a97",
+      "sha256": "f7e6e117826c28c3a7df5a314f1196e5fea8429cf5c64c83c7599d827a3973ee",
+      "size": 8159
+    },
+    {
+      "name": "cmake-format.yml",
+      "source_path": ".github/workflows/cmake-format.yml",
+      "blob_id": "e2ef468bcdbcaae448bc55b4a4f216ba02ceb2a3",
+      "sha256": "69a11b9f476b78fa310a280bffae4ed6e44a21c9f5d25b0e18ca834329e7bf59",
+      "size": 990
+    },
+    {
+      "name": "comment-commands.yml",
+      "source_path": ".github/workflows/comment-commands.yml",
+      "blob_id": "e89ba458b62639a2dc2e6dd44cd1b5a78c490cb3",
+      "sha256": "cdbaeae09f2fc44ff5d6006abacafb3e9472eb144ce80b9dfc37bba5efc6d286",
+      "size": 4156
+    },
+    {
+      "name": "compose-tilesets.yml",
+      "source_path": ".github/workflows/compose-tilesets.yml",
+      "blob_id": "1c9c68a55ed1b94fd279afd91cd19b4b66dcfa0f",
+      "sha256": "4d4e1f92ac7cdaeea79e202c23456b9a8704bee7125f1001b1395fc4d5870a6e",
+      "size": 8015
+    },
+    {
+      "name": "detect-translation-file-changes.yml",
+      "source_path": ".github/workflows/detect-translation-file-changes.yml",
+      "blob_id": "ad0f6fabd278cbabe14d1bc8e56b28396b48b0b7",
+      "sha256": "372c38c3f9f1139b724ed8f2112c65f1b5624a6ccf39c4c8c599eeb8e71bc00d",
+      "size": 2439
+    },
+    {
+      "name": "emscripten.yml",
+      "source_path": ".github/workflows/emscripten.yml",
+      "blob_id": "accb216675066c5d829e522e8d77bbfa6cfcea45",
+      "sha256": "c81eb888c7d6a79dbf50f30d27c088557a731309f3bb76d8e34d1e9b79de5e8e",
+      "size": 3278
+    },
+    {
+      "name": "flake8.yml",
+      "source_path": ".github/workflows/flake8.yml",
+      "blob_id": "2d6cae35ab416926eb240dc6896d6ea0c5fe44d3",
+      "sha256": "f3e93fda17b2170e10e267791b1096820bc11181b96807066f0ff11f5dbc18bb",
+      "size": 780
+    },
+    {
+      "name": "greet-first-time-comment.yml",
+      "source_path": ".github/workflows/greet-first-time-comment.yml",
+      "blob_id": "caf129031da814d3ee8e73eb0e54580cee1c4377",
+      "sha256": "3f4fe4eabc409efd3b43d573e9abd33aced562dae9c277fe40b3be3bc1faacde",
+      "size": 2824
+    },
+    {
+      "name": "iwyu.yml",
+      "source_path": ".github/workflows/iwyu.yml",
+      "blob_id": "bd63215cbf34d4f6a06329a56f1f9c25e8716933",
+      "sha256": "2399cc7c33f0c05bcd2634ac3b4c6c839b6c5e26717710bb08842b4fff8b24ec",
+      "size": 7270
+    },
+    {
+      "name": "label-first-time-contributor.yml",
+      "source_path": ".github/workflows/label-first-time-contributor.yml",
+      "blob_id": "9f324c18bf9648e6ff24f5a9dfe2ea99f8c5046b",
+      "sha256": "7c2f425ae193c03b698f108b8c2f37252d8465eb86255de0af9d6f31de8b3d34",
+      "size": 1688
+    },
+    {
+      "name": "labeler.yml",
+      "source_path": ".github/workflows/labeler.yml",
+      "blob_id": "fbbec55698acc0a1f424a5b70cdbea7c5dc1069e",
+      "sha256": "9d7d7a575cf05ad4f1c67f40bbd09b0f3c5ff1b4ae6e222d982d2b6e652da76d",
+      "size": 906
+    },
+    {
+      "name": "linter.yml",
+      "source_path": ".github/workflows/linter.yml",
+      "blob_id": "47ae4fe06d6a4033751de7c48cff68f65a392e3c",
+      "sha256": "5d37d39bab608d21a775065b4dd668f37b78af20b72a194b356381f6b63f6aed",
+      "size": 3802
+    },
+    {
+      "name": "lua-contract.yml",
+      "source_path": ".github/workflows/lua-contract.yml",
+      "blob_id": "7dde8f6a049fda48aa757d2fdf32fc63eab311a9",
+      "sha256": "f8edd4433844062164a1c1a5611ce0ed94e507b9791a2644f841e9e3965bbbde",
+      "size": 3232
+    },
+    {
+      "name": "matrix.yml",
+      "source_path": ".github/workflows/matrix.yml",
+      "blob_id": "82b71bd5b4eed7a276a4c7cee1be2f99476cb049",
+      "sha256": "2da9f79b4d751f2372d7984b6fa2240785cc146096d7f83e43055080bcfe890e",
+      "size": 27647
+    },
+    {
+      "name": "msvc-full-features.yml",
+      "source_path": ".github/workflows/msvc-full-features.yml",
+      "blob_id": "f7e569506336069d6d2245ad2908e2c18be9fd68",
+      "sha256": "5ad831fabfe24109a33bc2c5b802c19f2af303fe5a9f2dbb88deae54f94f7666",
+      "size": 10731
+    },
+    {
+      "name": "post-spell-check-result.yml",
+      "source_path": ".github/workflows/post-spell-check-result.yml",
+      "blob_id": "41ad295103642f4188fc7c42d85138044e82d575",
+      "sha256": "2514f147b0da7c61034ea4d9cedf87352815f0f4caef698c78e7ed29c6b9546d",
+      "size": 3561
+    },
+    {
+      "name": "post-suggestions.yml",
+      "source_path": ".github/workflows/post-suggestions.yml",
+      "blob_id": "d936b58ee9daff76b459d77423d36c7a364bad6a",
+      "sha256": "4a679bb6c683e19e530e289743ebcc87112cebd08e99a717a570aa946745a4be",
+      "size": 1579
+    },
+    {
+      "name": "publish-pr-artifacts.yml",
+      "source_path": ".github/workflows/publish-pr-artifacts.yml",
+      "blob_id": "2b083d8c303d6b26270e5d384d919126eb1eccc5",
+      "sha256": "c0e9c6615e8cbd47b9e7c2e89e6fff952babe466937ddcb1a4bd7bb7ec9b90ef",
+      "size": 16939
+    },
+    {
+      "name": "push-translation-template.yml",
+      "source_path": ".github/workflows/push-translation-template.yml",
+      "blob_id": "120a5a2dcbd50f0c9b109eb4638a35161be94c96",
+      "sha256": "597ab16d6e33af0620d4c612c4246a817770848b3a4627bbf66d40b993252433",
+      "size": 1222
+    },
+    {
+      "name": "release-android-bundle.yaml",
+      "source_path": ".github/workflows/release-android-bundle.yaml",
+      "blob_id": "1f9ba08fb7abc31d6c2fd8ba377f5fc02a4edeaf",
+      "sha256": "108527e00dd4aac032269cadf1e3157ebd5c0ce5a974470d96806c4efa552bb4",
+      "size": 3257
+    },
+    {
+      "name": "release.yml",
+      "source_path": ".github/workflows/release.yml",
+      "blob_id": "ce0d83e1dd90b2821f291ddcbde42ff9bde2080c",
+      "sha256": "9afb5151e90307b19ca809e52763a232fb36b88914e970d81bb1ce1a4ae3ef10",
+      "size": 42659
+    },
+    {
+      "name": "request-review.yml",
+      "source_path": ".github/workflows/request-review.yml",
+      "blob_id": "c910137f4132ae9978b322b4a12d0451a95fa660",
+      "sha256": "2b1631524803786aa3ac4bbe025e270cfdaf66b970dba2b46396217dda40301b",
+      "size": 875
+    },
+    {
+      "name": "sdl3-matrix.yml",
+      "source_path": ".github/workflows/sdl3-matrix.yml",
+      "blob_id": "30c4b7c62f3eb6090fbdd8a38f3e5ddfd6330889",
+      "sha256": "af2ebaeda90b9b7623fd181ea5875033da3b0c9d485bd6cf7ec65855dce9707d",
+      "size": 11956
+    },
+    {
+      "name": "text-changes-analyzer.yml",
+      "source_path": ".github/workflows/text-changes-analyzer.yml",
+      "blob_id": "6841d145a53e16b1dacd5a26f8b2394018223c5f",
+      "sha256": "c747214689a9b1c50683100c895882b5befcf1376172f4c36c879bbbd88bad1d",
+      "size": 4265
+    },
+    {
+      "name": "validate-github-config.yml",
+      "source_path": ".github/workflows/validate-github-config.yml",
+      "blob_id": "4465eb605f9aa41514f075d16c577cb9a3c8671d",
+      "sha256": "2218417df30e2d378c0d544e8e9da6c3c749c06ce1ec0b4705ff372597f3feca",
+      "size": 1561
+    }
+  ]
+}

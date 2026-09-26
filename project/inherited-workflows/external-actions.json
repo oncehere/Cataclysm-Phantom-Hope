@@ -1,0 +1,650 @@
+{
+  "schema_version": 1,
+  "source_commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+  "scope": "explicit external uses in 29 workflows and 2 local actions",
+  "implementation_deep_audit": "NOT_RUN",
+  "actions": [
+    {
+      "uses": "AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793",
+      "locations": [
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 298
+        }
+      ]
+    },
+    {
+      "uses": "BrettDong/setup-sdl2-frameworks@a8ca795ef904417e9ddcb010ef6bf2d11779dbe3",
+      "locations": [
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 355
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 599
+        }
+      ]
+    },
+    {
+      "uses": "actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830",
+      "locations": [
+        {
+          "path": ".github/actions/setup-sdl3-stack/action.yml",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "uses": "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+      "locations": [
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 87
+        },
+        {
+          "path": ".github/workflows/emscripten.yml",
+          "line": 38
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 86
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 391
+        },
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 126
+        },
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 155
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 484
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 490
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 526
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 640
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 166
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 241
+        }
+      ]
+    },
+    {
+      "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "locations": [
+        {
+          "path": ".github/workflows/CBA.yml",
+          "line": 16
+        },
+        {
+          "path": ".github/workflows/agent-context.yml",
+          "line": 23
+        },
+        {
+          "path": ".github/workflows/assign_mission_target_needs_om_special.yml",
+          "line": 19
+        },
+        {
+          "path": ".github/workflows/build-translations.yml",
+          "line": 32
+        },
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 60
+        },
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 138
+        },
+        {
+          "path": ".github/workflows/cmake-format.yml",
+          "line": 30
+        },
+        {
+          "path": ".github/workflows/comment-commands.yml",
+          "line": 18
+        },
+        {
+          "path": ".github/workflows/comment-commands.yml",
+          "line": 72
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 12
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 152
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 177
+        },
+        {
+          "path": ".github/workflows/emscripten.yml",
+          "line": 19
+        },
+        {
+          "path": ".github/workflows/flake8.yml",
+          "line": 27
+        },
+        {
+          "path": ".github/workflows/greet-first-time-comment.yml",
+          "line": 19
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 73
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 80
+        },
+        {
+          "path": ".github/workflows/linter.yml",
+          "line": 27
+        },
+        {
+          "path": ".github/workflows/lua-contract.yml",
+          "line": 63
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 126
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 307
+        },
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 80
+        },
+        {
+          "path": ".github/workflows/post-suggestions.yml",
+          "line": 14
+        },
+        {
+          "path": ".github/workflows/push-translation-template.yml",
+          "line": 33
+        },
+        {
+          "path": ".github/workflows/release-android-bundle.yaml",
+          "line": 18
+        },
+        {
+          "path": ".github/workflows/release-android-bundle.yaml",
+          "line": 41
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 105
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 157
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 372
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 37
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 133
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 35
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 50
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 76
+        },
+        {
+          "path": ".github/workflows/validate-github-config.yml",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "uses": "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
+      "locations": [
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 142
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 134
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 312
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 378
+        },
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 85
+        },
+        {
+          "path": ".github/workflows/release-android-bundle.yaml",
+          "line": 45
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 383
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 389
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 411
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 138
+        }
+      ]
+    },
+    {
+      "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+      "locations": [
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 148
+        },
+        {
+          "path": ".github/workflows/detect-translation-file-changes.yml",
+          "line": 19
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 33
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 102
+        },
+        {
+          "path": ".github/workflows/label-first-time-contributor.yml",
+          "line": 21
+        },
+        {
+          "path": ".github/workflows/linter.yml",
+          "line": 35
+        },
+        {
+          "path": ".github/workflows/post-spell-check-result.yml",
+          "line": 45
+        },
+        {
+          "path": ".github/workflows/publish-pr-artifacts.yml",
+          "line": 24
+        }
+      ]
+    },
+    {
+      "uses": "actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6",
+      "locations": [
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 402
+        },
+        {
+          "path": ".github/workflows/release-android-bundle.yaml",
+          "line": 50
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 866
+        }
+      ]
+    },
+    {
+      "uses": "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+      "locations": [
+        {
+          "path": ".github/workflows/CBA.yml",
+          "line": 40
+        },
+        {
+          "path": ".github/workflows/CBA.yml",
+          "line": 44
+        },
+        {
+          "path": ".github/workflows/build-translations.yml",
+          "line": 117
+        },
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 97
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 28
+        },
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 205
+        },
+        {
+          "path": ".github/workflows/emscripten.yml",
+          "line": 90
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 172
+        },
+        {
+          "path": ".github/workflows/linter.yml",
+          "line": 105
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 441
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 469
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 490
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 517
+        },
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 289
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 219
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 101
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 95
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 99
+        },
+        {
+          "path": ".github/workflows/text-changes-analyzer.yml",
+          "line": 103
+        }
+      ]
+    },
+    {
+      "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+      "locations": [
+        {
+          "path": ".github/actions/build-sdl3-shaders/action.yml",
+          "line": 93
+        }
+      ]
+    },
+    {
+      "uses": "ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28",
+      "locations": [
+        {
+          "path": ".github/workflows/CBA.yml",
+          "line": 31
+        },
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 91
+        },
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 164
+        },
+        {
+          "path": ".github/workflows/iwyu.yml",
+          "line": 135
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 398
+        }
+      ]
+    },
+    {
+      "uses": "awalsh128/cache-apt-pkgs-action@553a35bb8ebd9fcabcb1c9451aa4c98e1b4ca8a9",
+      "locations": [
+        {
+          "path": ".github/workflows/compose-tilesets.yml",
+          "line": 145
+        }
+      ]
+    },
+    {
+      "uses": "dawidd6/action-download-artifact@d63b86af1b34672e53c440b1b83979861906bad7",
+      "locations": [
+        {
+          "path": ".github/workflows/post-spell-check-result.yml",
+          "line": 19
+        },
+        {
+          "path": ".github/workflows/post-spell-check-result.yml",
+          "line": 26
+        },
+        {
+          "path": ".github/workflows/post-spell-check-result.yml",
+          "line": 37
+        },
+        {
+          "path": ".github/workflows/post-suggestions.yml",
+          "line": 19
+        }
+      ]
+    },
+    {
+      "uses": "fkirc/skip-duplicate-actions@b974a9395958c231af965b70070979a577efa578",
+      "locations": [
+        {
+          "path": ".github/workflows/clang-tidy.yml",
+          "line": 42
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 72
+        },
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 84
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "uses": "fuxingloh/multi-labeler@bcd50af464202999e57f556b4aefcf05a34abf85",
+      "locations": [
+        {
+          "path": ".github/workflows/labeler.yml",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "uses": "libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae",
+      "locations": [
+        {
+          "path": ".github/actions/build-sdl3-shaders/action.yml",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "uses": "libsdl-org/setup-sdl@afd98199e97f9c2aa739474be7e0886d149a5e47",
+      "locations": [
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 168
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "uses": "lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb",
+      "locations": [
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 107
+        }
+      ]
+    },
+    {
+      "uses": "lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2",
+      "locations": [
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 113
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 465
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 227
+        }
+      ]
+    },
+    {
+      "uses": "melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1",
+      "locations": [
+        {
+          "path": ".github/workflows/matrix.yml",
+          "line": 363
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 612
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 624
+        }
+      ]
+    },
+    {
+      "uses": "microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57",
+      "locations": [
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 98
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 462
+        },
+        {
+          "path": ".github/workflows/sdl3-matrix.yml",
+          "line": 223
+        }
+      ]
+    },
+    {
+      "uses": "msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884",
+      "locations": [
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 90
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 476
+        }
+      ]
+    },
+    {
+      "uses": "mymindstorm/setup-emsdk@4528d102f7230f0e7b276855c01ea1159be0e984",
+      "locations": [
+        {
+          "path": ".github/workflows/emscripten.yml",
+          "line": 23
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "line": 596
+        }
+      ]
+    },
+    {
+      "uses": "qrox/auto-request-review@3d551ae9363f17fcc74973b2c93cefa64e9b584c",
+      "locations": [
+        {
+          "path": ".github/workflows/request-review.yml",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "uses": "robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f",
+      "locations": [
+        {
+          "path": ".github/workflows/msvc-full-features.yml",
+          "line": 132
+        }
+      ]
+    },
+    {
+      "uses": "rytswd/comvent@2168693e29bb394d0a8fd5788ffcccd16cadcffc",
+      "locations": [
+        {
+          "path": ".github/workflows/comment-commands.yml",
+          "line": 23
+        },
+        {
+          "path": ".github/workflows/comment-commands.yml",
+          "line": 77
+        }
+      ]
+    }
+  ]
+}
