@@ -28,6 +28,7 @@ OPTIONS = {
     "TILES": True, "SOUND": True, "LOCALIZE": True, "USE_SDL3": True,
     "CATA_ENABLE_LUA_PLATFORM": True, "TESTS": True, "BUILD_TESTING": True,
     "CURSES": False, "USE_PREFIX_DATA_DIR": False, "USE_XDG_DIR": False,
+    "CPH_TEST_IDENTITY": False,
 }
 BUILD_SETTINGS = {
     "CMAKE_BUILD_TYPE": "RelWithDebInfo",
