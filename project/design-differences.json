@@ -29,6 +29,20 @@
       "project_commit": "5a8f4e9b32f16f597013aacf6af7b4e6865b93e7",
       "decision": "retain",
       "reason": "E1 Clang 21 build repair: mark the always-throwing scheduled Lua task noreturn; no gameplay design change."
+    },
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "14809ec29689a342f11f4bf863c67284ed62e564",
+      "decision": "retain",
+      "reason": "E3 actual install repair: remove nonexistent data/help from inherited CMake install list; real help data remains installed through data/core."
+    },
+    {
+      "kind": "adaptation",
+      "upstream_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "project_commit": "2c5422200895feba5273d8ec5853c6575738db39",
+      "decision": "retain",
+      "reason": "E3 actual install repair: install loading-order documentation from its real target file instead of a relative symlink broken by package relocation."
     }
   ]
 }
