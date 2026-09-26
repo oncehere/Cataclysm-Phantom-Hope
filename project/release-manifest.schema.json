@@ -1,0 +1,560 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cph:local-release-manifest:v1",
+  "title": "CPH development release manifest (local contract only)",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "channel": {
+      "type": "string",
+      "const": "development"
+    },
+    "candidate_id": {
+      "type": "string",
+      "minLength": 72,
+      "maxLength": 72,
+      "pattern": "^(?:cph-dev-[0-9a-f]{64})$"
+    },
+    "source_sha": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^(?:[0-9a-f]{40})$"
+    },
+    "source_tree": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^(?:[0-9a-f]{40})$"
+    },
+    "ccb_integrated_sha": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^(?:[0-9a-f]{40})$"
+    },
+    "policy_sha": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^(?:[0-9a-f]{40})$"
+    },
+    "inputs_digest": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^(?:[0-9a-f]{64})$"
+    },
+    "repository_id": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "tag": {
+      "type": "string",
+      "minLength": 76,
+      "maxLength": 76,
+      "pattern": "^(?:dev-cph-dev-[0-9a-f]{64})$"
+    },
+    "version_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "android_version_code": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2100000000
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "windows",
+              "linux",
+              "macos",
+              "android"
+            ]
+          },
+          "arch": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "format": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "build_configuration": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "application_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "identity_status": {
+            "type": "string",
+            "const": "permanent"
+          },
+          "acceptance_profile": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          }
+        },
+        "required": [
+          "target_id",
+          "os",
+          "arch",
+          "format",
+          "build_configuration",
+          "application_id",
+          "identity_status",
+          "acceptance_profile"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 64
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+            "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9._-]{0,199})$"
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^(?:[0-9a-f]{64})$"
+          },
+          "repository_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "workflow_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "workflow_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "event": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "run_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "run_attempt": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "tested_source": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 40,
+            "pattern": "^(?:[0-9a-f]{40})$"
+          },
+          "tested_tree": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 40,
+            "pattern": "^(?:[0-9a-f]{40})$"
+          },
+          "inputs_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^(?:[0-9a-f]{64})$"
+          },
+          "signing": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "VERIFIED",
+                  "NOT_REQUIRED"
+                ]
+              },
+              "identity": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 4096
+              },
+              "payload_sha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "pattern": "^(?:[0-9a-f]{64})$"
+              },
+              "evidence_reference": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 4096
+              },
+              "evidence_sha256": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 4096,
+                "pattern": "^(?:(?:[0-9a-f]{64}|))$"
+              }
+            },
+            "required": [
+              "status",
+              "identity",
+              "payload_sha256",
+              "evidence_reference",
+              "evidence_sha256"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "name",
+          "target_id",
+          "size",
+          "sha256",
+          "repository_id",
+          "workflow_id",
+          "workflow_path",
+          "event",
+          "run_id",
+          "run_attempt",
+          "tested_source",
+          "tested_tree",
+          "inputs_digest",
+          "signing"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 100
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "required_scope": {
+            "type": "string",
+            "const": "release"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "build",
+              "test",
+              "package",
+              "isolation",
+              "startup"
+            ]
+          },
+          "execution_environment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "minItems": 1,
+            "maxItems": 200
+          },
+          "cwd": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "actually_executed": {
+            "type": "boolean",
+            "const": true
+          },
+          "status": {
+            "type": "string",
+            "const": "PASS"
+          },
+          "executed_commands": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "test_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "assertion_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "evidence_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "evidence_sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^(?:[0-9a-f]{64})$"
+          },
+          "repository_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "workflow_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "workflow_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "event": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "run_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "run_attempt": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "tested_source": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 40,
+            "pattern": "^(?:[0-9a-f]{40})$"
+          },
+          "tested_tree": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 40,
+            "pattern": "^(?:[0-9a-f]{40})$"
+          },
+          "inputs_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^(?:[0-9a-f]{64})$"
+          },
+          "policy_sha": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 40,
+            "pattern": "^(?:[0-9a-f]{40})$"
+          }
+        },
+        "required": [
+          "check_id",
+          "target_id",
+          "required_scope",
+          "kind",
+          "execution_environment",
+          "command",
+          "cwd",
+          "actually_executed",
+          "status",
+          "executed_commands",
+          "test_count",
+          "assertion_count",
+          "evidence_reference",
+          "evidence_sha256",
+          "repository_id",
+          "workflow_id",
+          "workflow_path",
+          "event",
+          "run_id",
+          "run_attempt",
+          "tested_source",
+          "tested_tree",
+          "inputs_digest",
+          "policy_sha"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 200
+    },
+    "asset_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^(?:[0-9a-f]{64})$"
+          }
+        },
+        "required": [
+          "source",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "toolchain_versions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          }
+        },
+        "required": [
+          "tool",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "licenses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "known_issues": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "minItems": 0,
+      "maxItems": 200
+    },
+    "manual_validation_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "minItems": 0,
+      "maxItems": 200
+    },
+    "unverified_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "minItems": 0,
+      "maxItems": 200
+    }
+  },
+  "required": [
+    "schema_version",
+    "channel",
+    "candidate_id",
+    "source_sha",
+    "source_tree",
+    "ccb_integrated_sha",
+    "policy_sha",
+    "inputs_digest",
+    "repository_id",
+    "tag",
+    "version_name",
+    "android_version_code",
+    "platforms",
+    "artifacts",
+    "checks",
+    "asset_sources",
+    "toolchain_versions",
+    "licenses",
+    "known_issues",
+    "manual_validation_scope",
+    "unverified_scope"
+  ],
+  "additionalProperties": false
+}

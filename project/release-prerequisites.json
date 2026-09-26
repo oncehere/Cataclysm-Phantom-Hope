@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED",
+  "implementation": "IMPLEMENTED_NOT_DEPLOYED",
+  "public_release_ready": false,
+  "daily_dev_release_enabled": false,
+  "stable_release_enabled": false,
+  "missing": [
+    {
+      "input": "Explicit target repository and repository ID",
+      "blocks": "Authoritative remote reads, target binding and publication",
+      "resume": "Configure the independently trusted controller; do not infer OWNER/REPO."
+    },
+    {
+      "input": "Approved four-platform targets, permanent application identities and acceptance profiles",
+      "blocks": "Complete expected manifest; temporary Linux identity is ineligible",
+      "resume": "Populate controller inputs from explicit project decisions and real E3/platform evidence."
+    },
+    {
+      "input": "Real packages, native checks and immutable evidence bound to the same source/tree/inputs and repo/workflow/run/attempt",
+      "blocks": "Local complete-candidate verification",
+      "resume": "Run each actual platform pipeline and provide independently verified expected facts."
+    },
+    {
+      "input": "Required permanent signing profiles and independent verification receipts",
+      "blocks": "Signature acceptance and public distribution",
+      "resume": "Configure signing in a separate trusted environment; never paste keys into files or chat."
+    },
+    {
+      "input": "Persistent candidate/versionCode allocation and fresh complete API observations",
+      "blocks": "Safe retries and public state transitions",
+      "resume": "Provide read-only recorded pages and independently verified manifest/tag receipts; this module does not reserve or publish."
+    }
+  ]
+}
