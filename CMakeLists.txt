@@ -624,7 +624,11 @@ if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 
-install(DIRECTORY doc TYPE DOC)
+# The source-tree symlink points into data/json, which moves on installation.
+install(DIRECTORY doc TYPE DOC PATTERN "JSON_LOADING_ORDER.md" EXCLUDE)
+install(FILES data/json/LOADING_ORDER.md
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}/doc/JSON"
+    RENAME JSON_LOADING_ORDER.md)
 
 if (RELEASE)
     install(FILES
