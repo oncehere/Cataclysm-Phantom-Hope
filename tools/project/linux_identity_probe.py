@@ -416,6 +416,11 @@ def exercise(args):
                     "status": "PASS",
                 }
             )
+            # Explicit config/save overrides are caller-owned directories.
+            # In particular setupDebug opens config/debug.log before the
+            # check-mods entry creates any world; keep its diagnostics usable.
+            for name in ("game-user", "game-config", "game-save"):
+                (work / name).mkdir()
             run(
                 "actual-core-startup",
                 [
