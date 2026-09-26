@@ -33,9 +33,15 @@ python3 tools/project/linux_probe.py \
 本机依赖来自已在 Nix store 中的
 `/nix/store/r9ah8qzj0fj8fjq8frkc9x93wn8wkwzr-cataclysm-ccb-sdl3-engine-2026-09-23-0407-bcb85682-sdl3.drv`
 开发环境。仅复用依赖，不复用原游戏二进制、构建结果或发行包中的程序。
-以 `nix develop --offline --ignore-environment <drv> --command ...` 启动，
+以 `nix develop --offline --ignore-environment --keep HOME <drv> --command ...`
+启动，原样保留已有 HOME；探针拒绝缺失或空 HOME，不改写它。
 不改 NixOS 或全局 Codex 配置，不向构建注入签名或写权限凭据。
 实际工具/依赖版本另存本轮环境证据；此本机 store 引用不是跨机器依赖锁。
+
+本轮首次成功链接后的版本检查曾因 `--ignore-environment` 移除 HOME 而
+SIGSEGV。回溯确认游戏在初始用户路径解析时报告缺失 HOME，早期错误处理
+递归崩溃；同一摘要的二进制保留原 HOME 后 `--version` 返回 0。失败环境和
+日志原样保留，不能把该次崩溃归为正常环境中的游戏启动失败。
 
 ## 非 ASCII 路径问题
 

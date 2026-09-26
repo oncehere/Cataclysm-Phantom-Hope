@@ -57,6 +57,11 @@ def write_json(path, value):
 
 
 def environment(evidence):
+    if not os.environ.get("HOME"):
+        raise ValueError(
+            "HOME is required; preserve the existing value with "
+            "nix develop --keep HOME (do not replace HOME)"
+        )
     unexpected = sorted(
         key for key in os.environ
         if key.startswith("GIT_") and key not in SAFE_GIT_ENV

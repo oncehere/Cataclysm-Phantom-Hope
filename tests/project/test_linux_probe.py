@@ -396,6 +396,20 @@ class SyntheticProbe(unittest.TestCase):
         for key in ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME"):
             self.assertTrue(Path(env[key]).is_relative_to(self.evidence))
 
+    def test_missing_or_empty_home_fails_before_build(self):
+        for value in (None, ""):
+            with self.subTest(value=value):
+                env = dict(os.environ)
+                env.pop("HOME", None)
+                if value is not None:
+                    env["HOME"] = value
+                with mock.patch.dict(os.environ, env, clear=True):
+                    with self.assertRaisesRegex(
+                        ValueError, "HOME is required"
+                    ):
+                        probe.environment(self.evidence)
+                self.assertFalse(self.evidence.exists())
+
     def test_source_change_during_build_never_writes_success_marker(self):
         self.script(
             self.tool_dir / "cmake", "from pathlib import Path\n"
