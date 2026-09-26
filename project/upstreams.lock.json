@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "cdda": {
+    "repository": "CleverRaven/Cataclysm-DDA",
+    "remote": "upstream",
+    "commit": "221c786e7d61b3c9254f7cb1625bc69494b8181c",
+    "tree": "c7ad91e89ca75043106a74eb9c893130f378bd16"
+  },
+  "ccb": {
+    "repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+    "remote": "ccb",
+    "ref": "refs/heads/master",
+    "commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+    "tree": "204b14a135ae307ad2180a348a6d6553374a07af"
+  }
+}
