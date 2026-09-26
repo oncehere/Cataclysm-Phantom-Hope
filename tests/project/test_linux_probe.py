@@ -228,7 +228,7 @@ class SyntheticProbe(unittest.TestCase):
         self.assertEqual(manifest["build_command"]["exit_code"], 0)
         code, result = self.run_phase("test")
         self.assertEqual(code, 0, result)
-        self.assertEqual(len(result["checks"]), 4)
+        self.assertEqual(len(result["checks"]), 5)
         self.assertTrue(
             all(row["assertions"] == 3 for row in result["checks"])
         )

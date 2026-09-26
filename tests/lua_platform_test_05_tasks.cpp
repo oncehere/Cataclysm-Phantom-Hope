@@ -633,6 +633,11 @@ TEST_CASE( "lua_platform_persistent_task_vehicle_actor_reacquires_persistent_ide
 }
 
 
+[[noreturn]] static void failing_task()
+{
+    throw std::runtime_error( "task diagnostic sentinel" );
+}
+
 TEST_CASE( "lua_platform_task_failure_message_identifies_the_scheduled_instance",
            "[lua][platform][runtime][tasks]" )
 {
@@ -648,9 +653,7 @@ TEST_CASE( "lua_platform_task_failure_message_identifies_the_scheduled_instance"
     } );
     cata::lua_platform::install_runtime_api( runtime, lua, ccb );
     cata::lua_platform::set_active_runtimes( { runtime } );
-    lua.set_function( "failing_task", []() {
-        throw std::runtime_error( "task diagnostic sentinel" );
-    } );
+    lua.set_function( "failing_task", failing_task );
     const sol::protected_function_result registered =
         ccb["runtime"]["handler"]( "failing_task", lua["failing_task"] );
     REQUIRE( registered.valid() );

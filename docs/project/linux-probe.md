@@ -58,6 +58,7 @@ python3 tools/project/linux_probe.py \
 | 中文游戏侧装载 | `TranslationPluralRulesEvaluatorPerformance` | 原有隐藏 benchmark 内的真实中文 `battery → 电池` 及俄文断言 |
 | 最小游戏回归 | `horde_map_*` | 继承 matrix 的实际测试选择与游戏数据初始化 |
 | 编译修复回归 | `lua_platform_callback_errors_name_the_trigger_and_continue_dispatch` | 错误回调报告上下文，后续回调继续执行 |
+| 任务回调修复回归 | `lua_platform_task_failure_message_identifies_the_scheduled_instance` | 错误消息包含实际调度任务身份 |
 
 所有测试固定 RNG `4902`、lex 顺序，各自使用新建 `--user-dir`。
 每个选择生成 JUnit，必须实际有 testcase 和正数断言；非零退出、缺失报告、
@@ -70,6 +71,8 @@ python3 tools/project/linux_probe.py \
 测试将始终抛异常的 lambda 直接注册为回调。最小修复改为显式
 `[[noreturn]]` 的静态函数，保持异常文本和断言原义，不禁用警告或测试。
 修复用例加入本轮真实运行集合，工具 fixture 验证不能代替该用例执行。
+继续构建在任务回调测试发现同样的问题，采用相同最小修复。定向检查其余
+测试中的 throw 后，没有给仍含正常返回路径的 lambda 添加 noreturn。
 
 GUI、打包、安装/更新/卸载、默认目录隔离、跨发行版兼容、Windows/macOS/
 Android 原生运行和签名都需要独立证据。E1 的成功不会自动开启合入或发布。

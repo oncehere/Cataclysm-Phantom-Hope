@@ -20,6 +20,9 @@ TESTS = (
     ("lua-callback", (
         "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch"
     )),
+    ("lua-task", (
+        "lua_platform_task_failure_message_identifies_the_scheduled_instance"
+    )),
 )
 OPTIONS = {
     "TILES": True, "SOUND": True, "LOCALIZE": True, "USE_SDL3": True,
