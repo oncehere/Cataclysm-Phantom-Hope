@@ -88,3 +88,69 @@ E3 使用同一编译缓存做实际增量构建。两个场景的源码、配�
 四平台打包/必要签名和每日公开开发版均未启用；稳定版没有发布入口。
 永久身份、Android 验收 profile 等设计决定仍待明确，没有用测试 ID 或临时签名
 包公开发布。无需向聊天提供任何秘密。
+
+## 后续本地实现与合并后复验
+
+E4—E7 的以下小步已经独立提交并集成；各自范围为 **IMPLEMENTED_NOT_DEPLOYED**，
+不能据此称完整阶段或远端流程完成：
+
+| 本地组件 | 已验证内容 | 尚未完成 |
+|---|---|---|
+| E4 检查证据与保护面校验 | W/L 必需；Mac/Android 信息项；非空 JUnit/命令/输入及来源绑定；移动 refs 和实际 merge tree；独立可信策略；保护面扫描 | 可信 GitHub collector、原生 Windows 基线、真实 PR 的规则认可及允许/拒绝演练 |
+| E5 固定 CCB 本地整合演练 | 真实 Git merge fixture 保留双亲；冲突/改写/脏状态/隐藏修改标志/撤销恢复拒绝；本项目固定 U 无变化实跑 PASS | 受限 App、任务去重与远端受保护 PR 链；没有创建新的实际上游整合候选 |
+| E6 清单与只读状态契约 | schema、独立 expected、实际文件摘要的一致性；分页、版本号占用、草稿遗漏、重复候选和 stable 拒绝 | 包内 ABI/ID/JUnit/签名结果的可信收集绑定、持久预留、串行事务、上传、公开响应丢失恢复和真实四平台包 |
+| E7 本地操作开关 | 同步/发布分别暂停；指定候选封禁；revision 拒绝过期尝试；状态不写入游戏源码 | 持久远端控制器接入、最终动作前原子再验及真实暂停/恢复演练；没有启用调度 |
+
+合并后的工具测试在 `943146614f1fa55900d12172c37bf3bc444527a3` 执行：
+`python3 -m unittest discover -s tests/project -p 'test_*.py'`，**237 项 PASS，退出 0**。
+它们是工具/策略/本地 Git/模拟 API 的测试，与上面 40 个真实游戏用例分开统计。
+同一提交下整个 `tools/project`、`tests/project` 的原 flake8 规则、U 到 HEAD
+的 `git diff --check` 和 workflow quarantine 检查均退出 0。
+
+最终命令及全部 stdout/stderr 摘要见工作区
+`evidence/final-validation/commands.jsonl`：
+
+- `preflight.py --repo ... --github`：exit 0；本地历史及 CDDA/CCB API 对象核验 PASS，
+  目标 fork/远程写授权仍 BLOCKED。环境清单内 platform_builds=NOT_RUN 表示预检
+  不运行构建，不覆盖本报告另列的 E1/E3 真实结果。
+- `prepare_fork.py --repo ... --github --dry-run`：exit 3，目标未明确，BLOCKED。
+- `sync_dry_run.py --repo ... --base <上述提交> --upstream U --previous U --work-dir ...`：
+  exit 0，真实本地无新上游提交检查 PASS，无候选合入或远程操作。
+- `check_merge_evidence.py --base U --head <上述提交> ...`：exit 3，真实保护面扫描
+  BLOCKED；没有可信 PR/run context，不能伪装成必需检查通过。
+- `release_contract.py prerequisites`：exit 2，真实前置条件清单 BLOCKED。
+
+综合 runner 自身 exit 0 仅表示每条命令达到了它的预期结果；3/2 的阻塞没有被
+改写成平台或发布 PASS。随后仅更新交接文档，没有把文档后的新 SHA 冒充已测游戏提交。
+
+自身 diff review 与交叉审查已闭合：补齐安装/身份/嵌套 AGENTS 保护面，拒绝固定
+SHA 冒充移动 ref，拒绝 Git 隐藏修改标志与悬空 graft，拒绝其他候选占用或消失草稿
+遗留的 Android versionCode。原 CCB 工作树保护复核和本轮提交/差异清单见
+`evidence/final-source-review/`；未修改其用户补丁，也未改全局 Codex 配置。
+
+## Readiness 与安全交接点
+
+以下为整个首期的 readiness，不是上述局部 PASS 的替代名称：
+
+```text
+LOCAL_IMPLEMENTATION_READY = false
+HISTORY_AND_FORK_VERIFIED = false
+WINDOWS_LINUX_GATE_VERIFIED = false
+AUTO_SYNC_AND_MERGE_ENABLED = false
+FOUR_PLATFORM_RELEASE_READY = false
+DAILY_DEV_RELEASE_ENABLED = false
+STABLE_RELEASE_ENABLED = false
+```
+
+本地基础实现已验证，但完整可信执行链/发布事务尚未实现，目标 fork 和跨平台条件
+尚缺，所以这些总开关均不能为 true。当前 diff 应为空，各个逻辑改动与必要修复均有
+独立提交，继承 merge 历史保留；没有推送、开 PR、修改 GitHub 设置、购买服务或公开包。
+
+`last_completed_task`：E0/E1 本地验收、Linux 测试身份生命周期及 E4—E7 上述本地
+组件的合并后工具复验。首期尚未完成。
+
+下一条可执行恢复入口：明确目标后先运行 `prepare_fork.py --repo <本仓库>
+--target OWNER/REPO --github --dry-run` 读取回证；在未明确目标期间仍可完善可信
+collector/CI 入口和 E6 发布事务的本地模型。真实部署前必须接入可用原生 Windows
+环境、完成相应身份隔离，并在目标 PR 证明规则生效。其他缺口及配置位置集中见
+[resume.md](resume.md)，无须重新做宽泛需求访谈。
