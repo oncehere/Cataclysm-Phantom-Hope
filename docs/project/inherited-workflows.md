@@ -6,15 +6,15 @@
 - CCB 源：`CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb`。
 - 锁定提交 U：`bcb85682f3d28ab0f0123b05e45651bb9888b61b`；tree：`204b14a135ae307ad2180a348a6d6553374a07af`。
 - 覆盖：29/29 个 workflow 和 2/2 个本地 composite action 的入口静态审计；重点本地调用链见后文。
-- 初始化改动：将 29 个原始 YAML 从 `.github/workflows/` 原样移至 `project/inherited-workflows/`。其相对文件名、原始 blob、大小及 SHA-256 记录在该目录的 `manifest.json`。
+- 当前存储：29 个原始 YAML 保留在 U 的 Git 对象中；`project/inherited-workflows/manifest.json` 记录相对文件名、原始 blob、大小及 SHA-256。工作树只保留清单与审计元数据，不再维护完整 YAML 副本。
 - 当前初始化策略：活动 workflow 数必须为 0。原游戏、Make/CMake/Gradle、SDL3、shader 代码和本地 actions 保留。隔离入口不代表删除平台功能，也不代表任何平台构建已验收。
-- 本地隔离检查和 fixture 测试为 `PASS`；远端禁用、Actions 设置、可信 W/L 门槛与发布部署为 `NOT_RUN`。这批初始化代码状态为 `IMPLEMENTED_NOT_DEPLOYED`。
+- 本地隔离检查和 fixture 测试为 `PASS`；远端设置、可信 W/L 门槛与发布部署的当前证据统一见 [status.md](status.md)。
 
 后续新增受控 CI 必须经过单独审查并更新初始化策略；本检查器不提供任意 allowlist 绕过开关。它不是可信合入门槛，不证明候选策略不能自行修改，不证明 GitHub 权限实际生效。主线保护、公开发布、签名和稳定版入口均不得因本地测试通过而启用。
 
 ## 全部 29 个入口
 
-以下行号均指 U 的 `.github/workflows/<文件名>`，隔离副本行号相同。`C/A/PR/I` 分别表示 contents/actions/pull-requests/issues；`R/W` 表示 read/write；“未声明”表示须查询实际默认权限，不能认定只读。`G` 为内置 `GITHUB_TOKEN` 或 `github.token`；“无自定义”不表示 runner 不存在内置令牌。
+以下行号均指 U 的 `.github/workflows/<文件名>`。`C/A/PR/I` 分别表示 contents/actions/pull-requests/issues；`R/W` 表示 read/write；“未声明”表示须查询实际默认权限，不能认定只读。`G` 为内置 `GITHUB_TOKEN` 或 `github.token`；“无自定义”不表示 runner 不存在内置令牌。
 
 | 文件 | 触发、分支与过滤 | 权限与秘密名字 | 外部输入、本地调用及产物流向 |
 |---|---|---|---|
@@ -85,13 +85,15 @@
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 tools/project/check_workflow_quarantine.py --repo "$PWD"
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/project -p test_workflow_quarantine.py -v
+# 查看原文件（替换末尾文件名）；缺对象时失败，不自动联网：
+GIT_NO_LAZY_FETCH=1 git show bcb85682f3d28ab0f0123b05e45651bb9888b61b:.github/workflows/matrix.yml
 ```
 
-检查器只读取指定 Git 源和工作树，不联网、不 fetch、不修改配置。它拒绝影响 Git 身份/历史的 GIT_* 环境覆盖、replace refs 和 grafts；每次 Git 调用设置 GIT_NO_LAZY_FETCH=1、GIT_OPTIONAL_LOCKS=0、关闭全局/系统配置、替代对象、fsmonitor、hooks 和默认 transport。它从 U 的 Git 对象重新计算清单，而不是信任可修改的 manifest 哈希。缺失/改动/额外 YAML、伪造 manifest、symlink、活动入口、空 baseline 都拒绝；CLI 退出码 0=通过，1=本地隔离失败，2=参数或源读取错误。`--baseline` 仅用于明确的替代来源调查/合成 fixture，正式验收使用默认 U。
+检查器只读取指定 Git 源和工作树，不联网、不 fetch、不修改配置。它拒绝影响 Git 身份/历史的 GIT_* 环境覆盖、replace refs 和 grafts；每次 Git 调用设置 GIT_NO_LAZY_FETCH=1、GIT_OPTIONAL_LOCKS=0、关闭全局/系统配置、替代对象、fsmonitor、hooks 和默认 transport。它从 U 的 Git 对象重新计算完整清单，再与 manifest 比较。缺失对象、伪造或增删清单条目、重新加入 YAML 副本、symlink、活动入口、空 baseline 都拒绝；CLI 退出码 0=通过，1=本地隔离失败，2=参数或源读取错误。`--baseline` 仅用于明确的替代来源调查/合成 fixture，正式验收使用默认 U。
 
-本轮 Linux x86_64 实测：两个命令退出 0，29 个文件与源大小/SHA-256 相同，活动入口 0；16 项合成 Git fixture 回归通过。fixture 测试覆盖保持字节、修改并伪造清单、缺失/额外文件、活动 project workflow、缺清单、文件及目录 symlink、无效对象/错误仓库根、空源、CLI 退出码、环境覆盖不泄值、replace/graft 拒绝、全局配置隔离、缺失 promisor blob 不触发 transport。最后一项使用只在临时目录写哨兵的本地 transport fixture，并有解除只读保护时确实触发哨兵的正对照；不访问网络。它们不是游戏/Windows/macOS/Android 或 GitHub 平台验收。
+精简前已逐个核对 29 份 YAML 与 U 的 blob、大小及 SHA-256 一致，再移除工作树副本（4,481 行）。检查器原本就需要读取 U 对象；浅克隆或缺失对象仍不能通过，不会以可修改清单代替来源。当前检查输出 `source_storage=git_objects`、`manifest_matches_source=true` 和活动入口 0；fixture 覆盖上述拒绝条件，缺失 promisor blob 的测试保留 transport 哨兵正对照。最新结果见 [status.md](status.md)。这些检查不是游戏、其他平台或 GitHub 部署验收。
 
-日志位于授权工作区仓库外 `../evidence/e0-e1-20260926/`：
+首次 E0 隔离日志保留于工作区仓库外 `../evidence/e0-e1-20260926/`，记录当时副本形式的验证：
 
 - `workflows-validation.json`：真实 argv、cwd、平台、退出码、耗时、stdout/stderr 文件名。
 - `workflows-quarantine.stdout.log`：29 项内容摘要及检查结论；stderr 单独保存。
@@ -100,4 +102,4 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/project -p test_
 
 源码静态读取使用 `git ls-tree -r --name-only U .github`、`git show U:path`、`git cat-file`，实际 29 个入口及 2 个 action 均读取成功。早期探索错误旧脚本名/截断扩展名的探针返回 128，已改用确认存在的实际路径；不把这些探索错误报告成游戏或 CI 失败。
 
-恢复入口：目标 OWNER/REPO 与权限明确后，在 E2 的受控种子提交中保留隔离状态，再从已实际验证的构建/测试命令建立最小低权限入口；W/L 真实门槛、四平台发布、签名和稳定版各有独立前置条件。不能批量把归档 YAML 搬回去或将本检查器改成总是通过。原继承元数据/工具测试若硬编码旧 workflow 路径会需要后续有范围的适配，未把它们列为本轮已通过检查。
+恢复入口与部署条件见 [resume.md](resume.md)。从已实际验证的构建/测试命令建立最小低权限入口；不能批量恢复继承 YAML 或将本检查器改成总是通过。原继承元数据/工具测试若硬编码旧 workflow 路径，需要有范围的适配，未列为本轮已通过检查。

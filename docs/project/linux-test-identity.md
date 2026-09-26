@@ -1,13 +1,11 @@
 # E3 Linux 仅测试身份
 
-此改动已在 E1 固定基线验收后从独立工作树以 merge commit 移入主实现分支。
-Linux HOME 编译模式、显式隔离 user/config/save 目录的实际安装、路径检查、
-73 项资源校验、核心数据加载和卸载已 **PASS**，CCB 模拟哨兵保持不变。
-测试提交为 `6cd76598a44`，完整命令及退出码见工作区外
-`../evidence/e3-linux-build-attempt4/commands.jsonl`，运行结果见
-`../evidence/e3-linux-main-identity-run4/result.json`。配置、编译和探针均退出 0。
-远端部署仍为 **IMPLEMENTED_NOT_DEPLOYED**，下述 GUI/升级/默认 HOME 启动边界不变。
-永久名称、应用 ID、Android 运行 profile 均未决定；公开发布继续关闭。
+测试提交 `6cd76598a44` 在 Linux HOME 模式、显式隔离 user/config/save 目录下
+通过安装、路径、73 项资源、核心数据加载和卸载检查，CCB 哨兵不变。
+配置、编译和探针均退出 0；完整命令见工作区外
+`../evidence/e3-linux-build-attempt4/commands.jsonl`，结果见
+`../evidence/e3-linux-main-identity-run4/result.json`。当前阶段状态集中在
+[status.md](status.md)，永久身份及平台条件见 [resume.md](resume.md)。
 
 ## 行为与接口
 
@@ -32,11 +30,10 @@ Linux HOME 编译模式、显式隔离 user/config/save 目录的实际安装、
   位置在创建用户目录、读取配置、初始化游戏之前。其他构建调用该参数失败。
   它证明真实程序的路径解析，不代表 GUI 或游戏启动。
 
-## E1 完成后的主力模式验证入口
+## 构建与运行
 
-先保留 E1 结果和原构建配置，再将这个独立补丁移入 E1 源树。复用其原生 Linux
-构建缓存与依赖环境，不创建另一套完整构建。下面参数追加到原有 configure，
-其余选项维持原值；`USE_HOME_DIR/USE_XDG_DIR` 此轮不切换。
+沿用已验收 E1 的源码、原生 Linux 构建缓存与依赖环境。下面参数追加到原有
+configure，其余选项维持原值；`USE_HOME_DIR/USE_XDG_DIR` 此轮不切换。
 
 ```sh
 cmake -S /tmp/cph-e1-20260926-bkx10cn5/source \
@@ -91,7 +88,3 @@ metadata、MO/通知材料、真实程序路径和核心数据启动，并在卸
   绑定和卸载模板，但它不是用于敌对候选代码的操作系统沙箱。可信 CI 隔离属于 E4。
 - 图形交互、新建世界/保存读取、默认 HOME 启动、真正跨版本升级及其他三个平台都
   需要独立实际证据。不得以本工具或 fixture 结果启用公开发布。
-
-修改范围限于 CMake 的 Linux 测试选项、身份/路径入口、专用 metadata、检查器与文档。
-没有 SDL3/UI 迁移、永久身份选择、存档迁移或系统安装。E1 验收完成前不要将本补丁
-覆盖正在编译的源树；完成后由主任务 review、独立提交并增量验证。

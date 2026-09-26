@@ -16,7 +16,8 @@ The checkout must satisfy the E0 initialization preflight's explicit read-only
 remote configuration; this is not an entrypoint for arbitrary existing clones.
 
 Required tools are Git, Python 3, CMake, MSBuild/MSVC and gettext `msgfmt` on PATH.
-The inherited `project/inherited-workflows/msvc-full-features.yml` uses Windows
+The inherited `.github/workflows/msvc-full-features.yml` at pinned U (see
+[source inventory and Git read command](inherited-workflows.md)) uses Windows
 2022, CMake 3.31.6, SDL2 and vcpkg commit
 `f6672d8e480ccdecddfad3fd1b838ba369ffe6cd`. The new probe reads that commit from
 `msvc-full-features/vcpkg.json`, checks the supplied checkout, records actual SDK

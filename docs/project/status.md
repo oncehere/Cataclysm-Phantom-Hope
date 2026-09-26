@@ -21,7 +21,7 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 
 | 范围 | 状态 | 真实执行与证据 |
 |---|---|---|
-| E0 本地历史、U tree、环境和工作流隔离 | PASS | preflight 与负例；29 个继承 workflow 原样移到非活动目录，活动入口为零；外部 action 内部行为未运行 |
+| E0 本地历史、U tree、环境和工作流隔离 | PASS | preflight 与负例；29 个继承 workflow 保留在 U 的 Git 对象中，来源清单完整核验，活动入口为零；外部 action 内部行为未运行 |
 | E2 个人 CDDA fork、历史上传和默认分支 | PASS | 原生 fork 的 parent 为 CDDA；固定种子提交及 tree 已远端回读；继承 master 未变 |
 | E2 受控 CI 与分支门槛 | NOT_RUN | 最小 CI 入口/可信 collector 尚未实现和部署，Actions 关闭；不称 main 已受保护 |
 | E1 翻译冷启动 | PASS | 真实 CCB 发布资源，摘要核验，49 个 MO、24 个许可/署名；无 TX_TOKEN、历史 artifact 或缓存依赖；实际中文加载通过 |
@@ -131,6 +131,34 @@ E4—E7 的以下小步已经独立提交并集成；各自范围为 **IMPLEMENT
 SHA 冒充移动 ref，拒绝 Git 隐藏修改标志与悬空 graft，拒绝其他候选占用或消失草稿
 遗留的 Android versionCode。原 CCB 工作树保护复核和本轮提交/差异清单见
 `evidence/final-source-review/`；未修改其用户补丁，也未改全局 Codex 配置。
+
+## 当前 review 修复（2026-09-26）
+
+在 `20c3c7056cd` 上修复本轮审查发现的三项问题：
+
+- 文档替代文件通过构建目录暂存后使用 `TYPE DOC` 安装，沿用已有路径解析，
+  避免未设置 `CMAKE_INSTALL_DOCDIR` 时写入绝对 `/doc/JSON`。
+- preflight 拒绝 `assume-unchanged` / `skip-worktree` 标志及索引读取失败；
+  保留原文件、索引内容和标志，不再给隐藏修改报告 `clean_worktree=PASS`。
+- 同步演练复用 E4 匹配器，从执行脚本所属控制 checkout 读取摘要锁定的保护表。
+  统一表保留旧同步器对 `.gitattributes` 和全部 `build-data/` 的保护；缺失、
+  摘要不符或无效策略均拒绝创建候选，候选自己的策略不能覆盖控制配置。
+
+新增回归先在旧实现复现失败，再在修复后通过。修复完成时运行
+`python3 -B -m unittest discover -s tests/project -p 'test_*.py'`：
+**253 项通过、无跳过、退出 0**，包括 7 项真实 CMake configure / DESTDIR
+文档安装测试；这些是安装规则隔离测试，不是完整游戏重编译或 Windows 原生验收。
+完整工具 Python 格式检查和 workflow quarantine 检查退出 0。
+命令、工具路径、退出码及日志摘要保存于工作区
+`evidence/review-fixes-20260926/`，可从该目录的 `run_check.py` 查看实际入口。
+初次 flake8 报两处超长行，换行修正后同一检查通过；原失败日志保留。
+本次修复不改变下列阶段 readiness，不启用远端合入或发布。
+
+随后按代码与文档维护成本精简：移除 29 份重复 workflow YAML（4,481 行），
+保留 Git 原文、来源清单和审计；Linux 探针复用现有严格 JUnit 校验；身份文档
+去除重复状态和过时计划。完整工具测试 **253 项 PASS、无跳过、退出 0**，
+workflow 来源核验、flake8 和 `git diff --check` 均通过；记录见
+`evidence/slimming-20260926/`。本轮未重跑完整游戏构建或原生跨平台验收。
 
 ## Readiness 与安全交接点
 

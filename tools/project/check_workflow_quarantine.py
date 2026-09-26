@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only E0 check: preserved upstream workflows, no active CI entrypoints.
+"""Read-only E0 check: Git workflow provenance, no active CI entrypoints.
 
 This is an initialization safeguard, not a GitHub merge or release gate.
 Enabling a workflow requires an explicitly reviewed successor policy.
@@ -129,48 +129,23 @@ def inspect(repo, baseline=BASELINE):
         )
     expected = source_manifest(repo, baseline)
     findings = []
-    checked = []
+    manifest_matches = False
     active = []
     quarantine = repo / QUARANTINE_DIRECTORY
     unsafe = symlink_component(repo, QUARANTINE_DIRECTORY)
     if unsafe:
         findings.append(f"quarantine path contains symlink: {unsafe}")
     else:
-        names = {item["name"] for item in expected["workflows"]}
-        for item in expected["workflows"]:
-            relative = QUARANTINE_DIRECTORY + "/" + item["name"]
-            path = repo / relative
-            unsafe_file = symlink_component(repo, relative)
-            if unsafe_file:
-                findings.append(
-                    f"quarantined workflow contains symlink: {relative}"
-                )
-            elif not path.is_file():
-                findings.append(f"missing quarantined workflow: {relative}")
-            else:
-                content = path.read_bytes()
-                digest = hashlib.sha256(content).hexdigest()
-                matched = (
-                    len(content) == item["size"] and digest == item["sha256"]
-                )
-                checked.append({
-                    "name": item["name"], "sha256": digest,
-                    "size": len(content), "matches_source": matched,
-                })
-                if not matched:
-                    findings.append(
-                        f"quarantined workflow differs from source: {relative}"
-                    )
+        # Originals remain in the pinned Git history; keep only the inventory
+        # and audit metadata here, not another maintained copy of each YAML.
         if quarantine.exists():
             for path in sorted(quarantine.rglob("*")):
                 relative = path.relative_to(quarantine).as_posix()
                 if path.is_symlink():
                     findings.append(f"symlink in quarantine: {relative}")
-                elif (
-                    path.suffix in (".yml", ".yaml") and relative not in names
-                ):
+                elif path.suffix in (".yml", ".yaml"):
                     findings.append(
-                        f"unrecorded quarantined workflow: {relative}"
+                        f"redundant workflow copy in inventory: {relative}"
                     )
         manifest_path = quarantine / "manifest.json"
         if manifest_path.is_symlink():
@@ -185,7 +160,8 @@ def inspect(repo, baseline=BASELINE):
                     "quarantine manifest is missing or invalid JSON"
                 )
             else:
-                if manifest != expected:
+                manifest_matches = manifest == expected
+                if not manifest_matches:
                     findings.append(
                         "quarantine manifest differs from Git source inventory"
                     )
@@ -212,8 +188,10 @@ def inspect(repo, baseline=BASELINE):
         "status": "FAIL" if findings else "PASS",
         "scope": "local_initialization_quarantine_only",
         "source_commit": baseline,
+        "source_storage": "git_objects",
         "expected_workflows": expected["workflow_count"],
-        "checked_workflows": checked,
+        "checked_workflows": expected["workflows"],
+        "manifest_matches_source": manifest_matches,
         "active_workflows": active,
         "github_deployment_verified": False,
         "findings": findings,

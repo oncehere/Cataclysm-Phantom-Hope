@@ -17,6 +17,7 @@ import xml.etree.ElementTree as ET
 MODULE_PATH = (
     Path(__file__).resolve().parents[2] / "tools/project/linux_probe.py"
 )
+sys.path.insert(0, str(MODULE_PATH.parent))
 SPEC = importlib.util.spec_from_file_location("linux_probe", MODULE_PATH)
 probe = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(probe)
@@ -44,7 +45,7 @@ class ReportValidation(unittest.TestCase):
             self.validate('<testsuite tests="1"/>')
 
     def test_claimed_success_does_not_hide_failure(self):
-        for tag in ("failure", "error", "skipped"):
+        for tag in ("failure", "error", "skipped", "disabled"):
             with self.subTest(tag=tag), self.assertRaises(ValueError):
                 self.validate(
                     f'<testsuite tests="1" failures="0"><testcase><{tag}/>'
@@ -56,6 +57,11 @@ class ReportValidation(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(ValueError):
                 self.validate(
                     f'<testsuite tests="1" {field}="1"><testcase/></testsuite>'
+                )
+            with self.subTest(testcase_field=field), \
+                    self.assertRaises(ValueError):
+                self.validate(
+                    f'<testsuite tests="1"><testcase {field}="1"/></testsuite>'
                 )
         with self.assertRaises(ET.ParseError):
             self.validate("<testsuite><testcase>")
@@ -70,6 +76,11 @@ class ReportValidation(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.validate(
                 '<testsuites>' + VALID_REPORT + '<testcase/></testsuites>'
+            )
+        with self.assertRaises(ValueError):
+            self.validate(
+                '<testsuite tests="6"><testcase/>' + VALID_REPORT +
+                '</testsuite>'
             )
 
     def test_multiple_suites_do_not_double_count_assertions(self):

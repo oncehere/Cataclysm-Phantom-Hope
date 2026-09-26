@@ -45,7 +45,7 @@ class WorkflowQuarantineTest(unittest.TestCase):
         self.archive = self.repo / "project/inherited-workflows"
         self.archive.mkdir(parents=True)
         for path in active.iterdir():
-            path.rename(self.archive / path.name)
+            path.unlink()
         self.manifest = QUARANTINE.source_manifest(self.repo, self.baseline)
         (self.archive / "manifest.json").write_text(json.dumps(self.manifest))
 
@@ -65,27 +65,38 @@ class WorkflowQuarantineTest(unittest.TestCase):
             any(fragment in item for item in result["findings"]), result
         )
 
-    def test_preserves_source_bytes_without_an_active_entrypoint(self):
+    def test_preserves_git_sources_without_worktree_copies(self):
         result = self.report()
         self.assertEqual("PASS", result["status"])
         self.assertEqual(2, result["expected_workflows"])
+        self.assertEqual("git_objects", result["source_storage"])
+        self.assertEqual(
+            self.manifest["workflows"], result["checked_workflows"]
+        )
+        self.assertTrue(result["manifest_matches_source"])
         self.assertFalse(result["github_deployment_verified"])
 
-    def test_changed_archive_and_forged_manifest_do_not_override_git(self):
-        path = self.archive / "release.yml"
-        path.write_bytes(path.read_bytes() + b"# modified\n")
+    def test_forged_manifest_does_not_override_git(self):
         self.manifest["workflows"][0]["sha256"] = "0" * 64
         (self.archive / "manifest.json").write_text(json.dumps(self.manifest))
-        self.assert_rejected("differs from source")
         self.assert_rejected("manifest differs")
 
-    def test_missing_archive_is_rejected(self):
-        (self.archive / "test.yaml").unlink()
-        self.assert_rejected("missing quarantined")
+    def test_omitted_and_added_manifest_entries_are_rejected(self):
+        workflows = self.manifest["workflows"]
+        for entries in (workflows[:-1], workflows + [
+            {**workflows[0], "name": "extra.yml"},
+        ]):
+            with self.subTest(count=len(entries)):
+                manifest = {**self.manifest, "workflow_count": len(entries),
+                            "workflows": entries}
+                (self.archive / "manifest.json").write_text(
+                    json.dumps(manifest)
+                )
+                self.assert_rejected("manifest differs")
 
-    def test_unknown_archive_is_rejected(self):
+    def test_reintroduced_worktree_copy_is_rejected(self):
         (self.archive / "extra.yml").write_text("on: push\n")
-        self.assert_rejected("unrecorded quarantined")
+        self.assert_rejected("redundant workflow copy")
 
     def test_every_active_workflow_is_rejected_even_if_named_project(self):
         active = self.repo / ".github/workflows/project-local.yml"
@@ -98,14 +109,14 @@ class WorkflowQuarantineTest(unittest.TestCase):
         (self.archive / "manifest.json").unlink()
         self.assert_rejected("manifest is missing")
 
-    def test_workflow_symlink_is_rejected(self):
-        path = self.archive / "test.yaml"
+    def test_manifest_symlink_is_rejected(self):
+        path = self.archive / "manifest.json"
         content = path.read_bytes()
         path.unlink()
-        original = self.repo / "same-bytes.yaml"
+        original = self.repo / "same-bytes.json"
         original.write_bytes(content)
         path.symlink_to(original)
-        self.assert_rejected("contains symlink")
+        self.assert_rejected("manifest must not be a symlink")
 
     def test_active_directory_symlink_is_rejected(self):
         active = self.repo / ".github/workflows"
@@ -214,7 +225,7 @@ class WorkflowQuarantineTest(unittest.TestCase):
                    "--baseline", self.baseline]
         passed = subprocess.run(command, capture_output=True, text=True)
         self.assertEqual(0, passed.returncode, passed.stderr)
-        (self.archive / "test.yaml").unlink()
+        (self.archive / "manifest.json").unlink()
         self.assertEqual(
             1, subprocess.run(command, capture_output=True).returncode
         )

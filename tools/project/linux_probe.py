@@ -12,6 +12,8 @@ import sys
 import time
 import xml.etree.ElementTree as ET
 
+from check_merge_evidence import check_junit as check_junit_bytes
+
 
 TESTS = (
     ("translations", "[translations]~[.]"),
@@ -292,36 +294,7 @@ def check_build_manifest(source, build, expected):
 
 
 def check_junit(path):
-    """Catch2's JUnit 'tests' count is assertions, not just case names."""
-    root = ET.parse(path).getroot()
-    if root.tag not in ("testsuite", "testsuites"):
-        raise ValueError("not a JUnit test report")
-    cases = list(root.iter("testcase"))
-    suites = list(root.iter("testsuite"))
-    if not cases or not suites:
-        raise ValueError("zero executed test cases")
-    assertions = 0
-    contained_cases = 0
-    for element in root.iter():
-        if element.tag in ("failure", "error", "skipped"):
-            raise ValueError("test report contains " + element.tag)
-        if element.tag in ("testsuite", "testsuites"):
-            for field in ("failures", "errors", "skipped", "disabled"):
-                if int(element.get(field, "0")) != 0:
-                    raise ValueError("nonzero " + field + " in test report")
-        if element.tag == "testsuite":
-            count = int(element.get("tests", "0"))
-            direct_cases = len(element.findall("testcase"))
-            if count <= 0 or direct_cases == 0:
-                raise ValueError("zero executed cases or assertions in suite")
-            assertions += count
-            contained_cases += direct_cases
-    if contained_cases != len(cases):
-        raise ValueError("test case outside an assertion-bearing suite")
-    if root.tag == "testsuites" and "tests" in root.attrib:
-        if int(root.attrib["tests"]) != assertions:
-            raise ValueError("inconsistent aggregate assertion count")
-    return {"test_cases": len(cases), "assertions": assertions}
+    return check_junit_bytes(path.read_bytes())
 
 
 def run_command(argv, cwd, evidence, name, env):
