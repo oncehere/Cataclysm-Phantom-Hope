@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "prefixes": [
+    ".github",
+    "tools/project",
+    "project",
+    "docs/project",
+    "build-scripts",
+    "android",
+    "msvc-full-features",
+    "tests/project",
+    "build-data/osx",
+    "cmake",
+    "CMakeModules",
+    "build-data/cph-test"
+  ],
+  "paths": [
+    "AGENTS.md",
+    "AGENTS.override.md",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "Makefile",
+    "src/project_identity.cpp",
+    "src/project_identity.h",
+    "src/path_info.cpp",
+    "src/main.cpp",
+    "src/sdltiles.cpp",
+    "src/version.cpp",
+    "cmake_uninstall.cmake.in",
+    ".gitmodules",
+    "CMakeUserPresets.json",
+    "src/CMakeLists.txt",
+    "data/CMakeLists.txt",
+    "src/main_menu.cpp",
+    "src/translations.cpp"
+  ],
+  "reason": "Control, source/asset policy, signing/packaging and identity changes require separate explicit review.",
+  "basenames": [
+    "AGENTS.md",
+    "AGENTS.override.md"
+  ]
+}
