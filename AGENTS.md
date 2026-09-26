@@ -1,3 +1,14 @@
+# CPH implementation entry
+
+Before each implementation task, read `docs/project/execution-spec.md` completely.
+It is the primary CPH specification; earlier research/reviews are background.
+Preserve user changes and upstream history. Never touch `obj-lua/` or global Codex settings.
+Upstream remotes are read-only; no target repository has been authorized yet.
+No automatic AI, public release, stable channel, or signing in candidate builds.
+Report actual commands, exit codes and evidence; local configuration is not deployment.
+The inherited CCB instructions below still guide source work. CCB-specific external
+PR/documentation workflows do not authorize writes to CCB or other repositories.
+
 # CCB agent instructions / CCB Agent 指南
 
 These instructions are intentionally useful offline.  Read the nearest nested
