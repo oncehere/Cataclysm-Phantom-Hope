@@ -21,7 +21,8 @@ SPEC.loader.exec_module(bootstrap)
 
 def mo_fixture(messages):
     """Minimal GNU MO syntax fixture, exclusively for parser/policy tests."""
-    pairs = sorted((key.encode(), value.encode()) for key, value in messages.items())
+    pairs = sorted((key.encode(), value.encode())
+                   for key, value in messages.items())
     count = len(pairs)
     ids = b"".join(key + b"\0" for key, _ in pairs)
     strings = b"".join(value + b"\0" for _, value in pairs)
@@ -34,7 +35,8 @@ def mo_fixture(messages):
     for _, value in pairs:
         str_table.append(struct.pack("<II", len(value), offset))
         offset += len(value) + 1
-    return (struct.pack("<7I", 0x950412DE, 0, count, 28, 28 + count * 8, 0, 0) +
+    return (struct.pack("<7I", 0x950412DE, 0, count,
+                        28, 28 + count * 8, 0, 0) +
             b"".join(id_table + str_table) + ids + strings)
 
 
@@ -45,23 +47,33 @@ class BootstrapTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.archive = self.root / "resources.tar.gz"
         self.output = self.root / "output"
-        self.mo = mo_fixture({"": "Content-Type: text/plain; charset=UTF-8\nLanguage: zh_CN\n",
-                              "Unit fixture": "单元测试样本"})
-        self.members = [("bundle/lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo", self.mo),
-                        ("bundle/LICENSE.txt", b"Unit fixture license\n")]
+        self.mo = mo_fixture({
+            "": "Content-Type: text/plain; charset=UTF-8\nLanguage: zh_CN\n",
+            "Unit fixture": "单元测试样本"})
+        self.members = [
+            ("bundle/lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo", self.mo),
+            ("bundle/LICENSE.txt", b"Unit fixture license\n")]
         self.lock = {
-            "schema_version": 1, "kind": "compiled-gettext-mo", "gettext_domain": "cataclysm-dda",
+            "schema_version": 1, "kind": "compiled-gettext-mo",
+            "gettext_domain": "cataclysm-dda",
             "required_locales": ["zh_CN"],
-            "source": {"commit": "1" * 40, "repository": "example/test", "release_tag": "test",
+            "source": {"commit": "1" * 40, "repository": "example/test",
+                       "release_tag": "test",
                        "name": "resources.tar.gz",
-                       "url": "https://github.com/example/test/releases/download/test/resources.tar.gz"},
-            "limits": {"members": 10, "member_bytes": 1024 * 1024, "uncompressed_bytes": 1024 * 1024},
-            "probe": {"locale": "zh_CN", "msgid": "Unit fixture", "msgstr": "单元测试样本"},
+                       "url": ("https://github.com/example/test/releases/"
+                               "download/test/resources.tar.gz")},
+            "limits": {"members": 10, "member_bytes": 1024 * 1024,
+                       "uncompressed_bytes": 1024 * 1024},
+            "probe": {"locale": "zh_CN", "msgid": "Unit fixture",
+                      "msgstr": "单元测试样本"},
             "files": []}
         for source, content in self.members:
-            entry = {"archive_path": source, "path": source.removeprefix("bundle/"),
-                     "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest(),
-                     "kind": "gettext-mo" if source.endswith(".mo") else "notice"}
+            entry = {"archive_path": source,
+                     "path": source.removeprefix("bundle/"),
+                     "bytes": len(content),
+                     "sha256": hashlib.sha256(content).hexdigest(),
+                     "kind": ("gettext-mo" if source.endswith(".mo")
+                              else "notice")}
             if entry["kind"] == "gettext-mo":
                 entry["locale"] = "zh_CN"
             self.lock["files"].append(entry)
@@ -82,7 +94,8 @@ class BootstrapTests(unittest.TestCase):
         return bootstrap.bootstrap(self.lock, self.output, self.archive)
 
     def assert_rejected(self, expected=""):
-        with self.assertRaisesRegex((bootstrap.ResourceError, OSError, struct.error), expected):
+        with self.assertRaisesRegex(
+                (bootstrap.ResourceError, OSError, struct.error), expected):
             self.run_bootstrap()
         self.assertFalse(self.output.exists())
 
@@ -90,8 +103,10 @@ class BootstrapTests(unittest.TestCase):
         report = self.run_bootstrap()
         before = {p: p.stat().st_mtime_ns for p in self.output.rglob("*")}
         self.assertEqual(report["probe"]["actual"], "单元测试样本")
-        self.assertEqual(bootstrap.verify_output(self.output, self.lock), report)
-        self.assertEqual(before, {p: p.stat().st_mtime_ns for p in self.output.rglob("*")})
+        self.assertEqual(
+            bootstrap.verify_output(self.output, self.lock), report)
+        self.assertEqual(
+            before, {p: p.stat().st_mtime_ns for p in self.output.rglob("*")})
 
     def test_wrong_archive_hash(self):
         self.lock["source"]["sha256"] = "0" * 64
@@ -106,7 +121,8 @@ class BootstrapTests(unittest.TestCase):
         self.assert_rejected("resource SHA256")
 
     def test_unsafe_paths_even_in_unselected_members(self):
-        for name in ["../escape", "/absolute", "bundle/../../escape", "C:/escape", "bad\\path"]:
+        for name in ["../escape", "/absolute", "bundle/../../escape",
+                     "C:/escape", "bad\\path"]:
             with self.subTest(name=name):
                 self.write_archive([tarfile.TarInfo(name)])
                 self.assert_rejected("unsafe archive path")
@@ -116,7 +132,8 @@ class BootstrapTests(unittest.TestCase):
         self.assert_rejected("duplicate archive")
 
     def test_unsupported_member_types(self):
-        for kind in [tarfile.SYMTYPE, tarfile.LNKTYPE, tarfile.FIFOTYPE, tarfile.CHRTYPE]:
+        for kind in [tarfile.SYMTYPE, tarfile.LNKTYPE,
+                     tarfile.FIFOTYPE, tarfile.CHRTYPE]:
             with self.subTest(kind=kind):
                 member = tarfile.TarInfo("bundle/unsafe")
                 member.type = kind
@@ -160,14 +177,16 @@ class BootstrapTests(unittest.TestCase):
 
     def test_invalid_mo(self):
         self.members[0] = (self.members[0][0], b"Invalid MO")
-        self.lock["files"][0].update(bytes=10, sha256=hashlib.sha256(b"Invalid MO").hexdigest())
+        self.lock["files"][0].update(
+            bytes=10, sha256=hashlib.sha256(b"Invalid MO").hexdigest())
         self.write_archive()
         self.assert_rejected()
 
     def test_empty_mo(self):
         content = mo_fixture({"": "Content-Type: text/plain; charset=UTF-8\n"})
         self.members[0] = (self.members[0][0], content)
-        self.lock["files"][0].update(bytes=len(content), sha256=hashlib.sha256(content).hexdigest())
+        self.lock["files"][0].update(
+            bytes=len(content), sha256=hashlib.sha256(content).hexdigest())
         self.write_archive()
         self.assert_rejected("empty compiled translation")
 
@@ -175,12 +194,15 @@ class BootstrapTests(unittest.TestCase):
         content = mo_fixture({"": "Content-Type: text/plain; charset=UTF-8\n"})
         name = "bundle/lang/mo/optional/LC_MESSAGES/cataclysm-dda.mo"
         self.members.append((name, content))
-        self.lock["files"].append({"archive_path": name, "path": name.removeprefix("bundle/"),
-                                   "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest(),
-                                   "kind": "gettext-mo", "locale": "optional"})
+        self.lock["files"].append({
+            "archive_path": name, "path": name.removeprefix("bundle/"),
+            "bytes": len(content),
+            "sha256": hashlib.sha256(content).hexdigest(),
+            "kind": "gettext-mo", "locale": "optional"})
         self.write_archive()
         report = self.run_bootstrap()
-        entry = next(x for x in report["catalogs"] if x["locale"] == "optional")
+        entry = next(x for x in report["catalogs"]
+                     if x["locale"] == "optional")
         self.assertEqual(entry["entries"], 0)
 
     def test_required_locale_missing(self):
@@ -202,13 +224,15 @@ class BootstrapTests(unittest.TestCase):
     def test_check_rejects_extra_files(self):
         self.run_bootstrap()
         (self.output / "extra").write_bytes(b"unlisted")
-        with self.assertRaisesRegex(bootstrap.ResourceError, "inventory differs"):
+        with self.assertRaisesRegex(bootstrap.ResourceError,
+                                    "inventory differs"):
             bootstrap.verify_output(self.output, self.lock)
 
     def test_check_rejects_symbolic_links(self):
         self.run_bootstrap()
         (self.output / "extra-link").symlink_to(self.archive)
-        with self.assertRaisesRegex(bootstrap.ResourceError, "unsupported file type"):
+        with self.assertRaisesRegex(bootstrap.ResourceError,
+                                    "unsupported file type"):
             bootstrap.verify_output(self.output, self.lock)
 
     def test_invalid_lock_paths_or_duplicate_output(self):
@@ -225,7 +249,8 @@ class BootstrapTests(unittest.TestCase):
         self.lock["source"]["url"] = "http://localhost/private-input"
         path = self.root / "lock.json"
         path.write_text(json.dumps(self.lock))
-        with self.assertRaisesRegex(bootstrap.ResourceError, "unexpected download URL"):
+        with self.assertRaisesRegex(bootstrap.ResourceError,
+                                    "unexpected download URL"):
             bootstrap.read_lock(path)
 
 
