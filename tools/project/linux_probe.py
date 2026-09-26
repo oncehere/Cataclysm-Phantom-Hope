@@ -17,6 +17,9 @@ TESTS = (
     ("translations", "[translations]~[.]"),
     ("chinese-runtime", "TranslationPluralRulesEvaluatorPerformance"),
     ("horde-map", "horde_map_*"),
+    ("lua-callback", (
+        "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch"
+    )),
 )
 OPTIONS = {
     "TILES": True, "SOUND": True, "LOCALIZE": True, "USE_SDL3": True,

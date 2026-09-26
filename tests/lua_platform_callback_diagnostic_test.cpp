@@ -19,6 +19,11 @@ namespace cata::lua_platform
 class runtime;
 } // namespace cata::lua_platform
 
+[[noreturn]] static void failing_callback()
+{
+    throw std::runtime_error( "callback diagnostic sentinel" );
+}
+
 TEST_CASE( "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch",
            "[lua][platform][runtime][callbacks]" )
 {
@@ -34,9 +39,7 @@ TEST_CASE( "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch"
     } );
     cata::lua_platform::install_runtime_api( runtime, lua, ccb );
     cata::lua_platform::set_active_runtimes( { runtime } );
-    lua.set_function( "failing_callback", []() {
-        throw std::runtime_error( "callback diagnostic sentinel" );
-    } );
+    lua.set_function( "failing_callback", failing_callback );
     int later_calls = 0;
     lua.set_function( "later_callback", [&later_calls]() {
         ++later_calls;
