@@ -27,9 +27,15 @@ applicable, and separate unrun acceptance scopes. Exit 0 is `PASS` for this
 local scope only, exit 1 is `FAIL`, and exit 2 is `BLOCKED`.
 
 No new upstream commits yields no candidate. With updates, protected workflow,
-policy, signing/build, identity and design paths stop before checkout. This
-conservative initial protected-path list is code-reviewed in the controller;
-it is not a substitute for E4's trusted policy/permission boundary. Ordinary
+policy, signing/build, identity and design paths stop before checkout. The
+rehearsal uses E4's path matcher and the `project/protected-surfaces.json` beside
+the reviewed controller checkout, pinned by that checkout's `check-policy.json`.
+Run the reviewed tool from that checkout when inspecting another source repo;
+the inspected repo or upstream candidate cannot supply its own protection list.
+Missing, malformed or mismatched protection input fails closed, and the report
+records the loaded protection digest. The shared list retains the rehearsal's
+existing `.gitattributes` and full `build-data/` coverage. This local check is
+not a substitute for E4's trusted policy/permission boundary. Ordinary
 changes use a fresh empty-template Git repository. It borrows the source object
 store read-only via an alternate, copies no hooks/remotes/filters/config, and
 runs actual `git merge --no-ff --no-commit` followed by a local merge commit.

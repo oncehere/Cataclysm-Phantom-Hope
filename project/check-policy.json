@@ -4,7 +4,7 @@
   "scope": "Provisional E1 evidence contract; no GitHub gate or release authorization.",
   "protected_surfaces": {
     "path": "protected-surfaces.json",
-    "sha256": "1f0991bfa156b0f7abc2d346d1cc3486a16627f11e7ecf811efb12c8f5caee87"
+    "sha256": "7857b7ca5c00e9ec8722486c273832b5b416d668dbd85571e242661d646d564d"
   },
   "required_platforms": [
     "windows",

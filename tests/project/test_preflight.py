@@ -183,6 +183,47 @@ class PreflightTests(unittest.TestCase):
         )
         self.check_status(self.probe(), "clean_worktree", "FAIL")
 
+    def test_hidden_source_edits_fail_without_changing_user_work(self):
+        tracked = self.repo / "tracked.txt"
+        original = tracked.read_bytes()
+        index = self.repo / ".git/index"
+        for flag in ("assume-unchanged", "skip-worktree"):
+            with self.subTest(flag=flag):
+                self.git("update-index", "--" + flag, "tracked.txt")
+                try:
+                    tracked.write_bytes(b"hidden user modification\n")
+                    self.assertEqual(self.git("status", "--porcelain"), "")
+                    flags = self.git("ls-files", "-v", "tracked.txt")
+                    before = index.read_bytes(), index.stat().st_mtime_ns
+                    report = self.probe()
+                    self.assertEqual(
+                        before, (index.read_bytes(), index.stat().st_mtime_ns)
+                    )
+                    self.assertEqual(
+                        flags, self.git("ls-files", "-v", "tracked.txt")
+                    )
+                    self.assertEqual(
+                        tracked.read_bytes(), b"hidden user modification\n"
+                    )
+                    self.check_status(report, "clean_worktree", "FAIL")
+                    self.assertEqual(report["local_status"], "FAIL")
+                finally:
+                    self.git("update-index", "--no-" + flag, "tracked.txt")
+                    tracked.write_bytes(original)
+
+    def test_index_flag_read_failure_rejects_clean_worktree(self):
+        original_git = preflight.Probe.git
+
+        def failed_index_read(probe, *args):
+            if args[0] == "ls-files":
+                return 1, ""
+            return original_git(probe, *args)
+
+        with patch.object(preflight.Probe, "git", failed_index_read):
+            report = self.probe()
+        self.check_status(report, "clean_worktree", "FAIL")
+        self.assertEqual(report["local_status"], "FAIL")
+
     def test_dirty_untracked_file_fails(self):
         (self.repo / "user-file.txt").write_text(
             "preserve me\n", encoding="utf-8"

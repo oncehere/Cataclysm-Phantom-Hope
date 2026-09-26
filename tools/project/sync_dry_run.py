@@ -12,6 +12,9 @@ import subprocess
 import sys
 
 from preflight import PATHS, SAFE_GIT_ENV, github_repository, read_lock
+from check_merge_evidence import (
+    decode, protected_changes, read_verified, regular, relative,
+)
 
 BASE = '221c786e7d61b3c9254f7cb1625bc69494b8181c'
 UPSTREAM = 'bcb85682f3d28ab0f0123b05e45651bb9888b61b'
@@ -19,18 +22,8 @@ BASE_TREE = 'c7ad91e89ca75043106a74eb9c893130f378bd16'
 UPSTREAM_TREE = '204b14a135ae307ad2180a348a6d6553374a07af'
 LEDGER = 'project/design-differences.json'
 TRACKING = 'refs/remotes/ccb/master'
-PROTECTED_PREFIXES = (
-    '.github/', 'project/', 'tools/project/', 'tests/project/',
-    'build-scripts/', 'android/', 'build-data/', 'CMakeModules/',
-    'docs/project/',
-)
-PROTECTED_FILES = {
-    '.gitattributes', '.gitmodules', 'CMakeLists.txt', 'Makefile',
-    'CMakePresets.json', 'src/CMakeLists.txt', 'data/CMakeLists.txt',
-    'src/project_identity.cpp', 'src/project_identity.h',
-    'src/path_info.cpp', 'src/sdltiles.cpp', 'src/translations.cpp',
-    'src/main.cpp', 'src/main_menu.cpp',
-}
+PROTECTION_POLICY = (Path(__file__).resolve().parents[2] /
+                     'project/check-policy.json')
 
 
 class Stop(Exception):
@@ -50,10 +43,16 @@ def sha(value):
     return value
 
 
-def protected(path):
-    return (path in PROTECTED_FILES or
-            path.startswith(PROTECTED_PREFIXES) or
-            Path(path).name in ('AGENTS.md', 'AGENTS.override.md'))
+def protection_policy():
+    # Read the reviewed controller's policy, never a candidate's working copy.
+    policy_path = regular(PROTECTION_POLICY)
+    policy = decode(policy_path.read_bytes())
+    binding = policy.get('protected_surfaces')
+    require(isinstance(binding, dict) and
+            set(binding) == {'path', 'sha256'}, 'invalid protection policy')
+    surfaces = decode(read_verified(
+        policy_path.parent / relative(binding['path']), binding['sha256']))
+    return surfaces, binding['sha256']
 
 
 class Rehearsal:
@@ -219,11 +218,13 @@ class Rehearsal:
         out = self.value('diff', '--no-ext-diff', '--no-textconv',
                          '--name-only', '--no-renames', '-z',
                          self.previous, self.upstream)
-        paths = out.split('\0') if out else []
+        paths = out.rstrip('\0').split('\0') if out else []
         self.report['upstream_changed_paths'] = paths
         require(not any(p == 'obj-lua' or p.startswith('obj-lua/')
                         for p in paths), 'forbidden build-cache path')
-        protected_paths = [p for p in paths if protected(p)]
+        surfaces, surfaces_sha256 = protection_policy()
+        protected_paths = protected_changes(paths, surfaces)
+        self.report['protected_surfaces_sha256'] = surfaces_sha256
         self.report['protected_changes'] = protected_paths
         require(not protected_paths,
                 'protected control/identity/design changes require explicit '
@@ -302,7 +303,8 @@ class Rehearsal:
                                reason='local history/merge checks only')
         except Stop as exc:
             self.report.update(status=exc.status, reason=str(exc))
-        except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+        except (OSError, ValueError, KeyError, TypeError,
+                subprocess.TimeoutExpired) as exc:
             self.report.update(status='FAIL', reason=type(exc).__name__)
         report = self.work / 'report.json'
         report.write_text(json.dumps(self.report, indent=2) + '\n')

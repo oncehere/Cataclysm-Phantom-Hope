@@ -23,7 +23,9 @@ claims game, platform, GitHub protection or fork acceptance.
 
 The supplied directory must be the actual Git working-tree root. Shallow history,
 replacement refs, legacy grafts, dirty tracked/staged/untracked paths and unsafe
-Git environment overrides cause rejection. Git reads use
+Git environment overrides cause rejection. Tracked paths marked
+`assume-unchanged` or `skip-worktree` are rejected even if `git status` is empty;
+the read-only probe preserves those flags and any user edits. Git reads use
 `GIT_OPTIONAL_LOCKS=0`, `GIT_NO_LAZY_FETCH=1` and `--no-replace-objects`.
 Global/system Git configuration is disabled for the probe; no lazy fetch, Git
 index refresh, hooks or fsmonitor is requested. The prohibited `obj-lua/` cache

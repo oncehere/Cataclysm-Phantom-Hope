@@ -1,5 +1,6 @@
 """Real local Git fixtures; these are NOT GitHub/platform acceptance tests."""
 
+import hashlib
 import importlib.util
 import json
 import os
@@ -133,6 +134,100 @@ class MergeFixture(unittest.TestCase):
         self.assertEqual(result['protected_changes'],
                          ['.github/workflows/unsafe.yml'])
         self.assertNotIn('candidate_directory', result)
+
+    def test_declared_build_and_identity_surfaces_block_before_checkout(self):
+        for path in (
+            'src/version.cpp', 'cmake_uninstall.cmake.in',
+            'CMakeUserPresets.json', 'cmake/review-fixture.cmake',
+            'msvc-full-features/vcpkg.json',
+        ):
+            with self.subTest(path=path):
+                newer = self.upstream(path, 'changed protected input\n')
+                result = self.probe(newer).run()
+                self.assertEqual(result['status'], 'BLOCKED')
+                self.assertEqual(result['protected_changes'], [path])
+                self.assertNotIn('candidate_directory', result)
+
+    def test_existing_sync_protections_are_preserved(self):
+        for path in (
+            '.gitattributes', 'build-data/windows/review-fixture.rc',
+            'src/AGENTS.md', 'data/mods/example/AGENTS.override.md',
+        ):
+            with self.subTest(path=path):
+                newer = self.upstream(path, 'changed protected input\n')
+                result = self.probe(newer).run()
+                self.assertEqual(result['status'], 'BLOCKED')
+                self.assertEqual(result['protected_changes'], [path])
+                self.assertNotIn('candidate_directory', result)
+
+    def controller_policy(self, mutate=None):
+        trusted = self.root / 'controller'
+        trusted.mkdir()
+        policy_path = trusted / 'check-policy.json'
+        policy = json.loads(sync.PROTECTION_POLICY.read_text())
+        surfaces = json.loads((sync.PROTECTION_POLICY.parent /
+                               'protected-surfaces.json').read_text())
+        if mutate:
+            mutate(surfaces)
+        raw = (json.dumps(surfaces, indent=2) + '\n').encode()
+        (trusted / 'protected-surfaces.json').write_bytes(raw)
+        policy['protected_surfaces']['sha256'] = (
+            hashlib.sha256(raw).hexdigest())
+        policy_path.write_text(json.dumps(policy))
+        return policy_path
+
+    def test_controller_policy_extension_is_enforced(self):
+        path = 'custom-control/identity.json'
+        policy_path = self.controller_policy(
+            lambda surfaces: surfaces['paths'].append(path))
+        newer = self.upstream(path, 'protected by the reviewed controller\n')
+        with patch.object(sync, 'PROTECTION_POLICY', policy_path):
+            result = self.probe(newer).run()
+        self.assertEqual(result['status'], 'BLOCKED')
+        self.assertEqual(result['protected_changes'], [path])
+        self.assertEqual(result['protected_surfaces_sha256'], json.loads(
+            policy_path.read_text())['protected_surfaces']['sha256'])
+        self.assertNotIn('candidate_directory', result)
+
+    def test_source_policy_cannot_replace_controller_policy(self):
+        self.h = self.commit('project/protected-surfaces.json', json.dumps({
+            'schema_version': 1, 'paths': [], 'prefixes': [], 'basenames': [],
+        }))
+        newer = self.upstream('src/version.cpp', 'changed identity\n')
+        result = self.probe(newer).run()
+        self.assertEqual(result['status'], 'BLOCKED')
+        self.assertEqual(result['protected_changes'], ['src/version.cpp'])
+        self.assertNotIn('candidate_directory', result)
+
+    def test_unverified_or_missing_controller_policy_fails_closed(self):
+        newer = self.upstream()
+        policy_path = self.controller_policy()
+        surfaces = policy_path.parent / 'protected-surfaces.json'
+        surfaces.write_text('{}')
+        with patch.object(sync, 'PROTECTION_POLICY', policy_path):
+            for missing in (False, True):
+                with self.subTest(missing=missing):
+                    if missing:
+                        surfaces.unlink()
+                    result = self.probe(newer).run()
+                    self.assertEqual(result['status'], 'FAIL')
+                    self.assertNotIn('candidate_directory', result)
+
+    def test_malformed_pinned_protection_policy_fails_closed(self):
+        newer = self.upstream()
+        policy_path = self.controller_policy(
+            lambda surfaces: surfaces.pop('paths'))
+        with patch.object(sync, 'PROTECTION_POLICY', policy_path):
+            result = self.probe(newer).run()
+        self.assertEqual(result['status'], 'FAIL')
+        self.assertNotIn('candidate_directory', result)
+
+    def test_protected_prefix_lookalike_can_still_merge(self):
+        newer = self.upstream('msvc-full-features-other/content.txt')
+        result = self.probe(newer).run()
+        self.assertEqual(result['status'], 'PASS', result['reason'])
+        self.assertEqual(result['protected_changes'], [])
+        self.assertIn('candidate_commit', result)
 
     def test_dirty_untracked_and_tracked_rejected(self):
         for path in ('game.txt', 'personal.txt'):

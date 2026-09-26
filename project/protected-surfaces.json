@@ -9,10 +9,9 @@
     "android",
     "msvc-full-features",
     "tests/project",
-    "build-data/osx",
+    "build-data",
     "cmake",
-    "CMakeModules",
-    "build-data/cph-test"
+    "CMakeModules"
   ],
   "paths": [
     "AGENTS.md",
@@ -27,6 +26,7 @@
     "src/sdltiles.cpp",
     "src/version.cpp",
     "cmake_uninstall.cmake.in",
+    ".gitattributes",
     ".gitmodules",
     "CMakeUserPresets.json",
     "src/CMakeLists.txt",

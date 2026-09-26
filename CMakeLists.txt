@@ -626,9 +626,10 @@ endif()
 
 # The source-tree symlink points into data/json, which moves on installation.
 install(DIRECTORY doc TYPE DOC PATTERN "JSON_LOADING_ORDER.md" EXCLUDE)
-install(FILES data/json/LOADING_ORDER.md
-    DESTINATION "${CMAKE_INSTALL_DOCDIR}/doc/JSON"
-    RENAME JSON_LOADING_ORDER.md)
+# Reuse TYPE DOC's defaults and overrides for the replacement regular file.
+configure_file(data/json/LOADING_ORDER.md
+    "${CMAKE_CURRENT_BINARY_DIR}/install-doc/doc/JSON/JSON_LOADING_ORDER.md" COPYONLY)
+install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/install-doc/doc" TYPE DOC)
 
 if (RELEASE)
     install(FILES

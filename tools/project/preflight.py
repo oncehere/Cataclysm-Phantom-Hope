@@ -215,14 +215,23 @@ class Probe:
         self.report["head"] = head if code == 0 else None
         code, branch = self.git("symbolic-ref", "--quiet", "--short", "HEAD")
         self.report["branch"] = branch if code == 0 else None
+        index_code, entries = self.git("ls-files", "-v", "-z", *PATHS)
+        # Git status deliberately omits edits hidden by these index flags.
+        hidden_entries = [
+            entry for entry in entries.split("\0")
+            if entry and (entry[0].islower() or entry[0] == "S")
+        ]
         code, status = self.git(
             "status", "--porcelain=v1", "-z", "--untracked-files=all", *PATHS
         )
         self.check(
             "clean_worktree",
+            index_code == 0 and not hidden_entries and
             code == 0 and not status,
             {
                 "entries": status.split("\0") if status else [],
+                "hidden_index_entries": hidden_entries,
+                "rejected_index_flags": ["assume-unchanged", "skip-worktree"],
                 "excluded_without_traversal": "obj-lua/",
             },
         )
