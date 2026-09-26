@@ -26,7 +26,7 @@ or other game data is extracted or executed. This resource lock covers this
 translation bootstrap, not all of the game's assets or dependencies.
 
 The gettext domain remains `cataclysm-dda`, matching `lang/compile_mo.sh` and
-`PATH_INFO::language_file()` at U. Application identity isolation is a separate
+`PATH_INFO::lang_file()` at U. Application identity isolation is a separate
 change; renaming this domain would invalidate the inherited catalogs.
 
 ## Reproduction
