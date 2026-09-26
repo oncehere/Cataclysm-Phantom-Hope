@@ -1,0 +1,596 @@
+{
+  "schema_version": 1,
+  "kind": "compiled-gettext-mo",
+  "scope": "Temporary baseline bootstrap; complete PO maintenance deferred.",
+  "gettext_domain": "cataclysm-dda",
+  "required_locales": [
+    "zh_CN",
+    "ru"
+  ],
+  "source": {
+    "repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+    "commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+    "release_tag": "2026-09-23-0407",
+    "release_id": 394086152,
+    "asset_id": 582281303,
+    "name": "ccb-linux-terminal-only-x64-2026-09-23-0407.tar.gz",
+    "url": "https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/releases/download/2026-09-23-0407/ccb-linux-terminal-only-x64-2026-09-23-0407.tar.gz",
+    "bytes": 223961956,
+    "sha256": "60f1fbf1b47fd330ca9b999b83319749dae5f8fee7d4aaf784b515a2e2b4af1a"
+  },
+  "limits": {
+    "members": 20000,
+    "member_bytes": 536870912,
+    "uncompressed_bytes": 1073741824
+  },
+  "ignored_symlinks": {
+    "cataclysmdda-0.J/doc/JSON/JSON_LOADING_ORDER.md": "../../data/json/LOADING_ORDER.md"
+  },
+  "probe": {
+    "locale": "zh_CN",
+    "msgid": "Settings",
+    "msgstr": "设置"
+  },
+  "files": [
+    {
+      "archive_path": "cataclysmdda-0.J/LICENSE-OFL-Terminus-Font.txt",
+      "path": "LICENSE-OFL-Terminus-Font.txt",
+      "bytes": 4539,
+      "sha256": "b7c06f3f0266bd71a344547d8a6deab90b4d0db06300196f54659ff1da4fe909",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/LICENSE-SDL.txt",
+      "path": "LICENSE-SDL.txt",
+      "bytes": 884,
+      "sha256": "fcb07e07ac6bc8b2fcf047b50431ef4ebe5b619d7ca7c82212018309a9067426",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/LICENSE-libbacktrace.txt",
+      "path": "LICENSE-libbacktrace.txt",
+      "bytes": 1478,
+      "sha256": "ef8a9b3247488f8901ca60de9b17b745d7bd67e5ec1e622f80d62364572200d8",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/LICENSE.txt",
+      "path": "LICENSE.txt",
+      "bytes": 10439,
+      "sha256": "48bd3d15e40bc00f2eb182105a64fc3b376a1a376172642fca5d6c82140d26d7",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/cs.credits",
+      "path": "data/credits/cs.credits",
+      "bytes": 7264,
+      "sha256": "d3677fffb229aa1f1c92ff9f9720d6399f9a5ef6da4c8e27e4af6351db752f91",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/de.credits",
+      "path": "data/credits/de.credits",
+      "bytes": 16932,
+      "sha256": "29ba82d9b06ac6c2ae0d02a73a177e8a53622475f3cf3336e075a41ce8a966e2",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/el.credits",
+      "path": "data/credits/el.credits",
+      "bytes": 17722,
+      "sha256": "d501df3bbaf19eee0543663952a3dde8dcc768dd7e34804081660563884a6022",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/en.credits",
+      "path": "data/credits/en.credits",
+      "bytes": 16300,
+      "sha256": "9b3029312bc56d67ca8802c5e4ff9e385f3c9394b9021a7a9508cbf573878586",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/es_AR.credits",
+      "path": "data/credits/es_AR.credits",
+      "bytes": 17180,
+      "sha256": "7c894f8228a80bac4e21e361b12dd5f4a865bcf942dac1957f5b513a47a21e56",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/es_ES.credits",
+      "path": "data/credits/es_ES.credits",
+      "bytes": 17420,
+      "sha256": "5d33cb758b54cfa00aef510261c1fc5c7aecc68a9e456251f42265e11416946b",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/fil_PH.credits",
+      "path": "data/credits/fil_PH.credits",
+      "bytes": 9595,
+      "sha256": "c6cca89ebf98ce04ccdf414bfdff94577f0a25fb8b747f9b0cbbd1bd83e46e8f",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/fr.credits",
+      "path": "data/credits/fr.credits",
+      "bytes": 17291,
+      "sha256": "4df5bfa3e189ff43c637aff5441d34a38c9ccc8500ed46a933f6b7b72d50ef94",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/hu.credits",
+      "path": "data/credits/hu.credits",
+      "bytes": 17330,
+      "sha256": "59fb7fd408d944122badc0f263d37619c6b839128b1d087242a622695c448a78",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/it_IT.credits",
+      "path": "data/credits/it_IT.credits",
+      "bytes": 16595,
+      "sha256": "da881a8949e3453e74e922d20713d71db070d4afa607f3f0fea9c74f08def4a1",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/ja.credits",
+      "path": "data/credits/ja.credits",
+      "bytes": 16400,
+      "sha256": "9cc069bcf6a256ed73fdcdb516d6d272b88002673a1232f7226ec9624874884a",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/ko.credits",
+      "path": "data/credits/ko.credits",
+      "bytes": 16220,
+      "sha256": "a8dd919b6b8e03c8ebcb2b1611eda93e34fcfefa1f5fa8ae1e32e946876c561e",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/nb.credits",
+      "path": "data/credits/nb.credits",
+      "bytes": 12251,
+      "sha256": "8a02d034dab9ac8e43712c73c43c34ed68df4ebee0eb46702ff8860413bd3882",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/pl.credits",
+      "path": "data/credits/pl.credits",
+      "bytes": 16683,
+      "sha256": "1684f8b684ddf16bd4a4b682f48ff43b55998d9a70e33a29173bcf007985cabe",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/pt_BR.credits",
+      "path": "data/credits/pt_BR.credits",
+      "bytes": 16618,
+      "sha256": "677aa6b84248f0328cfeab30d19773bb9d2fb40cc1d0af0e3d23bdb779868bc5",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/ru.credits",
+      "path": "data/credits/ru.credits",
+      "bytes": 21789,
+      "sha256": "4bc6638cea4458f74675255070592fd651e213b87920f93e0426e56bac3e1f3d",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/tr.credits",
+      "path": "data/credits/tr.credits",
+      "bytes": 16318,
+      "sha256": "6abfd05219ed9d9bebaf9ee46727720c6f8575dbaffc072c2689a7de3382ec8d",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/uk_UA.credits",
+      "path": "data/credits/uk_UA.credits",
+      "bytes": 18617,
+      "sha256": "4f380a7ad591cc7ca0cf40d863be879812a94769f1e443c13b9dd1f2757084cc",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/zh_CN.credits",
+      "path": "data/credits/zh_CN.credits",
+      "bytes": 15770,
+      "sha256": "aaf82bf39f4a8404b8985636661a9d96d20d78424c41ae2c06d5e31a5d5d802d",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/data/credits/zh_TW.credits",
+      "path": "data/credits/zh_TW.credits",
+      "bytes": 15345,
+      "sha256": "d7ec3a8d8755e9d2b4068add55d46f061810cb9e3700d06144d31349786dbf7c",
+      "kind": "notice"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ace/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ace/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 372,
+      "sha256": "8d2a294d526922bcd26688c46c6685331e115231aa104658afd399b94e75e668",
+      "kind": "gettext-mo",
+      "locale": "ace"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ar/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ar/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 120421,
+      "sha256": "a97c19dcdf33fc1bc013e728e16676fb663720f809829e723485eddcff94fcfa",
+      "kind": "gettext-mo",
+      "locale": "ar"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/be/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/be/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 2744,
+      "sha256": "987fd3f388a03639298acdcc240cf2ad9219b31dff4511a06a595b6855dbaf6b",
+      "kind": "gettext-mo",
+      "locale": "be"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/be@tarask/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/be@tarask/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 540,
+      "sha256": "4deef57db18cbdd1674bcf0b5fbc2e629e0d0f56fdb78cac3ba0232bc8016e2d",
+      "kind": "gettext-mo",
+      "locale": "be@tarask"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/be_BY/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/be_BY/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 533,
+      "sha256": "404556de8cdacc58b37d59f3a356beaba53f703f1fa1df9e37ab3d732d9ad258",
+      "kind": "gettext-mo",
+      "locale": "be_BY"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/bg/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/bg/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 1430,
+      "sha256": "a64e65f9ac48ec356d72fc4a0cee8f7d5278e0de4323633ca96ca24f5fbfc143",
+      "kind": "gettext-mo",
+      "locale": "bg"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ca/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ca/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 376,
+      "sha256": "99d56d750b9213eff18f76346d8e13914c50186d892296cbfd6d4d6179243ba7",
+      "kind": "gettext-mo",
+      "locale": "ca"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/cs/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/cs/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 403695,
+      "sha256": "0be3a6424627e4bff211794ff33237f233731c05f4068ce3529bbb1fcf87c892",
+      "kind": "gettext-mo",
+      "locale": "cs"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/da/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/da/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 13211,
+      "sha256": "bc674c6d8fbc7a635ea7167b97986bf9f0165e86526e5c5d5ebb3d5c14792b36",
+      "kind": "gettext-mo",
+      "locale": "da"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/de/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/de/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 5529873,
+      "sha256": "3cf3b6fb824cb1926fd3928ca7b1ca460dddcfea1f7ee64cd84122d3972df9b3",
+      "kind": "gettext-mo",
+      "locale": "de"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/el/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/el/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 115655,
+      "sha256": "a98aacfdcfd385e051cebeecfc87e595a9178c3600976a070c048919d2bbba20",
+      "kind": "gettext-mo",
+      "locale": "el"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/en@pirate/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/en@pirate/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 397,
+      "sha256": "9fe7a97c1ba5294e331fce5c6c782019c724f690c7fb0b2d426e99f83f9a1659",
+      "kind": "gettext-mo",
+      "locale": "en@pirate"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/en_NG/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/en_NG/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 392,
+      "sha256": "cb98cae05c47bff2097020f26bf43592dac413a8272a3062fb6c9dc487882450",
+      "kind": "gettext-mo",
+      "locale": "en_NG"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/eo/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/eo/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 7048,
+      "sha256": "7b1415a93d3b9a8cfef8efdd24eec05bb1d4c86a213d4a856bc03cc40ca25666",
+      "kind": "gettext-mo",
+      "locale": "eo"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/es/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/es/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 415,
+      "sha256": "39286167a122daa61920a922e1f76a25be30393905f26e55eb0fcf8c000c7c4f",
+      "kind": "gettext-mo",
+      "locale": "es"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/es_AR/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/es_AR/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 16309461,
+      "sha256": "d3154aa574d1734b69bcf8ceea5b44da262cd74f7a15526523924ca0183ec004",
+      "kind": "gettext-mo",
+      "locale": "es_AR"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/es_ES/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/es_ES/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 16364557,
+      "sha256": "43e92f6ff5486ea8573c3c86b658a12148b092a7a59e44ac3d84ccceccbf41d0",
+      "kind": "gettext-mo",
+      "locale": "es_ES"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/et/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/et/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 377,
+      "sha256": "b3497a4bdfc26a28e17c5f9e6e6bda731e666f5179d6e53c5529e524738a4db9",
+      "kind": "gettext-mo",
+      "locale": "et"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/fa_IR/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/fa_IR/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 22593,
+      "sha256": "16b8f9310c4dd8867d6e4b82338988a07b6e56a47c7e4018064dd71c39b02be9",
+      "kind": "gettext-mo",
+      "locale": "fa_IR"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/fi/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/fi/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 376,
+      "sha256": "0547bab1ad1a5211206f3d9dac4ef206f79daa8dc3e756f89926640b58250dca",
+      "kind": "gettext-mo",
+      "locale": "fi"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/fil_PH/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/fil_PH/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 1992,
+      "sha256": "83e14bfe79b4fada149b58b235631dbe7fe4ef44241e42b55e51ffdff98a91df",
+      "kind": "gettext-mo",
+      "locale": "fil_PH"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/fr/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/fr/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 13903984,
+      "sha256": "dce3c00930e041c1bd83d49793e474be41824214a7b7187ff42e10fea1fd2361",
+      "kind": "gettext-mo",
+      "locale": "fr"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ga_IE/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ga_IE/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 638,
+      "sha256": "e58eb265c8c9c70ba2f4f87cd30052b72d83e966814dc3377a49730b19089fbd",
+      "kind": "gettext-mo",
+      "locale": "ga_IE"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/he/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/he/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 425,
+      "sha256": "9b89b95907463c2870e6a8cd66f38c633725f900e20d0a3899d0c790b394ea65",
+      "kind": "gettext-mo",
+      "locale": "he"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/hi/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/hi/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 374,
+      "sha256": "caf06d81ba332169df7b57bdef78d17b7e24a415e1e3d6f261b5a6e2004b5ec3",
+      "kind": "gettext-mo",
+      "locale": "hi"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/hu/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/hu/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 4398987,
+      "sha256": "f52ffb21f56edff6fe0f9dde56f8e32480a6e7fc7472c830feaf9620d090ee7f",
+      "kind": "gettext-mo",
+      "locale": "hu"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/id/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/id/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 146680,
+      "sha256": "27910a79ec20584d1e9c5d4c11ed2aa6ed389ab953eced88a3aa9b9e0f6bd16f",
+      "kind": "gettext-mo",
+      "locale": "id"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/is/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/is/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 70276,
+      "sha256": "1c0f9fe1264918be837ba65d470ae092ef660b501f547549f1bdbffd95df9036",
+      "kind": "gettext-mo",
+      "locale": "is"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/it_IT/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/it_IT/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 3368788,
+      "sha256": "832da25e5882ab103490fd83ec759eb6f32eb8babffb1315acc59aecad7d5cc5",
+      "kind": "gettext-mo",
+      "locale": "it_IT"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ja/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ja/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 22321423,
+      "sha256": "5213463d89aba91eb3f4fef81fc0b6564e2a86b2312e43a68e0cbfb2685698a9",
+      "kind": "gettext-mo",
+      "locale": "ja"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ko/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ko/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 20458015,
+      "sha256": "2649c35cfb6a1e3570b381bdd723d9006a09033e18ef8ba7145399033ef14299",
+      "kind": "gettext-mo",
+      "locale": "ko"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ms/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ms/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 4729,
+      "sha256": "05a2a9e02310bd0591ad7538518101dacb041bb7415169ec17705c8744ba0501",
+      "kind": "gettext-mo",
+      "locale": "ms"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/nb/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/nb/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 283378,
+      "sha256": "e3d9d85bbbb17330a1451237e68db767a5225a1166b244a2c1986dbedbf62ff1",
+      "kind": "gettext-mo",
+      "locale": "nb"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/nl/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/nl/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 282922,
+      "sha256": "3fbaf888d73902a86b80090c20cf974a751ec87fc19606c0c41c53dc58241961",
+      "kind": "gettext-mo",
+      "locale": "nl"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/nl_BE/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/nl_BE/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 282950,
+      "sha256": "e4c50e10b8e2cbeef2ab8a1955fd65c4ad757157d993da2ed1b0c9e3966f9ff3",
+      "kind": "gettext-mo",
+      "locale": "nl_BE"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/pl/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/pl/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 8530016,
+      "sha256": "518ad3678dacc9a4ff29b453b02aa8c8ad449574d90931d04a22105d4ede5495",
+      "kind": "gettext-mo",
+      "locale": "pl"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/pt/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/pt/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 19841805,
+      "sha256": "0251898cc5b20895ba48647907f31cd4cb9bc97a1e078e4a22d08a942688f438",
+      "kind": "gettext-mo",
+      "locale": "pt"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 22094846,
+      "sha256": "b98b264b28abdd9879b54f44a5a5b3fb24443cfabe50b7a36ef8193ee45c4336",
+      "kind": "gettext-mo",
+      "locale": "pt_BR"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ro/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ro/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 38978,
+      "sha256": "2e8d4a9ac75613bd441ccbd16fbf659b53da19c11b1d9430fb2f48985003d722",
+      "kind": "gettext-mo",
+      "locale": "ro"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 29729218,
+      "sha256": "99f990b67e645528b31be3367891808c44e40357948359a6c15aaae70bdca316",
+      "kind": "gettext-mo",
+      "locale": "ru"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/ru_RU/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/ru_RU/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 529,
+      "sha256": "285a861138f27d8c250a0f3b30fc509e46f23fb6de07f0032c1e1369a18f1845",
+      "kind": "gettext-mo",
+      "locale": "ru_RU"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/sr/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/sr/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 12008,
+      "sha256": "059df1042e3df647a9f0b779d004fe6e6916ff27c48ccf716b0418096785cd6b",
+      "kind": "gettext-mo",
+      "locale": "sr"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/sv/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/sv/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 208387,
+      "sha256": "8420a0c900461e6106f6a27c692f400d1ed7e5b81a69486cf34cf0f4d0360a2b",
+      "kind": "gettext-mo",
+      "locale": "sv"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/th_TH/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/th_TH/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 383,
+      "sha256": "fed50bfb453909d0a931722f066336ad4912dfa797332a04885082c9371916ec",
+      "kind": "gettext-mo",
+      "locale": "th_TH"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/tr/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/tr/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 20085176,
+      "sha256": "d8b89ba8569689758881346d454a34bc4ea17eba280956ef10ee14f1db4457dd",
+      "kind": "gettext-mo",
+      "locale": "tr"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/uk_UA/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/uk_UA/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 1175284,
+      "sha256": "44d20a42942d7f133b11eca9da03f6a85a5443196f1df777e7bd094def0afd16",
+      "kind": "gettext-mo",
+      "locale": "uk_UA"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/vi/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/vi/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 311706,
+      "sha256": "484feda1796e1ce8208ed5201b987cfd484f202896801d5d28d65b8e2216c773",
+      "kind": "gettext-mo",
+      "locale": "vi"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 19746454,
+      "sha256": "879103d10f691e0db783a08be76b6b331224cd6656e68430cb218d269e5b67c1",
+      "kind": "gettext-mo",
+      "locale": "zh_CN"
+    },
+    {
+      "archive_path": "cataclysmdda-0.J/lang/mo/zh_TW/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "lang/mo/zh_TW/LC_MESSAGES/cataclysm-dda.mo",
+      "bytes": 19490006,
+      "sha256": "67ccf419020ec9255d6015558d4cec3f65821eb1d43041394e0a49cc48c7d3b5",
+      "kind": "gettext-mo",
+      "locale": "zh_TW"
+    }
+  ]
+}
