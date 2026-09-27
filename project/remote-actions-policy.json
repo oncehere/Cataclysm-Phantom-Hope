@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "repository": "oncehere/Cataclysm-Phantom-Hope",
+  "repository_id": 1389460908,
+  "default_branch": "main",
+  "preserved_master": "83548cf6c125857209f72e492e8dcdc21aae9955",
+  "workflows": [
+    "project-ci.yml",
+    "project-gate.yml",
+    "project-sync.yml"
+  ],
+  "allowed_actions": [
+    "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+    "actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4",
+    "actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0",
+    "msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884",
+    "lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb"
+  ],
+  "required_status": "cph/trusted-gate",
+  "sync_interval_hours": 6,
+  "public_release_enabled": false,
+  "automatic_ai_enabled": false
+}

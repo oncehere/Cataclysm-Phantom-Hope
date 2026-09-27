@@ -1,0 +1,77 @@
+name: CPH CCB synchronization
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: cph-sync-controller
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: >-
+      github.repository == 'oncehere/Cataclysm-Phantom-Hope' &&
+      github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Check out trusted controller
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: controller
+      - name: Prepare isolated candidate without credentials
+        id: candidate
+        run: >-
+          python3 controller/tools/project/remote_sync.py prepare
+          --output "$RUNNER_TEMP/cph-sync"
+      - name: Retain bound plan and optional Git bundle
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: cph-sync-candidate
+          path: |
+            ${{ runner.temp }}/cph-sync/plan.json
+            ${{ runner.temp }}/cph-sync/candidate.bundle
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: prepare
+    if: >-
+      always() && needs.prepare.result != 'cancelled' &&
+      needs.prepare.result != 'skipped' &&
+      github.repository == 'oncehere/Cataclysm-Phantom-Hope' &&
+      github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Check out the same trusted controller
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: controller
+      - name: Download data from this run only
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: cph-sync-candidate
+          path: ${{ runner.temp }}/cph-sync-input
+      - name: Validate and publish PR metadata from trusted code
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 controller/tools/project/remote_sync.py publish
+          --input "$RUNNER_TEMP/cph-sync-input"
+          --work "$RUNNER_TEMP/cph-sync-publish"
