@@ -392,5 +392,106 @@ class CandidateTests(unittest.TestCase):
                 remote.validate_candidate(candidate, plan)
 
 
+class PartialBoundaryTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="cph-boundary-test-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        original = remote.git
+
+        def local_git(repo, *args, **kwargs):
+            # Only this fixture adds local transport; production stays HTTPS.
+            return original(repo, "-c", "protocol.file.allow=always",
+                            *args, **kwargs)
+
+        patcher = patch.object(remote, "git", side_effect=local_git)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def repo(self, name, bare=False):
+        path = self.root / name
+        path.mkdir()
+        remote.git(path, "init", "--template=", *(('--bare',) if bare else ()))
+        remote.git(path, "config", "user.name", "Boundary Git fixture")
+        remote.git(path, "config", "user.email", "fixture@example.invalid")
+        return path
+
+    def commit(self, repo, filename, content):
+        target = repo / filename
+        if content is None:
+            target.unlink()
+        else:
+            target.write_text(content)
+        remote.git(repo, "add", "--all")
+        remote.git(repo, "commit", "-m", "fixture " + filename)
+        return remote.git(repo, "rev-parse", "HEAD")
+
+    def blob_status(self, repo, object_id):
+        return remote.git(repo, "cat-file", "--batch-check",
+                          data=object_id + "\n")
+
+    def test_multiple_exclusion_boundaries_hydrated_before_bundle(self):
+        full = self.repo("full")
+        ancient = self.commit(full, "retired.txt", "unneeded old blob\n")
+        ancient_blob = remote.git(full, "rev-parse", ancient + ":retired.txt")
+        self.commit(full, "retired.txt", None)
+        text = "old boundary content\n" * 100
+        base = self.commit(full, "gone.txt", text)
+        old_blob = remote.git(full, "rev-parse", base + ":gone.txt")
+        initial = self.commit(full, "gone.txt", text + "main version\n")
+        head = self.commit(full, "project.txt", "project only\n")
+        remote.git(full, "checkout", "--detach", base)
+        side_text = text + "side version\n"
+        side = self.commit(full, "gone.txt", side_text)
+        remote.git(full, "checkout", "--detach", initial)
+        with self.assertRaises(ValueError):
+            remote.git(full, "merge", "--no-ff", "-m", "upstream merge", side)
+        # The fixture upstream deliberately resolves its own earlier conflict.
+        upstream = self.commit(full, "gone.txt", side_text)
+        partial = self.repo("partial")
+        for name, tip in (("origin", head), ("ccb", upstream)):
+            server = self.repo(name + ".git", bare=True)
+            remote.git(server, "config", "uploadpack.allowFilter", "true")
+            remote.git(server, "config", "uploadpack.allowAnySHA1InWant",
+                       "true")
+            remote.git(server, "fetch", "--no-tags", full.as_uri(),
+                       tip + ":refs/heads/main")
+            remote.git(partial, "remote", "add", name, server.as_uri())
+            remote.git(partial, "config", "remote." + name + ".promisor",
+                       "true")
+            remote.git(partial, "config", "remote." + name +
+                       ".partialclonefilter", "blob:none")
+            remote.public_fetch(partial, name, tip)
+        remote.hydrate_tree(partial, "origin", head)
+        remote.hydrate_tree(partial, "ccb", upstream)
+        common = remote.git(partial, "merge-base", head, upstream)
+        self.assertEqual(common, initial)
+        remote.hydrate_tree(partial, "ccb", common)
+        boundaries = remote.git(partial, "rev-list", "--boundary", upstream,
+                                "--not", head).splitlines()
+        self.assertEqual({line[1:] for line in boundaries
+                          if line.startswith("-")}, {base, initial})
+        self.assertTrue(self.blob_status(partial, old_blob)
+                        .endswith("missing"))
+        remote.hydrate(partial, "ccb", [upstream], head)
+        self.assertIn(" blob ", self.blob_status(partial, old_blob))
+        # Hydrating actual boundaries must not hydrate all excluded history.
+        self.assertTrue(self.blob_status(partial, ancient_blob)
+                        .endswith("missing"))
+        tree = remote.git(partial, "merge-tree", "--write-tree",
+                          head, upstream).splitlines()[0]
+        candidate = remote.git(partial, "commit-tree", tree, "-p", head,
+                               "-p", upstream, data="candidate merge\n")
+        remote.git(partial, "update-ref", "refs/heads/candidate", candidate)
+        bundle = self.root / "candidate.bundle"
+        remote.git(partial, "bundle", "create", str(bundle),
+                   "refs/heads/candidate", "^" + head)
+        receiver = self.repo("receiver")
+        remote.git(receiver, "fetch", "--no-tags", full.as_uri(), head)
+        remote.git(receiver, "bundle", "verify", str(bundle))
+        remote.git(receiver, "bundle", "unbundle", str(bundle))
+        remote.git(receiver, "fsck", "--full", "--no-reflogs", candidate)
+
+
 if __name__ == "__main__":
     unittest.main()

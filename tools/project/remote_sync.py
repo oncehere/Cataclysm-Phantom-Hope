@@ -231,7 +231,7 @@ def public_fetch(repo, remote, ref):
 
 
 def hydrate(repo, remote, heads, boundary=None):
-    """Explicitly fetch missing public objects; no credential/lazy fetch."""
+    """Fetch the range and its actual boundary blobs without lazy fetching."""
     args = ["rev-list", "--objects", "--no-object-names", "--missing=print",
             *heads]
     if boundary:
@@ -244,6 +244,15 @@ def hydrate(repo, remote, heads, boundary=None):
         git(repo, "fetch", "--no-tags", "--no-write-fetch-head",
             "--recurse-submodules=no", "--filter=blob:none", remote,
             "--stdin", data="\n".join(missing) + "\n")
+    if boundary:
+        # A merged side branch can meet the excluded history before the main
+        # merge base. Its old blobs are absent from the range, but bundle's
+        # thin pack may still read them when considering delta bases.
+        boundaries = git(repo, "rev-list", "--boundary", *heads,
+                         "--not", sha(boundary)).splitlines()
+        for line in boundaries:
+            if line.startswith("-"):
+                hydrate_tree(repo, remote, sha(line[1:]))
 
 
 def hydrate_tree(repo, remote, commit):
