@@ -1,10 +1,10 @@
 # CPH 本轮实施与交接（2026-09-26）
 
-目标是用户提供的 execution-spec v1；旧研究/review 仅作背景。本轮实施从 E0
-开始，完成 Linux E1 并继续当前可执行的隔离与本地控制工作。未完成整个首期。
+目标是用户提供的 execution-spec v1；旧研究/review 仅作背景。首期从 E0
+开始，完成 Linux E1 后继续隔离、本地控制与受控远端 CI 部署。未完成整个首期。
 翻译按用户最新指示先接入真实临时 MO，完整 PO 维护后置。
 
-工作目录 `/home/oncehere/文档/ChatGPT/CPH/cph`，分支
+初始工作目录 `/home/oncehere/文档/ChatGPT/CPH/cph`，分支
 `codex/e0-e1-bootstrap`；从 U `bcb85682f3d28ab0f0123b05e45651bb9888b61b`
 开始，第一项自有提交 `166042538d8` 的父提交及 tree 与 U 完全一致。
 CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
@@ -17,17 +17,43 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 部分更早历史仍带 promisor 元数据；没有宣称所有历史 blob 都已离线齐备。
 当前 U 工作树及本轮所需历史对象已核验；后续缺失对象必须显式获取后再验收。
 
-## 游戏与资源真实证据
+## 当前远端 CI 与同步部署进展
+
+用户已授权完善目标仓库的自动同步。当前实现工作区为
+`/home/oncehere/文档/ChatGPT/CPH/cph-remote-ci`，分支
+`codex/remote-ci-sync`；原 `cph` 工作区的并发修改保留。
+以下是本轮部署中的状态，后文初次本地交付记录仅代表对应提交的历史快照。
+
+| 范围 | 当前状态 | 已完成与待验收边界 |
+|---|---|---|
+| 受控入口 | 部分已部署 | `project-ci.yml` 已在远端；`project-gate.yml`、`project-sync.yml` 已实现，待本轮上传和回读 |
+| Actions 权限 | 已启用并限缩 | 仅允许 5 个精确 action SHA：checkout、upload-artifact、download-artifact、setup-msys2、get-cmake；不恢复继承的发布入口 |
+| 继承 master | 已冻结 | 保持 `83548cf6c125857209f72e492e8dcdc21aae9955`，保留原历史；不重写或改为主开发分支 |
+| Windows/Linux CI | PENDING，未计 PASS | 使用 GitHub 托管的原生 Windows/Linux runner 执行；实际构建、测试及来源绑定回证仍待完成，本机缺 Windows 不再是部署阻塞 |
+| 可信检查与受保护合入 | PENDING，未计 PASS | dispatch 后由可信 collector 校验结果并发布 `cph/trusted-gate`；成功允许、失败阻止及移动 base/head 重验仍须真实 PR 验收 |
+| 持久同步状态 | 已初始化，保持暂停 | `codex/sync-state` 已创建；`sync_paused=true`、`merge_paused=true`、`auto_merge_enabled=false` |
+| 日常自动同步合入 | 未启用 | 本地控制器支持固定 CCB SHA、无变化不建 PR、任务复用、冲突/保护面阻塞及最终动作前重查；不能以实现或 YAML 存在代替远端通过 |
+
+运行链使用受限 `GITHUB_TOKEN` 显式 dispatch 可信主分支 CI，构建与有写权限的
+控制器分离；没有配置个人 PAT/App 私钥或自动 AI。普通 dispatch job 的绿色
+结果不能直接冒充 PR 必需检查。规则无 bypass 的管理员核验锁、运行时规则摘要
+校验和真实受保护 PR 回证必须一致，才能解除自动合入暂停。
+入口、重试及操作开关见 [remote-sync.md](remote-sync.md)，剩余发布条件见
+[resume.md](resume.md)。本轮命令和回读证据集中在
+`evidence/remote-ci-sync-20260926/`；最终真实运行结果由完成后的回证补充。
+
+## 已完成的游戏与资源证据
 
 | 范围 | 状态 | 真实执行与证据 |
 |---|---|---|
-| E0 本地历史、U tree、环境和工作流隔离 | PASS | preflight 与负例；29 个继承 workflow 保留在 U 的 Git 对象中，来源清单完整核验，活动入口为零；外部 action 内部行为未运行 |
+| E0 本地历史、U tree、环境和工作流隔离 | PASS（初始快照） | preflight 与负例；29 个继承 workflow 保留在 U 的 Git 对象中，来源清单完整核验；当时活动入口为零，后续受控入口见上表 |
 | E2 个人 CDDA fork、历史上传和默认分支 | PASS | 原生 fork 的 parent 为 CDDA；固定种子提交及 tree 已远端回读；继承 master 未变 |
-| E2 受控 CI 与分支门槛 | NOT_RUN | 最小 CI 入口/可信 collector 尚未实现和部署，Actions 关闭；不称 main 已受保护 |
+| E2 受控 CI 与分支门槛 | PENDING | Actions 已限缩启用，CI 已上传，gate/sync 待上传；真实 W/L 结果和受保护合入门槛尚未计 PASS |
 | E1 翻译冷启动 | PASS | 真实 CCB 发布资源，摘要核验，49 个 MO、24 个许可/署名；无 TX_TOKEN、历史 artifact 或缓存依赖；实际中文加载通过 |
 | E1 Linux 真实编译及最小回归 | PASS | 测试提交 c9ffec15d30；configure/build/版本检查及下列 5 组测试均退出 0 |
 | E3 Linux 测试身份 | PASS（限定范围） | 测试提交 6cd76598a44；安装、5 种路径解析、73 项资源、核心数据加载、卸载及 CCB 哨兵均通过 |
-| Windows/macOS/Android 原生验收 | NOT_RUN / BLOCKED | 本机缺对应运行环境；Windows 探针已实现，macOS/Android 恢复命令与缺口已记录 |
+| Windows 原生 CI 验收 | PENDING | 已改用 GitHub 托管 Windows runner；探针和可信结果收集需本轮实际运行回证 |
+| macOS/Android 原生验收 | NOT_RUN / BLOCKED | 所选包目标与运行验收尚未完成，恢复命令与缺口已记录；仅阻塞对应平台及四平台公开发布 |
 | GUI、新建世界/读写存档、默认 HOME 完整启动、跨版本升级 | NOT_RUN | 核心数据检查不能代替这些场景；未使用用户真实 CCB 安装或存档 |
 
 Linux 实际环境为 x86_64 NixOS，Clang 21.1.8、CMake 4.4.2、Ninja 1.13.2；
@@ -88,15 +114,17 @@ E3 使用同一编译缓存做实际增量构建。两个场景的源码、配�
 ## 外部条件与继续执行
 
 最小配置清单见 [resume.md](resume.md)。目标和管理权限已核实，E2 fork 与历史
-上传已实际完成。真实 GitHub required checks、分支规则、自动同步合入、
-四平台打包/必要签名和每日公开开发版均未启用；稳定版没有发布入口。
+上传已实际完成。受限 Actions 与原生 W/L CI 部署已推进；真实 required-check
+结果和受保护合入验收仍为 PENDING，自动同步合入保持暂停。四平台打包/必要签名
+和每日公开开发版未启用；稳定版没有发布入口。
 永久身份、Android 验收 profile 等设计决定仍待明确，没有用测试 ID 或临时签名
 包公开发布。无需向聊天提供任何秘密。
 
-## 后续本地实现与合并后复验
+## 初次本地实现与合并后复验快照
 
-E4—E7 的以下小步已经独立提交并集成；各自范围为 **IMPLEMENTED_NOT_DEPLOYED**，
-不能据此称完整阶段或远端流程完成：
+以下为初次本地交付时的 E4—E7 记录，当时各自范围为
+**IMPLEMENTED_NOT_DEPLOYED**。其“尚未完成”列是历史快照；本轮远端 CI 与
+同步控制器进展以上文为准，旧工具测试不能冒充真实平台或远端验收：
 
 | 本地组件 | 已验证内容 | 尚未完成 |
 |---|---|---|
@@ -174,16 +202,18 @@ DAILY_DEV_RELEASE_ENABLED = false
 STABLE_RELEASE_ENABLED = false
 ```
 
-本地基础实现和真实 fork/历史已验证，但完整可信执行链/发布事务尚未实现，跨平台
-条件仍缺。只有 HISTORY_AND_FORK_VERIFIED 已成立，不能据此开启其他总开关。
-各个逻辑改动与必要修复均有独立提交，继承 merge 历史保留；仅向用户明确的新目标
-上传并修改其初始化设置，没有开 PR、购买服务或公开游戏包。
+本地基础实现和真实 fork/历史已验证，受控 CI/collector/同步代码已实现并推进
+部署，但真实 W/L 门槛及受保护合入验收仍为 PENDING，发布事务与四平台交付也
+未完成。只有 HISTORY_AND_FORK_VERIFIED 已成立，不能据此开启其他总开关。
+写入仅限用户明确的个人目标，继承 merge 历史保留；没有购买服务或公开游戏包。
 
 `last_completed_task`：E0/E1 本地验收、Linux 测试身份生命周期及 E4—E7 上述本地
 组件的合并后工具复验，以及 E2 真实个人 CDDA fork、保留历史的种子上传与默认
-分支切换。首期尚未完成。
+分支切换；本轮又完成受控 CI 入口上传、Actions 精确白名单、继承 master 冻结
+和暂停状态初始化。collector/sync 上传及真实受保护 PR 验收仍在进行，首期尚未完成。
 
-下一条可执行恢复入口：在已核验目标上继续实现并审查可信 collector/最小 CI
-入口和 E6 发布事务；不要重复建仓。正常自动合入部署前必须接入可用原生 Windows
-环境、完成相应身份隔离，并在目标 PR 证明规则生效。其他缺口及配置位置集中见
+下一条可执行恢复入口：完成 gate/sync 上传与回读，在 GitHub 托管 Windows/Linux
+runner 上取得真实结果，并用目标 PR 验证成功、失败及 refs 移动时的门槛行为。
+通过后才解除相应暂停；不要重复建仓或把本机 Windows 缺失当成托管 CI 阻塞。
+E6 发布事务继续独立推进。其他缺口及配置位置集中见
 [resume.md](resume.md)，无须重新做宽泛需求访谈。
