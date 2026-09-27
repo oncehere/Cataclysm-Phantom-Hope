@@ -1,5 +1,7 @@
 # E2 个人 CDDA fork 实际执行回证
 
+**历史回证：**本页记录 2026-09-26 初次建仓、种子上传和当时关闭 Actions 的原始事实，不是持续更新的远端状态页。后续 `main` 已部署三个受控 workflow；当前主线和分支规则状态见 [status.md](status.md)。本地 `evidence/...` 路径相对于 CPH 工作区，不属于推送到 GitHub 的源码；见 [workspace-layout.md](workspace-layout.md)。
+
 2026-09-26，用户明确授权创建并写入
 [`oncehere/Cataclysm-Phantom-Hope`](https://github.com/oncehere/Cataclysm-Phantom-Hope)。
 命令行 API 核验当前个人账号为 `oncehere`，目标名称不存在；既有个人 CCB fork
@@ -67,9 +69,9 @@ push URL 仍为 `DISABLED`；实际授权上传明确使用完整目标 URL。CD
 
 ## 继续工作的边界
 
-HISTORY_AND_FORK_VERIFIED 已成立；整个首期尚未完成。main 的 29 个继承入口
-已隔离，但保留的 master 仍含上游 workflow，因此仓库 Actions 继续关闭。恢复
-时先完成最小受控 CI 与可信结果收集，再验证真实 PR 的 Windows/Linux 门槛；
+HISTORY_AND_FORK_VERIFIED 已成立；整个首期尚未完成。初次建仓时 main 的 29 个继承入口
+已隔离，保留的 master 仍含上游 workflow，因此当时仓库 Actions 保持关闭。后续已在
+`main` 部署受控 CI/gate/sync 入口；恢复时需核验真实 PR 的 Windows/Linux 门槛与规则；
 不能把普通 workflow_dispatch 绿色结果当作 PR 必需检查，也不能启用线性历史
 要求来破坏继承的 merge 历史。
 

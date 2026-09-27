@@ -1,7 +1,6 @@
 name: Documentation / 文档问题
-description: Report incorrect, stale, missing, untranslated, inaccessible, or broken CCB documentation
+description: Report incorrect, stale, missing, untranslated, inaccessible, or broken CPH repository documentation
 title: "[Docs] "
-labels: ["documentation"]
 body:
   - type: input
     id: location

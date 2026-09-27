@@ -1,7 +1,6 @@
 name: Feature proposal / 功能提案
-description: Propose an implementable outcome for a concrete CCB user problem
+description: Propose an implementable outcome for a concrete CPH user problem
 title: "[Feature] "
-labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
@@ -48,7 +47,7 @@ body:
     attributes:
       label: Submission checks / 提交检查
       options:
-        - label: I searched existing CCB issues and Discussions for this proposal.
+        - label: I searched existing CPH issues and Discussions for this proposal.
           required: true
-        - label: This proposal is for CCB and does not assume another project's policy automatically applies.
+        - label: This proposal is for CPH and does not assume another project's policy automatically applies.
           required: true

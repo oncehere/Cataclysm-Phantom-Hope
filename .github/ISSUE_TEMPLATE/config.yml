@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: CCB developer documentation / CCB 开发文档
-    url: https://crimsoncrossbunker.github.io/CCB-Docs/
-    about: Contribution, build, architecture, API, and documentation guidance.
+  - name: CPH developer documentation / CPH 开发文档
+    url: https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/docs/README.md
+    about: Repository documentation, contribution, build, architecture, and project status.
   - name: Questions and support / 问题与支持
-    url: https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/discussions
-    about: Ask build questions, request help, or discuss an early idea before filing actionable work.
-  - name: Private security report / 私密安全报告
-    url: https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/security/advisories/new
-    about: Report vulnerabilities privately; do not publish exploit details in an issue.
+    url: https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions
+    about: Public build questions, help, and early ideas.
+  - name: Security policy / 安全政策
+    url: https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/SECURITY.md
+    about: Check whether private vulnerability reporting is available before sharing details; never disclose exploits in public.

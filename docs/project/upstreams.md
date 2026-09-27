@@ -1,5 +1,11 @@
 # Locked initial history
 
+This page records the initial B/U history and the local source remotes. Its
+original no-target conclusion has been superseded: the explicitly authorized
+`oncehere/Cataclysm-Phantom-Hope` native CDDA fork and retained-history upload
+are documented in [fork-deployment.md](fork-deployment.md). Current remote
+checks and outstanding gates are dated in [status.md](status.md).
+
 The primary specification is [execution-spec.md](execution-spec.md).
 
 - CDDA source: `CleverRaven/Cataclysm-DDA`
@@ -21,10 +27,12 @@ It is not an authorized CPH remote and is not independent upstream provenance.
 The clone uses independent object files, not hardlinks or alternates. It has
 non-shallow commit history but may need missing promisor blobs fetched locally.
 
-No target OWNER/REPO is configured. No GitHub fork was created or verified, no
-branch protection was deployed, and no remote write is authorized by these local
-source remotes. A future target must be a real CDDA fork; preserve its existing
-references and use a new development branch rather than force-rewinding it.
+At the initial local-history checkpoint no target OWNER/REPO was configured.
+The target was later authorized and created as a real CDDA fork; `origin` now
+points to it with push URL `DISABLED`, while actual authorized uploads used an
+explicit URL and fixed ref. The initial absence of a fork is historical, not
+a current blocker. The existing upstream refs remain preserved; the dated main
+protection rule and per-PR acceptance results are in [status.md](status.md).
 
 CCB master is followed through history-preserving integration; CDDA changes are
 selected individually. Active adaptations and reverts must be recorded separately

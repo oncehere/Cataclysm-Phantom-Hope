@@ -3,9 +3,25 @@
 This controller follows only `CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb`
 `master`. Its only write target is `oncehere/Cataclysm-Phantom-Hope` (repository
 ID `1389460908`), verified as a native `CleverRaven/Cataclysm-DDA` fork.
-Deployment and actual GitHub acceptance are recorded separately in the
-[project status report](status.md). At deployment snapshot
-`main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec`, all three workflows are active:
+Deployment and actual GitHub acceptance are recorded with dates in the
+[project status report](status.md). At the 2026-09-27 07:40 UTC readback,
+`main=39859e1b253e28e2c34b6a19935b7edcce51b9b6` and ruleset
+`24056126` is active; the branch reports `protected=true`. PR #1 was merged
+under this rule. The public `codex/sync-state` branch, revision 3, records
+`sync_paused=false`, `merge_paused=false`, `auto_merge_enabled=true` and
+positive/negative protected-merge acceptance. It also records that a new CCB
+integration has not been live tested and public release is not enabled.
+These controls must be read again before acting; ruleset activation alone
+does not establish the sync or merge switch state. Documentation PR #3 is
+blocked by the protected-path collector rejection and cannot use a disabled
+rule as a bootstrap exception.
+
+At the earlier 2026-09-27 03:31 UTC review snapshot,
+`main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`; the three controlled
+workflows remain active and the main ruleset remains disabled. PR #1 has a
+new Windows/Linux attempt running at that snapshot; no successful native gate
+or protected merge is established by an in-progress run. The following is the
+earlier `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` deployment receipt:
 CI `368009607`, gate `368019205`, sync `368019206`. Actions allows exactly five
 pinned actions; inherited `master` remains frozen at its original SHA.
 Pause run `36281825809` and no-update run `36281948613` passed. State revision 1
@@ -13,8 +29,8 @@ has `sync_paused=false`, `merge_paused=true`, `auto_merge_enabled=false`.
 Native CI run `36281829866` for PR #1 failed on Windows because the shallow
 vcpkg checkout lacked a historical tree; Linux was cancelled and is not a pass.
 Collector run `36282037172` published `cph/trusted-gate=failure`. Main ruleset
-`24056126` is created but disabled, so protected-PR acceptance remains
-**PENDING**. The vcpkg fix and rerun are in progress; subsequent facts belong in
+`24056126` was created but disabled, so protected-PR acceptance remained
+**PENDING**. Subsequent facts belong in
 Actions and the external evidence ledger rather than a source commit per run.
 Local tests do not prove that the remote gate is active.
 
@@ -90,8 +106,10 @@ explicit review rather than recreating duplicate PRs.
 
 ## Operator controls
 
-The target's state branch is initialized; synchronization checks are resumed,
-while merging remains paused at the deployment snapshot above.
+The target's state branch was initialized; synchronization checks were resumed,
+while merging remained paused at the deployment snapshot above. Read current
+state from the target before using a control operation; do not reuse that old
+revision as a current value.
 Do not initialize it again. The following command documents the one-time
 bootstrap operation, from a trusted checkout with a target-scoped credential
 supplied only to the process environment:
@@ -100,17 +118,18 @@ supplied only to the process environment:
 python3 tools/project/remote_sync.py init-state
 ```
 
-Initial controls are `sync_paused=true`, `merge_paused=true`, and
+Initial controls were `sync_paused=true`, `merge_paused=true`, and
 `auto_merge_enabled=false`. Initialization is not gate activation. Read the
-current state revision before each edit; a stale revision is rejected:
+current `codex/sync-state:state.json` revision before each edit; a stale
+revision is rejected. The examples below are alternatives, not a sequence:
 
 ```sh
-python3 tools/project/remote_sync.py controls --revision 0 --sync resume
-python3 tools/project/remote_sync.py controls --revision 1 --sync pause
-python3 tools/project/remote_sync.py controls --revision 2 --block ccb-FULL_SHA
+python3 tools/project/remote_sync.py controls --revision CURRENT_REVISION --sync pause
+python3 tools/project/remote_sync.py controls --revision CURRENT_REVISION --block ccb-FULL_SHA
 ```
 
-Replace `FULL_SHA` with the full lowercase source SHA. `--unblock` removes that
+Replace `CURRENT_REVISION` with the freshly read integer and `FULL_SHA` with
+the full lowercase source SHA. `--unblock` removes that
 candidate from the list. `--merge pause` stops merging independently of source
 checks/PR preparation. Only after real protected PR success/failure acceptance
 may the authorized operator set `--merge resume --auto-merge enable`.

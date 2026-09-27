@@ -1,5 +1,10 @@
 # Baseline translation input
 
+This is the locked E1 input and its 2026-09-26 validation record. The compiled
+MO set remains a temporary resource source, not a completed PO maintenance
+policy or four-platform release input. Local `inputs/` lives outside the source
+repository; see [workspace-layout.md](workspace-layout.md).
+
 E1 temporarily uses the **actual compiled MO resources** from the CCB release
 `2026-09-23-0407`. Both the release's `target_commitish` and its tag resolve to
 the locked baseline `bcb85682f3d28ab0f0123b05e45651bb9888b61b`. This is not a
@@ -31,13 +36,17 @@ change; renaming this domain would invalidate the inherited catalogs.
 
 ## Reproduction
 
-From an isolated source checkout, choose a new resource directory outside the
-source tree:
+From a registered worktree in the current local workspace, derive its workspace
+root and choose a new resource directory outside the source tree. In an
+independent clone or CI job, set an explicit output root instead:
 
 ```sh
+CPH_WORKSPACE="$(dirname "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")")"
+TRANSLATION_OUTPUT="$CPH_WORKSPACE/inputs/translations-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+test ! -e "$TRANSLATION_OUTPUT" || exit 1
 env -u TX_TOKEN -u GH_TOKEN -u GITHUB_TOKEN \
-  python3 tools/project/bootstrap_translations.py --output ../inputs/translations
-python3 tools/project/bootstrap_translations.py --check --output ../inputs/translations
+  python3 tools/project/bootstrap_translations.py --output "$TRANSLATION_OUTPUT"
+python3 tools/project/bootstrap_translations.py --check --output "$TRANSLATION_OUTPUT"
 python3 -m unittest discover -s tests/project -p 'test_bootstrap_translations.py' -v
 ```
 

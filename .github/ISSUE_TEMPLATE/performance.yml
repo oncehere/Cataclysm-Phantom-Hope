@@ -1,12 +1,11 @@
 name: Performance regression / 性能问题
 description: Report a measured CPU, GPU, memory, I/O, loading, or latency regression
 title: "[Performance] "
-labels: ["Code: Performance"]
 body:
   - type: input
     id: version
     attributes:
-      label: CCB version or commit / CCB 版本或提交
+      label: CPH commit or release / CPH 提交或发布
     validations:
       required: true
   - type: textarea

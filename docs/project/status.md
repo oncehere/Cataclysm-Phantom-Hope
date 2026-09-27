@@ -1,5 +1,46 @@
 # CPH 本轮实施与交接（2026-09-26）
 
+## 2026-09-27 15:31 UTC 整理拆分回读
+
+原文档整理 PR #3 的 `head=31f5521de29f3707d070075ca957e06bfcd9468b`
+包含 34 条受保护路径。原生 Windows/Linux CI run `36305264767` 的三个 job
+成功，但可信收集器 run `36309095597` 以
+`candidate changes protected surfaces` 拒绝，不能把原生 CI 成功计作
+`cph/trusted-gate` 通过或允许 PR #3 合入。
+
+普通路径已拆为 PR #4（`head=08e7c6bcbbc8ed3f1c18adf4f88c353cdd0cefde`，
+`base=39859e1b253e28e2c34b6a19935b7edcce51b9b6`）。截至本次回读，
+plan job 成功，Windows/Linux job 仍在运行，可信状态尚未发布；PR #4
+**PENDING**，不能预判合入。受保护部分另备审查候选，尚未远端合入。
+两部分均须按各自最终 base/head 和真实规则状态重新验收。原 PR #3 保留作
+历史审查，不能拿它的运行结果批准拆分后的提交。
+
+## 2026-09-27 07:40 UTC 远端回读历史快照
+
+目标 `oncehere/Cataclysm-Phantom-Hope` 的 `main=39859e1b253e28e2c34b6a19935b7edcce51b9b6`；
+分支 API 返回 `protected=true`，规则集 `24056126` 为 **active**，要求
+`cph/trusted-gate`。PR #1 于 07:19:42 UTC 合入该 SHA。远端状态分支
+`codex/sync-state` 的 revision 3 记录了 PR #1 正常受保护合入和 PR #2
+失败必需状态阻止合入的回证；其开关为 `sync_paused=false`、
+`merge_paused=false`、`auto_merge_enabled=true`。这是状态分支的本次回读，
+不能仅从规则已启用推断自动合入；状态分支同时记录新一轮 CCB 整合尚未实测，
+公开发布仍未启用。
+
+文档整理 PR #3 的旧候选曾因保护路径被可信收集器拒绝；具体 head 的原生
+Windows/Linux 结果与可信状态均须重新绑定。用户要求保留已启用的 main 规则，
+因此不能通过关闭规则把该 PR 作为引导例外合入；该路径目前 **BLOCKED**，
+不能把 PR #1 的成功回证推广到 PR #3。实际操作前重新读取 Actions、规则、
+状态分支和候选 refs。下方 03:31 UTC 及 2026-09-26 的记录是历史快照，
+保留原有失败与未运行结果。
+
+## 2026-09-27 03:31 UTC 远端复核历史快照
+
+本页下方保留 2026-09-26 的实施和测试回证；其 SHA、run、测试数不能自动推广到新提交。复核时目标 `oncehere/Cataclysm-Phantom-Hope` 的 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`，CI/gate/sync 三个受控 workflow 仍 active；main 规则 `24056126` **disabled**。PR #1 的新一轮 Windows/Linux 运行中，尚无这轮成功结果或受保护合入验收。此前 Windows vcpkg 浅克隆失败与 Linux 取消仍是有效的历史 FAIL/NOT_RUN，不以新运行开始而改写。2026-09-27 03:31 UTC 回读确认 Issues=false、private vulnerability reporting=false、Discussions=true，且 Releases 列表无 CPH Release；这些状态不代表门槛或发布就绪。当前值可能继续变化，实际操作应重新读取远端 Actions、规则与状态分支。
+
+本机 `evidence/...`、`inputs/...` 是相对于 CPH 工作区的私有文件，不随源码仓库推送，也不保证 GitHub 文档链接可直接访问；位置和权限边界见 [workspace-layout.md](workspace-layout.md)。
+
+## 2026-09-26 实施与交接回证
+
 目标是用户提供的 execution-spec v1；旧研究/review 仅作背景。首期从 E0
 开始，完成 Linux E1 后继续隔离、本地控制与受控远端 CI 部署。未完成整个首期。
 翻译按用户最新指示先接入真实临时 MO，完整 PO 维护后置。
@@ -17,16 +58,16 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 部分更早历史仍带 promisor 元数据；没有宣称所有历史 blob 都已离线齐备。
 当前 U 工作树及本轮所需历史对象已核验；后续缺失对象必须显式获取后再验收。
 
-## 当前远端 CI 与同步部署进展
+## 当时的远端 CI 与同步部署进展
 
 用户已授权完善目标仓库的自动同步。当前实现工作区为
 `/home/oncehere/文档/ChatGPT/CPH/cph-remote-ci`，分支
 `codex/remote-ci-sync`；原 `cph` 工作区的并发修改保留。
-以下为 `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时的部署快照；
+以下为 `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时的 2026-09-26 部署快照；
 后续结果以 Actions 和外部 evidence 为准，不随每次运行追加源码提交。
 后文初次本地交付记录仅代表对应提交的历史快照。
 
-| 范围 | 当前状态 | 已完成与待验收边界 |
+| 范围 | 当时状态 | 已完成与待验收边界 |
 |---|---|---|
 | 受控入口 | 已部署、active | CI `368009607`、gate `368019205`、sync `368019206` 均已远端回读 |
 | Actions 权限 | 已启用并限缩 | 仅允许 5 个精确 action SHA：checkout、upload-artifact、download-artifact、setup-msys2、get-cmake；不恢复继承的发布入口 |
@@ -42,7 +83,7 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 校验和真实受保护 PR 回证必须一致，才能解除自动合入暂停。
 入口、重试及操作开关见 [remote-sync.md](remote-sync.md)，剩余发布条件见
 [resume.md](resume.md)。本轮命令和回读证据集中在
-`evidence/remote-ci-sync-20260926/`；当前正修复 vcpkg 历史对象获取后重跑。
+`evidence/remote-ci-sync-20260926/`；后续修复已进入新主线，新运行状态见页首。
 后续真实运行结果由 Actions 和该外部 ledger 记录，不将上述失败改写为通过。
 
 ## 已完成的游戏与资源证据
@@ -193,6 +234,10 @@ workflow 来源核验、flake8 和 `git diff --check` 均通过；记录见
 
 ## Readiness 与安全交接点
 
+**历史交接记录（2026-09-26）：**下列 readiness、未完成项和“下一条”步骤
+保留当时的原文，不能作为当前待执行操作。当前状态见本页顶部的
+2026-09-27 07:40 UTC 回读；PR #1 已合入，main 规则与日常合入开关已启用。
+
 以下为整个首期的 readiness，不是上述局部 PASS 的替代名称：
 
 ```text
@@ -216,8 +261,8 @@ STABLE_RELEASE_ENABLED = false
 和持久状态初始化；三个 workflow 已 active，暂停/无更新路径及失败状态发布已实测。
 真实 W/L 成功与受保护 PR 验收仍待完成，首期尚未完成。
 
-下一条可执行恢复入口：修复 vcpkg 浅克隆历史对象缺失，在托管 Windows/Linux
-runner 重跑，并启用、核验 main 规则后验证成功、失败及 refs 移动时的门槛行为。
+下一条可执行恢复入口：等候并核验 PR #1 新一轮托管 Windows/Linux 结果；若失败则按
+新日志修复，并启用、核验 main 规则后验证成功、失败及 refs 移动时的门槛行为。
 通过后才解除相应暂停；不要重复建仓或把本机 Windows 缺失当成托管 CI 阻塞。
 E6 发布事务继续独立推进。其他缺口及配置位置集中见
 [resume.md](resume.md)，无须重新做宽泛需求访谈。

@@ -1,7 +1,6 @@
 name: JSON, EOC, or Mod content / JSON、EOC 或 Mod 内容
 description: Report an actionable data, stable-ID, EOC, map, recipe, item, monster, or bundled-mod issue
 title: "[JSON/Content] "
-labels: ["[JSON]"]
 body:
   - type: dropdown
     id: content_type
