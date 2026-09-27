@@ -1,10 +1,13 @@
 """Trusted PR and evidence controls; these are not native-build proof."""
 
+import contextlib
 import copy
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -73,6 +76,66 @@ class PlanTests(unittest.TestCase):
 
 
 class ExecutionTests(unittest.TestCase):
+    def test_full_dependency_fetch_retains_historical_port_trees(self):
+        """Reproduce vcpkg read-tree failure with a real two-commit remote."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            upstream = root / "upstream"
+            upstream.mkdir()
+            env = ci.clean_environment()
+            ci.git(upstream, env, "init", "--quiet")
+            ci.git(upstream, env, "config", "user.name", "Fixture")
+            ci.git(upstream, env, "config", "user.email",
+                   "fixture@example.org")
+            port = upstream / "port.txt"
+            port.write_text("historical dependency recipe\n")
+            ci.git(upstream, env, "add", "port.txt")
+            ci.git(upstream, env, "commit", "--quiet", "-m", "old port")
+            old_tree = ci.git(upstream, env, "rev-parse", "HEAD^{tree}")
+            port.write_text("updated dependency recipe\n")
+            ci.git(upstream, env, "add", "port.txt")
+            ci.git(upstream, env, "commit", "--quiet", "-m", "new port")
+            commit = ci.git(upstream, env, "rev-parse", "HEAD")
+
+            class LocalRemoteRunner(ci.Runner):
+                def run(self, name, arguments, cwd):
+                    # Only reroute transport; execute actual wrapper argv.
+                    arguments = [
+                        upstream.as_uri()
+                        if value == "https://github.com/fixture.git"
+                        else value for value in arguments
+                    ]
+                    return super().run(name, arguments, cwd)
+
+            evidence = root / "evidence"
+            evidence.mkdir()
+            runner = LocalRemoteRunner(evidence, env)
+            with contextlib.redirect_stdout(io.StringIO()):
+                shallow = ci.checkout_dependency(
+                    runner, root, "sdl", "fixture", commit,
+                )
+                complete = ci.checkout_dependency(
+                    runner, root, "vcpkg", "fixture", commit, shallow=False,
+                )
+            for checkout, expected in ((shallow, 1), (complete, 0)):
+                process = subprocess.run(
+                    ["git", "-C", str(checkout), "cat-file", "-e", old_tree],
+                    env=env, capture_output=True, check=False,
+                )
+                self.assertEqual(int(process.returncode != 0), expected)
+                self.assertEqual(ci.git(checkout, env, "rev-parse", "HEAD"),
+                                 commit)
+
+    def test_windows_dependency_setup_requests_complete_history(self):
+        runner = mock.Mock(env={})
+        with mock.patch.object(ci, "checkout_dependency",
+                               return_value=Path("fixture-vcpkg")) as fetch:
+            ci.dependencies(runner, Path("work"), {
+                "os": "windows", "vcpkg_commit": BASE,
+                "vcpkg_triplet": "x64-windows-static",
+            }, 2)
+        self.assertEqual(fetch.call_args.kwargs, {"shallow": False})
+
     def test_candidate_environment_removes_credentials_and_runner_channels(
         self,
     ):

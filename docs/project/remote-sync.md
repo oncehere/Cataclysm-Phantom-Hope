@@ -4,12 +4,18 @@ This controller follows only `CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb`
 `master`. Its only write target is `oncehere/Cataclysm-Phantom-Hope` (repository
 ID `1389460908`), verified as a native `CleverRaven/Cataclysm-DDA` fork.
 Deployment and actual GitHub acceptance are recorded separately in the
-[project status report](status.md). As of this deployment checkpoint,
-`project-ci.yml` is on the target, while `project-gate.yml` and
-`project-sync.yml` are implemented and awaiting upload/readback. Actions is
-enabled with exactly five pinned actions allowed; inherited `master` is frozen
-at its original SHA. Native Windows/Linux CI uses GitHub-hosted runners.
-Actual platform results and protected-PR acceptance remain **PENDING**.
+[project status report](status.md). At deployment snapshot
+`main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec`, all three workflows are active:
+CI `368009607`, gate `368019205`, sync `368019206`. Actions allows exactly five
+pinned actions; inherited `master` remains frozen at its original SHA.
+Pause run `36281825809` and no-update run `36281948613` passed. State revision 1
+has `sync_paused=false`, `merge_paused=true`, `auto_merge_enabled=false`.
+Native CI run `36281829866` for PR #1 failed on Windows because the shallow
+vcpkg checkout lacked a historical tree; Linux was cancelled and is not a pass.
+Collector run `36282037172` published `cph/trusted-gate=failure`. Main ruleset
+`24056126` is created but disabled, so protected-PR acceptance remains
+**PENDING**. The vcpkg fix and rerun are in progress; subsequent facts belong in
+Actions and the external evidence ledger rather than a source commit per run.
 Local tests do not prove that the remote gate is active.
 
 `project-sync.yml` checks every six hours at minute 23 and supports manual
@@ -84,7 +90,8 @@ explicit review rather than recreating duplicate PRs.
 
 ## Operator controls
 
-The target's state branch has already been initialized and remains paused.
+The target's state branch is initialized; synchronization checks are resumed,
+while merging remains paused at the deployment snapshot above.
 Do not initialize it again. The following command documents the one-time
 bootstrap operation, from a trusted checkout with a target-scoped credential
 supplied only to the process environment:

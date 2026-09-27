@@ -22,17 +22,19 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 用户已授权完善目标仓库的自动同步。当前实现工作区为
 `/home/oncehere/文档/ChatGPT/CPH/cph-remote-ci`，分支
 `codex/remote-ci-sync`；原 `cph` 工作区的并发修改保留。
-以下是本轮部署中的状态，后文初次本地交付记录仅代表对应提交的历史快照。
+以下为 `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时的部署快照；
+后续结果以 Actions 和外部 evidence 为准，不随每次运行追加源码提交。
+后文初次本地交付记录仅代表对应提交的历史快照。
 
 | 范围 | 当前状态 | 已完成与待验收边界 |
 |---|---|---|
-| 受控入口 | 部分已部署 | `project-ci.yml` 已在远端；`project-gate.yml`、`project-sync.yml` 已实现，待本轮上传和回读 |
+| 受控入口 | 已部署、active | CI `368009607`、gate `368019205`、sync `368019206` 均已远端回读 |
 | Actions 权限 | 已启用并限缩 | 仅允许 5 个精确 action SHA：checkout、upload-artifact、download-artifact、setup-msys2、get-cmake；不恢复继承的发布入口 |
 | 继承 master | 已冻结 | 保持 `83548cf6c125857209f72e492e8dcdc21aae9955`，保留原历史；不重写或改为主开发分支 |
-| Windows/Linux CI | PENDING，未计 PASS | 使用 GitHub 托管的原生 Windows/Linux runner 执行；实际构建、测试及来源绑定回证仍待完成，本机缺 Windows 不再是部署阻塞 |
-| 可信检查与受保护合入 | PENDING，未计 PASS | dispatch 后由可信 collector 校验结果并发布 `cph/trusted-gate`；成功允许、失败阻止及移动 base/head 重验仍须真实 PR 验收 |
-| 持久同步状态 | 已初始化，保持暂停 | `codex/sync-state` 已创建；`sync_paused=true`、`merge_paused=true`、`auto_merge_enabled=false` |
-| 日常自动同步合入 | 未启用 | 本地控制器支持固定 CCB SHA、无变化不建 PR、任务复用、冲突/保护面阻塞及最终动作前重查；不能以实现或 YAML 存在代替远端通过 |
+| Windows/Linux CI | 首次 FAIL，修复重跑待验收 | PR #1 的 run `36281829866`：Windows 因 vcpkg 浅克隆缺历史 tree 失败，Linux 取消；均不计 PASS。使用托管原生 runner，本机缺 Windows 不再是部署阻塞 |
+| 可信检查与受保护合入 | 失败状态发布 PASS；合入验收 PENDING | collector run `36282037172` 实际发布 `cph/trusted-gate=failure`；main 规则 `24056126` 已创建但仍 disabled，不能称受保护合入成功或失败阻止已验收 |
+| 持久同步状态 | revision 1，检查启用、合入暂停 | `sync_paused=false`、`merge_paused=true`、`auto_merge_enabled=false` |
+| 自动检查、暂停与无变化路径 | PASS（限定范围） | 暂停 run `36281825809` 返回 `PAUSED`；无更新 run `36281948613` 返回 `no_new_upstream_commits`。自动合入仍未启用 |
 
 运行链使用受限 `GITHUB_TOKEN` 显式 dispatch 可信主分支 CI，构建与有写权限的
 控制器分离；没有配置个人 PAT/App 私钥或自动 AI。普通 dispatch job 的绿色
@@ -40,7 +42,8 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 校验和真实受保护 PR 回证必须一致，才能解除自动合入暂停。
 入口、重试及操作开关见 [remote-sync.md](remote-sync.md)，剩余发布条件见
 [resume.md](resume.md)。本轮命令和回读证据集中在
-`evidence/remote-ci-sync-20260926/`；最终真实运行结果由完成后的回证补充。
+`evidence/remote-ci-sync-20260926/`；当前正修复 vcpkg 历史对象获取后重跑。
+后续真实运行结果由 Actions 和该外部 ledger 记录，不将上述失败改写为通过。
 
 ## 已完成的游戏与资源证据
 
@@ -48,11 +51,11 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 |---|---|---|
 | E0 本地历史、U tree、环境和工作流隔离 | PASS（初始快照） | preflight 与负例；29 个继承 workflow 保留在 U 的 Git 对象中，来源清单完整核验；当时活动入口为零，后续受控入口见上表 |
 | E2 个人 CDDA fork、历史上传和默认分支 | PASS | 原生 fork 的 parent 为 CDDA；固定种子提交及 tree 已远端回读；继承 master 未变 |
-| E2 受控 CI 与分支门槛 | PENDING | Actions 已限缩启用，CI 已上传，gate/sync 待上传；真实 W/L 结果和受保护合入门槛尚未计 PASS |
+| E2 受控 CI 与分支门槛 | 部署 PASS，门槛 PENDING | 三个受控入口均 active，失败 collector 已真实发布 failure；main 规则仍 disabled，W/L 和受保护合入尚未计 PASS |
 | E1 翻译冷启动 | PASS | 真实 CCB 发布资源，摘要核验，49 个 MO、24 个许可/署名；无 TX_TOKEN、历史 artifact 或缓存依赖；实际中文加载通过 |
 | E1 Linux 真实编译及最小回归 | PASS | 测试提交 c9ffec15d30；configure/build/版本检查及下列 5 组测试均退出 0 |
 | E3 Linux 测试身份 | PASS（限定范围） | 测试提交 6cd76598a44；安装、5 种路径解析、73 项资源、核心数据加载、卸载及 CCB 哨兵均通过 |
-| Windows 原生 CI 验收 | PENDING | 已改用 GitHub 托管 Windows runner；探针和可信结果收集需本轮实际运行回证 |
+| Windows 原生 CI 验收 | FAIL，修复后待重跑 | 首次托管运行受 vcpkg 浅克隆历史 tree 缺失阻塞；不能计为游戏构建/运行通过 |
 | macOS/Android 原生验收 | NOT_RUN / BLOCKED | 所选包目标与运行验收尚未完成，恢复命令与缺口已记录；仅阻塞对应平台及四平台公开发布 |
 | GUI、新建世界/读写存档、默认 HOME 完整启动、跨版本升级 | NOT_RUN | 核心数据检查不能代替这些场景；未使用用户真实 CCB 安装或存档 |
 
@@ -114,8 +117,8 @@ E3 使用同一编译缓存做实际增量构建。两个场景的源码、配�
 ## 外部条件与继续执行
 
 最小配置清单见 [resume.md](resume.md)。目标和管理权限已核实，E2 fork 与历史
-上传已实际完成。受限 Actions 与原生 W/L CI 部署已推进；真实 required-check
-结果和受保护合入验收仍为 PENDING，自动同步合入保持暂停。四平台打包/必要签名
+上传已实际完成。三个受控入口已部署；W/L 成功结果和受保护合入验收仍为
+PENDING。同步检查已恢复，自动合入保持暂停。四平台打包/必要签名
 和每日公开开发版未启用；稳定版没有发布入口。
 永久身份、Android 验收 profile 等设计决定仍待明确，没有用测试 ID 或临时签名
 包公开发布。无需向聊天提供任何秘密。
@@ -210,10 +213,11 @@ STABLE_RELEASE_ENABLED = false
 `last_completed_task`：E0/E1 本地验收、Linux 测试身份生命周期及 E4—E7 上述本地
 组件的合并后工具复验，以及 E2 真实个人 CDDA fork、保留历史的种子上传与默认
 分支切换；本轮又完成受控 CI 入口上传、Actions 精确白名单、继承 master 冻结
-和暂停状态初始化。collector/sync 上传及真实受保护 PR 验收仍在进行，首期尚未完成。
+和持久状态初始化；三个 workflow 已 active，暂停/无更新路径及失败状态发布已实测。
+真实 W/L 成功与受保护 PR 验收仍待完成，首期尚未完成。
 
-下一条可执行恢复入口：完成 gate/sync 上传与回读，在 GitHub 托管 Windows/Linux
-runner 上取得真实结果，并用目标 PR 验证成功、失败及 refs 移动时的门槛行为。
+下一条可执行恢复入口：修复 vcpkg 浅克隆历史对象缺失，在托管 Windows/Linux
+runner 重跑，并启用、核验 main 规则后验证成功、失败及 refs 移动时的门槛行为。
 通过后才解除相应暂停；不要重复建仓或把本机 Windows 缺失当成托管 CI 阻塞。
 E6 发布事务继续独立推进。其他缺口及配置位置集中见
 [resume.md](resume.md)，无须重新做宽泛需求访谈。
