@@ -31,6 +31,7 @@ set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 # C++ flags used by all builds
 add_compile_options(
     /MP    # cl.exe build with multiple processes
+    /bigobj # allow large Lua binding objects with many template sections
     /utf-8 # set source and execution character sets to UTF-8
     /permissive- # enforce more standards compliant behavior
     /sdl-  # disable additional security checks
