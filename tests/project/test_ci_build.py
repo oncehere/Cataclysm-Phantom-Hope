@@ -76,6 +76,42 @@ class PlanTests(unittest.TestCase):
 
 
 class ExecutionTests(unittest.TestCase):
+    def test_msvc_compiler_identification_does_not_require_cache_entries(self):
+        with tempfile.TemporaryDirectory() as directory:
+            build = Path(directory)
+            generated = build / "CMakeFiles/3.31.6"
+            generated.mkdir(parents=True)
+            for language in ("C", "CXX"):
+                prefix = "CMAKE_" + language + "_COMPILER"
+                output = generated / ("CMake" + language + "Compiler.cmake")
+                output.write_text(
+                    'set(' + prefix + ' "C:/Visual Studio/cl.exe")\n' +
+                    'set(' + prefix + '_ID "MSVC")\n' +
+                    'set(' + prefix + '_VERSION "19.44.35229.0")\n')
+            metadata = ci.compiler_metadata(build)
+            self.assertEqual(metadata["CXX"]["path"],
+                             "C:/Visual Studio/cl.exe")
+            self.assertEqual(metadata["C"]["id"], "MSVC")
+            self.assertEqual(metadata["CXX"]["version"], "19.44.35229.0")
+            for values in metadata.values():
+                self.assertEqual(values["metadata_sha256"],
+                                 ci.digest(build / values["metadata"]))
+            duplicate = build / "CMakeFiles/stale"
+            duplicate.mkdir()
+            (duplicate / "CMakeCCompiler.cmake").write_text("stale")
+            with self.assertRaisesRegex(ValueError, "ambiguous"):
+                ci.compiler_metadata(build)
+
+    def test_incomplete_compiler_identification_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            build = Path(directory)
+            generated = build / "CMakeFiles/3.31.6"
+            generated.mkdir(parents=True)
+            (generated / "CMakeCCompiler.cmake").write_text(
+                'set(CMAKE_C_COMPILER "cl.exe")\n')
+            with self.assertRaisesRegex(ValueError, "CMAKE_C_COMPILER_ID"):
+                ci.compiler_metadata(build)
+
     def test_full_dependency_fetch_retains_historical_port_trees(self):
         """Reproduce vcpkg read-tree failure with a real two-commit remote."""
         with tempfile.TemporaryDirectory() as directory:

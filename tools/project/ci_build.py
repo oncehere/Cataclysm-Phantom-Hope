@@ -411,6 +411,36 @@ def dependencies(runner, work, target, parallel):
     return {"VCPKG_ROOT": str(root), "VCPKG_INSTALLED_DIR": str(installed)}
 
 
+def compiler_metadata(build):
+    """Read CMake's compiler identification on single/multi-config builds.
+
+    Visual Studio toolchains can set compiler variables outside the cache.
+    CMake's generated compiler files are available for both generators.
+    """
+    result = {}
+    for language in ("C", "CXX"):
+        files = list(build.glob(
+            "CMakeFiles/*/CMake" + language + "Compiler.cmake"))
+        if len(files) != 1 or files[0].is_symlink():
+            raise ValueError("missing or ambiguous compiler metadata")
+        path = files[0]
+        contents = path.read_text(encoding="utf-8")
+        values = {}
+        for suffix, field in (("", "path"), ("_ID", "id"),
+                              ("_VERSION", "version")):
+            key = "CMAKE_" + language + "_COMPILER" + suffix
+            matches = re.findall(
+                r'^set\(' + key + r' "([^"\r\n]+)"\)\r?$',
+                contents, re.MULTILINE)
+            if len(matches) != 1:
+                raise ValueError("missing or ambiguous " + key)
+            values[field] = matches[0]
+        values.update(metadata=path.relative_to(build).as_posix(),
+                      metadata_sha256=digest(path))
+        result[language] = values
+    return result
+
+
 def configure(runner, source, build, target, dependency_paths, msgfmt):
     command = [
         "cmake",
@@ -469,9 +499,6 @@ def configure(runner, source, build, target, dependency_paths, msgfmt):
         raise ValueError("incorrect CMake generator")
     if Path(cache["CMAKE_HOME_DIRECTORY"]).resolve() != source:
         raise ValueError("incorrect CMake source")
-    for key in ("CMAKE_C_COMPILER", "CMAKE_CXX_COMPILER"):
-        if not cache.get(key):
-            raise ValueError("missing compiler in CMake cache")
     return {
         "target_id": target["target_id"],
         "preset": target["preset"],
@@ -479,6 +506,7 @@ def configure(runner, source, build, target, dependency_paths, msgfmt):
         "configuration": target["configuration"],
         "options": target["options"],
         "cache": cache,
+        "compilers": compiler_metadata(build),
         "cache_sha256": digest(build / "CMakeCache.txt"),
     }
 
