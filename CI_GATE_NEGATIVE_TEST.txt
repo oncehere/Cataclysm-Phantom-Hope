@@ -1,0 +1,2 @@
+This branch exists only for the CPH required-check cancellation acceptance test.
+It must remain unmerged and will be closed after the protected merge API rejects it.
