@@ -1,13 +1,14 @@
 # `data/lua/` agent instructions
 
-This subtree contains the sole CCB Lua Platform runtime, examples, inventories,
+This subtree contains the sole CPH Lua Platform runtime, examples, inventories,
 and LuaLS declarations.  `LUA_FIRST_PLATFORM.md` is the architecture
 specification for pure-Lua core and Mod authoring; implementation status is
 tracked in `ai/lua-first-roadmap.yml`.
 
 - `types/ccb_platform_v1.d.lua`, native Platform registrations, and generated
   Platform inventories are authoritative for the current Lua runtime contract.
-- `LUA_FIRST_PLATFORM.md` is authoritative for CCB Lua 0.1 platform design decisions.
+- `LUA_FIRST_PLATFORM.md` is authoritative for platform design decisions inherited
+  from CCB Lua 0.1 and maintained by CPH.
 - `LUA_FIRST_EOC_WORKFLOW.md` defines the active EOC-capability objective,
   domain-batch development cadence, and scoped acceptance gates.  Follow it
   for Lua-first EOC parity work.
@@ -51,5 +52,6 @@ The single Lua contract gate includes live repository checks and tool regression
 python3 -m unittest discover -s tools/lua_api -p 'test_*.py'
 ```
 
-CCB-Docs 只能解释这些契约；与本目录声明或注册冲突时，应更新并标记文档，
-不得以文档覆盖契约。
+本仓库的现行文档用于解释这些契约；与本目录声明或注册冲突时，应更新并
+标记对应的本仓文档。文档影响通过 `ai/docs-impact.yml` 的稳定 ID 和路径
+关联，不能用历史 CCB-Docs 记录代替同步，也不得以文档覆盖契约。

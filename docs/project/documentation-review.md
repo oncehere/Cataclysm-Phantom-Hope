@@ -116,7 +116,7 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。
 | [data/json/LOADING_ORDER.md](../../data/json/LOADING_ORDER.md) | JSON Loading Order # | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 恢复仓内维护并保留双 ID、跟踪别名和安装行为 |
 | [data/json/npcs/godco/NECC_INFO.md](../../data/json/npcs/godco/NECC_INFO.md) | Members of The Congregation | 现行技术参考 | 按现行入口、角色及维护边界复核 | 静态核对用途、入口、维护声明与链接；保留内容和兼容边界 |
 | [data/json/npcs/refugee_center/FREE_MERCHANTS_INFO.md](../../data/json/npcs/refugee_center/FREE_MERCHANTS_INFO.md) | Shops | 现行技术参考 | 按现行入口、角色及维护边界复核 | 静态核对用途、入口、维护声明与链接；保留内容和兼容边界 |
-| [data/lua/AGENTS.md](../../data/lua/AGENTS.md) | data/lua/ agent instructions | 现行入口/指令 | 按现行入口、角色及维护边界复核 | 复核指向现行 AGENTS/项目入口；保留内容 |
+| [data/lua/AGENTS.md](../../data/lua/AGENTS.md) | data/lua/ agent instructions | 现行入口/指令 | 按现行入口、角色及维护边界复核 | 修正遗漏的 CCB-Docs 现行维护指令，改为本仓稳定 ID/路径；保留继承的 CCB Lua 设计来源和运行契约 |
 | [data/lua/LUA_FIRST_EOC_WORKFLOW.md](../../data/lua/LUA_FIRST_EOC_WORKFLOW.md) | Lua-first EOC capability workflow / Lua-first EOC 能力流程 | 现行技术参考 | 按现行入口、角色及维护边界复核 | 静态核对用途、入口、维护声明与链接；保留内容和兼容边界 |
 | [data/lua/LUA_FIRST_PLATFORM.md](../../data/lua/LUA_FIRST_PLATFORM.md) | CPH Lua-first Platform v1 / CPH Lua-first 平台 v1 | 现行技术参考 | 按现行入口、角色及维护边界复核 | 保留架构与 ccb API；将 CCB PR 验收标为来源历史，文档同步转本仓 ID/路径 |
 | [data/lua/README.md](../../data/lua/README.md) | CPH Lua-first Platform | 现行技术参考 | 按现行入口、角色及维护边界复核 | 修订仓内维护、项目身份、过时步骤或链接；核对相应源码/工具入口 |
