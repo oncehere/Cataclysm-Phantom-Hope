@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 from datetime import date
+from unittest import mock
 
 from finalize_legacy_migration import (
     END,
@@ -11,6 +12,7 @@ from finalize_legacy_migration import (
     english_url,
     final_entry,
     strip_banner,
+    main,
 )
 
 
@@ -65,6 +67,10 @@ class FinalizeLegacyMigrationTests(unittest.TestCase):
 
     def test_six_month_calendar_retention(self) -> None:
         self.assertEqual(add_months(date(2026, 8, 31), 6), date(2027, 2, 28))
+
+    def test_historical_finalizer_cannot_reapply_ccb_banners(self) -> None:
+        with mock.patch("sys.argv", ["finalize_legacy_migration.py", "--moved-date", "2026-08-02"]):
+            self.assertEqual(main(), 2)
 
 
 if __name__ == "__main__":

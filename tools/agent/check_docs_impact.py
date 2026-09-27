@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Report mapped documentation impact and enforce staged PR fields."""
+"""Check staged PR documentation fields when invoked locally or by a reviewer.
+
+Current CPH workflows do not invoke this checker; required mappings are not
+deployed as an automatic GitHub merge gate.
+"""
 
 from __future__ import annotations
 
@@ -18,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MAP_PATH = ROOT / "ai/docs-impact.yml"
 DOCUMENTATION_PR_FIELDS = (
     "Documentation impact",
-    "Related CCB-Docs PR",
+    "Repository documentation impact",
     "Affected documentation IDs",
     "Generated reference impact",
 )
@@ -40,13 +44,6 @@ PLACEHOLDER_VALUES = {
 GITHUB_USER_MENTION = re.compile(
     r"(?<![\w/-])@[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?(?![\w/-])"
 )
-CCB_DOCS_PR_REFERENCE = re.compile(
-    r"(?:https://github\.com/CrimsonCrossBunker/CCB-Docs/pull/[1-9][0-9]*"
-    r"|CrimsonCrossBunker/CCB-Docs#[1-9][0-9]*)",
-    re.IGNORECASE,
-)
-
-
 def load_rules(path: Path = MAP_PATH) -> list[dict]:
     """Load mappings and resolve the staged top-level enforcement mode."""
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -106,7 +103,8 @@ def impacts(files: list[str], rules: list[dict]) -> list[dict]:
             }
         )
         if hit:
-            matched.append({**rule, "matched_files": hit})
+            matched.append({**rule, "matched_files": hit,
+                            "all_changed_files": sorted(set(files))})
     return matched
 
 
@@ -142,6 +140,14 @@ def mentioned_document_ids(value: str, expected: set[str]) -> set[str]:
     return mentioned
 
 
+def mentions_repo_path(value: str, path: str) -> bool:
+    """Match a repository path as a complete Markdown/plain-text token."""
+    return bool(re.search(
+        rf"(?<![A-Za-z0-9_./-]){re.escape(path)}(?![A-Za-z0-9_./-])",
+        value,
+    ))
+
+
 def required_field_errors(body: str, result: list[dict]) -> list[str]:
     """Return blocking errors for mappings explicitly marked required."""
     required = [
@@ -163,25 +169,47 @@ def required_field_errors(body: str, result: list[dict]) -> list[str]:
                 f"required PR field must not be a placeholder: {heading}"
             )
 
-    related = values["Related CCB-Docs PR"]
-    if related and not is_placeholder(related):
-        if not CCB_DOCS_PR_REFERENCE.search(related):
-            errors.append(
-                "Related CCB-Docs PR must link a CrimsonCrossBunker/CCB-Docs "
-                "pull request for required documentation impact"
-            )
-
     affected = values["Affected documentation IDs"]
-    if affected and not is_placeholder(affected):
+    repository_docs = values["Repository documentation impact"]
+    if (affected and not is_placeholder(affected)
+            and repository_docs and not is_placeholder(repository_docs)):
         for item in required:
-            expected_ids = set(item.get("documentation_ids", []))
-            if expected_ids and not mentioned_document_ids(
-                affected, expected_ids
-            ):
-                identifiers = ", ".join(sorted(expected_ids))
+            documents = item.get("documentation_readiness", {}).get(
+                "documents", []
+            )
+            documented_ids = mentioned_document_ids(
+                affected, {document["id"] for document in documents}
+            )
+            if not documented_ids:
+                identifiers = ", ".join(
+                    sorted(item.get("documentation_ids", []))
+                )
                 errors.append(
                     "Affected documentation IDs must name at least one mapped "
                     f"ID for {item['id']}: {identifiers}"
+                )
+            elif not any(
+                document["id"] in documented_ids
+                and mentions_repo_path(repository_docs, document["path"])
+                for document in documents
+            ):
+                paths = ", ".join(
+                    sorted(document["path"] for document in documents
+                           if document["id"] in documented_ids)
+                )
+                errors.append(
+                    "Repository documentation impact must name an in-repository "
+                    f"path for {item['id']}: {paths}"
+                )
+            elif not any(
+                document["id"] in documented_ids
+                and mentions_repo_path(repository_docs, document["path"])
+                and document["path"] in item.get("all_changed_files", [])
+                for document in documents
+            ):
+                errors.append(
+                    f"required documentation must change in the same PR "
+                    f"for {item['id']}"
                 )
     return errors
 

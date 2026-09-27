@@ -6,6 +6,7 @@ import yaml
 
 from check_project_metadata import (
     ROOT,
+    load_yaml as load_project_yaml,
     tracked_paths,
     validate_context,
     validate_documentation_registry,
@@ -29,38 +30,54 @@ class ProjectMetadataTest(unittest.TestCase):
     def test_context_is_valid(self):
         validate_context()
 
-    def test_repository_uses_one_responsible_human_without_approval_gate(self):
+    def test_required_documentation_rejects_historical_page(self):
+        original = load_project_yaml
+        impact_path = ROOT / "ai/docs-impact.yml"
+        impact = copy.deepcopy(original(impact_path))
+        lua = next(item for item in impact["entries"]
+                   if item["id"] == "lua-public-contract")
+        lua["documentation_readiness"]["documents"][0]["path"] = (
+            "doc/FREQUENTLY_MADE_SUGGESTIONS.md"
+        )
+
+        def modified(path):
+            return impact if path == impact_path else original(path)
+
+        with mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
+             mock.patch("check_project_metadata.load_yaml", side_effect=modified):
+            with self.assertRaisesRegex(ValueError, "not current"):
+                validate_context()
+
+    def test_required_documentation_rejects_wrong_stable_id(self):
+        original = load_project_yaml
+        impact_path = ROOT / "ai/docs-impact.yml"
+        impact = copy.deepcopy(original(impact_path))
+        lua = next(item for item in impact["entries"]
+                   if item["id"] == "lua-public-contract")
+        lua["documentation_readiness"]["documents"][0]["id"] = "wrong.id"
+
+        def modified(path):
+            return impact if path == impact_path else original(path)
+
+        with mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
+             mock.patch("check_project_metadata.load_yaml", side_effect=modified):
+            with self.assertRaisesRegex(ValueError, "not current"):
+                validate_context()
+
+    def test_repository_records_cph_main_as_deferred(self):
         path = ROOT / "ai/repository-settings.target.yml"
         settings = yaml.safe_load(path.read_text(encoding="utf-8"))
-        reviewer = settings["audit"]["reviewer_confirmation"]
-        self.assertEqual(reviewer["confirmed_willing_humans"], 1)
-        self.assertEqual(reviewer["required_willing_humans"], 1)
-        self.assertEqual(
-            settings["entries"][0]["manual_record"]["confirmed_reviewers"][0][
-                "login"
-            ],
-            "LYHGLYTX",
-        )
-        pull_rule = next(
-            rule
-            for rule in settings["entries"][0]["target"]["github_ruleset"]["rules"]
-            if rule["type"] == "pull_request"
-        )
-        self.assertEqual(
-            pull_rule["parameters"]["required_approving_review_count"], 0
-        )
-        self.assertFalse(pull_rule["parameters"]["require_last_push_approval"])
+        self.assertEqual(settings["audit"]["repository"]["default_branch"], "main")
+        self.assertFalse(settings["entries"][0]["operational"])
         validate_repository_settings(settings)
 
-    def test_repository_target_prohibits_bot_approval(self):
+    def test_repository_target_rejects_unproved_operation(self):
         path = ROOT / "ai/repository-settings.target.yml"
         settings = yaml.safe_load(path.read_text(encoding="utf-8"))
         settings = copy.deepcopy(settings)
-        settings["audit"]["actions"][
-            "can_approve_pull_request_reviews"
-        ] = True
+        settings["entries"][0]["operational"] = True
 
-        with self.assertRaisesRegex(ValueError, "must not be allowed"):
+        with self.assertRaisesRegex(ValueError, "operational"):
             validate_repository_settings(settings)
 
     def test_inventory_is_valid(self):

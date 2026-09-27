@@ -13,13 +13,14 @@ from check_docs_impact import (
 )
 
 
-def complete_body(document_id: str = "architecture.lua-first-platform") -> str:
+def complete_body(document_id: str = "lua.platform.overview",
+                  document_path: str = "data/lua/README.md") -> str:
     return f"""#### Responsible human
 @maintainer
 #### Documentation impact
 Refresh the Lua-first Platform contract reference after the source change.
-#### Related CCB-Docs PR
-https://github.com/CrimsonCrossBunker/CCB-Docs/pull/42
+#### Repository documentation impact
+Update `{document_path}` in the same repository change.
 #### Affected documentation IDs
 {document_id}
 #### Generated reference impact
@@ -42,9 +43,13 @@ class DocsImpactTest(unittest.TestCase):
                 "id": "lua",
                 "enforcement": "required",
                 "patterns": ["data/lua/*", "src/lua_platform_*"],
-                "documentation_ids": ["architecture.lua-first-platform"],
+                "documentation_ids": ["lua.platform.overview"],
                 "generated_reference_impact": True,
                 "required_check_ids": ["agent-context", "lua-contract"],
+                "documentation_readiness": {
+                    "documents": [{"id": "lua.platform.overview",
+                                   "path": "data/lua/README.md"}],
+                },
             },
         ]
 
@@ -89,7 +94,7 @@ class DocsImpactTest(unittest.TestCase):
 @maintainer
 #### Documentation impact
 None
-#### Related CCB-Docs PR
+#### Repository documentation impact
 N/A
 #### Affected documentation IDs
 TBD
@@ -101,16 +106,21 @@ TBD
         self.assertTrue(all("placeholder" in error for error in errors))
 
     def test_required_mapping_accepts_complete_fields(self) -> None:
-        result = impacts(["data/lua/types/ccb_platform_v1.d.lua"], self.rules)
+        result = impacts([
+            "data/lua/types/ccb_platform_v1.d.lua", "data/lua/README.md"
+        ], self.rules)
         self.assertEqual(validate_pr_body(complete_body(), result), [])
 
-    def test_required_mapping_rejects_wrong_docs_repository(self) -> None:
+    def test_required_mapping_needs_document_change_in_same_pr(self) -> None:
         result = impacts(["data/lua/types/ccb_platform_v1.d.lua"], self.rules)
-        body = complete_body().replace(
-            "CrimsonCrossBunker/CCB-Docs", "CrimsonCrossBunker/Other"
-        )
+        errors = validate_pr_body(complete_body(), result)
+        self.assertTrue(any("same PR" in error for error in errors))
+
+    def test_required_mapping_rejects_unmapped_repository_path(self) -> None:
+        result = impacts(["data/lua/types/ccb_platform_v1.d.lua"], self.rules)
+        body = complete_body(document_path="doc/JSON/JSON_INFO.md")
         errors = validate_pr_body(body, result)
-        self.assertTrue(any("CCB-Docs" in error for error in errors))
+        self.assertTrue(any("in-repository path" in error for error in errors))
 
     def test_required_mapping_rejects_unmapped_document_id(self) -> None:
         result = impacts(["data/lua/types/ccb_platform_v1.d.lua"], self.rules)
@@ -123,17 +133,27 @@ TBD
                 "id": "eoc",
                 "enforcement": "required",
                 "patterns": ["tools/contracts.py"],
-                "documentation_ids": ["eoc.overview"],
+                "documentation_ids": ["eoc.reference"],
                 "generated_reference_impact": True,
                 "required_check_ids": ["json-eoc-contract"],
+                "documentation_readiness": {
+                    "documents": [{"id": "eoc.reference",
+                                   "path": "doc/JSON/EFFECT_ON_CONDITION.md"}],
+                },
             }
         ]
         rules[1] = {**rules[1], "patterns": ["tools/contracts.py"]}
-        result = impacts(["tools/contracts.py"], rules)
+        result = impacts([
+            "tools/contracts.py", "data/lua/README.md",
+            "doc/JSON/EFFECT_ON_CONDITION.md",
+        ], rules)
         errors = validate_pr_body(complete_body(), result)
         self.assertEqual(len(errors), 1)
         self.assertIn("eoc", errors[0])
-        body = complete_body("architecture.lua-first-platform, eoc.overview")
+        body = complete_body(
+            "lua.platform.overview, eoc.reference",
+            "data/lua/README.md, doc/JSON/EFFECT_ON_CONDITION.md",
+        )
         self.assertEqual(validate_pr_body(body, result), [])
 
     def test_responsible_human_cannot_be_placeholder_or_bot(self) -> None:

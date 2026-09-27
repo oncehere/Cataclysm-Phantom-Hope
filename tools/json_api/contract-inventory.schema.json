@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://docs.crimsoncrossbunker.org/schemas/contract-inventory-v1.json",
-  "title": "CCB JSON and EOC contract inventory",
+  "title": "CPH JSON and EOC contract inventory",
   "type": "object",
   "required": [
     "$schema",
@@ -109,7 +109,7 @@
       ],
       "properties": {
         "project": {
-          "const": "Cataclysm-Cleanwater-Bomb"
+          "const": "Cataclysm-Phantom-Hope"
         },
         "source_fingerprint": {
           "type": "string",

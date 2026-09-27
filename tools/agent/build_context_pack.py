@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a deterministic, bounded context pack from tracked CCB metadata."""
+"""Build a deterministic, bounded context pack from tracked CPH metadata."""
 
 from __future__ import annotations
 

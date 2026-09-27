@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://crimsoncrossbunker.github.io/schemas/context-pack-v1.json",
-  "title": "CCB bounded agent context pack",
+  "$id": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/ai/context-pack.schema.json",
+  "title": "CPH bounded agent context pack",
   "type": "object",
   "required": [
     "schema_version", "task", "selected_routes", "requested_files",
