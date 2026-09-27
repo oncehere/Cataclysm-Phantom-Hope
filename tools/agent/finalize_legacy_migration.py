@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Finalize the frozen legacy inventory and maintain permanent moved banners."""
+"""Inspect historical CCB migration data; CPH no longer applies moved banners."""
 
 from __future__ import annotations
 
@@ -220,6 +220,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    if not args.check:
+        print(
+            "historical CCB moved-banner finalizer cannot write CPH documents",
+            file=sys.stderr,
+        )
+        return 2
     try:
         current = load_inventory()
         expected_inventory = finalized_inventory(current, args.moved_date)

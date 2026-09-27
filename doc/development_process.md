@@ -1,3 +1,8 @@
+> **CPH historical reference / 历史参考。** This inherited CDDA/CCB document
+> preserves its original design or retired workflow. Its policies, contacts,
+> platform claims and migration notices do not define current CPH policy.
+> See the [current documentation index](../docs/README.md). 原文保留供追溯。
+
 <!-- CCB-DOC-MOVED-START -->
 > [!IMPORTANT] **Archived / 已归档**
 >

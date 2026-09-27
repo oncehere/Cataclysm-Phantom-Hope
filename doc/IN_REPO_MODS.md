@@ -1,94 +1,19 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `mods.in-repository-policy`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/mods/in-repository-policy/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/mods/in-repository-policy/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-*Contents*
+<!-- CPH-DOC: mods.in-repository-policy -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `mods.in-repository-policy`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
 
-- [Getting Mods Into The Repository](#getting-mods-into-the-repository)
-  - [Why have in-repo mods?](#why-have-in-repo-mods)
-  - [What kind of mods can be in the CleverRaven repository?](#what-kind-of-mods-can-be-in-the-cleverraven-repository)
-  - [What is necessary for a mod to be included in the repository?](#what-is-necessary-for-a-mod-to-be-included-in-the-repository)
-  - [What are the responsibilities of a mod curator?](#what-are-the-responsibilities-of-a-mod-curator)
-  - [When do mods get removed?](#when-do-mods-get-removed)
-  - [Why do mods get removed?](#why-do-mods-get-removed)
-  - [How can mods be rescued from removal?](#how-can-mods-be-rescued-from-removal)
+# Bundled mods in CPH / 仓库内 Mod
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+CPH inherits bundled mods through CDDA and the selected CCB history. Their source, authorship and dependencies remain relevant, but this document does not adopt CleverRaven's issue tracker, curator appointments or automatic removal schedule as CPH policy. Read `data/mods/AGENTS.md`, each mod's README and tests, and its actual entrypoint: `modinfo.json` for a JSON mod or `mod.lua`/`main.lua` for a Lua Platform mod.
 
-# Getting Mods Into The Repository
+## Proposing an addition or change
 
-Cataclysm: Dark Days Ahead is not only moddable, but ships with a number of mods available for users to select from even without having to obtain mods from a third party source.
+Describe the player's use case, why bundling is appropriate, license/author provenance, dependencies, stable IDs, load order and compatibility with other bundled mods. A third-party mod is not accepted merely because it works in CDDA or CCB. Avoid undeclared cross-mod references and preserve save compatibility or document an explicit migration. For CPH's Lua Platform v1 content, check the native/public API contract rather than assuming a CDDA or old CCB runtime.
 
-## Why have in-repo mods?
+Use a CPH branch and PR, name a Responsible human, and run the core JSON load plus the affected mod set. Include tests for parser/runtime edge cases, and report exact commands, installed platform and anything unrun. When CPH Issues is available, track actionable defects there; otherwise use [Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) for public coordination. See [CONTRIBUTING.md](../CONTRIBUTING.md) and [ISSUES.md](../ISSUES.md).
 
-The benefits of having mods in the repository include:
+## Maintenance and removal
 
-*  Visibility to a large number of users and potential contributors
-*  The ability to use the CleverRaven issue tracker to report problems, as well as manage pull requests for adding to or fixing mods in the repository
-*  Mods in the CleverRaven repository that demonstrate usage of a game feature which exists only for mods (i.e. not used by the core DDA game itself) help ensure that feature stays present in the game.
-
-There are however things that might be expected but are not guaranteed:
-
-*  Guarantee of maintenance of content -- core devs are mostly focused on the main game itself; although some might pick up mods as a side task, people who continue working on the core game tend to like the feel of the core game.
-*  Guarantee of maintenance of used features -- over the course of development it may become impossible to keep a feature, due to performance needs or maintenance burden.
-*  Guarantee of sole authorship -- once in the repository, the mod is considered community content. While the developers might defer to an active curator of a mod, if they become inactive anyone else can step forward.
-
-## What kind of mods can be in the CleverRaven repository?
-
-There are three primary categories of mods:
-
-*  Content mods, which provide some kind of distinct experience from the core Dark Days Ahead game. This could be a change to lore, a change to a specific part of gameplay.
-*  User Experience (UX) mods, which alter the look and feel of the game interface itself. Accessibility mods, which make it possible for someone to play the game when they otherwise couldn't, fall under this category. Mods which simply adjust game elements for preferences and taste do not.
-*  Development mods, which aren't "mods" in the typical sense but are instead there to ease the transition between "incomplete feature" and "complete feature", when a feature in the core game is sufficiently incomplete that the developers believe it needs to be optional to minimize disruption to players.
-
-## What is necessary for a mod to be included in the repository?
-
-The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone acting as a curator. This ensures that there is someone who is keeping an eye out for possible problems with the mod, and helping steer its development so that it continues to develop in accordance with its design purpose.
-In some rare cases we might treat a mod as an important but optional extension of the game itself, such as for some accessibility or development mods. When that happens, the 'curator' is the developer and contributor team collectively, just as with Dark Days Ahead itself. We try to do this sparingly, due to the obvious difficulty of pushing volunteers towards tasks they aren't personally interested in.
-
-Furthermore, there are additional criteria:
-
-*  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
-*  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
-*  Development mods need to have an associated work-in-progress feature that they exist to mitigate.
-*  Mods that have dependencies must have their dependencies in-repo, and require the approval of the maintainer(s) of the dependencies. Having another mod be dependent on yours incurs a maintenance burden (you can't make changes without possibly breaking theirs), so the dependencies need to be on board with that.
-
-## What are the responsibilities of a mod curator?
-
-A mod curator's role is to curate additions to mods and ensure they fit the concept of the mod.  Curators are also responsible for at least acknowledging bug reports related to the mod: while curators don't have to personally manage every bugfix, if a bug is reported, the curator should be around to comment and help to find someone to fix it.
-
-It's important to understand that if a mod is in the repository, it is expected that people other than the curator are going to contribute to it, as with anything.  On GitHub, mod curators should Approve or Request Changes on PRs to the mod.  If the curator has approved it, developers with merge permissions will treat that as a request to merge the changes.
-
-## When do mods get removed?
-
-Mods that have no curator or have proven to be consistently some type of maintenance burden are potentially subject to removal. Additionally, mods which had a purpose which is no longer relevant (development mods whose accompanying feature has been finished) will generally be removed once they're no longer deemed necessary.  If a curator can't be reached for comment on a bugfix or review on a PR'd change for about a month, and hasn't left any indication of when they'll be back, developers will assume they've left the project, and the mod is orphaned.
-
-Whenever a stable release occurs, mods which no longer qualify for inclusion will be marked 'obsolete'. This doesn't remove them from the repository, but it does prevent it from being used in new worlds (barring additional effort on the part of the player).
-
-## Why do mods get removed?
-
-While it may be counterintuitive, simply having a mod in the repository increases maintenance burden for the team, even for the people who don't use the mods itself.
-
-Furthermore, mods which are shipped with the game but are not working correctly for whatever reason reflect poorly on the project on the whole. While it might seem 'easy' to fix a mod, the development team is mostly focused on the core game itself. This is why mod curators are necessary.
-
-## How can mods be rescued from removal?
-
-If the mod otherwise meets inclusion criteria but lacks a curator (i.e. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
-
-Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in the CleverRaven repository.
-
-## Mods that Modify In-Repo Mods
-
-Mods that modify existing in-repo mods can be accepted for inclusion; however they must still meet the general mod criteria. A modmod must change the core mod it's modifying enough to create a new curated experience with a particular goal. Sorcerer, which changes Magiclysm's magic-learning system from finding and reading books to killing monsters and leveling up, with additional bonuses depending on specific bloodlines, is acceptable. A mod that simply removed owlbears and golems from the forests would not be. In addition, modmods must have maintainers or be subject to removal. 
-
-Finally, modmods must be placed in the `rebalance` mod category. 
+A proposed mod maintainer or curator can help review but acquires no permanent authority without verified permission and explicit agreement under [OWNERSHIP.md](../OWNERSHIP.md). Another contributor may fix a bundled mod. Deprecating, obsoleting or removing a mod can affect worlds, IDs and saved data; review the actual loader and migration path, test affected saves with disposable copies and record the decision. Do not silently remove inherited credits or classify a CCB/CDDA status as a CPH decision.

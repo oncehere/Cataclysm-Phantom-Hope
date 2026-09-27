@@ -2,12 +2,12 @@
 # 纯 Lua 内置示例 MOD 与开发者教程
 
 This bundled Mod is both an executable acceptance fixture and a comprehensive
-developer tutorial for the **CCB Lua Platform v1**. It contains 100% pure Lua code:
+developer tutorial for the **CPH Lua Platform v1 (inherited `ccb` API)**. It contains 100% pure Lua code:
 no JSON definitions, no EOC scripts, no legacy manifests, and no required `lua/`
 folder hierarchy.
 
 本 MOD 既是仓库的纯 Lua 验收测试用例，也是面向 Mod 开发者的**全系统实战教程**。
-完全基于 **CCB Lua Platform v1** 编写，零 JSON、零 EOC、零旧式 manifest 配置文件。
+完全基于 **CPH Lua Platform v1 (inherited `ccb` API)** 编写，零 JSON、零 EOC、零旧式 manifest 配置文件。
 
 ---
 

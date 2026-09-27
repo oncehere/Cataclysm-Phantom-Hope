@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import json
-import re
 import subprocess
 from collections import Counter
 from functools import lru_cache
@@ -20,6 +19,7 @@ from check_lua_first_replacement_ledger import (
     check as check_lua_first_replacement_ledger,
 )
 from generate_markdown_inventory import contributor_rejection_reason
+from generate_documentation_registry import build_registry, classify, load_inventory
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -260,6 +260,7 @@ def validate_context() -> None:
     impact = documents["docs-impact.yml"]
     if impact.get("enforcement") != "staged":
         raise ValueError("documentation impact must use staged enforcement")
+    historical_ids = load_inventory()
     for entry in impact["entries"]:
         enforcement = entry.get("enforcement")
         if enforcement not in {"advisory", "required"}:
@@ -298,42 +299,39 @@ def validate_context() -> None:
             )
         readiness = entry.get("documentation_readiness")
         if not isinstance(readiness, dict):
-            raise ValueError(
-                f"required impact {entry['id']} needs docs provenance"
-            )
-        if readiness.get("state") not in {"bilingual_draft", "active"}:
-            raise ValueError(
-                f"required impact {entry['id']} has invalid docs readiness"
-            )
-        if set(readiness.get("languages", [])) != {"zh_CN", "en"}:
-            raise ValueError(
-                f"required impact {entry['id']} needs zh_CN and en docs"
-            )
-        if readiness.get("repository") != "CrimsonCrossBunker/CCB-Docs":
-            raise ValueError(
-                f"required impact {entry['id']} has invalid docs repository"
-            )
-        if not readiness.get("ref"):
-            raise ValueError(
-                f"required impact {entry['id']} needs a docs ref"
-            )
-        if not re.fullmatch(r"[0-9a-f]{40}", readiness.get("commit", "")):
-            raise ValueError(
-                f"required impact {entry['id']} needs a docs commit"
-            )
-        if not re.fullmatch(
-            r"[0-9a-f]{40}", readiness.get("source_commit", "")
-        ):
-            raise ValueError(
-                f"required impact {entry['id']} needs a source commit"
-            )
-        if readiness["state"] == "bilingual_draft" and not readiness.get(
-            "activation_gate"
-        ):
-            raise ValueError(
-                f"draft documentation for {entry['id']} needs an "
-                "activation gate"
-            )
+            raise ValueError(f"required impact {entry['id']} needs repository documents")
+        if readiness.get("state") != "in_repository_review_required":
+            raise ValueError(f"required impact {entry['id']} has invalid docs readiness")
+        if readiness.get("repository") != "oncehere/Cataclysm-Phantom-Hope":
+            raise ValueError(f"required impact {entry['id']} has invalid docs repository")
+        documents_for_impact = readiness.get("documents")
+        if not isinstance(documents_for_impact, list) or not documents_for_impact:
+            raise ValueError(f"required impact {entry['id']} needs document paths")
+        mapped_ids = []
+        mapped_paths = []
+        for document in documents_for_impact:
+            if not isinstance(document, dict):
+                raise ValueError(f"invalid document mapping in {entry['id']}")
+            identifier, path = document.get("id"), document.get("path")
+            if not isinstance(identifier, str) or not isinstance(path, str):
+                raise ValueError(f"invalid document ID or path in {entry['id']}")
+            if path not in known or not (ROOT / path).is_file():
+                raise ValueError(f"untracked document path in {entry['id']}: {path}")
+            if "CCB-DOC-MOVED-START" in (ROOT / path).read_text(encoding="utf-8")[:600]:
+                raise ValueError(f"moved CCB stub cannot satisfy {entry['id']}: {path}")
+            current = classify(path, historical_ids)
+            if (current["status"] != "active"
+                    or current["stable_document_id"] != identifier):
+                raise ValueError(
+                    f"document ID/path is not current in {entry['id']}: "
+                    f"{identifier} -> {path}"
+                )
+            mapped_ids.append(identifier)
+            mapped_paths.append(path)
+        if len(mapped_ids) != len(set(mapped_ids)) or len(mapped_paths) != len(set(mapped_paths)):
+            raise ValueError(f"duplicate document ID/path in {entry['id']}")
+        if set(mapped_ids) != set(documentation_ids):
+            raise ValueError(f"documentation IDs and paths differ in {entry['id']}")
 
     router = load_yaml(ROOT / "ai/task-router.yml")
     router_schema = json.loads(
@@ -502,6 +500,9 @@ def validate_documentation_registry() -> None:
     jsonschema.Draft202012Validator(schema).validate(registry)
     if registry["entry_count"] != len(registry["entries"]):
         raise ValueError("documentation registry entry_count is stale")
+    expected = build_registry(registry["source_commit"])
+    if registry["entries"] != expected["entries"]:
+        raise ValueError("documentation registry classification is stale")
     paths = [entry["path"] for entry in registry["entries"]]
     ids = [entry["id"] for entry in registry["entries"]]
     if len(paths) != len(set(paths)):

@@ -12,7 +12,7 @@ entries:
     compatibility:
       - Respect generated-file and nested AGENTS boundaries before editing.
     upstream_differences:
-      - CCB paths and validation metadata override upstream repository guides.
+      - CPH paths and validation metadata override inherited repository guides.
   - id: cpp-bug
     keywords: [C++, crash, bug, segfault, assertion, 崩溃, 错误, 断言]
     paths: [src/, tests/]
@@ -23,7 +23,7 @@ entries:
     compatibility:
       - Review object ownership, lifecycle, serialization, and public IDs.
     upstream_differences:
-      - Upstream fixes require a CCB divergence and compatibility review.
+      - Upstream fixes require a CPH divergence and compatibility review.
   - id: json-content
     keywords: [JSON, item, recipe, monster, mapgen, content, 物品, 配方, 怪物, 内容]
     paths: [data/json/, data/core/, tools/json_tools/]
@@ -34,7 +34,7 @@ entries:
     compatibility:
       - Preserve stable IDs or provide explicit migration or obsoletion data.
     upstream_differences:
-      - Confirm the CCB loader and registered type before copying upstream JSON.
+      - Confirm the current CPH loader and registered type before copying upstream JSON.
   - id: eoc
     keywords: [EOC, effect_on_condition, condition, effect, talker, 条件, 效果]
     paths: [data/json/, data/mods/, src/condition.cpp, src/effect_on_condition.cpp]
@@ -45,7 +45,7 @@ entries:
     compatibility:
       - Validate talkers, variable scope, nesting, defaults, and load context.
     upstream_differences:
-      - EOC syntax may differ when CCB registrations lag or diverge from upstream.
+      - EOC syntax may differ when current CPH registrations lag or diverge from upstream.
   - id: lua-api
     keywords: [Lua, LuaLS, Platform, callback, hook, 脚本, 能力]
     paths: [data/lua/, tools/lua_api/, src/main.cpp, src/game_io.cpp, 'src/lua_platform*.cpp', 'src/lua_platform*.h']
@@ -56,7 +56,7 @@ entries:
     compatibility:
       - Keep Platform metadata, LuaLS, native registration, native inventory, public contract, synchronization coverage, examples, and runtime validation in parity.
     upstream_differences:
-      - CCB Platform v1 is a CCB contract and is not inferred from CBN or CDDA APIs.
+      - The inherited Platform v1 is the current CPH contract and is not inferred from CBN or CDDA APIs.
   - id: lua-first-platform
     keywords: [Lua-first, Platform v1, pure Lua, main.lua, mod.lua, zero-config, JSON replacement, EOC replacement, 纯 Lua, 零配置, 替代 JSON, 替代 EOC]
     paths: [data/lua/LUA_FIRST_PLATFORM.md, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.yml, ai/lua-first-replacement-ledger.schema.json, data/lua/, data/mods/Lua_First_Example/, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, src/]
@@ -68,7 +68,7 @@ entries:
       - Treat roadmap status as planning data; only matching runtime source and tests establish implemented behaviour.
       - Preserve stable content ids and saves during incremental migration.
     upstream_differences:
-      - Platform v1 is a CCB-native architecture and must not be inferred from Lua v5, CBN, CDDA, JSON keys, or EOC keys.
+      - Platform v1 is the current inherited CPH architecture and must not be inferred from Lua v5, CBN, CDDA, JSON keys, or EOC keys.
   - id: upstream-port
     keywords: [upstream, port, cherry-pick, CDDA, CBN, 上游, 移植]
     paths: [CONTRIBUTING.md, SYNC_EXCLUDED_PRS.md, src/, data/]
@@ -79,7 +79,7 @@ entries:
     compatibility:
       - Record provenance and inspect save, JSON ID, mod, Lua, and platform impact.
     upstream_differences:
-      - Shared ancestry does not make newer upstream behaviour authoritative for CCB.
+      - Shared ancestry does not make newer upstream behaviour authoritative for CPH.
   - id: save-compatibility
     keywords: [save, load, serialization, migration, world, 存档, 加载, 序列化, 迁移]
     paths: [src/savegame.cpp, src/savegame_json.cpp, src/savegame_legacy.cpp, src/worldfactory.cpp]
@@ -90,7 +90,7 @@ entries:
     compatibility:
       - Test migrations on copies through two save/load cycles and preserve stable IDs.
     upstream_differences:
-      - Compare the exact CCB save version and migrations before adopting upstream code.
+      - Compare the exact CPH save version and migrations before adopting upstream code.
   - id: generated-file-detection
     keywords: [generated, generator, inventory, schema, 生成, 生成器, 清单]
     paths: [ai/generated-files.yml, tools/]
@@ -101,15 +101,15 @@ entries:
     compatibility:
       - Modify the source or generator and use its non-mutating check mode.
     upstream_differences:
-      - Generated boundaries are repository-specific and must be re-discovered in CCB.
+      - Generated boundaries are repository-specific and must be re-discovered in CPH.
   - id: documentation-impact
     keywords: [documentation, docs impact, stale, translation, 文档, 影响, 翻译]
-    paths: [ai/docs-impact.yml, ai/documentation-registry.yml, doc/migration/, .github/pull_request_template.md, tools/agent/check_docs_impact.py]
+    paths: [ai/docs-impact.yml, ai/documentation-registry.yml, docs/project/, doc/, .github/pull_request_template.md, tools/agent/check_docs_impact.py]
     project_ids: [governance, developer-tools]
-    documentation_ids: [contributing.documentation-policy]
+    documentation_ids: [lua.platform.overview, json.object-types, eoc.reference]
     source_symbols: []
     validation_ids: [documentation-impact]
     compatibility:
-      - Scope drift to declared source paths and preserve permanent moved stubs.
+      - Scope drift to declared source paths and update mapped CPH documentation in the same repository change.
     upstream_differences:
-      - CCB-Docs explains CCB contracts and never overrides upstream or CCB source.
+      - Historical CCB-Docs pages do not override current CPH source or in-repository documentation.

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://crimsoncrossbunker.github.io/schemas/agent-context-v1.json",
-  "title": "CCB agent context document",
+  "$id": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/ai/context.schema.json",
+  "title": "CPH agent context document",
   "type": "object",
   "required": [ "schema_version", "kind", "entries" ],
   "properties": {

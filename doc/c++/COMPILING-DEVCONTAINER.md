@@ -1,116 +1,32 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `build-devcontainer`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/build/devcontainer/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/build/devcontainer/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-*Contents*
+<!-- CPH-DOC: build-devcontainer -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `build-devcontainer`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
 
-- [Compilation guide for devcontainers in Visual Studio Code](#compilation-guide-for-devcontainers-in-visual-studio-code)
-  - [Prerequisites:](#prerequisites)
-  - [Installation:](#installation)
-- [Cross-compiling from Linux to Windows](#cross-compiling-from-linux-to-windows)
+# CPH development containers
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+The repository contains inherited container configurations for local development:
 
-# Compilation guide for devcontainers in Visual Studio Code
+- [Standard](../../.devcontainer/devcontainer.json)
+- [Graphical](../../.devcontainer/graphical/devcontainer.json)
+- [Cross compilation](../../.devcontainer/cross-compile/devcontainer.json)
 
-This guide contains instructions for compiling Cataclysm-DDA in Visual Studio Code using a [Devcontainer](https://code.visualstudio.com/learn/develop-cloud/containers)
+Clone your CPH fork from `main` following [CONTRIBUTING](../../CONTRIBUTING.md),
+open it in an editor with Dev Containers support, and select the intended
+configuration. Read that configuration's Dockerfile before rebuilding it.
+The old screenshot-driven directions to uncomment Windows/Qt blocks described
+a different Dockerfile layout and no longer apply.
 
-The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Cataclysm-DDA/pull/65748). These instructions were written using Visual Studio Code version 1.80.1 on Debian 11
+The standard Dockerfile installs an Ubuntu 22.04 SDL2 dependency set. Select
+`SDL3=0` for Make or `-DUSE_SDL3=OFF` for CMake when using that image as written.
+An SDL3 build needs an updated dependency environment; changing a documentation
+flag does not install those libraries. Use [CMake](COMPILING-CMAKE.md) or
+[Make recipes](COMPILING.md) for build commands and retain logs for the actual
+container image and source commit.
 
-## Prerequisites:
-
-* Visual Studio Code
-* [Docker](https://docs.docker.com/engine/install/)
-
-
-## Installation:
-
-1. Install all prerequisites.
-2. Clone your fork of the CleverRaven/Cataclysm-DDA repo and create a branch
-3. Add CleverRaven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
-4. Open the folder where you cloned your repository in Visual Studio Code via the UI or by navigating to the directory in a terminal and typing Code
-5. Visual Studio Code will show a pup-up in the bottom right with recommended extensions. Install those.
-6. If you don't plan to cross-compile the game, scroll down to find this section:
-
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-Windows-Part-In-Dockerfile.png)
-
-  comment out that part (select it and press ctrl+/ in vscode) so it looks like this:
-  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-Windows-Commands-In-Dockerfile.png)
-
-Next, scroll down to find this section:
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-QT5-Part-In-Dockerfile.png)
-  
-  comment that part out (select it and press ctrl+/ in vscode) so it looks like this:
-
-  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-QT5-Commands-In-Dockerfile.png)
-
-  
-7. Now restart visual studio code. When prompted, click "Reopen in container":
-   
-  ![Re-open devcontainer in vscode](../img/Devcontainer-Re-Open-In-Container.png)
-
-  7.1 Linux only: You may see this message:
-  
-  ![User does not have access to group, add user to docker group first](../img/Devcontainer-User-Does-Not-Have-Access-Add-To-Group-First.png)
-  
-  In that case, add the user to the docker group using the terminal:
-  
-  ![Add user to docker group in terminal](../img/Devcontainer-Add-User-To-Docker-Group.png)
-
-  After that, log out of your account and log back in so the permissions are updated. If that doesn't work, reboot your computer.
-
-  
-8. Allow the container to build and for VSCode to Reopen. If everything goes well, you will see the container running:
-
-  ![Image showing the container is running in vscode](../img/Devcontainer-Running-Cataclysm-Devcontainer.png)
-
-
-9. Select the makefile extension on the bottom left and choose your desired configuration. Press the "Play" button to build the project
-
-  ![Image the buttons to press in the makefile extension](../img/Devcontainer-Make-File-Configs.png)
-
-
-  
-The build result should be located in the folder where you cloned your fork to (e.g. /Documents/git/Cataclysm-DDA)
-
-If you want to run cataclysm-tiles locally, open a terminal on your linux machine and install these packages: `apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential astyle ccache`
-
-You can then test your build on your linux machine by opening a terminal in the `/Documents/git/Cataclysm-DDA` folder and using this command:
-```bash
-./cataclysm-tiles
-```
-
-
-
-# Cross-compiling from Linux to Windows
-1. Follow all of the steps written earlier in this guide
-
-2. Open the Dockerfile in the VSCode file browser and scroll down to find this section:
-
-  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-Windows-Commands-In-Dockerfile.png)
-
-  Uncomment that part (select it and press ctrl+/ in vscode) so it looks like this:
-  
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-Windows-Part-In-Dockerfile.png)
-
-3. Save the Dockerfile and re-open VSCode. Allow the Devcontainer to rebuild. This is going to take a while (45 minutes depending on the performance of your computer)
-
-  ![Image showing prompt to rebuild the devcontainer](../img/Devcontainer-Dockerfile-Changed-Prompt-Click-Rebuild.png)
-
-4. Go to the makefile extension and set the makefile settings as follows:
-
-  ![Image showing the makefile settings for cross compilation](../img/Devcontainer-Makefile-Settings-Crosscompile-Windows.png)
-  
-  Next, press the play button to build the game. After it is build, you should see the cataclysm-tiles.exe file in the folder where you cloned your fork to (e.g. /workspaces/Cataclysm-DDA)
-
-
+These containers have not been established as CPH's release or native W/L
+acceptance environment. Cross compilation cannot substitute for a native
+Windows runtime test. Container builds, graphical display forwarding, startup
+and save/load behavior need separate verification. Use disposable user data
+when running a locally built game.

@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `cpp-json-interface`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/cpp/json-interface/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/cpp/json-interface/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: cpp-json-interface -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `cpp-json-interface`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # The JSON Interface
 
 The purpose of this document is to explain the JSON interface that is used by the game, and how to interact with it.
@@ -48,7 +42,7 @@ While there is JSON that is only generated and read by the game itself, the amou
 ## What is JSON?
 
 JSON is a structured data format that the game uses to dynamically load and store information.
-The specifications of JSON are explained at [json.org](json.org), but here is a brief explanation.
+The specifications of JSON are explained at [json.org](https://www.json.org/), but here is a brief explanation.
 
 JSON consists of what is termed a "value".
 There are seven possible types of values - *string*, *number*, *object*, *array*, `true`, `false`, and `null`.
@@ -416,7 +410,7 @@ void baz::load( const JsonObject &jo, const std::string & )
 ```
 
 You will note there are some differences to `baz`.
-These are covered in the section on [generic_factory](#loading-whole-types), but do not change the fundamentals of loading.
+These are covered in the section on [generic_factory](#loading-whole-types-of-game-data), but do not change the fundamentals of loading.
 
 ## Readers for `optional` and `mandatory`
 

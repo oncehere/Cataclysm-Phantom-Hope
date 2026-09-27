@@ -894,7 +894,7 @@ def build_contracts(
     ]
     fingerprint = source_fingerprint(root, input_paths)
     common_source = {
-        "project": "Cataclysm-Cleanwater-Bomb",
+        "project": "Cataclysm-Phantom-Hope",
         "source_fingerprint": fingerprint,
         "contract_roots": list(CONTRACT_ROOTS),
         "discovery": "git ls-files",

@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.options`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/options/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/options/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.options -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.options`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # Game Options
 
 DDA has a moderately complex system for recording user preferences about the operation of the game, these are called options.  Throughout the game code there are statements of the form get_option<type>( "OPTION_NAME" ), the return values of which are used to adjust the operation of the game.

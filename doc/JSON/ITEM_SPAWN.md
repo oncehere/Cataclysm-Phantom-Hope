@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.item-groups`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/item-groups/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/item-groups/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.item-groups -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.item-groups`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -368,4 +362,4 @@ You should not add items to the item group `EMPTY_GROUP`.  This group can be use
 
 When adding items to item groups, attempt to locate or create **SUS item groups.**  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture.  SUS stands for "specific use storage."  One of the aims of organizing item groups into SUS groups is to promote reusable tables that can be maintained and extended.
 
-You can find existing SUS item groups at [/data/json/itemgroups/SUS](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/itemgroups/SUS/).
+You can find existing SUS item groups at [/data/json/itemgroups/SUS](../../data/json/itemgroups/SUS).

@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.inheritance`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/inheritance/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/inheritance/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.inheritance -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.inheritance`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -196,11 +190,11 @@ vitamin
 - Mutable specials will extend `check_for_locations_area` if `check_for_locations` is not specified 
 
 To find out if a type supports `copy-from`, you need to know if it has implemented generic_factory.  To find out if this is the case, do the following:
-* Open [init.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/init.cpp)
+* Open [init.cpp](../../src/init.cpp)
 * Find the line that mentions your type, for example `add( "gate", &gates::load );`.
 * Copy the load function, in this case it would be *gates::load*.
-* Use this in [the search bar on github](https://github.com/CleverRaven/Cataclysm-DDA/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load* (Note, you cannot search for ":" in file finder.  The search will simply ignore this symbol.).
-* In the search results you find [gates.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/gates.cpp). open it.
+* Use this in [the search bar on github](https://github.com/oncehere/Cataclysm-Phantom-Hope/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load* (Note, you cannot search for ":" in file finder.  The search will simply ignore this symbol.).
+* In the search results you find [gates.cpp](../../src/gates.cpp). open it.
 * In gates.cpp, find the generic_factory line, it looks like this: `generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );`.
 * Since the generic_factory line is present, you can now conclude that it supports `copy-from`.
 * If you don't find generic_factory present, it does not support copy-from. The exact set of supported types in this repository may differ from upstream CleverRaven/Cataclysm-DDA; check the current source to be sure.

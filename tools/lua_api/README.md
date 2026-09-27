@@ -1,7 +1,7 @@
 # Lua-first Platform tools
 
 This directory contains Platform-only declaration, native-registration, public
-contract, and synchronization checks for CCB's sole Lua runtime.  The
+contract, and synchronization checks for the Lua runtime inherited by CPH from CCB.  The
 authoritative LuaLS declaration is
 `data/lua/types/ccb_platform_v1.d.lua`; native registration is discovered from
 the workspace's `src/lua_platform_*` files.
@@ -232,8 +232,8 @@ Use GNU `xgettext` to extract explicitly named source files without executing
 Lua. Run from the Mod root for stable relative references:
 
 ```sh
-python3 /path/CCB/tools/lua_api/extract_translations.py main.lua runtime/status.lua --output messages.pot
-python3 /path/CCB/tools/lua_api/extract_translations.py main.lua runtime/status.lua --output messages.pot --check
+python3 /path/cph/tools/lua_api/extract_translations.py main.lua runtime/status.lua --output messages.pot
+python3 /path/cph/tools/lua_api/extract_translations.py main.lua runtime/status.lua --output messages.pot --check
 ```
 
 The tool does not traverse directories. It stages output before replacing the

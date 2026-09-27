@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.comestibles-placement`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/how-to/json/comestibles/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/how-to/json/comestibles/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.comestibles-placement -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.comestibles-placement`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # Guide to add Comestibles
 
 There are a large number of files in `json/items/comestibles`, and this guide will help you decide where to put your new comestible!

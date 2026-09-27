@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://crimsoncrossbunker.github.io/schemas/agent-benchmark-v1.json",
-  "title": "CCB context routing benchmark",
+  "$id": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/ai/agent-benchmark.schema.json",
+  "title": "CPH context routing benchmark",
   "type": "object",
   "required": [ "schema_version", "kind", "description", "cases" ],
   "properties": {
