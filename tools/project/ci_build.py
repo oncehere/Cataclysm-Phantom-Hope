@@ -314,7 +314,9 @@ class Runner:
             )
 
 
-def checkout_dependency(runner, work, name, repository, commit):
+def checkout_dependency(
+    runner, work, name, repository, commit, *, shallow=True,
+):
     source = work / name
     source.mkdir()
     runner.run(name + "-init", ["git", "init", str(source)], work)
@@ -325,7 +327,7 @@ def checkout_dependency(runner, work, name, repository, commit):
             "-C",
             source,
             "fetch",
-            "--depth=1",
+            *(["--depth=1"] if shallow else []),
             "https://github.com/" + repository + ".git",
             commit,
         ],
@@ -382,7 +384,8 @@ def dependencies(runner, work, target, parallel):
             runner.run(name + "-install", ["cmake", "--install", build], work)
         return {}
     root = checkout_dependency(
-        runner, work, "vcpkg", "microsoft/vcpkg", target["vcpkg_commit"]
+        runner, work, "vcpkg", "microsoft/vcpkg", target["vcpkg_commit"],
+        shallow=False,
     )
     installed = work / "vcpkg-installed"
     runner.env.update(VCPKG_ROOT=str(root), VCPKG_INSTALLATION_ROOT=str(root))
