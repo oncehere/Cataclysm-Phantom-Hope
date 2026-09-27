@@ -1,3 +1,8 @@
+> **CPH 开发仓库**：本仓库基于 CCB 并保留上游历史。远端 Windows/Linux 检查见
+> [CPH Native CI](https://github.com/oncehere/Cataclysm-Phantom-Hope/actions/workflows/project-ci.yml)，
+> CCB 同步与暂停/恢复操作见 [远端同步说明](docs/project/remote-sync.md)。
+> 下方保留 CCB 的原始项目介绍和下载链接。
+
 
 # 大灾变：净化协议（Cataclysm: Cleanwater Bomb）
 《大灾变：净化协议（Cataclysm: Cleanwater Bomb）》是一款后启示录背景与科学奇幻设定的roguelike单人回合制末日生存游戏。
