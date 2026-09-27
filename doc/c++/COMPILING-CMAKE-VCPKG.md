@@ -1,129 +1,55 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `legacy.doc-c-compiling-cmake-vcpkg`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/build/windows-msvc/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/build/windows-msvc/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-*Contents*
+<!-- CPH-DOC: legacy.doc-c-compiling-cmake-vcpkg -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `legacy.doc-c-compiling-cmake-vcpkg`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
 
-- [Compiling CMAKE VCPKG](#compiling-cmake-vcpkg)
-- [Disclaimer](#disclaimer)
-- [Contents](#contents)
-- [1 Prerequisites](#1-prerequisites)
-- [2 Configure](#2-configure)
-  - [Presets](#presets)
-  - [vcpkg](#vcpkg)
-  - [Visual Studio](#visual-studio)
-  - [Terminal](#terminal)
-- [3 Build](#3-build)
-  - [Visual Studio](#visual-studio-1)
-  - [Terminal](#terminal-1)
-- [4 Install](#4-install)
-  - [Visual Studio](#visual-studio-2)
-  - [Terminal](#terminal-2)
-- [5 Run](#5-run)
-  - [Visual Studio](#visual-studio-3)
-  - [Terminal](#terminal-3)
+# CPH CMake and vcpkg builds
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+Use [CMake setup](COMPILING-CMAKE.md) for source checkout and the general flow.
+The native Windows gate uses Visual Studio 2022, the
+`windows-tiles-sounds-x64-msvc` preset, SDL2, gettext and the locked static x64
+vcpkg dependency set. Its precise commands are produced by
+[`tools/project/ci_build.py`](../../tools/project/ci_build.py) from
+[`project/check-policy.json`](../../project/check-policy.json).
 
-# Compiling CMAKE VCPKG
-# Disclaimer
+## Local development
 
-**WARNING**: CMake build is **NOT** officially supported and should be used for *dev purposes ONLY*.
+Open a Visual Studio 2022 developer shell with C++ build tools installed.
+Provide a vcpkg checkout matching your intended dependency configuration and
+set `VCPKG_ROOT` before configuring. The checked-in MSVC toolchain and manifests
+are in [`build-scripts/`](../../build-scripts/) and
+[`msvc-full-features/`](../../msvc-full-features/). Do not edit tracked presets
+just to store a machine-specific path.
 
-For the official way to build CataclysmDDA, see:
-  * [COMPILING.md](COMPILING.md)
+```powershell
+$env:VCPKG_ROOT = 'C:\dev\vcpkg'
+cmake --preset windows-tiles-sounds-x64-msvc -DUSE_SDL3=OFF
+cmake --build --preset windows-tiles-sounds-x64-msvc --parallel 2
+ctest --preset windows-tiles-sounds-x64-msvc --output-on-failure
+```
 
-# Contents
+The examples require the selected dependencies and `msgfmt` to be discoverable;
+they are not a record of a successful Windows run. For exact CI reproduction,
+use its locked vcpkg commit, overlay ports, preinstalled package handling and
+output-directory overrides, not a fresh unpinned vcpkg update.
 
-1. Prerequisites
-2. Configure
-3. Build
-4. Install
-5. Run
+In Visual Studio's CMake interface, select the same configure/build preset and
+`RelWithDebInfo`. Presets write under `out/build/<preset>`. To install locally,
+use a fresh staging prefix:
 
-# 1 Prerequisites
+```powershell
+cmake --install out/build/windows-tiles-sounds-x64-msvc --config RelWithDebInfo --prefix C:\temp\cph-local-stage
+```
 
-`cmake` >= 3.20.0<br/>
-`vcpkg` from [vcpkg.io](https://vcpkg.io/en/getting-started.html)
-`msgfmt` (optional) as part of Git Bash or msys2 in the default install paths.
+Read `install_manifest.txt` to locate installed files. Build output, staged
+installation, startup and real-save behavior are separate checks. Run probes
+with disposable user data, and record native test results against the exact
+commit. A local `-DLOCALIZE=OFF` or disabled-test build cannot satisfy the normal
+gate.
 
-On Linux (for `libxcrypt`):
-`autoconf`
-`automake`
-`libtool`
-`pkg-config`
+## Other presets
 
-# 2 Configure
-
-## Presets
-The file `CMakePresets.json` contains all the presets.<br/>
-They will all build the code into the directory `out/build/<preset>/`.
-
-## vcpkg
-
-If vcpkg is checked out in a location different from `C:\vcpkg`, eg. `C:\dev\vcpkg`, you must do one of the following:
-  * append `-DVCPKG_ROOT=C:\dev\vcpkg` (or whatever the path is) to any cmake configure commands
-  * set the environment variable `VCPKG_ROOT` to the path to the vcpkg checkout.
-  * edit the `VCPKG_ROOT` cache variable in `CMakePresets.json` to the appropriate path
-
-## Visual Studio
-The Standard toolbar shows the presets in the _Configuration_ drop-down box.<br/>
-From the main menu, select _Project -> Configure Cache_
-
-If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally set `DLOCALIZE=OFF`. To do this, go to _Project -> CMake Settings_, scroll to the bottom where `"windows-tiles-sounds-x64-msvc"` is defined, and under `"cacheVariables"` change the value from `"LOCALIZE": "True"` to `"LOCALIZE": "OFF"`.
- * Note: doing this will change the `CMakePresets.json` file which is tracked by source control. Do not commit this change.
-
-## Terminal
-Run the command
- * `cmake --list-presets`<br/>
-It will show the presets available to you.
-The list changes based on the environment you are in.
-If empty, the environment is not supported.
-
-Run the command
- * `cmake --preset <preset>`
- 
- If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally pass `-DLOCALIZE=OFF`.
- 
- * `cmake --preset <preset> -DLOCALIZE=OFF`
- 
-# 3 Build
-
-## Visual Studio
-From the Standard toolbar's _Build Preset_ drop-down menu select the build preset.<br/>
-From the main menu, select _Build -> Build All_
-
-## Terminal
-Run the command
- * `cmake --build --preset <preset>`
-
-# 4 Install
-
-## Visual Studio
-From the main menu, select _Build -> Install CataclysmDDA_
-
-## Terminal
-Run the command
- * `cmake --install out/build/<preset>/ --config RelWithDebInfo`
-
-# 5 Run
-
- ## Visual Studio
-From the Standard toolbar's _Select Startup Item..._ drop-down menu select `cataclysm-tiles.exe (Install)` <br/>
-The _Project Configuration_ drop-down menu will show `RelWithDebInfo`.<br/>
-You can now _Start Without Debugging_ (default Ctrl+F5) or _Debug -> Start Debugging_ (default F5).
-
- ## Terminal
- Run the commands
-  * `cd out/install/<preset>/`
-  * `cataclysm` or `cataclysm-tiles.exe`
+The repository also contains a Linux vcpkg preset and ClangCL/MinGW presets.
+Their presence is configuration support, not native gate or release evidence.
+See [compiler/platform scope](COMPILER_SUPPORT.md) before claiming support.

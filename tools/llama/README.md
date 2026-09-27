@@ -1,3 +1,8 @@
+> **Historical optional build experiment.** These inherited CDDA recipes use an
+> old container dependency set and an external AWS service. They are not a CPH
+> build or CI requirement and have not been revalidated for CPH. See the
+> [current build instructions](../../doc/c++/COMPILING-CMAKE.md).
+
 ## Using llama to accelerate your build
 
 [llama](https://github.com/nelhage/llama) is a CLI for outsourcing computation to AWS Lambda.

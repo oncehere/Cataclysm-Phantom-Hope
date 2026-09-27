@@ -1,43 +1,15 @@
-# Security policy
+# CPH security policy / 安全政策
 
-## Report privately
+## Private reports
 
-Do not open a public issue for a vulnerability that could expose player data,
-execute untrusted code, compromise build or release infrastructure, leak a
-credential, or provide a practical exploit.
+The intended CPH private vulnerability route is [GitHub private vulnerability reporting for this repository](https://github.com/oncehere/Cataclysm-Phantom-Hope/security/advisories/new). **Submit details only if GitHub actually shows and accepts the private report form.** Its availability is a repository setting, not something this file can enable; check the dated [project status](docs/project/status.md) and the actual button. If unavailable, this project has no configured official private vulnerability intake yet. Keep the details private until a channel is configured; do not use a public Issue, Discussion, PR, attachment or the CCB/CDDA security channels as a substitute.
 
-Use GitHub private vulnerability reporting:
+CPH 计划使用本仓库的 GitHub 私密漏洞报告。只有入口实际可用时才提交细节；若不可用，目前没有已配置的官方私密收件渠道。请勿在公开位置披露可利用细节、凭据或私密资料。
 
-<https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/security/advisories/new>
+When the private form is available, include the affected CPH commit/release and platform, threat model and impact, minimal reproduction, sanitized logs, known public disclosure elsewhere and a safe reply route. Do not send credentials; rotate any that may have leaked.
 
-Include:
+## Scope and response
 
-- affected CCB version, commit, and platform;
-- threat model, prerequisites, and impact;
-- minimal reproduction or proof of concept;
-- relevant logs or stack traces with secrets removed;
-- whether the issue is public elsewhere;
-- a safe way to contact the reporter.
+Relevant CPH-controlled scope includes the current CPH source and bundled content, Lua capability boundary, build and release workflows, official CPH artifacts when available, and CPH installation/data isolation. Third-party mods, unofficial packages and upstream repositories should normally be reported to their owners, while a CPH integration flaw belongs here. A normal crash without security impact belongs in the public bug route when available.
 
-请不要在公开 Issue 中披露可执行不可信代码、泄露玩家数据或凭据、破坏构建与
-发布基础设施的漏洞。请使用 GitHub 私密漏洞报告，并删除附件中的秘密信息。
-
-## Scope
-
-Security reports may cover the current `master` branch, current CCB releases,
-bundled code and data, the Lua capability boundary, Android packaging, official
-workflows, release artifacts, and CCB-controlled web properties. Third-party
-mods, unofficial packages, upstream projects, and unsupported operating-system
-components should normally be reported to their owners, but explain any CCB
-integration issue.
-
-## Handling
-
-Maintainers will acknowledge and triage reports as capacity permits. We do not
-promise a fixed response or release deadline. Please allow maintainers time to
-reproduce, coordinate attribution, prepare a fix, and publish an advisory
-before public disclosure. Never send credentials; rotate a credential that may
-already have been exposed.
-
-Normal crashes and gameplay bugs without a security impact belong in the CCB
-bug-report form.
+Maintainers will triage as capacity permits; there is no promised response or release deadline. Allow time to reproduce, fix, attribute and coordinate disclosure. A tracked policy or planned release pipeline is not proof of a deployed mitigation. For non-security conduct concerns, see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md); the vulnerability form is not a general conduct mailbox.

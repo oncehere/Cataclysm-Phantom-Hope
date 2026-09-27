@@ -1,7 +1,6 @@
 name: Mechanics and balance / 机制与平衡
 description: Discuss a gameplay rule, realism claim, difficulty, fairness, or tuning problem
 title: "[Mechanics] "
-labels: ["Game: Balance"]
 body:
   - type: textarea
     id: current

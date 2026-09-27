@@ -1,5 +1,5 @@
 name: Upstream sync or port / 上游同步或移植
-description: Propose a specific licensed change from another repository and document CCB divergence
+description: Propose a specific licensed change from another repository and document CPH divergence
 title: "[Upstream] "
 body:
   - type: input
@@ -24,13 +24,13 @@ body:
   - type: textarea
     id: purpose
     attributes:
-      label: CCB problem solved / 解决的 CCB 问题
+      label: CPH problem solved / 解决的 CPH 问题
     validations:
       required: true
   - type: textarea
     id: divergence
     attributes:
-      label: CCB conflicts and intentional divergence / CCB 冲突与有意差异
+      label: CPH conflicts and intentional divergence / CPH 冲突与有意差异
     validations:
       required: true
   - type: textarea
@@ -43,7 +43,7 @@ body:
   - type: textarea
     id: validation
     attributes:
-      label: Validation against current CCB master / 针对当前 CCB master 的验证
+      label: Validation against current CPH main / 针对当前 CPH main 的验证
     validations:
       required: true
   - type: checkboxes
@@ -53,5 +53,5 @@ body:
       options:
         - label: I verified the source commits and license and will preserve original authorship where practical.
           required: true
-        - label: I did not assume upstream policy or behaviour automatically applies to CCB.
+        - label: I did not assume upstream policy or behaviour automatically applies to CPH.
           required: true

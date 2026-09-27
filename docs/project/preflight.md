@@ -1,10 +1,12 @@
 # E0 read-only preflight
 
+**现行只读工具说明：**初次执行时可不传目标以检查本地历史；现已明确授权并建成的目标是 `oncehere/Cataclysm-Phantom-Hope`。这个工具仍不会推送或部署规则；真实 fork 与当前远端门槛分别见 [fork-deployment.md](fork-deployment.md) 和 [status.md](status.md)。
+
 Run from a clean, isolated CPH checkout after reviewing its instructions:
 
 ```sh
 python3 tools/project/preflight.py --repo "$PWD"
-python3 tools/project/preflight.py --repo "$PWD" --github
+python3 tools/project/preflight.py --repo "$PWD" --target oncehere/Cataclysm-Phantom-Hope --github
 python3 -m unittest discover -s tests/project -p 'test_preflight.py' -v
 ```
 

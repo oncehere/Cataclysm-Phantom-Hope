@@ -1,5 +1,7 @@
 # E3 身份与四平台构建输入审计（U 基线）
 
+**历史静态审计：**本文只陈述锁定 U 源码在 2026-09-26 的身份与风险，不能作为当前 Windows/macOS/Android 包已运行或已隔离的证明。远端托管 CI 的后续进展与本地测试身份的实际范围分别见 [status.md](status.md) 和 [linux-test-identity.md](linux-test-identity.md)。
+
 2026-09-26 对 `bcb85682f3d28ab0f0123b05e45651bb9888b61b`（U）的只读审计。
 静态定位 PASS；当时未修改身份或执行安装、启动、升级和卸载隔离测试。
 以下源码行号与未运行结论仅适用于该快照。后续 Linux 实现见

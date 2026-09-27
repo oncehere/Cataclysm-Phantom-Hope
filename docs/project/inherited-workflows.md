@@ -1,13 +1,15 @@
 # E0 继承工作流审计与初始化隔离
 
+**历史来源审计与现行隔离契约：**下文 29 个入口均来自锁定 U，不是当前 `main` 的活动 workflow。`main` 后来部署了三个受控入口；当前远端状态见 [status.md](status.md)。本地检查器继续阻止重新引入继承入口，但“活动入口为 0”只描述初始隔离阶段。
+
 ## 状态与来源
 
-- 主规格：CPH_CODEX_EXECUTION_SPEC_v1.md；本报告只据锁定源与本轮实际检查，不合并旧计划。
+- 主规格：[execution-spec.md](execution-spec.md)；本报告只据锁定源与当时实际检查，不合并旧计划。
 - CCB 源：`CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb`。
 - 锁定提交 U：`bcb85682f3d28ab0f0123b05e45651bb9888b61b`；tree：`204b14a135ae307ad2180a348a6d6553374a07af`。
 - 覆盖：29/29 个 workflow 和 2/2 个本地 composite action 的入口静态审计；重点本地调用链见后文。
 - 当前存储：29 个原始 YAML 保留在 U 的 Git 对象中；`project/inherited-workflows/manifest.json` 记录相对文件名、原始 blob、大小及 SHA-256。工作树只保留清单与审计元数据，不再维护完整 YAML 副本。
-- 当前初始化策略：活动 workflow 数必须为 0。原游戏、Make/CMake/Gradle、SDL3、shader 代码和本地 actions 保留。隔离入口不代表删除平台功能，也不代表任何平台构建已验收。
+- 初始隔离策略：继承入口在该阶段的活动 workflow 数必须为 0。原游戏、Make/CMake/Gradle、SDL3、shader 代码和本地 actions 保留。隔离入口不代表删除平台功能，也不代表任何平台构建已验收；后续新增的三个受控入口另行审查。
 - 本地隔离检查和 fixture 测试为 `PASS`；远端设置、可信 W/L 门槛与发布部署的当前证据统一见 [status.md](status.md)。
 
 后续新增受控 CI 必须经过单独审查并更新初始化策略；本检查器不提供任意 allowlist 绕过开关。它不是可信合入门槛，不证明候选策略不能自行修改，不证明 GitHub 权限实际生效。主线保护、公开发布、签名和稳定版入口均不得因本地测试通过而启用。
@@ -102,4 +104,4 @@ GIT_NO_LAZY_FETCH=1 git show bcb85682f3d28ab0f0123b05e45651bb9888b61b:.github/wo
 
 源码静态读取使用 `git ls-tree -r --name-only U .github`、`git show U:path`、`git cat-file`，实际 29 个入口及 2 个 action 均读取成功。早期探索错误旧脚本名/截断扩展名的探针返回 128，已改用确认存在的实际路径；不把这些探索错误报告成游戏或 CI 失败。
 
-恢复入口与部署条件见 [resume.md](resume.md)。从已实际验证的构建/测试命令建立最小低权限入口；不能批量恢复继承 YAML 或将本检查器改成总是通过。原继承元数据/工具测试若硬编码旧 workflow 路径，需要有范围的适配，未列为本轮已通过检查。
+恢复入口与部署条件见 [resume.md](resume.md)。后续已建立最小受控入口，仍不能批量恢复继承 YAML 或将本检查器改成总是通过。原继承元数据/工具测试若硬编码旧 workflow 路径，需要有范围的适配，未列为本轮已通过检查。

@@ -1,5 +1,7 @@
 # E7 本地暂停与封禁前置检查
 
+**本地模型操作说明：**后续已部署的远端同步状态及控制入口见 [remote-sync.md](remote-sync.md)。本页命令不能读取或更改该远端状态；当前暂停值和真实验收进度见 [status.md](status.md)。
+
 `tools/project/operator_controls.py` 是原生 Linux/POSIX 的本地状态工具，
 **IMPLEMENTED_NOT_DEPLOYED**。它没有 GitHub、合入、签名、发布或启用调度的
 能力。成功仅表示操作者的暂停/封禁条件允许继续核验，不能代替 E4/E6 门槛。

@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `contributing.json-style`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/contributing/json-style/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/contributing/json-style/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: contributing.json-style -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `contributing.json-style`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -26,7 +20,7 @@
 Like in [CODE_STYLE.md](/doc/c++/CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own.  It lives in tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.
-`json_formatter.cgi` can be found in any released build and is already compiled, see [Formatting tool](#Formatting tool).
+Build the formatter from the same checkout as your changes; see [Formatting tool](#formatting-tool).
 
 ## JSON Example
 
@@ -68,7 +62,7 @@ Line breaks occur after open brackets, close brackets, or entries.
 
 ## Formatting tool
 
-The formatting tool can be found alongside the releases as `json_formatter.exe` or `json_formatter.cgi`, built via `make style-json`, or accessed at <http://dev.narc.ro/cataclysm/format.html>.  It is recommended to add the formatting tool's location to your `PATH` or (if not already present) put it in your Cataclysm-DDA root directory.
+Build `tools/format/json_formatter.cgi` (or the Windows formatter target) from this checkout. `make style-json` both builds and runs formatting. Use the local formatter so its behavior matches the source; an external formatting website is not a CPH service.
 
 Using `make style-json` will format all files included in the JSON validation test, alternatively:
 ```sh
@@ -76,7 +70,7 @@ Using `make style-json` will format all files included in the JSON validation te
 git diff --name-only '*.json' | xargs -P 0 -L 1 json_formatter
 
 # Using git to filter modified JSON files in the current branch.
-git diff master --name-only '*.json' | xargs -P 0 -L 1 json_formatter
+git diff main --name-only '*.json' | xargs -P 0 -L 1 json_formatter
 
 # Per-folder formatting.
 find path/to/desired/folder -name "*.json" -print0 | xargs -P 0 -0 -L 1 json_formatter

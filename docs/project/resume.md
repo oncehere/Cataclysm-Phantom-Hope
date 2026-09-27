@@ -1,25 +1,27 @@
 # 缺失条件与恢复入口
 
-这是本轮检查发现的外部条件清单，不要求把密钥发到聊天中，也不把配置文件
+**现行恢复入口，状态按日期核验：**2026-09-27 UTC 复核时远端 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`，三个受控 workflow active，main 规则 `24056126` 仍 disabled；PR #1 的新一轮 Windows/Linux 运行中，结果不得预判为 PASS。旧失败 run 保留为历史事实。远端 Issues 关闭、private vulnerability reporting 关闭、Discussions 开启；这些开关不构成 W/L 或发布验收。实际操作前重新读取远端状态；本地证据位置见 [workspace-layout.md](workspace-layout.md)。
+
+这是检查发现的外部条件清单，不要求把密钥发到聊天中，也不把配置文件
 存在当作已经部署。目标 `oncehere/Cataclysm-Phantom-Hope` 已由用户明确授权，
 原生 CDDA fork、管理权限和历史上传已核验；`origin` 已配置，默认分支为 `main`。
 执行回证见 [fork-deployment.md](fork-deployment.md)。四个 remote 的 push URL
 均保留 `DISABLED`，需要写入时必须使用明确目标和固定 ref，不猜测或使用默认 push。
 
-部署快照：`main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时，CI/gate/sync
+2026-09-26 部署快照：`main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时，CI/gate/sync
 三个 workflow 均为远端 active；Actions 仅允许 5 个精确 action SHA。继承
 `master` 冻结并保持原 SHA。持久状态 revision 1 已恢复同步检查，合入仍暂停，
 `auto_merge_enabled=false`；暂停和无更新路径均真实 PASS。PR #1 首次 CI 的
 Windows 因 vcpkg 浅克隆缺历史 tree 失败，Linux 取消，不计 PASS；collector
 已发布 failure。main 规则 `24056126` 仍 disabled，受保护合入验收 **PENDING**。
-当前修复 vcpkg 后重跑；后续以 Actions 与 `evidence/remote-ci-sync-20260926/`
+随后已提交 vcpkg 与 Linux 诊断修复，新一轮仍待结果；后续以 Actions 与 `evidence/remote-ci-sync-20260926/`
 为准，不随每次运行更新源码文档。
 本轮入口及开关见 [remote-sync.md](remote-sync.md)，完成状态见
 [status.md](status.md)；`fork-deployment.md` 中 Actions 关闭的记录是初次建仓快照。
 
 | 最小条件 | 仅阻塞的动作 | 配置位置与恢复入口 |
 |---|---|---|
-| 真实必需检查及启用后的 main 规则验收 | 日常自动合入 | 三个入口已部署；修复 vcpkg 后重跑，在目标 PR 验证 `cph/trusted-gate` 成功允许、失败阻止、base/head 移动需重验；保持 merge 历史，不启用线性历史要求 |
+| 真实必需检查及启用后的 main 规则验收 | 日常自动合入 | 三个入口已部署；先核验 PR #1 新运行结果，再在目标 PR 验证 `cph/trusted-gate` 成功允许、失败阻止、base/head 移动需重验；保持 merge 历史，不启用线性历史要求 |
 | GitHub 托管 Windows/Linux runner 的实际构建、测试及来源绑定结果 | W/L 合入门槛计为通过 | 使用已实现的 `project-ci.yml` 原生执行；本机缺 Windows 不阻塞部署，Linux 结果也不能替代 Windows 原生结果 |
 | 原生 macOS runner、所选架构依赖 | macOS 构建/包检查和四平台发布 | 先复用已审计入口作候选检查；包架构与实际运行架构分别记录，不能擅自增加每日人工批准条件 |
 | Android SDK/NDK/JDK、可用运行环境、明确验收 profile | Android 包/运行验收和四平台发布 | 先探测 ARM64 自动环境；替代 profile 需要明确采纳，兼容架构模拟器结果不能标成 ARM64 包实测 |

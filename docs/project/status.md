@@ -1,5 +1,13 @@
 # CPH 本轮实施与交接（2026-09-26）
 
+## 2026-09-27 UTC 远端复核快照
+
+本页下方保留 2026-09-26 的实施和测试回证；其 SHA、run、测试数不能自动推广到新提交。复核时目标 `oncehere/Cataclysm-Phantom-Hope` 的 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`，CI/gate/sync 三个受控 workflow 仍 active；main 规则 `24056126` **disabled**。PR #1 的新一轮 Windows/Linux 运行中，尚无这轮成功结果或受保护合入验收。此前 Windows vcpkg 浅克隆失败与 Linux 取消仍是有效的历史 FAIL/NOT_RUN，不以新运行开始而改写。2026-09-27 03:31 UTC 回读确认 Issues=false、private vulnerability reporting=false、Discussions=true，且 Releases 列表无 CPH Release；这些状态不代表门槛或发布就绪。当前值可能继续变化，实际操作应重新读取远端 Actions、规则与状态分支。
+
+本机 `evidence/...`、`inputs/...` 是相对于 CPH 工作区的私有文件，不随源码仓库推送，也不保证 GitHub 文档链接可直接访问；位置和权限边界见 [workspace-layout.md](workspace-layout.md)。
+
+## 2026-09-26 实施与交接回证
+
 目标是用户提供的 execution-spec v1；旧研究/review 仅作背景。首期从 E0
 开始，完成 Linux E1 后继续隔离、本地控制与受控远端 CI 部署。未完成整个首期。
 翻译按用户最新指示先接入真实临时 MO，完整 PO 维护后置。
@@ -17,16 +25,16 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 部分更早历史仍带 promisor 元数据；没有宣称所有历史 blob 都已离线齐备。
 当前 U 工作树及本轮所需历史对象已核验；后续缺失对象必须显式获取后再验收。
 
-## 当前远端 CI 与同步部署进展
+## 当时的远端 CI 与同步部署进展
 
 用户已授权完善目标仓库的自动同步。当前实现工作区为
 `/home/oncehere/文档/ChatGPT/CPH/cph-remote-ci`，分支
 `codex/remote-ci-sync`；原 `cph` 工作区的并发修改保留。
-以下为 `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时的部署快照；
+以下为 `main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时的 2026-09-26 部署快照；
 后续结果以 Actions 和外部 evidence 为准，不随每次运行追加源码提交。
 后文初次本地交付记录仅代表对应提交的历史快照。
 
-| 范围 | 当前状态 | 已完成与待验收边界 |
+| 范围 | 当时状态 | 已完成与待验收边界 |
 |---|---|---|
 | 受控入口 | 已部署、active | CI `368009607`、gate `368019205`、sync `368019206` 均已远端回读 |
 | Actions 权限 | 已启用并限缩 | 仅允许 5 个精确 action SHA：checkout、upload-artifact、download-artifact、setup-msys2、get-cmake；不恢复继承的发布入口 |
@@ -42,7 +50,7 @@ CDDA B `221c786e7d61b3c9254f7cb1625bc69494b8181c` 是 U 祖先，原始
 校验和真实受保护 PR 回证必须一致，才能解除自动合入暂停。
 入口、重试及操作开关见 [remote-sync.md](remote-sync.md)，剩余发布条件见
 [resume.md](resume.md)。本轮命令和回读证据集中在
-`evidence/remote-ci-sync-20260926/`；当前正修复 vcpkg 历史对象获取后重跑。
+`evidence/remote-ci-sync-20260926/`；后续修复已进入新主线，新运行状态见页首。
 后续真实运行结果由 Actions 和该外部 ledger 记录，不将上述失败改写为通过。
 
 ## 已完成的游戏与资源证据
@@ -216,8 +224,8 @@ STABLE_RELEASE_ENABLED = false
 和持久状态初始化；三个 workflow 已 active，暂停/无更新路径及失败状态发布已实测。
 真实 W/L 成功与受保护 PR 验收仍待完成，首期尚未完成。
 
-下一条可执行恢复入口：修复 vcpkg 浅克隆历史对象缺失，在托管 Windows/Linux
-runner 重跑，并启用、核验 main 规则后验证成功、失败及 refs 移动时的门槛行为。
+下一条可执行恢复入口：等候并核验 PR #1 新一轮托管 Windows/Linux 结果；若失败则按
+新日志修复，并启用、核验 main 规则后验证成功、失败及 refs 移动时的门槛行为。
 通过后才解除相应暂停；不要重复建仓或把本机 Windows 缺失当成托管 CI 阻塞。
 E6 发布事务继续独立推进。其他缺口及配置位置集中见
 [resume.md](resume.md)，无须重新做宽泛需求访谈。

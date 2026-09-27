@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `tutorial.mapgen-intermediate`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/tutorials/json-mapgen/intermediate/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/tutorials/json-mapgen/intermediate/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: tutorial.mapgen-intermediate -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `tutorial.mapgen-intermediate`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../../docs/README.md).
+
 ## Guide For Intermediate Mapgen
 
 This guide assumes you are comfortable with basic mapgen elements and adding regular mapgen.  It is meant as a supplement to the mapgen.md and overmap.md documents.
@@ -125,7 +119,7 @@ Note the ID is now `nested_mapgen_id` and the object uses a new entry `mapgensiz
 
 * `mapgensize`:  Nested mapgen can be any size from 1x1 to 24x24 but it must be square.  You don't have to use every row or column of the `rows` entry.  Any unused portions will fall back to the main mapgen.
 
-* `flags`:  More information about mapgen flags can be found in [doc/JSON/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md#clearing-flags-for-layered-mapgens)
+* `flags`:  More information about mapgen flags can be found in [doc/JSON/MAPGEN.md](../MAPGEN.md#clearing-flags-for-layered-mapgens)
 
 * `terrain` & `furniture`: If you don't want to overwrite existing terrain and furniture from the main mapgen you can use a combination of `t_null` and `f_null`. ` ` is `t_null` and `f_null` by default. For example in the above example, there's a green carpet in 1/2 the map and the rest picks up the floor of the mapgen (indoor concrete). `f_clear` can also be used to remove existing furniture without replacing it.
 
@@ -611,7 +605,7 @@ An example:  each x coordinate encompasses one OMT from a segment of the mall.
 
 * Nested maps of all sorts can be used in a merged map, but they can't cross boundary lines (the nested map will be cut off at the boundary).
 
-* More information about monster spawning can be found in [doc/JSON/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md#spawn-item-or-monster-groups-with-place_groups)
+* More information about monster spawning can be found in [doc/JSON/MAPGEN.md](../MAPGEN.md#spawn-an-entire-group-of-monsters-with-place_monsters)
 
 Note: set point type entries (see the example below) don't work well with merged maps and the issue has been reported.  If you use this entry, the points will be repeated in every OMT in your merged map.
 

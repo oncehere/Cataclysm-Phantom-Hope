@@ -1,15 +1,12 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `eoc.reference`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/eoc/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/eoc/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: eoc.reference -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `eoc.reference`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
+> Compatibility scope: this page describes the inherited JSON/EOC path. New
+> executable Mod behavior follows the [Lua Platform contract](../../data/lua/README.md). A documented legacy operation does not establish a public Lua API.
+
 # Effect On Condition
 
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
@@ -496,7 +493,7 @@ Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster us
 ```
 
 ### `u_has_part_flag`, `npc_has_part_flag`
-- type: string or [variable object](##variable-object)
+- type: string or [variable object](#variable-object)
 - return true if alpha or beta talker is a vehicle with a part with a specific flag
 - if `enabled` is present and true the part needs to be enabled
 
@@ -2491,7 +2488,7 @@ Set effects to be executed when conditions are met and when conditions are not m
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself |
+| "if" | **mandatory** | [dialogue condition](NPCs.md#dialogue-conditions) | condition itself |
 | "then" | **mandatory** | effect | Effect(s) executed when conditions are met. |
 | "else" | optional | effect | Effect(s) executed when conditions are not met. |
 
@@ -3763,7 +3760,7 @@ Character forget martial art, stored in `ma_id` context value
 
 
 #### `u_add_var`, `npc_add_var`
-Save a string as personal variable, that you can check later using `compare_string` (see [Player or NPC conditions](#Player_or_NPC_conditions) )
+Save a string as personal variable, that you can check later using `compare_string` (see [Dialogue conditions](NPCs.md#dialogue-conditions) )
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
@@ -3973,7 +3970,7 @@ Store string from `set_string_var` in the variable object `target_var`
 | --- | --- | --- | --- |
 | "title" | optional | string, [variable object](#variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
 | "description" | optional | string, [variable object](#variable-object) | The description of the input popup window, can be localized. |
-| "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
+| "default_text" | optional | string, [variable object](#variable-object) | The default text in the input popup window, can be localized. |
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
@@ -4035,7 +4032,7 @@ Create a context value with condition, that you can pass down the next topic or 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "set_condition" | **mandatory** | string or [variable object](#variable-object) | id of condition |
-| "condition" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself |
+| "condition" | **mandatory** | [dialogue condition](NPCs.md#dialogue-conditions) | condition itself |
 
 ##### Valid talkers:
 
@@ -5563,7 +5560,7 @@ transform the territory around you, npc or target using `ter_furn_transform`
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_transform_radius" / "npc_transform_radius" | **mandatory** | int or [variable object](#variable-object) | range, where transformation occur |
-| "ter_furn_transform" | **mandatory** | string or [variable object](#variable-object) | [`ter_furn_transform`](#TER_FURN_TRANSFORM.md), that would be used to transform territory around |
+| "ter_furn_transform" | **mandatory** | string or [variable object](#variable-object) | [`ter_furn_transform`](TER_FURN_TRANSFORM.md), that would be used to transform territory around |
 | "target_var" | optional | [variable object](#variable-object) | if used, the target from variable would be used instead of player's current location.  It uses [assign_mission_target](MISSIONS_JSON.md) syntax |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | delay when the location should be transformed; "infinity" could be used, to make location not update until `key` event happen  |
 | "key" | optional | string or [variable object](#variable-object)) | id of the event, that you can call outside of EoC to trigger map update.  Key should be [alter_timed_events](#alter_timed_events) |

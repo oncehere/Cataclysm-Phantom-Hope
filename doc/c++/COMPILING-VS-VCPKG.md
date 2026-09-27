@@ -1,15 +1,11 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `build-windows-msvc`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/build/windows-msvc/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/build/windows-msvc/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: build-windows-msvc -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `build-windows-msvc`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
+> Build scope: [CPH CMake presets](COMPILING-CMAKE.md) and the [compiler/platform contract](COMPILER_SUPPORT.md) describe the native validation targets. The additional recipes below are inherited local alternatives; their presence does not establish a successful CPH build or release on that platform.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -28,19 +24,19 @@
 
 # Compilation guide for Windows (using Visual Studio and vcpkg)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows using Visual Studio and vcpkg.
+This inherited guide describes local CPH builds using Visual Studio and vcpkg. The native acceptance configuration is documented in [CMake/vcpkg setup](COMPILING-CMAKE-VCPKG.md).
 
-Steps from current guide were tested on Windows 11 (64 bit), Visual Studio 2022 (64 bit) and vcpkg, but should as well work with slight modifications for other versions of Windows and Visual Studio.
+The original upstream guide reported Windows 11 and Visual Studio 2022 testing. That historical report is not a native CPH result. Other Windows/toolchain combinations need their own evidence.
 
 ## Prerequisites:
 
-* Computer with modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7 - Windows XP is not supported);
+* A Windows version supported by your selected Visual Studio toolchain;
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
-* Visual Studio 2022 or 2026.
-* Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
+* Visual Studio 2022 for the current native CPH target. Other versions need separate validation.
+* A vcpkg checkout compatible with the selected manifest; reproduce the native gate with its [locked commit](../../project/check-policy.json).
 
-**WARNING:** If you have CMake 4 or newer installed, you need to downgrade to CMake 3 eg. https://github.com/Kitware/CMake/releases/tag/v3.31.8 or a newer version of CMake 3. CMake 4 is not compatible with the version of vcpkg we use.
+The old CMake 3 workaround applied to a particular upstream vcpkg snapshot. Reproduce CPH with the actual locked toolchain and record configuration failures; this document does not claim that every CMake/vcpkg combination is compatible.
 
 ## Installation and configuration:
 
@@ -50,7 +46,7 @@ Steps from current guide were tested on Windows 11 (64 bit), Visual Studio 2022 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `f6672d8e480ccdecddfad3fd1b838ba369ffe6cd` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Use a separate vcpkg checkout at the exact commit selected by the current CPH check policy (`f6672d8e480ccdecddfad3fd1b838ba369ffe6cd` at this revision). Re-run its bootstrap after selecting that commit. The native gate also uses its documented overlays and package setup; this local solution recipe alone does not reproduce or prove that gate.
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace or special symbols. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` and `C:/C++Projects/vcpkg` is not.***
 
@@ -59,7 +55,7 @@ In a `cmd.exe` shell:
 REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git pull
+git checkout f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
@@ -68,25 +64,25 @@ In a Git Bash shell, the commands are almost the same except the filesystem path
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git pull
+git checkout f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
 ```
 
-If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl2 at 2.26.5`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
+For a missing version-database entry, verify the checkout SHA, manifest baseline, overlays and bootstrap logs. Updating an exact reproduction to an arbitrary moving vcpkg head changes the tested inputs. Record and resolve the mismatch before claiming a reproduced build.
 
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
+1. Clone the CPH repository with following command line:
 
 ```cmd
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
+git clone --branch main https://github.com/oncehere/Cataclysm-Phantom-Hope.git cph
+cd cph
 ```
 
-**Note:** This will download the entire CDDA repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
+**Note:** A shallow clone can reduce a local trial download; contribution and history checks may require the full relevant Git history.
 
-**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md#example-workflow).
+**Note:** If you want to contribute to CPH, see [example git workflow](../../CONTRIBUTING.md).
 
 2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
 

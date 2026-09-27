@@ -1,69 +1,16 @@
-# Ownership and review
+# CPH ownership and review / 责任与审阅
 
-This file describes responsibility without inventing file owners or GitHub
-teams. CCB does not currently publish a `CODEOWNERS` file. Add one only after
-real maintainers and teams explicitly accept durable path ownership.
-
-## Authority and responsibility
-
-- Repository source and tests own runtime behaviour.
-- Schemas, LuaLS declarations, registrations, and generated inventories own
-  JSON/Lua/API contracts.
-- CI, CMake, Makefile, Gradle, and validators own build behaviour.
-- `AGENTS.md`, `CONTRIBUTING.md`, and `GOVERNANCE.md` own contribution policy.
-- CCB-Docs owns tutorials, explanations, architecture prose, and navigation,
-  but never overrides a repository contract.
-
-Every PR names a Responsible human. That role is accountability for the
-specific change, not permanent subsystem ownership.
-
-## Review roles
+This file defines review responsibilities for `oncehere/Cataclysm-Phantom-Hope`. It does not appoint a permanent owner based on inherited CCB commits, access, or historical policy. There is no CPH `CODEOWNERS` assignment in this file; add one only after real people or teams accept specific durable path ownership and their permissions are verified.
 
 | Role | Responsibility |
 | --- | --- |
-| Responsible human | Understands final diff, owns tests/provenance, answers review |
-| Subsystem reviewer | Checks domain correctness, compatibility, and focused tests |
-| Documentation reviewer | Checks source linkage, bilingual parity, metadata, and navigation |
-| Release/security maintainer | Reviews privileged workflows, credentials, advisories, and releases |
+| Responsible human | Understand the final PR diff, own test and provenance claims, respond through closure |
+| Domain reviewer | Check source contracts, compatibility and focused tests for the changed subsystem |
+| Documentation reviewer | Check current repository paths, links, document IDs, language consistency and generated output |
+| Authorized administrator | Apply and read back privileged GitHub settings, secrets, bypass rules and release controls |
 
-## Confirmed Responsible-human reviewer
+One real Responsible human is named **per PR** in the template. AI systems and bots cannot be that person or claim human approval. The role does not create a permanent owner list, a review count, or evidence that GitHub branch protection is active. Review requirements for automatic merge must be tested with actual CPH repository settings and protected PRs.
 
-No reviewer is recorded here merely from commit activity or repository access.
-CCB uses one named Responsible human for each PR.  The maintainer has decided
-that one active, review-capable human is sufficient for the current project.
-The Ruleset therefore must not require a non-author or last-push approval:
-those gates would prevent the sole reviewer from merging a self-authored
-maintenance PR.
+A durable ownership record should state the person's GitHub login, permission evidence, explicit agreement, scope, effective date and replacement path. Recheck it periodically and remove stale entries. Do not publish private membership or contact details. The old CCB reviewer entry for `LYHGLYTX` belongs to CCB governance history and is not copied as a CPH maintainer assignment.
 
-| GitHub login | Permission verified | Willingness confirmed | Confirmed at | Scope |
-| --- | --- | --- | --- | --- |
-| @LYHGLYTX | 2026-08-02 | yes | 2026-08-02 | All repository changes, including self-authored changes |
-
-The latest read-only permission audit was performed on 2026-08-02
-(Asia/Shanghai).  Issue
-[#563](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/issues/563)
-originally tracked a two-reviewer prerequisite.  The explicit maintainer
-decision at 2026-08-02T19:24:37+08:00 replaces it with the single
-Responsible-human model above.  This records accountability, not a fabricated
-GitHub approval.
-
-## Quarterly permission review
-
-At least once per quarter, a human maintainer must:
-
-1. verify that every listed reviewer is a human, active, and still has review
-   permission;
-2. reconfirm willingness and the review scope, recording the evidence and
-   audit date without publishing private organization data;
-3. remove or replace stale entries and check the rotation/escalation path;
-4. verify that automation cannot replace the named Responsible human or claim
-   a GitHub approval it did not receive; and
-5. update `ai/repository-settings.target.yml` only after the GitHub setting is
-   observed, never in anticipation of an administrator action.
-
-## Changing ownership records
-
-An ownership update must cite the maintainer or team, permission check, explicit
-agreement, scope, effective date, and replacement/rotation plan. Remove stale
-entries after a quarterly permissions audit. Bots and AI systems cannot be the
-Responsible human or approve their own changes.
+每个 PR 指定真实责任人；长期文件归属需要本人同意和权限核验。不得从 CCB 的旧维护名单推定 CPH 权限，也不得把自动化当成人类审阅。

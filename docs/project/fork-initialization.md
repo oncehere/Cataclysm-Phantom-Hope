@@ -1,10 +1,17 @@
 # E2 read-only preparation and fork deployment
 
+This page documents the read-only preparation tool and its 2026-09-26
+initialization checklist. The named target now exists and has three controlled
+workflows active on `main`; the original Actions-disabled condition is a
+deployment snapshot, not the current operating instruction. See
+[status.md](status.md) before acting on a checklist item.
+
 The user explicitly authorized `oncehere/Cataclysm-Phantom-Hope` on 2026-09-26.
 Its native CDDA fork, initial history upload and default-branch selection were
 performed separately from this read-only tool. See [the actual deployment
-receipt](fork-deployment.md). Actions and automatic merge remain disabled;
-required PR checks have not been deployed or validated.
+receipt](fork-deployment.md). Actions were disabled during initialization;
+controlled workflows were enabled later. Automatic merging and protected PR
+acceptance have not been enabled or validated.
 
 `prepare_fork.py` only reads local Git and, when explicitly requested, GitHub.
 There is no remote-write code path and no execution flag. Its structured
@@ -14,12 +21,12 @@ Actions. The native fork POST appears only as review metadata, never a request.
 
 ```sh
 python3 tools/project/prepare_fork.py --repo "$PWD"
-python3 tools/project/prepare_fork.py --repo "$PWD" --target OWNER/REPO --github
+python3 tools/project/prepare_fork.py --repo "$PWD" --target oncehere/Cataclysm-Phantom-Hope --github
 python3 -m unittest discover -s tests/project -p 'test_prepare_fork.py' -v
 ```
 
-Replace `OWNER/REPO` with the user's unique explicit target, never a machine
-username or an inferred account. `--branch` selects a new remote branch; when
+The target above is the user's unique explicit target, not an inferred account.
+`--branch` selects a new remote branch; when
 omitted, the report uses the current local branch without changing any ref.
 Detached HEAD requires an explicit branch. Output JSON can be redirected to
 the external evidence directory.

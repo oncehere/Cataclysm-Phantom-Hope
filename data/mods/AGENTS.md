@@ -1,7 +1,8 @@
 # `data/mods/` agent instructions
 
-- Each bundled mod is an independent compatibility surface.  Read its README,
-  `modinfo.json`, tests, and dependencies before editing it.
+- Each bundled mod is an independent compatibility surface. Read its README,
+  tests, dependencies, and actual entrypoint before editing it: `modinfo.json`
+  for JSON mods, or `mod.lua`/`main.lua` for Lua Platform mods.
 - Avoid cross-mod IDs or implicit load-order dependencies unless explicitly
   declared.
 - Keep spoilers and player-facing text in their existing documentation domain.

@@ -1,358 +1,65 @@
-# Contributing to Cataclysm: Cleanwater Bomb
+# Contributing to CPH / 参与 CPH
 
-Thank you for improving Cataclysm: Cleanwater Bomb (CCB). CCB is an
-independent Cataclysm fork with its own repository, policies, releases,
-translation project, compatibility commitments, and public Lua API.
+Cataclysm: Phantom Hope（CPH，中文工作名“虚假的希望”）是保留 CDDA 与选定 CCB 历史的独立开发项目。名称仍是工作名称。本指南适用于 [oncehere/Cataclysm-Phantom-Hope](https://github.com/oncehere/Cataclysm-Phantom-Hope)；CCB 的仓库、`master`、发布和外部 CCB-Docs 不是本仓库的贡献入口。
 
-感谢你参与 Cataclysm: Cleanwater Bomb（CCB）。CCB 是独立维护的 Cataclysm
-分支，拥有自己的仓库、政策、发布、翻译项目、兼容性承诺和 Lua API。
+CPH 的公开讨论入口是 [Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions)；Issue 表单可用性请先核对[项目状态](docs/project/status.md)和 GitHub 页面。Issues 尚不可用时，公开问题或早期提案可先在 Discussions 讨论。安全问题按 [SECURITY.md](SECURITY.md) 处理，不要公开漏洞细节。请用明确的 CPH Git 提交或实际 CPH Release 描述复现环境，不要填写 CCB 版本作为 CPH 版本；发布状态见[项目状态](docs/project/status.md)。
 
-- Source repository: <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb>
-- Developer documentation: <https://crimsoncrossbunker.github.io/CCB-Docs/>
-- Issues: <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/issues>
-- Discussions and support: <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/discussions>
-- Security reports: [SECURITY.md](SECURITY.md)
+## Source of truth / 权威来源
 
-Read [ISSUES.md](ISSUES.md) before opening an issue and the repository-root
-[AGENTS.md](AGENTS.md) before changing files. The closest nested `AGENTS.md`
-adds subsystem-specific boundaries and validation commands.
-
-## Sources of truth
-
-| Subject | Authority |
+| Topic | Check first |
 | --- | --- |
-| Runtime behaviour | CCB source and tests |
-| JSON, Lua, and API contracts | Schemas, LuaLS declarations, registrations, and generated inventories |
-| Build and validation | CI, CMake, Makefile, Gradle, and repository validators |
-| Contribution and governance | `AGENTS.md`, this file, and `GOVERNANCE.md` |
-| Developer explanation and tutorials | CCB-Docs |
-| Player entry point | CCB website |
-| Game-data lookup | CCB-GUIDE |
+| Requirements and current acceptance boundary | [Execution specification](docs/project/execution-spec.md), dated [status](docs/project/status.md), actual remote runs |
+| Runtime, data, public API | Current source, tests, schemas, LuaLS declarations, registrations, generated inventories |
+| Build and validation | CMake/Make/Gradle, CI workflows, [test matrix](ai/test-matrix.yml) |
+| Contribution rules | [AGENTS.md](AGENTS.md), nearest nested `AGENTS.md`, this guide, [governance](GOVERNANCE.md) |
+| Developer explanation | Current in-repository `docs/` and inherited `doc/`, checked against the source |
 
-If CCB-Docs conflicts with a repository contract, mark the page stale and fix
-the page. Explanatory prose does not override source, tests, schemas, or build
-definitions.
+Read [docs/README.md](docs/README.md) for navigation. Inherited material can describe CCB behavior or older toolchains; cite a current source path when reporting a conflict. Historical CCB exclusions are recorded in [SYNC_EXCLUDED_PRS.md](SYNC_EXCLUDED_PRS.md) and require a new CPH decision before becoming policy here.
 
-如果 CCB-Docs 与仓库契约冲突，应把页面标为 stale 并按源码契约修复；不得用
-说明性文档覆盖源码、测试、Schema 或构建定义。
+## License, provenance, and accountable review
 
-## License, attribution, and provenance
+The inherited game and its contributions are distributed under CC BY-SA 3.0 and applicable compatible terms. By contributing to CPH, you agree to contribute under that license, subject to applicable file-specific notices and compatible third-party terms. Preserve those notices and credits. Record the exact source repository, commit/PR, authors and license for adapted material; retain history and original authorship where practical. Do not submit third-party material without compatible rights. An AI output or a link alone is not proof of provenance.
 
-CCB is distributed under CC-BY-SA 3.0 and compatible terms. Contributions are
-provided under the repository license. Cite copied or adapted material and
-verify that its license is compatible. Preserve original authorship and commit
-history when porting from another project where practical. Otherwise record
-the source repository, exact commit, contributors, license, and the reason
-history could not be retained.
+Each PR must name a real **Responsible human**. That person reviews the final diff, understands compatibility impact, owns every claimed test result, checks licenses and attribution, and responds to review. AI-assisted and bot-authored PRs may be submitted; naming the tool/model is optional. This role is PR accountability, not a permanent CODEOWNERS assignment.
 
-Do not submit copyrighted text, art, sound, code, or data without permission.
-Links and AI output are not proof of license compatibility.
+## Fork, branch, and propose
 
-## Responsible human and AI-assisted work
-
-AI-assisted contributions and bot-authored pull requests are allowed. Tool or
-model disclosure is optional. Every pull request must name one **Responsible
-human** who:
-
-- understands the change and its compatibility impact;
-- reviews the final diff, including generated files;
-- owns every reported test result;
-- verifies licenses, attribution, and external sources;
-- answers review questions and follows the PR through merge or closure.
-
-允许 AI 辅助及机器人创建 PR，不强制披露工具或模型。每个 PR 必须指定一名
-真实的 Responsible human，负责理解修改、审查最终差异、确认测试、许可证和
-外部来源，并回答审阅问题。
-
-## Prepare a development environment
-
-CCB supports several toolchains. Use the instructions matching your target:
-
-- Linux and general C++: `doc/c++/COMPILING.md`
-- CMake: `doc/c++/COMPILING-CMAKE.md`
-- MSYS2: `doc/c++/COMPILING-MSYS.md`
-- MSVC with vcpkg: `doc/c++/COMPILING-VS-VCPKG.md`
-- Android: `android/` and `android/AGENTS.md`
-- Repository routing and validation: `ai/project-map.yml` and `ai/test-matrix.yml`
-
-Prefer the narrowest validation that proves your change. Platform dependencies
-and expensive commands must be reported honestly; never claim a command passed
-if it was not run.
-
-### Fork, clone, and branch
-
-Fork the CCB repository, not Cataclysm-DDA. Replace `YOUR_USERNAME` below:
+Fork **CPH**, then branch from CPH `main`:
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/Cataclysm-Cleanwater-Bomb.git
-cd Cataclysm-Cleanwater-Bomb
-git remote add upstream https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb.git
-git fetch upstream --tags
-git switch --create topic/short-description upstream/master
+git clone https://github.com/YOUR_USERNAME/Cataclysm-Phantom-Hope.git
+cd Cataclysm-Phantom-Hope
+git remote add upstream https://github.com/oncehere/Cataclysm-Phantom-Hope.git
+git fetch upstream main
+git switch -c topic/short-description upstream/main
 ```
 
-Keep one coherent change per branch. Do not develop directly on `master`.
-Before requesting review, update from CCB `master` without rewriting commits
-that preserve third-party authorship.
+Keep a branch focused and reviewable. For a substantial change, start a Draft PR and update it as evidence arrives. Avoid rewriting imported third-party history, unrelated formatting changes, committed credentials, build caches, local SDK paths, or `obj-lua/`. A contribution with public contract changes must include the corresponding source, declarations, tests, generated outputs and documentation impact.
 
-### Commits
+## Development routes
 
-- Make each commit buildable or otherwise independently understandable.
-- Use an imperative subject that describes the change.
-- Keep generated output in the same commit as the contract change that creates it.
-- Preserve author information for upstream ports.
-- Do not mix formatting, generated churn, or unrelated cleanup into a feature.
-- Never commit build caches, credentials, SDK paths, APKs, or `obj-lua/`.
+| Change | Read and verify |
+| --- | --- |
+| C++ | `src/AGENTS.md`, `doc/c++/CODE_STYLE.md`, relevant tests; `make astyle-check`, focused `./tests/cata_test` after building |
+| JSON and EOC | `data/AGENTS.md`, loaders/schema and stable IDs; format changed files and run `make -j2 json-check` |
+| Lua | `data/lua/AGENTS.md`, Platform v1 declarations/registrations and `tools/lua_api/` checks; use the generator for inventories |
+| Bundled mod | Closest mod instructions and a real loaded mod set; read `modinfo.json` for JSON mods, or `mod.lua`/`main.lua` for Lua Platform mods |
+| Android | `android/AGENTS.md`, Gradle test and actual SDK/ABI evidence |
+| Translation | Existing PO attribution, `.tx/config`, [translation inputs](docs/project/translation-inputs.md); do not treat temporary MO assets as an editable PO pipeline |
+| Docs, automation, governance | `docs/`, `ai/`, `.github/` instructions, metadata tests and current remote state |
 
-## Choose the correct contribution path
+The inherited compiling guides remain in `doc/c++/`; choose the guide that matches your toolchain, then check flags against current build files. Keep save tests in temporary data directories. CPH's first supported path is a new save; CCB save migration and installation/data isolation are still acceptance work. Do not test an unvalidated build against a real save or CCB installation.
 
-### C++
+For ports from CCB, CDDA, or another compatible source, record the exact commits, authors and license, the CPH purpose, conflicts with current CPH behavior, save/stable-ID/mod/Lua/platform impact, and tests against CPH `main`. CDDA is selected case by case; CCB updates are integrated with history while allowing explicit CPH adaptations. Upstream policy and old CCB decisions do not automatically apply.
 
-Read `src/AGENTS.md`, `doc/c++/CODE_STYLE.md`, and the relevant tests. Trace
-ownership, serialization, registrations, and public names before editing.
+## Test and documentation evidence
 
-Typical checks:
+Use [ai/test-matrix.yml](ai/test-matrix.yml) to choose the narrowest useful check. State exact commands, exit codes, platform/toolchain, commit, manual steps, and anything unrun. Local tests, hosted CI, installed game behavior and release acceptance are distinct claims. Do not call a candidate platform check or tracked settings target active until the remote result is read back.
 
-```sh
-make astyle-check
-make -j2 tests
-./tests/cata_test "<focused test filter>"
-```
+Keep the PR template headings. Its one-line `Summary` uses a category from [changelog guidelines](doc/CHANGELOG_GUIDELINES.md) or `None`. Fill in `Documentation impact`, `Repository documentation impact`, `Affected documentation IDs`, and `Generated reference impact`. For paths with a **required** mapping in `ai/docs-impact.yml`, include a current repository document path and the corresponding stable ID; placeholders such as `None`, `N/A`, and `TBD` do not satisfy required fields. Regenerate official registries only through their generators. This records the actual CPH repository impact, with no dependency on opening a CCB-Docs PR.
 
-Add a focused deterministic regression test. A successful compilation alone
-does not prove behaviour.
+Before requesting merge, verify the final diff and attribution, run applicable checks, document compatibility and upstream divergence, and resolve review comments. Windows/Linux and protected merge checks remain gates only when their real runs and repository rule meet the [execution specification](docs/project/execution-spec.md); a green local check alone cannot substitute for them. Public four-platform releases require separate acceptance; check the dated [project status](docs/project/status.md) and actual GitHub Releases for availability.
 
-### JSON content
+## 中文简要流程
 
-Read `data/AGENTS.md` and the nearest mod instructions. Preserve stable IDs or
-provide an explicit migration/obsolete entry. Build the formatter before using
-it and validate actual loading:
-
-```sh
-make -j2 tools/format/json_formatter.cgi
-tools/format/json_formatter.cgi path/to/changed.json
-make -j2 json-check
-```
-
-Format only files you changed. Do not infer a field from prose when the loader,
-factory, schema, validator, or tests say otherwise.
-
-### EOC
-
-Effects on Condition are JSON contracts. Identify every condition/effect,
-talker, variable, context, nesting rule, and value type used by the change.
-Validate formatting and the full JSON load. Add a focused test when a parser or
-runtime edge case is involved.
-
-```sh
-make -j2 tools/format/json_formatter.cgi
-make -j2 json-check
-```
-
-### Lua
-
-All Lua code targets Platform v1, the repository's sole Lua runtime and public
-authoring contract.  Read `data/lua/AGENTS.md`; treat the Platform LuaLS
-declarations, native registrations, generated inventories, and tests as one
-contract. Do not add legacy compatibility surfaces or authored manifests.
-
-```sh
-python3 tools/lua_api/check_luals_declarations.py
-python3 tools/lua_api/check_platform_native_inventory.py
-python3 tools/lua_api/check_platform_contract.py
-python3 tools/lua_api/check_platform_coverage.py
-python3 tools/lua_api/check_cmake_contract.py
-python3 -m unittest discover -s tools/lua_api -p 'test_*.py'
-```
-
-Never hand-edit generated API inventories. Regenerate them with the command in
-`ai/generated-files.yml` and include the generated diff.
-
-During the active Lua-first implementation sprint, do not run the C++ build,
-Catch2, Python checkers, generators, public-contract refresh, ledger/registry
-refresh, or full JSON/EOC audit. Write source and test changes first; run the
-single routed acceptance gate only after the planned source batches are closed.
-
-### Mods
-
-Each bundled mod is a compatibility boundary. Read its `README`, `modinfo.json`,
-dependencies, tests, and `data/mods/AGENTS.md`. Avoid undeclared cross-mod IDs
-or load-order dependencies. Test the affected mod with the core JSON loader and
-state which mod set was loaded.
-
-### Android
-
-Read `android/AGENTS.md`. Keep SDK locations, signing keys, local Gradle state,
-and generated APKs out of Git. Start with unit tests:
-
-```sh
-cd android
-./gradlew test
-```
-
-APK assembly additionally requires a configured Android SDK/NDK. Report the
-variant and ABI used. Android uses SDL3; desktop Linux and Windows use SDL2
-unless an authoritative build configuration says otherwise.
-
-### Translation
-
-CCB uses its own Transifex project configured in `.tx/config`. The commented
-Cataclysm-DDA resources are not the CCB contribution target. Do not overwrite
-translator attribution or edit generated MO files as source.
-
-Useful local validation:
-
-```sh
-lang/update_pot.sh
-msgfmt -c --statistics -o /dev/null lang/po/zh_CN.po
-make -C lang LANGUAGES=zh_CN -B
-```
-
-Changes to extraction, templates, or workflow credentials require maintainer
-review. Never commit a Transifex token.
-
-### Tiles, fonts, and sound
-
-Respect asset licenses and attribution. Keep source assets separate from
-generated packages and do not re-encode unrelated assets. For a Linux SDL2
-tiles and sound build, the repository-supported shape is:
-
-```sh
-make -j2 RELEASE=1 TILES=1 SOUND=1 SDL3=0
-```
-
-Tileset composition, shaders, fonts, and release packages have their own CI
-contracts under `.github/workflows/` and `build-scripts/`. Use the relevant
-workflow or narrow local check and record assets that were not exercised.
-
-### Upstream ports
-
-CCB selectively ports from Cataclysm-DDA, Cataclysm: Bright Nights, and other
-compatible sources; it does not automatically adopt their policy or runtime
-semantics. A port must record:
-
-- source repository, PR, and exact commit range;
-- original authors and license;
-- CCB conflicts and intentional divergence;
-- save, data-ID, mod, and platform compatibility impact;
-- tests run against current CCB `master`.
-
-Preserve source commits when practical. Do not silently replace a CCB-specific
-behaviour with upstream behaviour.
-
-## Testing and validation
-
-Use `ai/test-matrix.yml` to select checks. Common entry points include:
-
-```sh
-# Agent metadata and documentation impact
-python3 tools/agent/check_project_metadata.py
-python3 -m unittest discover -s tools/agent -p 'test_*.py'
-
-# Python maintenance tools
-make python-check
-
-# C++ and JSON
-make astyle-check
-make -j2 tests
-make -j2 json-check
-
-# Lua public contract
-python3 tools/lua_api/check_luals_declarations.py
-python3 tools/lua_api/check_platform_native_inventory.py
-python3 tools/lua_api/check_platform_contract.py
-python3 tools/lua_api/check_platform_coverage.py
-python3 tools/lua_api/check_cmake_contract.py
-python3 -m unittest discover -s tools/lua_api -p 'test_*.py'
-```
-
-In the PR, list exact commands, platform/toolchain, result, skipped checks, and
-why they were skipped. For gameplay or UI changes, include reproducible manual
-steps. For performance changes, include before/after measurements and the
-scenario used.
-
-## Compatibility requirements
-
-CCB avoids unnecessary breakage. Explicitly review:
-
-- save serialization and migration;
-- stable JSON IDs and obsolete/migration entries;
-- bundled and third-party mod compatibility;
-- Lua API version, capabilities, and deprecations;
-- the single Platform v1 Lua runtime and its native service contract;
-- desktop and Android differences;
-- localization and translated strings;
-- CCB divergence from upstream.
-
-Breaking a public contract requires a migration or deprecation plan, tests,
-release-note impact, and generated-reference updates. Do not hide a breaking
-change in a cleanup PR.
-
-## Pull requests
-
-Open a Draft PR early for multi-commit work. Keep the template headings and
-update the body when the diff changes. Resolve review conversations and keep
-the branch scoped.
-
-### Required Summary
-
-The `Summary` is a one-line changelog entry:
-
-```markdown
-#### Summary
-Category "short description"
-```
-
-Allowed categories are `Features`, `Content`, `Interface`, `Mods`, `Balance`,
-`Bugfixes`, `Performance`, `Infrastructure`, `Build`, and `I18N`. Use `None`
-for changes that should not enter the player changelog. See
-`doc/CHANGELOG_GUIDELINES.md`.
-
-### Documentation impact
-
-Every PR must describe:
-
-- documentation impact;
-- related CCB-Docs PR, if any;
-- affected stable documentation IDs;
-- generated-reference impact.
-
-Enforcement is path-scoped by `ai/docs-impact.yml`. Governance, build, and
-ordinary JSON content mappings remain advisory. Changes to the public Lua
-contract or the JSON/EOC registration and parsing contracts are required: the
-four fields must contain a concrete impact statement, a CCB-Docs pull-request
-link, at least one mapped stable document ID, and the generated-reference
-result. Template placeholders such as `None`, `N/A`, and `TBD` do not satisfy a
-required mapping. Unrelated paths are never made to fail merely because an API
-subsystem has documentation work elsewhere.
-
-A CCB-Docs PR may be prepared before the source PR merges, but must remain
-Draft. After source merge, refresh its metadata to the final source commit,
-regenerate derived files, rerun checks, and then request human review.
-
-## Definition of Ready
-
-A change is ready for implementation when:
-
-- the problem and intended outcome are clear;
-- authoritative source paths and existing tests are identified;
-- scope excludes unrelated behaviour and cleanup;
-- compatibility, license, provenance, and documentation risks are known;
-- the narrowest validation commands are identified;
-- a Responsible human is prepared to own the final result.
-
-## Definition of Done
-
-A contribution is done only when:
-
-- the final diff is coherent and reviewed by the Responsible human;
-- source, tests, schema, declarations, registrations, and generated files agree;
-- applicable automated and manual checks pass and skipped checks are disclosed;
-- compatibility and upstream-divergence impacts are addressed;
-- licenses and attribution are verified;
-- documentation-impact fields and dependent CCB-Docs work are current;
-- no credentials, local paths, caches, or unrelated changes are included;
-- review questions and conversations are resolved.
-
-Questions that are not actionable issues belong in GitHub Discussions. Security
-vulnerabilities must follow [SECURITY.md](SECURITY.md), not a public issue.
+从 CPH `main` 派生分支，先读最近的 `AGENTS.md`、源码与测试。PR 写明真实责任人、来源许可证、兼容性、文档路径/ID、实际运行命令及未运行项。CPH Discussions 是公开讨论入口；提交 Issue 前核对其实际可用性，私密漏洞报告按 SECURITY.md 核对按钮可用性。任何公开附件先删除秘密信息与个人数据。

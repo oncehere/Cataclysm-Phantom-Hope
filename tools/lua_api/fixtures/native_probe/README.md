@@ -2,7 +2,9 @@
 
 This fixture is source only. It is not a bundled gameplay Mod, a shared-library
 binary, or part of the normal Python tool test run. Integration acceptance results
-and tested configurations are recorded in [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768).
+and tested configurations from the original CCB integration are recorded in [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768).
+
+That historical result does not qualify the current CPH candidate.
 
 Use it to check the actual game executable's
 exported Lua C ABI, rather than testing against the system `lua` executable.

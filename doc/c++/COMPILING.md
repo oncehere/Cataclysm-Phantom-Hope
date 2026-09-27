@@ -1,15 +1,11 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `build-overview`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/build/overview/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/build/overview/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: build-overview -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `build-overview`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
+> Build scope: [CPH CMake presets](COMPILING-CMAKE.md) and the [compiler/platform contract](COMPILER_SUPPORT.md) describe the native validation targets. The additional recipes below are inherited local alternatives; their presence does not establish a successful CPH build or release on that platform.
+
 # Compiling
 * [General Linux Guide](#general-linux-guide)
   * [Compiler](#compiler)
@@ -189,7 +185,7 @@ To build the SDL2 fallback explicitly, pass `SDL3=0`:
 
 For CMake, `-DTILES=ON` also defaults to SDL3; pass `-DUSE_SDL3=OFF` to build the SDL2 fallback. For Windows MSVC, tiled configurations default to SDL3; pass `-p:UseSDL3=false` to build the SDL2 fallback.
 
-The Windows release builds use the same MSVC project for both variants: pass `-p:UseSDL3=false` for the SDL2 package and `-p:UseSDL3=true` for the SDL3 package.
+The inherited MSVC project exposes `-p:UseSDL3=false` and `-p:UseSDL3=true`. CPH release qualification is defined separately in the [release contract](../../docs/project/release-contract.md); these switches alone are not evidence of published packages.
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
@@ -294,7 +290,7 @@ Installation
 sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
+git clone --branch main https://github.com/oncehere/Cataclysm-Phantom-Hope.git cph
 git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
@@ -322,7 +318,7 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 These MXE instructions build the SDL2 fallback. SDL3 cross-compilation requires equivalent SDL3, SDL3_image, SDL3_ttf, SDL3_mixer, and shader toolchain packages.
 
-    cd ~/src/Cataclysm-DDA
+    cd ~/src/cph
 
 Run one of the following commands based on your targeted environment:
 
@@ -492,40 +488,21 @@ ABI selection (`abi_arm_64`, `abi_arm_32`, `abi_x86_64`, `abi_x86_32`) flows thr
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) formula.
+For CPH on macOS, build this repository's source with a suitable local toolchain.
+The Homebrew `cataclysm` formula installs an upstream game; it is not a CPH
+download or update channel. Do not use it to identify a CPH build.
 
 ## Simple build using Homebrew
 
-A homebrew installation will come with tiles and sound support enabled.
-
-Once you have Homebrew installed, open Terminal and run one of the following commands.
-
-For a stable tiles build:
-
-    brew install cataclysm
-
-For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
-
-    brew install cataclysm --HEAD
-
-Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
-
-To launch Cataclysm, just open Terminal and run `cataclysm`.
-
-To update a stable tiles build simply run:
-
-    brew upgrade cataclysm
-
-To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`, triggering a new build from source.
-
-```bash
-brew uninstall cataclysm
-brew install cataclysm --HEAD
-```
+Homebrew can supply development dependencies, but CPH must be built from its
+own checkout. Use [CMake setup](COMPILING-CMAKE.md) and record the actual macOS,
+compiler and dependency versions. macOS is an informational target until it has
+its own native acceptance evidence.
 
 ## Advanced info for Developers
 
-For most people, the simple Homebrew installation is enough. For developers, here are some more technical details on building Cataclysm on Mac OS X.
+The following framework and package-manager recipes are inherited build notes.
+Verify them against your selected dependency versions and current source.
 
 ### SDL
 

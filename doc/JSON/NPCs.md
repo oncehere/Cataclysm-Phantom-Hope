@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.npcs-dialogue`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/eoc/npcs-and-dialogue/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/eoc/npcs-and-dialogue/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.npcs-dialogue -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.npcs-dialogue`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # NPCs
 
 ## Contents
@@ -106,7 +100,7 @@ Format:
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
-- `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
+- `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#dialogue-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
@@ -130,7 +124,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
   ]
 ```
-`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#dialogue-conditions).
 
 #### Shopkeeper blacklists
 Specifies blacklist of items that shopkeeper will not accept for trade.  Format is similar to `shopkeeper_consumption_rates`.
@@ -937,7 +931,7 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 
 #### Character effects / Mutations
 
-[See EFFECT_ON_CONDITION.md, #Character effects](EFFECT_ON_CONDITION.md##Character-effects)
+[See EFFECT_ON_CONDITION.md, #Character effects](EFFECT_ON_CONDITION.md#character-effects)
 
 #### Trade / Items
 
@@ -1073,11 +1067,11 @@ Effect | Description
 
 #### Map Updates
 
-[Map Updates](EFFECT_ON_CONDITION.md##Map_Updates)
+[Map Updates](EFFECT_ON_CONDITION.md#map-updates)
 
 #### General
 
-[Map Updates](EFFECT_ON_CONDITION.md##General)
+[General effects](EFFECT_ON_CONDITION.md#general)
 
 #### Deprecated
 
@@ -1097,7 +1091,7 @@ Effect | Description
 
 ## Dialogue Conditions
 
-[Conditions](EFFECT_ON_CONDITION.md#Condition)
+[Conditions](EFFECT_ON_CONDITION.md#condition)
 
 #### Player Only conditions
 
@@ -1456,7 +1450,7 @@ Common math functions are supported:
 Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
 
 #### Ternary and inline boolean operators
-Inline [comparison operators](#three-strings--assignment-or-comparison) evaluate as 1 for true and 0 for false.
+Inline [comparison operators](#math) evaluate as 1 for true and 0 for false.
 
 Ternary operators take the form `condition ? true_value : false_value`. They are right-associative so a chained ternary like `a ? b : c ? d :e` is parsed as `a ? b : (c ? d : e)`.
 
@@ -1492,7 +1486,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | light_level(`v`)    |  ✅   |   ❌  | g | Return the value of light level the specific tile has. <br/>Argument is location variable. <br/>Return values are:<br/>`0` = DARK<br/>`1` = LOW (Hard to see)<br/>`3` = BRIGHT_ONLY (bright but indistinct(i do not know what it means))<br/>`4` = BRIGHT (only for light sources)<br/>`5` = MEMORIZED (Not a light level but behaves similarly)<br/>`6` = BLANK (blank space, not an actual light level) <br/><br/>Example:<br/>`"condition": { "math": [ "light_level(_pos) == 3" ] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
 | effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
-| limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
+| limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#body_parts](JSON_INFO.md#body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|

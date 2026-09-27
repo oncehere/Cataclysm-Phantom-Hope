@@ -1,5 +1,10 @@
 # Source ancestry and intentional differences
 
+This is the current local ledger contract. The commits described below are
+historical entries; the deployed GitHub gate and remaining acceptance boundaries
+are recorded with dates in [status.md](status.md). A local ledger check alone
+does not establish that remote merge protection is active.
+
 `project/upstreams.lock.json` records the original B/U source identities.
 `project/design-differences.json` separately records intentional project changes.
 A source SHA being an ancestor is evidence of integration history, not evidence

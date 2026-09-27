@@ -1,5 +1,7 @@
 # E4 本地可信证据聚合与保护面检查
 
+**本地工具契约：**本页描述 `check_merge_evidence.py` 自身，不是当前 GitHub 门槛的部署报告。后续已部署受控 CI/gate/sync 入口，`main` 规则是否启用、真实 Windows/Linux 结果及 PR 验收应查 [status.md](status.md)。以下“没有 workflow/发布者”仅指这个离线检查命令。
+
 `tools/project/check_merge_evidence.py` 实现只读的证据一致性检查和保护面
 扫描。本步没有 GitHub API、workflow、check 发布者或合入动作。
 `evidence_accepted=true` 只表示收到的证据满足本地契约；
@@ -97,10 +99,10 @@ python3 /trusted/control/tools/project/check_merge_evidence.py \
 "$context_digest"` 代替 base/head。本地一致性成功退出 0，拒绝退出 1，
 参数错误退出 2。工具只向 stdout 输出 JSON，不覆盖输入或既有证据。
 
-部署仍需唯一目标仓库与权限、原生 Windows 基线、适用 E3 隔离证据、真实
+目标仓库 `oncehere/Cataclysm-Phantom-Hope` 与管理权限已核验。完成门槛仍需原生 Windows 基线、适用 E3 隔离证据、真实
 pull_request 收集/检查发布链，以及受保护 PR 上正常通过、必需失败阻止、
 base/head 更新重验的规则回证。规则必须保留 merge 历史、禁止常规强推/删除，
-不得要求线性历史或给自动化管理员 bypass。本小步没有部署这些规则。
+不得要求线性历史或给自动化管理员 bypass。后续虽创建了 `main` 规则，当前仍未启用或验收；本地工具的 PASS 不改变这一状态。
 
 ## 验证范围
 

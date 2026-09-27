@@ -1,175 +1,31 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `mod-localization`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/modding/localization/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/modding/localization/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-# Translating MOD
+<!-- CPH-DOC: mod-localization -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `mod-localization`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
 
-This guide demonstrates how to translate a mod through an example. Suppose you have made a mod adding a book item to the game, and you have put your mod in "./mods/demo" folder:
+# Translating a mod for CPH / 翻译 CPH Mod
 
-```jsonc
-[
-  {
-    "type": "MOD_INFO",
-    "id": "demo",
-    "name": "Demo MOD",
-    "authors": [ "..." ],
-    "description": "This mod adds a book.",
-    "category": "content",
-    "dependencies": [ "cdda" ]
-  },
-  {
-    "type": "BOOK",
-    "id": "demo_item",
-    "name": { "str": "Guide to Translate a MOD", "str_pl": "copies of Guide to Translate a MOD" },
-    "description": "A thin book teaching how to translate a mod."
-  }
-]
-```
+This page describes a mod author's editable PO and compiled MO files. It is distinct from CPH's temporary core MO bootstrap. Read [translation inputs](../docs/project/translation-inputs.md), [translation credits](../TRANSLATION_CREDITS.md), and the actual loader in `src/translation_manager_impl.cpp` before claiming runtime support for a particular package.
 
-The first step is to generate the translation template for your mod.
+## Sources and attribution
+
+For a JSON mod, keep its source JSON, license, authors and `modinfo.json` together; a Lua Platform mod instead has `mod.lua`/`main.lua` and its own extraction needs. Preserve translator comments and credits in PO headers. Translation markup, `%` placeholders, contexts and plural entries must agree with the source; [translator notes](../lang/notes/README_all_translators.md) give format examples. A translation platform can be used by a mod author, but this repository does not name or operate an official CPH Transifex project.
+
+## Generate, edit and compile
+
+`lang/extract_json_strings.py` accepts one or more `-i/--include_dir` paths and a required existing `-r/--reference` POT path. The old example's `-o` option is invalid. Use an isolated copy of the mod and a valid POT reference, then inspect extracted strings before merging them into a PO catalog. The script needs Python dependencies including `polib`; `lang/update_pot.sh` shows the repository's own extraction sequence. Do not run a sample command against a real mod until its paths and dependencies are verified.
+
+For an existing reviewed PO catalog, GNU gettext can validate and compile it into an isolated package path:
 
 ```sh
-# In Cataclysm DDA root directory
-mkdir -p ./mods/demo/lang/po
-python3 ./lang/extract_json_strings.py -i ./mods/demo -o ./mods/demo/lang/po/demo.pot
-```
-
-This extracts all translatable text from your mod and stores this information to `./mods/demo/lang/po/demo.pot`. This file in `.pot` format is called translation template. It contains all text in the original language that is to be translated:
-
-```po
-msgid ""
-msgstr ""
-"Project-Id-Version: None\n"
-"POT-Creation-Date: 1970-01-01 00:00+0000\n"
-"PO-Revision-Date: 1970-01-01 00:00+0000\n"
-"Last-Translator: None\n"
-"Language-Team: None\n"
-"Language: en\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#. ~ MOD name
-#: mods/demo/modinfo.json
-msgid "Demo MOD"
-msgstr ""
-
-#. ~ Description of MOD "Demo MOD"
-#: mods/demo/modinfo.json
-msgid "This mod adds a book."
-msgstr ""
-
-#. ~ Item name
-#: mods/demo/modinfo.json
-msgid "Guide to Translate a MOD"
-msgid_plural "copies of Guide to Translate a MOD"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description of "Guide to Translate a MOD"
-#: mods/demo/modinfo.json
-msgid "A thin book teaching how to translate a mod."
-msgstr ""
-```
-
-Next, you can upload this translation template to an online translation platform for translators to translate; alternatively, you can also create translation files for a target language from this translation template locally on your computer, for example, Russian:
-
-```sh
-msginit -o mods/demo/lang/po/ru.po -i mods/demo/lang/po/translation.pot -l ru
-```
-
-Now you get `./mods/demo/lang/po/ru.po`. Translations files in `.po` format are human readable text files that contain mappings between text in the original language and in the target language. Translators work on `.po` files and fill in translations:
-
-```po
-msgid ""
-msgstr ""
-"Project-Id-Version: None\n"
-"POT-Creation-Date: 1970-01-01 00:00+0000\n"
-"PO-Revision-Date: 1970-01-01 00:00+00000\n"
-"Last-Translator: None\n"
-"Language-Team: Russian <gnu@d07.ru>\n"
-"Language: ru\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#. ~ MOD name
-#: mods/demo/modinfo.json
-msgid "Demo MOD"
-msgstr "<fill in translations here>"
-
-#. ~ Description of MOD "Demo MOD"
-#: mods/demo/modinfo.json
-msgid "This mod adds a book."
-msgstr "<fill in translations here>"
-
-#. ~ Item name
-#: mods/demo/modinfo.json
-msgid "Guide to Translate a MOD"
-msgid_plural "copies of Guide to Translate a MOD"
-msgstr[0] "<fill in translations here for the first plural form>"
-msgstr[1] "<fill in translations here for the second plural form>"
-msgstr[2] "<fill in translations here for the third plural form>"
-
-#. ~ Description of "Guide to Translate a MOD"
-#: mods/demo/modinfo.json
-msgid "A thin book teaching how to translate a mod."
-msgstr "<fill in translations here>"
-```
-
-At this stage, the directory structure of your mod looks like this:
-```
-demo
-├── items.json
-├── lang
-│   └── po
-│       ├── es_AR.po <- Spanish (Argentina) translation
-│       ├── es_ES.po <- Spanish (Spain) translation
-│       ├── ja.po <- Japanese translation
-│       ├── ru.po <- Russian translation
-│       └── translation.pot <- translation template in English
-├── modinfo.json
-└── your_mod_content.json
-```
-
-After the translations are completed, compile translation files from human-readable `.po` format to game-usable `.mo` format:
-
-```sh
-mkdir -p mods/demo/lang/mo/ru/LC_MESSAGES/
+msgfmt -c --statistics -o /dev/null mods/demo/lang/po/ru.po
+mkdir -p mods/demo/lang/mo/ru/LC_MESSAGES
 msgfmt -o mods/demo/lang/mo/ru/LC_MESSAGES/demo.mo mods/demo/lang/po/ru.po
 ```
 
-The translation template in `.pot` format and translations files in `.po` format are only used by yourself and translators. You only need to include translation data in `.mo` format in your mod release:
+Replace `mods/demo` and `ru` with the actual mod path and locale. The loader scans user mod roots for `LC_MESSAGES/*.mo`; `demo.mo` must be packaged under the actual mod root and locale. The core `cataclysm-dda.mo` domain is inherited and should not be renamed as part of a prose cleanup. PO/POT files remain editable authoring sources even if a binary package contains only MO output.
 
-```
-demo
-├── lang
-│   └── mo
-│       ├── es_AR
-│       │   └── LC_MESSAGES
-│       │       └── demo.mo
-│       ├── es_ES
-│       │   └── LC_MESSAGES
-│       │       └── demo.mo
-│       ├── ja
-│       │   └── LC_MESSAGES
-│       │       └── demo.mo
-│       └── ru
-│           └── LC_MESSAGES
-│               └── demo.mo
-├── modinfo.json
-└── your_mod_content.json
-```
+## Verify in game
 
-When the player plays the Russian version of Cataclysm DDA, the Russian translation of your mod in `lang/mo/ru/LC_MESSAGES/demo.mo` is automatically loaded, and the player will see translated text in Russian in the game.
+Load the mod in an isolated CPH test world, select the target language, inspect representative singular/plural and context-sensitive strings, and check logs for missing catalogs. Record the exact CPH commit, mod revision and command/result. A successful `msgfmt` run verifies catalog syntax, not extraction or gameplay. For a bundled mod, also follow `data/mods/AGENTS.md` and run the affected JSON/mod checks. Keep third-party translations and credits intact.

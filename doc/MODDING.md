@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `modding-overview`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/modding/overview/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/modding/overview/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: modding-overview -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `modding-overview`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -40,19 +34,27 @@
 
 # Modding guide
 
-Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
+CPH supports two content paths. New executable behavior uses the
+[Lua-first Platform](../data/lua/README.md): a root `main.lua`, with optional
+`mod.lua` metadata, and no authored JSON manifest requirement. The JSON guide
+below describes passive data and compatibility content loaded by the existing
+JSON loader. Its `MOD_INFO` and `modinfo.json` rules apply to that legacy path,
+not to every Lua Platform Mod. The loader implementation is
+[`src/mod_manager.cpp`](../src/mod_manager.cpp).
 
-The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON/JSON_INFO.md](JSON/JSON_INFO.md).
+For JSON compatibility content, certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
+
+The following sections cover editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON/JSON_INFO.md](JSON/JSON_INFO.md).
 
 ## Other guides
 
-You might want to read the [Guide to adding new content to CDDA for first time
-contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
+For current CPH contribution steps, read [CONTRIBUTING](../CONTRIBUTING.md).
+The [historical CDDA introductory guide](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
 
 ## The basics
 
 ### Creating a barebones mod
-Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`; this directory is reserved for mods distributed with the game and must not be used for third-party mods. Third-party/private mods belong in the user mod directory, normally `USER_DIR/mods` (or `./mods` when that is the configured user directory).
+Mods are placed in different places depending on whether they are bundled with CPH or are third party/private ones. Included ones are found in `data/mods`; this directory is reserved for mods distributed with the game and must not be used for third-party mods. Third-party/private mods belong in the user mod directory, normally `USER_DIR/mods` (or `./mods` when that is the configured user directory).
 
 Release builds validate worlds against the set of mods distributed in `data/mods`. If a world uses a third-party mod installed there, loading is stopped so the mod can be moved to the user mod directory. Choosing to ignore that warning removes the misplaced mod and any mods depending on it from the world's `mods.json` before loading continues.
 A mod is created by creating a folder within the appropriate mod directory of Cataclysm. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
@@ -400,3 +402,11 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
+
+### That which cannot be modded
+
+Available behavior is defined by the current JSON loaders and the
+[Lua Platform contract](../data/lua/LUA_FIRST_PLATFORM.md). If the required
+operation is not exposed, propose a scoped native extension with declarations,
+tests and documentation. A historical example or an EOC parser key does not
+establish a supported Lua operation.
