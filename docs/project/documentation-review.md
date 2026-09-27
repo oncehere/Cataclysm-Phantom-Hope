@@ -320,7 +320,7 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日
 | [docs/project/status.md](../../docs/project/status.md) | CPH 本轮实施与交接（2026-09-26） | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added a dated current remote snapshot with protected main, PR #1/#2 acceptance, revision 3 switch state and PR #3 blocker; retained the 03:31 and 2026-09-26 results as historical snapshots. |
 | [docs/project/translation-inputs.md](../../docs/project/translation-inputs.md) | Baseline translation input | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Clarified local input boundary and used fresh workspace-derived output path. |
 | [docs/project/upstreams.md](../../docs/project/upstreams.md) | Locked initial history | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Replaced stale no-target conclusion with recorded native fork while retaining B/U provenance. |
-| [docs/project/workspace-layout.md](../../docs/project/workspace-layout.md) | CPH 工作区布局与路径边界 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | 区分需求、操作、带日期状态和历史回证；链接及命令路径复核 |
+| [docs/project/workspace-layout.md](../../docs/project/workspace-layout.md) | CPH 工作区布局与路径边界 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | 明确目录职责；记录已完成五个工作树和三个失败 E3 目录归档、原路径兼容链接、内容核验及原始回证保留边界 |
 | [doxygen_doc/doxygen_conf.txt](../../doxygen_doc/doxygen_conf.txt) | Doxyfile 1.8.4 | 配置/运行数据 | 无本轮改写需求；保留归属/原契约 | 识别为非说明文件，保留现行构建/依赖/资源契约；本轮未改 |
 | [gfx/ASCIITileset/tileset.txt](../../gfx/ASCIITileset/tileset.txt) | #RETRO ASCII TILESET | 配置/运行数据 | 无本轮改写需求；保留归属/原契约 | 识别为非说明文件，保留现行构建/依赖/资源契约；本轮未改 |
 | [gfx/Larwick_Overmap/tileset.txt](../../gfx/Larwick_Overmap/tileset.txt) | #Name of the tileset | 配置/运行数据 | 无本轮改写需求；保留归属/原契约 | 识别为非说明文件，保留现行构建/依赖/资源契约；本轮未改 |

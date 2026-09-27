@@ -45,7 +45,7 @@ Windows 因 vcpkg 浅克隆缺历史 tree 失败，Linux 取消，不计 PASS；
 | Android SDK/NDK/JDK、可用运行环境、明确验收 profile | Android 包/运行验收和四平台发布 | 先探测 ARM64 自动环境；替代 profile 需要明确采纳，兼容架构模拟器结果不能标成 ARM64 包实测 |
 | 永久项目身份决定 | 长期应用 ID、包身份和公开开发版 | E3 先可使用明显的本地测试身份；默认配置、存档、升级清理和卸载都要隔离，不能只改显示名 |
 | 正式签名材料及平台身份 | 必须签名的包与公开发布 | 后续放在目标受控签名环境/秘密存储中。构建不带正式密钥，签名阶段不运行候选构建脚本 |
-| 管理员核验的无 bypass 规则锁、可信 collector 与最终开关检查 | E5 日常自动同步合入 | 采用受限 `GITHUB_TOKEN` 创建 PR，再 dispatch 主分支 CI；collector 独立核验并发布 commit status。核验规则锁与真实 PR 门槛后才恢复合入；不以普通 dispatch 绿色 job 代替门槛，不要求先配置个人 PAT/App 私钥 |
+| 每次合入前复查已核验的无 bypass 规则锁、可信 collector 与最终开关 | 该次 E5 日常自动同步合入 | revision 3 已恢复日常合入开关；每次合入仍须复查规则锁、候选门槛和暂停状态。采用受限 `GITHUB_TOKEN` 创建 PR，再 dispatch 主分支 CI；collector 独立核验并发布 commit status。PR #3 仍受保护路径拒绝阻塞；不以普通 dispatch 绿色 job 代替门槛，不要求先配置个人 PAT/App 私钥 |
 
 没有权限和签名只阻塞依赖动作。不得购买服务、复用既有 CCB fork、猜测
 目标、用临时签名包公开发布，或要求用户提供每日人工测试来掩盖自动化缺项。
