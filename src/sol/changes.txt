@@ -5,3 +5,10 @@ Added include guard to prevent inclusions outside lua_platform_sol.h
 #ifndef LUA_PLATFORM_SOL_WRAPPED
 static_assert(false, "sol.hpp must be included via lua_platform_sol.h");
 #endif
+
+Give user_gc_metatable() a process-local identity for each C++ type. GCC can
+render distinct lambda types with the same signature as the same demangled name,
+which otherwise shares a __gc function between differently sized captures and
+calls the wrong destructor. A mutable function-local static provides a unique
+address per type, shared across translation units for the same type. Public
+usertype names and metatables are unchanged.
