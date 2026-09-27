@@ -64,17 +64,20 @@ class ProjectMetadataTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "not current"):
                 validate_context()
 
-    def test_repository_records_cph_main_as_deferred(self):
+    def test_repository_records_cph_main_as_active(self):
         path = ROOT / "ai/repository-settings.target.yml"
         settings = yaml.safe_load(path.read_text(encoding="utf-8"))
         self.assertEqual(settings["audit"]["repository"]["default_branch"], "main")
-        self.assertFalse(settings["entries"][0]["operational"])
+        self.assertTrue(settings["audit"]["repository"]["main_protected"])
+        self.assertEqual(settings["entries"][0]["observed_enforcement"], "active")
+        self.assertTrue(settings["entries"][0]["operational"])
         validate_repository_settings(settings)
 
     def test_repository_target_rejects_unproved_operation(self):
         path = ROOT / "ai/repository-settings.target.yml"
         settings = yaml.safe_load(path.read_text(encoding="utf-8"))
         settings = copy.deepcopy(settings)
+        settings["entries"][0]["post_activation_probe_verified"] = False
         settings["entries"][0]["operational"] = True
 
         with self.assertRaisesRegex(ValueError, "operational"):

@@ -1,6 +1,24 @@
 # CPH 本轮实施与交接（2026-09-26）
 
-## 2026-09-27 UTC 远端复核快照
+## 2026-09-27 07:40 UTC 现行远端回读
+
+目标 `oncehere/Cataclysm-Phantom-Hope` 的 `main=39859e1b253e28e2c34b6a19935b7edcce51b9b6`；
+分支 API 返回 `protected=true`，规则集 `24056126` 为 **active**，要求
+`cph/trusted-gate`。PR #1 于 07:19:42 UTC 合入该 SHA。远端状态分支
+`codex/sync-state` 的 revision 3 记录了 PR #1 正常受保护合入和 PR #2
+失败必需状态阻止合入的回证；其开关为 `sync_paused=false`、
+`merge_paused=false`、`auto_merge_enabled=true`。这是状态分支的本次回读，
+不能仅从规则已启用推断自动合入；状态分支同时记录新一轮 CCB 整合尚未实测，
+公开发布仍未启用。
+
+文档整理 PR #3 的旧候选曾因保护路径被可信收集器拒绝；具体 head 的原生
+Windows/Linux 结果与可信状态均须重新绑定。用户要求保留已启用的 main 规则，
+因此不能通过关闭规则把该 PR 作为引导例外合入；该路径目前 **BLOCKED**，
+不能把 PR #1 的成功回证推广到 PR #3。实际操作前重新读取 Actions、规则、
+状态分支和候选 refs。下方 03:31 UTC 及 2026-09-26 的记录是历史快照，
+保留原有失败与未运行结果。
+
+## 2026-09-27 03:31 UTC 远端复核历史快照
 
 本页下方保留 2026-09-26 的实施和测试回证；其 SHA、run、测试数不能自动推广到新提交。复核时目标 `oncehere/Cataclysm-Phantom-Hope` 的 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`，CI/gate/sync 三个受控 workflow 仍 active；main 规则 `24056126` **disabled**。PR #1 的新一轮 Windows/Linux 运行中，尚无这轮成功结果或受保护合入验收。此前 Windows vcpkg 浅克隆失败与 Linux 取消仍是有效的历史 FAIL/NOT_RUN，不以新运行开始而改写。2026-09-27 03:31 UTC 回读确认 Issues=false、private vulnerability reporting=false、Discussions=true，且 Releases 列表无 CPH Release；这些状态不代表门槛或发布就绪。当前值可能继续变化，实际操作应重新读取远端 Actions、规则与状态分支。
 

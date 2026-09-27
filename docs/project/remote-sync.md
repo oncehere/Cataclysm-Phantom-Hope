@@ -4,7 +4,19 @@ This controller follows only `CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb`
 `master`. Its only write target is `oncehere/Cataclysm-Phantom-Hope` (repository
 ID `1389460908`), verified as a native `CleverRaven/Cataclysm-DDA` fork.
 Deployment and actual GitHub acceptance are recorded with dates in the
-[project status report](status.md). At the 2026-09-27 UTC review snapshot,
+[project status report](status.md). At the 2026-09-27 07:40 UTC readback,
+`main=39859e1b253e28e2c34b6a19935b7edcce51b9b6` and ruleset
+`24056126` is active; the branch reports `protected=true`. PR #1 was merged
+under this rule. The public `codex/sync-state` branch, revision 3, records
+`sync_paused=false`, `merge_paused=false`, `auto_merge_enabled=true` and
+positive/negative protected-merge acceptance. It also records that a new CCB
+integration has not been live tested and public release is not enabled.
+These controls must be read again before acting; ruleset activation alone
+does not establish the sync or merge switch state. Documentation PR #3 is
+blocked by the protected-path collector rejection and cannot use a disabled
+rule as a bootstrap exception.
+
+At the earlier 2026-09-27 03:31 UTC review snapshot,
 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`; the three controlled
 workflows remain active and the main ruleset remains disabled. PR #1 has a
 new Windows/Linux attempt running at that snapshot; no successful native gate

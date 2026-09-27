@@ -1,12 +1,12 @@
 schema_version: 2
 kind: repository_settings_target
-description: Read-only CPH GitHub observation and deferred activation gates; this file does not apply settings.
+description: Dated read-only CPH GitHub observation and deferred intake; this file does not apply settings. Gate readiness records historical prerequisites, not permission to change an active rule.
 enforcement: deferred
 
 audit:
   observed_at: '2026-09-27'
-  observed_timestamp: '2026-09-27T03:32:06Z'
-  evidence_scope: Read-only GitHub REST observations of the exact CPH fork and existing main/master rulesets; no setting was changed.
+  observed_timestamp: '2026-09-27T07:42:11Z'
+  evidence_scope: Read-only GitHub REST observations of the exact CPH fork, active main/master rulesets, PR 1 native CI and trusted status, protected PR 1 merge, rejected PR 2, and codex/sync-state deployment acceptance; no setting was changed by this audit. The main ruleset updated_at is used for enabled_at. Repository allow_auto_merge is GitHub's native setting; the separate sync controller records auto_merge_enabled=true.
   observation_commands:
     - gh api repos/oncehere/Cataclysm-Phantom-Hope
     - gh api repos/oncehere/Cataclysm-Phantom-Hope/branches/main
@@ -15,13 +15,18 @@ audit:
     - gh api repos/oncehere/Cataclysm-Phantom-Hope/rulesets/24055653
     - gh api repos/oncehere/Cataclysm-Phantom-Hope/actions/permissions/workflow
     - gh api repos/oncehere/Cataclysm-Phantom-Hope/private-vulnerability-reporting
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/pulls/1
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/commits/f10729444cc6127db0e26e3dc8504c0f43465734/status
+    - gh api --method GET repos/oncehere/Cataclysm-Phantom-Hope/actions/runs -f head_sha=f10729444cc6127db0e26e3dc8504c0f43465734
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/pulls/2
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/contents/state.json?ref=codex/sync-state
   repository:
     full_name: oncehere/Cataclysm-Phantom-Hope
     default_branch: main
-    main_sha: d88815158ad31104ab4cde9fdd7537c7180cf7ff
+    main_sha: 39859e1b253e28e2c34b6a19935b7edcce51b9b6
     fork: true
     parent: CleverRaven/Cataclysm-DDA
-    main_protected: false
+    main_protected: true
     has_issues: false
     has_discussions: true
     allow_auto_merge: false
@@ -37,7 +42,7 @@ audit:
     - id: 24056126
       name: CPH verified native merge gate
       branch: main
-      enforcement: disabled
+      enforcement: active
     - id: 24055653
       name: Preserve inherited CDDA master
       branch: master
@@ -47,19 +52,18 @@ entries:
   - id: main-merge-gate
     branch: main
     observed_ruleset_id: 24056126
-    observed_enforcement: disabled
+    observed_enforcement: active
     desired_enforcement: active
     required_context: cph/trusted-gate
     prerequisites:
-      windows_linux_checks_verified: false
-      trusted_gate_verified: false
-    ready_to_enable: false
-    post_activation_probe_verified: false
-    operational: false
-    enabled_at: null
-    blockers:
-      - Windows and Linux required checks have not passed on an accepted PR candidate.
-      - The trusted check publisher has not been verified; a protected PR probe follows activation.
+      windows_linux_checks_verified: true
+      trusted_gate_verified: true
+    # Historical activation prerequisites are met; the ruleset is already active.
+    ready_to_enable: true
+    post_activation_probe_verified: true
+    operational: true
+    enabled_at: '2026-09-27T07:17:28.669Z'
+    blockers: []
 
 post_merge_intake:
   target_issues_enabled: true

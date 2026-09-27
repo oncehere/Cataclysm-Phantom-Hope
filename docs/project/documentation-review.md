@@ -5,6 +5,11 @@
 旧的 `doc/migration/markdown-inventory.yml` 仅用于追溯 CCB 迁移历史，
 不决定本轮现行文档范围。
 
+整理期间主线先前进至 `785bcc2a9e540b46b7b12f37b19510390236e6f9`，
+随后 PR #1 合入为 `39859e1b253e28e2c34b6a19935b7edcce51b9b6`。
+整理分支保留历史整合这些提交，并保留主线新增的 CI 与同步入口。
+主线推进后，旧 base 上的在途 W/L 被取消；新候选须重新取得对应回证。
+
 ## 审查范围和边界
 
 覆盖根部入口、子目录 AGENTS、CPH 项目操作说明、游戏与构建技术资料、
@@ -42,13 +47,20 @@ JSON 契约生成一致性、工作流清单与 action 固定版本检查均通�
 独立逐叶比较确认只有项目名、来源指纹和文档位置变化，API 契约保持一致。
 固定 PR 的远端检查结果另附 PR，不以本地通过代替原生 W/L 回证。
 
-实体归档仍受[工作区布局](workspace-layout.md)中的空闲条件约束。整理时另一项
-原生 CI 任务仍使用此工作区；五个阶段工作树和三个失败的 E3 证据目录尚未移动。
-Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。
+实体归档先受[工作区布局](workspace-layout.md)中的空闲条件阻塞；相关任务结束
+并核对宿主进程后，五个阶段工作树及三个失败 E3 目录已移入 `archive/`。
+八处原路径保留兼容符号链接；93,199 个文件的内容哈希、权限、原始链接目标
+及既有断链状态在移动前后相同，Git 工作树注册、分支与 HEAD 均已核对。
+Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日志和结果 JSON
+未改写，主工作树尚未切换到整理后的主线。
 
-可信合入检查器会拒绝本轮涉及的保护路径。本次不更改它的放行规则；
-需取得固定 base/head/合并树的真实 W/L 结果，并由用户审阅该具体候选后，
-才能执行一次性引导 PR 合入。其结果不作为日常自动合入门槛已验收的证据。
+可信合入检查器会拒绝本轮涉及的保护路径。本次不更改它的放行规则。
+2026-09-27 UTC 主线推进后的回读已确认规则集 `24056126` 为 active、
+`main` 已受保护，原先“规则仍关闭时的一次性引导合入”条件不再成立。
+因此本轮继续完成冲突处理、固定 base/head/合并树的真实 W/L 与审查回证，
+将合入记为 BLOCKED；不关闭规则或伪造可信状态来继续。即使用户审阅具体
+候选，仍须有符合现行保护规则的合入路径。整理回证不作为日常自动合入
+门槛已验收的替代证据。
 
 ## 逐篇处理记录
 
@@ -100,7 +112,7 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。
 | [LICENSE.txt](../../LICENSE.txt) | Copyright (C) 2012-2016 Free Software Foundation, Inc. | 第三方/许可 | 无本轮改写需求；保留归属/原契约 | 保留原作者与许可证；原始字节和基线一致 |
 | [OWNERSHIP.md](../../OWNERSHIP.md) | CPH ownership and review / 责任与审阅 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | No inherited CCB maintainer or fabricated CODEOWNERS assignment; real per-PR accountability and verified durable ownership criteria. |
 | [README.md](../../README.md) | Cataclysm: Phantom Hope（大灾变：虚假的希望，CPH） | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH native CDDA fork, selected CCB provenance, conditional release and support routes; current availability points to dated status. |
-| [REPOSITORY_SETTINGS.md](../../REPOSITORY_SETTINGS.md) | CPH repository settings / 仓库设置 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Live GitHub readback and dated status are authoritative; CPH target and preserved CCB history paths distinguished; no tracked setting treated as active. |
+| [REPOSITORY_SETTINGS.md](../../REPOSITORY_SETTINGS.md) | CPH repository settings / 仓库设置 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Replaced the obsolete activation sequence with active-ruleset and candidate-specific verification; recorded sync-state switches separately from branch protection. |
 | [SECURITY.md](../../SECURITY.md) | CPH security policy / 安全政策 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH private vulnerability URL only when GitHub form accepts reports; no public disclosure or fabricated private channel. |
 | [SUPPORT.md](../../SUPPORT.md) | CPH support / 支持入口 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH Discussions, conditional Issues and security policy replace CCB release, community and support links. |
 | [SYNC_EXCLUDED_PRS.md](../../SYNC_EXCLUDED_PRS.md) | 被剔除的上游 PR 记录 / Excluded Upstream PRs | 历史 | 历史内容不得误认作 CPH 当前规范 | Original CCB exclusion and sync log retained verbatim below a prominent CPH historical-boundary notice. |
@@ -297,15 +309,15 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。
 | [docs/project/inherited-workflows.md](../../docs/project/inherited-workflows.md) | E0 继承工作流审计与初始化隔离 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Corrected primary spec link and limited zero-active-workflow claim to initial inherited-workflow isolation. |
 | [docs/project/linux-probe.md](../../docs/project/linux-probe.md) | Linux E1 原生构建与最小运行探针 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Clarified fixed local E1 scope and workspace-local evidence. |
 | [docs/project/linux-test-identity.md](../../docs/project/linux-test-identity.md) | E3 Linux 仅测试身份 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Replaced occupied failed run directory with a fresh output template bound to install prefix; retained original run4 receipt. |
-| [docs/project/local-merge-gates.md](../../docs/project/local-merge-gates.md) | E4 本地可信证据聚合与保护面检查 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Separated offline checker from later deployed workflows; target known, main rule still disabled. |
+| [docs/project/local-merge-gates.md](../../docs/project/local-merge-gates.md) | E4 本地可信证据聚合与保护面检查 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Scoped the offline checker’s old unrun/undeployed claims to its initial contract and linked present remote acceptance to status.md. |
 | [docs/project/local-sync.md](../../docs/project/local-sync.md) | Local CCB integration rehearsal | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Removed obsolete unknown-target/App prerequisite; distinguished deployed scoped-token controller from local-only rehearsal. |
 | [docs/project/operator-controls.md](../../docs/project/operator-controls.md) | E7 本地暂停与封禁前置检查 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Directed live remote operator control to remote-sync and dated status. |
 | [docs/project/other-platform-probes.md](../../docs/project/other-platform-probes.md) | E1 Windows, macOS and Android probes | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Preserved local Windows PowerShell NOT_RUN while acknowledging separate hosted CI attempt. |
 | [docs/project/preflight.md](../../docs/project/preflight.md) | E0 read-only preflight | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Used explicit authorized target in current example without implying remote write capability. |
 | [docs/project/release-contract.md](../../docs/project/release-contract.md) | E6 本地开发版契约 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Recorded known fork/CI target and continuing release, identity, signing blockers. |
-| [docs/project/remote-sync.md](../../docs/project/remote-sync.md) | CCB remote synchronization | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added dated d888 snapshot, retained earlier 5dc receipt, removed fixed stale revision examples. |
-| [docs/project/resume.md](../../docs/project/resume.md) | 缺失条件与恢复入口 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added dated remote state and corrected next step from old vcpkg failure to current PR run review. |
-| [docs/project/status.md](../../docs/project/status.md) | CPH 本轮实施与交接（2026-09-26） | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added 2026-09-27 UTC snapshot, marked 2026-09-26 section historical, preserved earlier failures and test evidence. |
+| [docs/project/remote-sync.md](../../docs/project/remote-sync.md) | CCB remote synchronization | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added a dated operational readback for the active rule and sync-state revision 3 before the earlier disabled-rule snapshot. |
+| [docs/project/resume.md](../../docs/project/resume.md) | 缺失条件与恢复入口 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added current recovery state, updated per-candidate conditions and switch status; preserved the 03:31 and initial deployment paragraphs under historical headings. |
+| [docs/project/status.md](../../docs/project/status.md) | CPH 本轮实施与交接（2026-09-26） | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Added a dated current remote snapshot with protected main, PR #1/#2 acceptance, revision 3 switch state and PR #3 blocker; retained the 03:31 and 2026-09-26 results as historical snapshots. |
 | [docs/project/translation-inputs.md](../../docs/project/translation-inputs.md) | Baseline translation input | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Clarified local input boundary and used fresh workspace-derived output path. |
 | [docs/project/upstreams.md](../../docs/project/upstreams.md) | Locked initial history | CPH 项目文档 | 按现行入口、角色及维护边界复核 | Replaced stale no-target conclusion with recorded native fork while retaining B/U provenance. |
 | [docs/project/workspace-layout.md](../../docs/project/workspace-layout.md) | CPH 工作区布局与路径边界 | CPH 项目文档 | 按现行入口、角色及维护边界复核 | 区分需求、操作、带日期状态和历史回证；链接及命令路径复核 |
