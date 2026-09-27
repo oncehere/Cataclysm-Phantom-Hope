@@ -38,5 +38,6 @@ success alone never authorizes acceptance: known design constraints and actual
 regression checks remain necessary. No new design choice is made by the tool.
 
 Protected ledger/policy changes require their own explicit review. A candidate
-cannot edit the ledger to approve itself. Remote enforcement of that boundary
-is still E4 work, not a property established by this local JSON file.
+cannot edit the ledger to approve itself. Current protected-path handling is
+recorded with dated remote evidence in [status.md](status.md). This local JSON
+file alone cannot establish the deployed gate or authorize an exception.
