@@ -314,6 +314,44 @@ class Runner:
             )
 
 
+def run_required_test(runner, name, arguments, cwd, debugger=None):
+    try:
+        runner.run(name, arguments, cwd)
+    except RuntimeError:
+        if debugger:
+            # A diagnostic rerun can never turn the original failure into PASS.
+            try:
+                diagnostic = [str(item) for item in arguments]
+                user = runner.evidence / (name + "-gdb-user")
+                user.mkdir()
+                diagnostic[diagnostic.index("--user-dir") + 1] = str(user)
+                diagnostic[diagnostic.index("--out") + 1] = str(
+                    runner.evidence / (name + "-gdb.xml")
+                )
+                argv = [
+                    debugger, "--batch", "--nx", "--nh",
+                    "-iex", "set auto-load off",
+                    "-ex", "set pagination off",
+                    "-ex", "run", "-ex", "thread apply all bt",
+                    "--args", *diagnostic,
+                ]
+                with (runner.evidence / (name + "-gdb.log")).open(
+                    "xb"
+                ) as output:
+                    result = subprocess.run(
+                        argv, cwd=cwd, env=runner.env, stdout=output,
+                        stderr=subprocess.STDOUT, timeout=180, check=False,
+                    )
+                write_json(runner.evidence / (name + "-gdb.json"), {
+                    "purpose": "diagnostic; original test remains failed",
+                    "argv": argv, "exit_code": result.returncode,
+                })
+            except Exception as diagnostic_error:
+                print("Diagnostic failed: " + str(diagnostic_error),
+                      file=sys.stderr, flush=True)
+        raise
+
+
 def checkout_dependency(
     runner, work, name, repository, commit, *, shallow=True,
 ):
@@ -690,8 +728,8 @@ def build(args):
             user = evidence / (name + "-user")
             user.mkdir()
             xml = evidence / (name + ".xml")
-            runner.run(
-                name,
+            run_required_test(
+                runner, name,
                 [
                     build_dir / binaries[1]["path"],
                     selection,
@@ -707,6 +745,8 @@ def build(args):
                     xml,
                 ],
                 source,
+                debugger=(shutil.which("gdb", path=env.get("PATH"))
+                          if native_os == "linux" else None),
             )
             report["tests"].append(
                 {

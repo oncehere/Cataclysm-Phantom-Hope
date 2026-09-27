@@ -107,7 +107,7 @@ endif ()
 
 include(CheckCXXCompilerFlag)
 
-if(DEFINED ENV{MSYSTEM})
+if(MINGW AND DEFINED ENV{MSYSTEM})
     set(MSYS2 True)
     add_definitions(-DMSYS2)
 endif()
