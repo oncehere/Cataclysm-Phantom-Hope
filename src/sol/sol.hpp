@@ -9105,7 +9105,11 @@ namespace sol {
 			return u_m;
 		}
 		static const std::string& user_gc_metatable() {
-			static const std::string u_g_m = std::string("sol.").append(detail::demangle<T>()).append(".user\xE2\x99\xBB");
+			// GCC can give distinct lambda types the same demangled name. Keep their
+			// userdata destructors separate with an address unique to each T.
+			static char type_identity;
+			static const std::string u_g_m = std::string("sol.").append(detail::demangle<T>()).append(".user\xE2\x99\xBB.")
+			     .append(std::to_string(reinterpret_cast<std::uintptr_t>(&type_identity)));
 			return u_g_m;
 		}
 		static const std::string& gc_table() {

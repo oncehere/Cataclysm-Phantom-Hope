@@ -47,6 +47,7 @@
         "translations": "[translations]~[.]",
         "chinese-runtime": "TranslationPluralRulesEvaluatorPerformance",
         "horde-map": "horde_map_*",
+        "lua-gc": "lua_platform_same_signature_callbacks_destroy_their_own_captures",
         "lua-callback": "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch",
         "lua-task": "lua_platform_task_failure_message_identifies_the_scheduled_instance"
       },
@@ -85,7 +86,8 @@
       "tests": {
         "translations": "[translations]~[.]",
         "chinese-runtime": "TranslationPluralRulesEvaluatorPerformance",
-        "horde-map": "horde_map_*"
+        "horde-map": "horde_map_*",
+        "lua-gc": "lua_platform_same_signature_callbacks_destroy_their_own_captures"
       },
       "baseline_status": "NOT_RUN native Windows"
     }
