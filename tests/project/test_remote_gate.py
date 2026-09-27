@@ -459,6 +459,18 @@ class GateTests(unittest.TestCase):
         self.assertNotIn("bypass_actors", self.fixture.values["rulesets/91"])
         self.assertEqual(gate.active_rules(self.fixture, state), 15368)
 
+    def test_equivalent_ruleset_timezones_match_admin_lock(self):
+        state = self.verified_rules(hidden=True)
+        self.fixture.values["rulesets/91"]["updated_at"] = (
+            "2026-09-26T16:47:44.831-07:00"
+        )
+        self.assertEqual(gate.active_rules(self.fixture, state), 15368)
+
+    def test_invalid_or_naive_ruleset_timestamp_is_rejected(self):
+        for value in (None, "invalid", "2026-09-26T23:47:44.831"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                gate.ruleset_timestamp(value)
+
     def test_missing_admin_lock_cannot_be_treated_as_empty_bypass(self):
         self.verified_rules(hidden=True)
         for state in ({}, {"verified_rulesets": []}):

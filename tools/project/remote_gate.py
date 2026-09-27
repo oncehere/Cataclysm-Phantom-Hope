@@ -6,6 +6,7 @@ the separately published commit status is the protected-branch contract.
 """
 
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import io
 import json
@@ -362,11 +363,21 @@ def publish(api, head, state, run_id, description):
     )
 
 
+def ruleset_timestamp(value):
+    """GitHub may serialize one instant in the requester's local timezone."""
+    require(isinstance(value, str), "invalid ruleset timestamp")
+    instant = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    require(instant.tzinfo is not None, "ruleset timestamp lacks timezone")
+    return instant.astimezone(timezone.utc).isoformat(
+        timespec="microseconds").replace("+00:00", "Z")
+
+
 def ruleset_digest(ruleset):
     """Digest only public fields, identically for admin and runtime reads."""
     require(all(key in ruleset for key in RULESET_FIELDS),
             "incomplete public ruleset metadata")
     visible = {key: ruleset[key] for key in RULESET_FIELDS}
+    visible["updated_at"] = ruleset_timestamp(visible["updated_at"])
     return digest(json.dumps(
         visible, sort_keys=True, separators=(",", ":"),
     ).encode("utf-8"))
@@ -443,7 +454,8 @@ def active_rules(api, state):
             "ruleset source or enforcement changed",
         )
         require(
-            ruleset.get("updated_at") == lock["updated_at"] and
+            ruleset_timestamp(ruleset.get("updated_at")) ==
+            ruleset_timestamp(lock["updated_at"]) and
             ruleset_digest(ruleset) == lock["visible_sha256"],
             "administrator-verified ruleset lock is stale",
         )
