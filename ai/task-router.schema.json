@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://crimsoncrossbunker.github.io/schemas/task-router-v1.json",
-  "title": "CCB agent task router",
+  "$id": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/main/ai/task-router.schema.json",
+  "title": "CPH agent task router",
   "type": "object",
   "required": [ "schema_version", "kind", "description", "entries" ],
   "properties": {

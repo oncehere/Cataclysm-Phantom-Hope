@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the tracked documentation registry from the Git index."""
+"""Generate the CPH documentation registry from tracked repository paths."""
 
 from __future__ import annotations
 
@@ -28,6 +28,11 @@ ROOT_GOVERNANCE = {
     "SECURITY.md",
     "SUPPORT.md",
     "SYNC_EXCLUDED_PRS.md",
+}
+AGENT_INSTRUCTIONS = {
+    "CLAUDE.md",
+    "GEMINI.md",
+    ".github/copilot-instructions.md",
 }
 AGENT_METADATA = {
     "ai/agent-benchmark-baseline.json",
@@ -75,6 +80,27 @@ CCB_DOCS_IDS = {
 CURRENT_PLATFORM_DOCUMENTS = {
     "data/lua/README.md": "lua.platform.overview",
     "tools/lua_api/README.md": "tool-lua-platform-contract",
+    "src/lua/README.md": "lua.vendoring",
+    "data/mods/Lua_First_Example/README.md": "lua.platform.example",
+    "data/mods/TEST_DATA/README.md": "test-data.overview",
+    ".github/pull_request_template.md": "cph.contributing.pull-request",
+    "tools/json_api/README.md": "tool-json-contract",
+    "tools/lua_api/fixtures/native_probe/README.md": "lua.platform.native-probe-fixture",
+    "data/json/LOADING_ORDER.md": "json.loading-order",
+}
+CURRENT_CPH_DOCUMENTS = {
+    "doc/JSON/JSON_INFO.md": "json.object-types",
+    "doc/JSON/JSON_INHERITANCE.md": "json.inheritance",
+    "doc/JSON/EFFECT_ON_CONDITION.md": "eoc.reference",
+}
+HISTORICAL_DOC_PATHS = {
+    "doc/development_process.md",
+    "doc/HOWTO_MASSAGE_MA_GUN_DATA.md",
+    "doc/c++/COMPILING-CYGWIN.md",
+    "doc/c++/COMPILING-FLATPAK.md",
+    "doc/FREQUENTLY_MADE_SUGGESTIONS.md",
+    "doc/GUN_NAMING_AND_INCLUSION.md",
+    "tools/llama/README.md",
 }
 RETIRED_PLATFORM_MARKERS = (
     "cata" + "lua",
@@ -113,6 +139,8 @@ def tracked_paths() -> list[str]:
 def is_documentation_path(path: str) -> bool:
     if path.lower().endswith(".md"):
         return True
+    if path.startswith("ai/history/") and path.endswith((".yml", ".yaml", ".json")):
+        return True
     if path in AGENT_METADATA or path in API_CONTRACTS:
         return True
     if path.startswith("data/lua/reference/") and path.endswith(".json"):
@@ -143,6 +171,11 @@ def generated_by(path: str) -> str | None:
         return "python3 tools/agent/benchmark_context_pack.py"
     if path == "ai/lua-first-replacement-ledger.yml":
         return "python3 tools/agent/generate_lua_first_replacement_ledger.py"
+    if path in {
+        "data/mods/Migrated_Core/README.md",
+        "data/mods/Migrated_Core/MIGRATION_REPORT.md",
+    }:
+        return "python3 tools/migrate_lua_first.py"
     if path in {
         "doc/migration/contributor-anomalies.yml",
         "doc/migration/markdown-inventory.yml",
@@ -183,10 +216,13 @@ def is_retired_platform_path(path: str) -> bool:
 
 def classify(path: str, legacy: dict[str, dict]) -> dict:
     historical = legacy.get(path)
-    retired = is_retired_platform_path(path)
+    retired = is_retired_platform_path(path) or path in HISTORICAL_DOC_PATHS
     current_platform = path in CURRENT_PLATFORM_DOCUMENTS
     generator = None if retired else generated_by(path)
-    if retired:
+    if (retired or path.startswith("ai/history/")
+            or path.startswith("doc/migration/")
+            or path.startswith("doc/design-balance-lore/")
+            or path.startswith(".deepcode/plans/")):
         category = "historical_document"
         status = "historical"
         authority = "historical"
@@ -196,16 +232,36 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         status = "active"
         authority = "explanatory"
         source_of_truth = False
-    elif path.endswith("AGENTS.md"):
+    elif path.endswith("AGENTS.md") or path in AGENT_INSTRUCTIONS:
         category = "agent_instruction"
         status = "active"
         authority = "governance_contract"
+        source_of_truth = True
+    elif generator:
+        category = "generated_document"
+        status = "generated"
+        authority = "generated_contract"
         source_of_truth = True
     elif path in ROOT_GOVERNANCE or path in AGENT_METADATA:
         category = "authoritative_document"
         status = "active"
         authority = "governance_contract"
         source_of_truth = True
+    elif path == "docs/project/execution-spec.md":
+        category = "authoritative_document"
+        status = "active"
+        authority = "governance_contract"
+        source_of_truth = True
+    elif path.startswith("docs/project/") or path.startswith("doc/"):
+        category = "maintained_document"
+        status = "active"
+        authority = "explanatory"
+        source_of_truth = False
+    elif path.startswith("data/json/") and path.endswith(".md"):
+        category = "maintained_document"
+        status = "active"
+        authority = "explanatory"
+        source_of_truth = False
     elif path in ARCHITECTURE_CONTRACTS:
         category = "authoritative_document"
         status = "active"
@@ -221,35 +277,21 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         status = "active"
         authority = "explanatory"
         source_of_truth = False
-    elif generator:
-        category = "generated_document"
-        status = "generated"
-        authority = "generated_contract"
-        source_of_truth = True
     elif path.startswith("src/third-party/") or path == "src/lua/LICENSE.md":
         category = "third_party_document"
         status = "third_party"
         authority = "third_party"
         source_of_truth = False
+    elif path.startswith("data/mods/") and path.endswith(".md"):
+        category = "third_party_document"
+        status = "third_party"
+        authority = "third_party"
+        source_of_truth = False
     elif historical:
-        migration_status = historical["migration_status"]
-        if migration_status == "stubbed":
-            category = "migration_entry"
-            status = "moved_stub"
-        elif migration_status == "archived":
-            category = "historical_document"
-            status = "archived"
-        elif historical["action"] == "keep_in_repo":
-            category = "maintained_document"
-            status = "active"
-            authority = "explanatory"
-            source_of_truth = False
-        else:
-            category = "legacy_source"
-            status = "legacy"
-        if historical["action"] != "keep_in_repo":
-            authority = "historical"
-            source_of_truth = False
+        category = "historical_document"
+        status = "historical"
+        authority = "historical"
+        source_of_truth = False
     else:
         category = "historical_document"
         status = "historical"
@@ -257,9 +299,9 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         source_of_truth = False
 
     stable_document_id = (
-        CURRENT_PLATFORM_DOCUMENTS[path]
-        if current_platform
-        else (historical.get("stable_document_id") if historical else None)
+        CURRENT_PLATFORM_DOCUMENTS.get(path)
+        or CURRENT_CPH_DOCUMENTS.get(path)
+        or (historical.get("stable_document_id") if historical else None)
     )
     ccb_docs_ids = []
     if current_platform:
@@ -288,19 +330,7 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         "ccb_docs_ids": ccb_docs_ids,
         "generated": generator is not None,
         "generated_by": generator,
-        "include_in_ai_index": (
-            False
-            if retired
-            else (
-                True
-                if current_platform
-                else bool(
-                    historical.get("include_in_ai_index", False)
-                    if historical
-                    else status == "active"
-                )
-            )
-        ),
+        "include_in_ai_index": status == "active",
     }
 
 

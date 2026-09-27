@@ -1,122 +1,25 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `translation-guide`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/localization/translation-guide/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/localization/translation-guide/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-# Translating Cataclysm: CB
+<!-- CPH-DOC: translation-guide -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `translation-guide`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-*Contents*
+# Translating CPH / 翻译 CPH
 
-- [Translators](#translators)
-  - [Getting Started](#getting-started)
-  - [Glossary](#glossary)
-  - [Grammatical gender](#grammatical-gender)
-  - [Tips](#tips)
-- [Developers](#developers)
-  - [Translation Functions](#translation-functions)
-    - [`_()`](#_)
-    - [`pgettext()`](#pgettext)
-    - [`n_gettext()`](#n_gettext)
-  - [`translation`](#translation)
-  - [Static string variables](#static-string-variables)
-  - [Recommendations](#recommendations)
-- [Maintainers](#maintainers)
-  - [Automated updates](#automated-updates)
-  - [Manual updates](#manual-updates)
-  - [Language stats](#language-stats)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+CPH inherits CDDA and CCB translator work and attribution. The bootstrap verified on 2026-09-26 used compiled MO catalogs from a specific CCB release; it is not a maintained CPH PO pipeline or a CPH Transifex project. Read [translation inputs](../docs/project/translation-inputs.md) and [translation credits](../TRANSLATION_CREDITS.md) before changing catalog sources. The former CCB Transifex link and screenshots in older versions of this page were CCB instructions and are not a CPH contribution route.
 
 ## Translators
 
-The official location for translating Cataclysm: CB is the
-[Transifex translations project][1].
+For a CPH translation correction, identify the current source string and context in the CPH tree, the language and affected PO entry if present, then propose the change through [CPH contribution guidance](../CONTRIBUTING.md). Preserve the inherited `# Translators:` and `Last-Translator` metadata; do not replace an original translator's credit with a generic project name. [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) is available for public coordination. Do not publish translation service credentials.
 
-Some of the currently supported languages are:
+A PO catalog is editable source; an MO catalog is compiled output. CPH's temporary, pinned MO input is for baseline builds and does not establish the completeness or accuracy of current translation strings. A sustainable PO import/update path remains to be validated. Test changed placeholders, contexts, plural forms and markup against the current source and runtime before claiming coverage.
 
-* Arabic
-* Bulgarian
-* Chinese (Simplified)
-* Chinese (Traditional)
-* Dutch
-* French
-* German
-* Italian (Italy)
-* Japanese
-* Korean
-* Polish
-* Portuguese (Brazil)
-* Russian
-* Serbian
-* Spanish (Argentina)
-* Spanish (Spain)
-* Turkish
-
-Don't see your language in the list above? You can add it into the project at
-Transifex!
-
-If you have any questions or comments about translation, feel free to post in
-the [Translations Team Discussion][2] subforum.
-
-### Getting Started
-
-To begin translating, head over the [translation project][1] and click on the
-"Help Translate Cataclysm-Cleanwater-Bomb" button.
-This should take you to a page where you can either create a free account on
-Transifex, or login using GitHub, Google+ or LinkedIn.
-
-![Start translating](img/translating-start.png)
-
-After you've created your account, return to the [translation project][1] and
-click on the "Join team" button.
-This will open a window where you can choose the language you are interested on
-translating, so pick one and click the "Join" button.
-
-![Join project](img/translating-join.png)
-
-After this, the most straightforward thing to do is to reload the page,
-which should redirect you to the translation project's dashboard.
-Here, you can click the "Languages" link on the sidebar to see the list of
-supported languages and the current progress of the translation effort.
-
-Note that you can request for the inclusion of additional languages,
-if the one you are interested in is not available on the list.
-
-![Language list](img/translating-list.png)
-
-From this list, you can click on the language of your choice, and then click on
-the "Translate" to get started right away. Otherwise, you can click on any
-other language and click on the "Join team" button, if you are interested in
-translating for that language as well.
-
-After clicking on the "Translate" button, you will be taken to the web editor.
-To begin, you need to choose a resource to translate. Most of the in-game text
-is contained in the `master-cataclysm-dda` resource, so click on it to start.
-
-![Choose a resource](img/translating-resource.png)
-
-At this point, the editor should show you the list of text available for
-translation, now you only need to click on the string you want to translate and
-type your translation on the translation area on the right side of the screen.
-Click on the "Save" button when you are satisfied with your translation.
-
-![Web editor](img/translating-editor.png)
-
-See [Transifex's documentation][3] for more information.
+See [the inherited translator notes](../lang/notes/README_all_translators.md) for gettext format examples. Historical header examples credit CDDA contributors and should remain attributed to them; they do not define the current CPH reporting URL or project account.
 
 ### Glossary
 
-This glossary is intended to help explain some CCB-specific terms and their
-etymology in order to help translations.
+This inherited glossary explains terms found in the game data; verify each
+entry against the current CPH source before using it as a new design rule.
 
 * **Exodii**: The Exodii are a bunch of humans from another dimension.  When
   the Blob invaded their world, they managed to acquire enough technology to
@@ -159,24 +62,23 @@ don't be surprised to see other contexts appearing for other strings.
 
 ### Tips
 
-There are issues specific to Cataclysm: CB which translators should be aware of.
+There are format rules in the inherited catalogs that CPH translators should observe.
 These include the use of terms like `%s` and `%3$d` (leave them as they are),
 and the use of tags like `<name>`, which shouldn't be translated.
 
 Information about these and any other issues specific to individual languages,
-can be found in Cataclysm: CB's [language notes folder][4].
+can be found in the inherited [language notes folder][4].
 
 General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: CB has more than 50000 translatable strings, including all mods shipped
-with the game but don't be discouraged. The more translators there are, the easier it
-becomes 😄.
+The number of translatable strings and translation coverage depend on the current
+CPH tree and catalog input; use a measured count rather than an inherited total.
 
 ## Developers
 
-Cataclysm: CB uses a modified version of [GNU gettext][5] to display translated texts.
+The inherited CPH source uses [GNU gettext][5] and the translation interfaces in `src/translations.h` and `src/translations.cpp`.
 
 Using `gettext` requires two actions:
 
@@ -344,7 +246,7 @@ unit test to fix text styling issues reported by the `translation` class.
 If a string doesn't need to be translated, you can write `"NO_I18N"` in the
 `"//~"` comment, and this string will not be available to translators.
 Alternatively, you can specify `"//I18N": false` at the top level.
-(see [here](/doc/JSON/JSON_INFO.md#translatable-strings))
+(see [JSON_INFO.md](JSON/JSON_INFO.md#translatable-strings))
 
 #### C++
 
@@ -375,7 +277,7 @@ function twice.
 
 ### Recommendations
 
-In Cataclysm: CB, some classes, like `itype` and `mtype`, provide a wrapper
+In the inherited source, some classes, like `itype` and `mtype`, provide a wrapper
 for the translation functions, called `nname`.
 
 When an empty string is marked for translation, it is always translated into
@@ -393,45 +295,10 @@ See the [gettext manual][6] for more information.
 
 ## Maintainers
 
-### Automated updates
+The inherited page formerly described a weekly `pull-translations` workflow and a CCB Transifex account. Neither is an active CPH translation service by virtue of this document. The 2026-09-26 CPH baseline used pinned MO assets, documented in [translation inputs](../docs/project/translation-inputs.md). Before importing or regenerating PO catalogs, define and verify the actual source service, credentials boundary, license/attribution retention, merge strategy and repeatable checks. Do not overwrite inherited PO headers or substitute an empty MO catalog for a real translation.
 
-Under normal circumstances the translation files are updated automatically by a
-weekly GitHub workflow called `pull-translations`.
+The repository contains `lang/update_pot.sh`, `lang/merge_po.sh` and `lang/compile_mo.sh`; use them only after checking dependencies and input provenance. A targeted syntax check can use `msgfmt -c --statistics -o /dev/null lang/po/LOCALE.po` on a real file. Compiling an MO is not evidence that source extraction, linguistic quality or game loading passed. Report the exact command and result; see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-### Manual updates
-
-If for some reason you wish to update the translation files by hand, several steps need to be done in the correct order to correctly merge and maintain them.
-
-There are scripts available for these, so usually the process will be as follows:
-
-1. Download the translations in `.po` format.
-2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
-3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
-4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
-
-    This will also merge the translations from `lang/incoming/`.
-
-These steps should be enough to keep the translation files up-to-date.
-
-To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It will create a directory in `lang/mo/` for each language found.
-
-Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
-
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run Cataclysm.
-
-If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
-
-So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
-
-You can also change the language in game options if both are installed.
-
-### Language stats
-
-You can see statistics for how complete each translation is in [Transifex translations project][1] or in-game language selection menu.
-
-[1]: https://explore.transifex.com/Cataclysm-Cleanwater-Bomb/cataclysm-cleanwater-bomb/
-[2]: https://discord.gg/EAf2mKHEnK
-[3]: https://docs.transifex.com/
 [4]: ../lang/notes
 [5]: https://www.gnu.org/software/gettext/
 [6]: https://www.gnu.org/software/gettext/manual/index.html

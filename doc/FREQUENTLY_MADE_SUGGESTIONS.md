@@ -1,17 +1,17 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `design.frequently-made-suggestions`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/design/frequently-made-suggestions/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/design/frequently-made-suggestions/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: design.frequently-made-suggestions -->
+> **Inherited historical reference / 继承历史参考。** Stable document ID: `design.frequently-made-suggestions`.
+> The suggestion positions below belong to earlier CDDA/CCB contexts; CPH's
+> [design differences](../docs/project/design-differences.md) and current source decide CPH policy.
+> [Documentation index / 文档导航](../docs/README.md).
+
+# Suggestions and inherited design positions
+
+This page retains a long list of **historical CDDA/CCB suggestions and judgments**. Its first-person statements, named maintainers, app-store positions and claims that a feature is implemented or rejected belong to those earlier projects and dates. They are not CPH governance, ownership, product commitments or current source verification. CPH evaluates a concrete proposal against [its execution specification](../docs/project/execution-spec.md), [design differences](../docs/project/design-differences.md), current code/tests and a scoped [feature proposal](../ISSUES.md) when Issues is available. Public early ideas belong in [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions).
+
+## Inherited suggestion record (historical)
+
 # Frequently Made Suggestions
-This is a list of frequently made suggestions, and the current stance on how viable they are.
+This inherited list recorded earlier projects' stances on the viability of common suggestions; none is automatically CPH's current stance.
 Broad categories are “This is already implemented”, “Someone is working on it now”, “This will go in as soon as someone implements it”, “This doesn’t fit the main game, but would be fine for a mod that ships with the game”, “We might add support for it to the code, but we won’t/can’t distribute it with the game”, “This isn’t reasonable to implement”, and “We’re not adding support for this to the code even for a mod”.
 
 - [Frequently Made Suggestions](#Frequently-Made-Suggestions)

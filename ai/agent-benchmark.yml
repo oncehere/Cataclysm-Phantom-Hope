@@ -59,9 +59,9 @@ cases:
     expected_documentation_ids: [contributing.documentation-policy]
     expected_validation_ids: [agent-context]
   - id: documentation-impact
-    task: Determine documentation impact and translation drift scope.
+    task: Determine required in-repository documentation impact for a contract change.
     files: [ai/docs-impact.yml]
     expected_routes: [documentation-impact]
     expected_paths: [ai/docs-impact.yml]
-    expected_documentation_ids: [contributing.documentation-policy]
+    expected_documentation_ids: [json.object-types]
     expected_validation_ids: [documentation-impact]

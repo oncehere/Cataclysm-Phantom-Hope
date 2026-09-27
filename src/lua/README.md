@@ -1,5 +1,5 @@
 This folder contains the Lua 5.4.8 library source code, compiled into builds
-that enable the CCB Lua runtime.  Only redundant blank lines at the ends of
+that enable the Lua Platform runtime inherited by CPH from CCB.  Only redundant blank lines at the ends of
 upstream files are normalized for the repository's whitespace checks.
 
 The source archive is published at
@@ -10,4 +10,4 @@ The source archive is published at
 ```
 
 The standalone `lua.c` and `luac.c` front ends are intentionally not vendored;
-CCB embeds the library and does not ship a separate unrestricted interpreter.
+CPH embeds the library and does not ship a separate unrestricted interpreter.

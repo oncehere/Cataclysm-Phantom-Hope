@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.faction-missions`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/faction-missions/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/faction-missions/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.faction-missions -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.faction-missions`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 - [Overview](#overview)
@@ -22,6 +16,8 @@ Faction Camps (aka basecamps) can send NPC followers on missions to perform some
 
 Those missions are currently mostly hardcoded, but we have begun moving them into JSON, starting
 with their descriptions.
+
+<a id="faction-missions"></a>
 
 # Faction Mission JSON Object
 

@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.recipes-and-disassembly`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/recipes-and-disassembly/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/recipes-and-disassembly/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.recipes-and-disassembly -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.recipes-and-disassembly`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -414,7 +408,7 @@ several ways, with these JSON fields:
 
 These fields may be used similarly in uncrafting, constructions, vehicle parts, and vehicle faults.
 The first three fields are applicable to "requirement" definitions as well, and may be nested; see
-the [requirements section](#datajsonrequirements).
+the [requirements section](JSON_INFO.md#datajsonrequirements).
 
 A recipe's "components" lists all the required items or ingredients needed to craft the finished
 item from the recipe.  Each component is given as an integer quantity of a specific item id or
@@ -520,7 +514,7 @@ replaces the inherited character resource costs rather than merging with them.
 To avoid repeating commonly used sets of components, instead of an individual item id, provide
 the id of a `requirement` type, along with a quantity, and the `"LIST"`
 keyword.  Typically these are defined within
-[`data/json/requirements`](#datajsonrequirements).
+[`data/json/requirements`](JSON_INFO.md#datajsonrequirements).
 
 For example if these `grip_patch` and `grip_wrap` requirements were defined:
 

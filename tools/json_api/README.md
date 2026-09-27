@@ -8,7 +8,7 @@
 
 The current snapshots cover all 191 `DynamicDataLoader` registration calls
 (190 unique types), all 275 detected public condition keys, and all 306
-detected public effect keys.  CI pins these counts until the source registries
+detected public effect keys.  The inventory tests pin these counts until the source registries
 change intentionally.  These are parser-registry coverage figures, not a
 claim that every handler's field contract has been classified.
 
@@ -31,8 +31,8 @@ python3 -m unittest discover -s tools/json_api -p 'test_*.py'
 ```
 
 `--check` compares parsed JSON so the repository formatter remains the single
-authority for whitespace.  The JSON style workflow separately rejects a
-non-canonical layout.  The tests validate the inventory Schema, hard coverage
+authority for whitespace.  Run the local JSON formatter to check canonical layout; the retired upstream
+JSON style workflow is not an active CPH check.  The tests validate the inventory Schema, hard coverage
 counts, source symbols and line numbers, documentation evidence, and every
 published example JSON Pointer.
 

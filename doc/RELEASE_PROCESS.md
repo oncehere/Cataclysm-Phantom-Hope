@@ -1,61 +1,21 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `legacy.doc-release-process`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/maintenance/releases/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/maintenance/releases/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-### Changelog Summary
+<!-- CPH-DOC: legacy.doc-release-process -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `legacy.doc-release-process`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
 
-#### Diffstat
-For the (absurd) count of lines changed, run
-git diff --shortstat <version tag>...
+# CPH release preparation / CPH 发布准备
 
-For the number of commits, run
-git log --oneline <version tag>... | wc
+This is a preparation guide, not a live publish command. CPH's [execution specification](../docs/project/execution-spec.md) requires a complete, checked Windows, Linux, macOS and Android set for each public development release; stable releases require a separate explicit decision. Check the dated [status](../docs/project/status.md) and actual GitHub Releases before claiming anything is available. The inherited CDDA `0.G`/`0.H` branch instructions and old CCB release process do not apply to CPH.
 
-For the number of authors run
-sort -u <(git log --format="format:%an %ae" 0.G...) | wc
-This over-counts authors because people don't present a consistent email or name, feel free to try and deduplicate the list.  In practice it's not that bad.
+## Establish the candidate
 
-For the number of NEW authors, run
-diff -d -u <(sort -u <(git log --format="format:%an" 0.1...<old version>)) <(sort -u <(git log --format="format:%an" <old version>...)) | grep "^+" | wc
-Again, this will over or under-count due to mismatches, feel free to generate the list of authors and try to de-duplicate them before running the diff.
+Record the exact CPH source commit and upstream CCB integration state. The release controller should attempt a daily check only when an unpublished successful candidate exists, and retry a failed candidate without publishing an incomplete set. Verify [release prerequisites](../project/release-prerequisites.json) and the contract checks in `tools/project/release_contract.py`; a local manifest check is not proof of four platform builds, signatures, install isolation or upload success.
 
-#### Game Entity additions
+## Acceptance evidence
 
-This is the section of the changelog that looks like so:
-New game entities (core): 10293
-Items: 2396
-    502 misc items, 45 books, 941 articles of clothing, 117 guns and gun related items,
-    364 comestibles, 308 tools, 119 ammunition types
+For each platform, record build/run ID, source commit, artifact digest, package contents, tests, architecture, identity/data path, signing state and any missing hardware validation. Windows/Linux are required merge checks; macOS/Android failures block the whole public release even when they do not block an otherwise authorized merge. Never use a CCB artifact or a Linux-only test as CPH four-platform proof. Use isolated data and disposable saves; installation, update and removal must not damage CCB.
 
-Generating this summary is a multi-step process.
-My instructions are for linux, you can probably do similar things on windows.
-First, make sure you have jq installed.
+## Before and after publication
 
-Check out the previous release branch (i.e. when I'm writing this it's 0.G-branch).
-Run the commands:
-jq -s -c -f tools/json_tools/jq/count_json_entities.jq $(find data/json -name "*.json" | grep -v obsolete) > entity_count_<version>
-jq -s -c -f tools/json_tools/jq/count_json_entities.jq $(find data/mods -name "*.json" | grep -v obsolete) > entity_count_mods_<version>
-
-Check out the current release branch (i.e. when I'm writing this it's 0.H).
-Run the same commands, but name the files using the current version.
-jq -s -c -f tools/json_tools/jq/count_json_entities.jq $(find data/json -name "*.json" | grep -v obsolete) > entity_count_<version>
-jq -s -c -f tools/json_tools/jq/count_json_entities.jq $(find data/mods -name "*.json" | grep -v obsolete) > entity_count_mods_<version>
-
-Run the commands
-join -t ',' <( sort ../entity_count_<old_version> ) <( sort ../entity_count_<new_version> ) 2>&1 > ../entity_count_diff_<old_version>_to_<new_version>
-join -t ',' <( sort ../entity_count_mods_<old_version> ) <( sort ../entity_count_mods_<new_version> ) 2>&1 > ../entity_count_mods_diff_<old_version>_to_<new_version>
-
-These two files are the difference in entity counts between the two versions, but they need some massaging to look decent. Unfortunately the rest is manual.
-Open the existing changelog and one of the files, copy the headers ( ITEMS, CRAFTING, ACHIEVEMENTS, etc) from an existing section to your WIP file (I tend to just do this in the entity count file).
-
-For each line in the entity count file, move or copy that line under the matching header.  Most of the mappings will have been established by previous changelog summaries, but things are subject to change, the goal is presenting the change counts in a meaningful way, use the previous summaries as hints, not rules.
-
-You also need to take the before and after counts and get the difference, edit the janky json output into something readable, and rename the identifiers to something nicer. It's also totally resonable to merge entries where it makes sense and drop entries with zero or negative additions.
+The authorized release operator verifies all four artifacts belong to the same accepted candidate, reviews the manifest and checksums, then uses the controlled publication path when that path has been implemented and enabled. Read back the actual release tag, assets, visibility and source SHA. Record a failure as a failure; do not relabel a draft, cached package or historical test as a public release. Maintain third-party license, translation and asset notices. A changelog summary may use [CHANGELOG_GUIDELINES.md](CHANGELOG_GUIDELINES.md); entity diff methods are described in [RELEASE_DIFF.md](RELEASE_DIFF.md).

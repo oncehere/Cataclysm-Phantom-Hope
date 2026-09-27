@@ -1,5 +1,18 @@
 # 被剔除的上游 PR 记录 / Excluded Upstream PRs
 
+> **CPH provenance notice / 来源说明（2026-09-27）：** 以下正文是继承自
+> Cataclysm: Cleanwater Bomb 的历史上游取舍与同步日志。文中的 “fork”、
+> `master`、“未同步/待回退”及 CCB 行为，均描述其原记录当时的 CCB 状态，
+> 不表示 CPH 已逐项复验、继续剔除或将回退这些 PR。CPH 的当前上游策略、
+> 锁定基线和设计差异见 [执行规格](docs/project/execution-spec.md)、
+> [上游记录](docs/project/upstreams.md) 与
+> [设计差异](docs/project/design-differences.md)。需要沿用某项决定时，
+> 应针对 CPH `main` 重新核对源码、来源提交、兼容性并记录理由。
+>
+> **English:** The ledger below is inherited CCB history. Its fork/master and
+> exclusion statuses are not current CPH policy or verification. Re-evaluate
+> each candidate against CPH `main` before adopting or rejecting it.
+
 本文件记录从 CleverRaven 上游**有意不同步**或**同步后回退**的 PR，避免每次同步时重复评估、误判为"遗漏"。
 
 ## 状态图例

@@ -1,99 +1,33 @@
-> **CPH 开发仓库**：本仓库基于 CCB 并保留上游历史。远端 Windows/Linux 检查见
-> [CPH Native CI](https://github.com/oncehere/Cataclysm-Phantom-Hope/actions/workflows/project-ci.yml)，
-> CCB 同步与暂停/恢复操作见 [远端同步说明](docs/project/remote-sync.md)。
-> 下方保留 CCB 的原始项目介绍和下载链接。
+# Cataclysm: Phantom Hope（大灾变：虚假的希望，CPH）
 
+CPH 是目前使用的**工作名称**。本仓库是 [Cataclysm: Dark Days Ahead](https://github.com/CleverRaven/Cataclysm-DDA) 的 GitHub fork，以保留原始 CDDA 历史的方式纳入了选定的 [Cataclysm: Cleanwater Bomb（CCB）](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb) 基线。CPH 在此基础上发展自己的技术、界面与功能路线；CCB 是重要来源，并非本仓库的名称或发布渠道。
 
-# 大灾变：净化协议（Cataclysm: Cleanwater Bomb）
-《大灾变：净化协议（Cataclysm: Cleanwater Bomb）》是一款后启示录背景与科学奇幻设定的roguelike单人回合制末日生存游戏。
+项目分别维护同步、构建、合入与发布的验证证据。**下载和发布状态以目标仓库实际 [CPH Releases](https://github.com/oncehere/Cataclysm-Phantom-Hope/releases) 为准**；[项目状态](docs/project/status.md)是带日期的快照，使用前须与当前远端结果核对。不要将 CCB/CDDA 的安装包、网站、社区或兼容性承诺视为 CPH 的发布与承诺。每个合入候选仍须取得与固定提交绑定的 Windows/Linux 结果，并满足当时的主线保护规则；macOS、Android 与四平台发布条件分别验收。阶段要求与恢复入口见[执行规格](docs/project/execution-spec.md)及[继续实施清单](docs/project/resume.md)。
 
-在这款游戏里，你将面对由程序生成的，充满不断复活的丧尸、严酷持续的生存压力与来自异界的可怖侵蚀的复杂环境，你需要在崩坏的世界中挣扎求生，搜寻消亡文明的残骸，寻找食物、装备。同时在未来，我们期望能加入一些很酷的玩法，比如实现工业化、重新建设家园。
+## 开始参与
 
-基于 [CleverRaven/Cataclysm-DDA](https://github.com/CleverRaven/Cataclysm-DDA) `cdda/master` 分支 commit：**221c786e7d**
+- 源码与 PR：<https://github.com/oncehere/Cataclysm-Phantom-Hope>。贡献者应从 **CPH `main`** 建立分支，参见[贡献指南](CONTRIBUTING.md)。
+- 远端 Windows/Linux 检查见 [CPH Native CI](https://github.com/oncehere/Cataclysm-Phantom-Hope/actions/workflows/project-ci.yml)；CCB 同步与暂停/恢复操作见[远端同步说明](docs/project/remote-sync.md)。
+- 项目讨论与一般求助：[CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) 已启用；报告时请注明准确提交、平台和复现步骤。
+- [Issues 说明](ISSUES.md)及仓库内表单仍在整理；入口是否已启用以 GitHub 页面为准。不可用时可在 Discussions 讨论可公开的问题。敏感漏洞请先阅读[安全政策](SECURITY.md)，勿在公开讨论中发布细节。
+- 开发资料从[项目文档导航](docs/README.md)、[项目地图](ai/project-map.yml)与邻近 `AGENTS.md` 开始。`doc/` 保留继承的游戏与构建资料；使用时按当前源码和测试核对。
 
-## 下载
+## 方向与边界
 
-**发布** 你可以在这里下载目前的测试版本：[Release](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/releases)
+CPH 将持续检查 CCB 指定主分支的更新，以保留历史的方式整合，并允许为自身设计保留适配或撤销；CDDA 只按需选取改进。首期支持新建存档，不承诺迁移 CCB 旧存档。CPH 与 CCB 的安装身份、配置及存档隔离仍需继续验证；不要用真实存档试验未验收的构建。具体需求见[执行规格](docs/project/execution-spec.md)，来源基线见[上游记录](docs/project/upstreams.md)。旧的 CCB 上游取舍记录属于历史证据，见[排除 PR 记录](SYNC_EXCLUDED_PRS.md)，不自动成为 CPH 决定。
 
-## 贡献方式
+## 许可证与来源
 
-任何有意愿参与分支建设的开发者皆可通过向本仓库发起 PR 为本分支的建设贡献力量。
-请阅读当前 CCB 的 [CONTRIBUTING.md](./CONTRIBUTING.md) 和
-[开发文档](https://crimsoncrossbunker.github.io/CCB-Docs/)。
+本仓库继承原项目的 **CC BY-SA 3.0** 及各文件所附的兼容许可与第三方声明。保留原作者、提交历史、资产署名和单独许可文件；翻译来源和当前临时输入见[翻译署名](TRANSLATION_CREDITS.md)。
 
-对于任何玩家，同时也欢迎基于以下方向提交反馈或改动建议：
+---
 
-- 任何缺乏乃至违反逻辑的机制，最好有可验证的现实依据
-- 任何合理的分析和改进方案
+## English
 
-## 社区
-你可以通过以下方式加入我们或参与讨论：
- - QQ群: 552610319
- - Discord: https://discord.gg/tUG9MFwCqf
- - Reddit: https://www.reddit.com/r/CataclysmCB/
+**Cataclysm: Phantom Hope (CPH) is a working name.** This repository is a native GitHub fork of Cataclysm: Dark Days Ahead. It retains CDDA history and incorporates a selected Cataclysm: Cleanwater Bomb baseline with authorship intact. CPH has its own development direction; CCB remains a source project, not CPH's release or support channel.
 
-## 问答
+CPH maintains separate evidence for synchronization, builds, merges, and releases. **Check this repository’s Releases for download availability.** The dated [status snapshot](docs/project/status.md) must be checked against current remote results. Each merge candidate needs Windows/Linux results bound to its exact commits; four-platform release readiness is assessed separately. See [CPH Native CI](https://github.com/oncehere/Cataclysm-Phantom-Hope/actions/workflows/project-ci.yml), the [sync and pause/resume instructions](docs/project/remote-sync.md), the [execution specification](docs/project/execution-spec.md), and [remaining work](docs/project/resume.md) for the evidence boundary.
 
-#### 兼容性？
-本分支不会主动破坏兼容性，事实上我们不仅在尝试修复Cataclysm-DDA留下的各类bug或兼容性等方面的问题，同时也仍然保持同步上游分支Cataclysm-DDA并不会与我们的开发理念或修改内容冲突的变更以维持项目的同步性。如果你是玩家，应当能够很容易地将支持Cataclysm-DDA最新实验版的第三方mod加入本分支项目的游戏中。如果你是mod作者，适配工作应当也很轻松。但需要注意，由于我们已经新增了不少额外功能和modding API支持，独属于本项目的mod工程可能是无法支持上游分支Cataclysm-DDA的游戏的！
+Fork [this repository](https://github.com/oncehere/Cataclysm-Phantom-Hope) and base contributions on CPH `main`; read [CONTRIBUTING.md](CONTRIBUTING.md). [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) is available for public questions. Check the [issue guide](ISSUES.md) and the dated [status snapshot](docs/project/status.md) before filing; if Issues are unavailable, use Discussions for public matters. Do not disclose sensitive vulnerabilities in public; see [SECURITY.md](SECURITY.md) for the private-route availability condition.
 
-#### 你们是为了简化游戏/增加游戏性而开启这个项目的吗？
-
-不是。我们并不以调整难度作为核心目标，也不会为此而进行调整。本项目的宗旨是在不简化玩法的情况下，尽可能做到不为玩家体验添堵，建立更加符合现实、契合直觉、保留游戏性、对角色与怪物双向且公平的改动机制的改动体系，摒弃真实性必然和游戏性与角色性能冲突的片面观点，做到使开发者能站在玩家的角度思考。
-
-#### 你们未来会不顾玩家意愿，大量删除原有游戏内容吗？
-
-不会。我们会避免一刀切式的禁止行为，避免仅进行删除而不增加代替方案的行为。开发者与贡献者应当为自身做出的减法负责，避免仅为了削弱或增强而进行的极端改动。我们支持有大量参考文献支撑的符合现实逻辑改动，所有机制修改需尽可能符合现实世界物理、生理或工程逻辑，并能够被解释；应当避免任何与现实逻辑出现悖论的改动强行推进。做到开发者不与玩家对抗，避免以 No fun allowed 作为开发理念，避免因信息不透明或非预期规则导致的无意义失败，明确真实性不等于削弱也不等于缺乏游戏性，改动的同时要兼顾游戏性。
-
-
-## 许可协议
-
-本项目继承原作许可协议：
-
-- CC-BY-SA 3.0 及兼容条款
-- 翻译署名：译文复制自 Cataclysm-DDA，原译者信息保留于各语言文件头部，详见 [TRANSLATION_CREDITS.md](./TRANSLATION_CREDITS.md)
-
-----
-
-# Cataclysm: Cleanwater Bomb
-Cataclysm: Cleanwater Bomb is an post-apocalyptic, science-fantasy roguelike single-player turn-based survival game.
-
-In this game, you will face a complex, procedurally generated environment filled with reanimated zombies, relentless and ongoing survival pressures, and terrifying incursions from other worlds. You must struggle to survive in a broken world, scavenging the ruins of a fallen civilization for food and gear. Looking ahead, we plan to introduce exciting new features, such as achieving industrialization and rebuilding your home from the ground up. *(We're recruiting contributors to help turn these plans into reality!)*
-
-Based on the `cdda/master` branch of [CleverRaven/Cataclysm-DDA](https://github.com/CleverRaven/Cataclysm-DDA), commit: **221c786e7d**
-
-## Downloads
-**Releases** You can download the current test version here: [Releases](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/releases)
-
-## How to Contribute
-Any developer interested in contributing to this branch is welcome to submit pull requests to this repository to support its development.
-Read the current CCB [CONTRIBUTING.md](./CONTRIBUTING.md) and
-[developer documentation](https://crimsoncrossbunker.github.io/CCB-Docs/).
-
-We also welcome feedback and improvement suggestions from all players, particularly on the following areas:
-- Any illogical or counterintuitive mechanics, preferably with verifiable real-world references
-- Any reasonable analysis and actionable improvement proposals
-
-## Community
-Join our:
- - QQ group: 552610319
- - Discord: https://discord.gg/tUG9MFwCqf
- - Reddit: https://www.reddit.com/r/CataclysmCB/
-
-## FAQ
-
-#### Compatibility?
-Our branch will not proactively break compatibility. In fact, we are not only attempting to fix various bugs and compatibility-related issues left behind by Cataclysm-DDA, but we are also continuously syncing changes from the upstream Cataclysm-DDA branch that do not conflict with our development philosophy or core modifications, thereby maintaining project synchronicity. If you are a player, you should find it very easy to add third-party mods meant for the latest experimental versions of Cataclysm-DDA into this branch's game. If you are a mod author, adaptation work should also be straightforward. Please note, however, that because we have already introduced a significant amount of additional features and modding API support, mod projects exclusive to this project may not be compatible with the upstream Cataclysm-DDA game!
-
-#### Q: Are you creating this project to simplify the game or boost its playability?
-A: No. Adjusting difficulty is not our core objective, and we will not make changes solely for that purpose. The mission of this project is to avoid unnecessary frustrations for players while preserving the full depth of the original gameplay. We aim to build a modification system that is realistic, intuitive, engaging, and fair to both player characters and monsters. We reject the false dichotomy that realism must conflict with gameplay or character performance, and strive to think from the player's perspective as developers.
-
-#### Q: Will you delete large amounts of original game content against players' wishes in the future?
-A: No. We will avoid blanket bans and never remove content without providing a suitable replacement. Developers and contributors are accountable for any subtractions they make, and we will reject extreme changes made solely for the sake of nerfing or buffing. We support changes grounded in extensive references and real-world logic; all mechanic modifications must be explainable and consistent with real-world physics, physiology, and engineering principles. We will never force through changes that contradict logical reality.
-
-We are committed to a collaborative developer-player relationship, reject the "No fun allowed" development philosophy, and eliminate meaningless failures caused by opaque or unexpected rules. We recognize that realism does not equal nerfing or a lack of gameplay, and will always balance realism with fun.
-
-## License
-This project inherits the license from the original game:
-- CC-BY-SA 3.0 and compatible terms
-- Translation Attribution: Translations derived from Cataclysm-DDA, original translator credits preserved in language file headers, see [TRANSLATION_CREDITS.md](./TRANSLATION_CREDITS.md)
+The initial supported path is a new save, without a promise to migrate CCB saves. Installation and data isolation from CCB need further acceptance evidence. Inherited CCB decisions are identified as history in [SYNC_EXCLUDED_PRS.md](SYNC_EXCLUDED_PRS.md). Source, assets, and contributions retain CC BY-SA 3.0 and applicable third-party notices; see [translation credits](TRANSLATION_CREDITS.md).

@@ -1,15 +1,11 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `build-windows-msys2`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/build/windows-msys2/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/build/windows-msys2/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: build-windows-msys2 -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `build-windows-msys2`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
+> Build scope: [CPH CMake presets](COMPILING-CMAKE.md) and the [compiler/platform contract](COMPILER_SUPPORT.md) describe the native validation targets. The additional recipes below are inherited local alternatives; their presence does not establish a successful CPH build or release on that platform.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -27,20 +23,20 @@
 
 # Compilation guide for 64-bit Windows (using MSYS2)
 
-This guide contains instructions for compiling Cataclysm-DDA on Windows under MSYS2. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.
+This is an inherited recipe for local CPH builds with MSYS2/MinGW. It is not a redistributable package or native MSVC acceptance recipe. CPH downloads, when published, are linked from the [project README](../../README.md); upstream CDDA packages are not CPH builds.
 
 
 ## Prerequisites:
 
-**Note:** Windows XP is unsupported!
+**Compatibility boundary:** Use a Windows version supported by your selected MSYS2 toolchain and record an actual CPH build/test result. Toolchain selection below is not an operating-system support promise.
 
 ### MINGW64
-* Windows 7, 8, 8.1
+* MINGW64 dependency environment; the example below selects SDL2.
 * NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
 * 64-bit version of MSYS2
 
 ### UCRT64
-* Windows 10 and later
+* UCRT64 dependency environment; the example below selects SDL3.
 
 
 ## Installation:
@@ -68,7 +64,7 @@ MSYSTEM=UCRT64 bash -l
 pacman -Syyu
 ```
 
-2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
+2. Follow any restart instruction from the updater, then reopen the selected MSYS2 environment. Resolve unexpected update errors before installing dependencies or building; an error is not a successful setup.
 
 3. Update remaining packages:
 
@@ -78,12 +74,12 @@ pacman -Su
 
 4. Install packages required for compilation:
 
--> Windows 7, 8, 8.1 (With SDL2)
+-> MINGW64 (SDL2 fallback)
 ```bash
 pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
 ```
 
--> Windows 10 and later (With SDL3)
+-> UCRT64 (SDL3)
 ```bash
 pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
 ```
@@ -97,21 +93,21 @@ pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,cca
 
 ## Cloning and compilation:
 
-1. Open MSYS2 and clone the Cataclysm-DDA repository:
+1. Open MSYS2 and clone the CPH repository:
 
 ```bash
 cd /c/dev/
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
+git clone --branch main https://github.com/oncehere/Cataclysm-Phantom-Hope.git cph
 ```
 
-**Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
+**Note:** A shallow clone can reduce a local trial download; contribution and history checks may require the full relevant Git history.
 
-**Note:** If you want to contribute to CDDA, see [example git workflow](../../CONTRIBUTING.md#example-workflow).
+**Note:** If you want to contribute to CPH, see [example git workflow](../../CONTRIBUTING.md).
 
 2. Compile with following command line:
 
 ```bash
-cd Cataclysm-DDA
+cd cph
 make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL3=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
 ```
 
@@ -121,7 +117,7 @@ This will compile a release version with Sound and Tiles support and all localiz
 
 It is now using `SDL3` flag to determine wether to use `SDL2` or `SDL3`, it is set to `SDL3=1` by default when you don't pass in this parameter, you can set it to `SDL3=0` to use SDL2 instead.
 
-**Note:** See `COMPILING-CMAKE.md` section [`CMake Build for MSYS2 (MinGW)`](COMPILING-CMAKE.md#cmake-build-for-msys2-mingw) for using the CMake build system.
+**Note:** See [CMake setup](COMPILING-CMAKE.md) for the out-of-source workflow. The `windows-tiles-sounds-x64` preset targets MSYS2/MinGW; provide its matching dependencies and record your own build/test results. It is not the native MSVC acceptance target.
 
 ## Running:
 

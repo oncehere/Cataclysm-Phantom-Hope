@@ -1,15 +1,11 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `content.firearms-naming-and-inclusion`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/content/firearms/naming-and-inclusion/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/content/firearms/naming-and-inclusion/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: content.firearms-naming-and-inclusion -->
+> **Inherited historical reference / 继承历史参考。** Stable document ID: `content.firearms-naming-and-inclusion`.
+> The gun naming rules below come from an earlier CDDA context; CPH's current
+> source and [design differences](../docs/project/design-differences.md) decide CPH policy.
+> [Documentation index / 文档导航](../docs/README.md).
+
+The following naming and inclusion rules are inherited CDDA design guidance. They provide useful review questions, but their gun counts, balance thresholds, option behavior and mandatory wording are not confirmed CPH policy. For a CPH firearm change, inspect current JSON IDs, ammo/magazine data, localization, tests and [design differences](../docs/project/design-differences.md); explain the player-visible purpose and compatibility in the PR. Preserve original authorship of the guidance below.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*

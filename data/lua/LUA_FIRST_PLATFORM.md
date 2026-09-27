@@ -1,10 +1,12 @@
-# CCB Lua-first Platform v1 / CCB Lua-first 平台 v1
+# CPH Lua-first Platform v1 / CPH Lua-first 平台 v1
 
-Status: accepted architecture specification for the sole CCB Lua Platform.
+Status: architecture contract inherited from CCB for CPH's sole Lua Platform.
+The `ccb` module name and existing API identifiers remain unchanged.
 Implementation status is recorded in `ai/lua-first-roadmap.yml`; runtime
-behaviour is proved by `src/lua_platform_*` and test source, not by this page.
+behavior must be verified against `src/lua_platform_*` and actual test results.
+Test source or inherited PR evidence alone does not prove a CPH runtime pass.
 
-状态：CCB 唯一 Lua Platform 的已接受架构规范。实现状态记录在
+状态：CPH 继承的 CCB Lua Platform 架构契约；保留 `ccb` 模块名与现有 API ID。实现状态记录在
 `ai/lua-first-roadmap.yml`；运行时事实以 `src/lua_platform_*` 和测试源码为准，本文不
 把设计说明当作实现证明。
 
@@ -152,9 +154,9 @@ restricted and unrestricted runtime tiers.
 API 调用弹权限窗口。此告知是待落实的集成要求，不代表现有启动器已实现。普通 Lua 错误应可
 定位与清理，但不承诺无限循环/原生调用可安全中断，也不承诺崩溃隔离或外部副作用回滚。
 
-Integration acceptance evidence is maintained in [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768), including the tested build configurations and native runtime results. The behavior below is the source contract; test source alone is not passing evidence. Interactive UI checks and native module packaging on each target platform require their own evidence.
+Historical CCB integration evidence is recorded in [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768), including the tested build configurations and native runtime results. The behavior below is the source contract; test source alone is not passing evidence. Interactive UI checks and native module packaging on each target platform require their own evidence.
 
-本批整合的编译配置、原生运行结果与验收边界统一记录在 [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768)。下文描述源码契约，测试源码存在本身不代表通过；交互界面与各目标平台原生模块打包仍需各自证据。
+CCB 原整合批次的历史编译配置、原生运行结果与验收边界记录在 [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768)。下文描述源码契约，测试源码存在本身不代表通过；交互界面与各目标平台原生模块打包仍需各自证据。
 
 Implementation checkpoint (2026-09-08): the loader source now opens the bundled
 standard libraries, retains normal package searchers and native loading, and
@@ -643,13 +645,14 @@ suggestions into loader requirements.
 
 Changes to discovery, lifecycle, native registrations, declarations, schema,
 migration behavior, or roadmap status update this specification and the
-affected CCB-Docs ids. Source and tests remain authoritative; prose never
+affected repository documentation paths and stable IDs from
+`ai/documentation-registry.yml`. Source and tests remain authoritative; prose never
 promotes a planned capability into a shipped one.
 
 `data/lua/templates/minimal/`、`complete/` 是创作脚手架，内置
 `data/mods/Lua_First_Example/` 是根目录 `main.lua` 的可运行纵向样例，不代表整个平台完成。
 模板只能建议目录结构，不能把建议变成加载器要求。发现、生命周期、原生注册、声明、
-schema、迁移行为或 roadmap 状态变化时同步更新本文和对应 CCB-Docs id；源码与测试始终
+schema、迁移行为或 roadmap 状态变化时同步更新本文和`ai/documentation-registry.yml` 中对应的本仓文档路径和稳定 ID；源码与测试始终
 优先于说明文案。
 
 ### Explicit empty scalar values / 显式空值

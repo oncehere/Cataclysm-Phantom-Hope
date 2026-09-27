@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.mapgen`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/mapgen/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/mapgen/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.mapgen -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.mapgen`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # MAPGEN
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -1176,7 +1170,7 @@ The `type` field values affect NPC behavior. NPCs will:
 - Prefer to retreat towards `NPC_RETREAT` zones.
 - Not move to see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
 - Not move to see the source of unseen sounds coming from outside of `NPC_INVESTIGATE_ONLY` zones.
-- Use `LOOT_xxx` zones for their shop (see [NPCs.md#Shop_restocking](NPCs.md#Shop-restocking))
+- Use `LOOT_xxx` zones for their shop (see [NPCs.md#Shop_restocking](NPCs.md#shop-restocking))
 
 Single-point loot zones that overlap cargo vehicle parts will be placed as vehicle zones.
 
@@ -1215,7 +1209,7 @@ Place_nested allows for conditional spawning of chunks based on the `"id"`s and/
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
 | z                  | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches, note this field defaults to CONTAINS not TYPE.
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#starting-locations) "terrain" section to do more advanced searches, note this field defaults to CONTAINS not TYPE.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
 | flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 | flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.

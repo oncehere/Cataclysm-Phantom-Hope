@@ -1,108 +1,72 @@
-schema_version: 1
+schema_version: 2
 kind: repository_settings_target
-description: Audited GitHub state, disabled ruleset target, and single-Responsible-human review policy; this file never applies settings by itself.
+description: Dated read-only CPH GitHub observation and deferred intake; this file does not apply settings. Gate readiness records historical prerequisites, not permission to change an active rule.
 enforcement: deferred
 
 audit:
-  observed_at: '2026-08-02'
-  observed_timestamp: '2026-08-02T02:52:24+08:00'
-  observed_by: LYHGLYTX
-  timezone: Asia/Shanghai
-  evidence_scope: Maintainer-supplied read-only GitHub API audit.
+  observed_at: '2026-09-27'
+  observed_timestamp: '2026-09-27T07:42:11Z'
+  evidence_scope: Read-only GitHub REST observations of the exact CPH fork, active main/master rulesets, PR 1 native CI and trusted status, protected PR 1 merge, rejected PR 2, and codex/sync-state deployment acceptance; no setting was changed by this audit. The main ruleset updated_at is used for enabled_at. Repository allow_auto_merge is GitHub's native setting; the separate sync controller records auto_merge_enabled=true.
   observation_commands:
-    - gh api repos/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/actions/permissions/workflow
-    - gh api repos/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb
-    - gh api repos/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/rulesets
-    - gh api repos/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/branches/master/protection
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/branches/main
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/rulesets
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/rulesets/24056126
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/rulesets/24055653
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/actions/permissions/workflow
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/private-vulnerability-reporting
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/pulls/1
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/commits/f10729444cc6127db0e26e3dc8504c0f43465734/status
+    - gh api --method GET repos/oncehere/Cataclysm-Phantom-Hope/actions/runs -f head_sha=f10729444cc6127db0e26e3dc8504c0f43465734
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/pulls/2
+    - gh api repos/oncehere/Cataclysm-Phantom-Hope/contents/state.json?ref=codex/sync-state
   repository:
-    full_name: CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb
-    default_branch: master
-    rulesets: []
-    branch_protection_observed: false
+    full_name: oncehere/Cataclysm-Phantom-Hope
+    default_branch: main
+    main_sha: 39859e1b253e28e2c34b6a19935b7edcce51b9b6
+    fork: true
+    parent: CleverRaven/Cataclysm-DDA
+    main_protected: true
+    has_issues: false
+    has_discussions: true
     allow_auto_merge: false
   actions:
     default_workflow_permissions: read
-    can_approve_pull_request_reviews: false
+    can_approve_pull_request_reviews: true
   security:
     secret_scanning: enabled
     secret_scanning_push_protection: enabled
-    dependabot_security_updates: enabled
-    vulnerability_alerts_http_status: 204
-    automated_security_fixes: enabled
-  organization:
-    two_factor_requirement_enabled: false
-  reviewer_confirmation:
-    tracking_issue: 563
-    issue_comments_at_audit: 0
-    confirmed_willing_humans: 1
-    required_willing_humans: 1
-    review_model: single_responsible_human
-    policy_decision_at: '2026-08-02T19:24:37+08:00'
-  required_check_evidence:
-    pull_requests: [568, 569]
-    status: pr_branch_only
-    default_branch_success_confirmed: false
-  two_factor_rollout:
-    tracking_issue: 564
-    status: blocked_pending_member_audit_and_notice
+    dependabot_security_updates: disabled
+    private_vulnerability_reporting: false
+  rulesets:
+    - id: 24056126
+      name: CPH verified native merge gate
+      branch: main
+      enforcement: active
+    - id: 24055653
+      name: Preserve inherited CDDA master
+      branch: master
+      enforcement: active
 
 entries:
-  - id: master-protection
-    branch: master
-    enabled: false
+  - id: main-merge-gate
+    branch: main
+    observed_ruleset_id: 24056126
+    observed_enforcement: active
+    desired_enforcement: active
+    required_context: cph/trusted-gate
     prerequisites:
-      minimum_confirmed_human_reviewers: 1
-      required_checks_must_succeed_on_default_branch: true
-      emergency_bypass_actor_must_be_confirmed: true
-    target:
-      github_ruleset:
-        name: CCB master protection
-        target: branch
-        enforcement: disabled
-        bypass_actors: []
-        conditions:
-          ref_name:
-            include: [refs/heads/master]
-            exclude: []
-        rules:
-          - type: deletion
-          - type: non_fast_forward
-          - type: pull_request
-            parameters:
-              dismiss_stale_reviews_on_push: false
-              require_code_owner_review: false
-              require_last_push_approval: false
-              required_approving_review_count: 0
-              required_review_thread_resolution: true
-          - type: required_status_checks
-            parameters:
-              strict_required_status_checks_policy: true
-              do_not_enforce_on_create: true
-              required_status_checks:
-                - context: Agent context and documentation impact
-                - context: Lua public contract
-      bypass_policy:
-        mode: emergency_only
-        reason_required: true
-        configured_actors: []
-    blockers:
-      - id: default-branch-check-stability
-        state: open
-        evidence_pull_requests: [568, 569]
-        reason: Candidate checks passed only on pull-request branches and have no stable master run yet.
-      - id: emergency-bypass-owner
-        state: open
-        tracking_issue: null
-        reason: No real emergency bypass actor and escalation owner has been confirmed.
-    manual_record:
-      confirmed_reviewers:
-        - login: LYHGLYTX
-          permission_verified_at: '2026-08-02'
-          willingness_confirmed_at: '2026-08-02'
-          scope: Responsible-human review for all repository changes, including self-authored changes.
-      required_checks: []
-      emergency_bypass_actors: []
-      enabled_at: null
-      enabled_by: null
-      ruleset_id: null
-      bypass_tested_at: null
+      windows_linux_checks_verified: true
+      trusted_gate_verified: true
+    # Historical activation prerequisites are met; the ruleset is already active.
+    ready_to_enable: true
+    post_activation_probe_verified: true
+    operational: true
+    enabled_at: '2026-09-27T07:17:28.669Z'
+    blockers: []
+
+post_merge_intake:
+  target_issues_enabled: true
+  target_private_vulnerability_reporting_enabled: true
+  cleanup_pr_merged: false
+  ready_to_enable: false

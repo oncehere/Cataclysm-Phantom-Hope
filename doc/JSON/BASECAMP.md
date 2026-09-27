@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.basecamp`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/basecamp/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/basecamp/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.basecamp -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.basecamp`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -275,7 +269,7 @@ Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"desc
 ---- Field ---- | --------------------------------------------------------------------------------------------------------- Description --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 `"id"`          | Id of the recipe that starts that basecamp or basecamp expansion upgrade path, and has to conform to the pattern `"faction_base_X_0"`, where X distinguishes the entry from the others, with the prefix and suffix required by the code.                                                                                                          |
 `"description"` | The name shown in-game for the basecamp or basecamp expansion.                                                                                                                                                                                                                                                                                    |
-`"om_terrains"` | An array of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion. Individual entries can either be a string or an object containing `"om_terrain"` for the overmap terrain id, along with at least one of `"parameters"` and `"om_terrain_match_type"` (see [JSON_INFO.md](JSON_INFO.md#Starting-locations)) |
+`"om_terrains"` | An array of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion. Individual entries can either be a string or an object containing `"om_terrain"` for the overmap terrain id, along with at least one of `"parameters"` and `"om_terrain_match_type"` (see [JSON_INFO.md](JSON_INFO.md#starting-locations)) |
 
 
 #### Examples

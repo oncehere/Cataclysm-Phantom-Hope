@@ -1,16 +1,12 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `legacy.lang-notes-readme-all-translators`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/localization/translation-guide/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/localization/translation-guide/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-# Instructions for Cataclysm-DDA translators
+<!-- CPH-DOC: legacy.lang-notes-readme-all-translators -->
+> **CPH translator reference / CPH 译者参考。** Stable document ID: `legacy.lang-notes-readme-all-translators`.
+> This retained gettext-format guide contains historical CDDA examples and attribution.
+> Current CPH contribution and translation-input routes are [TRANSLATING.md](../../doc/TRANSLATING.md),
+> [TRANSLATION_CREDITS.md](../../TRANSLATION_CREDITS.md), and [translation inputs](../../docs/project/translation-inputs.md).
+> Earlier CCB-Docs migration links were CCB history, not the current CPH source.
+> 保留原译者署名；下方旧 PO 头部示例不表示当前 CPH 项目名或反馈地址。
+
+# Inherited gettext notes for CPH translators
 
 * [Translation file format](#translation-file-format)
 * [Translation file header](#translation-file-header)
@@ -76,7 +72,7 @@ The header will look something like:
     "Content-Transfer-Encoding: 8bit\n"
     "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-If you are starting a new translation, or you are in charge of the existing translation, it is helpful if you include your name and e-mail address so that you can be contacted with any questions or issues regarding the translation.
+If you maintain a catalog, retain previous translator names and add only contact details you choose to publish. Do not replace inherited attribution or copy the historical CDDA bug-report URL into a new CPH header.
 
 The only important part that cannot be easily filled out manually is the `Plural-Forms` section. It determines how different numbers of things are handled in your language. More on that later.
 

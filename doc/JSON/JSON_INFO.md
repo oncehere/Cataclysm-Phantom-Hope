@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.object-types`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.object-types -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.object-types`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # JSON INFO
 
 Use the `Home` key to return to the top.
@@ -269,7 +263,7 @@ Each object must have a `"type"` member that tells the game how to interpret
 that object.  For example, crafting recipes have `"type": "recipe"`, vehicle
 parts have `"type": "vehicle_part"`, and so on.  Note that items are a little
 unusual; there are multiple types which can be used to define an item.  See
-[the item documentation](#datajsonitems-jsons) for more details.
+[the item documentation](#datajsonitems) for more details.
 
 Each of these types is documented separately, either below or in other
 documentation which should be linked from below (doubtless a few have been
@@ -616,7 +610,7 @@ See below for specifics on the various items
 
 ## `data/json/requirements/`
 
-Standard components and tools for crafting (See [Recipe requirements](#recipe-requirements))
+Standard components and tools for crafting (See [Recipe requirements](ITEM_CRAFT_AND_DISASSEMBLY.md#recipe-requirements))
 
 | Filename                     | Description
 |---                           |---
@@ -1710,7 +1704,7 @@ Faults can be defined for more specialized damage of an item.
 }
 ```
 
-`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md#faults) for a list of possible flags.
+`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible flags.
 
 ### Item fault fixes
 
@@ -1738,7 +1732,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 
 `requirements` is an array of requirements, they can be specified in 2 ways:
 * An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
-* Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
+* Inline object specifying the requirement in the same way [recipes define it](ITEM_CRAFT_AND_DISASSEMBLY.md#recipe-requirements)
 
 ### Item fault groups
 
@@ -2698,7 +2692,7 @@ Examples of various usages syntax:
 ```
 
 The usages line is only required for items that have qualities that allow
-special actions on activation. See [Use Actions](#use-actions) for specific
+special actions on activation. See [Use Actions](ITEM.md#use-actions) for specific
 actions and documentation.
 
 IDs of actions and the plaintext action description for the player are defined

@@ -1,6 +1,6 @@
 schema_version: 1
 kind: docs_impact
-description: Staged source-to-document mapping; ordinary changes remain advisory while public API and format contracts require complete cross-repository PR metadata.
+description: Staged local and PR-review source-to-document contract. Public API and format changes require synchronized in-repository documentation review when this checker is run; current CPH workflows do not invoke it, so GitHub does not automatically block merges on these fields.
 enforcement: staged
 entries:
   - id: governance-policy
@@ -16,7 +16,7 @@ entries:
       - ai/repository-settings.target.schema.json
       - .github/dependabot.yml
       - .github/pull_request_template.md
-      - .github/workflows/validate-github-config.yml
+      - .github/workflows/project-gate.yml
       - tools/agent/audit_repository_governance.py
       - tools/agent/test_repository_governance.py
     documentation_ids: [contributing.responsible-human, getting-started.first-contribution]
@@ -52,17 +52,15 @@ entries:
       - data/lua/reference/ccb_platform_*
       - tools/lua_api/*
     documentation_ids:
-      - cpp.lua-bridge
+      - lua.platform.overview
     generated_reference_impact: true
     required_check_ids: [documentation-impact, lua-contract]
     documentation_readiness:
-      state: bilingual_draft
-      languages: [zh_CN, en]
-      repository: CrimsonCrossBunker/CCB-Docs
-      ref: codex/pr695-lua-build-contract-docs
-      commit: e64c8fd458f9f9fc140904b9c829f4009e5ce6fb
-      source_commit: b9a8d08beffe5b77aca4d4ff7f80821a7e6bb94c
-      activation_gate: Keep CCB-Docs PR #38 draft until source PR #695 merges; then refresh it to the final source merge commit and promote the mapped page before the documentation PR merges.
+      state: in_repository_review_required
+      repository: oncehere/Cataclysm-Phantom-Hope
+      documents:
+        - id: lua.platform.overview
+          path: data/lua/README.md
     risk_group: lua-api
     risk_level: high
 
@@ -124,21 +122,18 @@ entries:
       - src/*factory*
       - tools/json_api/*
     documentation_ids:
-      - json.overview
-      - json.inheritance-copy-from
-      - json.validation
-      - reference.json-object-types
-      - mods.complete-json-eoc-mod
+      - json.object-types
+      - json.inheritance
     generated_reference_impact: true
     required_check_ids: [documentation-impact, json-eoc-contract]
-    documentation_readiness: &json_eoc_docs_readiness
-      state: bilingual_draft
-      languages: [zh_CN, en]
-      repository: CrimsonCrossBunker/CCB-Docs
-      ref: agent/ccb-docs-json-eoc-on-lua
-      commit: c86731aad984f67ed679a9f244f476fee7f973a1
-      source_commit: a038c765568fc47a58ef8c523b2722d416f5f61c
-      activation_gate: Refresh to the merged CCB source commit and promote every mapped page from draft before this enforcement PR merges.
+    documentation_readiness:
+      state: in_repository_review_required
+      repository: oncehere/Cataclysm-Phantom-Hope
+      documents:
+        - id: json.object-types
+          path: doc/JSON/JSON_INFO.md
+        - id: json.inheritance
+          path: doc/JSON/JSON_INHERITANCE.md
     risk_group: json-api
     risk_level: high
 
@@ -153,16 +148,15 @@ entries:
       - src/effect_on_condition.h
       - tools/json_api/*
     documentation_ids:
-      - eoc.overview
-      - eoc.talkers
-      - eoc.variables-context
-      - eoc.nesting
-      - reference.eoc-conditions
-      - reference.eoc-effects
-      - mods.complete-json-eoc-mod
+      - eoc.reference
     generated_reference_impact: true
     required_check_ids: [documentation-impact, json-eoc-contract]
-    documentation_readiness: *json_eoc_docs_readiness
+    documentation_readiness:
+      state: in_repository_review_required
+      repository: oncehere/Cataclysm-Phantom-Hope
+      documents:
+        - id: eoc.reference
+          path: doc/JSON/EFFECT_ON_CONDITION.md
     risk_group: eoc-api
     risk_level: high
 

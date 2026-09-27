@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `developer-tooling`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/cpp/developer-tooling/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/cpp/developer-tooling/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: developer-tooling -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `developer-tooling`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -79,7 +73,7 @@ On Windows, there is an [AStyle extension for Visual Studio 2019](https://github
 
 2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-3. Import `https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. Import the checked-in `msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
 ![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
 
@@ -108,8 +102,9 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  CI runs `clang-tidy` from LLVM 18.0.0 (Ubuntu apt.llvm.org build),
-so for the most consistent results that is still the recommended baseline.
+codebase. The inherited local scripts default to LLVM 18. CPH's current native
+workflow does not run a dedicated clang-tidy job; local lint results must record
+their own toolchain and command.
 The build scripts also accept `LLVM_VERSION=19|20|21|22` (and `LLVM_PREFIX`
 for non-Ubuntu install layouts) so the same workflow works against newer
 toolchains; preemptive `.clang-tidy` disables keep newer-version noise out
@@ -139,12 +134,12 @@ We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
 work requires some extra steps.
 
 #### Extreme tl;dr for Ubuntu Focal (including WSL)
-The following set of commands should take you from zero to running clang-tidy equivalent to the CI job. This will lint all sources in a random order.
+These inherited LLVM 18 commands illustrate a local lint setup. Confirm that the packages exist for your host; no current CPH CI job is claimed here. This will lint all sources in a random order.
 ```sh
 sudo apt install build-essential cmake clang-18 libclang-18-dev llvm-18 llvm-18-dev llvm-18-tools pip
 sudo pip install compiledb lit
 test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
-# The following commands invoke clang-tidy exactly like CI does
+# Local lint commands from the inherited build scripts
 COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
 COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
 ```
@@ -164,8 +159,7 @@ which is honoured by `clang-tidy-build.sh`, `clang-tidy-run.sh`,
 
 #### Ubuntu Focal
 
-If you are on Ubuntu Focal then you might be able to get it working the same
-way our CI does.  Add the LLVM 18 Focal source [listed
+This inherited Ubuntu Focal recipe has not been validated as a current CPH environment.  Add the LLVM 18 Focal source [listed
 here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-18
 libclang-18-dev llvm-18-dev llvm-18-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
@@ -257,8 +251,10 @@ The rough outline of the process is:
 
 First of all you would need a working LLVM. You *might* be able to [download it](https://github.com/llvm/llvm-project/releases) from llvm-project github (look for file named something like `clang+llvm-19.1.5-x86_64-pc-windows-msvc.tar.xz`), and it *might* work, but there is no guarantee. I suggest you try it, and skip to the next section. If it works for you - great! You just saved yourself several hours of building it from source, if not - read on.
 
-Ideally you should try to match the llvm version you download with the one that we build the CI against, as different versions yield slightly different results. And also there is no stability promise so that the checks that compile against llvm-17 might stop doing so in llvm-20.
-At the time of writing we are building against llvm-17, if you are reading this in the future, check [the CI definition](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/workflows/clang-tidy.yml) to know what's current.
+Build the plugin and executable with matching LLVM headers and libraries.
+Plugin APIs vary by LLVM version. Check the local scripts and record the
+version you actually test; the removed upstream clang-tidy workflow is not a
+CPH configuration source.
 
 
 The instruction for building LLVM can be found at https://clang.llvm.org/get_started.html, but duplicating here with some emphasis.
@@ -603,8 +599,7 @@ You can also add `-fix-errors` to apply fixes reported by the checks or
 required headers and add and remove includes as appropriate.
 
 Running IWYU on this codebase revealed some issues.  You will need a version of IWYU
-where the following PR has been merged (which has not yet happened at time of
-writing, but with luck might make it into the clang-10 release of IWYU):
+that includes the behavior discussed in this historical upstream change:
 
 * https://github.com/include-what-you-use/include-what-you-use/pull/775
 

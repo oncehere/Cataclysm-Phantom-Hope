@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `testing-manual`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/testing/manual-playtesting/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/testing/manual-playtesting/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: testing-manual -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `testing-manual`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../docs/README.md).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 *Contents*
@@ -39,19 +33,17 @@ so read this one first.
 For JSON changes, read [JSON/JSON_STYLE.md](JSON/JSON_STYLE.md).
 For C++ changes, read [c++/CODE_STYLE.md](c++/CODE_STYLE.md).
 
-All released builds include a pre-compiled `json_formatter.cgi`, which
-is a handy tool to automatically format any JSON file you point it at
-to our chosen standards.
+Build `tools/format/json_formatter.cgi` from this checkout and run it on changed
+JSON files. A CPH release containing that binary must be checked individually;
+this guide does not promise release packaging.
 
 ## Applying your changes locally
 
-For JSON-only changes, which make up most contributions, a very simple
-way is to simply place your Cataclysm executable into your
-git repository.
-It will automatically use this altered path to load resources.
-For more advanced situations, there are commandline parameters such as
-`--datadir`, which you can point at your git respository.
-Check `--help` for more information.
+For JSON data changes, use a binary built from the matching CPH revision and
+point `--datadir` at the intended data directory. Check that binary's `--help`
+and actual data-path logs rather than relying on the executable location. Use
+disposable user, config and save directories. Lua Platform changes additionally
+follow the [Lua contract workflow](../data/lua/LUA_FIRST_EOC_WORKFLOW.md).
 
 You should also use an up-to-date version of Cataclysm and ensure that
 the git revision matches the Cataclysm executable version to avoid

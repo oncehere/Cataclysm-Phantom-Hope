@@ -1,23 +1,9 @@
-# CCB support
+# CPH support / 支持入口
 
-Choose the narrowest channel so questions and defects reach the right people.
+Use the [CPH repository](https://github.com/oncehere/Cataclysm-Phantom-Hope) as the project entry point. [Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) is the public place for questions, build help and early ideas. For a reproducible CPH defect, use [CPH Issues](https://github.com/oncehere/Cataclysm-Phantom-Hope/issues/new/choose) if enabled; see [ISSUES.md](ISSUES.md). Check [project status](docs/project/status.md) and the actual GitHub page for current Issues and download availability. The [repository documents](docs/README.md) explain development paths.
 
-| Need | Channel |
-| --- | --- |
-| Developer tutorials and architecture | <https://crimsoncrossbunker.github.io/CCB-Docs/> |
-| Questions, build help, and early ideas | <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/discussions> |
-| Reproducible bugs and actionable work | <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/issues/new/choose> |
-| Releases and downloads | <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/releases> |
-| Private vulnerability reports | <https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/security/advisories/new> |
-| Player community | QQ group `552610319`, Discord <https://discord.gg/tUG9MFwCqf>, Reddit <https://www.reddit.com/r/CataclysmCB/> |
+Give the exact CPH commit or release tag, OS/architecture, build command, first meaningful error and relevant mods. Use temporary copies of saves; remove credentials and personal information before posting public logs. CCB and CDDA have their own channels and releases, but those do not provide CPH support or CPH binaries.
 
-CCB-GUIDE is a game-data lookup site, not the authority for build, contribution,
-or API contracts. CCB-Docs is explanatory; source and tests remain authoritative
-for runtime behaviour.
+For a potential vulnerability, follow [SECURITY.md](SECURITY.md) and verify that its private report button is available before sharing details. Do not publish an exploit or sensitive data in Discussions, Issues or a PR. For conduct concerns, see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md); there is currently no official private conduct reporting channel.
 
-For effective help, provide the exact CCB commit or release, platform,
-toolchain/build variant, complete command, first meaningful error, and relevant
-mod list. Remove credentials and private information from logs.
-
-问题咨询请提供准确版本、平台、构建命令、首个有效错误和 Mod 列表。可复现缺陷
-使用 Issue Form；安全漏洞必须私密报告。
+一般问题和构建求助请到 CPH Discussions；可复现缺陷在 Issues 实际开放后按表单提交。当前下载、Issues 与安全报告渠道的状态以带日期的状态页和 GitHub 实际入口为准。

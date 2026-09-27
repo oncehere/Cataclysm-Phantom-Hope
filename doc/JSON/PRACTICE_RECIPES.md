@@ -1,15 +1,9 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `json.practice-recipes`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/reference/json/practice-recipes/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/reference/json/practice-recipes/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
+<!-- CPH-DOC: json.practice-recipes -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `json.practice-recipes`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
+
 # Practice Recipes
 
 Practice recipes allow practicing skills and proficiencies by working on crafts that are "just for
@@ -18,7 +12,7 @@ designed to focus on specific niche skills or proficiencies, which might be proh
 from the more productive (and time-consuming) crafting recipes requiring many proficiencies.
 
 The practice recipe JSON format is a form of the "recipe" type, with a few differences noted below.
-See [Recipes section of JSON_INFO](JSON_INFO.md#recipes) for more on recipe fields.
+See [Recipes section of JSON_INFO](ITEM_CRAFT_AND_DISASSEMBLY.md#recipes) for more on recipe fields.
 
 
 ## JSON fields

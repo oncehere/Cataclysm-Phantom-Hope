@@ -1,109 +1,51 @@
-<!-- CCB-DOC-MOVED-START -->
-> [!IMPORTANT] **Moved / 已迁移**
->
-> Stable document ID / 稳定文档 ID: `platform-matrix`
-> 中文: https://crimsoncrossbunker.github.io/CCB-Docs/platforms/compiler-support/
-> English: https://crimsoncrossbunker.github.io/CCB-Docs/en/platforms/compiler-support/
-> Moved date / 迁移日期: `2026-08-02`
-> Last in-repository commit / 仓库内最后适用 commit: `0378ca2b84303cf614c617c9d9eaa50138cd21ff`
-> The maintained documentation now lives in CCB-Docs.
-> This in-repository body is no longer maintained. The historical body is retained through `2027-02-02` and may then be removed; this bilingual entry banner remains permanently.
-> 本仓库正文不再维护；历史正文至少保留到上述日期，之后可删除，但本双语迁移入口永久保留。
-<!-- CCB-DOC-MOVED-END -->
-# Compilers Supported
+<!-- CPH-DOC: platform-matrix -->
+> **CPH repository documentation / 本仓维护。** Stable document ID: `platform-matrix`.
+> This page is maintained with the CPH source. The inherited
+> [CCB migration record](../migration/history-assessment.md) is historical.
+> [Documentation index / 文档导航](../../docs/README.md).
 
-| Compiler                                             | Oldest Version |
-| :---                                                 | ---: |
-| [GCC](https://gcc.gnu.org)                           | [9.3](https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gcc/) |
-| [clang](https://clang.llvm.org)                      | [13.0](https://releases.llvm.org/13.0.0/docs/index.html) |
-| [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
-| [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
-| [XCode](https://developer.apple.com/xcode)           | [11.4](https://developer.apple.com/documentation/xcode-release-notes/xcode-11_4-release-notes) <br/> [macOS 10.15](https://en.wikipedia.org/wiki/MacOS_Catalina) |
+# CPH compiler and platform contract
 
-Our goal with compiler support is to make it as easy as possible for new
-contributors to get started with development of the game, while also using the
-newest compilers (and thus language standards) that we can.
+The language baseline is **C++17**, required by
+[`CMakeLists.txt`](../../CMakeLists.txt). A successful configuration is not a
+passing build or runtime test. CPH does not yet publish a separately verified
+oldest-compiler matrix; the former GCC/Xcode/MSYS version table described an
+upstream snapshot and must not be used as a CPH support promise.
 
-To that end, we aim to support GCC and clang up to the newest stable versions
-and back to those shipping in any supported version of a popular distribution
-or relevant development environment, including Ubuntu, Debian, MSYS, and XCode.
+## Maintained validation targets
 
-In practice, compiler support is often determined by what is covered in our
-automated testing[^1].
+| Target | Configuration source | Evidence required |
+| --- | --- | --- |
+| Linux x86_64 | `linux-tiles-sounds-x64`; native Ubuntu runner, SDL3 | Build, required tests, runtime metadata and artifact hashes for the candidate |
+| Windows x86_64 | `windows-tiles-sounds-x64-msvc`; Visual Studio 2022 runner, SDL2 | Native MSVC build and required tests for the candidate |
+| macOS and Android | Informational probes | Separate native/build/device evidence before claiming support |
+| MinGW, cross builds, BSD and other recipes | Inherited local build instructions | Their own tested commit and toolchain; they do not satisfy native W/L gates |
 
-[^1]: [GitHub Actions Runner Images](https://github.com/actions/runner-images?tab=readme-ov-file#available-images)
+The exact generators, options, dependency pins and selected tests are in
+[`project/check-policy.json`](../../project/check-policy.json) and
+[`project/remote-actions-policy.json`](../../project/remote-actions-policy.json).
+Runner labels are in [`project-ci.yml`](../../.github/workflows/project-ci.yml).
+A runner label or configured workflow is not a PASS. Record the compiler ID,
+version, dependency revisions, commit, configuration, test command and exit
+status with every result. See [remote CI](../../docs/project/remote-sync.md).
 
-At the time of writing:
-* Focal is about to end general support, so we aim to support the next oldest
-  Ubuntu LTS (Jammy).  Jammy [defaults to g++
-  11.2](https://packages.ubuntu.com/jammy/g++) and [clang
-  14](https://packages.ubuntu.com/jammy/clang).
-* Debian stable is Bookworm, and [defaults to g++
-  12.2](https://packages.debian.org/bookworm/g++).
-* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 40,
-  which uses [gcc
-  14.0](https://fedoraproject.org/wiki/Changes/GNUToolchainF40).
-* MSYS [offers gcc 12.2](https://packages.msys2.org/base).
-* macOS 10.15+ (macOS Catalina) has 96.0% [market
-  share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)[^2]
-  and that corresponds to [XCode 11.4](https://xcodereleases.com/).
+## Choosing a compiler or using newer features
 
-[^2]: [macOS releases past 10.15 series can not be estimated faithfully](https://bugs.webkit.org/show_bug.cgi?id=216593)
+Use a C++17-capable toolchain compatible with the selected dependency stack.
+Test both required native targets before changing the language baseline,
+standard-library assumptions, compiler flags or dependency pins. A newer
+compiler passing locally does not establish an older minimum or all-platform
+compatibility. Preserve the existing project wrappers and lifetime contracts
+when replacing library facilities.
 
-With the supported compilers we can get all the C++17 language
-features and [most but not all of the C++17 library
-features](https://en.cppreference.com/w/cpp/compiler_support/17).  The
-following C++17 features are not supported widely enough for us to use:
+[Build instructions](COMPILING.md) and [CMake presets](COMPILING-CMAKE.md)
+explain local builds. Keep platform-specific recipes and their evidence separate
+from a release qualification claim; market-share estimates and old distribution
+release dates are not compatibility tests.
 
-* Parallel algorithms and execution policies.
-* Hardware interference size.
-* File system library (note, we already have a backported version of the
-  filesystem library bundled with CDDA, so that can be used instead).
-* Polymorphic memory resources.
-* Mathematical special functions.
-* Elementary string conversions for floating point.
-* Array support in `std::shared_ptr` and `weak_ptr`.
-
-Some of these are not even supported in the latest XCode so we cannot expect to
-use them for many years.
-
-The limiting factor preventing us from using newer C++ features is primarily
-XCode, where we would probably want version 13 before moving to C++20.
-
-## Mingw and Mingw-w64
-
-We use Mingw for cross-compilation of Windows versions on Linux.
-It is currently used both in the tests and for the Windows release binaries.
-
-## MSYS2
-
-MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows.
-At the time of writing it offers gcc 13.3 or [higher](https://packages.msys2.org/search?q=gcc).
-
-MSYS also [provides](https://packages.msys2.org/search?&q=clang) clang.
-We don't currently support using clang here, but work to that end is welcome.
-
-## XCode
-
-Since macOS can be harder to update we have active developers and users on
-unsupported versions of macOS we would like to support.  To support a reasonable
-number of users we aim to support at least 95% of users by macOS market share.
-
-At time of writing, the oldest relevant compiler is XCode 10.1, the latest
-supported on macOS 10.13, which is based on LLVM 6.
-
-To monitor macOS market share we have a helper script in
-tools/macos-market-share.py.  Download the CSV-formatted data from
-[statcounter](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)
-and process it with that script to get a summary of cumulative market share as
-it varies across time.  For example, this output:
-
-```
-2021-05 :: 10.11:  8.2  10.12: 11.0  10.13: 18.3  10.14: 27.0  10.15: 98.1
-2021-06 :: 10.11:  6.6  10.12:  9.3  10.13: 16.3  10.14: 24.6  10.15: 99.0
-2021-07 :: 10.11:  4.7  10.12:  7.4  10.13: 14.2  10.14: 22.1  10.15: 99.3
-```
-
-shows that cumulative market share for versions up to 10.11 first dropped below
-5% in 2021-07, at which point we (following the above guidelines) allowed
-ourselves to drop support for 10.11.
+The `scope`, `baseline_status` and `deployment_blockers` prose inside the
+check-policy file records the original E4 local baseline. Those fields do not
+describe live GitHub deployment. Current remote observations are dated in
+[project status](../../docs/project/status.md); actual acceptance requires the
+run and settings readback for the candidate. The target/options/test selections
+remain the machine-readable inputs used by the current CI runner.
