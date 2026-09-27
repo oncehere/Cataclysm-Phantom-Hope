@@ -24,6 +24,35 @@ SPEC.loader.exec_module(ci)
 BASE, HEAD, MERGE, TREE = [char * 40 for char in "abcd"]
 
 
+class DiagnosticTests(unittest.TestCase):
+    def test_diagnostic_always_preserves_original_test_failure(self):
+        for diagnostic in (subprocess.CompletedProcess([], 0),
+                           subprocess.TimeoutExpired("gdb", 180)):
+            with self.subTest(diagnostic=diagnostic), \
+                    tempfile.TemporaryDirectory() as folder:
+                runner = ci.Runner(Path(folder), {"PATH": "/trusted"})
+                original = RuntimeError("translations failed with exit -11")
+                arguments = ["test", "[translations]~[.]", "--user-dir",
+                             "original-user", "--out", "original.xml"]
+                with mock.patch.object(runner, "run", side_effect=original), \
+                        mock.patch.object(ci.subprocess, "run") as debug, \
+                        contextlib.redirect_stderr(io.StringIO()):
+                    if isinstance(diagnostic, Exception):
+                        debug.side_effect = diagnostic
+                    else:
+                        debug.return_value = diagnostic
+                    with self.assertRaises(RuntimeError) as error:
+                        ci.run_required_test(runner, "translations", arguments,
+                                             Path(folder), debugger="gdb")
+                    self.assertIs(error.exception, original)
+                    self.assertEqual(debug.call_args.kwargs["timeout"], 180)
+                    argv = debug.call_args.args[0]
+                    self.assertIn("set auto-load off", argv)
+                    self.assertNotIn("original-user", argv)
+                    self.assertNotIn("original.xml", argv)
+                    self.assertIn("[translations]~[.]", argv)
+
+
 class PlanTests(unittest.TestCase):
     def setUp(self):
         self.pr = {
