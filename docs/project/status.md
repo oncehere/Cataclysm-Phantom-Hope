@@ -1,5 +1,14 @@
 # CPH 本轮实施与交接（2026-09-26）
 
+## 2026-09-28 个人维护本地验收决定
+
+用户明确将授权个人维护的合入依据改为相关本机检查，适用于当前 PR #6；
+不再以 GitHub Actions 完成为前置条件。规则、证据复用和平台范围见
+[execution-spec 第 6.1 节](execution-spec.md#61-合入)。无人值守同步/自动合入
+的远端 Windows/Linux 门槛与四平台发布验收保持。此段记录策略决定，
+不宣称 PR #6 已合入、Windows 已通过或新工具控制器已在 GitHub 验收。
+GitHub 保护设置仍须按 [仓库设置流程](../../REPOSITORY_SETTINGS.md) 另行确认并回读。
+
 ## 2026-09-28 02:48 UTC 指导整理合入回读
 
 [PR #4](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/4) 与

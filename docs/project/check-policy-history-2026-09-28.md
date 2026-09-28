@@ -54,11 +54,14 @@ Status: **IMPLEMENTED_NOT_DEPLOYED**. The maintenance PR introducing this
 controller cannot obtain the new tooling evidence from its old base: that base
 does not yet contain `ci_tooling.py` or the new policy contract. A PR-triggered
 candidate workflow therefore cannot establish acceptance of its own new gate.
-Use a `project-ci.yml` dispatch on the currently deployed main to obtain the
-existing Windows/Linux evidence for the fixed maintenance candidate, together
-with the local tool and collector regressions. Apply the separately authorized
-protected maintenance procedure; retain its actual gate rejection and never
-publish a fabricated success or run candidate code with a status-write token.
+For owner-initiated, explicitly authorized personal maintenance, use applicable
+local evidence under execution-spec section 6.1; remote Windows/Linux completion
+is not a prerequisite for this maintenance merge. A main-dispatched native run
+may remain supplemental evidence and must retain its actual result. Record
+unverified Windows scope and evidence reuse against unchanged inputs. Apply the
+separately confirmed protected maintenance procedure; retain any actual gate
+rejection and never publish fabricated success or run candidate code with a
+status-write token. This exception does not change unattended sync/merge policy.
 
 After that reviewed controller is merged, create a controlled ordinary PR on
 the new main and verify the deployed path. Its plan and tooling jobs must bind

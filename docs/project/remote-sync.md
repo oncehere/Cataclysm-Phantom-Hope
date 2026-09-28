@@ -77,6 +77,13 @@ the bootstrap boundary and the intentionally staged documentation-impact check.
 
 ## Persistent state and retries
 
+This remote contract governs unattended synchronization and automatic merge.
+Owner-authorized personal maintenance follows execution-spec section 6.1 using
+applicable local evidence; it does not obtain a synthetic trusted status or alter
+this controller's Windows/Linux requirements. Any temporary administrator
+exception follows the separately confirmed [settings procedure](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule),
+with automatic operations paused and the no-bypass rule lock restored afterward.
+
 `codex/sync-state` contains only `state.json`, outside game source history.
 Updates create a child commit and fast-forward the ref with `force=false`.
 Competing writes fail rather than overwrite each other. The workflow's fixed
