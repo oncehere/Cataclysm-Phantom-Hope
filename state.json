@@ -1,5 +1,5 @@
 {
-  "auto_merge_enabled": false,
+  "auto_merge_enabled": true,
   "blocked_candidates": [],
   "deployment_acceptance": {
     "base_sha": "785bcc2a9e540b46b7b12f37b19510390236e6f9",
@@ -27,11 +27,11 @@
     "verified_at": "2026-09-27T07:19:57.135656+00:00"
   },
   "last_integrated_sha": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
-  "merge_paused": true,
+  "merge_paused": false,
   "repository_id": 1389460908,
-  "revision": 8,
+  "revision": 9,
   "schema_version": 1,
-  "sync_paused": true,
+  "sync_paused": false,
   "tasks": {},
   "verified_rulesets": [
     {
