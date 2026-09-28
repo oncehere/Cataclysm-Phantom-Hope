@@ -125,6 +125,7 @@ Property                 | Description
 `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob. Also see [monster melee skill scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-melee-skill-scaling)
 `dodge`                  | (integer) Monster's skill at dodging attacks
+`block`                  | (object) Optional monster block chance, damage absorption, and attempts per turn; see below
 `melee_damage`           | (array of objects) List of damage instances added to die roll on monster melee attack. Also see [monster maximum damage scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-maximum-damage-scaling)
 `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
@@ -360,6 +361,24 @@ Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See [GAME_
 (integer, optional)
 
 Monster dodge skill. See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md) for an explanation of dodge mechanics.
+
+## "block"
+(object, optional)
+
+Monster blocking ability. The monster gets `count` block attempts each turn. Each attempt consumes one count, even when the `chance` roll fails. A successful block can absorb up to `effectiveness` damage across eligible damage units.
+
+Field           | Description
+---             | ---
+`chance`        | Chance out of 100 to block an attack
+`effectiveness` | Maximum damage absorbed by one successful block
+`count`         | Number of block attempts available each turn
+`ranged`        | Set to `false` for melee-only physical damage blocking; bundled monsters currently use `false`
+
+Example:
+
+```jsonc
+"block": { "chance": 50, "effectiveness": 30, "count": 1, "ranged": false }
+```
 
 ## "melee_damage"
 (array of objects, optional)
