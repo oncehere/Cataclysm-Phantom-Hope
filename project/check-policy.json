@@ -1,7 +1,6 @@
 {
   "schema_version": 1,
-  "policy_version": "e4-local-e1-contract-v1",
-  "scope": "Provisional E1 evidence contract; no GitHub gate or release authorization.",
+  "policy_version": "e4-native-and-tooling-v2",
   "protected_surfaces": {
     "path": "protected-surfaces.json",
     "sha256": "7857b7ca5c00e9ec8722486c273832b5b416d668dbd85571e242661d646d564d"
@@ -50,8 +49,7 @@
         "lua-gc": "lua_platform_same_signature_callbacks_destroy_their_own_captures",
         "lua-callback": "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch",
         "lua-task": "lua_platform_task_failure_message_identifies_the_scheduled_instance"
-      },
-      "baseline_status": "native E1 selected tests exercised; not E3 or deployed CI"
+      }
     },
     "windows": {
       "target_id": "e1-windows-tiles-sounds-x64-msvc",
@@ -88,16 +86,63 @@
         "chinese-runtime": "TranslationPluralRulesEvaluatorPerformance",
         "horde-map": "horde_map_*",
         "lua-gc": "lua_platform_same_signature_callbacks_destroy_their_own_captures"
-      },
-      "baseline_status": "NOT_RUN native Windows"
+      }
     }
   },
-  "deployment_blockers": [
-    "Target repository and actual protected PR rule proof missing",
-    "Native Windows E1 baseline not run",
-    "E3 applicable Windows/Linux isolation acceptance incomplete",
-    "No trusted GitHub collector/publisher deployed"
-  ],
-  "merge_ready": false,
-  "public_release_ready": false
+  "tooling": {
+    "python_version": "3.12.10",
+    "requirements": "tools/requirements-validation.txt",
+    "suites": {
+      "agent": {
+        "directory": "tools/agent",
+        "excluded_prefixes": []
+      },
+      "project": {
+        "directory": "tests/project",
+        "excluded_prefixes": []
+      },
+      "lua": {
+        "directory": "tools/lua_api",
+        "excluded_prefixes": [
+          "test_mod_sdk.LuaLanguageServerIntegrationTest."
+        ]
+      },
+      "json": {
+        "directory": "tools/json_api",
+        "excluded_prefixes": []
+      }
+    },
+    "checks": {
+      "metadata": [
+        "tools/agent/check_project_metadata.py"
+      ],
+      "documentation-registry": [
+        "tools/agent/generate_documentation_registry.py",
+        "--check"
+      ],
+      "agent-benchmark": [
+        "tools/agent/benchmark_context_pack.py",
+        "--check"
+      ],
+      "lua-inventory": [
+        "tools/lua_api/generate_platform_native_inventory.py",
+        "--check"
+      ],
+      "lua-contract": [
+        "tools/lua_api/generate_platform_contract.py",
+        "--check"
+      ],
+      "lua-coverage": [
+        "tools/lua_api/generate_platform_coverage.py",
+        "--check"
+      ],
+      "json-contracts": [
+        "tools/json_api/generate_contracts.py",
+        "--check"
+      ],
+      "workflow-inventory": [
+        "tools/project/check_remote_workflows.py"
+      ]
+    }
+  }
 }

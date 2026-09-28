@@ -36,6 +36,81 @@ def job(name, steps):
     }
 
 
+def tooling_files(identity, policy, requirements):
+    files, commands, suites = {}, [], []
+    names = ["dependencies", *policy["suites"], *policy["checks"]]
+    for name in names:
+        log = name + ".log"
+        files[log] = b"executed tooling command\n"
+        argv = ["python", "-m", "pip", "install"]
+        if name in policy["suites"]:
+            config = policy["suites"][name]
+            filename = name + ".json"
+            files[filename] = json.dumps(
+                {
+                    "directory": config["directory"],
+                    "pattern": "test_*.py",
+                    "excluded_prefixes": config["excluded_prefixes"],
+                    "excluded_tests": [],
+                "selected_tests": ["test_fixture.Case.test_ok"],
+                "selected_count": 1,
+                "excluded_count": 0,
+                    "status": "PASS",
+                    "tests": 1,
+                    "failures": 0,
+                    "errors": 0,
+                    "skipped": 0,
+                    "expected_failures": 0,
+                    "unexpected_successes": 0,
+                }
+            ).encode()
+            suites.append(
+                {
+                    "name": name,
+                    "report": filename,
+                    "sha256": gate.digest(files[filename]),
+                }
+            )
+            argv = [
+                "python",
+                "/control/tools/project/ci_tooling.py",
+                "suite",
+                "--directory",
+                config["directory"],
+                "--excluded",
+                json.dumps(config["excluded_prefixes"]),
+                "--output",
+                "/evidence/" + filename,
+            ]
+        if name in policy["checks"]:
+            argv = ["python", *policy["checks"][name]]
+        commands.append(
+            {
+                "argv": argv,
+                "exit_code": 0,
+                "status": "PASS",
+                "log": log,
+                "log_sha256": gate.digest(files[log]),
+            }
+        )
+    files["commands.jsonl"] = b"\n".join(
+        json.dumps(item).encode() for item in commands
+    )
+    files["tooling-report.json"] = json.dumps(
+        {
+            "schema_version": 1,
+            "kind": "cph-tooling-ci",
+            "status": "PASS",
+            "identity": identity,
+            "python_version": policy["python_version"],
+            "requirements_sha256": gate.digest(requirements),
+            "suites": suites,
+            "checks": list(policy["checks"]),
+        }
+    ).encode()
+    return files
+
+
 class Fixture:
     def __init__(self, directory):
         self.root = Path(directory)
@@ -60,7 +135,20 @@ class Fixture:
         self.policy = {
             "protected_surfaces": {"sha256": gate.digest(raw)},
             "targets": {"linux": target, "windows": target},
+            "tooling": {
+                "python_version": "3.12.10",
+                "requirements": "requirements.txt",
+                "suites": {
+                    "project": {
+                        "directory": "tests/project",
+                        "excluded_prefixes": [],
+                    }
+                },
+                "checks": {"generated": ["tools/check.py", "--check"]},
+            },
         }
+        self.requirements = b"jsonschema==4.26.0\n"
+        (self.root / "requirements.txt").write_bytes(self.requirements)
         policy_raw = json.dumps(self.policy).encode()
         (self.root / "project/check-policy.json").write_bytes(policy_raw)
         self.expected = {
@@ -147,6 +235,20 @@ class Fixture:
                     "workflow_run": {"id": 12},
                 }
             )
+        self.tool_files = tooling_files(
+            self.expected, self.policy["tooling"], self.requirements
+        )
+        self.raw[3] = packed(self.tool_files)
+        artifacts.append(
+            {
+                "id": 3,
+                "name": "cph-ci-tooling-12-1",
+                "expired": False,
+                "size_in_bytes": len(self.raw[3]),
+                "workflow_run": {"id": 12},
+                "digest": "sha256:" + gate.digest(self.raw[3]),
+            }
+        )
         run = {
             "id": 12,
             "repository": {
@@ -199,7 +301,7 @@ class Fixture:
                 "parents": [{"sha": BASE}, {"sha": UPSTREAM}]
             },
             "actions/runs/12/attempts/1/jobs": {
-                "total_count": 3,
+                "total_count": 4,
                 "jobs": [
                     job(
                         "CPH Plan",
@@ -210,10 +312,11 @@ class Fixture:
                     ),
                     job("CPH Linux", gate.BUILD_STEPS),
                     job("CPH Windows", gate.BUILD_STEPS),
+                    job("CPH Tooling", gate.TOOLING_STEPS),
                 ],
             },
             "actions/runs/12/artifacts": {
-                "total_count": 2,
+                "total_count": 3,
                 "artifacts": artifacts,
             },
         }
@@ -245,6 +348,111 @@ class GateTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.fixture = Fixture(self.temp.name)
+
+    def validate_tools(self, mutate=None):
+        files = copy.deepcopy(self.fixture.tool_files)
+        report = json.loads(files["tooling-report.json"])
+        suite = json.loads(files["project.json"])
+        if mutate:
+            mutate(report, suite, files)
+        files["project.json"] = json.dumps(suite).encode()
+        report["suites"][0]["sha256"] = gate.digest(files["project.json"])
+        files["tooling-report.json"] = json.dumps(report).encode()
+        return gate.validate_tooling(
+            files,
+            self.fixture.expected,
+            self.fixture.policy["tooling"],
+            gate.digest(self.fixture.requirements),
+        )
+
+    def test_tooling_requires_nonzero_executed_tests_without_skips(self):
+        self.validate_tools()
+        for field, value in (
+            ("tests", 0),
+            ("tests", True),
+            ("skipped", 1),
+            ("errors", 1),
+            ("failures", 1),
+            ("expected_failures", 1),
+            ("unexpected_successes", 1),
+        ):
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                self.validate_tools(
+                    lambda report, suite, files: suite.update({field: value})
+                )
+
+    def test_tooling_cannot_reuse_another_candidate_policy_or_attempt(self):
+        for field in self.fixture.expected:
+            with (
+                self.subTest(field=field),
+                self.assertRaisesRegex(ValueError, "identity"),
+            ):
+                self.validate_tools(
+                    lambda report, suite, files: report["identity"].update(
+                        {field: "stale"}
+                    )
+                )
+
+    def test_tooling_reports_and_check_commands_are_required(self):
+        mutations = [
+            lambda report, suite, files: report.update(status="SKIPPED"),
+            lambda report, suite, files: report.update(checks=[]),
+            lambda report, suite, files: report.update(
+                requirements_sha256="changed"
+            ),
+            lambda report, suite, files: report.update(
+                python_version="3.13.0"
+            ),
+            lambda report, suite, files: suite.update(selected_tests=[]),
+            lambda report, suite, files: suite.update(
+                excluded_tests=["test_mandatory"]
+            ),
+            lambda report, suite, files: files.pop("commands.jsonl"),
+            lambda report, suite, files: files.update(
+                {"generated.log": b"changed"}
+            ),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutation=mutate), self.assertRaises(ValueError):
+                self.validate_tools(mutate)
+
+    def test_absent_failed_skipped_tooling_job_rejects_native_success(self):
+        jobs = self.fixture.values["actions/runs/12/attempts/1/jobs"]
+        for conclusion in (
+            "failure",
+            "skipped",
+            "cancelled",
+            "timed_out",
+            "neutral",
+        ):
+            jobs["jobs"][-1]["conclusion"] = conclusion
+            with (
+                self.subTest(conclusion=conclusion),
+                self.assertRaisesRegex(ValueError, "CPH Tooling"),
+            ):
+                self.fixture.collect()
+        jobs["jobs"].pop()
+        jobs["total_count"] -= 1
+        with self.assertRaisesRegex(ValueError, "CPH Tooling"):
+            self.fixture.collect()
+
+    def test_missing_expired_or_old_tooling_artifact_rejected(self):
+        artifacts = self.fixture.values["actions/runs/12/artifacts"]
+        tooling = artifacts["artifacts"][-1]
+        for field, value in (
+            ("expired", True),
+            ("name", "cph-ci-tooling-12-2"),
+            ("digest", "sha256:" + "0" * 64),
+        ):
+            old = tooling[field]
+            tooling[field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                self.fixture.collect()
+            tooling[field] = old
+        artifacts["artifacts"].pop()
+        artifacts["total_count"] -= 1
+        with self.assertRaisesRegex(ValueError, "artifact"):
+            self.fixture.collect()
 
     def test_complete_native_evidence_is_accepted_without_publishing_early(
         self,
