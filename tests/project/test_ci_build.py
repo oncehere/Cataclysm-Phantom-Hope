@@ -105,6 +105,54 @@ class PlanTests(unittest.TestCase):
 
 
 class ExecutionTests(unittest.TestCase):
+    def test_configure_uses_policy_on_both_platforms(self):
+        policy = json.loads(
+            (ci.CONTROL / "project/check-policy.json").read_text()
+        )
+        for platform_name, target in policy["targets"].items():
+            with self.subTest(platform=platform_name), \
+                    tempfile.TemporaryDirectory() as directory:
+                source = Path(directory).resolve()
+                build = source / "build"
+                build.mkdir()
+
+                def configure_cache(name, argv, cwd):
+                    cache = {
+                        "CMAKE_HOME_DIRECTORY": str(cwd),
+                        "CMAKE_GENERATOR": argv[argv.index("-G") + 1],
+                    }
+                    cache.update(arg[2:].split("=", 1)
+                                 for arg in argv if str(arg).startswith("-D"))
+                    (build / "CMakeCache.txt").write_text("".join(
+                        key + ":STRING=" + value + "\n"
+                        for key, value in cache.items()
+                    ))
+
+                runner = mock.Mock()
+                runner.run.side_effect = configure_cache
+                with mock.patch.object(ci, "compiler_metadata",
+                                       return_value={}):
+                    result = ci.configure(runner, source, build, target, {},
+                                          "fixture-msgfmt")
+                argv = runner.run.call_args.args[1]
+                self.assertEqual(argv[argv.index("--preset") + 1],
+                                 target["preset"])
+                self.assertEqual(result["options"], target["options"])
+                if platform_name == "windows":
+                    self.assertEqual(argv[argv.index("-A") + 1],
+                                     target["generator_platform"])
+                    self.assertIn("-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_" +
+                                  target["configuration"].upper() + "=" +
+                                  str(build / "bin"), argv)
+                else:
+                    self.assertIn("-DCMAKE_BUILD_TYPE=" +
+                                  target["configuration"], argv)
+                    for language in ("c", "cxx"):
+                        self.assertIn("-DCMAKE_" + language.upper() +
+                                      "_FLAGS_" +
+                                      target["configuration"].upper() + "=" +
+                                      target[language + "_flags"], argv)
+
     def test_msvc_compiler_identification_does_not_require_cache_entries(self):
         with tempfile.TemporaryDirectory() as directory:
             build = Path(directory)
