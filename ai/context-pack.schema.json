@@ -32,7 +32,10 @@
     },
     "source_paths": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
     "source_symbols": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-    "documentation_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "documentation_ids": {
+      "description": "Unique documentation-registry entry IDs (not PR stable IDs); resolved paths are included in source_paths before budget truncation.",
+      "type": "array", "items": { "type": "string", "pattern": "^repo\\.[a-z0-9.-]+$" }, "uniqueItems": true
+    },
     "tests": {
       "type": "array",
       "items": {

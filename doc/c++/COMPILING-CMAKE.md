@@ -47,6 +47,22 @@ The build preset selects `RelWithDebInfo`; its directory is
 own isolated build directory, single-config Ninja and explicit flags. Do not
 reuse a build cache after changing compiler, generator or source worktree.
 
+Adding or removing engine `.cpp`/`.h` files or test `.cpp` files triggers
+automatic reconfiguration on the next ordinary build through CMake's
+`CONFIGURE_DEPENDS` source globs. Existing Lua source selection still applies.
+The source-discovery regression compiles small disposable fixtures using the
+actual engine/test target definitions with Ninja, Ninja Multi-Config and Unix
+Makefiles when the corresponding tools are available. Run it together with
+the version and document-install recipes after changing CMake configuration:
+
+```sh
+python3 -m unittest discover -s tests/project -p 'test_cmake*.py' -v
+```
+
+These checks validate build recipes, including added/removed files, rather
+than game behaviour. Missing CMake/compiler/generator dependencies are reported
+as skipped tests; install them before claiming the corresponding check passed.
+
 For native Windows, follow [CMake with vcpkg](COMPILING-CMAKE-VCPKG.md).
 Use the `[translations]` and other project-specific test selections from the
 check policy when producing gate evidence; a passing subset is only that subset.

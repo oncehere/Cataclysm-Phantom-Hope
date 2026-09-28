@@ -32,7 +32,6 @@ ROOT_GOVERNANCE = {
     "SYNC_EXCLUDED_PRS.md",
 }
 AGENT_METADATA = {
-    "ai/agent-benchmark-baseline.json",
     "ai/agent-benchmark.schema.json",
     "ai/agent-benchmark.yml",
     "ai/context.schema.json",
@@ -87,6 +86,8 @@ CURRENT_PLATFORM_DOCUMENTS = {
     "data/json/LOADING_ORDER.md": "json.loading-order",
 }
 CURRENT_CPH_DOCUMENTS = {
+    "docs/README.md": "cph.documentation-index",
+    "tools/agent/README.md": "cph.agent-tools",
     "doc/JSON/JSON_INFO.md": "json.object-types",
     "doc/JSON/JSON_INHERITANCE.md": "json.inheritance",
     "doc/JSON/EFFECT_ON_CONDITION.md": "eoc.reference",
@@ -252,7 +253,8 @@ def classify(path: str, legacy: dict[str, dict],
         status = "active"
         authority = "governance_contract"
         source_of_truth = True
-    elif path.startswith("docs/project/") or path.startswith("doc/"):
+    elif (path in CURRENT_CPH_DOCUMENTS or
+          path.startswith("docs/project/") or path.startswith("doc/")):
         category = "maintained_document"
         status = "active"
         authority = "explanatory"

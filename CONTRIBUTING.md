@@ -56,7 +56,7 @@ followed by the maintainer's decision; preserve source history and attribution.
 | Change | Read and verify |
 | --- | --- |
 | C++ | `src/AGENTS.md`, `doc/c++/CODE_STYLE.md`, relevant tests; `make astyle-check`, focused `./tests/cata_test` after building |
-| JSON and EOC | `data/AGENTS.md`, loaders/schema and stable IDs; format changed files and run `make -j2 json-check` |
+| JSON and EOC | `data/AGENTS.md`, loaders/schema and stable IDs; format changed files, distinguish limited `json-check` syntax validation from native `--check-mods` content loading, and select contract checks from the matrix |
 | Lua | `data/lua/AGENTS.md`, Platform v1 declarations/registrations and `tools/lua_api/` checks; use the generator for inventories |
 | Bundled mod | Closest mod instructions and a real loaded mod set; read `modinfo.json` for JSON mods, or `mod.lua`/`main.lua` for Lua Platform mods |
 | Android | `android/AGENTS.md`, Gradle test and actual SDK/ABI evidence |
@@ -73,7 +73,7 @@ Use [ai/test-matrix.yml](ai/test-matrix.yml) to choose the narrowest useful chec
 
 Keep the PR template headings. Use a one-line `Summary` category from the [changelog guidelines](doc/CHANGELOG_GUIDELINES.md) or `None`. Fill in `Documentation impact`, `Repository documentation impact`, `Affected documentation IDs`, and `Generated reference impact`. For paths with a **required** mapping in `ai/docs-impact.yml`, include a current repository document path and the corresponding stable ID; placeholders such as `None`, `N/A`, and `TBD` do not satisfy required fields. This records CPH repository documentation impact without requiring an external CCB-Docs PR. Regenerate official registries only through their generators.
 
-Before requesting merge, verify the final diff and attribution, run applicable checks, document compatibility and upstream divergence, and resolve review comments. Owner-initiated and explicitly authorized personal maintenance uses applicable local results under [execution-spec section 6.1](docs/project/execution-spec.md#61-合入), without waiting for Actions. Docs/Python-only work does not require a full game build; C++/build changes need corresponding local build and regression evidence. Record Linux and Windows separately, including unverified Windows scope, and arrange Windows validation for Windows-specific code or packaging. Reuse existing sufficient checks when their relevant inputs have not changed, recording original SHA, commands, exit codes and the comparison. Unattended sync/automatic merge retains remote Windows/Linux gates; public four-platform releases retain separate acceptance. Any GitHub protection adjustment needs its own impact explanation and user confirmation.
+Before requesting merge, verify the final diff and attribution, run applicable checks, document compatibility and upstream divergence, and resolve review comments. Follow [execution-spec section 6.1](docs/project/execution-spec.md#61-合入) for authorized personal maintenance, evidence reuse and the separate unattended Windows/Linux gates. That section also governs platform limitations and any protection-setting exception; public releases have their own acceptance. Complete [task cleanup](docs/project/workspace-layout.md#任务收尾与清理) after preserving the deliverable and necessary evidence.
 
 ## 中文简要流程
 

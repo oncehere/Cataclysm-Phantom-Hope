@@ -27,7 +27,7 @@ entries:
 
   - id: project-routing
     enforcement: advisory
-    patterns: [ai/project-map.yml, ai/test-matrix.yml, ai/generated-files.yml, ai/docs-impact.yml]
+    patterns: [ai/project-map.yml, ai/task-router.yml, ai/test-matrix.yml, ai/generated-files.yml, ai/docs-impact.yml]
     documentation_ids: [architecture.project-map, validation.quickstart]
     generated_reference_impact: false
     required_check_ids: []
@@ -36,8 +36,8 @@ entries:
 
   - id: build-contracts
     enforcement: advisory
-    patterns: [CMakeLists.txt, CMakeModules/*, CMakePresets.json, Makefile, build-scripts/*, .github/workflows/*]
-    documentation_ids: [validation.quickstart]
+    patterns: [CMakeLists.txt, '*/CMakeLists.txt', src/version.cmake, src/prefix.h.in, 'tests/project/test_cmake*.py', CMakeModules/*, CMakePresets.json, Makefile, build-scripts/*, .github/workflows/*]
+    documentation_ids: [build-cmake]
     generated_reference_impact: false
     required_check_ids: []
     risk_group: build
@@ -79,6 +79,7 @@ entries:
       - data/mods/Lua_First_Example/**
       - tools/create_lua_mod.py
       - tools/migrate_lua_first.py
+      - tools/lua_migration_output.py
       - src/lua_platform_loader.cpp
       - src/lua_platform_loader.h
       - src/lua_platform_runtime.cpp
