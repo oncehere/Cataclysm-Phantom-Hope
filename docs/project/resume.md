@@ -1,95 +1,18 @@
-# 缺失条件与恢复入口
+# 未完成事项与恢复入口
 
-## 2026-09-28 个人维护验收策略更新
+当前快照统一见 [status.md](status.md)。本页只列仍需执行的动作；不重建仓库、不重做已合入 PR、不默认恢复同步。原始阶段恢复记录可从 [整理前版本](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/abd9222e01b77ac9e187f53cd6cfe85275453a69/docs/project/resume.md) 查阅。
 
-用户已明确授权个人维护按 [execution-spec 第 6.1 节](execution-spec.md#61-合入)
-采用相关本机证据合入；无需等待 GitHub Actions，Linux 和未验证 Windows 分开记录。
-该决定也适用于 PR #6。先复核已有检查的原提交、相关输入及日志，只补受影响或缺失的检查。
-此规则不降低无人值守上游同步/自动合入的远端 Windows/Linux 门槛，也不改变发布验收。
-当前 GitHub 全 PR required status 不会因文档自动改变；完成本地验收后按
-[仓库设置流程](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule)
-说明具体例外范围并等待用户确认。未取得该设置确认时，阻塞的是受保护合入操作。
+| 动作 | 前置条件 | 执行与验收 |
+| --- | --- | --- |
+| 用户授权的个人维护 | 固定范围及候选，相关本机证据充分 | 按 [执行规格 §6.1](execution-spec.md#61-合入)；复用证据须核对输入不变，必要失败先修复；GitHub 阻止合入时按 [设置流程](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule) 办理 |
+| 新 tooling 远端验收 | 已审阅控制代码、精确 Actions 白名单，自动合入保持暂停 | 用固定普通候选验证工具结果齐全时可发布 trusted；缺失/失败/零用例/旧 base-policy 必须拒绝；记录实际 run/attempt/tree |
+| 恢复 CCB 自动同步/合入 | **用户后续明确要求**，新门槛及规则锁已验收 | 刷新 state revision、main、上游与在途任务；按 [同步手册](remote-sync.md#operator-controls) 分别处理 workflow 与状态开关；不复用旧恢复记录 |
+| macOS 发布验收 | 可用原生 runner、实际架构及依赖 | 构建、打包、自动探针；清理夹具通过不等于真实 macOS 包通过；不额外要求每日人工实机验收 |
+| Android 发布验收 | SDK/NDK/JDK、身份/签名和明确运行 profile | 实际 APK ABI/资源/签名与选定运行环境核验；兼容架构模拟器不能冒充 ARM64 实测 |
+| 长期独立身份与签名 | 用户明确的永久应用身份及受控签名环境 | 与 CCB 并行安装、数据目录及升级/卸载隔离；不使用真实存档破坏性测试，不索取聊天中的密钥 |
+| 四平台每日开发版 | 同提交、同锁定输入的四套合格产物，公开前验证与恢复演练完成 | 按 [发布契约](release-contract.md) 和执行规格第 8 节；稳定版需要独立决定 |
+| 完整 PO 维护链 | 可核验来源与许可 | 当前外来 MO 作为锁定输入保留；缺 PO 不伪造源码、空资源或自主重建能力 |
 
-## 2026-09-28 02:48 UTC 维护恢复入口
+文档影响仍为显式本地/人工检查，不能称为 GitHub 自动强制门槛。外部条件只阻塞依赖动作；不购买资源，不降低 required checks，不自动启用 AI。
 
-指导整理 PR #4/#5 已合入 `477eabe5aa88b703c2e977cb806afcf880ff5cd6`；
-固定原生证据、一次性授权例外及恢复结果见 [status.md](status.md)。
-规则 active、bypass list 为空、同步控制已恢复到 revision 6。
-恢复新任务时先回读当前 main、规则锁和开关，不复用旧候选证据。
-
-安全清理、指令/验证路由和工具 CI 的后续维护应单独审查，保护面候选仍按
-现行可信门槛拒绝自动合入。工具 CI 的部署及引导条件见
-[策略历史与工具检查](check-policy-history-2026-09-28.md)。
-文档影响检查仍是显式本地/人工检查；本地通过不证明 GitHub 已强制执行。
-
-## 2026-09-27 15:31 UTC 整理拆分恢复状态
-
-原 PR #3 的受保护路径被可信收集器拒绝，其 Windows/Linux 成功运行不能
-替代 `cph/trusted-gate`。普通路径已拆为 PR #4；本次回读中 plan job
-成功，Windows/Linux job 运行中，可信状态待发布，故该 PR **PENDING**。
-受保护部分仅有本地审查候选，尚未远端合入。恢复时先固定各 PR 的最新
-base/head、重新读取 Windows/Linux 结果、可信状态、active 规则集和同步
-开关，再按各自路径办理；不得把 PR #3 的结果复用给拆分提交。
-
-## 2026-09-27 07:40 UTC 远端回读历史快照
-
-远端 `main=39859e1b253e28e2c34b6a19935b7edcce51b9b6`，规则集
-`24056126` 已 active，`main` 返回 `protected=true`。PR #1 已受保护合入；
-`codex/sync-state` revision 3 记录 PR #1 正向合入与 PR #2 失败检查阻止，
-开关为 `sync_paused=false`、`merge_paused=false`、`auto_merge_enabled=true`。
-这表示状态分支在该时点允许日常同步合入，并不保证任何新候选通过；状态分支
-仍标记新一轮 CCB 整合未实测、公开发布未启用。文档整理 PR #3 涉及保护路径，
-旧候选已被可信收集器拒绝；用户要求保留已启用规则，因此该次引导合入
-**BLOCKED**。如 refs、运行或状态分支变化，须按新候选重新核验，不能借用
-PR #1 的结果。具体命令与本机证据边界见 [workspace-layout.md](workspace-layout.md)。
-
-## 2026-09-27 03:31 UTC 历史恢复快照
-
-以下保留当时的原文；其中“现行”仅指该次回读。
-
-**现行恢复入口，状态按日期核验：**2026-09-27 UTC 复核时远端 `main=d88815158ad31104ab4cde9fdd7537c7180cf7ff`，三个受控 workflow active，main 规则 `24056126` 仍 disabled；PR #1 的新一轮 Windows/Linux 运行中，结果不得预判为 PASS。旧失败 run 保留为历史事实。远端 Issues 关闭、private vulnerability reporting 关闭、Discussions 开启；这些开关不构成 W/L 或发布验收。实际操作前重新读取远端状态；本地证据位置见 [workspace-layout.md](workspace-layout.md)。
-
-这是检查发现的外部条件清单，不要求把密钥发到聊天中，也不把配置文件
-存在当作已经部署。目标 `oncehere/Cataclysm-Phantom-Hope` 已由用户明确授权，
-原生 CDDA fork、管理权限和历史上传已核验；`origin` 已配置，默认分支为 `main`。
-执行回证见 [fork-deployment.md](fork-deployment.md)。四个 remote 的 push URL
-均保留 `DISABLED`，需要写入时必须使用明确目标和固定 ref，不猜测或使用默认 push。
-
-2026-09-26 部署快照：`main=5dc53160e6e877ef0526d686a2c3b9a9c2bfb3ec` 时，CI/gate/sync
-三个 workflow 均为远端 active；Actions 仅允许 5 个精确 action SHA。继承
-`master` 冻结并保持原 SHA。持久状态 revision 1 已恢复同步检查，合入仍暂停，
-`auto_merge_enabled=false`；暂停和无更新路径均真实 PASS。PR #1 首次 CI 的
-Windows 因 vcpkg 浅克隆缺历史 tree 失败，Linux 取消，不计 PASS；collector
-已发布 failure。main 规则 `24056126` 仍 disabled，受保护合入验收 **PENDING**。
-随后已提交 vcpkg 与 Linux 诊断修复，新一轮仍待结果；后续以 Actions 与 `evidence/remote-ci-sync-20260926/`
-为准，不随每次运行更新源码文档。
-本轮入口及开关见 [remote-sync.md](remote-sync.md)，完成状态见
-[status.md](status.md)；`fork-deployment.md` 中 Actions 关闭的记录是初次建仓快照。
-
-## 当前剩余条件
-
-| 最小条件 | 仅阻塞的动作 | 配置位置与恢复入口 |
-|---|---|---|
-| 个人维护的授权、相关本地检查及实际 GitHub 合入权限 | 该次个人维护合入 | 按第 6.1 节记录固定候选、本地命令/退出码和未验证范围；旧证据经相关输入比对后复用；若 required status 阻止操作，先说明设置例外影响并取得确认 |
-| 无人值守候选的必需检查及 active main 规则 | 该次无人值守自动合入 | 固定 base/head/合并树并核验 `cph/trusted-gate`，refs 移动需重验；保护路径仍拒绝自动放行，保持 merge 历史 |
-| GitHub 托管 Windows/Linux runner 的实际构建、测试及来源绑定结果 | 无人值守候选的 W/L 门槛及相应平台验收 | 使用 `project-ci.yml` 原生执行；不借用旧候选或本地 Linux 结果冒充 Windows PASS；个人维护不因此强制等待 Actions |
-| 原生 macOS runner、所选架构依赖 | macOS 构建/包检查和四平台发布 | 先复用已审计入口作候选检查；包架构与实际运行架构分别记录，不能擅自增加每日人工批准条件 |
-| Android SDK/NDK/JDK、可用运行环境、明确验收 profile | Android 包/运行验收和四平台发布 | 先探测 ARM64 自动环境；替代 profile 需要明确采纳，兼容架构模拟器结果不能标成 ARM64 包实测 |
-| 永久项目身份决定 | 长期应用 ID、包身份和公开开发版 | E3 先可使用明显的本地测试身份；默认配置、存档、升级清理和卸载都要隔离，不能只改显示名 |
-| 正式签名材料及平台身份 | 必须签名的包与公开发布 | 后续放在目标受控签名环境/秘密存储中。构建不带正式密钥，签名阶段不运行候选构建脚本 |
-| 每次合入前复查已核验的无 bypass 规则锁、可信 collector 与最终开关 | 该次 E5 日常自动同步合入 | revision 3 已恢复日常合入开关；每次合入仍须复查规则锁、候选门槛和暂停状态。采用受限 `GITHUB_TOKEN` 创建 PR，再 dispatch 主分支 CI；collector 独立核验并发布 commit status。PR #3 仍受保护路径拒绝阻塞；不以普通 dispatch 绿色 job 代替门槛，不要求先配置个人 PAT/App 私钥 |
-
-没有权限和签名只阻塞依赖动作。不得购买服务、复用既有 CCB fork、猜测
-目标、用临时签名包公开发布，或要求用户提供每日人工测试来掩盖自动化缺项。
-AI 不在日常运行链中；新增设计取舍另行明确。
-
-2026-09-27 07:40 UTC 状态分支回读：Actions 已限缩启用，继承 workflow 保持
-隔离，master 已冻结；同步检查与自动合入开关如本页顶部 revision 3 所述。
-该历史快照中的候选仍受当时的可信门槛约束；当前个人维护适用本页顶部的新决定。
-每日公开开发版和稳定版尚未启用。旧 `operator-controls.md` 描述的本地
-模型继续保留，远端操作应使用 `remote-sync.md` 的持久状态与 revision 检查。
-实际在途任务暂停/封禁、最终动作前重查和状态恢复仍需远端验收；本地 fixture
-通过不能代替这些回证。主分支保护规则变化后必须重新核验规则锁，不能把公开 API
-未返回 bypass 字段解释为“没有 bypass”。
-
-稳定版仍没有运行入口。将来发布稳定版需要用户单独确认。
+每次交接记录固定提交、实际命令/退出码、证据位置与 NOT_RUN 范围。工作树结束后按 [维护生命周期](workspace-layout.md#维护生命周期) 判断退役，避免永久保留可重建的源码副本。

@@ -23,9 +23,9 @@ remain current. Gate operation must be established by dated remote evidence.
 }
 ```
 
-The v2 policy adds tool regression evidence before the native builds. This is a
-local candidate until the reviewed controller is deployed and tested on a real
-protected PR. Existing artifacts bind the previous whole-file policy digest and
+The v2 policy adds tool regression evidence before the native builds and was
+merged with the controller in PR #6. Its hosted gate acceptance remains NOT_RUN.
+Existing artifacts bind the previous whole-file policy digest and
 cannot validate the new policy. The platform target definitions and protection
 surface digest are unchanged.
 
@@ -48,10 +48,17 @@ both the removed old path and added new path; deleted mapped docs cannot count
 as updated documentation. Required and advisory mappings retain their existing
 semantics. Record the exact refs, body snapshot and command result with the PR.
 
-## Deployment and bootstrap boundary
+## Historical bootstrap boundary and remaining acceptance
 
-Status: **IMPLEMENTED_NOT_DEPLOYED**. The maintenance PR introducing this
-controller cannot obtain the new tooling evidence from its old base: that base
+The controller was merged by PR #6; the exact setup-python action below was
+also added to the repository allowlist. Hosted positive/negative acceptance is
+still **NOT_RUN**, and synchronization remains user-paused. See
+[status.md](status.md) and [resume.md](resume.md) for the current state. The
+following bootstrap limitation explains that maintenance merge; it is not an
+instruction to repeat initialization or restore automatic merging.
+
+The maintenance PR introducing this controller could not obtain the new
+tooling evidence from its old base: that base
 does not yet contain `ci_tooling.py` or the new policy contract. A PR-triggered
 candidate workflow therefore cannot establish acceptance of its own new gate.
 For owner-initiated, explicitly authorized personal maintenance, use applicable
@@ -63,14 +70,15 @@ separately confirmed protected maintenance procedure; retain any actual gate
 rejection and never publish fabricated success or run candidate code with a
 status-write token. This exception does not change unattended sync/merge policy.
 
-After that reviewed controller is merged, create a controlled ordinary PR on
-the new main and verify the deployed path. Its plan and tooling jobs must bind
+When the user authorizes hosted acceptance, keep automatic merging paused,
+create a controlled ordinary PR on current main and verify the deployed path.
+Its plan and tooling jobs must bind
 the same base/head/merge tree/policy/run/attempt as both native platforms. A
 tooling failure stops the native dependency chain, and the trusted collector
 rejects a missing, skipped, failed, empty or stale tooling report. Read back the
 actual status and active no-bypass rule before calling this path deployed.
 Keep local model tests distinct from those future GitHub acceptance results.
-The repository Actions allowlist must also add the exact reviewed
+The repository Actions allowlist must retain the exact reviewed
 `actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065` reference. Updating
 the tracked `remote-actions-policy.json` does not change that GitHub setting;
-record its actual readback before the deployment probe.
+recheck its actual value before the deployment probe.

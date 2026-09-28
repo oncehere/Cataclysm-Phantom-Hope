@@ -2,9 +2,9 @@
 
 Target repository: [`oncehere/Cataclysm-Phantom-Hope`](https://github.com/oncehere/Cataclysm-Phantom-Hope), a native CDDA fork whose development branch is `main`. GitHub's live configuration is authoritative. A workflow, this page, or `ai/repository-settings.target.yml` cannot activate a setting. The CPH target is `ai/repository-settings.target.yml`; the inherited CCB settings are retained as history in `ai/history/ccb-repository-settings-2026-08-02.yml` and must not be applied to CPH.
 
-At the 2026-09-27 07:40 UTC public readback, `main=39859e1b253e28e2c34b6a19935b7edcce51b9b6`, ruleset `24056126` was active and the branch reported `protected=true`. The `codex/sync-state` branch at revision 3 separately recorded `sync_paused=false`, `merge_paused=false`, `auto_merge_enabled=true`; rule activation alone does not establish these switches or approve a particular PR. Documentation PR #3 remains blocked by protected-path rejection under the active rule; do not disable the rule to merge it.
+Current observations belong in the dated [project status](docs/project/status.md) and the exact GitHub settings. `ai/repository-settings.target.yml` is an observation/target for local checks, not an API client or permission to change rules. Replace stale observations when a relevant setting changes; do not treat historic activation evidence as acceptance of a new controller.
 
-Read the dated [project status](docs/project/status.md), [remote sync evidence](docs/project/remote-sync.md) and actual GitHub settings/Actions for the current Issues, Discussions, private vulnerability reporting, ruleset, sync, merge and release state. The status document is a snapshot, so verify the remote again before a privileged action. Template files do not enable Issues or private reporting.
+The repository uses merge commits to preserve source history; squash and rebase merging are disabled. Merged PR head branches are automatically deleted and can be restored from the PR or their reachable commits. Keep `main`, inherited `master`, `codex/sync-state`, active candidates and branches with unique work. Issues and private vulnerability reporting are enabled; their actual forms remain authoritative. Automatic AI scans and Autofix are disabled. Retain secret scanning and push protection.
 
 ## Verification and operation order
 
@@ -22,9 +22,13 @@ The rule currently requires `cph/trusted-gate` for every PR. GitHub does not inf
 
 Explain the actual scope before confirmation: this role exception covers every repository administrator and the rules in that ruleset for PR operations during the window; GitHub cannot restrict it to one PR or infer local-test sufficiency. Only the fixed, reviewed PR/head may be merged by the operator. Existing rules remain configured, but their requirements may be bypassed by that role in the window. The user has stated that only they currently hold the administrator role; refresh this fact if contrary evidence appears.
 
-After the candidate's local evidence is complete and the user confirms the exact setting change: save current rule/state; use a fresh CAS to pause sync and automatic merge; check in-flight operations; add the PR-only exception; merge the fixed head using a merge commit; immediately remove the exception even if the merge fails. Read back the resulting parents/tree, empty bypass list and unchanged required checks. Refresh the affected administrator-verified rule lock and restore the original controls through CAS. Preserve unrelated state fields and historical acceptance records.
+After the candidate's local evidence is complete and the user confirms the exact setting change: save current rule/state; use a fresh CAS to pause sync and automatic merge; check in-flight operations; add the PR-only exception; merge the fixed head using a merge commit; immediately remove the exception even if the merge fails. Read back the resulting parents/tree, empty bypass list and unchanged required checks. Refresh the affected administrator-verified rule lock through CAS. Restore only the controls allowed by the latest user decision: an existing or newly requested pause must remain in effect; do not blindly copy an earlier state snapshot. Preserve unrelated state fields and historical acceptance records.
 
 Do not retain a permanent administrator exception as part of this minimum procedure. Both `remote_gate.active_rules` and `remote_sync.validate_state` currently require an empty bypass lock; a permanent exception would require a distinct reviewed controller/settings change. Personal maintenance readiness does not imply the new unattended tooling gate or any release is deployed and accepted.
+
+## Controller deployment
+
+Before deploying a workflow, policy or collector change, record the current state revision and in-flight operations, ensure automatic merging is paused, and read the pause back. Let in-flight merge attempts settle before deployment. Preserve the required status and rule enforcement. Only an explicitly authorized restore after the new controller's real positive/negative acceptance may resume automatic merging. Source merge, workflow availability and hosted acceptance are separate results.
 
 ## Read-only verification examples
 

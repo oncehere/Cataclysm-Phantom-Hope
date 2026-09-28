@@ -27,6 +27,7 @@ USER_FILES = {
     'auto_pickup.txt', 'auto_pickup.json', 'fontlist.txt',
 }
 RECEIPT_SUFFIX = '.cph-generated.json'
+PACKAGE_OUTPUTS = {'Cataclysm.app', 'Cataclysm', 'Cataclysm.dmg'}
 
 
 class UnsafePlan(ValueError):
@@ -54,6 +55,7 @@ class Plan:
         }
         self.files = {}
         self.directories = {}
+        self.packages = {}
 
     def path(self, value, base=None, allow_tracked=False, mapped_output=False):
         """Check lexical boundaries before any filesystem lookup."""
@@ -133,6 +135,80 @@ class Plan:
             self.file(directory / (str(Path(pch).with_suffix('.d'))))
         return directory
 
+    def package_snapshot(self, name):
+        """Fingerprint a fixed macOS output without following package links."""
+        if name not in PACKAGE_OUTPUTS:
+            raise UnsafePlan(f'unsupported package output: {name}')
+        base = self.path(name)
+        entries = []
+
+        def visit(path):
+            relative = path.relative_to(base)
+            if path in self.tracked:
+                raise UnsafePlan(f'tracked package entry: {path}')
+            resource_prefix = Path('Contents/Resources')
+            if name == 'Cataclysm':
+                resource_prefix = Path('Cataclysm.app') / resource_prefix
+            source = None
+            if relative.is_relative_to(resource_prefix):
+                source = self.root / relative.relative_to(resource_prefix)
+            mapped = (source is not None and
+                      source.is_relative_to(self.root / 'data') and
+                      (source in self.tracked or source in self.tracked_dirs))
+            protected = any(
+                part in PROTECTED or part.startswith('test_user_dir_')
+                for part in relative.parts)
+            always_protected = any(
+                part in {'.git', '.agents', '.codex', 'obj-lua'}
+                for part in relative.parts)
+            user_data = protected or relative.name in USER_FILES
+            if always_protected or (user_data and not mapped):
+                raise UnsafePlan(f'protected package entry: {path}')
+            mode = path.lstat().st_mode
+            if stat.S_ISDIR(mode):
+                entries.append((str(relative), 'dir'))
+                for child in sorted(path.iterdir()):
+                    visit(child)
+            elif stat.S_ISREG(mode):
+                entries.append((str(relative), 'file', digest(path)))
+            elif stat.S_ISLNK(mode):
+                target = os.readlink(path)
+                applications_link = (name == 'Cataclysm' and
+                                     relative == Path('Applications') and
+                                     target == '/Applications')
+                if not applications_link:
+                    if os.path.isabs(target):
+                        raise UnsafePlan(f'external package link: {path}')
+                    destination = Path(os.path.normpath(path.parent / target))
+                    if not destination.is_relative_to(base):
+                        raise UnsafePlan(f'external package link: {path}')
+                entries.append((str(relative), 'link', target))
+            else:
+                raise UnsafePlan(f'unsupported package entry: {path}')
+
+        visit(base)
+        payload = json.dumps(entries, sort_keys=True).encode()
+        return hashlib.sha256(payload).hexdigest(), entries
+
+    def package(self, name):
+        if name not in PACKAGE_OUTPUTS:
+            raise UnsafePlan(f'unsupported package output: {name}')
+        path = self.path(name)
+        receipt = self.path(name + RECEIPT_SUFFIX)
+        if (not path.exists() and not path.is_symlink() and
+                not receipt.exists()):
+            return
+        if not path.exists() or not receipt.is_file():
+            raise UnsafePlan(f'package output/receipt pair incomplete: {name}')
+        fingerprint, entries = self.package_snapshot(name)
+        try:
+            expected = json.loads(receipt.read_text())
+        except (ValueError, UnicodeError):
+            raise UnsafePlan(f'invalid package receipt: {name}') from None
+        if expected != {'path': name, 'sha256': fingerprint}:
+            raise UnsafePlan(f'package changed since build: {name}')
+        self.packages[name] = (fingerprint, entries, receipt, digest(receipt))
+
     def execute(self, dry_run):
         existing = sorted(p for p in self.files if p.exists())
         # Recheck every planned path once more before the first unlink.
@@ -140,9 +216,18 @@ class Plan:
             self.file(path, mapped_output=self.files[path])
         for path in self.directories:
             self.path(path, mapped_output=self.directories[path])
+        for name, package in self.packages.items():
+            fingerprint, _, receipt, receipt_hash = package
+            if (self.package_snapshot(name)[0] != fingerprint or
+                    self.path(receipt) != receipt or
+                    not receipt.is_file() or
+                    digest(receipt) != receipt_hash):
+                raise UnsafePlan(f'package changed since validation: {name}')
         for path in existing:
             print(('would remove ' if dry_run else 'remove ') +
                   str(path.relative_to(self.root)))
+        for name in sorted(self.packages):
+            print(('would remove ' if dry_run else 'remove ') + name)
         if dry_run:
             return
         for path in existing:
@@ -152,6 +237,15 @@ class Plan:
         for directory in sorted(self.directories, key=lambda p: len(p.parts),
                                 reverse=True):
             directory.rmdir()
+        for name, (_, entries, receipt, _) in self.packages.items():
+            base = self.root / name
+            for relative, kind, *_ in reversed(entries):
+                entry = base / relative
+                if kind == 'dir':
+                    entry.rmdir()
+                else:
+                    entry.unlink()
+            receipt.unlink()
 
 
 def test_outputs(plan):
@@ -200,7 +294,11 @@ def root_outputs(plan):
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    checksum = hashlib.sha256()
+    with path.open('rb') as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b''):
+            checksum.update(chunk)
+    return checksum.hexdigest()
 
 
 def translation_outputs(plan):
@@ -242,16 +340,31 @@ def record_translation(plan, source, output):
     receipt.write_text(json.dumps(record, sort_keys=True) + '\n')
 
 
+def record_package(plan, goal):
+    if setting('APP_TARGET', 'Cataclysm.app') != 'Cataclysm.app':
+        raise UnsafePlan('only the default Cataclysm.app is supported')
+    names = ('Cataclysm.app',) if goal == 'app' else ('Cataclysm.dmg',)
+    if goal == 'dmgdist' and (plan.root / 'Cataclysm').exists():
+        names += ('Cataclysm',)
+    for name in names:
+        fingerprint, _ = plan.package_snapshot(name)
+        receipt = plan.path(name + RECEIPT_SUFFIX)
+        receipt.write_text(json.dumps({'path': name, 'sha256': fingerprint},
+                                      sort_keys=True) + '\n')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scope', choices=('root', 'tests', 'lang'),
                         required=True)
     parser.add_argument(
         '--goal', default='clean',
-        choices=('clean', 'clean-tests', 'clean-lang', 'distclean'))
+        choices=('clean', 'clean-tests', 'clean-lang', 'distclean',
+                 'appclean', 'dmgdistclean'))
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--record-source')
     parser.add_argument('--record-output')
+    parser.add_argument('--record-package', choices=('app', 'dmgdist'))
     args = parser.parse_args()
     try:
         result = subprocess.run(
@@ -259,7 +372,11 @@ def main():
             check=True, capture_output=True, text=True,
         )
         plan = Plan(Path(result.stdout.strip()))
-        if args.record_source or args.record_output:
+        if args.record_package:
+            if args.dry_run or args.scope != 'root':
+                raise UnsafePlan('package recording requires root scope')
+            record_package(plan, args.record_package)
+        elif args.record_source or args.record_output:
             if args.dry_run:
                 raise UnsafePlan('cannot record translation during a dry run')
             if not args.record_source or not args.record_output:
@@ -281,6 +398,15 @@ def main():
                     translation_outputs(plan)
                 if 'distclean' in goals:
                     plan.tree(setting('BINDIST'))
+                if 'appclean' in goals:
+                    app_target = setting('APP_TARGET', 'Cataclysm.app')
+                    if app_target != 'Cataclysm.app':
+                        raise UnsafePlan(
+                            'only the default Cataclysm.app is supported')
+                    plan.package('Cataclysm.app')
+                if 'dmgdistclean' in goals:
+                    plan.package('Cataclysm')
+                    plan.package('Cataclysm.dmg')
             plan.execute(args.dry_run)
     except (UnsafePlan, OSError, subprocess.CalledProcessError) as error:
         if (args.scope == 'lang' and args.record_source and
@@ -289,6 +415,11 @@ def main():
             # cleanup; its absence must not break an otherwise valid build.
             print(f'translation receipt not generated: {error}; '
                   'MO retained; clean preserves outputs without a receipt',
+                  file=sys.stderr)
+            return 0
+        if args.record_package:
+            print(f'package receipt not generated: {error}; '
+                  'future clean preserves outputs without a receipt',
                   file=sys.stderr)
             return 0
         print(f'clean refused: {error}', file=sys.stderr)

@@ -114,7 +114,7 @@ entries:
     upstream_differences:
       - Historical CCB-Docs pages do not override current CPH source or in-repository documentation.
   - id: project-tooling
-    keywords: [project tooling, project tests, Python test, Python 测试, Python测试, 项目测试]
+    keywords: [project tooling, project tests, 项目测试]
     paths: [tools/project/, tests/project/, project/]
     project_ids: [project-tools, project-tests]
     documentation_ids: [architecture.project-map]

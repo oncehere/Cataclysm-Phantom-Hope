@@ -377,6 +377,107 @@ class SafeCleanTests(unittest.TestCase):
         self.assert_kept('cataclysm', 'src/main.cpp')
         self.assertTrue(path.is_symlink())
 
+    def record_package(self, kind):
+        return subprocess.run(
+            [sys.executable, 'tools/safe_clean.py', '--scope', 'root',
+             '--record-package', kind], cwd=self.root, env=self.env,
+            text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            check=True).stdout
+
+    def test_macos_package_clean_preserves_inputs_and_known_links(self):
+        kept = ('data/options.txt', 'data/keymap.txt',
+                'lang/mo/fr/LC_MESSAGES/cataclysm-dda.mo')
+        for name in kept:
+            self.write(name)
+        # First build starts with no package or receipt.
+        self.make('appclean', 'dmgdistclean', 'NATIVE=osx')
+        app = 'Cataclysm.app/Contents/Resources'
+        resources = ('data/lua/templates/minimal/main.lua',
+                     'data/raw/keybindings.json')
+        for resource in resources:
+            self.write(resource, 'tracked resource')
+            self.write(app + '/' + resource, 'packaged resource')
+        subprocess.run(['git', '-C', str(self.root), 'add', *resources],
+                       check=True)
+        framework = self.write(app + '/SDL3.framework/Versions/A/SDL3')
+        (framework.parent.parent / 'Current').symlink_to('A')
+        self.record_package('app')
+        shutil.copytree(self.root / 'Cataclysm.app',
+                        self.root / 'Cataclysm/Cataclysm.app', symlinks=True)
+        (self.root / 'Cataclysm/Applications').symlink_to('/Applications')
+        self.write('Cataclysm.dmg', 'disk image')
+        self.record_package('dmgdist')
+        self.make('dmgdistclean', 'NATIVE=osx')
+        self.assert_removed('Cataclysm', 'Cataclysm.dmg',
+                            'Cataclysm.cph-generated.json',
+                            'Cataclysm.dmg.cph-generated.json')
+        self.assert_kept('Cataclysm.app', *kept)
+        self.make('appclean', 'NATIVE=osx')
+        self.assert_removed('Cataclysm.app',
+                            'Cataclysm.app.cph-generated.json')
+        self.assert_kept(*kept)
+
+    def test_macos_package_clean_refuses_unowned_or_changed_content(self):
+        self.write('Cataclysm.app/Contents/Info.plist', 'original')
+        self.make('appclean', 'NATIVE=osx', success=False)
+        self.assert_kept('Cataclysm.app/Contents/Info.plist')
+        self.record_package('app')
+        self.write('Cataclysm.app/Contents/Info.plist', 'signed change')
+        self.make('appclean', 'NATIVE=osx', success=False)
+        self.assert_kept('Cataclysm.app/Contents/Info.plist')
+        # The native dmg recipe refreshes the receipt after signing.
+        self.record_package('app')
+        self.make('appclean', 'NATIVE=osx')
+        self.assert_removed('Cataclysm.app')
+
+        self.write('Cataclysm/Cataclysm.app/Contents/Info.plist', 'copied')
+        self.write('Cataclysm.dmg', 'disk image')
+        self.record_package('dmgdist')
+        self.write('Cataclysm/extra', 'foreign file')
+        self.make('dmgdistclean', 'NATIVE=osx', success=False)
+        self.assert_kept('Cataclysm/extra', 'Cataclysm.dmg')
+
+    def test_macos_package_receipt_refuses_external_links(self):
+        target = self.write('outside/sentinel')
+        app = self.root / 'Cataclysm.app'
+        app.mkdir()
+        (app / 'escape').symlink_to(target)
+        output = self.record_package('app')
+        self.assertIn('package receipt not generated:', output)
+        self.make('appclean', 'NATIVE=osx', success=False)
+        self.assertTrue((app / 'escape').is_symlink())
+        self.assert_kept('outside/sentinel')
+
+    def test_package_receipts_cannot_adopt_user_data(self):
+        for relative in ('test_user_dir_1/options.txt', 'templates/keep',
+                         'options.json', 'obj-lua/sentinel'):
+            with self.subTest(relative=relative):
+                path = self.write(
+                    'Cataclysm.app/Contents/Resources/' + relative)
+                output = self.record_package('app')
+                self.assertIn('package receipt not generated:', output)
+                self.make('appclean', 'NATIVE=osx', success=False)
+                self.assertTrue(path.exists())
+                shutil.rmtree(self.root / 'Cataclysm.app')
+
+    def test_clean_only_skips_dependency_include_and_clang_probe(self):
+        self.write('obj/example.d', '$(error poisoned dependency included)\n')
+        compiler = self.write('fixture-compiler',
+                              '#!/bin/sh\n'
+                              'for arg in "$@"; do\n'
+                              '  if [ "$arg" = _clang_ver.o ]; then\n'
+                              '    touch _clang_ver.o clang-probe-called\n'
+                              '  fi\n'
+                              'done\n')
+        compiler.chmod(0o755)
+        for goal in ('clean-plan', 'appclean', 'dmgdistclean'):
+            with self.subTest(goal=goal):
+                self.make(goal, 'NATIVE=osx', 'CATA_ENABLE_LUA_PLATFORM=0',
+                          'NOOPT=1', 'PCH=1', 'CLANG=1', 'CCACHE=1',
+                          'CXX=./fixture-compiler')
+                self.assertFalse((self.root / '_clang_ver.o').exists())
+                self.assertFalse((self.root / 'clang-probe-called').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

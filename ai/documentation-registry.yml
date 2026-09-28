@@ -1,6 +1,6 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: ce94653280ea0740ec26e6ca3ca05e3d54266a04
+source_commit: abd9222e01b77ac9e187f53cd6cfe85275453a69
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
 entry_count: 267
