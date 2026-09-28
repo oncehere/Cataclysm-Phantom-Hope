@@ -10,6 +10,7 @@
 | 查看带日期的进度及已验证范围 | [状态记录](project/status.md)；当前远端状态须重新回读 |
 | 查阅阶段恢复清单 | [恢复入口](project/resume.md)；执行前核对记录日期 |
 | 了解受控同步链 | [远端同步](project/remote-sync.md) |
+| 查看世界生成高级规则、逐项影响和 MOD 兼容边界 | [世界高级规则](project/world-advanced-options.md) |
 | 阅读历史来源、初次 fork 上传和阶段回证 | [来源锁定](project/upstreams.md)、[建仓回证](project/fork-deployment.md)、[继承工作流审计](project/inherited-workflows.md) |
 
 `project/` 下的其他页面按主题说明本地工具、平台探针、身份隔离与发布契约；其中可能包含历史快照，当前远端状态应另行回读。源码仓库的 `project/` 保存机器可读的锁、策略和清单，与本目录的项目说明用途不同。

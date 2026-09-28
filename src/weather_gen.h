@@ -70,6 +70,8 @@ class weather_generator
         weather_type_id get_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
+        /** Regional baseline in Celsius, including the world's ambient temperature offset. */
+        double get_base_temperature_celsius() const;
         units::temperature get_water_temperature() const;
         void test_weather( unsigned seed ) const;
         void sort_weather();

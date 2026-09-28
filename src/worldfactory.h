@@ -13,6 +13,7 @@
 
 #include "cuboid_rectangle.h"
 #include "options.h"
+#include "world_advanced_options.h"
 #include "pimpl.h"
 #include "type_id.h"
 
@@ -64,6 +65,9 @@ struct WORLD {
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
+        world_advanced_options advanced_options;
+        bool advanced_options_valid = true;
+        bool load_advanced_options( bool *changed = nullptr );
         std::vector<save_t> world_saves;
         /**
          * A (possibly empty) list of (idents of) mods that

@@ -67,6 +67,7 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "regional_settings.h"
+#include "world_advanced_options.h"
 #include "rng.h"
 #include "rotatable_symbols.h"
 #include "sets_intersect.h"
@@ -273,10 +274,20 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
 
 overmap::~overmap() = default;
 
+const region_settings &overmap::get_settings() const
+{
+    const std::size_t revision = world_advanced_options_revision();
+    if( !world_settings || world_settings_revision != revision || world_settings->id != settings ) {
+        world_settings = get_world_advanced_region( settings );
+        world_settings_revision = revision;
+    }
+    return *world_settings;
+}
+
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
 
-    const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
+    const region_settings_feature_flag &overmap_feature_flag = get_settings().overmap_feature_flag;
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
 
@@ -316,13 +327,13 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 void overmap::populate()
 {
     overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
-            settings->get_settings_city().city_size );
+            get_settings().get_settings_city().city_size );
     populate( enabled_specials );
 }
 
 oter_id overmap::get_default_terrain( int z ) const
 {
-    return settings->default_oter[OVERMAP_DEPTH + z].id();
+    return get_settings().default_oter[OVERMAP_DEPTH + z].id();
 }
 
 // underlying bitset default constructs to all 0.
@@ -1050,71 +1061,71 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     std::vector<Highway_path> highway_paths;
     calculate_urbanity();
     calculate_forestosity();
-    if( settings->neighbor_connections ) {
+    if( get_settings().neighbor_connections ) {
         populate_connections_out_from_neighbors( neighbor_overmaps );
     }
-    if( settings->overmap_river ) {
+    if( get_settings().overmap_river ) {
         place_rivers( neighbor_overmaps );
     }
-    if( settings->overmap_lake ) {
+    if( get_settings().has_worldgen_lakes() ) {
         place_lakes( neighbor_overmaps );
     }
-    if( settings->overmap_ocean ) {
+    if( get_settings().has_worldgen_oceans() ) {
         place_oceans( neighbor_overmaps );
     }
-    if( settings->overmap_forest ) {
+    if( get_settings().has_worldgen_forests() ) {
         place_forests();
     }
-    if( settings->overmap_forest && settings->place_swamps ) {
+    if( get_settings().has_worldgen_forests() && get_settings().place_swamps ) {
         place_swamps();
     }
-    if( settings->overmap_ravine ) {
+    if( get_settings().overmap_ravine ) {
         place_ravines();
     }
-    if( settings->overmap_river ) {
+    if( get_settings().overmap_river ) {
         // Polish rivers now so highways get the correct predecessors rather than river_center
         polish_river( neighbor_overmaps );
     }
-    if( settings->overmap_highway ) {
+    if( get_settings().has_worldgen_highways() ) {
         highway_paths = place_highways( neighbor_overmaps );
     }
-    if( settings->city_spec ) {
+    if( get_settings().city_spec ) {
         place_cities();
     }
-    if( settings->overmap_highway ) {
+    if( get_settings().has_worldgen_highways() ) {
         place_highway_interchanges( highway_paths );
     }
-    if( settings->city_spec ) {
+    if( get_settings().city_spec ) {
         build_cities();
     }
-    if( settings->forest_trail ) {
+    if( get_settings().has_worldgen_forest_trails() ) {
         place_forest_trails();
     }
-    if( settings->place_railroads_before_roads ) {
-        if( settings->place_railroads ) {
+    if( get_settings().place_railroads_before_roads ) {
+        if( get_settings().place_railroads ) {
             place_railroads( neighbor_overmaps );
         }
-        if( settings->place_roads ) {
+        if( get_settings().place_roads ) {
             place_roads( neighbor_overmaps );
         }
     } else {
-        if( settings->place_roads ) {
+        if( get_settings().place_roads ) {
             place_roads( neighbor_overmaps );
         }
-        if( settings->place_railroads ) {
+        if( get_settings().place_railroads ) {
             place_railroads( neighbor_overmaps );
         }
     }
-    if( settings->place_specials ) {
+    if( get_settings().place_specials ) {
         place_specials( enabled_specials );
     }
-    if( settings->overmap_highway ) {
+    if( get_settings().has_worldgen_highways() ) {
         finalize_highways( highway_paths );
     }
-    if( settings->forest_trail ) {
+    if( get_settings().has_worldgen_forest_trails() ) {
         place_forest_trailheads();
     }
-    if( settings->overmap_river ) {
+    if( get_settings().overmap_river ) {
         polish_river( neighbor_overmaps ); // Polish again for placed specials
     }
 
@@ -1207,11 +1218,11 @@ bool overmap::generate_sub( const int z )
         }
     }
     const overmap_connection_id &overmap_connection_sewer_tunnel =
-        settings->overmap_connection.sewer_connection;
+        get_settings().overmap_connection.sewer_connection;
     connect_closest_points( sewer_points, z, *overmap_connection_sewer_tunnel );
 
     const overmap_connection_id &overmap_connection_subway_tunnel =
-        settings->overmap_connection.subway_connection;
+        get_settings().overmap_connection.subway_connection;
     connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
 
     for( auto &i : subway_points ) {
@@ -1993,7 +2004,7 @@ void overmap::place_forest_trails()
         return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
                current_terrain == oter_forest_water;
     };
-    const region_settings_forest_trail &forest_trail = settings->get_settings_forest_trail();
+    const region_settings_forest_trail &forest_trail = get_settings().get_settings_forest_trail();
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -2100,7 +2111,7 @@ void overmap::place_forest_trails()
 
             // Finally, connect all the points and make a forest trail out of them.
             const overmap_connection_id &overmap_connection_forest_trail =
-                settings->overmap_connection.trail_connection;
+                get_settings().overmap_connection.trail_connection;
             connect_closest_points( chosen_points, 0, *overmap_connection_forest_trail );
         }
     }
@@ -2109,12 +2120,13 @@ void overmap::place_forest_trails()
 void overmap::place_forest_trailheads()
 {
     // No trailheads if there are no cities.
-    const int city_size = settings->get_settings_city().city_size;
+    const int city_size = get_settings().get_settings_city().city_size;
     if( city_size <= 0 ) {
         return;
     }
 
-    const region_settings_forest_trail &settings_forest_trail = settings->get_settings_forest_trail();
+    const region_settings_forest_trail &settings_forest_trail =
+        get_settings().get_settings_forest_trail();
 
     // Trailheads may be placed if all of the following are true:
     // 1. we're at a forest_trail_end_north/south/west/east,
@@ -2159,8 +2171,8 @@ void overmap::place_forest_trailheads()
 
 void overmap::place_forests()
 {
-    const region_settings_forest &settings_forest = settings->get_settings_forest();
-    const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
+    const region_settings_forest &settings_forest = get_settings().get_settings_forest();
+    const oter_id default_oter_id( get_settings().default_oter[OVERMAP_DEPTH] );
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
     for( int x = 0; x < OMAPX; x++ ) {
@@ -2222,7 +2234,7 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
 
 void overmap::place_swamps()
 {
-    const region_settings_forest &settings_forest = settings->get_settings_forest();
+    const region_settings_forest &settings_forest = get_settings().get_settings_forest();
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
@@ -2279,12 +2291,12 @@ void overmap::place_swamps()
 
 void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    int op_city_size = settings->get_settings_city().city_size;
+    int op_city_size = get_settings().get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
     const overmap_connection_id &overmap_connection_inter_city_road =
-        settings->overmap_connection.inter_city_road_connection;
+        get_settings().overmap_connection.inter_city_road_connection;
     std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_inter_city_road];
 
     // At least 3 exit points, to guarantee road continuity across overmaps
@@ -2339,12 +2351,12 @@ void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps
 void overmap::place_railroads( const std::vector<const overmap *> &neighbor_overmaps )
 {
     // no railroads if there are no cities
-    int op_city_size = settings->get_settings_city().city_size;
+    int op_city_size = get_settings().get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
     const overmap_connection_id &overmap_connection_local_railroad =
-        settings->overmap_connection.rail_connection;
+        get_settings().overmap_connection.rail_connection;
     std::vector<tripoint_om_omt> &railroads_out = connections_out[overmap_connection_local_railroad];
 
     // At least 3 exit points, to guarantee railroad continuity across overmaps
@@ -2442,12 +2454,12 @@ std::vector<tripoint_om_omt> overmap::get_border( const om_direction::type direc
 
 void overmap::calculate_forestosity()
 {
-    if( !settings->overmap_forest ) {
+    if( !get_settings().has_worldgen_forests() ) {
         forest_size_adjust = 0;
         forestosity = 0;
         return;
     }
-    const region_settings_forest &settings_forest = settings->get_settings_forest();
+    const region_settings_forest &settings_forest = get_settings().get_settings_forest();
     float northern_forest_increase = settings_forest.forest_increase[static_cast<int>
                                      ( om_direction::type::north )];
     float eastern_forest_increase = settings_forest.forest_increase[static_cast<int>
@@ -2478,15 +2490,17 @@ void overmap::calculate_forestosity()
 
 void overmap::calculate_urbanity()
 {
-    int op_city_size = settings->get_settings_city().city_size;
+    int op_city_size = get_settings().get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
-    int northern_urban_increase = settings->urban_increase[static_cast<int>
+    int northern_urban_increase = get_settings().urban_increase[static_cast<int>
                                   ( om_direction::type::north )];
-    int eastern_urban_increase = settings->urban_increase[static_cast<int>( om_direction::type::east )];
-    int western_urban_increase = settings->urban_increase[static_cast<int>( om_direction::type::west )];
-    int southern_urban_increase = settings->urban_increase[static_cast<int>
+    int eastern_urban_increase = get_settings().urban_increase[static_cast<int>
+                                 ( om_direction::type::east )];
+    int western_urban_increase = get_settings().urban_increase[static_cast<int>
+                                 ( om_direction::type::west )];
+    int southern_urban_increase = get_settings().urban_increase[static_cast<int>
                                   ( om_direction::type::south )];
     if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
         southern_urban_increase == 0 ) {
@@ -2539,7 +2553,7 @@ void overmap::calculate_urbanity()
 
 void overmap::place_ravines()
 {
-    const region_settings_ravine &settings_ravine = settings->get_settings_ravine();
+    const region_settings_ravine &settings_ravine = get_settings().get_settings_ravine();
     if( settings_ravine.num_ravines == 0 ) {
         return;
     }
@@ -3681,7 +3695,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( settings->overmap_river || settings->overmap_lake ) {
+    if( get_settings().overmap_river || get_settings().has_worldgen_lakes() ) {
         // Figure out where rivers and lakes are, and place appropriate critters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
             for( int y = 3; y < OMAPY - 3; y += 7 ) {
@@ -3705,9 +3719,9 @@ void overmap::place_mongroups()
             }
         }
     }
-    if( settings->overmap_ocean ) {
+    if( get_settings().has_worldgen_oceans() ) {
         // Now place ocean mongroup. Weights may need to be altered.
-        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+        const region_settings_ocean &settings_ocean = get_settings().get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
         const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&

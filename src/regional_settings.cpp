@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <initializer_list>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -19,8 +20,11 @@
 #include "map_extras.h"
 #include "mapdata.h"
 #include "omdata.h"
+#include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "world_advanced_options.h"
 
 class mapgendata;
 
@@ -58,7 +62,136 @@ generic_factory<forest_biome_component> forest_biome_feature_factory( "forest_bi
 generic_factory<forest_biome_mapgen> forest_biome_mapgen_factory( "forest_biome_mapgen" );
 generic_factory<map_extra_collection> map_extra_collection_factory( "map_extra_collection" );
 generic_factory<region_settings> region_settings_factory( "region_settings_new" );
+std::map<region_settings_id, std::shared_ptr<const region_settings>> world_regions;
+std::size_t world_regions_revision = 0;
+
+bool has_world_override( std::initializer_list<const char *> names )
+{
+    return std::any_of( names.begin(), names.end(), []( const char *name ) {
+        return get_world_advanced_value( name ).has_value();
+    } );
+}
 } // namespace
+
+region_settings region_settings::with_world_advanced_options() const
+{
+    region_settings result = *this;
+    result.place_roads = world_advanced_bool( "REGION_ROADS", place_roads );
+    result.place_railroads = world_advanced_bool( "REGION_RAILROADS", place_railroads );
+    if( !city_spec || !overmap_connection.inter_city_road_connection.is_valid() ) {
+        result.place_roads = place_roads && result.place_roads;
+    }
+    if( !city_spec || !overmap_connection.rail_connection.is_valid() ) {
+        result.place_railroads = place_railroads && result.place_railroads;
+    }
+    result.place_swamps = world_advanced_bool( "REGION_SWAMPS", place_swamps );
+    result.place_specials = world_advanced_bool( "REGION_SPECIALS", place_specials );
+    result.neighbor_connections = world_advanced_bool( "REGION_NEIGHBOR_CONNECTIONS",
+                                  neighbor_connections );
+    result.worldgen_highways = world_advanced_bool( "REGION_HIGHWAYS", true );
+    result.worldgen_forests = world_advanced_bool( "REGION_FORESTS", true );
+    result.worldgen_forest_trails = world_advanced_bool( "REGION_FOREST_TRAILS", true );
+    result.worldgen_lakes = world_advanced_bool( "REGION_LAKES", true );
+    result.worldgen_oceans = world_advanced_bool( "REGION_OCEANS", true );
+
+    if( city_spec && overmap_connection.intra_city_road_connection.is_valid() &&
+        has_world_override( { "CITY_SIZE", "CITY_SPACING", "REGION_MEGACITY" } ) ) {
+        result.world_city = get_settings_city();
+        region_settings_city &city = *result.world_city;
+        city.city_size = world_advanced_number( "CITY_SIZE", city.city_size );
+        city.city_spacing = world_advanced_number( "CITY_SPACING", city.city_spacing );
+        city.is_megacity = world_advanced_bool( "REGION_MEGACITY", city.is_megacity );
+    }
+    if( overmap_forest && has_world_override( {
+    "REGION_FOREST_THRESHOLD", "REGION_THICK_FOREST_THRESHOLD" } ) ) {
+        result.world_forest = get_settings_forest();
+        region_settings_forest &forest = *result.world_forest;
+        forest.noise_threshold_forest = world_advanced_number( "REGION_FOREST_THRESHOLD",
+                                        forest.noise_threshold_forest );
+        forest.noise_threshold_forest_thick = world_advanced_number( "REGION_THICK_FOREST_THRESHOLD",
+                                              forest.noise_threshold_forest_thick );
+    }
+    if( overmap_river && has_world_override( { "REGION_RIVER_SCALE", "REGION_RIVER_FREQUENCY" } ) ) {
+        result.world_river = get_settings_river();
+        region_settings_river &river = *result.world_river;
+        river.river_scale = world_advanced_number( "REGION_RIVER_SCALE", river.river_scale );
+        river.river_frequency = world_advanced_number( "REGION_RIVER_FREQUENCY", river.river_frequency );
+    }
+    if( overmap_lake && has_world_override( {
+    "REGION_LAKE_THRESHOLD", "REGION_LAKE_SIZE_MIN", "REGION_LAKE_DEPTH" } ) ) {
+        result.world_lake = get_settings_lake();
+        region_settings_lake &lake = *result.world_lake;
+        lake.noise_threshold_lake = world_advanced_number( "REGION_LAKE_THRESHOLD",
+                                    lake.noise_threshold_lake );
+        lake.lake_size_min = world_advanced_number( "REGION_LAKE_SIZE_MIN", lake.lake_size_min );
+        lake.lake_depth = world_advanced_number( "REGION_LAKE_DEPTH", lake.lake_depth );
+    }
+    if( overmap_ocean && has_world_override( { "REGION_OCEAN_START_NORTH", "REGION_OCEAN_START_EAST",
+            "REGION_OCEAN_START_SOUTH", "REGION_OCEAN_START_WEST" } ) ) {
+        result.world_ocean = get_settings_ocean();
+        const auto override_start = []( const char *name, std::optional<int> &start ) {
+            if( get_world_advanced_value( name ) ) {
+                const int value = world_advanced_number( name, start.value_or( -1 ) );
+                start = value < 0 ? std::nullopt : std::optional<int>( value );
+            }
+        };
+        override_start( "REGION_OCEAN_START_NORTH", result.world_ocean->ocean_start_north );
+        override_start( "REGION_OCEAN_START_EAST", result.world_ocean->ocean_start_east );
+        override_start( "REGION_OCEAN_START_SOUTH", result.world_ocean->ocean_start_south );
+        override_start( "REGION_OCEAN_START_WEST", result.world_ocean->ocean_start_west );
+    }
+    if( overmap_ravine && has_world_override( {
+    "REGION_RAVINE_COUNT", "REGION_RAVINE_WIDTH", "REGION_RAVINE_DEPTH" } ) ) {
+        result.world_ravine = get_settings_ravine();
+        region_settings_ravine &ravine = *result.world_ravine;
+        ravine.num_ravines = world_advanced_number( "REGION_RAVINE_COUNT", ravine.num_ravines );
+        ravine.ravine_width = world_advanced_number( "REGION_RAVINE_WIDTH", ravine.ravine_width );
+        ravine.ravine_depth = world_advanced_number( "REGION_RAVINE_DEPTH", ravine.ravine_depth );
+    }
+    return result;
+}
+
+void clear_world_advanced_regions()
+{
+    world_regions.clear();
+    world_regions_revision = world_advanced_options_revision();
+}
+
+std::shared_ptr<const region_settings> get_world_advanced_region( const region_settings_id &id )
+{
+    if( world_regions_revision != world_advanced_options_revision() ) {
+        clear_world_advanced_regions();
+    }
+    auto found = world_regions.find( id );
+    if( found == world_regions.end() ) {
+        // Importers reconstruct old pregenerated maps using the content's
+        // original region.  Do not run terrain overrides over those layouts.
+        const bool pregenerated = !get_option<std::string>( "OVERMAP_PREGENERATED_PATH" ).empty();
+        found = world_regions.emplace( id, std::make_shared<const region_settings>(
+                                           pregenerated ? *id : id->with_world_advanced_options() ) ).first;
+    }
+    return found->second;
+}
+
+std::vector<std::string> validate_world_advanced_regions()
+{
+    std::vector<std::string> errors;
+    if( has_world_override( { "REGION_FOREST_THRESHOLD", "REGION_THICK_FOREST_THRESHOLD" } ) ) {
+        for( const region_settings &base : region_settings_factory.get_all() ) {
+            if( !base.overmap_forest ) {
+                continue;
+            }
+            const region_settings effective = base.with_world_advanced_options();
+            const region_settings_forest &forest = effective.get_settings_forest();
+            if( forest.noise_threshold_forest > forest.noise_threshold_forest_thick ) {
+                errors.push_back( string_format(
+                                      _( "Region %s: the dense forest threshold must not be lower than the forest threshold." ),
+                                      base.id.str() ) );
+            }
+        }
+    }
+    return errors;
+}
 
 generic_factory<map_extra_collection> &
 cata::lua_platform::detail::map_extra_collection_registry()
@@ -465,6 +598,7 @@ void map_extra_collection::reset()
 }
 void region_settings::reset()
 {
+    clear_world_advanced_regions();
     region_settings_factory.reset();
 }
 

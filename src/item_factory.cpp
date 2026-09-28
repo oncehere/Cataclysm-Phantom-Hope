@@ -456,10 +456,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    if( get_option<bool>( "NO_FAULTS" ) ) {
-        obj.faults.clear();
-    }
-
     // If no category was forced via JSON automatically calculate one now
     if( !obj.category_force.is_valid() || obj.category_force.is_empty() ) {
         obj.category_force = calc_category( obj );
@@ -1628,20 +1624,29 @@ void Item_factory::finalize()
     // we can no longer add or adjust static item templates
     frozen = true;
 
+    const bool no_faults = get_option<bool>( "NO_FAULTS" );
+    const auto finalize_post_with_options = [this, no_faults]( itype & obj ) {
+        finalize_post( obj );
+        // Apply after all post-finalization paths, including firearms' early return.
+        if( no_faults ) {
+            obj.faults.clear();
+        }
+    };
+
     for( const itype &e : item_factory.get_all() ) {
         finalize_pre( const_cast<itype &>( e ) );
         register_cached_uses( e );
     }
 
     for( const itype &e : item_factory.get_all() ) {
-        finalize_post( const_cast<itype &>( e ) );
+        finalize_post_with_options( const_cast<itype &>( e ) );
     }
 
     // We may actually have some runtimes here - ones loaded from saved game
     // TODO: support for runtimes that repair
     for( auto &e : m_runtimes ) {
         finalize_pre( *e.second );
-        finalize_post( *e.second );
+        finalize_post_with_options( *e.second );
     }
 
     // for each item register all (non-obsolete) potential recipes

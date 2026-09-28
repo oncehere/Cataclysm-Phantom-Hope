@@ -80,6 +80,11 @@ class dimension_region_layout_generator
         virtual ~dimension_region_layout_generator() = default;
         // return the region for the given overmap
         virtual region_settings_id get_overmap_region( const tripoint_abs_om &om_point ) = 0;
+        // Character creation must inspect the starting dimension without
+        // generating maps or consuming the world's random stream.
+        virtual region_settings_id get_initial_region() const {
+            return region_settings_id::NULL_ID();
+        }
         virtual bool is_static_generation() const = 0;
         // generate for one overmap, which will generate the entire layout for static layouts
         void init() {
@@ -134,6 +139,9 @@ class dimension_region_layout_generator_uniform : public dimension_region_layout
     public:
         void generate_dynamic( Region_map &placed_regions, const tripoint_abs_om &current_om ) override;
         void deserialize( const JsonObject &jo ) override;
+        region_settings_id get_initial_region() const override {
+            return uniform_region;
+        }
 };
 
 

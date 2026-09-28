@@ -1260,6 +1260,10 @@ ifdef LANGUAGES
   export LOCALE_DIR
   L10N = localization
 endif
+ifeq ($(LOCALIZE),1)
+  export LOCALE_DIR
+  L10N = localization
+endif
 
 ifeq ($(SDL3), 1)
   SHADERS_DIR := data/shaders
@@ -1385,7 +1389,7 @@ $(SHADERS_STAMP): $(SHADERS_SRC) tools/build_shaders.py
 	python3 tools/build_shaders.py --shader-dir $(SHADERS_DIR) --formats $(BUILD_SHADER_FORMATS) --stamp $@
 endif
 
-$(TARGET): $(OBJS) $(SHADERS_STAMP) $(LUA_PLATFORM_LINK_MODE_STAMP)
+$(TARGET): $(OBJS) $(SHADERS_STAMP) $(LUA_PLATFORM_LINK_MODE_STAMP) | $(L10N)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
@@ -1509,10 +1513,16 @@ $(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
 	msgfmt -f -o $@ $<
 
 MO_DEPS := \
-  $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
+  $(wildcard lang/*.sh lang/*.py lang/cph/*.po src/*.cpp src/*.h) lang/Makefile \
   $(shell find data/raw data/json data/mods data/core -type f -name '*.json')
 
-lang/mo_built.stamp: $(MO_DEPS)
+CPH_MO := $(patsubst lang/cph/%.po,lang/mo/cph/%/LC_MESSAGES/cataclysm-dda.mo,$(wildcard lang/cph/*.po))
+
+lang/mo/cph/%/LC_MESSAGES/cataclysm-dda.mo: lang/cph/%.po
+	mkdir -p "$(@D)"
+	msgfmt -c -o "$@" "$<"
+
+lang/mo_built.stamp: $(MO_DEPS) $(CPH_MO)
 	$(MAKE) -C lang
 	touch $@
 
@@ -1562,7 +1572,7 @@ ifeq ($(SDL3), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-ifdef LANGUAGES
+ifeq ($(LOCALIZE),1)
 	$(MAKE) -C lang install
 endif
 endif
@@ -1599,7 +1609,7 @@ ifeq ($(SDL3), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-ifdef LANGUAGES
+ifeq ($(LOCALIZE),1)
 	$(MAKE) -C lang install
 endif
 endif
@@ -1644,7 +1654,7 @@ app: export CPH_CLEAN_APP_TARGET = $(APPTARGETDIR)
 ifeq ($(CATA_ENABLE_LUA_PLATFORM),1)
 	cp -R data/lua $(APPDATADIR)
 endif
-ifdef LANGUAGES
+ifeq ($(LOCALIZE),1)
 	$(MAKE) -C lang
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
@@ -1702,7 +1712,7 @@ $(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(ZZIP_BIN) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(foreach lib,$(INSTALL_EXTRAS),install --strip $(lib) $(BINDIST_DIR);)
-ifdef LANGUAGES
+ifeq ($(LOCALIZE),1)
 	cp -R --parents lang/mo $(BINDIST_DIR)
 endif
 ifeq ($(BUNDLE_SDL3_LINUX),1)
