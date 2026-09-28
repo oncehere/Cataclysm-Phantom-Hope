@@ -4,6 +4,8 @@
 
 | 要做的事 | 入口 |
 | --- | --- |
+| 了解工作区目录、源码仓库和本地证据的边界 | [工作区布局](project/workspace-layout.md) |
+| 了解文档逐篇核验范围 | [文档审阅记录](project/documentation-review.md) |
 | 核对仍有效的用户需求 R01—R18 与阶段目标 | [执行规格](project/execution-spec.md) |
 | 查看带日期的进度及已验证范围 | [状态记录](project/status.md)；当前远端状态须重新回读 |
 | 查阅阶段恢复清单 | [恢复入口](project/resume.md)；执行前核对记录日期 |

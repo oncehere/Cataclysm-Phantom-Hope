@@ -1,5 +1,32 @@
 # CPH 本轮实施与交接（2026-09-26）
 
+## 2026-09-28 02:48 UTC 指导整理合入回读
+
+[PR #4](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/4) 与
+[PR #5](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/5) 已合入。
+远端 `main=477eabe5aa88b703c2e977cb806afcf880ff5cd6`，合入父提交为
+`4f49ae413b6301fbb04ac3c6bb4bdf337de216f8` 和审阅的
+`62693eeb10d83fa423740825b9ccd5f746c12b0a`；结果 tree 为
+`7399543026395d762072d5eaf6f8ecb10319d84f`，与已测试候选完全一致。
+
+PR #5 的原生 run `36357012339` attempt 1：Windows/Linux **PASS**。
+Windows 40 cases / 2,620,451 assertions；Linux 42 cases / 2,620,478 assertions，
+均无失败、错误或跳过。可信收集器 run `36361080363` 因保护面 **FAIL**，
+没有发布通过状态。用户在审阅固定差异和测试结果后明确授权临时
+Repository admin 的 PR-only 例外；这是一次人工维护处置，不代表收集器放行。
+
+合入后已立即移除并保存例外，管理界面回读 bypass list 为空。
+规则 `24056126` 始终 active；required `cph/trusted-gate`、source App 15368、
+strict base、PR 要求、禁止强推与删除保持原配置。恢复后的规则时间为
+`2026-09-28T02:46:16.905Z`，可见字段摘要为
+`45ccbb4b0bd8e1acdd3335b89279f434753a41d6f2c4df601fd84f2802107325`。
+同步状态 revision 5 刷新规则锁，revision 6 恢复
+`sync_paused=false`、`merge_paused=false`、`auto_merge_enabled=true`；
+完整状态回读和 `remote_sync.validate_state` 通过。
+
+本段只证明上述时间点的指导合入和规则恢复。后续安全清理、路由、工具 CI
+修复是独立候选；未取得相应远端证据前，不能把本段当作其部署验收。
+
 ## 2026-09-27 15:31 UTC 整理拆分回读
 
 原文档整理 PR #3 的 `head=31f5521de29f3707d070075ca957e06bfcd9468b`

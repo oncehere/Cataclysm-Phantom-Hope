@@ -9,8 +9,8 @@ CPH 是目前使用的**工作名称**。本仓库是 [Cataclysm: Dark Days Ahea
 - 源码与 PR：<https://github.com/oncehere/Cataclysm-Phantom-Hope>。贡献者应从 **CPH `main`** 建立分支，参见[贡献指南](CONTRIBUTING.md)。
 - 远端 Windows/Linux 检查见 [CPH Native CI](https://github.com/oncehere/Cataclysm-Phantom-Hope/actions/workflows/project-ci.yml)；CCB 同步与暂停/恢复操作见[远端同步说明](docs/project/remote-sync.md)。
 - 项目讨论与一般求助：[CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) 已启用；报告时请注明准确提交、平台和复现步骤。
-- [Issues 说明](ISSUES.md)及仓库内表单仍在整理；入口是否已启用以 GitHub 页面为准。不可用时可在 Discussions 讨论可公开的问题。敏感漏洞请先阅读[安全政策](SECURITY.md)，勿在公开讨论中发布细节。
-- 开发资料从[项目文档导航](docs/README.md)、[项目地图](ai/project-map.yml)与邻近 `AGENTS.md` 开始。`doc/` 保留继承的游戏与构建资料；使用时按当前源码和测试核对。
+- [Issues 说明](ISSUES.md)及仓库内表单已合入；入口是否已启用以 GitHub 页面为准。不可用时可在 Discussions 讨论可公开的问题。敏感漏洞请先阅读[安全政策](SECURITY.md)，勿在公开讨论中发布细节。
+- 开发资料从[项目文档导航](docs/README.md)、[项目地图](ai/project-map.yml)及目标路径上全部祖先 `AGENTS.md` 开始。`doc/` 保留继承的游戏与构建资料；使用时按当前源码和测试核对。
 
 ## 方向与边界
 
