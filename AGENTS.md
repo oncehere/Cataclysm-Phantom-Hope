@@ -1,8 +1,8 @@
 # CPH repository instructions / CPH 仓库指南
 
-Before implementation, read [docs/project/execution-spec.md](docs/project/execution-spec.md) completely. It is the primary CPH requirement document; earlier reviews and inherited CCB instructions are historical context. Read the nearest `AGENTS.md` for the path being changed, then route tests with `ai/project-map.yml` and `ai/test-matrix.yml`. Current source, tests, build files, schemas, and registrations determine actual behavior. Documentation and tracked targets do not prove a GitHub setting, platform run, release, or deployment.
+Before implementation, read [docs/project/execution-spec.md](docs/project/execution-spec.md) completely. It is the primary CPH requirement document; earlier reviews and inherited CCB instructions are historical context. Read the root and every ancestor `AGENTS.md` from the repository root to the path being changed, then route tests with `ai/project-map.yml` and `ai/test-matrix.yml`. Current source, tests, build files, schemas, and registrations determine actual behavior. Documentation and tracked targets do not prove a GitHub setting, platform run, release, or deployment.
 
-实施前完整阅读执行规格和最近的 `AGENTS.md`；结合项目地图与测试路由选择验证。不要把历史 CCB 文档、目标配置或本地测试结果写成 CPH 已部署事实。
+实施前完整阅读执行规格，以及仓库根到目标路径上全部祖先 `AGENTS.md`；结合项目地图与测试路由选择验证。不要把历史 CCB 文档、目标配置或本地测试结果写成 CPH 已部署事实。
 
 ## Repository and source boundaries
 
@@ -17,6 +17,7 @@ Before implementation, read [docs/project/execution-spec.md](docs/project/execut
 
 - Use `rg` and narrow reads to find declarations, callers, registrations, tests, and applicable instructions. Keep each change coherent and avoid unrelated formatting churn.
 - Select focused checks from `ai/test-matrix.yml`. Report exact command, exit code, tested commit/platform, and skipped checks. A successful local tool test is not game, CI, platform, or deployment acceptance.
+- User-initiated, explicitly authorized personal maintenance follows execution-spec section 6.1: applicable local checks are its merge basis without waiting for Actions. Reuse sufficient unchanged-input evidence with its original SHA and a final-diff comparison. Report Linux only as Linux, Windows unverified explicitly; validate Windows-specific code or packaging on Windows. Unattended sync/automatic merge retains remote Windows/Linux gates, and release requirements remain unchanged. Explain and obtain confirmation before changing GitHub protection settings; never fabricate trusted status.
 - Every PR names a real **Responsible human** who understands the final diff, owns test claims, verifies licenses/provenance, and answers review. AI tool disclosure is optional.
 - Complete the PR template's `Documentation impact`, `Repository documentation impact`, `Affected documentation IDs`, and `Generated reference impact` fields. For a required `ai/docs-impact.yml` mapping, name current in-repository document paths and mapped IDs; unrelated changes remain advisory. Explanatory docs do not override source contracts.
 - Keep security reports and personal data out of public logs and PRs. Follow [SECURITY.md](SECURITY.md), and verify that GitHub's private form is available before sharing details; current availability is recorded in the dated [project status](docs/project/status.md).
@@ -34,4 +35,4 @@ make -j2 json-check
 make -j2 tests
 ```
 
-Lua, Android, data, and other subsystems have their own nearest `AGENTS.md`, source contracts, and focused checks. Preserve source/test provenance when bringing changes from CCB or CDDA. Do not claim unrun commands passed.
+Lua, Android, data, and other subsystems have additional ancestor `AGENTS.md` instructions, source contracts, and focused checks. Preserve source/test provenance when bringing changes from CCB or CDDA. Do not claim unrun commands passed.

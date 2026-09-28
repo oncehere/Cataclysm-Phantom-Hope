@@ -45,6 +45,14 @@ BUILD_STEPS = (
     "Build and execute required tests",
     "Preserve logs and evidence on success or failure",
 )
+TOOLING_STEPS = (
+    "Checkout trusted control revision",
+    "Checkout exact merge candidate",
+    "Select fixed tooling Python",
+    "Install tooling system dependencies",
+    "Run tool regressions and generated checks",
+    "Preserve tooling evidence on success or failure",
+)
 
 
 def digest(data):
@@ -221,6 +229,7 @@ def validate_jobs(jobs):
         ),
         "CPH Linux": BUILD_STEPS,
         "CPH Windows": BUILD_STEPS,
+        "CPH Tooling": TOOLING_STEPS,
     }
     for name, steps in required.items():
         found = [job for job in jobs if job.get("name") == name]
@@ -242,6 +251,130 @@ def validate_jobs(jobs):
                 matches[0].get("conclusion") == "success",
                 "required step not successful: " + step_name,
             )
+
+
+def validate_tooling(files, expected, policy, requirements_sha):
+    """Validate the complete required tool profile without executing it."""
+    require("tooling-report.json" in files, "missing tooling report")
+    report = decode(files["tooling-report.json"])
+    require(
+        report.get("schema_version") == 1
+        and report.get("kind") == "cph-tooling-ci"
+        and report.get("status") == "PASS",
+        "tooling did not pass",
+    )
+    require(report.get("identity") == expected, "tooling identity mismatch")
+    require(
+        report.get("python_version") == policy["python_version"]
+        and report.get("requirements_sha256") == requirements_sha,
+        "tooling interpreter or dependencies changed",
+    )
+    require(
+        report.get("checks") == list(policy["checks"]),
+        "missing or changed generated check",
+    )
+    suites = report.get("suites", [])
+    require(
+        isinstance(suites, list)
+        and [item.get("name") for item in suites] == list(policy["suites"]),
+        "missing or repeated tooling suite",
+    )
+    require("commands.jsonl" in files, "missing tooling command ledger")
+    commands = [
+        decode(line) for line in files["commands.jsonl"].splitlines() if line
+    ]
+    names = ["dependencies", *policy["suites"], *policy["checks"]]
+    require(
+        [item.get("log") for item in commands]
+        == [name + ".log" for name in names],
+        "tooling commands missing or changed",
+    )
+    indexed = {}
+    for name, command in zip(names, commands):
+        log = command["log"]
+        require(
+            type(command.get("exit_code")) is int
+            and command["exit_code"] == 0
+            and command.get("status") == "PASS",
+            "tooling command failed",
+        )
+        require(
+            log in files and digest(files[log]) == command.get("log_sha256"),
+            "tooling command log changed",
+        )
+        require(isinstance(command.get("argv"), list), "invalid tooling argv")
+        indexed[name] = command["argv"]
+    for name, arguments in policy["checks"].items():
+        require(
+            indexed[name][1:] == arguments, "generated check command changed"
+        )
+    for item in suites:
+        name = item["name"]
+        filename = name + ".json"
+        require(
+            item.get("report") == filename
+            and filename in files
+            and digest(files[filename]) == item.get("sha256"),
+            "tooling suite report changed",
+        )
+        suite, config = decode(files[filename]), policy["suites"][name]
+        require(
+            suite.get("status") == "PASS"
+            and suite.get("directory") == config["directory"]
+            and suite.get("pattern") == "test_*.py"
+            and suite.get("excluded_prefixes") == config["excluded_prefixes"],
+            "tooling suite selection changed",
+        )
+        for key in (
+            "failures",
+            "errors",
+            "skipped",
+            "expected_failures",
+            "unexpected_successes",
+        ):
+            require(
+                type(suite.get(key)) is int and suite[key] == 0,
+                "tooling suite failed or skipped",
+            )
+        selected, excluded = (
+            suite.get("selected_tests"),
+            suite.get("excluded_tests"),
+        )
+        require(
+            isinstance(selected, list)
+            and isinstance(excluded, list)
+            and all(isinstance(value, str) for value in selected + excluded),
+            "invalid tooling test inventory",
+        )
+        require(
+            type(suite.get("tests")) is int
+            and suite["tests"] > 0
+            and len(selected) == suite["tests"]
+            and type(suite.get("selected_count")) is int
+            and suite["selected_count"] == len(selected)
+            and type(suite.get("excluded_count")) is int
+            and suite["excluded_count"] == len(excluded)
+            and len(set(selected + excluded)) == len(selected + excluded),
+            "empty or duplicate tooling tests",
+        )
+        prefixes = tuple(config["excluded_prefixes"])
+        require(
+            all(value.startswith(prefixes) for value in excluded)
+            and not any(value.startswith(prefixes) for value in selected),
+            "tooling exclusions changed",
+        )
+        argv = indexed[name]
+        require(
+            len(argv) == 9
+            and Path(argv[1]).name == "ci_tooling.py"
+            and argv[2:5] == ["suite", "--directory", config["directory"]]
+            and argv[5] == "--excluded"
+            and json.loads(argv[6]) == config["excluded_prefixes"]
+            and argv[7] == "--output"
+            and Path(argv[8]).name == filename,
+            "tooling regression command changed",
+        )
+    return report
 
 
 def validate_protection(value):
@@ -642,7 +775,7 @@ def collect(
         )
         validate_jobs(jobs)
         artifacts = page(api, f"actions/runs/{run_id}/artifacts", "artifacts")
-        for platform in ("linux", "windows"):
+        for platform in ("tooling", "linux", "windows"):
             name = f"cph-ci-{platform}-{run_id}-{attempt}"
             matches = [item for item in artifacts if item.get("name") == name]
             require(
@@ -681,7 +814,19 @@ def collect(
                     else f"refs/pull/{number}/merge"
                 ),
             }
-            validate_report(archive(raw), platform, expected, policy)
+            if platform == "tooling":
+                validate_tooling(
+                    archive(raw),
+                    expected,
+                    policy["tooling"],
+                    digest(
+                        (
+                            control / policy["tooling"]["requirements"]
+                        ).read_bytes()
+                    ),
+                )
+            else:
+                validate_report(archive(raw), platform, expected, policy)
         # Re-read after downloads: a successful old combination is never
         # reusable.
         current, current_tree = read_pr(api, number, base, head, surfaces)

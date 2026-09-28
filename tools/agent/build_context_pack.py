@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -66,7 +67,7 @@ def selected_routes(
         return [by_id[route_id] for route_id in sorted(selected)]
     folded = task.casefold()
     for entry in router["entries"]:
-        if any(keyword.casefold() in folded for keyword in entry["keywords"]):
+        if any(keyword_matches(keyword, folded) for keyword in entry["keywords"]):
             selected.add(entry["id"])
         if any(
             matches(pattern, file_path)
@@ -79,10 +80,19 @@ def selected_routes(
     return [by_id[route_id] for route_id in sorted(selected)]
 
 
+def keyword_matches(keyword: str, task: str) -> bool:
+    """Match Latin keywords as terms, not substrings such as port in report."""
+    folded = keyword.casefold()
+    if folded.isascii():
+        return re.search(r"(?<!\w)" + re.escape(folded) + r"(?!\w)", task) is not None
+    return folded in task
+
+
 def nearest_agents(files: list[str], project_entries: list[dict]) -> list[str]:
+    """Include every ancestor, including ancestors of routed contract guides."""
     candidates = {"AGENTS.md"}
     candidates.update(entry["instructions"] for entry in project_entries)
-    for file_path in files:
+    for file_path in files + [entry["instructions"] for entry in project_entries]:
         parent = Path(file_path).parent
         while str(parent) not in {"", "."}:
             candidate = str(parent / "AGENTS.md")

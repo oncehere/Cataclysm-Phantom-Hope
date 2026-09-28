@@ -13,7 +13,7 @@ cases:
     task: Diagnose a C++ assertion bug.
     files: [src/game.cpp, tests/force_load_game_test.cpp]
     expected_routes: [cpp-bug]
-    expected_paths: [src/, tests/]
+    expected_paths: [src/, 'tests/*.cpp']
     expected_documentation_ids: [validation.debugging]
     expected_validation_ids: [cpp-format, cpp-tests]
   - id: json-content
@@ -65,3 +65,54 @@ cases:
     expected_paths: [ai/docs-impact.yml]
     expected_documentation_ids: [json.object-types]
     expected_validation_ids: [documentation-impact]
+  - id: workflow-routing
+    task: Fix a workflow bug.
+    files: [.github/workflows/project-ci.yml]
+    expected_routes: [github-automation]
+    expected_paths: [.github/]
+    expected_documentation_ids: [architecture.project-map]
+    expected_validation_ids: [project-python, governance-audit]
+    expected_agents: [AGENTS.md, .github/AGENTS.md]
+    forbidden_routes: [cpp-bug, lua-first-platform]
+    forbidden_validation_ids: [cmake-configure, cpp-tests, json-load]
+    forbidden_agents: [build-scripts/AGENTS.md]
+  - id: project-python-bug
+    task: 修复 Python 测试 bug 和错误。
+    files: [tests/project/test_remote_workflows.py]
+    expected_routes: [project-tooling]
+    expected_paths: [tests/project/]
+    expected_documentation_ids: [architecture.project-map]
+    expected_validation_ids: [project-python, python-tools]
+    expected_agents: [AGENTS.md, tests/AGENTS.md]
+    forbidden_routes: [cpp-bug, upstream-port, lua-first-platform]
+    forbidden_validation_ids: [cpp-format, cpp-tests, json-load]
+  - id: native-source-routing
+    task: Fix the C++ behaviour.
+    files: [src/game.cpp]
+    expected_routes: [cpp-bug]
+    expected_paths: [src/]
+    expected_documentation_ids: [validation.debugging]
+    expected_validation_ids: [cpp-format, cpp-tests]
+    expected_agents: [AGENTS.md, src/AGENTS.md]
+    forbidden_routes: [lua-first-platform, upstream-port]
+    forbidden_validation_ids: [project-python, json-load]
+  - id: pure-lua-mod-routing
+    task: Fix a pure Lua Mod bug.
+    files: [data/mods/Lua_First_Example/main.lua]
+    expected_routes: [lua-mod]
+    expected_paths: ['data/mods/*.lua']
+    expected_documentation_ids: [architecture.lua-first-platform]
+    expected_validation_ids: [lua-contract, lua-mod-load, lua-playable-mvp]
+    expected_agents: [AGENTS.md, data/AGENTS.md, data/mods/AGENTS.md, data/lua/AGENTS.md]
+    forbidden_routes: [cpp-bug, json-mod, json-content, eoc, upstream-port]
+    forbidden_validation_ids: [json-load, json-eoc-contract, cpp-tests]
+  - id: json-mod-routing
+    task: Fix a JSON Mod bug.
+    files: [data/mods/TEST_DATA/modinfo.json]
+    expected_routes: [json-mod]
+    expected_paths: ['data/mods/*.json']
+    expected_documentation_ids: [compatibility.mods]
+    expected_validation_ids: [json-load, json-eoc-contract]
+    expected_agents: [AGENTS.md, data/AGENTS.md, data/mods/AGENTS.md]
+    forbidden_routes: [cpp-bug, lua-mod, lua-first-platform, upstream-port]
+    forbidden_validation_ids: [lua-contract, lua-mod-load, cpp-tests]

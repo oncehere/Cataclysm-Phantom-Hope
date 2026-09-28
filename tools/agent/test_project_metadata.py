@@ -30,6 +30,20 @@ class ProjectMetadataTest(unittest.TestCase):
     def test_context_is_valid(self):
         validate_context()
 
+    def test_benchmark_rejects_unknown_forbidden_validation(self):
+        original = load_project_yaml
+        benchmark_path = ROOT / "ai/agent-benchmark.yml"
+        definition = copy.deepcopy(original(benchmark_path))
+        definition["cases"][0]["forbidden_validation_ids"] = ["unknown-check"]
+
+        def modified(path):
+            return definition if path == benchmark_path else original(path)
+
+        with mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
+             mock.patch("check_project_metadata.load_yaml", side_effect=modified):
+            with self.assertRaisesRegex(ValueError, "unknown benchmark validation"):
+                validate_context()
+
     def test_required_documentation_rejects_historical_page(self):
         original = load_project_yaml
         impact_path = ROOT / "ai/docs-impact.yml"

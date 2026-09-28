@@ -365,19 +365,30 @@ def validate_context() -> None:
     if len(case_ids) != len(set(case_ids)):
         raise ValueError("duplicate id in agent-benchmark.yml")
     for case in benchmark["cases"]:
-        unknown_routes = sorted(set(case["expected_routes"]) - set(route_ids))
+        unknown_routes = sorted(
+            (set(case["expected_routes"])
+             | set(case.get("forbidden_routes", [])))
+            - set(route_ids)
+        )
         if unknown_routes:
             raise ValueError(
                 f"unknown benchmark routes in {case['id']}: {unknown_routes}"
             )
         unknown_tests = sorted(
-            set(case["expected_validation_ids"]) - test_ids
+            (set(case["expected_validation_ids"])
+             | set(case.get("forbidden_validation_ids", []))) - test_ids
         )
         if unknown_tests:
             raise ValueError(
                 f"unknown benchmark validation ids in {case['id']}: "
                 f"{unknown_tests}"
             )
+        for path in (case.get("expected_agents", [])
+                     + case.get("forbidden_agents", [])):
+            if path not in known or Path(path).name != "AGENTS.md":
+                raise ValueError(
+                    f"unknown benchmark instructions in {case['id']}: {path}"
+                )
         for path in case["files"]:
             if path not in known:
                 raise ValueError(

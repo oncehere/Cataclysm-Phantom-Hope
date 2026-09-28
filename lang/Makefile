@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := all
 PO_DIR := ./po
 MO_DIR := ./mo
 
@@ -13,11 +14,33 @@ endif
 
 MO := $(patsubst %,$(MO_DIR)/%/LC_MESSAGES/cataclysm-dda.mo,$(PO))
 
+clean clean-plan: export CPH_CLEAN_PO_DIR = $(PO_DIR)
+clean clean-plan: export CPH_CLEAN_MO_DIR = $(MO_DIR)
+clean clean-plan: export CPH_CLEAN_LANGUAGES = $(LANGUAGES)
+
+# Only locally generated, unchanged outputs with a matching PO receipt qualify.
+# Downloaded/locked MO inputs without a receipt are retained.
+clean:
+	python3 ../tools/safe_clean.py --scope lang --goal clean
+
+clean-plan:
+	python3 ../tools/safe_clean.py --scope lang --goal clean --dry-run
+
+.PHONY: clean clean-plan
+
+ifneq ($(MAKECMDGOALS),)
+  ifeq ($(filter-out clean clean-plan,$(MAKECMDGOALS)),)
+    CLEAN_ONLY = 1
+  endif
+endif
+ifneq ($(CLEAN_ONLY),1)
 all: $(MO)
 
 $(MO_DIR)/%/LC_MESSAGES/cataclysm-dda.mo: $(PO_DIR)/%.po
-	mkdir -p $$(dirname $@)
-	msgfmt -f -o $@ $<
+	mkdir -p "$(@D)"
+	msgfmt -f -o "$@" "$<"
+	# Receipt metadata is optional; unsafe/out-of-checkout outputs are retained.
+	python3 ../tools/safe_clean.py --scope lang --record-source "$<" --record-output "$@"
 
 list_po:
 	@echo $(PO)
@@ -31,7 +54,6 @@ ifdef LOCALE_DIR
 	cp -R --no-preserve=ownership $(MO_DIR)/* $(LOCALE_DIR)
 endif
 
-clean:
-	find mo -type d -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+.PHONY: all list_po list_mo install
 
-.PHONY: all list_po list_mo clean
+endif # build rules

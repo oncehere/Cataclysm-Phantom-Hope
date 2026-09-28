@@ -67,7 +67,22 @@ The synchronization workflow does not enable GitHub auto-merge or call the
 merge API. The collector must reload state immediately before its final merge
 action and call `record_merged` after verifying actual remote completion.
 
+The 2026-09-28 maintenance candidate additionally requires a `CPH Tooling` job
+before either native build, with independently verified tool suite counts,
+generator checks, dependency digest and exact candidate/run identity. This
+change is **IMPLEMENTED_NOT_DEPLOYED** until its reviewed controller and action
+allowlist are deployed and a real ordinary PR verifies the new gate. The
+[dated policy migration record](check-policy-history-2026-09-28.md) describes
+the bootstrap boundary and the intentionally staged documentation-impact check.
+
 ## Persistent state and retries
+
+This remote contract governs unattended synchronization and automatic merge.
+Owner-authorized personal maintenance follows execution-spec section 6.1 using
+applicable local evidence; it does not obtain a synthetic trusted status or alter
+this controller's Windows/Linux requirements. Any temporary administrator
+exception follows the separately confirmed [settings procedure](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule),
+with automatic operations paused and the no-bypass rule lock restored afterward.
 
 `codex/sync-state` contains only `state.json`, outside game source history.
 Updates create a child commit and fast-forward the ref with `force=false`.

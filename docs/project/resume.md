@@ -1,5 +1,27 @@
 # 缺失条件与恢复入口
 
+## 2026-09-28 个人维护验收策略更新
+
+用户已明确授权个人维护按 [execution-spec 第 6.1 节](execution-spec.md#61-合入)
+采用相关本机证据合入；无需等待 GitHub Actions，Linux 和未验证 Windows 分开记录。
+该决定也适用于 PR #6。先复核已有检查的原提交、相关输入及日志，只补受影响或缺失的检查。
+此规则不降低无人值守上游同步/自动合入的远端 Windows/Linux 门槛，也不改变发布验收。
+当前 GitHub 全 PR required status 不会因文档自动改变；完成本地验收后按
+[仓库设置流程](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule)
+说明具体例外范围并等待用户确认。未取得该设置确认时，阻塞的是受保护合入操作。
+
+## 2026-09-28 02:48 UTC 维护恢复入口
+
+指导整理 PR #4/#5 已合入 `477eabe5aa88b703c2e977cb806afcf880ff5cd6`；
+固定原生证据、一次性授权例外及恢复结果见 [status.md](status.md)。
+规则 active、bypass list 为空、同步控制已恢复到 revision 6。
+恢复新任务时先回读当前 main、规则锁和开关，不复用旧候选证据。
+
+安全清理、指令/验证路由和工具 CI 的后续维护应单独审查，保护面候选仍按
+现行可信门槛拒绝自动合入。工具 CI 的部署及引导条件见
+[策略历史与工具检查](check-policy-history-2026-09-28.md)。
+文档影响检查仍是显式本地/人工检查；本地通过不证明 GitHub 已强制执行。
+
 ## 2026-09-27 15:31 UTC 整理拆分恢复状态
 
 原 PR #3 的受保护路径被可信收集器拒绝，其 Windows/Linux 成功运行不能
@@ -48,8 +70,9 @@ Windows 因 vcpkg 浅克隆缺历史 tree 失败，Linux 取消，不计 PASS；
 
 | 最小条件 | 仅阻塞的动作 | 配置位置与恢复入口 |
 |---|---|---|
-| 每个候选的必需检查及 active main 规则 | 该候选合入 | PR #1/#2 的正反回证已记录；每个新候选仍须固定 base/head/合并树并核验 `cph/trusted-gate`，refs 移动需重验。PR #3 的保护路径拒绝不能通过关闭规则绕过；保持 merge 历史，不启用线性历史要求 |
-| GitHub 托管 Windows/Linux runner 的实际构建、测试及来源绑定结果 | 单个候选的 W/L 合入结果 | 使用已实现的 `project-ci.yml` 原生执行；旧 head 结果不能代替新候选，本机缺 Windows 不阻塞部署，Linux 结果不能替代 Windows 原生结果 |
+| 个人维护的授权、相关本地检查及实际 GitHub 合入权限 | 该次个人维护合入 | 按第 6.1 节记录固定候选、本地命令/退出码和未验证范围；旧证据经相关输入比对后复用；若 required status 阻止操作，先说明设置例外影响并取得确认 |
+| 无人值守候选的必需检查及 active main 规则 | 该次无人值守自动合入 | 固定 base/head/合并树并核验 `cph/trusted-gate`，refs 移动需重验；保护路径仍拒绝自动放行，保持 merge 历史 |
+| GitHub 托管 Windows/Linux runner 的实际构建、测试及来源绑定结果 | 无人值守候选的 W/L 门槛及相应平台验收 | 使用 `project-ci.yml` 原生执行；不借用旧候选或本地 Linux 结果冒充 Windows PASS；个人维护不因此强制等待 Actions |
 | 原生 macOS runner、所选架构依赖 | macOS 构建/包检查和四平台发布 | 先复用已审计入口作候选检查；包架构与实际运行架构分别记录，不能擅自增加每日人工批准条件 |
 | Android SDK/NDK/JDK、可用运行环境、明确验收 profile | Android 包/运行验收和四平台发布 | 先探测 ARM64 自动环境；替代 profile 需要明确采纳，兼容架构模拟器结果不能标成 ARM64 包实测 |
 | 永久项目身份决定 | 长期应用 ID、包身份和公开开发版 | E3 先可使用明显的本地测试身份；默认配置、存档、升级清理和卸载都要隔离，不能只改显示名 |
@@ -62,7 +85,7 @@ AI 不在日常运行链中；新增设计取舍另行明确。
 
 2026-09-27 07:40 UTC 状态分支回读：Actions 已限缩启用，继承 workflow 保持
 隔离，master 已冻结；同步检查与自动合入开关如本页顶部 revision 3 所述。
-任何具体候选仍须通过自身的可信门槛；PR #3 的保护路径拒绝仍为阻塞。
+该历史快照中的候选仍受当时的可信门槛约束；当前个人维护适用本页顶部的新决定。
 每日公开开发版和稳定版尚未启用。旧 `operator-controls.md` 描述的本地
 模型继续保留，远端操作应使用 `remote-sync.md` 的持久状态与 revision 检查。
 实际在途任务暂停/封禁、最终动作前重查和状态恢复仍需远端验收；本地 fixture

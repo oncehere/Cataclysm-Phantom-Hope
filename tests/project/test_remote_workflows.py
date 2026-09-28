@@ -15,6 +15,20 @@ SPEC.loader.exec_module(AUDIT)
 
 
 class WorkflowPolicyTests(unittest.TestCase):
+    def test_tooling_history_and_native_merge_depth_are_distinct(self):
+        workflow = (ROOT / ".github/workflows/project-ci.yml").read_text()
+        self.assertEqual(AUDIT.candidate_checkout_errors(workflow), [])
+        shallow = workflow.replace("fetch-depth: 0", "fetch-depth: 2")
+        self.assertIn(
+            "tooling candidate checkout requires fetch-depth 0",
+            AUDIT.candidate_checkout_errors(shallow),
+        )
+        changed = workflow.replace("fetch-depth: 2", "fetch-depth: 1")
+        self.assertIn(
+            "native candidate checkout requires fetch-depth 2",
+            AUDIT.candidate_checkout_errors(changed),
+        )
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
@@ -25,7 +39,8 @@ class WorkflowPolicyTests(unittest.TestCase):
         self.action = "actions/checkout@" + "a" * 40
         policy = {"allowed_actions": [self.action], "workflows": ["ci.yml"]}
         (self.repo / "project/remote-actions-policy.json").write_text(
-            json.dumps(policy))
+            json.dumps(policy)
+        )
         self.ci = self.workflows / "ci.yml"
         self.ci.write_text("steps:\n  - uses: " + self.action + "\n")
 

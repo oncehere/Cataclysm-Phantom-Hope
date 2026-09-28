@@ -1,9 +1,9 @@
 {
-  "case_count": 9,
+  "case_count": 14,
   "cases": [
     {
       "errors": [],
-      "estimated_tokens": 1925,
+      "estimated_tokens": 2098,
       "id": "repository-navigation",
       "passed": true,
       "selected_routes": [
@@ -12,7 +12,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1696,
+      "estimated_tokens": 1944,
       "id": "cpp-bug",
       "passed": true,
       "selected_routes": [
@@ -21,7 +21,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1381,
+      "estimated_tokens": 1549,
       "id": "json-content",
       "passed": true,
       "selected_routes": [
@@ -30,25 +30,28 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1811,
+      "estimated_tokens": 2634,
       "id": "eoc",
       "passed": true,
       "selected_routes": [
+        "cpp-bug",
         "eoc"
       ]
     },
     {
       "errors": [],
-      "estimated_tokens": 2965,
+      "estimated_tokens": 4113,
       "id": "lua-api",
       "passed": true,
       "selected_routes": [
-        "lua-api"
+        "cpp-bug",
+        "lua-api",
+        "lua-first-platform"
       ]
     },
     {
       "errors": [],
-      "estimated_tokens": 2471,
+      "estimated_tokens": 2344,
       "id": "upstream-port",
       "passed": true,
       "selected_routes": [
@@ -57,29 +60,80 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1716,
+      "estimated_tokens": 2019,
       "id": "save-compatibility",
       "passed": true,
       "selected_routes": [
+        "cpp-bug",
         "save-compatibility"
       ]
     },
     {
       "errors": [],
-      "estimated_tokens": 1488,
+      "estimated_tokens": 2187,
       "id": "generated-file-detection",
       "passed": true,
       "selected_routes": [
-        "generated-file-detection"
+        "generated-file-detection",
+        "repository-navigation"
       ]
     },
     {
       "errors": [],
-      "estimated_tokens": 2218,
+      "estimated_tokens": 2559,
       "id": "documentation-impact",
       "passed": true,
       "selected_routes": [
-        "documentation-impact"
+        "documentation-impact",
+        "repository-navigation"
+      ]
+    },
+    {
+      "errors": [],
+      "estimated_tokens": 1820,
+      "id": "workflow-routing",
+      "passed": true,
+      "selected_routes": [
+        "github-automation"
+      ]
+    },
+    {
+      "errors": [],
+      "estimated_tokens": 1811,
+      "id": "project-python-bug",
+      "passed": true,
+      "selected_routes": [
+        "project-tooling"
+      ]
+    },
+    {
+      "errors": [],
+      "estimated_tokens": 1933,
+      "id": "native-source-routing",
+      "passed": true,
+      "selected_routes": [
+        "cpp-bug"
+      ]
+    },
+    {
+      "errors": [],
+      "estimated_tokens": 4259,
+      "id": "pure-lua-mod-routing",
+      "passed": true,
+      "selected_routes": [
+        "lua-api",
+        "lua-first-platform",
+        "lua-mod"
+      ]
+    },
+    {
+      "errors": [],
+      "estimated_tokens": 2077,
+      "id": "json-mod-routing",
+      "passed": true,
+      "selected_routes": [
+        "json-content",
+        "json-mod"
       ]
     }
   ],
