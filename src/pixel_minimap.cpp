@@ -290,6 +290,12 @@ bool pixel_minimap::flush_cache_updates()
             continue;
         }
 
+        if( !mcp.second.chunk_tex ) {
+            // A null render target selects the window; leave it untouched.
+            mcp.second.update_list.clear();
+            continue;
+        }
+
         const bind_result r = permanent_render_target_bind( renderer, mcp.second.chunk_tex.get(), vp );
         if( r != bind_result::ok ) {
             // failed_in_switch already latched recovery and left the renderer
@@ -480,7 +486,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect,
 
     const auto chunk_texture_generator = [&chunk_size, this]() {
         SDL_Texture_Ptr result = create_cache_texture( renderer, chunk_size.x, chunk_size.y );
-        SetTextureBlendMode( result, SDL_BLENDMODE_BLEND );
+        if( result ) {
+            SetTextureBlendMode( result, SDL_BLENDMODE_BLEND );
+        }
         return result;
     };
 
@@ -600,6 +608,10 @@ void pixel_minimap::render_cache( const tripoint_bub_ms &center )
             continue;   // What you gonna do with all that junk?
         }
 
+        if( !elem.second.chunk_tex ) {
+            continue;
+        }
+
         const tripoint_rel_sm rel_pos = elem.first - sm_center;
 
         if( std::abs( rel_pos.x() ) > sm_offset.x() + 1 ||
@@ -696,6 +708,10 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &ce
     }
 
     set_screen_rect( screen_rect, force_scale_to_fit );
+    if( !main_tex ) {
+        // A null render target would bind the window and clobber the screen.
+        return;
+    }
     const bool chunks_repainted = process_cache( center );
     render( center, chunks_repainted );
 }
