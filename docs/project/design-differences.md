@@ -1,5 +1,10 @@
 # Source ancestry and intentional differences
 
+This is the current local ledger contract. The commits described below are
+historical entries; the deployed GitHub gate and remaining acceptance boundaries
+are recorded with dates in [status.md](status.md). A local ledger check alone
+does not establish that remote merge protection is active.
+
 `project/upstreams.lock.json` records the original B/U source identities.
 `project/design-differences.json` separately records intentional project changes.
 A source SHA being an ancestor is evidence of integration history, not evidence
@@ -33,5 +38,6 @@ success alone never authorizes acceptance: known design constraints and actual
 regression checks remain necessary. No new design choice is made by the tool.
 
 Protected ledger/policy changes require their own explicit review. A candidate
-cannot edit the ledger to approve itself. Remote enforcement of that boundary
-is still E4 work, not a property established by this local JSON file.
+cannot edit the ledger to approve itself. Current protected-path handling is
+recorded with dated remote evidence in [status.md](status.md). This local JSON
+file alone cannot establish the deployed gate or authorize an exception.

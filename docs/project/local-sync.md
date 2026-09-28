@@ -1,9 +1,12 @@
 # Local CCB integration rehearsal
 
-Status: `IMPLEMENTED_NOT_DEPLOYED`. This command performs local Git history and
+This page specifies the local rehearsal command. That command remains local-only;
+the separate remote controller has since been deployed on the authorized target.
+Its current run and gate state is in [status.md](status.md) and
+[remote-sync.md](remote-sync.md). This command performs local Git history and
 merge checks only. It never fetches, pushes, updates the source branch, runs a
-workflow, calls AI, or enables merging. E4's actual Windows/Linux protected-PR
-gate and a named authorized GitHub target remain prerequisites for automation.
+workflow, calls AI, or enables merging. The target is now named and verified;
+the dated Windows/Linux protected-PR gate results are in [status.md](status.md).
 
 Run from a clean committed project checkout. The CLI pins the specification's
 exact B/U commits and trees. A newer upstream must already be available locally
@@ -83,9 +86,10 @@ skips and successes remain `NOT_RUN` here, and all reports retain
 python3 -m unittest discover -s tests/project -p test_sync_dry_run.py -v
 ```
 
-Recovery prerequisites for remote E5: authorized personal CDDA-fork target;
-verified E4 Windows/Linux required checks and base/head/tree binding; trusted
-controller and protected-surface review; restricted App permissions/token
-creation outside candidate execution; pause/state/retry handling proven on an
-actual protected PR. Normal dispatch green is not sufficient. Do not deploy
-this local rehearsal directly as a credential-bearing workflow.
+Recovery prerequisites for remote E5: the authorized personal CDDA fork is
+already present; verified E4 Windows/Linux required checks and base/head/tree
+binding, active protection and pause/state/retry handling on an actual protected
+PR are still required. The deployed controller uses scoped `GITHUB_TOKEN`, not
+a configured App identity; that choice does not turn a dispatch job into a
+required PR check. Do not deploy this local rehearsal directly as a
+credential-bearing workflow.

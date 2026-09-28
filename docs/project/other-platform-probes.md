@@ -1,10 +1,14 @@
 # E1 Windows, macOS and Android probes
 
 These are local build/probe entrypoints, not E4 required checks or deployed
-workflows. No target repository, platform runner or signing identity is inferred.
-Current evidence was collected on Linux; native Windows/macOS/Android execution
-and Windows PowerShell parsing are **NOT_RUN**. There is no `pwsh` here, so text
-review does not establish that a Windows script parses or runs successfully.
+workflows. The target `oncehere/Cataclysm-Phantom-Hope` is now known, but these
+scripts do not infer a platform runner or signing identity. The local evidence
+below was collected on Linux; native execution of these local Windows/macOS/
+Android probes and Windows PowerShell parsing remain **NOT_RUN**. Hosted native
+Windows/Linux CI has since been started separately; its result is reported in
+[status.md](status.md), not inferred from this page. There is no `pwsh` in the
+documented local session, so text review did not establish that the Windows
+script parses or runs successfully.
 
 ## Windows: executable probe, awaiting a native environment
 
@@ -151,7 +155,10 @@ artifact does not satisfy a signing check. Runtime acceptance requires a
 separately fixed emulator/device profile tied to the actual package; static
 ARM64 inspection or a companion x86_64 run alone is not ARM64 runtime proof.
 
-Native Windows/macOS runners, Android SDK/NDK/shader inputs and an authorized
-device/runtime profile block their respective probes. Permanent identity and
-signing block installation under the final identity and public release, while
+The local Windows probe still needs a native prepared environment; the hosted
+Windows runner exercises separate remote CI. Its dated protected-PR acceptance
+is recorded in [status.md](status.md). Native macOS runners, Android SDK/NDK,
+shader inputs and an authorized device/runtime profile block their respective
+probes. Permanent identity and signing block installation under the final
+identity and public release, while
 the local source/tooling work and already executable Linux checks can continue.

@@ -3,7 +3,7 @@
   "cases": [
     {
       "errors": [],
-      "estimated_tokens": 3392,
+      "estimated_tokens": 1925,
       "id": "repository-navigation",
       "passed": true,
       "selected_routes": [
@@ -12,7 +12,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 3163,
+      "estimated_tokens": 1696,
       "id": "cpp-bug",
       "passed": true,
       "selected_routes": [
@@ -21,7 +21,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2848,
+      "estimated_tokens": 1381,
       "id": "json-content",
       "passed": true,
       "selected_routes": [
@@ -30,7 +30,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2775,
+      "estimated_tokens": 1811,
       "id": "eoc",
       "passed": true,
       "selected_routes": [
@@ -39,7 +39,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 3814,
+      "estimated_tokens": 2965,
       "id": "lua-api",
       "passed": true,
       "selected_routes": [
@@ -48,7 +48,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 3840,
+      "estimated_tokens": 2471,
       "id": "upstream-port",
       "passed": true,
       "selected_routes": [
@@ -57,7 +57,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 3183,
+      "estimated_tokens": 1716,
       "id": "save-compatibility",
       "passed": true,
       "selected_routes": [
@@ -66,7 +66,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2955,
+      "estimated_tokens": 1488,
       "id": "generated-file-detection",
       "passed": true,
       "selected_routes": [
@@ -75,7 +75,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 3685,
+      "estimated_tokens": 2218,
       "id": "documentation-impact",
       "passed": true,
       "selected_routes": [

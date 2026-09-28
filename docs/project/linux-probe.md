@@ -1,5 +1,7 @@
 # Linux E1 原生构建与最小运行探针
 
+**本地探针操作说明及 2026-09-26 回证：**本文的实际构建和测试结果只绑定当时源码、资源及 NixOS 环境。当前远端 Windows/Linux 门槛与发布状态见 [status.md](status.md)；`../evidence/` 是本机工作区中的私有证据位置，路径规则见 [workspace-layout.md](workspace-layout.md)。
+
 本入口构建隔离源码中的 `cataclysm-tiles` 和 `cata_test-tiles`，执行真实
 Catch2 测试。它不是 GitHub required check、安装验收或开发版发布器。
 未完成 E3 独立身份前，二进制只能在显式临时用户目录内验证。

@@ -21,10 +21,8 @@ PR 提交准则：
 1. None
 2. Bugfixes "修复长矛无法锁定不同楼层敌人的问题"
 3. Interface "在制作界面显示制作失败几率"
-分类含义详见：
-https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/master/doc/CHANGELOG_GUIDELINES.md
-合并后，你的概述会被加入项目更新日志：
-https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/master/data/changelog.txt -->
+分类含义详见本仓库 doc/CHANGELOG_GUIDELINES.md。
+是否进入 CPH 更新日志以实际维护流程为准；不要链接 CCB 的 changelog 当作 CPH 输出。 -->
 
 #### Responsible human
 <!-- #### 责任人 -->
@@ -38,7 +36,7 @@ https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/master/data
 <!-- #### 变更目的 -->
 
 <!-- 用几句话描述你做这次改动的原因。
-如果它与某个已有 issue 相关，可以用「#」加 GitHub issue 编号来关联，例如 #1234。
+如果 CPH Issues 已启用，且与本仓库某个 issue 相关，可以用「#」加编号关联，例如 #1234。
 
 【重要】当你的 PR 能完全解决某个 issue 时，必须使用 [GitHub 的英文关闭关键字](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue)
 才能在 PR 合并后自动关闭该 issue，例如：Fixes #1234。
@@ -67,18 +65,20 @@ https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/master/data
 <!-- 描述你采取了哪些步骤来测试这个 PR 是否修复了 bug 或添加了特性，以及你做了哪些测试以确保没有引入回归问题。也请为审阅者和维护者提供测试建议。参见 TESTING_YOUR_CHANGES.md -->
 
 #### Documentation impact
-<!-- None，或说明需要新增、更新、迁移、归档或标记 stale 的开发文档。
+<!-- None，或说明需要新增、更新、迁移、归档或标记 stale 的本仓库文档。
 实际执行级别以 ai/docs-impact.yml 为准。required 映射不能填写 None/N/A/TBD。 -->
 
 None
 
-#### Related CCB-Docs PR
-<!-- None，或填写 CrimsonCrossBunker/CCB-Docs 的 PR 链接。required 映射必须链接实际 PR。 -->
+#### Repository documentation impact
+<!-- None，或填写本仓库现行文档路径及对应改动；required 映射必须列出
+与下方稳定 ID 对应、可在本仓库追踪的文档路径，如 doc/JSON/JSON_INFO.md。
+本字段不要求外部 CCB-Docs PR。 -->
 
 None
 
 #### Affected documentation IDs
-<!-- None，或填写 docs-catalog.yml 中稳定的文档 ID，多个 ID 用逗号分隔。
+<!-- None，或填写 ai/documentation-registry.yml 中稳定的文档 ID，多个 ID 用逗号分隔。
 required 映射至少填写一个 ai/docs-impact.yml 列出的对应 ID。 -->
 
 None
@@ -94,7 +94,7 @@ None
 <!-- 在此添加关于这个特性或 bug 修复的其他背景信息（例如原型图、概念验证或截图）。 -->
 
 
-<!--README: Cataclysm: Cleanwater Bomb (CCB) 以 Creative Commons Attribution ShareAlike 3.0 许可证发布。
-游戏的代码与内容可自由用于任何目的的使用、修改和再分发。
-通过为本项目做贡献，你即同意该许可证的条款，并同意你所做的任何贡献也将受同一许可证覆盖。
-详见 http://creativecommons.org/licenses/by-sa/3.0/ 。 -->
+<!-- CPH 继承原作 Creative Commons Attribution ShareAlike 3.0 许可及适用的
+第三方许可/署名要求。通过向本项目提交贡献，你同意该许可的条款，并同意你的
+贡献受同一许可覆盖；提交前请核对来源权利并保留原作者记录。详见 CONTRIBUTING.md。
+详见 https://creativecommons.org/licenses/by-sa/3.0/ 。 -->
