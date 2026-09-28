@@ -74,6 +74,9 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日
 本次清单共 **279** 个文档/纯文本/表单候选；按用途分类，包含非说明的 `.txt` 配置与运行数据。
 此表直接枚举 Git 跟踪文件及候选新增项，不以旧迁移注册表筛选。
 
+此表保留审计时的数量与决定。2026-09-28 按用户要求删除三个仅转指
+`AGENTS.md` 的厂商适配入口；相关行改链到删除前的固定提交，仅作历史回证。
+
 | 分类 | 数量 |
 | --- | ---: |
 | CPH 项目文档 | 21 |
@@ -103,14 +106,14 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日
 | [.github/ISSUE_TEMPLATE/mechanics_balance.yml](../../.github/ISSUE_TEMPLATE/mechanics_balance.yml) | name: Mechanics and balance / 机制与平衡 | 现行表单 | 按现行入口、角色及维护边界复核 | Evidence and compatibility questions retained; unverified inherited auto-label removed. |
 | [.github/ISSUE_TEMPLATE/performance.yml](../../.github/ISSUE_TEMPLATE/performance.yml) | name: Performance regression / 性能问题 | 现行表单 | 按现行入口、角色及维护边界复核 | CPH commit/release identity replaces CCB version; measurement questions retained. |
 | [.github/ISSUE_TEMPLATE/upstream_sync.yml](../../.github/ISSUE_TEMPLATE/upstream_sync.yml) | name: Upstream sync or port / 上游同步或移植 | 现行表单 | 按现行入口、角色及维护边界复核 | CPH purpose/divergence and main validation replace CCB master; source authorship/license questions retained. |
-| [.github/copilot-instructions.md](../../.github/copilot-instructions.md) | GitHub Copilot adapter | 现行入口/指令 | 按现行入口、角色及维护边界复核 | 复核指向现行 AGENTS/项目入口；保留内容 |
+| [.github/copilot-instructions.md](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/b7a6cbb67044f6542c8b81c6ff37189724432590/.github/copilot-instructions.md) | GitHub Copilot adapter | 审计时入口，后续已删除 | 仅转指 AGENTS 的冗余适配入口 | 2026-09-28 删除；固定链接保留原审计对象 |
 | [.github/pull_request_template.md](../../.github/pull_request_template.md) | Summary | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Related CCB-Docs PR replaced by exact checker field Repository documentation impact; local paths/IDs and CPH summary guidance. |
 | [AGENTS.md](../../AGENTS.md) | CPH repository instructions / CPH 仓库指南 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH execution specification and remote boundary replace inherited CCB agent governance; source, generated-file and evidence rules retained. |
-| [CLAUDE.md](../../CLAUDE.md) | Claude adapter | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Thin adapter already routes to current AGENTS.md without CCB-specific governance; no prose edit needed. |
+| [CLAUDE.md](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/b7a6cbb67044f6542c8b81c6ff37189724432590/CLAUDE.md) | Claude adapter | 审计时入口，后续已删除 | 仅转指 AGENTS 的冗余适配入口 | 2026-09-28 删除；固定链接保留原审计对象 |
 | [CMakeLists.txt](../../CMakeLists.txt) | Build options | 配置/运行数据 | 无本轮改写需求；保留归属/原契约 | 识别为非说明文件，保留现行构建/依赖/资源契约；本轮未改 |
 | [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md) | Our Pledge | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Core standards and Contributor Covenant/GNU attribution retained; old CCB lead email removed; no configured private CPH conduct channel disclosed. |
 | [CONTRIBUTING.md](../../CONTRIBUTING.md) | Contributing to CPH / 参与 CPH | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Fork CPH main, responsible human, source/compatibility validation and in-repository documentation impact replace CCB master/CCB-Docs route. |
-| [GEMINI.md](../../GEMINI.md) | Gemini adapter | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Thin adapter already routes to current AGENTS.md without CCB-specific governance; no prose edit needed. |
+| [GEMINI.md](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/b7a6cbb67044f6542c8b81c6ff37189724432590/GEMINI.md) | Gemini adapter | 审计时入口，后续已删除 | 仅转指 AGENTS 的冗余适配入口 | 2026-09-28 删除；固定链接保留原审计对象 |
 | [GOVERNANCE.md](../../GOVERNANCE.md) | CPH governance / CPH 治理 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH authority, provenance, human review, merge and four-platform release gates replace CCB governance and reviewer claims. |
 | [ISSUES.md](../../ISSUES.md) | Reporting CPH issues / 报告问题 | 现行入口/指令 | 按现行入口、角色及维护边界复核 | CPH issue form route is conditional on feature availability; Discussions handles public early reports; CCB/DDA routes removed. |
 | [LABELS.md](../../LABELS.md) | CPH issue and pull-request labels | 现行入口/指令 | 按现行入口、角色及维护边界复核 | Inherited CCB label names are triage examples, not verified live CPH labels or owner assignments. |

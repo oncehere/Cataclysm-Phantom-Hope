@@ -77,7 +77,7 @@ class DocumentationRegistryTest(unittest.TestCase):
         self.assertEqual(technical["status"], "active")
         self.assertEqual(technical["stable_document_id"], "json.object-types")
         self.assertTrue(technical["include_in_ai_index"])
-        for path in ("CLAUDE.md", "GEMINI.md", ".github/copilot-instructions.md"):
+        for path in ("AGENTS.md", "tools/AGENTS.md", ".github/AGENTS.md"):
             self.assertEqual(registry.classify(path, legacy)["category"],
                              "agent_instruction")
 

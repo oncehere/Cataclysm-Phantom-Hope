@@ -29,11 +29,6 @@ ROOT_GOVERNANCE = {
     "SUPPORT.md",
     "SYNC_EXCLUDED_PRS.md",
 }
-AGENT_INSTRUCTIONS = {
-    "CLAUDE.md",
-    "GEMINI.md",
-    ".github/copilot-instructions.md",
-}
 AGENT_METADATA = {
     "ai/agent-benchmark-baseline.json",
     "ai/agent-benchmark.schema.json",
@@ -232,7 +227,7 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         status = "active"
         authority = "explanatory"
         source_of_truth = False
-    elif path.endswith("AGENTS.md") or path in AGENT_INSTRUCTIONS:
+    elif path.endswith("AGENTS.md"):
         category = "agent_instruction"
         status = "active"
         authority = "governance_contract"

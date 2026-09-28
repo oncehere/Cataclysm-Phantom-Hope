@@ -11,6 +11,7 @@ Before implementation, read [docs/project/execution-spec.md](docs/project/execut
 - Keep permanent application identity, public APIs, stable JSON IDs, save formats, and real GitHub settings unchanged unless the task explicitly requires and verifies that change. Inherited names inside source contracts may be intentional; changing prose does not authorize renaming them.
 - Do not edit vendored third-party code unless the task explicitly targets it.
 - Do not hand-edit generated inventories or documentation registries. Use their declared generators in `ai/generated-files.yml`, then inspect the diff.
+- Keep agent instructions in `AGENTS.md`; avoid tool-specific files that merely copy or redirect to these instructions.
 - No automatic AI, stable release, public development release, signing, or protected automatic merge may be inferred from candidate files. Windows/Linux gate results, four-platform artifacts, identity isolation, ruleset activation, and releases each need their own evidence.
 
 ## Work and review

@@ -3,7 +3,7 @@ kind: test_matrix
 description: Acceptance-gate validation routing, not a per-edit execution mandate. Expensive commands may require platform dependencies.
 entries:
   - id: agent-context
-    paths: [AGENTS.md, CLAUDE.md, GEMINI.md, GOVERNANCE.md, ai/, tools/agent/, .github/copilot-instructions.md]
+    paths: [AGENTS.md, GOVERNANCE.md, ai/, tools/agent/]
     command: python3 -m unittest discover -s tools/agent -p 'test_*.py'
     workdir: .
     cost: fast
