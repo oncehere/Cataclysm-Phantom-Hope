@@ -71,7 +71,8 @@ entries:
       - data/lua/LUA_FIRST_EOC_WORKFLOW.md
       - ai/lua-first-roadmap.yml
       - ai/lua-first-roadmap.schema.json
-      - ai/lua-first-replacement-ledger.yml
+      - tools/agent/generate_lua_first_replacement_ledger.py
+      - tools/agent/check_lua_first_replacement_ledger.py
       - ai/lua-first-replacement-ledger.schema.json
       - data/lua/types/ccb_platform_v1.d.lua
       - data/lua/templates/**

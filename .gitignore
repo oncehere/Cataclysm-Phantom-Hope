@@ -266,3 +266,6 @@ VERSION.txt
 *.replay
 build-tracy/
 tests/objwin/tiles/pch/tests-pch.hpp.gch
+
+# Optional expanded view; validate the authoritative mappings in memory.
+/ai/lua-first-replacement-ledger.yml

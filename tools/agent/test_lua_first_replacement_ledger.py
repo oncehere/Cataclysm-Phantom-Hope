@@ -1,10 +1,18 @@
 import copy
+import contextlib
+import io
 import json
+import subprocess
+import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, ValidationError
 
+from tools.agent import check_lua_first_replacement_ledger as checker
+from tools.agent import generate_lua_first_replacement_ledger as generator
 from tools.agent.generate_lua_first_replacement_ledger import (
     IMPLEMENTED_VERIFIED,
     INVENTORIES,
@@ -208,6 +216,162 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
             legacy_evidence("eoc-effects", {}),
             ["data/reference/json/ccb_eoc_effects.json"],
         )
+
+
+class OnDemandReplacementLedgerTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.ledger = build_ledger()
+
+    def test_check_validates_current_inputs_without_writing(self):
+        with (
+            mock.patch.object(Path, "write_text", side_effect=AssertionError),
+            mock.patch.object(
+                checker, "build_ledger", wraps=build_ledger,
+            ) as build,
+        ):
+            self.assertEqual(checker.check(), self.ledger["summary"])
+        build.assert_called_once_with()
+
+    def test_missing_extra_and_duplicate_selectors_fail(self):
+        for mutation in ("missing", "extra", "duplicate"):
+            with self.subTest(mutation=mutation):
+                ledger = copy.deepcopy(self.ledger)
+                if mutation == "missing":
+                    ledger["entries"].pop()
+                else:
+                    entry = copy.deepcopy(ledger["entries"][0])
+                    if mutation == "extra":
+                        entry["selector"] = "unregistered_selector_fixture"
+                    ledger["entries"].append(entry)
+                with self.assertRaisesRegex(
+                    RuntimeError, "coverage differs|duplicate selectors"
+                ):
+                    checker.validate_ledger(ledger)
+
+    def test_source_identity_fingerprint_and_count_are_checked(self):
+        for field, value, error in (
+            ("path", "data/reference/json/ccb_eoc_effects.json",
+             "source contract"),
+            ("selector", "key", "source contract"),
+            ("source_fingerprint", "sha256:" + "0" * 64, "fingerprint"),
+            ("entry_count", 1, "count changed"),
+        ):
+            with self.subTest(field=field):
+                ledger = copy.deepcopy(self.ledger)
+                source = next(source for source in ledger["sources"]
+                              if source["id"] == "json-object-types")
+                source[field] = value
+                with self.assertRaisesRegex(RuntimeError, error):
+                    checker.validate_ledger(ledger)
+
+    def test_missing_inventory_and_invalid_verification_fail_schema(self):
+        ledger = copy.deepcopy(self.ledger)
+        ledger["sources"].pop()
+        with self.assertRaises(ValidationError):
+            checker.validate_ledger(ledger)
+        ledger = copy.deepcopy(self.ledger)
+        entry = next(entry for entry in ledger["entries"]
+                     if entry["status"] == "implemented_verified")
+        entry["verification"] = "source_only"
+        with self.assertRaises(ValidationError):
+            checker.validate_ledger(ledger)
+
+    def test_all_required_evidence_kinds_remain_required(self):
+        for prefix in (
+            "src/lua_platform", "data/lua/types/", "tests/",
+            "tools/migrate_lua_first.py",
+        ):
+            with self.subTest(prefix=prefix):
+                ledger = copy.deepcopy(self.ledger)
+                entry = next(entry for entry in ledger["entries"]
+                             if entry["status"] == "implemented_verified")
+                entry["evidence"] = [path for path in entry["evidence"]
+                                     if not path.startswith(prefix)]
+                with self.assertRaisesRegex(
+                    RuntimeError, "lacks Platform source"
+                ):
+                    checker.validate_ledger(ledger)
+
+    def test_missing_evidence_file_is_not_accepted_by_prefix(self):
+        ledger = copy.deepcopy(self.ledger)
+        entry = next(entry for entry in ledger["entries"]
+                     if entry["status"] == "implemented_verified")
+        entry["evidence"].append(
+            "src/lua_platform_missing_evidence_fixture.cpp"
+        )
+        with self.assertRaisesRegex(
+            RuntimeError, "evidence path does not exist"
+        ):
+            checker.validate_ledger(ledger)
+
+    def test_legacy_dependency_and_stale_summary_fail(self):
+        ledger = copy.deepcopy(self.ledger)
+        entry = next(entry for entry in ledger["entries"]
+                     if entry["status"] == "implemented_verified")
+        entry["legacy_dependency"] = "public_legacy"
+        with self.assertRaisesRegex(RuntimeError, "unresolved public legacy"):
+            checker.validate_ledger(ledger)
+        ledger = copy.deepcopy(self.ledger)
+        ledger["summary"]["total"] += 1
+        with self.assertRaisesRegex(RuntimeError, "summary is stale"):
+            checker.validate_ledger(ledger)
+
+    def test_default_export_goes_to_stdout_without_writing(self):
+        output = io.StringIO()
+        with (
+            contextlib.redirect_stdout(output),
+            mock.patch.object(Path, "write_text", side_effect=AssertionError),
+        ):
+            self.assertEqual(generator.main([]), 0)
+        self.assertEqual(output.getvalue(), generator.render(self.ledger))
+
+    def test_check_rejects_invalid_generated_coverage_without_an_export(self):
+        ledger = copy.deepcopy(self.ledger)
+        ledger["entries"].pop()
+        with (
+            mock.patch.object(generator, "build_ledger", return_value=ledger),
+            mock.patch.object(Path, "write_text", side_effect=AssertionError),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "coverage differs"):
+                generator.main(["--check"])
+
+    def test_explicit_export_and_staleness_check_do_not_repair_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "ledger.yml"
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(
+                    generator.main(["--check", "--output", str(output)]), 1
+                )
+            self.assertFalse(output.exists())
+            self.assertEqual(generator.main(["--output", str(output)]), 0)
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                generator.render(self.ledger),
+            )
+            self.assertEqual(
+                generator.main(["--check", "--output", str(output)]), 0
+            )
+            output.write_text("stale export\n", encoding="utf-8")
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(
+                    generator.main(["--check", "--output", str(output)]), 1
+                )
+            self.assertEqual(
+                output.read_text(encoding="utf-8"), "stale export\n"
+            )
+
+    def test_script_check_works_outside_repository_without_an_export(self):
+        with tempfile.TemporaryDirectory() as directory:
+            result = subprocess.run(
+                [sys.executable, str(Path(generator.__file__).resolve()),
+                 "--check"],
+                cwd=directory, capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(
+                result.returncode, 0, result.stdout + result.stderr
+            )
+            self.assertEqual(list(Path(directory).iterdir()), [])
 
 
 if __name__ == "__main__":

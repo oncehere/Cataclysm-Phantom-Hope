@@ -372,7 +372,7 @@ capabilities:
     status: complete
     target_surface: "Bounded services.item_categories spawn-rate surface: spawn_rate, set_spawn_rate, and set_spawn_rates accept exact GameId<item_category> ids, finite rates in 0..1000000, and dense unique batches of at most 256 updates with before/after/changed results. Snapshot/rollback coverage is recorded; LuaLS, migrator, tests, and replacement-ledger mappings are recorded; independent review has no P1."
     legacy_dependency: none
-    evidence: [src/lua_platform_items.cpp, src/lua_platform_runtime.cpp, src/item_category.cpp, src/item_category.h, data/lua/types/ccb_platform_v1.d.lua, tools/migrate_lua_first.py, tools/test_migrate_lua_first.py, tests/lua_platform_test.cpp, ai/lua-first-replacement-ledger.yml]
+    evidence: [src/lua_platform_items.cpp, src/lua_platform_runtime.cpp, src/item_category.cpp, src/item_category.h, data/lua/types/ccb_platform_v1.d.lua, tools/migrate_lua_first.py, tools/test_migrate_lua_first.py, tests/lua_platform_test.cpp, tools/agent/generate_lua_first_replacement_ledger.py]
     verification: passed
     next_actions: []
   - id: overmap-reveal-route-contract

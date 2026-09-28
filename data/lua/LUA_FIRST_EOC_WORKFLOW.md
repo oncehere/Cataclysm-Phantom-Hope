@@ -29,6 +29,15 @@ workflow needs them; they are not prerequisites for every Lua change.
 roadmap 保留历史里程碑证据，不作为每次修改的待办清单。PR 664 的基础设施总验收属于历史范围。
 可选 helper、国际化与作者工具按实际需求进入批次，不再成为每轮 Lua 开发的前置目标。
 
+Each new API or migration mapping must name the current Mod or author workflow
+that needs it, its behavior acceptance, and the condition for retiring any
+replaced path. Do not expand the Platform merely to fill a coverage table.
+Preserve existing runtime behavior and its regression tests while reviewing
+possible consolidation one domain at a time.
+
+新增接口或迁移映射必须对应当前实际用途、行为验收及被替代路径的退出条件；
+不为填满覆盖表而扩张。保留现有行为及其回归，逐领域评估合并。
+
 The accepted trust/library/resource policy is defined in
 `LUA_FIRST_PLATFORM.md`. Reliability work means correct errors, lifecycle and
 native API semantics; it does not restore a security sandbox or mandatory

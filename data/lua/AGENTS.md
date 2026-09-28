@@ -30,8 +30,10 @@ tracked in `ai/lua-first-roadmap.yml`.
   in the scaffold staging directory before atomic installation.
   The scaffolder may add optional `.luarc.json` and a frozen `.ccb-sdk/` for
   editor use; neither is a runtime manifest, and `--no-editor` omits them.
-- `ai/lua-first-replacement-ledger.yml` is generated. Change its generator,
-  never the ledger by hand. A bounded or primitive disposition is not
+- The replacement ledger is generated on demand by
+  `tools/agent/generate_lua_first_replacement_ledger.py`; its expanded YAML is
+  not tracked. Change its generator, never an exported ledger by hand.
+  A bounded or primitive disposition is not
   completeness; only the final semantic gate may produce a verified status.
 - `primitive_available_unverified` means only that composable native domain
   building blocks exist; it is not selector-level parity and must not be

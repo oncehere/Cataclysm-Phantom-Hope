@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_conditions",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:85b33f28c5de4baab39ccdf33348dbc76bee3759f348527e3ca0535f79cedef5",
+    "source_fingerprint": "sha256:1ee123e9293c6784b46cbabcf1fbf7351f00b39847228fd75dc3e12a525d7232",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "parser": "src/condition.cpp#conditional_t::conditional_t",

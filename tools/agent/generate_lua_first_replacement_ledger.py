@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
-"""Generate the exact Lua-first disposition ledger from checked inventories."""
+"""Export the exact Lua-first disposition ledger on demand.
+
+The default writes YAML to stdout; --output writes an explicit export. --check
+validates the current in-memory ledger, and --check --output FILE additionally
+checks that export for staleness. Neither check mode writes files.
+"""
 
 from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import yaml
@@ -24,7 +30,6 @@ except ModuleNotFoundError:
 
 
 ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = ROOT / "ai" / "lua-first-replacement-ledger.yml"
 
 
 def classify_migration_todo(category: object) -> TodoCategory:
@@ -4802,20 +4807,40 @@ def render(ledger: dict) -> str:
     )
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true")
-    args = parser.parse_args()
-    expected = render(build_ledger())
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check", action="store_true",
+        help=("validate current inputs without writing; "
+              "also compare --output if supplied"),
+    )
+    parser.add_argument(
+        "--output", type=Path,
+        help="explicit YAML export path (default: stdout)",
+    )
+    args = parser.parse_args(argv)
+    try:
+        from check_lua_first_replacement_ledger import validate_ledger
+    except ModuleNotFoundError:
+        from tools.agent.check_lua_first_replacement_ledger import (
+            validate_ledger,
+        )
+
+    ledger = build_ledger()
+    validate_ledger(ledger)
     if args.check:
-        if (
-            not OUTPUT.exists() or
-            OUTPUT.read_text(encoding="utf-8") != expected
+        if args.output is not None and (
+            not args.output.is_file() or
+            args.output.read_text(encoding="utf-8") != render(ledger)
         ):
-            print(f"stale generated ledger: {OUTPUT.relative_to(ROOT)}")
+            print(f"stale generated ledger: {args.output}", file=sys.stderr)
             return 1
         return 0
-    OUTPUT.write_text(expected, encoding="utf-8")
+    expected = render(ledger)
+    if args.output is None:
+        sys.stdout.write(expected)
+    else:
+        args.output.write_text(expected, encoding="utf-8")
     return 0
 
 

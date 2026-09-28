@@ -75,7 +75,7 @@ jobs:
         with:
           ref: ${{ needs.plan.outputs.merge_sha }}
           persist-credentials: false
-          # Agent metadata validates frozen historical migration sources.
+          # The documentation registry verifies its recorded provenance commit.
           fetch-depth: 0
           path: candidate
       - name: Select fixed tooling Python

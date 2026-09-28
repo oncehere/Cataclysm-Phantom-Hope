@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate exact, unique replacement-ledger coverage."""
+"""Validate the on-demand replacement ledger without a tracked export."""
 
 from __future__ import annotations
 
@@ -8,16 +8,27 @@ from collections import Counter
 from pathlib import Path
 
 import jsonschema
-import yaml
+
+try:
+    from generate_lua_first_replacement_ledger import INVENTORIES, build_ledger
+except ModuleNotFoundError:
+    from tools.agent.generate_lua_first_replacement_ledger import (
+        INVENTORIES,
+        build_ledger,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[2]
-LEDGER = ROOT / "ai/lua-first-replacement-ledger.yml"
 SCHEMA = ROOT / "ai/lua-first-replacement-ledger.schema.json"
 
 
 def check() -> dict[str, int]:
-    ledger = yaml.safe_load(LEDGER.read_text(encoding="utf-8"))
+    """Preserve the metadata check API; validate current inputs in memory."""
+    return validate_ledger(build_ledger())
+
+
+def validate_ledger(ledger: dict) -> dict[str, int]:
+    """Check schema, exact inventory coverage, statuses, and evidence."""
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     jsonschema.Draft202012Validator(schema).validate(ledger)
     entries = ledger["entries"]
@@ -36,11 +47,22 @@ def check() -> dict[str, int]:
     source_ids = [source["id"] for source in ledger["sources"]]
     if len(source_ids) != len(set(source_ids)):
         raise RuntimeError("replacement ledger repeats an inventory source")
+    if set(source_ids) != set(INVENTORIES):
+        raise RuntimeError("replacement ledger must use all three inventories")
 
     expected: set[tuple[str, str]] = set()
     for source in ledger["sources"]:
+        path, selector = INVENTORIES[source["id"]]
+        if (
+            source["path"] != str(path.relative_to(ROOT)) or
+            source["selector"] != selector
+        ):
+            raise RuntimeError(
+                "replacement ledger source contract changed for "
+                f"{source['id']}"
+            )
         document = json.loads(
-            (ROOT / source["path"]).read_text(encoding="utf-8")
+            path.read_text(encoding="utf-8")
         )
         if (
             source["source_fingerprint"] !=

@@ -3,7 +3,7 @@
   "cases": [
     {
       "errors": [],
-      "estimated_tokens": 2113,
+      "estimated_tokens": 2124,
       "id": "repository-navigation",
       "passed": true,
       "selected_routes": [
@@ -40,7 +40,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 4128,
+      "estimated_tokens": 4089,
       "id": "lua-api",
       "passed": true,
       "selected_routes": [
@@ -70,7 +70,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2202,
+      "estimated_tokens": 2214,
       "id": "generated-file-detection",
       "passed": true,
       "selected_routes": [
@@ -80,7 +80,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2574,
+      "estimated_tokens": 2374,
       "id": "documentation-impact",
       "passed": true,
       "selected_routes": [
@@ -117,7 +117,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 4274,
+      "estimated_tokens": 4234,
       "id": "pure-lua-mod-routing",
       "passed": true,
       "selected_routes": [
