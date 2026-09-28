@@ -36,7 +36,7 @@ entries:
     workdir: .
     cost: fast
   - id: cpp-tests
-    paths: [src/, 'tests/*.cpp', 'tests/*.h']
+    paths: ['src/*.cpp', 'src/*.cc', 'src/*.c', 'src/*.h', 'src/*.hpp', 'src/*.ipp', 'src/*.inc', 'src/*.S', 'src/*.rc', 'tests/*.cpp', 'tests/*.h']
     command: make -j2 tests && ./tests/cata_test
     workdir: .
     cost: expensive
@@ -74,7 +74,7 @@ entries:
     workdir: .
     cost: fast
   - id: lua-migration
-    paths: [tools/migrate_lua_first.py, tools/test_migrate_lua_first.py, tools/test_lua_mutation_migration.py]
+    paths: [tools/migrate_lua_first.py, tools/lua_migration_output.py, tools/test_migrate_lua_first.py, tools/test_lua_mutation_migration.py]
     command: python3 tools/test_migrate_lua_first.py
     workdir: .
     cost: fast
@@ -138,10 +138,15 @@ entries:
     workdir: .
     cost: expensive
   - id: cmake-configure
-    paths: [CMakeLists.txt, CMakeModules/, CMakePresets.json]
+    paths: [CMakeLists.txt, '*/CMakeLists.txt', CMakeModules/, CMakePresets.json, src/version.cmake, src/prefix.h.in]
     command: cmake --preset linux-x64
     workdir: .
     cost: medium
+  - id: cmake-regression
+    paths: [CMakeLists.txt, '*/CMakeLists.txt', CMakeModules/, CMakePresets.json, src/version.cmake, src/prefix.h.in, 'tests/project/test_cmake*.py']
+    command: python3 -m unittest discover -s tests/project -p 'test_cmake*.py'
+    workdir: .
+    cost: fast
   - id: android-unit
     paths: [android/]
     command: ./gradlew test

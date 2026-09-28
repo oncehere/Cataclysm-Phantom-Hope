@@ -3,11 +3,13 @@ from __future__ import annotations
 import json
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+import lua_migration_output
 import migrate_lua_first
 
 
@@ -8632,6 +8634,41 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             self.assertNotIn("load_json", main)
             self.assertNotIn("run_eoc", main)
 
+    def test_cli_generates_and_checks_imported_migration_result(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "source.json"
+            source.write_text(json.dumps([{
+                "type": "GENERIC", "id": "cli_sample", "name": "CLI sample",
+                "description": "A migration CLI fixture.",
+            }]), encoding="utf-8")
+            output = root / "migration"
+            expected = migrate_lua_first.migrate(
+                migrate_lua_first.load_objects([source]), "cli_sample"
+            )
+            command = [
+                sys.executable, str(REPOSITORY_ROOT / "tools/migrate_lua_first.py"),
+                str(source), "--output", str(output), "--mod-id", "cli_sample",
+            ]
+            generated = subprocess.run(command, text=True, capture_output=True)
+            self.assertEqual(generated.returncode, 0, generated.stderr)
+            for relative, contents in expected.files.items():
+                self.assertEqual(
+                    (output / relative).read_text(encoding="utf-8"), contents
+                )
+            checked = subprocess.run(
+                command + ["--check"], text=True, capture_output=True
+            )
+            self.assertEqual(checked.returncode, 0, checked.stderr)
+            main = output / "main.lua"
+            main.write_text("author change\n", encoding="utf-8")
+            stale = subprocess.run(
+                command + ["--check"], text=True, capture_output=True
+            )
+            self.assertEqual(stale.returncode, 1, stale.stderr)
+            self.assertIn("stale Lua-first migration output:", stale.stderr)
+            self.assertEqual(main.read_text(encoding="utf-8"), "author change\n")
+
     def test_check_mode_is_non_mutating_and_detects_stale_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -8696,7 +8733,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                     Path("b.lua"): "new b\n",
                 }
             )
-            real_install = migrate_lua_first._install_staged_file
+            real_install = lua_migration_output._install_staged_file
             calls = 0
 
             def fail_second(source: Path, destination: Path) -> None:
@@ -8707,7 +8744,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                 real_install(source, destination)
 
             with patch(
-                "migrate_lua_first._install_staged_file",
+                "lua_migration_output._install_staged_file",
                 side_effect=fail_second,
             ):
                 with self.assertRaisesRegex(OSError, "install failed"):

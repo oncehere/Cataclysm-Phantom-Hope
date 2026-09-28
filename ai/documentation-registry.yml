@@ -1,9 +1,9 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: feaac2e28f00251ee76cff3b9ef91c03e6e1880d
+source_commit: f19835e022a0a204da3a09548afb43b8c655d9a7
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
-entry_count: 256
+entry_count: 257
 entries:
 - id: repo.deepcode-plans-sim-render-decoupling-plan-md
   path: .deepcode/plans/sim-render-decoupling-plan.md
@@ -503,6 +503,17 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: true
+- id: repo.data-lua-lua-first-implementation-notes-md
+  path: data/lua/LUA_FIRST_IMPLEMENTATION_NOTES.md
+  category: historical_document
+  status: historical
+  authority: historical
+  source_of_truth: false
+  stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: false
 - id: repo.data-lua-lua-first-platform-md
   path: data/lua/LUA_FIRST_PLATFORM.md
   category: authoritative_document
