@@ -2,7 +2,7 @@
 
 Status: architecture contract inherited from CCB for CPH's sole Lua Platform.
 The `ccb` module name and existing API identifiers remain unchanged.
-Implementation status is recorded in `ai/lua-first-roadmap.yml`; runtime
+Implementation status is recorded in [the roadmap](../../ai/lua-first-roadmap.yml); runtime
 behavior must be verified against `src/lua_platform_*` and actual test results.
 Test source or inherited PR evidence alone does not prove a CPH runtime pass.
 
@@ -154,27 +154,25 @@ restricted and unrestricted runtime tiers.
 API 调用弹权限窗口。此告知是待落实的集成要求，不代表现有启动器已实现。普通 Lua 错误应可
 定位与清理，但不承诺无限循环/原生调用可安全中断，也不承诺崩溃隔离或外部副作用回滚。
 
-Historical CCB integration evidence is recorded in [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768), including the tested build configurations and native runtime results. The behavior below is the source contract; test source alone is not passing evidence. Interactive UI checks and native module packaging on each target platform require their own evidence.
+The Mod-local searcher precedes ordinary Lua/package searchers. Native search
+paths prepend the Mod root's `?.so` (`?.dll` on Windows) and preserve the host's
+original cpath. Roots containing `;` or `?` need explicit `package.loadlib`
+paths to avoid ambiguous cpath syntax. The reserved `ccb` entry remains bound
+to the state-owned Platform table; native module loading still depends on the
+host Lua build and module ABI. A host that invokes the loader directly is
+responsible for providing the execution-risk notice.
 
-CCB 原整合批次的历史编译配置、原生运行结果与验收边界记录在 [PR #768](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/pull/768)。下文描述源码契约，测试源码存在本身不代表通过；交互界面与各目标平台原生模块打包仍需各自证据。
+Mod 本地查找器优先于普通查找器；原生库路径保留宿主 cpath，并按平台加入 Mod 根目录的
+`?.so` 或 `?.dll`。根路径含 `;` 或 `?` 时使用明确的 `package.loadlib` 路径，避免语法歧义。
+`ccb` 入口固定绑定所属 state 的 Platform 表；宿主构建与 ABI 决定原生模块可用性。
+直接调用加载器的宿主须自行提供执行风险告知。
 
-Implementation checkpoint (2026-09-08): the loader source now opens the bundled
-standard libraries, retains normal package searchers and native loading, and
-inserts a Mod-local searcher before the ordinary searchers. Native search paths
-also start with the Mod root's `?.so` (`?.dll` on Windows), preserving the original
-cpath. Roots containing cpath metacharacters `;` or `?` use explicit
-`package.loadlib` paths instead of an ambiguous automatic prefix. The reserved `ccb`
-entry remains bound to the state-owned Platform table.
-Native loading still depends on the host Lua build and module ABI. The Mod manager now presents a session execution-risk notice before discovering
-Lua metadata (stderr for headless hosts); its startup UI ordering still requires
-interactive acceptance. Direct loader embedders must provide their own notice.
+The dated loader checkpoint and inherited CCB PR evidence are retained in the
+[implementation notes](LUA_FIRST_IMPLEMENTATION_NOTES.md#loader-checkpoint--加载器断点).
+They do not establish CPH startup UI or target-platform native-module acceptance.
 
-实现断点（2026-09-08）：加载器源码已开放 bundled 标准库，保留普通 package 查找器与原生
-加载入口，并优先查找 Mod 本地模块。原生库搜索路径增加 Mod 根目录的 `?.so`（Windows
-为 `?.dll`），同时保留原有路径；根目录含 `;` 或 `?` 时可使用明确的 `package.loadlib`
-路径，避免 cpath 语法歧义。`require("ccb")` 仍固定返回所属 state 的 Platform 根表。原生模块仍取决于宿主 Lua
-构建与 ABI。Mod 管理器已在元数据发现前加入每会话风险告知（无界面宿主输出到 stderr），
-启动 UI 顺序仍待交互验收；直接调用加载器的宿主应自行提供告知。
+带日期的加载器断点与 CCB 原整合证据保留于实现历史记录，不代表 CPH 启动界面顺序或各目标
+平台的原生模块已经验收。
 
 Ordinary Lua 5.4 `require` returns the module and loader data on its first load.
 If `mod.lua` forwards a module that returns a `ccb.ModDefinition`, use
@@ -211,6 +209,13 @@ Platform 生命周期围绕原生引擎形成一条事务链：发现入口、�
 world-ready 后提供服务，最后在退出或世界替换时使旧句柄失效。句柄访问同时校验
 owner 身份、runtime 代次和 world 代次；C++ 裸指针、owner 和内部代次计数器不属于 Lua
 契约。
+
+Avatar handles also bind the native character ID. An in-place avatar identity
+change rejects an old handle with `stale_avatar_identity`, even before the
+control service invalidates runtime handles; fresh handles use the new ID.
+
+Avatar 句柄也绑定原生角色 ID；原地切换身份后旧句柄报 `stale_avatar_identity`，不依赖
+外层控制服务稍后使 runtime 句柄失效，新句柄使用新的角色 ID。
 
 Runtime code may be swapped only when the static content fingerprint is
 unchanged. A changed content fingerprint requires a full data reload. Runtime
@@ -349,20 +354,29 @@ are not claims of full EOC semantic acceptance.
 可净化条件必须读取指定角色的动态状态，不能以定义的静态标记代替。
 当前只自动转换目标明确的受支持参数；其余输入保留明确 TODO，不计为全面语义验收通过。
 
-The migrator does not automatically lower legacy `add_trait`, `lose_trait`,
-`activate_trait` or `deactivate_trait` effects (either actor) to `grant`, `remove`
-or `set_active`. Adding a legacy trait clears other mutations sharing its types;
-`grant` preserves them and emits an event. Removal differs in base-trait
-bookkeeping and event policy. Repeated native activation/deactivation may consume
-resources, transform a mutation or invoke callbacks, whereas `set_active` skips
-an already-satisfied state. These inputs produce a located `semantic_choice`
-TODO, including in false branches. Authors choose the intended ordinary Lua
-composition; the public services retain their existing domain contracts. Their
-ledger entries are primitive availability, not automatic migration equivalence.
+Legacy trait effects must not be substituted with `grant`, `remove`, or
+`set_active`: those APIs have distinct conflict, base-trait, event, and repeated
+activation semantics. For supported `u_` / `npc_` object forms, the migrator
+instead maps `add_trait` to `services.mutations.replace`, `lose_trait` to
+`erase`, and `activate_trait` / `deactivate_trait` to `invoke_activation`.
+These mappings require exactly one operation selector, a proven Character
+participant, and ID expressions supported by the participant-aware string
+renderer. Only `add_trait` accepts an additional `variant` expression; extra
+fields or unsupported ID/variant forms are not silently ignored.
 
-旧特质增删与激活/停用不能直接等同于当前 Lua 操作。迁移器对这八个玩家/NPC 效果明确
-报告 `semantic_choice`，而不是静默改变冲突清理、基础特质、事件或重复调用行为。
-这表示已有可用领域接口，但旧行为的替代组合仍需明确设计，不能算迁移等价通过。
+The same action renderer serves ordinary and false-effect branches. If it
+cannot prove the participant or render the supported parameter shape, the
+migration retains a located `manual_rewrite` TODO. This describes bounded
+source mappings, not native acceptance or whole-selector EOC equivalence;
+regression source and generated Lua output do not establish those results.
+
+旧特质操作不能直接替换为 `grant`、`remove` 或 `set_active`，这些接口在冲突清理、
+基础特质、事件及重复激活方面具有不同语义。对受支持的 `u_`／`npc_` 对象形式，迁移器
+分别生成 `replace`、`erase` 和 `invoke_activation`。输入须只有一个操作 selector，
+角色来源明确，ID 可由参与者感知的字符串 renderer 处理；只有 `add_trait` 额外接受
+`variant` 表达式，不静默忽略多余字段或不支持的参数形式。
+普通分支和 false-effect 分支复用这一 renderer；角色或参数无法解析时保留带源位置的
+`manual_rewrite` TODO。这仅说明有界源码映射，不代表原生验收或整个 EOC selector 已等价。
 
 Mapgen callbacks may stage bounded static NPC and global zone requests with
 `ScriptMapgenContext:queue_npc` and `queue_zone` (128 of each per callback).
@@ -398,6 +412,13 @@ made-to-order goods using `npc_trading::trading_price_for_order`. Lua must
 revalidate the price before payment and explicitly handle inventory delivery.
 This is not a reservation of existing Items; existing-stock transfers continue
 to use the exact-Item `quote/get/commit` API.
+
+`trade.selling_offers(npc)` returns native `init_selling` entries in their original
+order, with exact Item handles and native price/count/charges. It neither reserves nor
+transfers items and does not replace the exact-item quote/commit transaction. Prices
+are native NPC offer valuations, not guaranteed settlement prices.
+Acceptance history for this operation is retained in the
+[implementation notes](LUA_FIRST_IMPLEMENTATION_NOTES.md#native-selling-offers-acceptance--原生售卖清单验收记录).
 
 领域服务按原生职责组织，而不是按旧 selector 命名，覆盖身份与 snapshot、角色/生物/NPC/
 物品/载具/任务/区域、背包与 crafting、地图与天气、时间与派系、对话、活动、hook、持久
@@ -724,6 +745,8 @@ inside arrays. They save three integer components under `tripoint_abs_ms` and
 restore a typed coordinate, without retaining any map pointer. Other coordinate
 spaces remain rejected at this persistence boundary.
 
+### Mutation action semantics / 突变动作语义
+
 Mutation `set_active(character, mutation, active, retrigger)` remains idempotent
 by default. Passing `retrigger = true` explicitly invokes activation or
 deactivation even when the requested state is already satisfied, allowing repeated
@@ -748,6 +771,8 @@ sharing any mutation type before invoking native set semantics. It preserves
 base-trait bookkeeping, adds no gain/loss events, and permits repeated assignment.
 Native hooks and variant fallback remain active. `grant` retains its distinct
 non-conflicting grant and gain-event behavior.
+
+### Registry traversal order / 注册表遍历顺序
 
 Mutation definition enumeration accepts `services.mutations.definitions({order = "native"})`
 to retain the loaded registry order, including across pages. The default `order = "id"`
@@ -780,242 +805,16 @@ unique item IDs. Native order is meaningful within the current process and data
 load, not a stable ordering across launches. Migrated item-group iteration uses
 this option. Native comparison test source is present; execution remains due.
 
-Migrated nested `foreach` loops snapshot their inputs separately and share
-the dialogue variable store. An inner loop does not restore the outer iterator
-value on return; the next outer iteration overwrites it normally. Unsupported
-nested effects still leave a migration gap. Generated Lua execution covers this
-ordering; native comparison execution remains due.
+## Implementation and acceptance history / 实现与验收历史
 
-Migrated `foreach` arrays also accept the string `game_option` mutator.
-Its option name resolves dialogue participants independently, and all option
-values are read before the first iterator write or body effect. Missing or
-non-string options fail explicitly. Generated Lua tests cover both participants,
-snapshot timing and failure before body execution; native execution is pending.
+The retained [implementation notes](LUA_FIRST_IMPLEMENTATION_NOTES.md) contain
+inherited migration checkpoints for iteration, NPC activities and interactions,
+control transfer, animal placement, and participant-aware requests. They preserve
+the original limits and acceptance statements at their recorded baseline.
+Consult current declarations and source before using those details as an API
+reference; new progress and evidence belong in the
+[roadmap](../../ai/lua-first-roadmap.yml) and follow the
+[EOC capability workflow](LUA_FIRST_EOC_WORKFLOW.md).
 
-Dynamic `foreach` strings can read monster default factions and translated
-martial-art technique names or flavor descriptions through typed definition
-services. Their identifiers may recursively use supported string expressions;
-participant variables retain their own alpha/beta ownership. Generated Lua
-execution checks nested option lookup and full-array evaluation before effects.
-Native comparison execution and the remaining string mutators are still due.
-
-Migrated `foreach` strings support `valid_technique` through
-`characters.choose_technique`, selecting for alpha against beta before body
-execution. Dynamic blacklist strings retain participant ownership. Blacklists
-have no additional entry-count cap; required character provenance and ID
-validation remain explicit migration limits. Generated Lua tests cover flags,
-300-entry lists and selection timing. A same-seed native comparison test is
-provided but has not run; this is not evidence of full native selector parity.
-
-Explicit `{str = ..., i18n = true}` string expressions in migrated
-`foreach` arrays use `services.translate`, including nested supported mutator
-arguments. Plain string literals remain untranslated. Translation runs while
-building the input snapshot, before body effects. Generated Lua execution covers
-this order; native localization comparison is still pending.
-
-`activities.revert_npc_job` always performs native NPC state restoration,
-including idle NPCs with pending backlog or saved mission/attitude state.
-Migrated `revert_activity` calls this operation instead of cancellation.
-The result reports `restored = true`; the legacy `changed` field only records
-whether a job was active beforehand. Generated Lua routing/error tests pass;
-the idle-NPC native comparison test still awaits execution.
-
-NPC work migration uses `activities.assign_npc_job` for butchery, planks,
-trees, construction, farming, fishing, mining, mopping, repeated reading,
-study, loot sorting, disassembly, and vehicle deconstruction/repair. These
-operations assign the native activity actors instead of approximating work
-with a fixed duration. Generated Lua tests verify all fourteen routes and
-failure propagation. Native assignment comparison test source is present but
-has not executed; other interactive NPC job paths still require review.
-
-Migrated NPC reading, ebook reading and crafting use the corresponding
-`assign_npc_job` operations and native selection flows. A returned
-`assignment_rejected` leaves execution free to continue, matching native
-return-without-assignment behavior; other service errors propagate. Generated
-Lua tests cover success, no assignment and stale-handle failure. Interactive
-selection and gameplay acceptance remain pending.
-
-The `find_mount` NPC job follows native creature traversal and assigns the
-selected mount. When none is available, it restores an active player-directed
-NPC job before returning `no_match`; idle NPCs remain unchanged. Migrated
-`find_mount` treats that result as a normal return and propagates other errors.
-Generated Lua branch tests pass; native active/idle no-match comparison source
-is present but has not executed. Successful mount selection still needs runtime
-acceptance.
-
-Migrated `morale_chat_activity` uses the native socialize actor for the
-avatar and the exact NPC partner for ten minutes. `drop_items_in_place` uses
-the native `drop_carried_items` order, retaining its inventory filtering and
-empty-inventory behavior. Generated Lua tests verify event and overridden NPC
-participants; native activity execution and inventory outcomes remain unverified.
-
-Migrated `start_training` calls `npcs.training.start_selected` with the
-exact NPC provider and avatar student. It retains the native selected course,
-payment and duration calculation instead of assigning a fixed training timer.
-A successful call that starts no training remains a normal return. Generated
-Lua routing/error tests pass; native course/payment execution remains pending.
-
-`npcs.training.start_selected(provider, avatar, "seminar")` opens native
-seminar participant selection, retaining follower eligibility and cancellation.
-The avatar handle is validated before selection; returned provider/player flags
-do not enumerate all seminar students. Migrated `start_training_seminar` uses
-this mode. Generated Lua cancellation/routing tests pass; native menu, payment
-and multi-student training acceptance remain pending.
-
-Selected training also supports `"npc"` mode: the avatar teaches the exact
-NPC using that NPC's selected dialogue course. The avatar argument remains
-explicit and validated even though its role changes to teacher. Migrated
-`start_training_npc` uses this mode when its NPC is proven. Generated Lua
-role/routing tests pass; native skill transfer, fees and activity completion
-remain pending acceptance.
-
-Grooming effect migration invokes native style selection for hair/beard and
-native haircut/shave services with the exact NPC and avatar client. These
-effects are no longer silently discarded. Without a proven NPC they remain
-explicit migration gaps. Generated Lua tests cover all four calls and missing
-provider handling; native appearance and morale outcomes await acceptance.
-
-`trade.open` optionally resolves the seller's native intercom trade delegate;
-default calls retain the explicit seller. Migrated `start_trade` enables
-delegation, uses the active avatar, zero initial cost and a translated title.
-Cancellation is a normal return. Generated Lua tests cover that contract;
-native buyer-validation test source is present but unexecuted, and delegated
-barter UI acceptance remains pending.
-
-NPC wake, dismount, temporary-rule reset and lead-to-safety effects migrate
-to native NPC orders. This preserves wake effects/rules and native dismount
-and destination behavior instead of skipping the command or only changing
-attitude. Generated Lua routing tests pass; wake/rule-reset native comparison
-test source is present but unexecuted. Mounted and pathfinding outcomes still
-require native acceptance.
-
-Migrated NPC conversation ending calls `npcs.dialogue.finish`, preserving
-the native first-topic change to `TALK_DONE` without exiting the Lua callback.
-Stat reveal and combat-style selection open their native NPC interfaces.
-Generated Lua tests cover the three operations in sequence; native topic-state
-comparison source is present but unexecuted, and the two menus await interactive
-acceptance. Missing NPC provenance remains a migration gap.
-
-Combat-insult migration invokes `npcs.dialogue.provoke_combat`, preserving
-the native topic change and hostility together. Generated Lua tests verify
-event/override NPC routing; native topic/attitude comparison source is present
-but unexecuted. This does not establish combat gameplay acceptance.
-
-Follower migration uses `join_player`, `stop_temporary_following` and
-`make_neutral` instead of attitude-only writes. This retains follower/faction
-setup and cash transfer, the allied-NPC stop guard and stranger-topic reset.
-Generated Lua routing tests pass; allied/non-allied state comparison source
-is present but unexecuted. Join-state runtime evidence remains outstanding. Stop/neutral operations
-now call native talk functions so their notification rules are retained; message
-comparison test source is present but has not executed.
-
-Migrated `leave` uses `leave_player` to remove follower membership, create
-the independent faction and reset work priorities/topic. Native leave notification
-and direct mission reset are preserved, including the previous-mission value.
-`follow_only` uses `follow_temporarily` to clear guard and long-term goals
-without transferring cash or joining the player faction. Generated Lua routing
-tests pass; temporary-follow native comparison source is unexecuted and full
-leave/faction runtime acceptance remains pending.
-
-Confrontation migration routes `hostile`, `flee`, `player_leaving`,
-`start_mugging` and `remove_stolen_status` through their existing NPC services.
-This preserves hostile-event dispatch and its already-hostile guard, visibility-based
-hostility notification, flee/mugging messages, departure patience and stolen-item
-claim clearing. Generated Lua exercises participant overrides and error propagation;
-native message/patience comparison source is present but unexecuted. Hostile event,
-visibility and stolen-item lifecycle runtime acceptance remain pending.
-
-Guard assignment/removal migration uses `set_guarding` and its native talk functions,
-rather than attitude-only changes. This retains the allied/non-allied branches,
-activity restoration, guard destinations and topics, and the allied stop notification.
-Generated Lua participant/error tests pass; allied/non-allied stop-state comparison
-source remains unexecuted, and assignment/camp/activity runtime coverage is pending.
-
-Gratitude migration checks the `make_thankful` result and retains the resolved NPC
-participant. Generated Lua covers routing and failure propagation; native comparison
-source covers hostile/non-hostile attitudes, friend-topic retention and personality
-bounds, but has not been compiled or executed.
-
-Medical-aid migration uses `npcs.medical.provide_aid` for all four native aid effects:
-basic/advanced treatment with or without nearby walking allies. The existing service
-calls the native talk functions, including healing, relevant wound removal, patient
-waiting activity and provider busy duration. Unproven NPC providers remain explicit
-migration gaps. Generated Lua tests cover all four level/allies combinations, avatar
-patient identity, provider overrides and failure propagation. Random healing, ally
-range filtering and activity/effect duration runtime acceptance remain pending.
-
-Control transfer and its menu are no longer classified as successfully migrated
-no-ops. Their migration still needs participant continuity across handle invalidation
-and, for direct transfer, original dialogue branching. Bare-string `clear_dimension`
-and `place_override` are also explicit gaps: their native registrations require
-object parameters. This does not affect the existing object-form world renderers.
-
-Control-service rejection test source checks non-allied targets and wrong avatar
-participants, including identity/faction/attitude retention and no handle invalidation.
-This source has not run and does not establish successful transfer, menu cancellation,
-or post-transfer callback continuity. The menu implementation already invalidates
-handles only when the native avatar identity changes.
-
-Avatar handles now capture the native character ID and reject an in-place identity
-change with `stale_avatar_identity`, even before the enclosing control service
-invalidates the runtime handles. Fresh handles use the new character ID. This closes
-the stale-avatar window during native control-transfer hooks without changing their
-ordering. A focused in-place identity regression is present as unexecuted test source;
-full control-transfer and hook runtime acceptance remain pending.
-
-Animal-purchase migration keeps center-first nearby placement and passes
-`upgrade=false` to `spawns.monster` (omitted upgrade retains the existing true default).
-Successful chicken/horse/cow placement sets friendliness to -1 and the permanent pet
-effect. Blocked placement continues; other errors propagate. These native effects do
-not charge payment themselves. Generated Lua tests cover species, participant overrides,
-pet setup and blocked/error continuation. Native placement/upgrade/pet runtime acceptance
-and the original blocked-placement debug notification remain outstanding.
-A fixed-seed native comparison source now covers chicken/horse/cow position, type,
-friendliness and permanent pet duration; it has not been compiled or executed.
-
-Spawn-upgrade regression source additionally uses an upgrade-capable test monster
-with evolution enabled, covering omitted/true/false arguments and uninitialized
-upgrade time for the disabled path. It remains unexecuted; ordinary pet species
-alone are not evidence that the upgrade option works.
-
-Refusal migration uses `npcs.record_refusal` for follow, lead, equipment, training
-and personal-info requests, checking failures and retaining the resolved participant.
-The native cooldown durations are unchanged. Generated Lua verifies all request routes
-and failure propagation; repeated-request duration/permanence comparison exists as
-unexecuted C++ test source.
-
-NPC class/faction/first-topic migration resolves supported string expressions at each
-operation through the participant-aware string renderer, then checks the service result.
-The earlier class/faction branch that rejected dynamic values has been consolidated.
-Generated Lua tests mutate a context variable between operations to verify live lookup,
-participant overrides and failure propagation. Full native parameter/participant
-coverage remains unverified; unsupported expressions retain explicit migration gaps.
-
-NPC radio-representative migration now calls `set_radio_representative` with the
-resolved NPC and current avatar owner, matching the native global-owner choice.
-Generated Lua checks participant overrides, owner identity and failure propagation.
-Unexecuted native test source checks representative marking, repeated registration
-and retention of other representatives. Full native dialogue/owner acceptance is pending.
-
-`npcs.request_talk` retains the native wants-to-talk notification: only on an actual
-attitude transition and only when the NPC sees the avatar. NPC wants-to-talk migration
-uses this service and checks its result. Generated routing/error tests pass; repeated
-request silence has unexecuted C++ coverage, and visible/hidden native comparison
-remains pending. Generic attitude writes keep their existing behavior.
-
-Explicit callback wants-to-talk migration distinguishes alpha (`u_`) and beta (`npc_`).
-Either participant may be an NPC; non-NPC participants are skipped as in native
-`get_npc()` handling. Generated Lua covers two NPCs, avatar alpha, and two non-NPC
-participants. This routing evidence does not replace native visibility acceptance.
-
-Explicit callback `u_make_radio_representative` now registers an NPC alpha with the
-current avatar owner; it does not substitute beta or use alpha as the owner.
-Generated Lua verifies independent alpha/beta registrations. Non-NPC misuse is
-skipped; parity with the original null-NPC debug diagnostic remains outstanding.
-This diagnostic boundary and native runtime evidence prevent full semantic acceptance.
-
-`trade.selling_offers(npc)` returns native `init_selling` entries in their original
-order, with exact Item handles and native price/count/charges. It neither reserves nor
-transfers items and does not replace the exact-item quote/commit transaction. Prices
-are native NPC offer valuations, not guaranteed settlement prices. A native comparison
-source is present but unexecuted. Allowance-gift selection and settlement remain pending.
+历史实现记录保留各迁移形状的范围、限制和当时的验收说明；它们不证明当前 CPH 已通过
+运行时验收。使用具体接口前核对现行声明与源码；新进展沿用 roadmap 和能力流程。
