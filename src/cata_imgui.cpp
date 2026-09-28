@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
+#include <limits>
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
@@ -1041,7 +1042,9 @@ void cataimgui::set_scroll( scroll &s )
             scroll_px_begin = 0;
             break;
         case scroll::end:
-            scroll_px_begin = ImGui::GetScrollMaxY();
+            // Content or window height may change after this call. ImGui clamps
+            // this target against the completed layout on the next frame.
+            scroll_px_begin = std::numeric_limits<int>::max();
             break;
         case scroll::line_up:
             scroll_px = -line_height;
