@@ -148,6 +148,15 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
+# Clean-only invocations never parse build rules or create output directories.
+.DEFAULT_GOAL := all
+CLEAN_GOALS = clean clean-plan clean-tests clean-lang distclean
+ifneq ($(MAKECMDGOALS),)
+  ifeq ($(filter-out $(CLEAN_GOALS),$(MAKECMDGOALS)),)
+    CLEAN_ONLY = 1
+  endif
+endif
+
 VERSION = 0.J
 
 TARGET_NAME = cataclysm
@@ -560,6 +569,7 @@ ifeq ($(PCH), 1)
 
     # FIXME: dirty hack ahead
     # ccache won't wort with clang unless it supports -fno-pch-timestamp
+    ifneq ($(CLEAN_ONLY),1)
     ifeq ($(CCACHE), 1)
       CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1 || echo fail)
       ifneq ($(CLANGVER),)
@@ -571,6 +581,7 @@ ifeq ($(PCH), 1)
       else
         CXXFLAGS += -Xclang -fno-pch-timestamp
       endif
+    endif
     endif
 
   endif
@@ -783,11 +794,11 @@ ifeq ($(shell git rev-parse --is-inside-work-tree),true)
   DEFINES += -DGIT_VERSION
 endif
 
-PKG_CONFIG = $(CROSS)pkg-config
+PKG_CONFIG = $(if $(filter 1,$(CLEAN_ONLY)),true,$(CROSS)pkg-config)
 
 # Utility targets should not require desktop SDL dependencies just because CI
 # exported SDL3=1 for build jobs.
-NO_SDL_GOALS = clean clean-lang clean-tests distclean localization lang/mo_built.stamp
+NO_SDL_GOALS = localization lang/mo_built.stamp
 ifneq ($(MAKECMDGOALS),)
   ifeq ($(filter-out $(NO_SDL_GOALS),$(MAKECMDGOALS)),)
     override SDL3 = 0
@@ -811,7 +822,7 @@ ifeq ($(SDL3), 1)
   # macOS FRAMEWORK builds resolve SDL3 via Apple framework lookup rather than
   # pkg-config, so skip the version check there; non-framework macOS still
   # uses pkg-config and gets the check.
-  SDL3_DO_VERSION_CHECK := 1
+  SDL3_DO_VERSION_CHECK := $(if $(filter 1,$(CLEAN_ONLY)),,1)
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       SDL3_DO_VERSION_CHECK :=
@@ -1329,6 +1340,39 @@ endif
 
 LDFLAGS += -lz
 
+# Values are passed in the environment so spaces and shell metacharacters in
+# output paths remain literal. The helper validates the complete plan first.
+$(CLEAN_GOALS): export CPH_CLEAN_ODIR = $(ODIR)
+$(CLEAN_GOALS): export CPH_CLEAN_PREFIX = $(BUILD_PREFIX)
+$(CLEAN_GOALS): export CPH_CLEAN_TARGET = $(TARGET)
+$(CLEAN_GOALS): export CPH_CLEAN_OBJECTS = $(_OBJS)
+$(CLEAN_GOALS): export CPH_CLEAN_PCH = $(PCH_P)
+$(CLEAN_GOALS): export CPH_CLEAN_TEST_PCH = $(if $(filter 1,$(PCH)),pch/tests-pch.hpp.$(if $(filter 0,$(CLANG)),gch,pch))
+$(CLEAN_GOALS): export CPH_CLEAN_TEST_TARGET = $(BUILD_PREFIX)cata_test$(if $(filter WINDOWS,$(TARGETSYSTEM)),.exe)
+$(CLEAN_GOALS): export CPH_CLEAN_ASTYLE = $(ASTYLE_SOURCES)
+$(CLEAN_GOALS): export CPH_CLEAN_LINK_STAMP = $(LUA_PLATFORM_LINK_MODE_STAMP)
+$(CLEAN_GOALS): export CPH_CLEAN_CHKJSON = $(CHKJSON_BIN)
+$(CLEAN_GOALS): export CPH_CLEAN_ZZIP = $(ZZIP_BIN)
+$(CLEAN_GOALS): export CPH_CLEAN_BINDIST = $(BINDIST_DIR)
+$(CLEAN_GOALS): export CPH_CLEAN_SHADERS = $(SHADERS_SRC)
+$(CLEAN_GOALS): export CPH_CLEAN_SHADER_FORMATS = $(BUILD_SHADER_FORMATS)
+$(CLEAN_GOALS): export CPH_CLEAN_SHADER_STAMP = $(SHADERS_STAMP)
+$(CLEAN_GOALS): export CPH_CLEAN_GOALS = $(filter $(CLEAN_GOALS),$(MAKECMDGOALS))
+$(CLEAN_GOALS): export CPH_CLEAN_LANGUAGES = $(LANGUAGES)
+$(CLEAN_GOALS): export CPH_CLEAN_PO_DIR = $(if $(filter undefined,$(origin PO_DIR)),po,$(PO_DIR))
+$(CLEAN_GOALS): export CPH_CLEAN_MO_DIR = $(if $(filter undefined,$(origin MO_DIR)),mo,$(MO_DIR))
+
+# No implicit translation-input cleanup. Default Lua output obj-lua is protected;
+# use an isolated BUILD_PREFIX/ODIR for builds intended to be cleaned.
+clean clean-tests clean-lang distclean:
+	python3 tools/safe_clean.py --scope root --goal $@
+
+clean-plan:
+	python3 tools/safe_clean.py --scope root --goal clean --dry-run
+
+.PHONY: $(CLEAN_GOALS)
+
+ifneq ($(CLEAN_ONLY),1)
 all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 	@
 
@@ -1350,6 +1394,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
+	@mkdir -p "$(@D)"
 	-$(COMPILE.cc) $(OUTPUT_OPTION) -MMD -MP -Wno-error $<
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS) $(LUA_PLATFORM_LINK_MODE_STAMP)
@@ -1388,17 +1433,18 @@ prefix:
             if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
-# Unconditionally create the object dirs on every invocation.
-DIRS = $(sort $(dir $(OBJS) $(PCH_P)))
-$(shell mkdir -p $(DIRS))
+# Output directories are created only when their build recipe runs.
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
+	@mkdir -p "$(@D)"
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cc
+	@mkdir -p "$(@D)"
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
+	@mkdir -p "$(@D)"
 	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
 .PHONY: includes
@@ -1406,24 +1452,31 @@ includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
+	@mkdir -p "$(@D)"
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cc
+	@mkdir -p "$(@D)"
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
+	@mkdir -p "$(@D)"
 	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/lua/%.o: $(SRC_DIR)/lua/%.c
+	@mkdir -p "$(@D)"
 	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) $(LUA_NATIVE_CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+	@mkdir -p "$(@D)"
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p "$(@D)"
 	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
+	@mkdir -p "$(@D)"
 	$(RC) $(RFLAGS) $< -o $@
 
 $(ODIR)/resource.o: data/cataicon.ico data/application_manifest.xml
@@ -1466,27 +1519,6 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
-
-clean: clean-tests clean-lang
-	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
-	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
-	rm -rf *obj *objwin *obj-lua
-	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
-	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
-	rm -f $(CHKJSON_BIN)
-	rm -f $(TEST_MO)
-	rm -rf zzip.dSYM
-	rm -f zzip zzip.* zstd.a
-	rm -f data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl data/shaders/build-*.stamp
-
-distclean:
-	rm -rf *$(BINDIST_DIR)
-	rm -rf save
-	rm -rf lang/mo lang/mo_built.stamp
-	rm -f data/options.txt
-	rm -f data/keymap.txt
-	rm -f data/auto_pickup.txt
-	rm -f data/fontlist.txt
 
 bindist: $(BINDIST)
 
@@ -1779,12 +1811,6 @@ tests: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 	$(MAKE) -C tests check
 
-clean-tests:
-	$(MAKE) -C tests clean
-
-clean-lang:
-	$(MAKE) -C lang clean
-
 .PHONY: tests check ctags etags clean-tests clean-lang install lint
 
 compile_commands.txt:
@@ -1794,3 +1820,5 @@ compile_commands.txt:
 	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}
+
+endif # build rules (not a clean-only invocation)

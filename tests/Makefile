@@ -4,6 +4,7 @@
 # As each test will have a main function we need to handle this file by file.
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
+.DEFAULT_GOAL := tests
 CATA_ENABLE_LUA_PLATFORM ?= 0
 SOURCES = $(wildcard *.cpp)
 OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
@@ -66,12 +67,32 @@ else
   TEST_TARGET = $(BUILD_PREFIX)cata_test
 endif
 
+clean clean-plan: export CPH_CLEAN_ODIR = $(ODIR)
+clean clean-plan: export CPH_CLEAN_PREFIX = $(BUILD_PREFIX)
+clean clean-plan: export CPH_CLEAN_TEST_TARGET = $(TEST_TARGET)
+clean clean-plan: export CPH_CLEAN_TEST_PCH = $(if $(filter 1,$(PCH)),pch/tests-pch.hpp.$(if $(filter 0,$(CLANG)),gch,pch))
+clean:
+	python3 ../tools/safe_clean.py --scope tests --goal clean
+
+clean-plan:
+	python3 ../tools/safe_clean.py --scope tests --goal clean --dry-run
+
+.PHONY: clean clean-plan
+
+# Avoid splitting output paths with spaces while inspecting/cleaning them.
+ifneq ($(MAKECMDGOALS),)
+  ifeq ($(filter-out clean clean-plan,$(MAKECMDGOALS)),)
+    CLEAN_ONLY = 1
+  endif
+endif
+ifneq ($(CLEAN_ONLY),1)
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
+	@mkdir -p "$(@D)"
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
@@ -84,18 +105,13 @@ check: $(TEST_TARGET) $(TEST_BATCHES)
 check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex
 
-clean:
-	rm -rf *obj *objwin *obj-lua
-	rm -f *cata_test
-
-#Unconditionally create object directory on invocation.
-$(shell mkdir -p $(ODIR) $(dir $(PCH_P)))
-
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
+	@mkdir -p "$(@D)"
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 $(ODIR)/%.inc: %.cpp
+	@mkdir -p "$(@D)"
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
 
 .PHONY: includes
@@ -106,3 +122,5 @@ includes: $(OBJS:.o=.inc)
 .SECONDARY: $(OBJS)
 
 -include ${OBJS:.o=.d}
+
+endif # build rules
