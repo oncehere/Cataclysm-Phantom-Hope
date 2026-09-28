@@ -33,13 +33,16 @@ def benchmark() -> dict:
     hallucinated_paths = 0
     hallucinated_commands = 0
     upstream_divergence_regressions = 0
+    unrelated_changes = 0
 
     for case in definition["cases"]:
-        pack = build_pack(case["task"], [case["id"]], case["files"], 8000)
+        # Exercise automatic routing; a case ID must not force its own answer.
+        pack = build_pack(case["task"], [], case["files"], 8000)
         routes = set(pack["selected_routes"])
         paths = set(pack["source_paths"])
         docs = set(pack["documentation_ids"])
         validations = {entry["id"] for entry in pack["tests"]}
+        agents = {entry["path"] for entry in pack["agents"]}
         path_hits = sorted(set(case["expected_paths"]) & paths)
         expected_path_count += len(case["expected_paths"])
         path_hit_count += len(path_hits)
@@ -58,10 +61,21 @@ def benchmark() -> dict:
             ("paths", set(case["expected_paths"]), paths),
             ("documentation", set(case["expected_documentation_ids"]), docs),
             ("validation", set(case["expected_validation_ids"]), validations),
+            ("agents", set(case.get("expected_agents", [])), agents),
         ):
             missing = sorted(expected - actual)
             if missing:
                 errors.append(f"missing {label}: {', '.join(missing)}")
+        for label, forbidden, actual in (
+            ("routes", set(case.get("forbidden_routes", [])), routes),
+            ("validation", set(case.get("forbidden_validation_ids", [])),
+             validations),
+            ("agents", set(case.get("forbidden_agents", [])), agents),
+        ):
+            unexpected = sorted(forbidden & actual)
+            unrelated_changes += len(unexpected)
+            if unexpected:
+                errors.append(f"unexpected {label}: {', '.join(unexpected)}")
         cases.append(
             {
                 "id": case["id"],
@@ -84,7 +98,7 @@ def benchmark() -> dict:
             ),
             "hallucinated_paths": hallucinated_paths,
             "hallucinated_commands": hallucinated_commands,
-            "unrelated_changes": 0,
+            "unrelated_changes": unrelated_changes,
             "first_pass_validation": passed / len(cases) if cases else 1.0,
             "upstream_divergence_regressions": upstream_divergence_regressions,
         },
@@ -127,7 +141,7 @@ def main() -> int:
         f"agent benchmark: {sum(case['passed'] for case in report['cases'])}/"
         f"{report['case_count']} cases"
     )
-    return 0
+    return 0 if all(case["passed"] for case in report["cases"]) else 1
 
 
 if __name__ == "__main__":

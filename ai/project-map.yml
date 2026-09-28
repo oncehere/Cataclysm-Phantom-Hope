@@ -38,14 +38,14 @@ entries:
       - The exact replacement ledger distinguishes implemented, bounded-implemented, primitive-available, planned, private-adapter, and reviewed-not-applicable selectors.
       - Migration output is a reviewable Lua skeleton plus explicit TODO report, never a hidden JSON/EOC compatibility call.
   - id: bundled-mods
-    paths: [data/mods/]
-    purpose: Mods shipped and validated with CPH.
+    paths: ['data/mods/*.json']
+    purpose: JSON Mod definitions shipped and validated with CPH.
     instructions: data/mods/AGENTS.md
     validation_ids: [json-load]
     boundaries:
       - Each mod is an independent compatibility surface.
   - id: tests
-    paths: [tests/]
+    paths: ['tests/*.cpp', 'tests/*.h']
     purpose: Catch2 regression and integration tests.
     instructions: tests/AGENTS.md
     validation_ids: [cpp-tests]
@@ -66,7 +66,7 @@ entries:
     boundaries:
       - Never commit SDK paths, signing material, APKs, or local Gradle state.
   - id: build
-    paths: [CMakeLists.txt, CMakeModules/, Makefile, build-scripts/, .github/workflows/]
+    paths: [CMakeLists.txt, CMakeModules/, Makefile, build-scripts/]
     purpose: Build, validation, packaging, and continuous integration contracts.
     instructions: build-scripts/AGENTS.md
     validation_ids: [cmake-configure]
@@ -92,3 +92,32 @@ entries:
       - Tracked targets never prove that an administrator setting is active.
       - Main gate activation requires real Windows/Linux checks and a trusted PR check path; a later protected PR probe establishes operation.
       - Issues and private vulnerability reporting are enabled only after the cleanup PR is merged and the live settings are read back.
+  - id: github-automation
+    paths: [.github/]
+    purpose: GitHub workflows, templates, and automation permissions.
+    instructions: .github/AGENTS.md
+    validation_ids: [project-python, governance-audit, agent-context]
+    boundaries:
+      - Candidate checks run without privileged credentials; actual settings require readback.
+  - id: project-tools
+    paths: [tools/project/, project/]
+    purpose: CPH synchronization, build, gate, and release tooling.
+    instructions: tools/AGENTS.md
+    validation_ids: [project-python, python-tools]
+    boundaries:
+      - Local regression results do not establish deployed gate acceptance.
+  - id: project-tests
+    paths: [tests/project/]
+    purpose: Python regressions for CPH project automation.
+    instructions: tests/AGENTS.md
+    validation_ids: [project-python, python-tools]
+    boundaries:
+      - These unittest checks are distinct from Catch2 game tests and lint.
+  - id: lua-mods
+    paths: ['data/mods/*.lua']
+    purpose: Pure Lua Platform Mod entrypoints and runtime content.
+    instructions: data/mods/AGENTS.md
+    validation_ids: [lua-contract, lua-mod-load, lua-playable-mvp]
+    boundaries:
+      - Use a Lua-enabled native binary and isolated userdir for the changed Mod ID.
+      - JSON formatting alone cannot validate Lua loading or behaviour.

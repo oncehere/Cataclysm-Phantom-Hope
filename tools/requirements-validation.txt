@@ -1,0 +1,3 @@
+# Shared environment for agent, Lua API, JSON API, and project validation.
+PyYAML==6.0.2
+jsonschema==4.26.0

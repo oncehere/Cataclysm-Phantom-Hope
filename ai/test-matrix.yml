@@ -26,22 +26,22 @@ entries:
     workdir: .
     cost: fast
   - id: python-tools
-    paths: [tools/]
+    paths: ['tools/*.py', 'tests/project/*.py']
     command: make python-check
     workdir: .
     cost: fast
   - id: cpp-format
-    paths: [src/, tests/, tools/]
+    paths: ['src/*.cpp', 'src/*.h', 'tests/*.cpp', 'tests/*.h', 'tools/*.cpp', 'tools/*.h']
     command: make astyle-check
     workdir: .
     cost: fast
   - id: cpp-tests
-    paths: [src/, tests/]
+    paths: [src/, 'tests/*.cpp', 'tests/*.h']
     command: make -j2 tests && ./tests/cata_test
     workdir: .
     cost: expensive
   - id: json-load
-    paths: [data/]
+    paths: ['data/*.json']
     command: make -j2 json-check
     workdir: .
     cost: medium
@@ -53,7 +53,7 @@ entries:
       - src/effect_on_condition.cpp
       - data/core/
       - data/json/
-      - data/mods/
+      - 'data/mods/*.json'
       - data/sound/
       - data/reference/json/
       - doc/JSON/
@@ -140,3 +140,13 @@ entries:
     command: ./gradlew test
     workdir: android
     cost: expensive
+  - id: project-python
+    paths: [tools/project/, tests/project/, project/, '.github/workflows/project-*.yml']
+    command: python3 -m unittest discover -s tests/project -p 'test_*.py'
+    workdir: .
+    cost: fast
+  - id: lua-mod-load
+    paths: ['data/mods/*.lua']
+    command: '"${CPH_LUA_BINARY:?Set a Lua-enabled game binary}" --check-mods "${CPH_MOD_ID:?Set the changed Mod ID}" --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}"'
+    workdir: .
+    cost: medium

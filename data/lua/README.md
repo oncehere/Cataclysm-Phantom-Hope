@@ -15,3 +15,20 @@ identifiers; this documentation cleanup does not rename them. LuaLS declarations
 are in `types/ccb_platform_v1.d.lua`.  Contract and
 inventory checks are documented in
 [tools/lua_api/README.md](../../tools/lua_api/README.md).
+
+## Tool validation environment
+
+The Lua API and agent tools share the pinned dependencies in
+`tools/requirements-validation.txt` (Python 3.10 or newer). Install the existing
+Lua entry point in an isolated environment; it includes that shared file:
+
+```sh
+python3 -m venv .venv-validation
+.venv-validation/bin/python -m pip install -r tools/lua_api/requirements.txt
+.venv-validation/bin/python -m unittest discover -s tools/lua_api -p 'test_*.py'
+```
+
+Run these commands from the repository root. Translation-tool tests also need
+gettext's `msgfmt` and `msgcat` on PATH. LuaLS editor integration needs the
+separate `CCB_LUALS` executable; report those tests as unrun when it is absent.
+Tool regression results do not establish native Lua loading or gameplay.
