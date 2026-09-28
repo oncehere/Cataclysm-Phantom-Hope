@@ -202,6 +202,15 @@ To find out if a type supports `copy-from`, you need to know if it has implement
 
 ## Behavior
 
+World rules can also affect the finalized result of inherited content.  CPH's
+[advanced world rules](../../docs/project/world-advanced-options.md) leave core
+and mod definitions as the base layer, then apply explicit player overrides to
+their effective option values.  For example, `NO_FAULTS` removes an item's fault
+definitions after fault groups and item inheritance have been resolved, including
+firearms; `NO_VITAMINS` and vehicle degradation rules also affect finalization.
+Restoring a snapshot with different rules therefore reloads content before loading
+the character.  This does not change the JSON `copy-from` order or syntax.
+
 A common misconception is that every `type` that supports `copy-from` will also support `extend`, `delete`, `proportional` and `relative`, in the same way as one's most commonly seen object: `ITEM`.  As explained above, this is not the case; some types handle these fields manually (which is undesired), others use generic_factory.  `extend` and `delete` only apply to JSON members that have containers as their underlying C++ types, and `proportional`/`relative` handling must be implemented with corresponding C++ functions.  
 
 In summary, there is no "default" JSON inheritance, only shared degrees of support; check the relevant C++ if `copy-from` behavior is uncertain, and looking for an existing (and functional!) example is always a good idea.  Some types that implement partial or non-standard `copy-from` support (non-exhaustive list):

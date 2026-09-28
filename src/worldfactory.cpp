@@ -1,4 +1,5 @@
 #include "worldfactory.h"
+#include "regional_settings.h"
 
 #include <algorithm>
 #include <array>
@@ -883,6 +884,8 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 {
     world_name = world_to_copy->world_name + "_copy";
     WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
+    advanced_options = world_to_copy->advanced_options;
+    advanced_options_valid = world_to_copy->advanced_options_valid;
     active_mod_order = world_to_copy->active_mod_order;
     is_compressed = world_to_copy->is_compressed;
 }
@@ -1151,15 +1154,21 @@ WORLD *worldfactory::make_new_world( special_game_type special_type )
 void worldfactory::set_active_world( WORLD *world )
 {
     world_generator->active_world = world;
+    set_active_world_advanced_options( world ? &world->advanced_options : nullptr );
+    clear_world_advanced_regions();
     if( world ) {
         get_options().set_world_options( &world->WORLD_OPTIONS );
     } else {
         get_options().set_world_options( nullptr );
     }
+    options_manager::update_options_cache();
 }
 
 bool WORLD::save() const
 {
+    if( !advanced_options_valid ) {
+        return false;
+    }
     if( !assure_dir_exist( folder_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
@@ -1197,12 +1206,16 @@ bool WORLD::save() const
         return false;
     }
 
+    if( !advanced_options.save( folder_path() / "world_advanced.json" ) ) {
+        return false;
+    }
     world_generator->get_mod_manager().save_mods_list( this );
     return true;
 }
 
 void worldfactory::init()
 {
+    set_active_world( nullptr );
     load_last_world_info();
 
     all_worlds.clear();
@@ -1561,8 +1574,7 @@ void worldfactory::remove_world( const std::string &worldname )
     if( it != all_worlds.end() ) {
         WORLD *wptr = it->second.get();
         if( active_world == wptr ) {
-            get_options().set_world_options( nullptr );
-            active_world = nullptr;
+            set_active_world( nullptr );
         }
         all_worlds.erase( it );
     }
@@ -1608,7 +1620,7 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLD *
         bool with_tabs )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
-    const std::string action = get_options().show( false, true, with_tabs );
+    const std::string action = get_options().show( false, true, with_tabs, &world->advanced_options );
     get_options().set_world_options( nullptr );
     if( action == "PREV_TAB" ) {
         return -1;
@@ -2623,6 +2635,21 @@ static std::string get_opt_slider( int width, int current, int max, bool no_colo
     return ret;
 }
 
+static void apply_worldgen_slider( const option_slider &slider, const int level, WORLD &world )
+{
+    slider.apply_opts( level, world.WORLD_OPTIONS );
+    for( const std::string &id : {
+             "CITY_SIZE", "CITY_SPACING"
+         } ) {
+        if( slider.affects_option( level, id ) ) {
+            std::string error;
+            if( !world.advanced_options.set( id, world.WORLD_OPTIONS.at( id ).getValue( true ), error ) ) {
+                debugmsg( "%s", error );
+            }
+        }
+    }
+}
+
 int worldfactory::show_worldgen_basic( WORLD *world )
 {
 #if defined(__ANDROID__)
@@ -2637,7 +2664,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         }
         const std::vector<int> default_levels = adaptive_levels;
         std::string worldname = world->world_name;
-        bool custom_options = false;
+        bool custom_options = !world->advanced_options.empty();
         adaptive_worldgen_imgui viewer;
         input_context imgui_ctxt( "WORLDGEN_CONFIRM_DIALOG" );
         imgui_ctxt.register_action( "QUIT" );
@@ -2711,6 +2738,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                      _( "Currently using customized advanced options. Reset world options to defaults?" ),
                                      _( "Reset" ), true ) ) {
                             world->WORLD_OPTIONS = get_options().get_world_defaults();
+                            world->advanced_options.clear();
                             adaptive_levels = default_levels;
                             custom_options = false;
                         }
@@ -2721,7 +2749,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                       -1 : 1;
                     adaptive_levels[index] = clamp( adaptive_levels[index] + delta, 0,
                                                     slider.count() - 1 );
-                    slider.apply_opts( adaptive_levels[index], world->WORLD_OPTIONS );
+                    apply_worldgen_slider( slider, adaptive_levels[index], *world );
                     break;
                 }
                 case adaptive_worldgen_action_type::mods: {
@@ -2733,10 +2761,12 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                 }
                 case adaptive_worldgen_action_type::advanced: {
                     const options_manager::options_container previous_options = world->WORLD_OPTIONS;
+                    const auto previous_advanced = world->advanced_options.values();
                     viewer.set_visible( false );
                     catacurses::window bridge = make_bridge_window();
                     show_worldgen_tab_options( bridge, world, false );
                     viewer.set_visible( true );
+                    custom_options = custom_options || previous_advanced != world->advanced_options.values();
                     for( const auto &option : previous_options ) {
                         if( option.second != world->WORLD_OPTIONS[option.first] ) {
                             custom_options = true;
@@ -2749,6 +2779,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                     if( confirm( _( "Reset world" ), _( "Are you sure you want to reset this world?" ),
                                  _( "Reset" ), true ) ) {
                         world->WORLD_OPTIONS = get_options().get_world_defaults();
+                        world->advanced_options.clear();
                         world->world_saves.clear();
                         world->active_mod_order = world_generator->get_mod_manager().get_default_mods();
                         adaptive_levels = default_levels;
@@ -2762,10 +2793,11 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                         break;
                     }
                     world->WORLD_OPTIONS = get_options().get_world_defaults();
+                    world->advanced_options.clear();
                     custom_options = false;
                     for( size_t index = 0; index < adaptive_sliders.size(); ++index ) {
                         adaptive_levels[index] = adaptive_sliders[index]->random_level();
-                        adaptive_sliders[index]->apply_opts( adaptive_levels[index], world->WORLD_OPTIONS );
+                        apply_worldgen_slider( *adaptive_sliders[index], adaptive_levels[index], *world );
                     }
                     break;
                 case adaptive_worldgen_action_type::finish:
@@ -2840,7 +2872,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
     ui.on_screen_resize( init_windows );
 
     bool noname = false;
-    bool custom_opts = false;
+    bool custom_opts = !world->advanced_options.empty();
 
     std::map<int, inclusive_rectangle<point>> btn_map;
     std::map<int, inclusive_rectangle<point>> slider_inc_map;
@@ -3082,14 +3114,22 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                        query_yn( _( "Are you sure you want to reset this world?" ) ) ) {
                 // reset
                 world->WORLD_OPTIONS = get_options().get_world_defaults();
+                world->advanced_options.clear();
                 world->world_saves.clear();
                 world->active_mod_order = world_generator->get_mod_manager().get_default_mods();
                 wg_slevels = wg_slvl_default;
                 custom_opts = false;
             } else if( sel_opt == static_cast<int>( wg_sliders.size() + 3 ) ) {
                 // randomize
+                if( custom_opts && !query_yn( _( "Randomizing will replace customized advanced options." ) ) ) {
+                    continue;
+                }
+                world->WORLD_OPTIONS = get_options().get_world_defaults();
+                world->advanced_options.clear();
+                custom_opts = false;
                 for( int i = 0; i < static_cast<int>( wg_sliders.size() ); i++ ) {
                     wg_slevels[i] = wg_sliders[i]->random_level();
+                    apply_worldgen_slider( *wg_sliders[i], wg_slevels[i], *world );
                 }
             }
         } else if( navigate_ui_list( action, sel_opt, 1, wg_sliders.size() + 2, true ) ) {
@@ -3099,6 +3139,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                 if( custom_opts && query_yn( _( "Currently using customized advanced options.  "
                                                 "Reset world options to defaults?" ) ) ) {
                     world->WORLD_OPTIONS = get_options().get_world_defaults();
+                    world->advanced_options.clear();
                     wg_slevels = wg_slvl_default;
                     custom_opts = false;
                     continue;
@@ -3107,7 +3148,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                 }
                 int lvl = wg_slevels[sel_opt - 1] + ( action == "LEFT" ? -1 : 1 );
                 wg_slevels[sel_opt - 1] = clamp<int>( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
-                wg_sliders[sel_opt - 1]->apply_opts( wg_slevels[sel_opt - 1], world->WORLD_OPTIONS );
+                apply_worldgen_slider( *wg_sliders[sel_opt - 1], wg_slevels[sel_opt - 1], *world );
             } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
                 if( action == "LEFT" && sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
                     sel_opt--;
@@ -3119,7 +3160,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
             options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
+            const auto previous_advanced = world->advanced_options.values();
             show_worldgen_tab_options( w_confirmation, world, false );
+            custom_opts = custom_opts || previous_advanced != world->advanced_options.values();
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {
                     custom_opts = true;
@@ -3337,9 +3380,30 @@ bool WORLD::load_options()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     const cata_path path = folder_path() / PATH_INFO::worldoptions();
-    return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
+    const bool loaded = read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
+    load_advanced_options();
+    return loaded;
+}
+
+bool WORLD::load_advanced_options( bool *changed )
+{
+    world_advanced_options loaded;
+    advanced_options_valid = loaded.load( folder_path() / "world_advanced.json" );
+    if( changed ) {
+        *changed = false;
+    }
+    if( !advanced_options_valid ) {
+        return false;
+    }
+    if( loaded.values() != advanced_options.values() ) {
+        if( changed ) {
+            *changed = true;
+        }
+        advanced_options = std::move( loaded );
+    }
+    return true;
 }
 
 void load_world_option( const JsonObject &jo )
@@ -3753,7 +3817,8 @@ static bool isForbidden( const cata_path &candidate )
 {
     std::filesystem::path candidate_path = candidate.get_unrelative_path();
     std::string filename = candidate_path.filename().generic_u8string();
-    return filename == PATH_INFO::worldoptions()
+    return filename == "world_advanced.json"
+           || filename == PATH_INFO::worldoptions()
            || filename == "mods.json"
            || candidate_path.extension().generic_u8string() == ".dict";
 }

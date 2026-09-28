@@ -1,0 +1,766 @@
+# CPH world-generation messages. Distributed under the project license.
+# Supplementary catalog; upstream translation inputs remain unchanged.
+msgid ""
+msgstr "Project-Id-Version: CPH world generation\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-09-28 00:00+0000\nPO-Revision-Date: 2026-09-28 00:00+0000\nLast-Translator: CPH contributors\nLanguage-Team: Simplified Chinese\nLanguage: zh_CN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\n"
+
+#, c-format
+msgid "%s requires a finite %s between %g and %g."
+msgstr "%s 需要填写有限的%s，范围为 %g～%g。"
+
+#, c-format
+msgid "%s requires a nonempty identifier of at most 128 bytes."
+msgstr "%s 需要填写不超过 128 字节的非空标识符。"
+
+#, c-format
+msgid "%s requires true or false."
+msgstr "%s 必须设为 true 或 false。"
+
+msgid "A city not above the threshold gets extra zombies with probability one in this number. 1 means every city. These are generated city groups, not a wandering-horde switch."
+msgstr "未超过规模阈值的城市以此数值的倒数为概率生成额外丧尸。设为 1 表示每座城市都会生成。此项控制生成时的城市尸群，不是游荡尸潮开关。"
+
+msgid "Adds percentage points to generated humidity, with the result bounded to 0-100 percent. Can change weather conditions and conflict with mod climate assumptions."
+msgstr "按百分点调整生成的湿度，最终结果限制在 0%～100%。可能改变天气类型，并与 MOD 气候预设冲突。"
+
+msgid "Adds to regional outdoor, underground, and root-cellar temperatures without selecting another biome. Changes freezing, food storage, survival, and mod climate assumptions. Local heat sources still apply; the separate natural-water temperature model is unchanged."
+msgstr "在不更换生物群系的情况下，调整地区的室外、地下和地窖温度。会改变结冰、食物储存、生存条件及 MOD 气候预设。局部热源仍然生效；独立计算的自然水体温度不变。"
+
+msgid "Advanced settings are active. Reset them before changing this slider."
+msgstr "已启用自定义高级设置。请先重置，再调整此滑杆。"
+
+msgid "Advanced world rules"
+msgstr "世界高级规则"
+
+msgid "Advanced world rules (read only)"
+msgstr "世界高级规则（只读）"
+
+msgid "Advanced world rules…"
+msgstr "世界高级规则…"
+
+msgid "Allows damage to reduce the maximum repairable condition of vehicle parts. Also affects item definitions during loading, so this is fixed when play begins."
+msgstr "允许损伤降低载具零件可修复到的最佳状态。此项也会在加载时影响物品定义，因此开始游戏后不能更改。"
+
+msgid "Allows supported NPC trades to use the player bank balance. Changes the economy and may bypass barter constraints assumed by factions and mods."
+msgstr "允许支持此机制的 NPC 交易使用玩家银行余额。会改变经济系统，并可能绕过派系及 MOD 预设的以物易物限制。"
+
+msgid "Allows supported forests to become swamps. Requires existing forest and floodplain components. Disabling changes resources, monsters, and swamp-dependent mod locations."
+msgstr "允许支持此机制的森林变为沼泽。需要已有森林及泛滥平原组件。关闭会改变资源、怪物，以及依赖沼泽的 MOD 地点。"
+
+msgid "Alternative corpse zombification"
+msgstr "尸体转化为其他丧尸"
+
+msgid "Animal spawn density"
+msgstr "动物生成密度"
+
+msgid "Apply changes"
+msgstr "应用更改"
+
+msgid "Attenuation factor for additional main rivers: larger values produce fewer new rivers. Does not directly multiply river count. Changes crossings and water-dependent mod placement."
+msgstr "追加主河流的衰减系数：数值越大，新增河流越少。不是河流数量的直接倍率。会改变渡河位置及依赖水域的 MOD 地点投放。"
+
+msgid "Attributes and stamina"
+msgstr "属性与耐力"
+
+msgid "Bank balance in NPC trades"
+msgstr "NPC 交易使用银行余额"
+
+msgid "Base hunger rate"
+msgstr "基础饥饿速度"
+
+msgid "Base maximum stamina"
+msgstr "基础耐力上限"
+
+msgid "Base natural healing before sleep, health, and other modifiers. Does not replace all medical effects. Changes injury recovery and mod medical balance."
+msgstr "应用睡眠、健康及其他修正之前的基础自然愈合速度。不会替代所有医疗效果。会改变伤势恢复及 MOD 医疗平衡。"
+
+msgid "Base player stamina before cardio and enchantment modifiers. Alters movement and combat endurance, including mod effects. This is not the final maximum."
+msgstr "玩家在应用心肺能力及附魔修正之前的基础耐力。会改变移动和战斗耐久力，包括 MOD 效果。此数值不是最终耐力上限。"
+
+msgid "Base regeneration before fitness and other modifiers. 0 does not disable all recovery because some minimum recovery remains. Changes combat and travel balance."
+msgstr "应用体能及其他修正之前的基础恢复量。设为 0 不会完全禁止恢复，因为仍存在部分最低恢复效果。会改变战斗和旅行平衡。"
+
+msgid "Base sleepiness rate"
+msgstr "基础困倦速度"
+
+msgid "Base stamina consumption"
+msgstr "基础耐力消耗"
+
+msgid "Base stamina cost used by movement and other actions. 0 does not guarantee every action is free. Changes exertion and mod endurance mechanics."
+msgstr "移动及其他行动使用的基础耐力消耗。设为 0 不保证所有行动都不消耗耐力。会改变体力支出及 MOD 耐力机制。"
+
+msgid "Base stamina regeneration"
+msgstr "基础耐力恢复"
+
+msgid "Base thirst rate"
+msgstr "基础口渴速度"
+
+msgid "Bionic slot restrictions"
+msgstr "生化插件槽位限制"
+
+msgid "Caps effective dexterity for characters, including bonuses. Can limit mutations, spells, and mod progression. Inherited mod values remain unrestricted by this menu."
+msgstr "限制角色包含加成后的有效敏捷。可能限制突变、法术及 MOD 成长效果。选择跟随 MOD 时，其原始数值不受本菜单范围限制。"
+
+msgid "Caps effective intelligence for characters, including bonuses. Can limit mutations, spells, and mod progression. Inherited mod values remain unrestricted by this menu."
+msgstr "限制角色包含加成后的有效智力。可能限制突变、法术及 MOD 成长效果。选择跟随 MOD 时，其原始数值不受本菜单范围限制。"
+
+msgid "Caps effective perception for characters, including bonuses. Can limit mutations, spells, and mod progression. Inherited mod values remain unrestricted by this menu."
+msgstr "限制角色包含加成后的有效感知。可能限制突变、法术及 MOD 成长效果。选择跟随 MOD 时，其原始数值不受本菜单范围限制。"
+
+msgid "Caps effective strength for characters, including bonuses. Can limit mutations, spells, and mod progression. Inherited mod values remain unrestricted by this menu."
+msgstr "限制角色包含加成后的有效力量。可能限制突变、法术及 MOD 成长效果。选择跟随 MOD 时，其原始数值不受本菜单范围限制。"
+
+msgid "Cardio stamina contribution"
+msgstr "心肺能力对耐力的贡献"
+
+msgid "Changes point-based character creation. Has no equivalent effect in every point-pool mode. Can bypass or restrict character builds expected by scenarios and mods."
+msgstr "改变使用点数创建角色时的配置。并非所有点数模式都会受到相同影响。可能突破或限制场景和 MOD 预期的角色构筑。"
+
+msgid "Character creation"
+msgstr "角色创建"
+
+msgid "Choose mutations"
+msgstr "选择突变"
+
+msgid "Cities larger than this size receive extra zombies; smaller cities use the random chance. -1 disables extra city hordes. Changes city danger and mod encounter balance."
+msgstr "规模大于此值的城市会生成额外丧尸；较小城市按概率生成。设为 -1 可禁用额外城市尸群。会改变城市危险程度和 MOD 遭遇战平衡。"
+
+msgid "City horde population factor"
+msgstr "城市尸群数量系数"
+
+msgid "City horde size threshold"
+msgstr "城市额外尸群规模阈值"
+
+msgid "City horde spread"
+msgstr "城市尸群分布范围"
+
+msgid "City overrides can only be edited during world creation."
+msgstr "城市覆盖设置只能在创建世界时修改。"
+
+msgid "City size"
+msgstr "城市规模"
+
+msgid "City spacing"
+msgstr "城市间距"
+
+msgid "Climate and daylight"
+msgstr "气候与日照"
+
+msgid "Combat and injuries"
+msgstr "战斗与伤势"
+
+msgid "Connections to neighboring overmaps"
+msgstr "连接相邻大地图区块"
+
+msgid "Controls recovery of the weariness tracker and calorie intake history. Must stay between 0 and 1. Zero does not remove every minimum recovery effect. Alters rest and mod survival balance."
+msgstr "控制疲劳记录和热量摄入历史的恢复。须在 0～1 之间。设为 0 不会移除所有最低恢复效果。会改变休息和 MOD 生存平衡。"
+
+msgid "Creatures"
+msgstr "生物"
+
+msgid "Currently using customized advanced options.  Reset world options to defaults?"
+msgstr "当前正在使用自定义高级选项。要将世界选项恢复为默认值吗？"
+
+msgid "Currently using customized advanced options. Reset world options to defaults?"
+msgstr "当前正在使用自定义高级选项。要将世界选项恢复为默认值吗？"
+
+#, c-format
+msgid "Custom: %s %s"
+msgstr "自定义：%s %s"
+
+msgid "Customize terrain, climate and world rules. Unchanged rules follow core and mods. Explicit overrides may affect missions, starting locations and mod behavior. New rules can only be edited during world creation."
+msgstr "自定义地形、气候和世界规则。未修改的规则跟随本体和 MOD；显式覆盖可能影响任务、开局地点及 MOD 行为。新增规则只能在创建世界时修改。"
+
+msgid "Disable NPC survival needs"
+msgstr "禁用 NPC 生存需求"
+
+msgid "Disable dietary vitamins"
+msgstr "禁用膳食维生素"
+
+msgid "Disable item fault definitions"
+msgstr "禁用物品故障定义"
+
+msgid "Disables ordinary vitamin tracking and removes vitamin nutrition during content finalization. Other vitamin-like counters remain. Can disable nutrition mechanics expected by mods."
+msgstr "停止普通维生素的计算，并在内容初始化完成时移除维生素营养数据。其他类似维生素的计数仍会保留。可能禁用 MOD 所依赖的营养机制。"
+
+msgid "Dispersion added per gun damage level before overall scaling. 0 removes this penalty. Changes the usefulness of repairing firearms and mod weapon balance."
+msgstr "在整体缩放之前，每一级枪械损伤增加的散布。设为 0 可取消此惩罚。会改变维修枪械的价值及 MOD 武器平衡。"
+
+msgid "Distance from the origin at which the east ocean begins. -1 disables this direction. 0 can place ocean near the start and prevent base-game or mod locations from fitting."
+msgstr "东方海洋开始出现的位置距原点的距离。-1 禁用该方向海洋；0 可能让海洋出现在开局附近，导致本体或 MOD 地点无法放置。"
+
+msgid "Distance from the origin at which the north ocean begins. -1 disables this direction. 0 can place ocean near the start and prevent base-game or mod locations from fitting."
+msgstr "北方海洋开始出现的位置距原点的距离。-1 禁用该方向海洋；0 可能让海洋出现在开局附近，导致本体或 MOD 地点无法放置。"
+
+msgid "Distance from the origin at which the south ocean begins. -1 disables this direction. 0 can place ocean near the start and prevent base-game or mod locations from fitting."
+msgstr "南方海洋开始出现的位置距原点的距离。-1 禁用该方向海洋；0 可能让海洋出现在开局附近，导致本体或 MOD 地点无法放置。"
+
+msgid "Distance from the origin at which the west ocean begins. -1 disables this direction. 0 can place ocean near the start and prevent base-game or mod locations from fitting."
+msgstr "西方海洋开始出现的位置距原点的距离。-1 禁用该方向海洋；0 可能让海洋出现在开局附近，导致本体或 MOD 地点无法放置。"
+
+msgid "Divides firearm dispersion; larger values make guns more accurate. Must stay positive. Changes the balance of weapons, sights, and mod firearms."
+msgstr "枪械散布除以此值；数值越大，射击越精准。必须大于 0。会改变武器、瞄具及 MOD 枪械的平衡。"
+
+msgid "East ocean start"
+msgstr "东方海洋起点"
+
+msgid "East-west highway separation"
+msgstr "东西向高速公路间距"
+
+msgid "Enables body-part capacity limits for bionic installation. Can make base-game or mod bionic combinations impossible and alter existing bionic information."
+msgstr "启用身体部位的生化插件安装容量限制。可能使本体或 MOD 的某些插件组合无法安装，并改变现有插件信息。"
+
+msgid "Enables forests where a forest component exists. Disabling removes habitat and resources and may leave forest-dependent base-game or mod locations without valid terrain."
+msgstr "在具有森林组件的地区启用森林。关闭会移除栖息地和资源，并可能让本体或 MOD 中依赖森林的地点找不到合适地形。"
+
+msgid "Enables highways where a highway component exists. Does not add a missing component. Changes travel routes, intersections, and locations expected by mods."
+msgstr "在具有高速公路组件的地区启用高速公路。不会补上缺失的组件。会改变旅行路线、交叉路口及 MOD 预期的地点布局。"
+
+msgid "Enables intercity road generation where the region supports it. Does not remove every city street or special-site road. Disabling can isolate base-game and mod locations."
+msgstr "在地区支持的情况下生成城际道路。关闭不会移除所有城市街道或特殊地点道路，但可能使本体和 MOD 地点彼此隔绝。"
+
+msgid "Enables lakes where the region provides a lake component. Disabling can remove lake-dependent special locations, including mod content."
+msgstr "在具有湖泊组件的地区启用湖泊。关闭可能移除依赖湖泊的特殊地点，包括 MOD 内容。"
+
+msgid "Enables monster definitions that turn corpses into another zombie type. Disabling changes corpse revival and can bypass creature progression supplied by mods."
+msgstr "启用怪物定义中的尸体转化规则，使尸体能够变为另一种丧尸。关闭会改变尸体复活行为，并可能绕过 MOD 设计的生物演变过程。"
+
+msgid "Enables oceans where an ocean component exists. Disabling removes ocean-dependent special locations. Enabling cannot create a component absent from a mod region."
+msgstr "在具有海洋组件的地区启用海洋。关闭会移除依赖海洋的特殊地点。开启不会为缺少组件的 MOD 地区补建海洋组件。"
+
+msgid "Enables ordinary regional special-location placement. Disabling can remove required mission and scenario locations in the base game and mods. Other placement paths may still create special terrain."
+msgstr "启用地区的普通特殊地点投放。关闭可能移除本体及 MOD 的任务或场景必需地点。其他投放途径仍可能生成特殊地形。"
+
+msgid "Enables railroad generation only where the region provides the needed component. Changing this can disrupt connections and assumptions of railroad mods."
+msgstr "仅在地区具备所需组件时生成铁路。更改可能破坏铁路连接，并影响相关 MOD 的预期布局。"
+
+msgid "Enables supported trails through forests. Disabling can reduce access to woodland sites and change trail-dependent mod placement."
+msgstr "启用森林中受支持的小径生成。关闭可能降低林地地点的可达性，并改变依赖小径的 MOD 地点投放。"
+
+msgid "Extra zombie count is city size times this factor times the normal monster spawn density. 0 removes this extra population. Large values can severely slow play."
+msgstr "额外丧尸数量为城市规模乘此系数，再乘普通怪物生成密度。设为 0 可取消这部分额外丧尸。数值过大可能严重拖慢游戏。"
+
+msgid "First weariness threshold factor"
+msgstr "首次疲劳阈值系数"
+
+msgid "Fixed weather ID"
+msgstr "固定天气 ID"
+
+msgid "Focus adjustment per intelligence point above or below the baseline. 0 removes this adjustment. Changes skill progression and mod balance."
+msgstr "智力每高于或低于基准 1 点时的注意力修正量。设为 0 可取消此项修正。会改变技能成长及 MOD 平衡。"
+
+msgid "Focus per intelligence point"
+msgstr "每点智力的注意力修正"
+
+msgid "Follow core / mods"
+msgstr "跟随本体／MOD"
+
+#, c-format
+msgid "Follow core / mods (reference: %s %s)"
+msgstr "跟随本体／MOD（参考值：%s %s）"
+
+msgid "Forest noise threshold"
+msgstr "森林噪声阈值"
+
+msgid "Forest trails"
+msgstr "林间小径"
+
+msgid "Forests"
+msgstr "森林"
+
+msgid "Fractional dexterity penalty per point of pain before other modifiers. 0 removes this component. Changes pain management and interacts with mod enchantments."
+msgstr "应用其他修正之前，每点疼痛造成的敏捷比例惩罚。设为 0 可取消这部分惩罚。会改变疼痛管理，并与 MOD 附魔效果相互影响。"
+
+msgid "Fractional intelligence penalty per point of pain before other modifiers. 0 removes this component. Changes pain management and interacts with mod enchantments."
+msgstr "应用其他修正之前，每点疼痛造成的智力比例惩罚。设为 0 可取消这部分惩罚。会改变疼痛管理，并与 MOD 附魔效果相互影响。"
+
+msgid "Fractional perception penalty per point of pain before other modifiers. 0 removes this component. Changes pain management and interacts with mod enchantments."
+msgstr "应用其他修正之前，每点疼痛造成的感知比例惩罚。设为 0 可取消这部分惩罚。会改变疼痛管理，并与 MOD 附魔效果相互影响。"
+
+msgid "Fractional strength penalty per point of pain before other modifiers. 0 removes this component. Changes pain management and interacts with mod enchantments."
+msgstr "应用其他修正之前，每点疼痛造成的力量比例惩罚。设为 0 可取消这部分惩罚。会改变疼痛管理，并与 MOD 附魔效果相互影响。"
+
+msgid "Gun damage dispersion penalty"
+msgstr "枪械损伤散布惩罚"
+
+msgid "Gun dispersion divisor"
+msgstr "枪械散布除数"
+
+msgid "High-risk terrain rules"
+msgstr "高风险地形规则"
+
+msgid "Highest skill level reached by catch-up experience when NPCs are generated. Does not cap all later skill training. Can alter mod NPC balance."
+msgstr "NPC 生成时通过追赶经验所能达到的最高技能等级。不会限制之后所有技能训练。可能改变 MOD 的 NPC 平衡。"
+
+msgid "Highway deviation must be positive and less than half of both effective highway spacings, including inherited mod values."
+msgstr "高速公路交点偏移必须大于 0，且小于两个方向实际间距的一半，包括跟随 MOD 时采用的间距。"
+
+msgid "Highway intersection variance"
+msgstr "高速公路交点偏移"
+
+msgid "Highway variance must be less than half of both highway separations."
+msgstr "高速公路交点偏移必须小于两个方向间距的一半。"
+
+msgid "Highways"
+msgstr "高速公路"
+
+msgid "Humidity offset"
+msgstr "湿度偏移"
+
+msgid "Initial attribute points"
+msgstr "初始属性点"
+
+msgid "Initial skill points"
+msgstr "初始技能点"
+
+msgid "Initial trait points"
+msgstr "初始特质点"
+
+msgid "Intelligence at which the intelligence-based focus adjustment is neutral. Changes learning balance and interacts with mod intelligence bonuses."
+msgstr "基于智力调整注意力时，不产生加成或惩罚的智力值。会改变学习平衡，并与 MOD 智力加成相互影响。"
+
+msgid "Intelligence learning baseline"
+msgstr "学习效率的智力基准"
+
+msgid "Intercity roads"
+msgstr "城际道路"
+
+msgid "Intersection displacement from the grid. Must be positive and less than half each highway spacing. Values above one quarter of either spacing risk poor connections, especially with mod geography. Large offsets can substantially increase generation time."
+msgstr "交点相对于规则网格的偏移量。必须大于 0，且小于两个方向间距的一半。超过任一方向间距的四分之一时，可能出现连接问题，尤其是在 MOD 地形中。较大的偏移还会显著增加生成耗时。"
+
+msgid "Lake bottom level"
+msgstr "湖底层级"
+
+msgid "Lake noise threshold"
+msgstr "湖泊噪声阈值"
+
+msgid "Lakes"
+msgstr "湖泊"
+
+msgid "Latitude"
+msgstr "纬度"
+
+msgid "Legacy fallback region for compatibility readers. Current dimensions select regions through their own layouts. This field is read only."
+msgstr "这是兼容读取器使用的旧式后备地区。当前维度通过各自的布局选择地区。此字段只读。"
+
+msgid "Legacy fallback region used by compatibility readers. Current dimensions select their regions through their own layouts."
+msgstr "这是兼容读取器使用的旧式后备地区。当前维度通过各自的布局选择地区。"
+
+msgid "Longitude"
+msgstr "经度"
+
+msgid "Makes the affected portal storm enemies ignore NPCs. Changes the danger and scripted expectations of storms in the base game and mods."
+msgstr "让受此设置控制的传送门风暴敌人忽略 NPC。会改变风暴危险程度，并可能影响游戏本体和 MOD 的事件脚本预期。"
+
+msgid "Maximum NPC catch-up experience"
+msgstr "NPC 追赶经验上限"
+
+msgid "Maximum effective dexterity"
+msgstr "有效敏捷上限"
+
+msgid "Maximum effective intelligence"
+msgstr "有效智力上限"
+
+msgid "Maximum effective perception"
+msgstr "有效感知上限"
+
+msgid "Maximum effective strength"
+msgstr "有效力量上限"
+
+msgid "Maximum skill experience awarded per day since the Cataclysm when generating NPCs. Must not be below the minimum. Large values can make generated NPCs much stronger."
+msgstr "生成 NPC 时，按灾变后天数授予技能追赶经验的每日上限。不得低于下限。数值过大可能使新生成的 NPC 显著变强。"
+
+msgid "Maximum trait points"
+msgstr "特质点上限"
+
+msgid "Megacities"
+msgstr "巨型城市"
+
+msgid "Minimum NPC catch-up experience"
+msgstr "NPC 追赶经验下限"
+
+msgid "Minimum NPC catch-up experience exceeds the effective maximum, including inherited mod values."
+msgstr "NPC 追赶经验下限超过了实际上限，包括跟随 MOD 时采用的数值。"
+
+msgid "Minimum NPC catch-up experience must not exceed the maximum."
+msgstr "NPC 追赶经验下限不得超过上限。"
+
+msgid "Minimum lake area"
+msgstr "最小湖泊面积"
+
+msgid "Minimum skill experience awarded per day since the Cataclysm when generating NPCs. Must not exceed the maximum. Changes late-game NPC strength and mod progression."
+msgstr "生成 NPC 时，按灾变后天数授予技能追赶经验的每日下限。不得超过上限。会改变后期 NPC 实力和 MOD 成长平衡。"
+
+msgid "Multiplies cardiovascular fitness when calculating maximum stamina. 0 removes this contribution. Changes fitness progression and mod endurance balance."
+msgstr "计算耐力上限时，心肺能力乘以此系数。设为 0 可取消这部分贡献。会改变体能成长和 MOD 耐力平衡。"
+
+msgid "Multiplies city size to determine the radius for extra zombie placement on roads. Changes encounter distribution; large radii cost more generation time. Zero is not supported."
+msgstr "以城市规模乘此倍率，决定额外丧尸在道路上的投放半径。会改变遭遇分布；半径过大会增加生成耗时。不支持设为 0。"
+
+msgid "NPC catch-up skill limit"
+msgstr "NPC 追赶技能等级上限"
+
+msgid "NPC natural healing rate"
+msgstr "NPC 自然愈合速度"
+
+msgid "NPCs"
+msgstr "NPC"
+
+msgid "NPCs no longer track food, thirst, or sleep normally. Changes companion and faction-camp resource needs and may bypass mod survival mechanics."
+msgstr "NPC 不再正常计算食物、口渴和睡眠需求。会改变同伴及派系营地的物资需求，并可能绕过 MOD 的生存机制。"
+
+msgid "New river attenuation"
+msgstr "新增河流衰减系数"
+
+msgid "New vehicle condition"
+msgstr "新载具车况"
+
+msgid "New vehicle fuel"
+msgstr "新载具燃料量"
+
+msgid "No"
+msgstr "否"
+
+msgid "No (override)"
+msgstr "否（覆盖）"
+
+msgid "Noise threshold for lake placement. Higher values generally reduce lake coverage. Large lakes can interfere with roads, starts, and base-game or mod locations."
+msgstr "湖泊生成所用的噪声阈值。数值越高，通常湖泊覆盖越少。大面积湖泊可能干扰道路、开局及本体或 MOD 地点的放置。"
+
+msgid "Noise threshold for ordinary forest placement. Higher values generally reduce forest coverage. Must not exceed the thick-forest threshold. Alters habitat and site availability."
+msgstr "普通森林生成所用的噪声阈值。数值越高，通常森林覆盖越少。不得超过密林阈值。会改变栖息地及可生成的地点。"
+
+msgid "Noise threshold for thick forests. Higher values generally reduce dense forest coverage. Must be at least the ordinary forest threshold. Changes travel and mod habitat constraints."
+msgstr "密林生成所用的噪声阈值。数值越高，通常密林覆盖越少。不得低于普通森林阈值。会改变通行条件及 MOD 的栖息地约束。"
+
+msgid "North ocean start"
+msgstr "北方海洋起点"
+
+msgid "North-south highway separation"
+msgstr "南北向高速公路间距"
+
+msgid "Number of ravines requested per overmap where the component exists. More ravines fragment land, affect generation cost, and can block base-game or mod locations."
+msgstr "在具有峡谷组件的地区，每个大地图区块尝试生成的峡谷数量。更多峡谷会分割陆地、增加生成开销，并可能阻碍本体或 MOD 地点的放置。"
+
+msgid "Oceans"
+msgstr "海洋"
+
+msgid "Open"
+msgstr "打开"
+
+msgid "Other world rules"
+msgstr "其他世界规则"
+
+msgid "Override newly spawned vehicles"
+msgstr "覆盖新生成载具状态"
+
+msgid "Overrides regional city size. 0 disables ordinary cities and city-required starts; special sites may still contain urban terrain. Changes building availability and mod scenario compatibility."
+msgstr "覆盖地区的城市规模。设为 0 可禁用普通城市和要求城市的开局，特殊地点仍可能包含城市地形。会改变建筑供应及 MOD 场景兼容性。"
+
+msgid "Overrides regional city spacing. Larger values place cities farther apart. Small values can greatly increase generation cost and alter mod site placement."
+msgstr "覆盖地区的城市间距。数值越大，城市相距越远。数值过小可能大幅增加生成开销，并改变 MOD 地点的投放结果。"
+
+msgid "Pain penalty to dexterity"
+msgstr "疼痛对敏捷的惩罚"
+
+msgid "Pain penalty to intelligence"
+msgstr "疼痛对智力的惩罚"
+
+msgid "Pain penalty to perception"
+msgstr "疼痛对感知的惩罚"
+
+msgid "Pain penalty to strength"
+msgstr "疼痛对力量的惩罚"
+
+msgid "Player natural healing rate"
+msgstr "玩家自然愈合速度"
+
+msgid "Portal storm creatures ignore NPCs"
+msgstr "传送门风暴生物忽略 NPC"
+
+msgid "Portion of basal metabolic rate used for the weariness threshold. Larger values generally delay weariness; character modifiers and a minimum threshold still apply. Changes work and mod balance."
+msgstr "用于疲劳阈值计算的基础代谢率比例。数值越大，通常越晚进入疲劳；角色修正及最低阈值仍然适用。会改变劳动能力及 MOD 平衡。"
+
+msgid "Probability factor for wounds from damage: 0 prevents this wound check, 1 keeps the default. Does not prevent every injury or status effect. Changes mod medical balance."
+msgstr "控制受伤后产生伤口的概率：0 禁止这项伤口判定，1 保持默认。不能避免所有伤害或状态效果。会改变 MOD 医疗平衡。"
+
+msgid "Proficiency training speed"
+msgstr "熟练度训练速度"
+
+msgid "Progression"
+msgstr "成长"
+
+msgid "Railroads"
+msgstr "铁路"
+
+msgid "Randomizing will replace customized advanced options."
+msgstr "随机化将替换自定义高级选项。"
+
+#, c-format
+msgid "Range: %g to %g %s. Step: %g.\n%s"
+msgstr "范围：%g～%g %s。步长：%g。\n%s"
+
+msgid "Ravine bottom level"
+msgstr "峡谷底部层级"
+
+msgid "Ravine count"
+msgstr "峡谷数量"
+
+msgid "Ravine width"
+msgstr "峡谷宽度"
+
+msgid "Ravines"
+msgstr "峡谷"
+
+#, c-format
+msgid "Region %s: the dense forest threshold must not be lower than the forest threshold."
+msgstr "地区 %s：密林阈值不得低于普通森林阈值。"
+
+msgid "Removes direct and grouped fault definitions when content is finalized, including vehicle, firearm, and clothing faults. Repairs and mod interactions may become unavailable. Explicitly forced or scripted faults can still occur."
+msgstr "在内容初始化完成时移除直接指定和故障分组中的定义，包括载具、枪械和衣物故障。相关维修及 MOD 交互可能不再可用；强制指定或脚本产生的故障仍可能出现。"
+
+msgid "Requests five very large cities per overmap where the regional city component exists. Can be expensive and may violate available-building and location assumptions of mods."
+msgstr "在具有城市组件的地区，每个大地图区块尝试生成 5 座超大城市。开销可能很大，并可能不符合 MOD 对可用建筑和地点的预期。"
+
+msgid "Reset advanced options"
+msgstr "重置高级选项"
+
+msgid "Restore all advanced rules to follow core and mods?"
+msgstr "要将全部高级规则恢复为跟随本体和 MOD 吗？"
+
+msgid "Restore all rules to follow core / mods"
+msgstr "全部恢复为跟随本体／MOD"
+
+msgid "River width scale"
+msgstr "河流宽度倍率"
+
+msgid "Rivers and lakes"
+msgstr "河流与湖泊"
+
+msgid "Roads and cities"
+msgstr "道路与城市"
+
+msgid "Scales baseline hunger accumulation before character modifiers. 0 suppresses this baseline, not every possible source. Can bypass survival requirements assumed by mods."
+msgstr "调整应用角色修正之前的基础饥饿累积速度。设为 0 只抑制这部分基础累积，不能消除所有来源。可能绕过 MOD 预设的生存需求。"
+
+msgid "Scales baseline sleepiness accumulation before character modifiers. 0 suppresses this baseline, not every possible source. Can bypass survival requirements assumed by mods."
+msgstr "调整应用角色修正之前的基础困倦累积速度。设为 0 只抑制这部分基础累积，不能消除所有来源。可能绕过 MOD 预设的生存需求。"
+
+msgid "Scales baseline thirst accumulation before character modifiers. 0 suppresses this baseline, not every possible source. Can bypass survival requirements assumed by mods."
+msgstr "调整应用角色修正之前的基础口渴累积速度。设为 0 只抑制这部分基础累积，不能消除所有来源。可能绕过 MOD 预设的生存需求。"
+
+msgid "Scales generated wind speed. 0 removes this generated wind, but direct overrides may differ. Changes wind chill, wind power, and mod climate balance."
+msgstr "调整自然生成的风速。设为 0 可取消这部分风，直接强制指定的风速可能例外。会改变风寒、风力发电及 MOD 气候平衡。"
+
+msgid "Scales proficiency practice. 0 disables ordinary proficiency progress, while special training paths may differ. Can disrupt crafting and mod progression."
+msgstr "调整熟练度练习进度。设为 0 会停止普通熟练度成长，特殊训练途径可能例外。可能影响制作和 MOD 成长机制。"
+
+msgid "Scales river width; 0 disables river generation through this path. Large values remove usable land and can prevent base-game or mod sites and starts from fitting."
+msgstr "调整河流宽度；设为 0 可禁用此途径的河流生成。数值过大会减少可用陆地，可能使本体或 MOD 地点和开局区域无法放置。"
+
+msgid "Scales spawns from animal groups, including mod animals. Fixed individual spawns may ignore this value. Low values remove food sources; high values can slow the game."
+msgstr "调整动物群组的生成数量，也适用于 MOD 动物。固定生成的个体可能不受影响。过低会减少食物来源，过高可能拖慢游戏。"
+
+msgid "Scales the fatigue-related melee speed factor up to the non-weary limit. This is not a multiplier for every combat action. Changes fatigue and combat balance."
+msgstr "调整疲劳状态下的近战速度系数，最多恢复到未疲劳时的速度。此项不是所有战斗行动的速度倍率。会改变疲劳和战斗平衡。"
+
+msgid "Scales the first weariness threshold. 0 removes the initial allowance. Changes the amount of activity possible before penalties and mod exhaustion balance."
+msgstr "调整首次进入疲劳的阈值。设为 0 可取消初始活动余量。会改变受到惩罚前能进行的活动量，以及 MOD 的疲劳平衡。"
+
+msgid "Scales the threshold between successive weariness levels. Smaller values make later levels arrive sooner. Very small or zero values are unsupported because integer thresholds can stop advancing."
+msgstr "调整各后续疲劳等级之间的阈值。数值越小，越快进入更高疲劳等级。不支持极小值或 0，以免整数阈值无法继续递增。"
+
+msgid "Set custom value"
+msgstr "设置自定义值"
+
+msgid "Sets longitude for astronomical calculations. Does not move the generated world or choose a climate region. Overrides geographic mod assumptions."
+msgstr "设置天文计算使用的经度。不会移动已生成的世界，也不会选择气候地区。会覆盖 MOD 的地理位置预设。"
+
+msgid "Sets the latitude for daylight calculations, not regional temperature. Polar values may have continuous daylight or darkness and unusual displayed sunrise times. Overrides geographic mod assumptions."
+msgstr "设置日照计算使用的纬度，不改变地区气温。极地数值可能导致极昼、极夜及不常见的日出时间显示。会覆盖 MOD 的地理位置预设。"
+
+msgid "Shows a choice menu for supported player mutation paths. Not every scripted mutation uses it. Changes mutation randomness and can bypass mod progression expectations."
+msgstr "在支持的玩家突变途径中显示选择菜单。部分脚本触发的突变不使用此菜单。会改变突变的随机性，并可能绕过 MOD 的成长设计。"
+
+msgid "Small-city horde chance denominator"
+msgstr "小城市尸群概率分母"
+
+msgid "Smallest accepted lake area in overmap terrain tiles. Changes water coverage and lake-dependent location availability; extreme values may eliminate lakes."
+msgstr "接受生成的最小湖泊面积，单位为大地图地形格。会改变水域覆盖及依赖湖泊的地点数量；极端值可能使湖泊不再生成。"
+
+msgid "South ocean start"
+msgstr "南方海洋起点"
+
+msgid "Spacing between east-west highway corridors in overmaps. Smaller values increase road generation and performance cost. Requires a highway component and variance below half the spacing."
+msgstr "东西向高速公路走廊之间的距离，单位为大地图区块。数值越小，道路生成量和性能开销越大。地区必须具有高速公路组件，交点偏移须小于间距的一半。"
+
+msgid "Spacing between north-south highway corridors in overmaps. Smaller values increase road generation and performance cost. Requires a highway component and variance below half the spacing."
+msgstr "南北向高速公路走廊之间的距离，单位为大地图区块。数值越小，道路生成量和性能开销越大。地区必须具有高速公路组件，交点偏移须小于间距的一半。"
+
+msgid "Special locations"
+msgstr "特殊地点"
+
+msgid "Successive weariness threshold factor"
+msgstr "后续疲劳等级阈值系数"
+
+msgid "Survival and recovery"
+msgstr "生存与恢复"
+
+msgid "Swamps"
+msgstr "沼泽"
+
+msgid "Temperature offset"
+msgstr "环境气温偏移"
+
+msgid "Temporary EMP disruption"
+msgstr "EMP 暂时失灵"
+
+msgid "The advanced world rules could not be loaded."
+msgstr "无法加载世界高级规则。"
+
+msgid "The restored advanced world rules could not be loaded."
+msgstr "无法加载快照恢复后的世界高级规则。"
+
+msgid "The thick forest threshold must be at least the forest threshold."
+msgstr "密林阈值不得低于普通森林阈值。"
+
+msgid "Thick forest noise threshold"
+msgstr "密林噪声阈值"
+
+msgid "Unchanged rules follow core and mods. Custom values take precedence. Terrain controls apply to all dimensions with the corresponding generators; missing components and pregenerated maps are not replaced. Reference defaults are shown; inherited values may vary by mod and region. Overrides may prevent missions or starting locations from generating. Use the list filter to search names or groups."
+msgstr "未修改的规则跟随本体和 MOD，自定义值优先生效。地形设置适用于所有具备对应生成器的维度；不会补上缺失的组件，也不会替换预先生成的地图。所示默认值仅供参考；实际继承值可能因 MOD 和地区而异。覆盖规则可能导致任务地点或开局地点无法生成。可用列表筛选搜索名称或分组。"
+
+msgid "Underground z-level of ravine bottoms, also used by local map generation. Changes fall hazards and can conflict with underground mod content."
+msgstr "峡谷底部所在的地下 z 层，局部地图生成也使用此值。会改变坠落危险，并可能与 MOD 地下内容冲突。"
+
+msgid "Underground z-level used for lake bottoms. Must remain within supported underground levels. Changes swimming hazards and may conflict with underground mod content."
+msgstr "湖底所在的地下 z 层。必须处于游戏支持的地下层级内。会改变游泳危险，并可能与 MOD 地下内容冲突。"
+
+#, c-format
+msgid "Unknown advanced world option: %s"
+msgstr "未知的世界高级选项：%s"
+
+msgid "Use normal for natural weather, or a weather ID provided by the loaded content. Does not fix temperature or wind. Invalid IDs prevent starting; forced storms can disrupt base-game and mod events."
+msgstr "填入 normal 使用自然天气，或填入已加载内容提供的天气 ID。此项不会固定气温或风速。无效 ID 会阻止开始游戏；强制风暴可能干扰本体和 MOD 事件。"
+
+msgid "Uses neighboring overmap connections while generating the region. Disabling can leave roads and railways disconnected across boundaries and disrupt mod routes."
+msgstr "生成地区时使用相邻大地图区块的连接信息。关闭可能使跨区块的道路和铁路断开，并破坏 MOD 路线。"
+
+msgid "Uses temporary electronic disruption in supported EMP paths, with a chance of permanent failure. Does not change every EMP effect. Alters electronic survival and mod balance."
+msgstr "在支持的 EMP 处理途径中使用暂时性电子失灵，同时保留永久损坏的概率。不会改变所有 EMP 效果。会改变电子设备的存活能力及 MOD 平衡。"
+
+msgid "Uses the vehicle condition and fuel settings below for newly spawned vehicles. Overrides map and mod expectations; some forced vehicle conditions remain exempt."
+msgstr "对新生成载具使用下方的车况和燃料设置。会覆盖地图及 MOD 的预设，部分强制指定的车况仍不受影响。"
+
+msgid "Vehicle part permanent degradation"
+msgstr "载具零件永久劣化"
+
+msgid "Vehicles"
+msgstr "载具"
+
+msgid "Weariness"
+msgstr "疲劳"
+
+msgid "Weariness recovery fraction"
+msgstr "疲劳恢复比例"
+
+msgid "Weariness threshold factor"
+msgstr "疲劳阈值系数"
+
+msgid "Weary melee speed factor"
+msgstr "疲劳近战速度系数"
+
+#, c-format
+msgid "Weather '%s' is not defined by the selected core and mods."
+msgstr "所选游戏本体和 MOD 未定义天气“%s”。"
+
+msgid "West ocean start"
+msgstr "西方海洋起点"
+
+msgid "When vehicle overrides are enabled: -1 is damaged, 0 is intact, 1 is disabled. Forced condition definitions can take precedence. Affects access to transport and mod balance."
+msgstr "启用载具覆盖时，-1 表示受损，0 表示完好，1 表示无法行驶。强制车况定义可能优先于此设置。会改变交通工具的获取难度和 MOD 平衡。"
+
+msgid "When vehicle overrides are enabled: -1 uses random fuel, 0 is empty, 100 is full. The current random distribution is bounded to 5-95 percent. Can alter scenario and mod vehicle supplies."
+msgstr "启用载具覆盖时，-1 表示随机燃料，0 表示空油箱，100 表示加满。当前随机范围为 5%～95%。可能改变场景和 MOD 的载具物资配置。"
+
+msgid "Width of generated ravines. Larger values remove usable land and can sever routes or conflict with special locations from the base game and mods."
+msgstr "生成峡谷的宽度。数值越大，可用陆地越少，并可能切断路线或与本体及 MOD 特殊地点冲突。"
+
+msgid "Wind speed multiplier"
+msgstr "风速倍率"
+
+msgid "Wound probability factor"
+msgstr "伤口概率系数"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "Yes (override)"
+msgstr "是（覆盖）"
+
+msgid "advanced world options"
+msgstr "世界高级选项"
+
+msgid "degrees"
+msgstr "度"
+
+msgid "degrees Celsius"
+msgstr "摄氏度"
+
+msgid "divisor"
+msgstr "除数"
+
+msgid "experience per day"
+msgstr "经验／天"
+
+msgid "factor"
+msgstr "系数"
+
+msgid "fraction"
+msgstr "比例"
+
+msgid "fraction per pain"
+msgstr "比例／点疼痛"
+
+msgid "hit points per turn"
+msgstr "生命值／回合"
+
+msgid "integer"
+msgstr "整数"
+
+msgid "multiplier"
+msgstr "倍"
+
+msgid "number"
+msgstr "数值"
+
+msgid "overmap terrain tiles"
+msgstr "大地图地形格"
+
+msgid "overmaps"
+msgstr "大地图区块"
+
+msgid "percent"
+msgstr "%"
+
+msgid "percentage points"
+msgstr "百分点"
+
+msgid "points"
+msgstr "点"
+
+msgid "probability"
+msgstr "概率"
+
+msgid "skill level"
+msgstr "技能等级"
+
+msgid "stamina"
+msgstr "耐力"
+
+msgid "stamina per turn"
+msgstr "耐力／回合"
+
+msgid "z-level"
+msgstr "z 层"
+
+msgid "zombies per city size"
+msgstr "只丧尸／城市规模单位"

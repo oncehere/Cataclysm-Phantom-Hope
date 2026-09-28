@@ -546,6 +546,7 @@ endif()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
+    include(lang/CPHTranslations.cmake)
     if(CPH_TEST_IDENTITY)
         include(CMakeModules/CPHTestIdentityTranslations.cmake)
     else()
@@ -613,6 +614,14 @@ if(TESTS)
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/catch/contrib)
     include(Catch)
     add_subdirectory(tests)
+endif()
+
+if(LOCALIZE)
+    foreach(CPH_LOCALIZED_TARGET cataclysm cataclysm-tiles cata_test cata_test-tiles)
+        if(TARGET ${CPH_LOCALIZED_TARGET})
+            add_dependencies(${CPH_LOCALIZED_TARGET} cph_translations)
+        endif()
+    endforeach()
 endif()
 
 if (JSON_FORMAT)

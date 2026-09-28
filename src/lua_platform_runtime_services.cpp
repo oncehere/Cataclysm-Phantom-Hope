@@ -3085,8 +3085,8 @@ void install_runtime_api( const std::shared_ptr<runtime> &value,
     };
     const auto option_snapshot = []( sol::state_view state,
     const std::string & id ) {
-        options_manager::cOpt &entry =
-            get_options().get_option( id );
+        const options_manager::cOpt &entry =
+            get_options().get_effective_option( id );
         sol::table value = state.create_table();
         value["id"] = id;
         value["type"] = entry.getType();
@@ -3130,7 +3130,7 @@ void install_runtime_api( const std::shared_ptr<runtime> &value,
             return sol::make_object( state, sol::lua_nil );
         }
         return sol::make_object(
-                   state, get_options().get_option( id ).getValue() );
+                   state, get_options().get_effective_option( id ).getValue() );
     } );
     gameplay["options"] = std::move( gameplay_options );
 

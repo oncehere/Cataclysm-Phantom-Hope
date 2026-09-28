@@ -31,6 +31,7 @@
 #include "translation.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "world_advanced_options.h"
 
 namespace
 {
@@ -155,7 +156,7 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
         wg.winter_temp_manual_mod
     };
     const double baseline(
-        wg.base_temperature +
+        wg.get_base_temperature_celsius() +
         seasonal_temp_mod[season] +
         dayv * ( daily_magnitude_K + daily_seasonal_range_K * ( -seasonality + 1 ) / 2 ) +
         seasonality * seasonality_magnitude_K );
@@ -172,6 +173,12 @@ units::temperature weather_generator::get_weather_temperature(
     return weather_temperature_from_common_data( *this, get_common_data( location, real_t, seed ),
             season_effective_time( real_t ) );
 }
+
+double weather_generator::get_base_temperature_celsius() const
+{
+    return base_temperature + world_advanced_number( "WORLD_TEMPERATURE_OFFSET", 0.0 );
+}
+
 w_point weather_generator::get_weather( const tripoint_abs_ms &location, const time_point &real_t,
                                         unsigned seed ) const
 {
@@ -205,7 +212,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     }
     // Relative humidity, a percentage.
     double H = std::min( 100., std::max( 0.,
-                                         base_humidity + mod_h + 100 * (
+                                         base_humidity + world_advanced_number( "WORLD_HUMIDITY_OFFSET", 0.0 ) + mod_h + 100 * (
                                                  .15 * seasonality +
                                                  raw_noise_4d( x, y, z, modSEED + 101 ) *
                                                  .2 * ( -seasonality + 2 ) ) ) );
@@ -221,6 +228,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
                              cyf * base_wind_season_variation * rng_float( 0, 2 );
     W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) + variation ) );
+    W *= world_advanced_number( "WORLD_WIND_MULTIPLIER", 1.0 );
 
     // Initial static variable
     if( current_winddir == 1000 ) {

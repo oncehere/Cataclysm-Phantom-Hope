@@ -12,7 +12,12 @@ else
 	endif
 endif
 
+# An explicitly selected language may have only a maintained supplement in the
+# source checkout.  Reuse any pinned base MO, and never invent a missing base PO.
+PO := $(foreach language,$(PO),$(if $(wildcard $(PO_DIR)/$(language).po $(MO_DIR)/$(language)/LC_MESSAGES/cataclysm-dda.mo),$(language),$(if $(wildcard ./cph/$(language).po),,$(language))))
 MO := $(patsubst %,$(MO_DIR)/%/LC_MESSAGES/cataclysm-dda.mo,$(PO))
+CPH_PO := $(wildcard ./cph/*.po)
+CPH_MO := $(patsubst ./cph/%.po,$(MO_DIR)/cph/%/LC_MESSAGES/cataclysm-dda.mo,$(CPH_PO))
 
 clean clean-plan: export CPH_CLEAN_PO_DIR = $(PO_DIR)
 clean clean-plan: export CPH_CLEAN_MO_DIR = $(MO_DIR)
@@ -34,7 +39,11 @@ ifneq ($(MAKECMDGOALS),)
   endif
 endif
 ifneq ($(CLEAN_ONLY),1)
-all: $(MO)
+all: $(MO) $(CPH_MO)
+
+$(MO_DIR)/cph/%/LC_MESSAGES/cataclysm-dda.mo: ./cph/%.po
+	mkdir -p "$(@D)"
+	msgfmt -c -o "$@" "$<"
 
 $(MO_DIR)/%/LC_MESSAGES/cataclysm-dda.mo: $(PO_DIR)/%.po
 	mkdir -p "$(@D)"
@@ -48,7 +57,7 @@ list_po:
 list_mo:
 	@echo $(MO)
 
-install: $(MO)
+install: $(MO) $(CPH_MO)
 ifdef LOCALE_DIR
 	mkdir -p $(LOCALE_DIR)
 	cp -R --no-preserve=ownership $(MO_DIR)/* $(LOCALE_DIR)

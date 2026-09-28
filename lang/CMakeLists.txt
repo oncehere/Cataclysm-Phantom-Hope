@@ -30,6 +30,15 @@ add_custom_target(
 foreach (LANG ${LANGUAGES})
     set(_PO ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po)
     set(_MO ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo)
+    if(NOT EXISTS "${_PO}")
+        if(EXISTS "${_MO}")
+            message(STATUS "Reuse compiled base translation for ${LANG}")
+            continue()
+        elseif(EXISTS "${CMAKE_SOURCE_DIR}/lang/cph/${LANG}.po")
+            message(STATUS "Compile CPH supplement only for ${LANG}")
+            continue()
+        endif()
+    endif()
     add_custom_command(
             OUTPUT ${_MO}
             COMMAND ${CMAKE_COMMAND} -E
@@ -39,20 +48,20 @@ foreach (LANG ${LANGUAGES})
             DEPENDS ${_PO}
     )
     list(APPEND _MO_FILES ${_MO})
-    if (RELEASE)
-        if(USE_PREFIX_DATA_DIR)
-            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}
-                TYPE LOCALE)
-        else()
-            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}
-                DESTINATION lang/mo)
-        endif()
-    endif ()
 endforeach()
 
 # Auto-Compile translation on release builds only
 if (RELEASE)
     add_custom_target(locale ALL DEPENDS ${_MO_FILES})
+    # Include pinned MO inputs even when no base PO language was selected.  The
+    # maintained cph subtree has its own install rule in CPHTranslations.cmake.
+    if(USE_PREFIX_DATA_DIR)
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/ TYPE LOCALE
+            PATTERN "cph" EXCLUDE)
+    else()
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/ DESTINATION lang/mo
+            PATTERN "cph" EXCLUDE)
+    endif()
 else()
     add_custom_target(locale DEPENDS ${_MO_FILES})
 endif()

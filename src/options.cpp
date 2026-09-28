@@ -45,6 +45,8 @@
 #include "ui_profile.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
+#include "world_advanced_options.h"
+#include "world_advanced_ui.h"
 
 #if defined(TILES)
     #include "cata_imgui.h"
@@ -754,12 +756,14 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.bDefault = false;
             break;
         case cOpt::CVT_INT:
+            thisOpt.format = "%i";
             thisOpt.iMin = std::numeric_limits<int>::lowest();
             thisOpt.iMax = std::numeric_limits<int>::max();
             thisOpt.iDefault = 0;
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
+            thisOpt.value_precision = std::numeric_limits<float>::max_digits10;
             thisOpt.fMin = std::numeric_limits<float>::lowest();
             thisOpt.fMax = std::numeric_limits<float>::max();
             thisOpt.fDefault = 0;
@@ -1070,7 +1074,8 @@ bool options_manager::cOpt::checkPrerequisite() const
         return true;
     }
     bool isPrerequisiteFulfilled = false;
-    const std::string prerequisite_option_value = get_options().get_option( sPrerequisite ).getValue();
+    const std::string prerequisite_option_value = get_options().get_effective_option(
+                sPrerequisite ).getValue();
     for( const std::string &sAllowedPrerequisiteValue : sPrerequisiteAllowedValues ) {
         if( prerequisite_option_value == sAllowedPrerequisiteValue ) {
             isPrerequisiteFulfilled = true;
@@ -1182,8 +1187,10 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
     } else if( sType == "float" ) {
         std::ostringstream ssTemp;
         ssTemp.imbue( classis_locale ? std::locale::classic() : std::locale() );
-        ssTemp.precision( 2 );
-        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp.precision( value_precision );
+        if( value_precision == 2 ) {
+            ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        }
         ssTemp << fSet;
         return ssTemp.str();
     }
@@ -3462,6 +3469,7 @@ void options_manager::add_options_performance()
 
 void options_manager::add_options_world_default()
 {
+    find_page( "world_default" ).items_.emplace_back( ItemType::WorldRules, "", "" );
     const auto add_empty_line = [&]() {
         this->add_empty_line( "world_default" );
     };
@@ -3685,7 +3693,7 @@ void options_manager::add_options_world_default()
     // after options, so a free-text field is the only form that accepts arbitrary
     // (mod-provided or player-typed) region ids while staying visible in worldgen.
     add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "(WIP feature) Determines terrain, shops, plants, and more.  Set by total-conversion mods; leave as \"default\" unless you know the id of an installed region." ),
+         to_translation( "Legacy fallback region for compatibility readers. Current dimensions select regions through their own layouts. This field is read only." ),
          "default", 60
        );
 }
@@ -4203,6 +4211,10 @@ options_manager::PageItem::fmt_tooltip( const std::string &group_id,
                                         const options_manager::options_container &cont ) const
 {
     switch( type ) {
+        case ItemType::WorldRules:
+            return _( "Customize terrain, climate and world rules. Unchanged rules follow core and mods. "
+                      "Explicit overrides may affect missions, starting locations and mod behavior. "
+                      "New rules can only be edited during world creation." );
         case ItemType::BlankLine:
             return "";
         case ItemType::GroupHeader: {
@@ -4254,7 +4266,8 @@ struct string_col {
 };
 } // namespace
 
-std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
+std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs,
+                                   world_advanced_options *advanced )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return p.id_ == "world_default";
@@ -4393,6 +4406,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             const PageItem &it = page_items[i];
             switch( it.type )
             {
+                case ItemType::WorldRules:
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::BlankLine:
@@ -4419,6 +4433,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             const char *IN_GROUP_PREFIX = ": ";
             switch( it.type )
             {
+                case ItemType::WorldRules:
+                    return {
+                        string_col( _( "Advanced world rules…" ), c_white ),
+                        string_col( _( "Open" ), c_light_green ) };
                 case ItemType::BlankLine: {
                     std::string name = it.group.empty() ? "" : IN_GROUP_PREFIX;
                     return { string_col( name, c_white ), string_col() };
@@ -4447,7 +4465,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                         cLineColor = c_light_green;
                     }
 
-                    string_col value( opt.getValueName(), is_selected ? hilite( cLineColor ) : cLineColor );
+                    const world_advanced_options *rules = advanced ? advanced :
+                                                          ( world_generator->active_world ? &world_generator->active_world->advanced_options : nullptr );
+                    const bool city_rule = it.data == "CITY_SIZE" || it.data == "CITY_SPACING";
+                    const std::string displayed = city_rule ?
+                                                  world_advanced_value_label( rules, it.data ) : opt.getValueName();
+                    string_col value( displayed, is_selected ? hilite( cLineColor ) : cLineColor );
 
                     return std::make_pair( name, value );
                 }
@@ -4589,6 +4612,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             option_row_snapshot row;
             row.source_index = static_cast<int>( index );
             row.tooltip = item.fmt_tooltip( item.group, current_options );
+            if( item.type == ItemType::WorldRules ) {
+                row.name = _( "Advanced world rules…" );
+                row.value = _( "Open" );
+                row.enabled = true;
+                snapshot.rows.push_back( std::move( row ) );
+                continue;
+            }
             if( item.type == ItemType::GroupHeader ) {
                 row.group = true;
                 row.expanded = groups_state[item.data];
@@ -4604,7 +4634,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 continue;
             }
             row.name = option.getMenuText();
-            row.value = option.getValueName();
+            row.value = ( item.data == "CITY_SIZE" || item.data == "CITY_SPACING" ) ?
+                        world_advanced_value_label( advanced ? advanced :
+                                                    ( world_generator->active_world ? &world_generator->active_world->advanced_options : nullptr ),
+                                                    item.data ) : option.getValueName();
             row.enabled = !option.hasPrerequisite() || option.checkPrerequisite();
             snapshot.rows.push_back( std::move( row ) );
         }
@@ -4692,6 +4725,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
+            if( curr_item.data == "DEFAULT_REGION" ) {
+                popup( _( "Legacy fallback region used by compatibility readers. "
+                          "Current dimensions select their regions through their own layouts." ) );
+                return;
+            }
+            if( curr_item.data == "CITY_SIZE" || curr_item.data == "CITY_SPACING" ) {
+                if( advanced ) {
+                    edit_world_advanced_rule( *advanced, curr_item.data );
+                } else {
+                    popup( _( "City overrides can only be edited during world creation." ) );
+                }
+                return;
+            }
 
 #if defined(LOCALIZE)
             if( current_opt.getName() == "USE_LANG" ) {
@@ -4752,6 +4798,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             {
                 case ItemType::BlankLine:
                     return false;
+                case ItemType::WorldRules:
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::Option:
@@ -4872,6 +4919,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) {
             switch( curr_item.type ) {
+                case ItemType::WorldRules: {
+                    world_advanced_options empty_rules;
+                    world_advanced_options *rules = advanced;
+                    if( !rules && world_generator->active_world ) {
+                        rules = &world_generator->active_world->advanced_options;
+                    }
+                    show_world_advanced_options( rules ? *rules : empty_rules, advanced != nullptr );
+                    recalc_startpos = true;
+                    break;
+                }
                 case ItemType::Option: {
                     on_select_option();
                     break;
@@ -5201,6 +5258,30 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
         return new_world_option;
     }
     return wopt->second;
+}
+
+const options_manager::cOpt &options_manager::get_effective_option( const std::string &name )
+{
+    const std::optional<std::string> value = get_world_advanced_value( name );
+    const world_advanced_definition *definition = value ? find_world_advanced_definition(
+                name ) : nullptr;
+    if( definition && ( definition->target == world_advanced_target::external ||
+                        name == "CITY_SIZE" || name == "CITY_SPACING" ) ) {
+        // Values are owned independently of loader-writable core/mod options.
+        static std::unordered_map<std::string, std::pair<std::string, cOpt>> effective;
+        auto found = effective.find( name );
+        const cOpt *base = has_option( name ) ? &get_option( name ) : nullptr;
+        if( found == effective.end() || found->second.first != *value ||
+            ( base && ( found->second.second.getType() != base->getType() ||
+                        found->second.second.getPage() != base->getPage() ) ) ) {
+            cOpt option = base ? *base : definition->make_copt();
+            option.setValue( *value );
+            option.value_precision = std::numeric_limits<float>::max_digits10;
+            found = effective.insert_or_assign( name, std::make_pair( *value, option ) ).first;
+        }
+        return found->second.second;
+    }
+    return get_option( name );
 }
 
 options_manager::options_container options_manager::get_raw_options()

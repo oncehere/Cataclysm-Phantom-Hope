@@ -31,6 +31,7 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "type_id.h"
+#include "world_advanced_options.h"
 
 //in a box made by p1, p2, return { corner point in direction, direction from corner to p2 }
 static std::pair<tripoint_om_omt, om_direction::type> closest_corner_in_direction(
@@ -190,7 +191,7 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
         int dir1, int dir2, int base_z )
 {
 
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     // base-level segment OMT to use until finalize_highways()
     const oter_type_str_id &reserved_terrain_id = highway_settings.reserved_terrain_id;
     // upper-level segment OMT to use until finalize_highways()
@@ -335,7 +336,7 @@ Highway_path overmap::place_highway_line(
     const tripoint_om_omt &sp1, const tripoint_om_omt &sp2,
     const om_direction::type &draw_direction, int base_z )
 {
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     const int longest_slant_length = highway_settings.clockwise_slant.obj().longest_side();
 
     const point_rel_omt draw_direction_vector =
@@ -443,7 +444,7 @@ void overmap::place_highway_lines_with_bends( Highway_path &highway_path,
         om_direction::type direction, int base_z )
 {
 
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     const building_bin &bends = highway_settings.bends;
     const overmap_special_id &fallback_onramp = highway_settings.fallback_onramp;
 
@@ -532,8 +533,8 @@ std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::highway_handle_oc
     std::bitset<HIGHWAY_MAX_CONNECTIONS> ocean_adjacent;
     const point_abs_om this_om = pos();
 
-    if( settings->overmap_ocean ) {
-        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    if( get_settings().has_worldgen_oceans() ) {
+        const region_settings_ocean &settings_ocean = get_settings().get_settings_ocean();
         // Not ideal as oceans can start later than these settings but it's at least reliably stopping before them
         const int ocean_start_north = settings_ocean.ocean_start_north.value_or( INT_MAX );
         const int ocean_start_east = settings_ocean.ocean_start_east.value_or( INT_MAX );
@@ -561,7 +562,7 @@ std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::highway_handle_oc
 //handle ramp placement given z-levels of path nodes
 void overmap::highway_handle_ramps( Highway_path &path, int base_z )
 {
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     const overmap_special_id &segment_bridge = highway_settings.segment_bridge;
     const overmap_special_id &segment_ramp = highway_settings.segment_ramp;
     const int range = path.size();
@@ -628,7 +629,7 @@ void overmap::highway_handle_ramps( Highway_path &path, int base_z )
 
 void overmap::highway_handle_special_z( Highway_path &highway_path, int base_z )
 {
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
 
     const int path_size = highway_path.size();
     for( int i = 1; i < path_size - 1; i++ ) {
@@ -656,7 +657,7 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
         const std::bitset<HIGHWAY_MAX_CONNECTIONS> &ocean_neighbors, int base_z )
 {
 
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     const int HIGHWAY_MAX_DEVIANCE = highway_settings.HIGHWAY_MAX_DEVIANCE;
     //used until intersections can be safely placed at corners of the overmap with two-bend pathing
     const int SAFE_DEVIANCE = HIGHWAY_MAX_DEVIANCE * 2;
@@ -742,7 +743,7 @@ std::vector<Highway_path> overmap::place_highways(
     std::vector<Highway_path> paths;
     const int base_z = RIVER_Z;
 
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     const int HIGHWAY_MAX_DEVIANCE = highway_settings.HIGHWAY_MAX_DEVIANCE;
 
     std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> handle_oceans = highway_handle_oceans();
@@ -931,7 +932,7 @@ overmap::get_highway_segment_points( const pf::directed_node<tripoint_om_omt> &n
 
 void overmap::finalize_highways( std::vector<Highway_path> &paths )
 {
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     // Segment of flat highway with a road bridge
     const overmap_special_id &segment_road_bridge = highway_settings.segment_road_bridge;
 
@@ -1061,12 +1062,33 @@ void highway_intersection_grid::set_options()
     max_offset_variance = get_option<int>( "HIGHWAY_GRID_VARIANCE" );
 }
 
+void highway_intersection_grid::clear()
+{
+    overmap_feature_grid::clear();
+    om_has_lake_cache.clear();
+    om_has_lake_cache_revision = world_advanced_options_revision();
+}
+
 void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node )
 {
+    const std::size_t revision = world_advanced_options_revision();
+    if( om_has_lake_cache_revision != revision ) {
+        om_has_lake_cache.clear();
+        om_has_lake_cache_revision = revision;
+    }
     const int max_offset_variance = this->max_offset_variance;
     auto no_lakes = [this]( const point_abs_om & pt ) {
-        const region_settings &settings = overmap_buffer.get_default_settings( pt );
-        if( !settings.overmap_lake ) {
+        // Preserve the inherited algorithm without overrides.  With explicit
+        // lake rules, use this dimension's actual component rather than
+        // inventing lakes for regions which intentionally have none.
+        const bool custom_lakes = get_world_advanced_value( "REGION_LAKES" ) ||
+                                  get_world_advanced_value( "REGION_LAKE_THRESHOLD" ) ||
+                                  get_world_advanced_value( "REGION_LAKE_SIZE_MIN" ) ||
+                                  get_world_advanced_value( "REGION_LAKE_DEPTH" );
+        const region_settings &settings = custom_lakes ?
+                                          *get_world_advanced_region( overmap_buffer.get_overmap_region( tripoint_abs_om( pt, 0 ) ) ) :
+                                          overmap_buffer.get_default_settings( pt );
+        if( !settings.has_worldgen_lakes() ) {
             return true;
         }
         auto val_emplaced = om_has_lake_cache.emplace( pt, false );
@@ -1093,8 +1115,11 @@ void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node
         }
     }
     if( intersection_candidates.empty() ) {
-        debugmsg( "no highway intersections could be generated in overmap radius of %d at overmap %s; reduce lake frequency",
-                  max_offset_variance, grid_pos.to_string() );
+        // A valid lake-heavy world can cover the entire search radius.  Keep a
+        // bounded grid position and let local highway placement handle water.
+        // Keep the junction away from the grid origin whenever offsets allow it.
+        node.set_offset_pos( grid_pos + point_rel_om( max_offset_variance > 0 ? 1 : 0, 0 ) );
+        return;
     }
     node.set_offset_pos( random_entry( intersection_candidates ) );
 }
@@ -1121,7 +1146,7 @@ void overmap::place_highway_supported_special( const overmap_special_id &special
     if( placement.is_invalid() ) {
         return;
     }
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
 
     place_special_forced( special, placement, dir );
     const std::vector<overmap_special_terrain> locs = special->get_terrains();
@@ -1139,7 +1164,7 @@ void overmap::place_highway_supported_special( const overmap_special_id &special
 
 void overmap::place_highway_interchanges( std::vector<Highway_path> &highway_path )
 {
-    const region_settings_highway &highway_settings = settings->get_settings_highway();
+    const region_settings_highway &highway_settings = get_settings().get_settings_highway();
     // slightly higher than it should realistically be for convenience's sake
     const int HIGHWAY_INTERCHANGE_SPACING = OMAPX / 4;
     const int HIGHWAY_INTERCHANGE_VARIANCE = HIGHWAY_INTERCHANGE_SPACING / 10;

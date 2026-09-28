@@ -47,7 +47,7 @@ static const oter_str_id oter_river_west( "river_west" );
 void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps,
                            const overmap_river_node &initial_points, int river_scale, bool major_river )
 {
-    const region_settings_river &settings_river = settings->get_settings_river();
+    const region_settings_river &settings_river = get_settings().get_settings_river();
     const int OMAPX_edge = OMAPX - 1;
     const int OMAPY_edge = OMAPY - 1;
     const int directions = 4;
@@ -208,7 +208,8 @@ void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps
                 }
             }
             // if the end point is valid, place a new, smaller, overmap-local branch river
-            if( !branch_end_point.is_invalid() && inbounds( branch_end_point ) ) {
+            if( !branch_end_point.is_invalid() && inbounds( branch_end_point ) &&
+                settings_river.river_branch_scale_decrease > 0 ) {
                 place_river( neighbor_overmaps, overmap_river_node{ bezier_point, branch_end_point },
                              river_scale - settings_river.river_branch_scale_decrease );
             }
@@ -260,7 +261,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 {
     const point_abs_omt origin = global_base_point();
     const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
-    const region_settings_lake &settings_lake = settings->get_settings_lake();
+    const region_settings_lake &settings_lake = get_settings().get_settings_lake();
     double noise_threshold = settings_lake.noise_threshold_lake;
     const int lake_depth = settings_lake.lake_depth;
 
@@ -371,7 +372,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 // helper function for code deduplication, as it is needed multiple times
 float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_om this_om )
 {
-    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    const region_settings_ocean &settings_ocean = get_settings().get_settings_ocean();
     const int northern_ocean = settings_ocean.ocean_start_north.value_or( INT_MAX );
     const int eastern_ocean = settings_ocean.ocean_start_east.value_or( INT_MAX );
     const int western_ocean = settings_ocean.ocean_start_west.value_or( INT_MAX );
@@ -401,7 +402,7 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
 
 void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    const region_settings_ocean &settings_ocean = get_settings().get_settings_ocean();
     const int ocean_depth = settings_ocean.ocean_depth;
     const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
                                  !settings_ocean.ocean_start_east.has_value() &&
@@ -547,7 +548,7 @@ void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmap
     const int OMAPY_edge = OMAPY - 1;
     const int directions = neighbor_overmaps.size();
     const int max_rivers = 2;
-    const region_settings_river &settings_river = settings->get_settings_river();
+    const region_settings_river &settings_river = get_settings().get_settings_river();
     int river_scale = settings_river.river_scale;
     if( river_scale == 0 ) {
         return;

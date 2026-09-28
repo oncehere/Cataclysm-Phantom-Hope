@@ -1939,7 +1939,7 @@ bool main_menu::opening_screen()
         if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
             if( player_character.posz() >= 0 ) {
                 add_msg( _( "You feel as if this %1$s will last forever…" ),
-                         get_options().get_option( "ETERNAL_WEATHER" ).getValueName() );
+                         get_options().get_effective_option( "ETERNAL_WEATHER" ).getValueName() );
             }
         }
     }
@@ -2574,6 +2574,9 @@ void main_menu::snapshots_tab( const std::string &worldname )
             MAPBUFFER.clear();
             overmap_buffer.clear();
             world->invalidate_compression_cache();
+            if( !world->load_advanced_options() ) {
+                popup( _( "The restored advanced world rules are invalid. This world cannot be loaded until the configuration is corrected." ) );
+            }
             savegames.clear();
             popup_getkey( _( "Snapshot \"%s\" restored." ), sel.chosen.name );
         } else {

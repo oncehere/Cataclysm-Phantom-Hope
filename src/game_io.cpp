@@ -53,6 +53,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "regional_settings.h"
 #include "gamemode.h"
 #include "get_version.h"
 #include "hash_utils.h"
@@ -91,6 +92,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
+#include "world_advanced_runtime.h"
 #include "zzip.h"
 
 #if defined(_WIN32)
@@ -276,6 +278,7 @@ void game::load_core_data()
 {
     // core data can be loaded only once and must be first
     // anyway.
+    clear_world_advanced_regions();
     DynamicDataLoader::get_instance().unload_data();
 
     load_data_from_dir( PATH_INFO::jsondir(), "core" );
@@ -601,11 +604,17 @@ void game::load_world_modfiles()
         throw std::runtime_error( "Error applying Lua-first native content: " + platform_error );
     }
     try {
+        std::string advanced_error;
+        if( !validate_active_world_advanced_options( advanced_error ) ) {
+            throw std::runtime_error( advanced_error );
+        }
         DynamicDataLoader::get_instance().finalize_loaded_data();
     } catch( ... ) {
         cata::lua_platform::discard_prepared_mods();
         throw;
     }
+    // Validation can inspect regional copies before component finalization.
+    clear_world_advanced_regions();
     if( !cata::lua_platform::validate_finalized_prepared_content( platform_error ) ) {
         cata::lua_platform::discard_prepared_mods();
         throw std::runtime_error( "Error finalizing Lua-first native content: " +
@@ -795,7 +804,7 @@ bool game::save_external_options_record()
             jout.member( "info", elem.second.getTooltip() );
             jout.member( "default", elem.second.getDefaultText( false ) );
             jout.member( "name", elem.first );
-            jout.member( "value", elem.second.getValue( true ) );
+            jout.member( "value", get_options().get_effective_option( elem.first ).getValue( true ) );
 
             jout.end_object();
         }

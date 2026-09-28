@@ -240,6 +240,7 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+#include "world_advanced_runtime.h"
 #include "zzip.h"
 
 #if defined(TILES)
@@ -701,6 +702,21 @@ void game::reenter_fullscreen()
  */
 bool game::setup()
 {
+    bool setup_complete = false;
+    on_out_of_scope clear_failed_rules( [&]() {
+        if( !setup_complete ) {
+            set_active_world_advanced_options( nullptr );
+            clear_world_advanced_regions();
+            options_manager::update_options_cache();
+        }
+    } );
+    WORLD *world = world_generator->active_world;
+    if( !world || !world->advanced_options_valid ) {
+        popup( _( "The advanced world rules could not be loaded." ) );
+        return false;
+    }
+    set_active_world_advanced_options( &world->advanced_options );
+    options_manager::update_options_cache();
     new_game = true;
     // A full world setup replaces every finalized registry.  Retire the
     // previous world's Platform states while their world and native content
@@ -725,6 +741,11 @@ bool game::setup()
         return false;
     }
     load_world_modfiles();
+    std::string rules_error;
+    if( !validate_active_world_advanced_options( rules_error ) ) {
+        popup( "%s", rules_error );
+        return false;
+    }
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
 
@@ -732,6 +753,7 @@ bool game::setup()
 
     reset_game_state();
     // back to menu for save loading, new game etc
+    setup_complete = true;
     return true;
 }
 
@@ -823,8 +845,32 @@ bool game::reload_active_save( const save_t &save_file )
     // resets ID counters, trackers, EOC queues, global variables, etc.).
     reset_game_state();
 
+    bool reload_complete = false;
+    on_out_of_scope clear_failed_reload( [&]() {
+        if( !reload_complete ) {
+            uquit = QUIT_NOSAVED;
+            set_active_world_advanced_options( nullptr );
+            clear_world_advanced_regions();
+            options_manager::update_options_cache();
+        }
+    } );
     try {
+        WORLD *world = world_generator->active_world;
+        bool rules_changed = false;
+        if( !world || !world->load_advanced_options( &rules_changed ) ) {
+            popup( _( "The restored advanced world rules could not be loaded." ) );
+            return false;
+        }
+        if( rules_changed ) {
+            // Load-time consumers (faults, vitamins, vehicle degradation) require a full reload.
+            MAPBUFFER.clear();
+            overmap_buffer.clear();
+            if( !setup() ) {
+                return false;
+            }
+        }
         if( load( save_file ) ) {
+            reload_complete = true;
             return true;
         }
         debugmsg( "In-place reload failed: unable to load save file '%s'", save_file.base_path() );

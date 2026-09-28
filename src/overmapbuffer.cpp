@@ -56,6 +56,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "rng.h"
+#include "regional_settings.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "text.h"
@@ -323,7 +324,7 @@ const region_settings &overmapbuffer::get_default_settings( const point_abs_om &
         debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
                   rsettings_id.c_str() ); // gonna die now =[
     }
-    return *region_settings_default;
+    return *get_world_advanced_region( region_settings_default );
 }
 
 void overmapbuffer::add_note( const tripoint_abs_omt &p, const std::string &message )

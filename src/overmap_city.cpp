@@ -27,6 +27,7 @@
 #include "simple_pathfinding.h"
 #include "text_snippets.h"
 #include "type_id.h"
+#include "world_advanced_options.h"
 
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
@@ -34,6 +35,25 @@ static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_type_str_id oter_type_road( "road" );
 
 static constexpr int BUILDINGCHANCE = 4;
+
+static void report_empty_city_buildings( const region_settings_id &region, int city_size )
+{
+    // An exhausted pool may be queried for thousands of street tiles. Report
+    // each region/size once per world context, without flooding the debug log.
+    static std::size_t revision = 0;
+    static std::unordered_set<std::string> reported;
+    if( revision != world_advanced_options_revision() ) {
+        revision = world_advanced_options_revision();
+        reported.clear();
+    }
+    const std::string key = region.str() + ":" + std::to_string( city_size );
+    if( reported.insert( key ).second ) {
+        DebugLog( D_WARNING, DC_ALL ) << "No eligible city building remains for region " <<
+                                      region.str() << ", city size " << city_size <<
+                                      "; skipping placement. Check custom world rules and mod building constraints.";
+    }
+}
+
 
 static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source,
         om_direction::type dir, size_t len )
@@ -64,10 +84,10 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    const region_settings_city &city_settings = settings->get_settings_city();
+    const region_settings_city &city_settings = get_settings().get_settings_city();
     int op_city_spacing = city_settings.city_spacing;
     int op_city_size = city_settings.city_size;
-    int max_urbanity = settings->max_urban;
+    int max_urbanity = get_settings().max_urban;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -127,7 +147,7 @@ void overmap::place_cities()
     tripoint_range city_candidates_range = points_in_radius_where(
             tripoint_om_omt( OMAPX / 2, OMAPY / 2, 0 ),
     OMAPX / 2 - max_city_size, [&]( const tripoint_om_omt & p ) {
-        return ter( p ) == settings->default_oter[OVERMAP_DEPTH];
+        return ter( p ) == get_settings().default_oter[OVERMAP_DEPTH];
     } );
     std::vector<tripoint_om_omt> city_candidates( city_candidates_range.begin(),
             city_candidates_range.end() );
@@ -149,7 +169,7 @@ void overmap::place_cities()
             {quarter_OMAPX * 3, quarter_OMAPY * 3, 0}
         };
         for( tripoint_om_omt selected_point : megacity_quad_points ) {
-            city tmp( SNIPPET.expand( settings->get_settings_city().name_snippet ) );
+            city tmp( SNIPPET.expand( get_settings().get_settings_city().name_snippet ) );
             tmp.pos_om = pos();
             ter_set( selected_point, oter_road_nesw ); // every city starts with an intersection
             city_tiles.insert( selected_point.xy() );
@@ -215,7 +235,7 @@ void overmap::build_cities()
 {
 
     const overmap_connection_id &overmap_connection_intra_city_road =
-        settings->overmap_connection.intra_city_road_connection;
+        get_settings().overmap_connection.intra_city_road_connection;
     const overmap_connection &local_road( *overmap_connection_intra_city_road );
 
     for( const city &c : cities ) {
@@ -235,7 +255,7 @@ void overmap::build_cities()
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
         const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const
 {
-    const region_settings_city &city_spec = settings->get_settings_city();
+    const region_settings_city &city_spec = get_settings().get_settings_city();
     int shop_radius = city_spec.shop_radius;
     int park_radius = city_spec.park_radius;
 
@@ -253,29 +273,57 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     if( park_sigma > 0 ) {
         park_normal = std::max( park_normal, static_cast<int>( normal_roll( park_radius, park_sigma ) ) );
     }
-    auto building_type_to_pick = [&]() {
-        if( shop_normal > town_dist ) {
-            return std::mem_fn( &region_settings_city::pick_shop );
-        } else if( park_normal > town_dist ) {
-            return std::mem_fn( &region_settings_city::pick_park );
-        } else {
-            return std::mem_fn( &region_settings_city::pick_house );
+    const building_bin &buildings = [&]() -> const building_bin & {
+        if( shop_normal > town_dist )
+        {
+            return city_spec.shops;
+        } else if( park_normal > town_dist )
+        {
+            return city_spec.parks;
+        } else
+        {
+            return city_spec.houses;
         }
-    };
-    auto pick_building = building_type_to_pick();
-    overmap_special_id ret;
-    bool existing_unique;
-    do {
-        ret = pick_building( city_spec );
+    }();
+    const auto eligible = [&]( const overmap_special_id & ret ) {
+        if( !ret.is_valid() || !ret->get_constraints().city_size.contains( town_size ) ) {
+            return false;
+        }
         if( ret->has_flag( "CITY_UNIQUE" ) ) {
-            existing_unique = placed_unique_buildings.find( ret ) != placed_unique_buildings.end();
+            return placed_unique_buildings.find( ret ) == placed_unique_buildings.end();
         } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) || ret->has_flag( "OVERMAP_UNIQUE" ) ) {
-            existing_unique = overmap_buffer.contains_unique_special( ret );
-        } else {
-            existing_unique = false;
+            return !overmap_buffer.contains_unique_special( ret );
         }
-    } while( existing_unique || !ret->get_constraints().city_size.contains( town_size ) );
-    return ret;
+        return true;
+    };
+    if( buildings.buildings.empty() ) {
+        report_empty_city_buildings( get_settings().id, town_size );
+        return overmap_special_id::NULL_ID();
+    }
+    const overmap_special_id first = buildings.pick();
+    if( eligible( first ) ) {
+        return first;
+    }
+    // A mod may define no building for this city size, or exhaust all unique
+    // buildings.  Keep the usual rejection sampling (and RNG sequence), but
+    // establish a finite escape path before trying again.
+    weighted_int_list<overmap_special_id> available;
+    for( const auto &entry : buildings.buildings ) {
+        if( eligible( entry.first ) ) {
+            available.add( entry );
+        }
+    }
+    if( available.empty() ) {
+        report_empty_city_buildings( get_settings().id, town_size );
+        return overmap_special_id::NULL_ID();
+    }
+    for( int attempt = 1; attempt < 1024; ++attempt ) {
+        const overmap_special_id candidate = buildings.pick();
+        if( eligible( candidate ) ) {
+            return candidate;
+        }
+    }
+    return *available.pick();
 }
 
 void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
@@ -289,6 +337,9 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size,
                                                 placed_unique_buildings );
+        if( building_tid.is_null() ) {
+            return;
+        }
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             std::vector<tripoint_om_omt> used_tripoints = place_special( *building_tid, building_pos,
                     building_dir, town, false, false );
@@ -306,8 +357,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
         const point_om_omt &source, om_direction::type dir, size_t len )
 {
-    const int &highway_width = settings->overmap_highway ?
-                               settings->get_settings_highway().width_of_segments : 0;
+    const int &highway_width = get_settings().has_worldgen_highways() ?
+                               get_settings().get_settings_highway().width_of_segments : 0;
     auto valid_placement = [this]( const overmap_connection & connection, const tripoint_om_omt pos,
     om_direction::type dir ) {
         if( !inbounds( pos, 1 ) ) {

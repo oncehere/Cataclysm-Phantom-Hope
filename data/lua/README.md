@@ -16,6 +16,13 @@ are in `types/ccb_platform_v1.d.lua`.  Contract and
 inventory checks are documented in
 [tools/lua_api/README.md](../../tools/lua_api/README.md).
 
+The `ccb.services.gameplay.options.get` and `ccb.services.gameplay.options.value` readers return the active world's
+effective values, including explicit advanced world rules. Core and Mod loading
+continues to update the inherited layer; an explicit player override takes
+precedence. These overrides can only be edited when creating or copying a world.
+See [advanced world rules](../../docs/project/world-advanced-options.md) for scope
+and compatibility effects.
+
 ## Tool validation environment
 
 The Lua API and agent tools share the pinned dependencies in

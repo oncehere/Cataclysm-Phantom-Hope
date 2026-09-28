@@ -19,6 +19,8 @@
 class JsonArray;
 class JsonObject;
 struct option_slider;
+struct world_advanced_definition;
+class world_advanced_options;
 
 namespace cata::lua_platform::detail
 {
@@ -88,6 +90,7 @@ class options_manager
         class cOpt
         {
                 friend class options_manager;
+                friend struct world_advanced_definition;
             public:
                 cOpt();
 
@@ -201,6 +204,7 @@ class options_manager
                 float fMax = 0.0f;
                 float fDefault = 0.0f;
                 float fStep = 0.0f;
+                int value_precision = 2;
 
                 template<typename T>
                 std::optional<T> _convert() const;
@@ -218,7 +222,8 @@ class options_manager
         void add_options_android();
         void load();
         bool save() const;
-        std::string show( bool ingame = false, bool world_options_only = false, bool with_tabs = true );
+        std::string show( bool ingame = false, bool world_options_only = false, bool with_tabs = true,
+                          world_advanced_options *advanced = nullptr );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
@@ -247,6 +252,8 @@ class options_manager
         bool has_option( const std::string &name ) const;
 
         cOpt &get_option( const std::string &name );
+        // Reads include explicit world overrides; loaders continue writing get_option().
+        const cOpt &get_effective_option( const std::string &name );
 
         //add hidden external option with value
         void add_external( const std::string &sNameIn, const std::string &sPageIn,
@@ -316,6 +323,7 @@ class options_manager
         enum class ItemType {
             BlankLine,
             GroupHeader,
+            WorldRules,
             Option,
         };
 
@@ -427,6 +435,11 @@ struct option_slider {
                 }
 
                 bool remove( const std::string &opt );
+                bool affects_option( const std::string &name ) const {
+                    return std::any_of( _opts.begin(), _opts.end(), [&]( const opt_slider_option & opt ) {
+                        return opt._opt == name;
+                    } );
+                }
                 void apply_opts( options_manager::options_container &OPTIONS ) const;
                 void deserialize( const JsonObject &jo );
         };
@@ -470,6 +483,11 @@ struct option_slider {
 
         int count() const {
             return _levels.size();
+        }
+
+        bool affects_option( int level, const std::string &name ) const {
+            return level >= 0 && level < static_cast<int>( _levels.size() ) &&
+                   _levels[level].affects_option( name );
         }
 
         void apply_opts( int level, options_manager::options_container &OPTIONS ) const {
@@ -522,7 +540,7 @@ inline bool has_option( const std::string &name )
 template<typename T>
 inline T get_option( const std::string &name, bool convert = false )
 {
-    return get_options().get_option( name ).value_as<T>( convert );
+    return get_options().get_effective_option( name ).value_as<T>( convert );
 }
 
 #endif // CATA_SRC_OPTIONS_H

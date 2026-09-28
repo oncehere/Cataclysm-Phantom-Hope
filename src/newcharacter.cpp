@@ -65,6 +65,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "overmap_worldgen.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
@@ -147,8 +148,14 @@ static void draw_colored_text_wrap( const std::string &original_text, nc_color c
 
 static bool cities_enabled()
 {
-    options_manager::options_container &wopts = world_generator->active_world->WORLD_OPTIONS;
-    return wopts["CITY_SIZE"].getValue() != "0";
+    const dimension_id starting_dimension( "default" );
+    const region_settings_id region = starting_dimension->get_region_layout()->get_generator()->
+                                      get_initial_region();
+    if( !region.is_valid() ) {
+        return false;
+    }
+    const region_settings &settings = *get_world_advanced_region( region );
+    return settings.city_spec && settings.get_settings_city().city_size != 0;
 }
 
 static void draw_spacer()
@@ -686,13 +693,12 @@ void Character::randomize( const bool random_scenario, bool play_now )
     randomize_height();
     randomize_blood();
     randomize_heartrate();
-    bool cities_enabled = overmap_buffer.get_settings(
-                              this->pos_abs_omt() ).get_settings_city().city_size != 0;
+    const bool can_start_in_city = cities_enabled();
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const scenario &scen : scenario::get_all() ) {
             if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
-                ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) && scen.can_pick().success() ) {
+                ( !scen.has_flag( flag_CITY_START ) || can_start_in_city ) && scen.can_pick().success() ) {
                 scenarios.emplace_back( &scen );
             }
         }

@@ -393,9 +393,11 @@ class highway_intersection_grid : public overmap_feature_grid
     public:
         // cannot be placed in constructor because options are loaded after overmapbuffer
         void set_options();
+        void clear();
         void generate_offset( overmap_feature_grid_node &node ) override;
     private:
         std::unordered_map<point_abs_om, bool> om_has_lake_cache;
+        std::size_t om_has_lake_cache_revision = 0; // NOLINT(cata-serialize)
 };
 
 /*
@@ -599,9 +601,7 @@ class overmap
         point_abs_omt global_base_point() const;
 
         // TODO: Should depend on coordinates
-        const region_settings &get_settings() const {
-            return *settings;
-        }
+        const region_settings &get_settings() const;
 
         void clear_mon_groups();
         void clear_overmap_special_placements();
@@ -658,6 +658,7 @@ class overmap
     private:
         friend class overmapbuffer;
         friend class overmap_test_helper;
+        friend class world_advanced_region_test_helper;
 
         std::vector<shared_ptr_fast<npc>> npcs;
 
@@ -707,6 +708,8 @@ class overmap
         std::unordered_map<om_pos_dir, std::string> joins_used;
 
         region_settings_id settings;
+        mutable std::shared_ptr<const region_settings> world_settings;
+        mutable std::size_t world_settings_revision = 0;
 
         oter_id get_default_terrain( int z ) const;
 

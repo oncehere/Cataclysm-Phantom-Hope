@@ -11,6 +11,13 @@
 
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
+World advanced rules do not add EOC condition or effect names. EOCs that depend
+on terrain or character state should account for player overrides: disabling
+special locations can remove a required mission destination, while survival
+and attribute rules can change the state observed by existing conditions.
+See [world advanced options](../../docs/project/world-advanced-options.md) for
+the per-rule effects, inheritance behavior, and limits for MOD dimensions.
+
 ## Contents
 
 - [Effect On Condition](#effect-on-condition)
