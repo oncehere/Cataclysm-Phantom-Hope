@@ -10,7 +10,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools" / "agent"))
 
 from benchmark_context_pack import benchmark  # noqa: E402
-from build_context_pack import build_pack  # noqa: E402
+from build_context_pack import (  # noqa: E402
+    build_pack, load_yaml, matches, tracked_paths,
+)
 
 
 class ContextPackTests(unittest.TestCase):
@@ -91,6 +93,94 @@ class ContextPackTests(unittest.TestCase):
         pack = build_pack("修复项目测试 bug 和错误", [], [], 8000)
         self.assertIn("project-tooling", pack["selected_routes"])
         self.assertNotIn("cpp-bug", pack["selected_routes"])
+
+    def test_cmake_inputs_select_configuration_and_behavioural_regressions(self) -> None:
+        paths = [path for path in tracked_paths() if (
+            Path(path).name == "CMakeLists.txt" or
+            path.startswith("CMakeModules/") or
+            path in {"CMakePresets.json", "src/version.cmake", "src/prefix.h.in"}
+        )]
+        matrix = load_yaml(ROOT / "ai/test-matrix.yml")["entries"]
+        build = next(entry for entry in load_yaml(
+            ROOT / "ai/project-map.yml"
+        )["entries"] if entry["id"] == "build")
+        self.assertTrue(paths)
+        for path in paths:
+            with self.subTest(path=path):
+                pack = build_pack("Repair build configuration", [], [path], 8000)
+                self.assertIn("cmake-build", pack["selected_routes"])
+                self.assertIn("build-cmake", pack["documentation_ids"])
+                tests = {entry["id"] for entry in pack["tests"]}
+                self.assertLessEqual({"cmake-configure", "cmake-regression"}, tests)
+                self.assertNotIn("cpp-tests", tests)
+                self.assertTrue(any(matches(pattern, path)
+                                    for pattern in build["paths"]))
+                selected = {entry["id"] for entry in matrix if any(
+                    matches(pattern, path) for pattern in entry["paths"]
+                )}
+                self.assertLessEqual(
+                    {"cmake-configure", "cmake-regression"}, selected,
+                )
+                self.assertNotIn("cpp-tests", selected)
+                self.assertIn("build-scripts/AGENTS.md", {
+                    item["path"] for item in pack["agents"]
+                })
+
+    def test_cmake_regression_files_select_the_cmake_test_command(self) -> None:
+        paths = [path for path in tracked_paths()
+                 if matches("tests/project/test_cmake*.py", path)]
+        self.assertIn("tests/project/test_cmake_version.py", paths)
+        for path in paths:
+            with self.subTest(path=path):
+                pack = build_pack("Repair test coverage", [], [path], 8000)
+                self.assertIn("cmake-build", pack["selected_routes"])
+                test = next(entry for entry in pack["tests"]
+                            if entry["id"] == "cmake-regression")
+                self.assertEqual(test["workdir"], ".")
+                self.assertEqual(
+                    test["command"],
+                    "python3 -m unittest discover -s tests/project -p 'test_cmake*.py'",
+                )
+                self.assertNotIn("cpp-tests", {
+                    entry["id"] for entry in pack["tests"]
+                })
+
+    def test_cmake_keyword_routes_without_a_file(self) -> None:
+        pack = build_pack("修复 CMake 构建", [], [], 8000)
+        self.assertEqual(pack["selected_routes"], ["cmake-build"])
+        self.assertEqual({entry["id"] for entry in pack["tests"]}, {
+            "cmake-configure", "cmake-regression",
+        })
+
+    def test_lua_migration_helper_selects_migration_regression(self) -> None:
+        pack = build_pack("Repair generated output", [], [
+            "tools/lua_migration_output.py",
+        ], 8000)
+        self.assertIn("lua-migration-tool", pack["selected_routes"])
+        self.assertIn("lua-migration", {entry["id"] for entry in pack["tests"]})
+        pack = build_pack("Repair Lua bindings", [], ["src/lua_platform_runtime.cpp"], 8000)
+        self.assertNotIn("lua-migration", {entry["id"] for entry in pack["tests"]})
+
+    def test_unrelated_changes_do_not_select_cmake_checks(self) -> None:
+        for path in ("src/game.cpp", "tests/project/test_remote_workflows.py",
+                     "data/mods/TEST_DATA/modinfo.json"):
+            with self.subTest(path=path):
+                pack = build_pack("Repair behaviour", [], [path], 8000)
+                self.assertNotIn("cmake-build", pack["selected_routes"])
+                self.assertFalse({"cmake-configure", "cmake-regression"} & {
+                    entry["id"] for entry in pack["tests"]
+                })
+
+    def test_native_c_and_cpp_support_files_keep_native_validation(self) -> None:
+        for path in ("src/lua/lapi.c", "src/sol/sol.hpp",
+                     "src/third-party/fmt/format.cc", "src/lang_stats.inc",
+                     "src/resource.rc"):
+            with self.subTest(path=path):
+                pack = build_pack("Repair native source", [], [path], 8000)
+                self.assertIn("cpp-bug", pack["selected_routes"])
+                self.assertIn("cpp-tests", {
+                    entry["id"] for entry in pack["tests"]
+                })
 
     def test_generic_python_tests_do_not_select_project_tooling(self) -> None:
         pack = build_pack("Fix Python test bug", [], [

@@ -15,7 +15,7 @@ entries:
       - CPH paths and validation metadata override inherited repository guides.
   - id: cpp-bug
     keywords: [C++, segfault, native crash, 原生崩溃]
-    paths: [src/, 'tests/*.cpp', 'tests/*.h']
+    paths: ['src/*.cpp', 'src/*.cc', 'src/*.c', 'src/*.h', 'src/*.hpp', 'src/*.ipp', 'src/*.inc', 'src/*.S', 'src/*.rc', 'tests/*.cpp', 'tests/*.h']
     project_ids: [engine, tests]
     documentation_ids: [architecture.overview, validation.debugging, validation.testing]
     source_symbols: []
@@ -24,6 +24,17 @@ entries:
       - Review object ownership, lifecycle, serialization, and public IDs.
     upstream_differences:
       - Upstream fixes require a CPH divergence and compatibility review.
+  - id: cmake-build
+    keywords: [CMake, CMakePresets, CMake build, CMake 构建]
+    paths: [CMakeLists.txt, '*/CMakeLists.txt', CMakeModules/, CMakePresets.json, src/version.cmake, src/prefix.h.in, 'tests/project/test_cmake*.py']
+    project_ids: [build]
+    documentation_ids: [architecture.project-map, build-cmake]
+    source_symbols: []
+    validation_ids: [cmake-configure, cmake-regression]
+    compatibility:
+      - Run the affected CMake recipe or target and its behavioural regressions; configuration alone does not verify compilation.
+    upstream_differences:
+      - CPH CMake version and source-discovery behaviour is covered by focused Python regressions independently of native game tests.
   - id: json-content
     keywords: [JSON, JSON content, JSON数据]
     paths: [data/json/, data/core/, tools/json_tools/]
@@ -59,7 +70,7 @@ entries:
       - The inherited Platform v1 is the current CPH contract and is not inferred from CBN or CDDA APIs.
   - id: lua-first-platform
     keywords: [Lua-first, Platform v1, pure Lua, main.lua, mod.lua, zero-config, JSON replacement, EOC replacement, 纯 Lua, 零配置, 替代 JSON, 替代 EOC]
-    paths: [data/lua/LUA_FIRST_PLATFORM.md, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.schema.json, data/lua/, data/mods/Lua_First_Example/, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, 'src/lua_platform*.cpp', 'src/lua_platform*.h']
+    paths: [data/lua/LUA_FIRST_PLATFORM.md, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.schema.json, data/lua/, data/mods/Lua_First_Example/, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, tools/lua_migration_output.py, 'src/lua_platform*.cpp', 'src/lua_platform*.h']
     project_ids: [lua-first-platform, lua-api]
     documentation_ids: [architecture.lua-first-platform, architecture.lua-first-roadmap, architecture.lua-first-glossary]
     source_symbols: []
@@ -80,6 +91,17 @@ entries:
       - Record provenance and inspect save, JSON ID, mod, Lua, and platform impact.
     upstream_differences:
       - Shared ancestry does not make newer upstream behaviour authoritative for CPH.
+  - id: lua-migration-tool
+    keywords: [Lua migration tool, Lua 迁移工具]
+    paths: [tools/migrate_lua_first.py, tools/lua_migration_output.py, tools/test_migrate_lua_first.py, tools/test_lua_mutation_migration.py]
+    project_ids: [developer-tools]
+    documentation_ids: [architecture.lua-first-platform]
+    source_symbols: []
+    validation_ids: [lua-migration]
+    compatibility:
+      - Preserve deterministic Lua output, review reports, and explicit unsupported-feature TODOs.
+    upstream_differences:
+      - Generated output targets the current CPH Platform contract.
   - id: save-compatibility
     keywords: [save, load, serialization, migration, world, 存档, 加载, 序列化, 迁移]
     paths: [src/savegame.cpp, src/savegame_json.cpp, src/savegame_legacy.cpp, src/worldfactory.cpp]

@@ -12,7 +12,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1974,
+      "estimated_tokens": 2026,
       "id": "cpp-bug",
       "passed": true,
       "selected_routes": [
@@ -30,7 +30,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2665,
+      "estimated_tokens": 2717,
       "id": "eoc",
       "passed": true,
       "selected_routes": [
@@ -40,7 +40,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 4089,
+      "estimated_tokens": 4149,
       "id": "lua-api",
       "passed": true,
       "selected_routes": [
@@ -51,7 +51,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2359,
+      "estimated_tokens": 2385,
       "id": "upstream-port",
       "passed": true,
       "selected_routes": [
@@ -60,7 +60,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 2049,
+      "estimated_tokens": 2102,
       "id": "save-compatibility",
       "passed": true,
       "selected_routes": [
@@ -108,7 +108,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 1964,
+      "estimated_tokens": 2016,
       "id": "native-source-routing",
       "passed": true,
       "selected_routes": [
@@ -117,7 +117,7 @@
     },
     {
       "errors": [],
-      "estimated_tokens": 4234,
+      "estimated_tokens": 4242,
       "id": "pure-lua-mod-routing",
       "passed": true,
       "selected_routes": [

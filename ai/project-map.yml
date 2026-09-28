@@ -26,7 +26,7 @@ entries:
       - Platform v1 declarations, registrations, generated inventory, and contract checks are authoritative.
       - This is a contract-validation route within the sole Platform runtime, not a second Lua system.
   - id: lua-first-platform
-    paths: [data/lua/, data/mods/Lua_First_Example/, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.schema.json, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, 'src/lua_platform*.cpp', 'src/lua_platform*.h', src/mod_manager.cpp, src/mod_manager.h, src/mod_manager_ui.cpp, src/game_io.cpp, src/game.cpp, src/do_turn.cpp]
+    paths: [data/lua/, data/mods/Lua_First_Example/, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.schema.json, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, tools/lua_migration_output.py, 'src/lua_platform*.cpp', 'src/lua_platform*.h', src/mod_manager.cpp, src/mod_manager.h, src/mod_manager_ui.cpp, src/game_io.cpp, src/game.cpp, src/do_turn.cpp]
     purpose: Inherited Lua runtime in CPH, pure-Lua authoring architecture, EOC-capability workflow, replacement boundary, and checked implementation roadmap.
     instructions: data/lua/AGENTS.md
     validation_ids: [agent-context]
@@ -66,10 +66,10 @@ entries:
     boundaries:
       - Never commit SDK paths, signing material, APKs, or local Gradle state.
   - id: build
-    paths: [CMakeLists.txt, CMakeModules/, Makefile, build-scripts/]
+    paths: [CMakeLists.txt, '*/CMakeLists.txt', CMakeModules/, CMakePresets.json, src/version.cmake, src/prefix.h.in, Makefile, build-scripts/]
     purpose: Build, validation, packaging, and continuous integration contracts.
     instructions: build-scripts/AGENTS.md
-    validation_ids: [cmake-configure]
+    validation_ids: [cmake-configure, cmake-regression]
     boundaries:
       - Actual build definitions override explanatory documentation.
   - id: governance
