@@ -126,6 +126,35 @@ class ToolingRunnerTests(unittest.TestCase):
             report["selected_tests"], ["test_fixture.Case.test_ok"]
         )
 
+    def test_nested_suite_imports_packages_from_candidate_workdir(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory)
+            package = source / "tools/project"
+            suite = source / "tests/project"
+            package.mkdir(parents=True)
+            suite.mkdir(parents=True)
+            (package / "candidate_fixture.py").write_text(
+                "ORIGIN = 'candidate'\n"
+            )
+            (suite / "test_candidate.py").write_text(
+                "import unittest\n"
+                "from tools.project import candidate_fixture\n"
+                "class Case(unittest.TestCase):\n"
+                "    def test_origin(self):\n"
+                "        self.assertEqual(\n"
+                "            candidate_fixture.ORIGIN, 'candidate')\n"
+            )
+            output = source / "report.json"
+            result = subprocess.run(
+                [sys.executable, str(RUNNER), "suite", "--directory",
+                 "tests/project", "--output", str(output)],
+                cwd=source, capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads(output.read_text())
+            self.assertEqual(report["tests"], 1)
+            self.assertEqual(report["errors"], 0)
+
     def test_failure_skip_and_empty_suite_are_not_pass(self):
         cases = (
             "",
@@ -193,8 +222,7 @@ class ToolingRunnerTests(unittest.TestCase):
                 "deployment_blockers",
                 "merge_ready",
                 "public_release_ready",
-            }
-            & policy.keys()
+            } & policy.keys()
         )
         self.assertTrue(
             all(
