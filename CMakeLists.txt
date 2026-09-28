@@ -68,21 +68,30 @@ endif ()
 
 add_definitions(-DCMAKE)
 
+if (GIT_BINARY)
+    set(GIT_EXECUTABLE "${GIT_BINARY}")
+else ()
+    find_package(Git QUIET)
+endif ()
+
 # Retrieve version from git into GIT_VERSION and creates VERSION.txt
 execute_process(COMMAND ${CMAKE_COMMAND}
-    -DGIT_BINARY=${GIT_BINARY}
-    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+    "-DGIT_BINARY=${GIT_EXECUTABLE}"
+    -P "${CMAKE_SOURCE_DIR}/src/version.cmake"
+    RESULT_VARIABLE VERSION_RESULT
     ERROR_VARIABLE GIT_VERSION
     ERROR_STRIP_TRAILING_WHITESPACE
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 )
+if(NOT VERSION_RESULT STREQUAL "0")
+    message(FATAL_ERROR "Git version generation failed: ${GIT_VERSION}")
+endif()
 
 if (GIT_VERSION)
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 else()
-    message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package
-    or use -DGIT_BINARY to set path to git binary.")
+    message(WARNING "Git version unavailable. Using an existing release header or NULL.")
     set(VERSION "NULL")
 endif ()
 
@@ -154,17 +163,6 @@ message(STATUS "${PROJECT_NAME} build options --")
 # Preset variables
 if (NOT LANGUAGES)
     set(LANGUAGES "")
-endif ()
-
-if (GIT_BINARY)
-    set(GIT_EXECUTABLE ${GIT_BINARY})
-else ()
-    find_package(Git)
-    if (NOT GIT_FOUND)
-        message(WARNING
-            "Git binary not found. Build version will be set to NULL. \
-             Install Git package or use -DGIT_BINARY to set path to git binary.")
-    endif ()
 endif ()
 
 # Can't compile curses and tiles build's at same time
