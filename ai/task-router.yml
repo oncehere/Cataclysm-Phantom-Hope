@@ -6,7 +6,7 @@ entries:
     keywords: [navigate, locate, repository, project map, 定位, 仓库, 项目地图]
     paths: [AGENTS.md, ai/, tools/agent/]
     project_ids: [governance, developer-tools]
-    documentation_ids: [architecture.project-map, architecture.subsystem-map]
+    documentation_ids: [repo.ai-project-map-yml, repo.docs-readme-md]
     source_symbols: []
     validation_ids: [agent-context]
     compatibility:
@@ -17,7 +17,7 @@ entries:
     keywords: [C++, segfault, native crash, 原生崩溃]
     paths: [src/, 'tests/*.cpp', 'tests/*.h']
     project_ids: [engine, tests]
-    documentation_ids: [architecture.overview, validation.debugging, validation.testing]
+    documentation_ids: [repo.src-agents-md, repo.doc-c-developer-tooling-md, repo.doc-c-testing-md]
     source_symbols: []
     validation_ids: [cpp-format, cpp-tests]
     compatibility:
@@ -28,9 +28,9 @@ entries:
     keywords: [JSON, JSON content, JSON数据]
     paths: [data/json/, data/core/, tools/json_tools/]
     project_ids: [core-data]
-    documentation_ids: [json.overview, compatibility.mods]
+    documentation_ids: [repo.doc-json-json-info-md, repo.doc-modding-md]
     source_symbols: []
-    validation_ids: [json-load]
+    validation_ids: [json-syntax, json-load]
     compatibility:
       - Preserve stable IDs or provide explicit migration or obsoletion data.
     upstream_differences:
@@ -39,9 +39,9 @@ entries:
     keywords: [EOC, effect_on_condition, talker]
     paths: [data/json/effects_on_condition/, src/condition.cpp, src/effect_on_condition.cpp]
     project_ids: [core-data, bundled-mods]
-    documentation_ids: [eoc.overview, reference.eoc-conditions, reference.eoc-effects]
+    documentation_ids: [repo.doc-json-effect-on-condition-md, repo.tools-json-api-readme-md]
     source_symbols: [effect_on_condition]
-    validation_ids: [json-load]
+    validation_ids: [json-syntax, json-load]
     compatibility:
       - Validate talkers, variable scope, nesting, defaults, and load context.
     upstream_differences:
@@ -50,7 +50,7 @@ entries:
     keywords: [Lua, LuaLS, Platform, callback, hook, 脚本, 能力]
     paths: [data/lua/, tools/lua_api/, src/main.cpp, src/game_io.cpp, 'src/lua_platform*.cpp', 'src/lua_platform*.h']
     project_ids: [lua-api]
-    documentation_ids: [architecture.lua-first-platform, architecture.lua-first-glossary]
+    documentation_ids: [repo.data-lua-lua-first-platform-md, repo.data-lua-readme-md]
     source_symbols: [platform_version]
     validation_ids: [lua-contract]
     compatibility:
@@ -61,7 +61,7 @@ entries:
     keywords: [Lua-first, Platform v1, pure Lua, main.lua, mod.lua, zero-config, JSON replacement, EOC replacement, 纯 Lua, 零配置, 替代 JSON, 替代 EOC]
     paths: [data/lua/LUA_FIRST_PLATFORM.md, ai/lua-first-roadmap.yml, ai/lua-first-roadmap.schema.json, ai/lua-first-replacement-ledger.schema.json, data/lua/, data/mods/Lua_First_Example/, tools/lua_api/, tools/agent/*lua_first*, tools/create_lua_mod.py, tools/migrate_lua_first.py, 'src/lua_platform*.cpp', 'src/lua_platform*.h']
     project_ids: [lua-first-platform, lua-api]
-    documentation_ids: [architecture.lua-first-platform, architecture.lua-first-roadmap, architecture.lua-first-glossary]
+    documentation_ids: [repo.data-lua-lua-first-platform-md, repo.ai-lua-first-roadmap-yml, repo.data-lua-readme-md]
     source_symbols: []
     validation_ids: [agent-context, lua-contract]
     compatibility:
@@ -73,9 +73,9 @@ entries:
     keywords: [upstream, port, cherry-pick, CDDA, CBN, 上游, 移植]
     paths: [CONTRIBUTING.md, SYNC_EXCLUDED_PRS.md]
     project_ids: [governance, engine, core-data]
-    documentation_ids: [maintenance.upstream-sync]
+    documentation_ids: [repo.docs-project-upstreams-md]
     source_symbols: []
-    validation_ids: [cpp-format, cpp-tests, json-load]
+    validation_ids: [cpp-format, cpp-tests, json-syntax, json-load]
     compatibility:
       - Record provenance and inspect save, JSON ID, mod, Lua, and platform impact.
     upstream_differences:
@@ -84,7 +84,7 @@ entries:
     keywords: [save, load, serialization, migration, world, 存档, 加载, 序列化, 迁移]
     paths: [src/savegame.cpp, src/savegame_json.cpp, src/savegame_legacy.cpp, src/worldfactory.cpp]
     project_ids: [engine, tests]
-    documentation_ids: [compatibility.save]
+    documentation_ids: [repo.src-agents-md, repo.docs-project-execution-spec-md]
     source_symbols: []
     validation_ids: [cpp-format, cpp-tests]
     compatibility:
@@ -95,7 +95,7 @@ entries:
     keywords: [generated, generator, inventory, schema, 生成, 生成器, 清单]
     paths: [ai/generated-files.yml, 'tools/agent/generate_*.py', 'tools/lua_api/generate_*.py', tools/json_api/generate_contracts.py]
     project_ids: [developer-tools]
-    documentation_ids: [contributing.documentation-policy]
+    documentation_ids: [repo.ai-generated-files-yml, repo.tools-agents-md]
     source_symbols: []
     validation_ids: [agent-context, python-tools]
     compatibility:
@@ -106,7 +106,7 @@ entries:
     keywords: [documentation, docs impact, stale, translation, 文档, 影响, 翻译]
     paths: [ai/docs-impact.yml, ai/documentation-registry.yml, docs/project/, doc/, .github/pull_request_template.md, tools/agent/check_docs_impact.py]
     project_ids: [governance, developer-tools]
-    documentation_ids: [lua.platform.overview, json.object-types, eoc.reference]
+    documentation_ids: [repo.ai-docs-impact-yml, repo.docs-readme-md]
     source_symbols: []
     validation_ids: [documentation-impact]
     compatibility:
@@ -117,7 +117,7 @@ entries:
     keywords: [project tooling, project tests, 项目测试]
     paths: [tools/project/, tests/project/, project/]
     project_ids: [project-tools, project-tests]
-    documentation_ids: [architecture.project-map]
+    documentation_ids: [repo.ai-project-map-yml, repo.tools-agents-md]
     source_symbols: []
     validation_ids: [project-python, python-tools]
     compatibility:
@@ -128,7 +128,7 @@ entries:
     keywords: [GitHub Actions, workflow, 工作流]
     paths: [.github/]
     project_ids: [github-automation]
-    documentation_ids: [architecture.project-map]
+    documentation_ids: [repo.ai-project-map-yml, repo.repository-settings-md, repo.docs-project-remote-sync-md]
     source_symbols: []
     validation_ids: [project-python, governance-audit]
     compatibility:
@@ -139,9 +139,9 @@ entries:
     keywords: [JSON Mod, JSON 模组]
     paths: ['data/mods/*.json']
     project_ids: [bundled-mods]
-    documentation_ids: [compatibility.mods]
+    documentation_ids: [repo.doc-modding-md, repo.doc-mod-compatibility-md]
     source_symbols: []
-    validation_ids: [json-load, json-eoc-contract]
+    validation_ids: [json-syntax, json-load, json-eoc-contract]
     compatibility:
       - Preserve stable IDs and validate the changed Mod loader as well as JSON format.
     upstream_differences:
@@ -150,7 +150,7 @@ entries:
     keywords: [pure Lua Mod, 纯 Lua Mod, 纯Lua模组]
     paths: ['data/mods/*.lua']
     project_ids: [lua-mods, lua-api]
-    documentation_ids: [architecture.lua-first-platform]
+    documentation_ids: [repo.data-lua-lua-first-platform-md]
     source_symbols: []
     validation_ids: [lua-contract, lua-mod-load, lua-playable-mvp]
     compatibility:

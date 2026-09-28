@@ -14,7 +14,7 @@ entries:
     paths: [data/core/, data/json/]
     purpose: Core JSON definitions loaded by the game.
     instructions: data/AGENTS.md
-    validation_ids: [json-load]
+    validation_ids: [json-syntax, json-load]
     boundaries:
       - Preserve stable IDs or provide explicit migration data.
   - id: lua-api
@@ -41,7 +41,7 @@ entries:
     paths: ['data/mods/*.json']
     purpose: JSON Mod definitions shipped and validated with CPH.
     instructions: data/mods/AGENTS.md
-    validation_ids: [json-load]
+    validation_ids: [json-syntax, json-load]
     boundaries:
       - Each mod is an independent compatibility surface.
   - id: tests
@@ -91,7 +91,7 @@ entries:
       - Every PR names a Responsible human.
       - Tracked targets never prove that an administrator setting is active.
       - Main gate activation requires real Windows/Linux checks and a trusted PR check path; a later protected PR probe establishes operation.
-      - Issues and private vulnerability reporting are enabled only after the cleanup PR is merged and the live settings are read back.
+      - Verify live Issues and private vulnerability reporting settings before describing their availability.
   - id: github-automation
     paths: [.github/]
     purpose: GitHub workflows, templates, and automation permissions.

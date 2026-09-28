@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Run the deterministic context-router benchmark
-and emit auditable metrics."""
+"""Validate context routing in memory or export an on-demand JSON report.
+
+The default prints JSON; --output exports it. --check validates the current
+cases without writing, and --check --output also rejects a stale export.
+"""
 
 from __future__ import annotations
 
@@ -12,10 +15,9 @@ from pathlib import Path
 import jsonschema
 
 from build_context_pack import (
-    ROOT, build_pack, load_yaml, pattern_exists, tracked_paths)
-
-
-DEFAULT_REPORT = ROOT / "ai/agent-benchmark-baseline.json"
+    ROOT, build_pack, documentation_paths, load_yaml, pattern_exists,
+    tracked_paths,
+)
 
 
 def benchmark() -> dict:
@@ -25,6 +27,7 @@ def benchmark() -> dict:
     )
     jsonschema.Draft202012Validator(schema).validate(definition)
     known = tracked_paths()
+    registry = load_yaml(ROOT / "ai/documentation-registry.yml")
     test_matrix = load_yaml(ROOT / "ai/test-matrix.yml")
     known_commands = {entry["command"] for entry in test_matrix["entries"]}
     cases = []
@@ -36,6 +39,9 @@ def benchmark() -> dict:
     unrelated_changes = 0
 
     for case in definition["cases"]:
+        documentation_paths(
+            case["expected_documentation_ids"], registry, known,
+        )
         # Exercise automatic routing; a case ID must not force its own answer.
         pack = build_pack(case["task"], [], case["files"], 8000)
         routes = set(pack["selected_routes"])
@@ -111,35 +117,42 @@ def serialized(report: dict) -> str:
                        indent=2, sort_keys=True) + "\n")
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true")
-    parser.add_argument("--output", type=Path, default=DEFAULT_REPORT)
-    return parser.parse_args()
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check", action="store_true",
+        help="validate without writing; compare --output if given",
+    )
+    parser.add_argument("--output", type=Path,
+                        help="explicit JSON export path (default: stdout)")
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     try:
-        output = serialized(benchmark())
+        report = benchmark()
+        output = serialized(report)
         if args.check:
-            if not args.output.is_file() or args.output.read_text(
-                    encoding="utf-8") != output:
+            if args.output is not None and (
+                not args.output.is_file() or
+                args.output.read_text(encoding="utf-8") != output
+            ):
                 print(
-                    f"stale benchmark report: "
-                    f"{args.output.relative_to(ROOT)}",
-                    file=sys.stderr)
+                    f"stale benchmark report: {args.output}", file=sys.stderr,
+                )
                 return 1
-        else:
+        elif args.output is not None:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(output, encoding="utf-8")
+        else:
+            sys.stdout.write(output)
     except (OSError, ValueError, jsonschema.ValidationError) as error:
         print(error, file=sys.stderr)
         return 2
-    report = json.loads(output)
     print(
         f"agent benchmark: {sum(case['passed'] for case in report['cases'])}/"
-        f"{report['case_count']} cases"
+        f"{report['case_count']} cases", file=sys.stderr,
     )
     return 0 if all(case["passed"] for case in report["cases"]) else 1
 

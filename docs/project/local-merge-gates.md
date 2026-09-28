@@ -116,3 +116,24 @@ W/L 失败、非必需平台失败、缺失/跳过/空报告、dispatch、refs �
 另验证信任路径、摘要、重复报告、命令/配置、来源/run/attempt、原生标记、
 符号链接/逃逸、Git overrides/replace/grafts 及不同最终 merge SHA。
 这些是工具模型回归，不能当作游戏、Windows、GitHub 规则或公开发布验收。
+
+## 远端验收与本地契约的边界
+
+本页本地模型不能代替 [§6.1](execution-spec.md#61-合入) 所需的真实无人值守门槛。每个 required check 须绑定实际命令/目录、配置、平台、测试集合、源码/测试 tree、策略、run/attempt 及结果；最终 merge SHA 可以不同，但父提交和结果 tree 必须与验收组合一致。依赖失败时汇总器仍须拒绝，路径过滤、空矩阵、skip 或 `continue-on-error` 不能放行缺失、跳过、neutral、取消、超时、零测试或过期报告。
+
+候选不得使用自己修改的可信脚本、阈值、权限、发布身份或策略批准自身；放宽门槛须独立明确授权。真正受保护 PR 必须分别证明正常检查允许、必需失败阻止，设置操作见 [REPOSITORY_SETTINGS.md](../../REPOSITORY_SETTINGS.md)。上游总矩阵绿色不证明所需测试执行；旧 E1 测试集合也不自动覆盖当前策略。
+
+历史核验来源（随原规格迁移，本次未重新在线核验）：[GitHub required checks](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks)、[分支保护](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)、[锁定 CCB matrix](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/bcb85682f3d28ab0f0123b05e45651bb9888b61b/.github/workflows/matrix.yml)。
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T01 | Windows 或 Linux 必需构建/回归失败 | 拒绝自动合入。 |
+| T02 | W/L 成功但 Mac/Android 失败 | 合入可按规则继续；发布拒绝。 |
+| T03 | 必需检查 skipped/neutral/空测试/超时/取消/缺失 | 不放行。 |
+| T04 | dispatch job 同名且绿色，但不是平台认可的必需检查 | 不误判为 PR 可合入。 |
+| T05 | base/head 在测试期间改变 | 重新建立并验收组合。 |
+| T06 | 候选修改检查器/阈值/权限自报成功 | 保护面拦截，不能自我批准。 |

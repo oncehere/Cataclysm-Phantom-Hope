@@ -1,6 +1,6 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: 1057a15bf802572b7497ffd9617083a9b6935321
+source_commit: feaac2e28f00251ee76cff3b9ef91c03e6e1880d
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
 entry_count: 256
@@ -180,17 +180,6 @@ entries:
   ccb_docs_ids: []
   generated: false
   generated_by: null
-  include_in_ai_index: false
-- id: repo.ai-agent-benchmark-baseline-json
-  path: ai/agent-benchmark-baseline.json
-  category: generated_document
-  status: generated
-  authority: generated_contract
-  source_of_truth: true
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/benchmark_context_pack.py
   include_in_ai_index: false
 - id: repo.ai-agent-benchmark-schema-json
   path: ai/agent-benchmark.schema.json
@@ -2490,15 +2479,15 @@ entries:
   include_in_ai_index: true
 - id: repo.docs-readme-md
   path: docs/README.md
-  category: historical_document
-  status: historical
-  authority: historical
+  category: maintained_document
+  status: active
+  authority: explanatory
   source_of_truth: false
-  stable_document_id: null
+  stable_document_id: cph.documentation-index
   ccb_docs_ids: []
   generated: false
   generated_by: null
-  include_in_ai_index: false
+  include_in_ai_index: true
 - id: repo.docs-project-check-policy-history-2026-09-28-md
   path: docs/project/check-policy-history-2026-09-28.md
   category: maintained_document
@@ -2870,6 +2859,17 @@ entries:
   authority: governance_contract
   source_of_truth: true
   stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.tools-agent-readme-md
+  path: tools/agent/README.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.agent-tools
   ccb_docs_ids: []
   generated: false
   generated_by: null
