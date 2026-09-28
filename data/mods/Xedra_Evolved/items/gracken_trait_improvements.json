@@ -233,12 +233,12 @@
     "description": "An organ that allows a mature Gracken to convert their legs back to a base state.",
     "use_action": {
       "type": "effect_on_conditions",
-      "menu_text": "Replace legss",
+      "menu_text": "Replace legs",
       "consume": true,
       "effect_on_conditions": [
         {
           "id": "EOC_GRACKEN_SHADE_LEGS",
-          "effect": { "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION", "variables": { "mutation_type": "ARMS", "mutation_id": "SHADE_LEGS" } }
+          "effect": { "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION", "variables": { "mutation_type": "LEGS", "mutation_id": "SHADE_LEGS" } }
         }
       ]
     }
@@ -253,7 +253,7 @@
     "description": "An organ that allows a mature Gracken to convert their legs to a shorter form.",
     "use_action": {
       "type": "effect_on_conditions",
-      "menu_text": "Replace arms",
+      "menu_text": "Replace legs",
       "consume": true,
       "effect_on_conditions": [
         {
