@@ -40,9 +40,16 @@ entries:
     command: make -j2 tests && ./tests/cata_test
     workdir: .
     cost: expensive
-  - id: json-load
-    paths: ['data/*.json']
+  - id: json-syntax
+    paths: ['data/json/*.json']
+    description: Limited syntax/type check of data/json only; does not load content or Mod dependencies.
     command: make -j2 json-check
+    workdir: .
+    cost: medium
+  - id: json-load
+    paths: ['data/core/*.json', 'data/json/*.json', 'data/mods/*.json']
+    description: Native content/dependency loading. Use ccb for core or the changed Mod ID and a binary matching the source; missing inputs mean NOT_RUN.
+    command: '"${CPH_GAME_BINARY:?Set a game binary matching the source}" --check-mods "${CPH_MOD_ID:?Set ccb for core or the changed Mod ID}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/"'
     workdir: .
     cost: medium
   - id: json-eoc-contract
@@ -147,6 +154,6 @@ entries:
     cost: fast
   - id: lua-mod-load
     paths: ['data/mods/*.lua']
-    command: '"${CPH_LUA_BINARY:?Set a Lua-enabled game binary}" --check-mods "${CPH_MOD_ID:?Set the changed Mod ID}" --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}"'
+    command: '"${CPH_LUA_BINARY:?Set a Lua-enabled game binary matching the source}" --check-mods "${CPH_MOD_ID:?Set the changed Mod ID}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/"'
     workdir: .
     cost: medium

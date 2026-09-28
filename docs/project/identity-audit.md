@@ -1,12 +1,20 @@
-# E3 身份与四平台构建输入审计（U 基线）
+# 身份隔离要求与 U 基线审计
 
-**历史静态审计：**本文只陈述锁定 U 源码在 2026-09-26 的身份与风险，不能作为当前 Windows/macOS/Android 包已运行或已隔离的证明。远端托管 CI 的后续进展与本地测试身份的实际范围分别见 [status.md](status.md) 和 [linux-test-identity.md](linux-test-identity.md)。
+**当前要求与历史分层：**下文“现行身份与隔离要求”为验收规范；其后的历史审计只陈述锁定 U 源码在 2026-09-26 的身份与风险，不能作为当前 Windows/macOS/Android 包已运行或已隔离的证明。远端托管 CI 的后续进展与本地测试身份的实际范围分别见 [status.md](status.md) 和 [linux-test-identity.md](linux-test-identity.md)。
 
 2026-09-26 对 `bcb85682f3d28ab0f0123b05e45651bb9888b61b`（U）的只读审计。
 静态定位 PASS；当时未修改身份或执行安装、启动、升级和卸载隔离测试。
 以下源码行号与未运行结论仅适用于该快照。后续 Linux 实现见
 [linux-test-identity.md](linux-test-identity.md)，当前验收与部署状态见
 [status.md](status.md)。
+
+## 现行身份与隔离要求
+
+正式身份来自明确项目决定；显示名、永久技术 ID、内部翻译域/格式分开审查，不全仓替换。身份未定时只用明显的测试身份隔离验证，不以临时身份或密钥公开长期开发版，也不覆盖现有 CCB。
+
+各平台同时核对安装身份、启动器、默认与显式配置/存档路径、升级与卸载范围。Android 覆盖 applicationId、authorities/Java/JNI、公共/私有数据及签名升级；macOS 覆盖 bundle、Application Support 与包装器参数；Windows/Linux 覆盖 HOME/XDG、普通和便携启动。用模拟 CCB 程序/配置/存档哨兵记录哈希，逐项执行适用生命周期后复核；不扫描清理真实用户目录或自动导入旧档。
+
+包目标须记录 ABI、格式、配置、同一固定源码/资源、预期文件、签名及检查范围，详见 [平台探针](other-platform-probes.md#平台验收要求)。下文 U 行号与当时缺口仅是历史来源，不作为当前源码事实。
 
 ## 1. 继承身份与冲突位置
 
@@ -95,3 +103,11 @@ Android applicationId 与 macOS bundle ID 的 `org.example.cph.isolationtest`
 SDK/NDK/ADB、运行 profile 和受控身份/签名配置；各条件只阻塞依赖它们的动作。
 本审计执行过定向 `rg`、带行号源码读取、JSON 解析和 PATH 探针，关键文件与 U
 对象逐项核对；这些静态证据不能替代包/隔离验收。
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T19 | 安装/启动/升级/卸载项目 | CCB 模拟程序、配置和存档哨兵不变。 |

@@ -52,6 +52,29 @@ def pattern_exists(pattern: str, known: list[str]) -> bool:
     return any(matches(pattern, path) for path in known)
 
 
+def documentation_paths(
+    identifiers: list[str], registry: dict, known: list[str],
+) -> list[str]:
+    """Resolve unique registry entry IDs to current, indexed documents."""
+    by_id = {entry["id"]: entry for entry in registry["entries"]}
+    if len(by_id) != len(registry["entries"]):
+        raise ValueError("duplicate documentation registry ID")
+    paths = set()
+    for identifier in identifiers:
+        entry = by_id.get(identifier)
+        if entry is None:
+            raise ValueError(f"unknown documentation ID: {identifier}")
+        if (entry["status"] != "active" or
+                not entry["include_in_ai_index"]):
+            raise ValueError(f"documentation ID is not current/indexed: {identifier}")
+        path = entry["path"]
+        if ("obj-lua" in Path(path).parts or path not in known or
+                not (ROOT / path).is_file()):
+            raise ValueError(f"documentation path is not tracked/present: {path}")
+        paths.add(path)
+    return sorted(paths)
+
+
 def selected_routes(
     router: dict,
     task: str,
@@ -186,7 +209,11 @@ def fit_budget(pack: dict, agent_paths: list[str], token_limit: int) -> dict:
             changed = True
             break
         if not changed:
-            break
+            raise ValueError(
+                f"token limit {token_limit} cannot fit required context "
+                f"({pack['estimated_tokens']} estimated tokens); "
+                "increase --token-limit"
+            )
         pack["estimated_tokens"] = estimated_tokens(pack)
     return pack
 
@@ -203,7 +230,12 @@ def build_pack(task: str, task_ids: list[str], files: list[str], token_limit: in
     project = load_yaml(ROOT / "ai/project-map.yml")
     tests = load_yaml(ROOT / "ai/test-matrix.yml")
     generated = load_yaml(ROOT / "ai/generated-files.yml")
+    registry = load_yaml(ROOT / "ai/documentation-registry.yml")
     routes = selected_routes(router, task, task_ids, files)
+    documentation_ids = sorted({
+        item for route in routes for item in route["documentation_ids"]
+    })
+    resolved_documents = documentation_paths(documentation_ids, registry, known)
 
     project_by_id = {entry["id"]: entry for entry in project["entries"]}
     project_ids = sorted({item for route in routes for item in route["project_ids"]})
@@ -214,7 +246,7 @@ def build_pack(task: str, task_ids: list[str], files: list[str], token_limit: in
     project_patterns = {
         pattern for entry in project_entries for pattern in entry["paths"]
     }
-    patterns = sorted(route_patterns | project_patterns)
+    patterns = sorted(route_patterns | project_patterns | set(resolved_documents))
     missing_patterns = [
         pattern for pattern in patterns if not pattern_exists(pattern, known)
     ]
@@ -231,7 +263,14 @@ def build_pack(task: str, task_ids: list[str], files: list[str], token_limit: in
         for entry in project_entries
         for item in entry.get("validation_ids", [])
     }
-    validation_ids = sorted(route_validation_ids | project_validation_ids)
+    file_validation_ids = {
+        entry["id"] for entry in tests["entries"]
+        if any(matches(pattern, path)
+               for pattern in entry.get("paths", []) for path in files)
+    }
+    validation_ids = sorted(
+        route_validation_ids | project_validation_ids | file_validation_ids
+    )
     tests_by_id = {entry["id"]: entry for entry in tests["entries"]}
     selected_tests = [tests_by_id[item] for item in validation_ids]
     route_compatibility = {
@@ -255,9 +294,7 @@ def build_pack(task: str, task_ids: list[str], files: list[str], token_limit: in
         "source_symbols": sorted(
             {item for route in routes for item in route["source_symbols"]}
         ),
-        "documentation_ids": sorted(
-            {item for route in routes for item in route["documentation_ids"]}
-        ),
+        "documentation_ids": documentation_ids,
         "tests": selected_tests,
         "generated_boundaries": generated_for_paths(generated, patterns, files),
         "compatibility": sorted(route_compatibility | project_boundaries),

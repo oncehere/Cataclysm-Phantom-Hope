@@ -131,6 +131,10 @@ class DocumentationRegistryTest(unittest.TestCase):
         self.assertEqual(technical["status"], "active")
         self.assertEqual(technical["stable_document_id"], "json.object-types")
         self.assertTrue(technical["include_in_ai_index"])
+        for path in ("docs/README.md", "tools/agent/README.md"):
+            entry = registry.classify(path, legacy)
+            self.assertEqual(entry["status"], "active")
+            self.assertTrue(entry["include_in_ai_index"])
         for path in ("AGENTS.md", "tools/AGENTS.md", ".github/AGENTS.md"):
             self.assertEqual(registry.classify(path, legacy)["category"],
                              "agent_instruction")

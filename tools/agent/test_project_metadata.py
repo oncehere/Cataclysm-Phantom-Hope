@@ -29,6 +29,30 @@ class ProjectMetadataTest(unittest.TestCase):
     def test_context_is_valid(self):
         validate_context()
 
+    def test_routes_and_benchmark_reject_unresolvable_document_ids(self):
+        original = load_project_yaml
+        for filename, collection, field in (
+            ("task-router.yml", "entries", "documentation_ids"),
+            ("agent-benchmark.yml", "cases", "expected_documentation_ids"),
+        ):
+            path_to_change = ROOT / "ai" / filename
+            for identifier in (
+                "repo.missing-document",
+                "repo.doc-frequently-made-suggestions-md",
+                "repo.data-lua-reference-ccb-platform-api-v1-json",
+            ):
+                document = copy.deepcopy(original(path_to_change))
+                document[collection][0][field] = [identifier]
+
+                def modified(path):
+                    return document if path == path_to_change else original(path)
+
+                with self.subTest(filename=filename, identifier=identifier), \
+                     mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
+                     mock.patch("check_project_metadata.load_yaml", side_effect=modified):
+                    with self.assertRaisesRegex(ValueError, "documentation ID"):
+                        validate_context()
+
     def test_benchmark_rejects_unknown_forbidden_validation(self):
         original = load_project_yaml
         benchmark_path = ROOT / "ai/agent-benchmark.yml"

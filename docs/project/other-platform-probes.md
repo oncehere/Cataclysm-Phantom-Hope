@@ -166,3 +166,13 @@ shader inputs and an authorized device/runtime profile block their respective
 probes. Permanent identity and signing block installation under the final
 identity and public release, while
 the local source/tooling work and already executable Linux checks can continue.
+
+## 平台验收要求
+
+本节是现行验收边界，前文历史命令和未运行记录不代表已满足。所有平台都记录实际配置/架构/工具链、构建、依赖/资源、包和适用启动检查；区分原生与交叉编译、静态检查与实际运行。Windows 交叉编译不等于原生启动，macOS universal 声明不证明两个架构都运行，兼容架构模拟器不等于 ARM64 APK 实测。
+
+首期包格式的实施默认值为 Windows x86_64 图形 ZIP、Linux x86_64 图形 tar.gz、macOS 继承 `.app`/`.dmg` 路径和 Android ARM64 APK；须在真实验证后锁定 targets，不能把这些候选当已通过的发布目标。Android 先核实设备 ABI，最低系统版本从工具链/源码与实测确定。不得静默缩为三平台、扩张所有历史 ABI，或把 ZIP/tar.gz 写成原生安装器；不默认增加商店、32 位、全部变体或所有语言满覆盖。
+
+macOS 首期不要求人工实机游玩，但仍须构建、包和约定自动检查。Android 先验证 ARM64 自动运行条件；若不可用，可提交“实际 ARM64 包静态/签名＋同源码兼容架构模拟器＋首次/高风险实机”的 profile 待决定，不能自行把它写为已接受。人工验证只覆盖记录的版本/变更，不能无限复用，也不新增每天人工批准或提供真机的门槛。目标和检查策略变化须留决定。
+
+历史核验来源（本次未重新在线核验）：[Android 模拟器架构与加速](https://developer.android.com/studio/run/emulator-acceleration)。身份生命周期与哨兵验收见 [身份手册](identity-audit.md#现行身份与隔离要求)，发布门槛见 [执行规格 §6.2](execution-spec.md#62-发布)。
