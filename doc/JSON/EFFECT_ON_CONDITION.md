@@ -9,6 +9,12 @@
 
 # Effect On Condition
 
+The checked condition and effect inventories in `data/reference/json/` are
+generated from the current source and data tree with
+`python3 tools/json_api/generate_contracts.py`. A content or documentation
+change can refresh fingerprints and source locations without changing the
+available EOC operations.
+
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 World advanced rules do not add EOC condition or effect names. EOCs that depend
