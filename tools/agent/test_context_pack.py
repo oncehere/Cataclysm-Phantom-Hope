@@ -88,9 +88,31 @@ class ContextPackTests(unittest.TestCase):
         })
 
     def test_python_bug_keywords_do_not_select_native_tests(self) -> None:
-        pack = build_pack("修复 Python 测试 bug 和错误", [], [], 8000)
+        pack = build_pack("修复项目测试 bug 和错误", [], [], 8000)
         self.assertIn("project-tooling", pack["selected_routes"])
         self.assertNotIn("cpp-bug", pack["selected_routes"])
+
+    def test_generic_python_tests_do_not_select_project_tooling(self) -> None:
+        pack = build_pack("Fix Python test bug", [], [
+            "tools/agent/test_context_pack.py",
+        ], 8000)
+        self.assertNotIn("project-tooling", pack["selected_routes"])
+        self.assertNotIn("project-python", {
+            entry["id"] for entry in pack["tests"]
+        })
+        self.assertNotIn("tests/AGENTS.md", {
+            item["path"] for item in pack["agents"]
+        })
+
+    def test_project_tool_and_test_files_select_project_validation(self) -> None:
+        for path in ("tools/project/remote_gate.py",
+                     "tests/project/test_remote_gate.py"):
+            with self.subTest(path=path):
+                pack = build_pack("Fix Python test bug", [], [path], 8000)
+                self.assertIn("project-tooling", pack["selected_routes"])
+                self.assertIn("project-python", {
+                    entry["id"] for entry in pack["tests"]
+                })
 
     def test_report_keyword_does_not_select_upstream_port(self) -> None:
         pack = build_pack("Repair the tooling report", [], [

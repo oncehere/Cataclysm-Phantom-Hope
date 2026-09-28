@@ -1,8 +1,8 @@
 # Reporting CPH issues / 报告问题
 
-Use [CPH Issues](https://github.com/oncehere/Cataclysm-Phantom-Hope/issues/new/choose) for reproducible defects and actionable work **when that repository feature is enabled**. Check the dated [project status](docs/project/status.md) and the GitHub page for availability. If the form is unavailable, discuss public questions and early ideas in [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions). Do not file a CPH problem in CCB or CDDA merely because this repository's Issues are unavailable.
+Use [CPH Issues](https://github.com/oncehere/Cataclysm-Phantom-Hope/issues/new/choose) for reproducible defects and actionable CPH work. Check the dated [project status](docs/project/status.md) and the GitHub page for availability. If the form is unavailable, discuss public questions and early ideas in [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions). Do not file a CPH problem in CCB or CDDA merely because this repository's Issues are unavailable.
 
-请先核对 CPH Issues 是否开放。未开放时，可在本仓库 Discussions 讨论公开问题；勿把 CPH 问题误投到 CCB/CDDA。涉及漏洞、凭据或私密玩家资料时按 [SECURITY.md](SECURITY.md) 核对私密渠道，**不要**贴在公开 Issue 或 Discussion。
+CPH Issues 已启用；若入口临时不可用，可在本仓库 Discussions 讨论公开问题；勿把 CPH 问题误投到 CCB/CDDA。涉及漏洞、凭据或私密玩家资料时按 [SECURITY.md](SECURITY.md) 核对私密渠道，**不要**贴在公开 Issue 或 Discussion。
 
 ## Before filing
 
@@ -24,7 +24,7 @@ Use [CPH Issues](https://github.com/oncehere/Cataclysm-Phantom-Hope/issues/new/c
 | Documentation | Incorrect, stale, missing or broken in-repository documentation |
 | Upstream sync | Exact licensed CCB/CDDA/other source change and CPH conflict analysis |
 
-Forms are repository preparation; their presence does not prove Issues are enabled. Labels are triage hints, not an assignment or schedule; see [LABELS.md](LABELS.md).
+Issues was enabled and read back on 2026-09-28 UTC; forms alone are not proof of future availability. Labels are triage hints, not an assignment or schedule; see [LABELS.md](LABELS.md).
 
 ## Useful evidence
 

@@ -1,8 +1,8 @@
 # E2 read-only preparation and fork deployment
 
 This page documents the read-only preparation tool and its 2026-09-26
-initialization checklist. The named target now exists and has three controlled
-workflows active on `main`; the original Actions-disabled condition is a
+initialization checklist. The named target now exists and its controlled
+workflows have been established on `main`; the original Actions-disabled condition is a
 deployment snapshot, not the current operating instruction. See
 [status.md](status.md) before acting on a checklist item.
 
@@ -11,8 +11,9 @@ Its native CDDA fork, initial history upload and default-branch selection were
 performed separately from this read-only tool. See [the actual deployment
 receipt](fork-deployment.md). Actions were disabled during initialization;
 controlled workflows were enabled later. The subsequent protected PR acceptance
-and automatic-merge state is dated in [status.md](status.md) and
-[resume.md](resume.md); this initialization checklist is not current-state proof.
+and automatic-merge state is dated in [status.md](status.md), while
+[resume.md](resume.md) lists unfinished work; this initialization checklist is
+not current-state proof.
 
 `prepare_fork.py` only reads local Git and, when explicitly requested, GitHub.
 There is no remote-write code path and no execution flag. Its structured

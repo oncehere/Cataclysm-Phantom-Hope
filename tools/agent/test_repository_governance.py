@@ -12,7 +12,7 @@ from audit_repository_governance import (
 
 class RepositoryGovernanceTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.target, errors = validate_repository(as_of=date(2026, 9, 27))
+        self.target, errors = validate_repository(as_of=date(2026, 9, 28))
         self.assertEqual(errors, [])
 
     def test_recorded_cph_fork_and_active_gate_snapshot(self) -> None:
@@ -23,12 +23,12 @@ class RepositoryGovernanceTest(unittest.TestCase):
                          "CleverRaven/Cataclysm-DDA")
         self.assertEqual(audit["repository"]["default_branch"], "main")
         self.assertEqual(audit["repository"]["main_sha"],
-                         "39859e1b253e28e2c34b6a19935b7edcce51b9b6")
+                         "abd9222e01b77ac9e187f53cd6cfe85275453a69")
         self.assertTrue(audit["repository"]["main_protected"])
         self.assertTrue(audit["actions"]["can_approve_pull_request_reviews"])
         self.assertTrue(audit["repository"]["has_discussions"])
-        self.assertFalse(audit["repository"]["has_issues"])
-        self.assertFalse(audit["security"]["private_vulnerability_reporting"])
+        self.assertTrue(audit["repository"]["has_issues"])
+        self.assertTrue(audit["security"]["private_vulnerability_reporting"])
         gate = self.target["entries"][0]
         self.assertEqual(gate["observed_enforcement"], "active")
         self.assertTrue(gate["ready_to_enable"])
@@ -99,7 +99,7 @@ class RepositoryGovernanceTest(unittest.TestCase):
 
     def test_public_intake_waits_for_cleanup_merge(self) -> None:
         target = copy.deepcopy(self.target)
-        target["post_merge_intake"]["ready_to_enable"] = True
+        target["post_merge_intake"]["cleanup_pr_merged"] = False
         self.assertTrue(any("cleanup PR merge" in error for error in validate_target(target)))
 
     def test_auto_merge_is_rejected(self) -> None:

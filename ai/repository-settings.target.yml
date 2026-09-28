@@ -1,12 +1,25 @@
 schema_version: 2
 kind: repository_settings_target
-description: Dated read-only CPH GitHub observation and deferred intake; this file does not apply settings. Gate readiness records historical prerequisites, not permission to change an active rule.
+description: Dated read-only CPH GitHub observation and settings target; this file does not apply settings. Gate readiness records historical prerequisites, not permission to change an active rule.
 enforcement: deferred
 
 audit:
-  observed_at: '2026-09-27'
-  observed_timestamp: '2026-09-27T07:42:11Z'
-  evidence_scope: Read-only GitHub REST observations of the exact CPH fork, active main/master rulesets, PR 1 native CI and trusted status, protected PR 1 merge, rejected PR 2, and codex/sync-state deployment acceptance; no setting was changed by this audit. The main ruleset updated_at is used for enabled_at. Repository allow_auto_merge is GitHub's native setting; the separate sync controller records auto_merge_enabled=true.
+  observed_at: '2026-09-28'
+  observed_timestamp: '2026-09-28T04:57:20.717540Z'
+  evidence_scope: >-
+    Composite readback, not a single REST snapshot. Local workspace evidence
+    ../evidence/structure-maintenance-20260928/remote-before.json records main SHA,
+    active main/master rulesets, and sync-state revision 10 with sync_paused=true,
+    merge_paused=true, auto_merge_enabled=false at 04:48 UTC. Local workspace evidence
+    ../evidence/structure-maintenance-20260928/settings-actions.json records the
+    authenticated Settings UI readback of Issues and private vulnerability reporting
+    enabled, native auto-merge disabled, read-only default workflow permissions, and
+    security settings at 04:57 UTC. PR 1 positive and PR 2 negative gate probes, the
+    2026-09-27 activation time, and observation_commands below are historical evidence
+    for the original Windows/Linux trusted gate. entries.operational does not assert
+    hosted acceptance of the newly merged tooling job, which is NOT_RUN. This file
+    changes no setting and does not lift the user-requested sync/merge pause.
+  # Historical 2026-09-27 REST commands for the original gate probe.
   observation_commands:
     - gh api repos/oncehere/Cataclysm-Phantom-Hope
     - gh api repos/oncehere/Cataclysm-Phantom-Hope/branches/main
@@ -23,11 +36,11 @@ audit:
   repository:
     full_name: oncehere/Cataclysm-Phantom-Hope
     default_branch: main
-    main_sha: 39859e1b253e28e2c34b6a19935b7edcce51b9b6
+    main_sha: abd9222e01b77ac9e187f53cd6cfe85275453a69
     fork: true
     parent: CleverRaven/Cataclysm-DDA
     main_protected: true
-    has_issues: false
+    has_issues: true
     has_discussions: true
     allow_auto_merge: false
   actions:
@@ -37,7 +50,7 @@ audit:
     secret_scanning: enabled
     secret_scanning_push_protection: enabled
     dependabot_security_updates: disabled
-    private_vulnerability_reporting: false
+    private_vulnerability_reporting: true
   rulesets:
     - id: 24056126
       name: CPH verified native merge gate
@@ -58,15 +71,16 @@ entries:
     prerequisites:
       windows_linux_checks_verified: true
       trusted_gate_verified: true
-    # Historical activation prerequisites are met; the ruleset is already active.
+    # Historical original-gate activation prerequisites are met; the ruleset is active.
     ready_to_enable: true
     post_activation_probe_verified: true
-    operational: true
+    operational: true # Original gate PR probes only; new tooling hosted acceptance is NOT_RUN.
     enabled_at: '2026-09-27T07:17:28.669Z'
     blockers: []
 
 post_merge_intake:
   target_issues_enabled: true
   target_private_vulnerability_reporting_enabled: true
-  cleanup_pr_merged: false
-  ready_to_enable: false
+  # Cleanup content merged via PR 4/5; the superseded PR 3 was closed.
+  cleanup_pr_merged: true
+  ready_to_enable: true

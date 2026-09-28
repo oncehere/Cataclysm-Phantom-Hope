@@ -2,9 +2,9 @@
 
 ## Private reports
 
-The intended CPH private vulnerability route is [GitHub private vulnerability reporting for this repository](https://github.com/oncehere/Cataclysm-Phantom-Hope/security/advisories/new). **Submit details only if GitHub actually shows and accepts the private report form.** Its availability is a repository setting, not something this file can enable; check the dated [project status](docs/project/status.md) and the actual button. If unavailable, this project has no configured official private vulnerability intake yet. Keep the details private until a channel is configured; do not use a public Issue, Discussion, PR, attachment or the CCB/CDDA security channels as a substitute.
+The CPH private vulnerability route, enabled and read back on 2026-09-28 UTC, is [GitHub private vulnerability reporting for this repository](https://github.com/oncehere/Cataclysm-Phantom-Hope/security/advisories/new). **Submit details only if GitHub actually shows and accepts the private report form.** Its availability is a repository setting, not something this file can enable; check the dated [project status](docs/project/status.md) and the actual button. If unavailable, this project has no configured official private vulnerability intake yet. Keep the details private until a channel is configured; do not use a public Issue, Discussion, PR, attachment or the CCB/CDDA security channels as a substitute.
 
-CPH 计划使用本仓库的 GitHub 私密漏洞报告。只有入口实际可用时才提交细节；若不可用，目前没有已配置的官方私密收件渠道。请勿在公开位置披露可利用细节、凭据或私密资料。
+CPH 已启用本仓库的 GitHub 私密漏洞报告。只有入口实际可用时才提交细节；若不可用，目前没有已配置的官方私密收件渠道。请勿在公开位置披露可利用细节、凭据或私密资料。
 
 When the private form is available, include the affected CPH commit/release and platform, threat model and impact, minimal reproduction, sanitized logs, known public disclosure elsewhere and a safe reply route. Do not send credentials; rotate any that may have leaked.
 

@@ -163,6 +163,9 @@ nbproject/
 # Python runtime files
 __pycache__
 *.pyc
+.venv/
+.ruff_cache/
+.pytest_cache/
 
 # vim files
 *.vim
@@ -179,6 +182,9 @@ __pycache__
 
 # OSX
 Cataclysm.app
+Cataclysm.app.cph-generated.json
+Cataclysm.cph-generated.json
+Cataclysm.dmg.cph-generated.json
 build-data/osx/AppIcon.icns
 Cataclysm.dmg
 zzip.dSYM

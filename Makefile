@@ -150,7 +150,7 @@ OTHERS += -fsigned-char
 
 # Clean-only invocations never parse build rules or create output directories.
 .DEFAULT_GOAL := all
-CLEAN_GOALS = clean clean-plan clean-tests clean-lang distclean
+CLEAN_GOALS = clean clean-plan clean-tests clean-lang distclean appclean dmgdistclean
 ifneq ($(MAKECMDGOALS),)
   ifeq ($(filter-out $(CLEAN_GOALS),$(MAKECMDGOALS)),)
     CLEAN_ONLY = 1
@@ -1361,10 +1361,14 @@ $(CLEAN_GOALS): export CPH_CLEAN_GOALS = $(filter $(CLEAN_GOALS),$(MAKECMDGOALS)
 $(CLEAN_GOALS): export CPH_CLEAN_LANGUAGES = $(LANGUAGES)
 $(CLEAN_GOALS): export CPH_CLEAN_PO_DIR = $(if $(filter undefined,$(origin PO_DIR)),po,$(PO_DIR))
 $(CLEAN_GOALS): export CPH_CLEAN_MO_DIR = $(if $(filter undefined,$(origin MO_DIR)),mo,$(MO_DIR))
+$(CLEAN_GOALS): export CPH_CLEAN_APP_TARGET = $(if $(filter undefined,$(origin APPTARGETDIR)),Cataclysm.app,$(APPTARGETDIR))
 
 # No implicit translation-input cleanup. Default Lua output obj-lua is protected;
 # use an isolated BUILD_PREFIX/ODIR for builds intended to be cleaned.
 clean clean-tests clean-lang distclean:
+	python3 tools/safe_clean.py --scope root --goal $@
+
+appclean dmgdistclean:
 	python3 tools/safe_clean.py --scope root --goal $@
 
 clean-plan:
@@ -1609,13 +1613,6 @@ ifndef FRAMEWORK
   SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
 endif  # ifndef FRAMEWORK
 
-appclean:
-	rm -rf $(APPTARGETDIR)
-	rm -f data/options.txt
-	rm -f data/keymap.txt
-	rm -f data/auto_pickup.txt
-	rm -f data/fontlist.txt
-
 build-data/osx/AppIcon.icns: build-data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
@@ -1624,6 +1621,7 @@ app: appclean version $(APPTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 else
 app: appclean version build-data/osx/AppIcon.icns $(APPTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 endif
+app: export CPH_CLEAN_APP_TARGET = $(APPTARGETDIR)
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp build-data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
@@ -1673,13 +1671,10 @@ endif  # ifeq ($(SOUND), 1)
 endif  # ifeq ($(SDL3), 1)
 endif  # ifdef FRAMEWORK
 	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/ $(addprefix -s ,$(DYLIBBUNDLER_SEARCH_PATHS))
-
-dmgdistclean:
-	rm -rf Cataclysm
-	rm -f Cataclysm.dmg
-	rm -rf lang/mo
+	python3 tools/safe_clean.py --scope root --record-package app
 
 dmgdist: dmgdistclean $(L10N) app
+dmgdist: export CPH_CLEAN_APP_TARGET = $(APPTARGETDIR)
 ifdef OSXCROSS
 	mkdir Cataclysm
 	cp -a $(APPTARGETDIR) Cataclysm/$(APPTARGETDIR)
@@ -1696,8 +1691,10 @@ ifeq ($(SDL3), 1)
 	# invalidated by the plist edit. dmgbuild does not modify the bundle.
 	bash build-scripts/codesign-macos.sh $(APPTARGETDIR)
 endif  # ifeq ($(SDL3), 1)
+	python3 tools/safe_clean.py --scope root --record-package app
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
+	python3 tools/safe_clean.py --scope root --record-package dmgdist
 
 endif  # ifeq ($(NATIVE), osx)
 
