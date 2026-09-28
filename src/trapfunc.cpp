@@ -127,6 +127,14 @@ static float pit_effectiveness( const tripoint_bub_ms &p )
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
+static void pit_dismount_player( monster *z )
+{
+    if( z->has_effect( effect_ridden ) && z->mounted_player == &get_player_character() ) {
+        add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
+        z->mounted_player->forced_dismount();
+    }
+}
+
 bool trapfunc::none( const tripoint_bub_ms &, Creature *, item * )
 {
     return false;
@@ -1076,10 +1084,7 @@ bool trapfunc::pit( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            get_player_character().forced_dismount();
-        }
+        pit_dismount_player( z );
         z->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, eff * rng( 10,
                         20 ) ) );
         z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, eff * rng( 10,
@@ -1105,7 +1110,6 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
     c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
-    Character &player_character = get_player_character();
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
@@ -1155,10 +1159,7 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            player_character.forced_dismount();
-        }
+        pit_dismount_player( z );
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20, 50 ) ) );
     }
     c->check_dead_state( &here );
@@ -1192,7 +1193,6 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
     c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
-    Character &player_character = get_player_character();
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
@@ -1246,10 +1246,7 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            player_character.forced_dismount();
-        }
+        pit_dismount_player( z );
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20,
                         50 ) ) );
     }
