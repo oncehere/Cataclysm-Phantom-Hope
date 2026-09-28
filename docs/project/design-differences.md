@@ -41,3 +41,11 @@ Protected ledger/policy changes require their own explicit review. A candidate
 cannot edit the ledger to approve itself. Current protected-path handling is
 recorded with dated remote evidence in [status.md](status.md). This local JSON
 file alone cannot establish the deployed gate or authorize an exception.
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T18 | 撤销一次 upstream merge 后再 merge 同一 U | 不把祖先关系误当作功能恢复，按差异记录处理。 |

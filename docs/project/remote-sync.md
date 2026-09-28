@@ -131,3 +131,22 @@ credential stripping, paused/blocked controls, moved refs, state CAS, branch
 reuse, conflict persistence and rejection of unverified merge completion.
 Actual Actions, native platform tests, status binding and protected merges are
 separate deployment acceptance scopes.
+
+## 持续整合的规范边界
+
+只有 [§6.1](execution-spec.md#61-合入) 的无人值守门槛及相关授权成立，才可启用同步合入；仅影响发布的 macOS/Android 缺口不额外阻塞该门槛。H/U1 更新后重建组合并重验。文本冲突、来源变化、缺失对象或未授权设计取舍停止该次整合，不用 `-X theirs`、强制 reset 或删除自有行为换取无冲突；无文本冲突仍须检查语义和回归。主动差异按 [差异手册](design-differences.md) 记录。
+
+普通 dispatch 成功不能直接视为 PR 门槛；当前可信 collector 路径必须由受保护 PR 的实际正反例证明。原规格提出的受限 GitHub App 是可选实施方案，不是既有部署事实或恢复前置的新增要求。若采用 App，仅安装目标仓库、按任务缩权，管理权限与日常权限分开；平台能力不足时记录缺口，不自行购买套餐或假定组织账号功能。
+
+候选仅在低权限临时环境构建；高权限步骤读取已核验的来源/run/attempt/摘要，不执行候选脚本或解包内容，不复用不可信可执行缓存。同步与发布分别启用，保留暂停、手动重试及停滞可见性，调度不保证准点。
+
+历史核验来源（本次未重新在线核验）：[workflow 触发](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow)、[权限与隔离](https://docs.github.com/en/actions/reference/security/secure-use)、[workflow events](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)。
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T07 | 上游文本冲突、历史改写或未授权设计变化 | 停止该次整合并报告，不自行调用 AI。 |
+| T08 | 完整导入/后续整合 | B/U 祖先及预期 tree/merge 历史正确，不被 squash 丢失。 |

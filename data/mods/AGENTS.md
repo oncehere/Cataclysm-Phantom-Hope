@@ -7,8 +7,9 @@
   declared.
 - Keep spoilers and player-facing text in their existing documentation domain.
 - Choose validation by the changed runtime input; do not reformat unrelated
-  mod files. JSON changes need `make -j2 json-check` plus the changed Mod loader
-  check. Pure Lua changes need the Lua contract checks and a Lua-enabled native
+  mod files. JSON changes need formatting of the changed files and the changed
+  Mod loader check; `make -j2 json-check` only covers core `data/json` syntax.
+  Pure Lua changes need the Lua contract checks and a Lua-enabled native
   loader check; JSON formatting alone does not validate Lua. Mixed changes need
   both routes. Read `data/lua/AGENTS.md` for the Lua contract in addition to all
   ancestor instructions.
@@ -17,8 +18,10 @@
 python3 -m unittest discover -s tools/lua_api -p 'test_*.py'
 ```
 
-Use an existing Lua-enabled binary with `--check-mods <changed-mod-id>` and an
-isolated `--userdir <temporary-directory>`; confirm the Mod ID in `mod.lua`.
+Use a Lua-enabled binary matching the source with `--check-mods <changed-mod-id>`
+and `--datadir ./data/` from the source root, with isolated
+`--userdir <temporary-directory>/` and
+`--configdir <temporary-config-directory>/`; confirm the Mod ID in `mod.lua`.
 Run the relevant native regression filter when behaviour changes. The
 `lua-mod-load` and `lua-playable-mvp` routes document these separate checks.
 

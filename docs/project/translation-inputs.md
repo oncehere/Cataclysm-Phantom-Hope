@@ -92,3 +92,17 @@ loading, platform execution, and four-platform release acceptance require
 their own actual build/test evidence. The unit suite uses explicit small
 archive/parser fixtures to test policy failures; those fixtures are never
 used as game or platform acceptance evidence.
+
+## 冷启动与维护要求
+
+初始化不能依赖本仓库既有成功 artifact。输入须有可核验来源、对象、摘要、许可和署名；优先维护 PO，只取得 MO 时如实报告编译资源及其维护缺口，不以空翻译、禁用中文或丢弃素材证明成功。缺少输入只阻塞依赖它的检查/发布及相应必需门槛，不阻塞无关工具开发；fixture 必须标明测试用途。
+
+历史来源（本次未重新在线核验）：[锁定 CCB 翻译 workflow](https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/blob/bcb85682f3d28ab0f0123b05e45651bb9888b61b/.github/workflows/build-translations.yml)。
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T20 | 无 TX_TOKEN、无历史 artifacts、无缓存 | 已声明输入可取得并校验；否则失败，不伪造翻译。 |

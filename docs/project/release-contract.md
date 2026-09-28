@@ -1,4 +1,4 @@
-# E6 本地开发版契约
+# 开发版目标协议与本地核验契约
 
 **现行本地契约与未部署边界：**个人 CDDA fork 和受控 CI/sync 入口现已存在，但本模块仍未成为远端发布器。目标仓库已明确；永久应用身份、四平台包、正式签名和每日公开发布依然需要各自的实际证据。带日期的当前进度见 [status.md](status.md)。
 
@@ -122,3 +122,35 @@ T13 的固定候选重试与已公开去重，T16 的版本号/签名身份/签�
 建立持久候选/versionCode 状态与具备草稿可见性的只读查询，固定 expected 的来源；
 然后执行本地 verify/state。最终发布前的重新读取、暂停/封禁复核、串行事务、上传核验、
 响应丢失恢复及实际公开验证仍需另一个受控实现。不能据本模块启用每日公开发布。
+
+## 目标发布协议
+
+本节承接执行规格原 E6/§8，是**尚需实现并真实验收的目标协议**；上文 CLI 仍只是本地核验器，不因此获得签名、上传、事务或公开能力。发布必须满足 [§6.2](execution-spec.md#62-发布)，先完成不公开的真实端到端演练，再启用每日开发版；不使用占位包公开演练。每天一次是需求，03:17 UTC 是可逆默认时刻；失败候选可重试，已成功候选不重复公开，稳定版入口保持关闭。
+
+- 身份绑定固定源码 H、规范化输入摘要、稳定 candidate/tag、独立 run/attempt；重试保留候选身份和已预留的 Android versionCode，失败预留不分给另一候选，后续公开版递增。记录实际 runner、工具链和依赖，不以同 SHA 声称字节级可复现。
+- 以持久受控状态管理预留、构建、核验、草稿齐备和公开，失败另记 attempt。固定并发组可串行化整个事务，禁止自动取消正在公开的事务，不占用同步/PR CI 的并发组。并发互斥不是幂等证明，不假定 FIFO 或只依赖 runner 临时磁盘。
+- 完整分页查询有效开发版和草稿，核验 tag/manifest；不用 `/releases/latest` 查开发版，不把权限、限流或网络失败视为无版本。重试先对账；旧候选晚到不得覆盖新版本或复活封禁候选。
+- 四平台使用同一提交及锁定资源，产物不可跨候选补齐。Actions artifacts/草稿可作暂存，但公开仓库 artifacts 不保证保密，单平台暂存包不作为完整开发版公告。
+- 构建不携带正式签名或写权限。签名在独立可信环境用固定工具执行，不重跑候选 Gradle/CMake/脚本；先完成必要对齐，签后独立核验并计算最终摘要。签名/发布不复用候选执行环境或可执行缓存。
+- 先建草稿，上传并核验全部预期资产、source/tree/inputs、repo/workflow/run/attempt、版本、架构、资源、签名指纹及摘要；公开前重读暂停、封禁、候选状态和远端资产，最后统一公开为 prerelease。公开超时先查同 candidate/tag/manifest：已完成则记成功，否则才补做，不另建候选。公开标签及资产不覆盖，问题版通过受授权的公告和新版本修复。
+- immutable releases 只能提供部分保护，不能单独约束 stable 授权；开发入口拒绝 stable/频道提升，不能把 `contents:write` 的底层权限描述成禁止修改频道。运行状态与源码历史分离，见 [控制手册](operator-controls.md)。
+
+可信控制器预期与 manifest 至少表达：schema/candidate/source/ccb_integrated/policy 身份、inputs_digest、tag/version_name/android_version_code；每平台 target/OS/arch/format/build configuration；每产物名称/大小/摘要/repository/workflow/event/run/attempt/tested source/tree/signing；每检查 ID/必需范围/环境/实际执行状态/证据；素材来源、工具链、许可证、已知问题、人工验证及未验证范围。此为数据含义要求，实际结构由 schema 和已审查实现维护，不能让上传者自报 success 即放行。
+
+历史核验来源（随原规格迁移，本次未重新在线核验）：[Android versionCode](https://developer.android.com/studio/publish/versioning)、[并发控制](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)、[apksigner](https://developer.android.com/tools/apksigner)、[immutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)。分页来源见上文本地状态说明。
+
+## 验收场景
+
+以下为保留的规范性场景；是否已通过须查实际证据，不由本表或模型测试推断。
+
+| 编号 | 场景 | 预期 |
+| --- | --- | --- |
+| T09 | 四平台中一包缺失、为空、错误 ABI、错误 H 或资源摘要 | 不签发完整开发版。 |
+| T10 | 同名 artifact 来自别的 repo/run/attempt | 拒绝签名/发布。 |
+| T11 | 没有 stable，只有分页后的 prerelease | 正确识别最后有效开发版。 |
+| T12 | 读取发布状态时权限/限流/网络错误 | 明确失败或重试，不当作无版本。 |
+| T13 | 同候选昨日失败今日无新提交、已成功候选重复触发 | 前者允许重试；后者不重复公开。 |
+| T14 | 定时和手动运行重叠，旧候选晚完成 | 无覆盖、重复或版本倒退。 |
+| T15 | 最终公开成功但响应丢失 | 查询远端后恢复，不重复发布。 |
+| T16 | Android versionCode 回退、签名身份错误、签名后包被改 | 拒绝长期升级发布。 |
+| T21 | 试图从开发发布入口传入 stable、或提升 prerelease | 受控开发入口拒绝；不能宣称 contents:write 或 immutable 在底层 API 权限上禁止频道变更。 |

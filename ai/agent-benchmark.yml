@@ -7,112 +7,112 @@ cases:
     files: [AGENTS.md]
     expected_routes: [repository-navigation]
     expected_paths: [AGENTS.md, ai/]
-    expected_documentation_ids: [architecture.project-map]
+    expected_documentation_ids: [repo.ai-project-map-yml]
     expected_validation_ids: [agent-context]
   - id: cpp-bug
     task: Diagnose a C++ assertion bug.
     files: [src/game.cpp, tests/force_load_game_test.cpp]
     expected_routes: [cpp-bug]
     expected_paths: [src/, 'tests/*.cpp']
-    expected_documentation_ids: [validation.debugging]
+    expected_documentation_ids: [repo.doc-c-developer-tooling-md]
     expected_validation_ids: [cpp-format, cpp-tests]
   - id: json-content
     task: Add JSON item content without breaking stable IDs.
     files: [data/json/items/melee/misc.json]
     expected_routes: [json-content]
     expected_paths: [data/json/]
-    expected_documentation_ids: [json.overview]
-    expected_validation_ids: [json-load]
+    expected_documentation_ids: [repo.doc-json-json-info-md]
+    expected_validation_ids: [json-syntax, json-load, json-eoc-contract]
   - id: eoc
     task: Add an EOC condition and effect with the correct talker context.
     files: [src/condition.cpp]
     expected_routes: [eoc]
     expected_paths: [src/condition.cpp]
-    expected_documentation_ids: [reference.eoc-conditions, reference.eoc-effects]
-    expected_validation_ids: [json-load]
+    expected_documentation_ids: [repo.doc-json-effect-on-condition-md, repo.tools-json-api-readme-md]
+    expected_validation_ids: [json-syntax, json-load, json-eoc-contract]
   - id: lua-api
     task: Extend the Lua-first Platform contract and keep headless Mod validation working.
     files: [data/lua/types/ccb_platform_v1.d.lua, src/lua_platform_loader.cpp]
     expected_routes: [lua-api]
     expected_paths: [data/lua/, src/lua_platform_loader.cpp, src/lua_platform_runtime.cpp]
-    expected_documentation_ids: [architecture.lua-first-platform]
+    expected_documentation_ids: [repo.data-lua-lua-first-platform-md]
     expected_validation_ids: [lua-contract]
   - id: upstream-port
     task: Port an upstream CBN fix while preserving CCB differences.
     files: [CONTRIBUTING.md]
     expected_routes: [upstream-port]
     expected_paths: [SYNC_EXCLUDED_PRS.md]
-    expected_documentation_ids: [maintenance.upstream-sync]
-    expected_validation_ids: [cpp-tests, json-load]
+    expected_documentation_ids: [repo.docs-project-upstreams-md]
+    expected_validation_ids: [cpp-tests, json-syntax, json-load]
   - id: save-compatibility
     task: Change save serialization and migrate old worlds.
     files: [src/savegame_json.cpp]
     expected_routes: [save-compatibility]
     expected_paths: [src/savegame_json.cpp]
-    expected_documentation_ids: [compatibility.save]
+    expected_documentation_ids: [repo.src-agents-md, repo.docs-project-execution-spec-md]
     expected_validation_ids: [cpp-tests]
   - id: generated-file-detection
     task: Detect whether an inventory is generated before editing it.
     files: [ai/generated-files.yml]
     expected_routes: [generated-file-detection]
     expected_paths: [ai/generated-files.yml]
-    expected_documentation_ids: [contributing.documentation-policy]
+    expected_documentation_ids: [repo.ai-generated-files-yml]
     expected_validation_ids: [agent-context]
   - id: documentation-impact
     task: Determine required in-repository documentation impact for a contract change.
     files: [ai/docs-impact.yml]
     expected_routes: [documentation-impact]
     expected_paths: [ai/docs-impact.yml]
-    expected_documentation_ids: [json.object-types]
+    expected_documentation_ids: [repo.ai-docs-impact-yml]
     expected_validation_ids: [documentation-impact]
   - id: workflow-routing
     task: Fix a workflow bug.
     files: [.github/workflows/project-ci.yml]
     expected_routes: [github-automation]
     expected_paths: [.github/]
-    expected_documentation_ids: [architecture.project-map]
+    expected_documentation_ids: [repo.ai-project-map-yml]
     expected_validation_ids: [project-python, governance-audit]
     expected_agents: [AGENTS.md, .github/AGENTS.md]
     forbidden_routes: [cpp-bug, lua-first-platform]
-    forbidden_validation_ids: [cmake-configure, cpp-tests, json-load]
+    forbidden_validation_ids: [cmake-configure, cpp-tests, json-syntax, json-load]
     forbidden_agents: [build-scripts/AGENTS.md]
   - id: project-python-bug
     task: 修复 Python 测试 bug 和错误。
     files: [tests/project/test_remote_workflows.py]
     expected_routes: [project-tooling]
     expected_paths: [tests/project/]
-    expected_documentation_ids: [architecture.project-map]
+    expected_documentation_ids: [repo.ai-project-map-yml]
     expected_validation_ids: [project-python, python-tools]
     expected_agents: [AGENTS.md, tests/AGENTS.md]
     forbidden_routes: [cpp-bug, upstream-port, lua-first-platform]
-    forbidden_validation_ids: [cpp-format, cpp-tests, json-load]
+    forbidden_validation_ids: [cpp-format, cpp-tests, json-syntax, json-load]
   - id: native-source-routing
     task: Fix the C++ behaviour.
     files: [src/game.cpp]
     expected_routes: [cpp-bug]
     expected_paths: [src/]
-    expected_documentation_ids: [validation.debugging]
+    expected_documentation_ids: [repo.doc-c-developer-tooling-md]
     expected_validation_ids: [cpp-format, cpp-tests]
     expected_agents: [AGENTS.md, src/AGENTS.md]
     forbidden_routes: [lua-first-platform, upstream-port]
-    forbidden_validation_ids: [project-python, json-load]
+    forbidden_validation_ids: [project-python, json-syntax, json-load]
   - id: pure-lua-mod-routing
     task: Fix a pure Lua Mod bug.
     files: [data/mods/Lua_First_Example/main.lua]
     expected_routes: [lua-mod]
     expected_paths: ['data/mods/*.lua']
-    expected_documentation_ids: [architecture.lua-first-platform]
+    expected_documentation_ids: [repo.data-lua-lua-first-platform-md]
     expected_validation_ids: [lua-contract, lua-mod-load, lua-playable-mvp]
     expected_agents: [AGENTS.md, data/AGENTS.md, data/mods/AGENTS.md, data/lua/AGENTS.md]
     forbidden_routes: [cpp-bug, json-mod, json-content, eoc, upstream-port]
-    forbidden_validation_ids: [json-load, json-eoc-contract, cpp-tests]
+    forbidden_validation_ids: [json-syntax, json-load, json-eoc-contract, cpp-tests]
   - id: json-mod-routing
     task: Fix a JSON Mod bug.
     files: [data/mods/TEST_DATA/modinfo.json]
     expected_routes: [json-mod]
     expected_paths: ['data/mods/*.json']
-    expected_documentation_ids: [compatibility.mods]
-    expected_validation_ids: [json-load, json-eoc-contract]
+    expected_documentation_ids: [repo.doc-mod-compatibility-md]
+    expected_validation_ids: [json-syntax, json-load, json-eoc-contract]
     expected_agents: [AGENTS.md, data/AGENTS.md, data/mods/AGENTS.md]
     forbidden_routes: [cpp-bug, lua-mod, lua-first-platform, upstream-port]
     forbidden_validation_ids: [lua-contract, lua-mod-load, cpp-tests]

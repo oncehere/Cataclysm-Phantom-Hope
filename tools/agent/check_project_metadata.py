@@ -19,6 +19,7 @@ from check_lua_first_replacement_ledger import (
 from generate_documentation_registry import (
     build_registry, classify, load_origins,
 )
+from build_context_pack import documentation_paths
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -323,6 +324,7 @@ def validate_context() -> None:
             )
 
     router = load_yaml(ROOT / "ai/task-router.yml")
+    registry = load_yaml(ROOT / "ai/documentation-registry.yml")
     router_schema = json.loads(
         (ROOT / "ai/task-router.schema.json").read_text(encoding="utf-8")
     )
@@ -331,6 +333,7 @@ def validate_context() -> None:
     if len(route_ids) != len(set(route_ids)):
         raise ValueError("duplicate id in task-router.yml")
     for entry in router["entries"]:
+        documentation_paths(entry["documentation_ids"], registry, known)
         unknown_projects = sorted(set(entry["project_ids"]) - project_ids)
         if unknown_projects:
             raise ValueError(
@@ -354,6 +357,9 @@ def validate_context() -> None:
     if len(case_ids) != len(set(case_ids)):
         raise ValueError("duplicate id in agent-benchmark.yml")
     for case in benchmark["cases"]:
+        documentation_paths(
+            case["expected_documentation_ids"], registry, known,
+        )
         unknown_routes = sorted(
             (set(case["expected_routes"]) |
              set(case.get("forbidden_routes", []))) - set(route_ids)

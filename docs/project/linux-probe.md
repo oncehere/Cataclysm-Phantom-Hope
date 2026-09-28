@@ -6,6 +6,8 @@
 Catch2 测试。它不是 GitHub required check、安装验收或开发版发布器。
 未完成 E3 独立身份前，二进制只能在显式临时用户目录内验证。
 
+通用平台验收边界见 [平台验收要求](other-platform-probes.md#平台验收要求)；本页历史 Linux 结果不自动扩大为发布目标或其他平台验收。
+
 ## 输入与运行
 
 从 U 继承 `linux-tiles-sounds-x64` CMake preset，保留已经存在的 SDL3、

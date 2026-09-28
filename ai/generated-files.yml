@@ -9,8 +9,8 @@ entries:
     validation_id: agent-context
   - id: agent-benchmark-baseline
     paths: [ai/agent-benchmark-baseline.json]
-    tracked: true
-    generated_by: python3 tools/agent/benchmark_context_pack.py
+    tracked: false
+    generated_by: python3 tools/agent/benchmark_context_pack.py --output ai/agent-benchmark-baseline.json
     validation_id: agent-context
   - id: version-header
     paths: [src/version.h]
@@ -31,7 +31,7 @@ entries:
     paths: [tools/format/json_formatter.cgi]
     tracked: false
     generated_by: make style-json or formatter target
-    validation_id: json-load
+    validation_id: json-syntax
   - id: lua-platform-native-inventory
     paths: [data/lua/reference/ccb_platform_native_inventory.json]
     tracked: true
