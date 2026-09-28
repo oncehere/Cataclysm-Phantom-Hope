@@ -1,3 +1,4 @@
+import copy
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -6,6 +7,57 @@ import generate_documentation_registry as registry
 
 
 class DocumentationRegistryTest(unittest.TestCase):
+    def test_origins_preserve_ids_and_attribution_without_git_history(self):
+        with mock.patch.object(
+            registry.subprocess, "run",
+            side_effect=AssertionError("historical Git read"),
+        ):
+            origins = registry.load_origins()
+        self.assertEqual(origins["CONTRIBUTING.md"]["stable_document_id"],
+                         "governance.contributing")
+        self.assertIn("David Seguin",
+                      origins["CONTRIBUTING.md"]["contributors"])
+        self.assertEqual(origins["src/lua/LICENSE.md"]["license"], "MIT")
+
+    def test_origins_reject_duplicate_ids_and_cache_paths(self):
+        data = {
+            "schema_version": 1, "kind": "document_origins",
+            "source_commit": "1" * 40,
+            "source_inventory": (
+                "https://github.com/owner/repo/blob/source/inventory.yml"
+            ),
+            "documents": [{"path": "doc/example.md",
+                           "stable_document_id": "example",
+                           "license": "MIT", "contributors": ["Author"]}],
+        }
+        cases = []
+        duplicate = copy.deepcopy(data)
+        duplicate["documents"].append(
+            dict(duplicate["documents"][0], path="doc/other.md")
+        )
+        cases.append((duplicate, "duplicate"))
+        forbidden = copy.deepcopy(data)
+        forbidden["documents"][0]["path"] = "obj-lua/never-read.md"
+        cases.append((forbidden, "invalid document origin path"))
+        for content, message in cases:
+            with self.subTest(message=message), mock.patch.object(
+                registry.yaml, "safe_load", return_value=content,
+            ):
+                with self.assertRaisesRegex(ValueError, message):
+                    registry.load_origins()
+
+    def test_generated_declarations_match_paths_and_reject_ambiguity(self):
+        declarations = [{"paths": ["data/reference/json/*.json"],
+                         "generated_by": "python3 generator.py"}]
+        path = "data/reference/json/test.json"
+        self.assertEqual(registry.generated_by(path, declarations),
+                         "python3 generator.py")
+        self.assertIsNone(registry.generated_by("doc/manual.md", declarations))
+        declarations.append({"paths": ["data/reference/json/test.json"],
+                             "generated_by": "python3 another.py"})
+        with self.assertRaisesRegex(ValueError, "ambiguous"):
+            registry.generated_by(path, declarations)
+
     @mock.patch.object(registry.subprocess, "run")
     def test_tracked_discovery_reads_only_the_git_index(self, run):
         run.return_value.stdout = b"AGENTS.md\0doc/example.md\0"
@@ -35,7 +87,7 @@ class DocumentationRegistryTest(unittest.TestCase):
         )
 
     def test_generated_and_third_party_boundaries_are_explicit(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         generated = registry.classify(
             "data/lua/reference/ccb_platform_native_inventory.json",
             legacy,
@@ -49,14 +101,16 @@ class DocumentationRegistryTest(unittest.TestCase):
         self.assertTrue(generated["generated_by"])
         self.assertEqual(generated["status"], "generated")
         self.assertEqual(
-            registry.classify("ai/documentation-registry.yml", legacy)["status"],
+            registry.classify(
+                "ai/documentation-registry.yml", legacy,
+            )["status"],
             "generated",
         )
         self.assertFalse(third_party["include_in_ai_index"])
         self.assertEqual(third_party["status"], "third_party")
 
     def test_current_platform_docs_override_stale_migration_metadata(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         current = registry.classify("data/lua/README.md", legacy)
         self.assertEqual(current["status"], "active")
         self.assertEqual(
@@ -69,7 +123,7 @@ class DocumentationRegistryTest(unittest.TestCase):
         )
 
     def test_cph_project_and_technical_docs_are_current(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         spec = registry.classify("docs/project/execution-spec.md", legacy)
         technical = registry.classify("doc/JSON/JSON_INFO.md", legacy)
         self.assertEqual((spec["status"], spec["authority"]),
@@ -82,7 +136,7 @@ class DocumentationRegistryTest(unittest.TestCase):
                              "agent_instruction")
 
     def test_inherited_design_and_ccb_audit_are_history(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         for path in (
             "doc/development_process.md",
             "doc/design-balance-lore/design-doc.md",
@@ -98,7 +152,7 @@ class DocumentationRegistryTest(unittest.TestCase):
             self.assertFalse(item["include_in_ai_index"], path)
 
     def test_bundled_mod_and_lua_vendoring_boundaries(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         self.assertEqual(
             registry.classify("src/lua/README.md", legacy)["status"], "active"
         )
@@ -111,16 +165,20 @@ class DocumentationRegistryTest(unittest.TestCase):
             "third_party",
         )
         self.assertEqual(
-            registry.classify("data/mods/Migrated_Core/README.md", legacy)["status"],
+            registry.classify(
+                "data/mods/Migrated_Core/README.md", legacy,
+            )["status"],
             "generated",
         )
         self.assertEqual(
-            registry.classify("data/mods/Lua_First_Example/README.md", legacy)["status"],
+            registry.classify(
+                "data/mods/Lua_First_Example/README.md", legacy,
+            )["status"],
             "active",
         )
 
     def test_retired_platform_docs_are_historical_and_not_indexed(self):
-        legacy = registry.load_inventory()
+        legacy = registry.load_origins()
         retired = registry.classify(
             "data/lua/reference/ccb_public_api_" + "v" + "5.json",
             legacy,
@@ -132,18 +190,12 @@ class DocumentationRegistryTest(unittest.TestCase):
     def test_ccb_docs_ids_remain_historical_provenance(self):
         legacy = {
             "doc/merged.md": {
-                "action": "merge_into",
-                "migration_status": "stubbed",
                 "stable_document_id": "legacy.doc-merged",
-                "merge_target": "maintenance.releases",
-                "include_in_ai_index": True,
+                "ccb_docs_id": "maintenance.releases",
             },
             "doc/direct.md": {
-                "action": "migrate_rewrite",
-                "migration_status": "stubbed",
                 "stable_document_id": "cpp.activities",
-                "merge_target": None,
-                "include_in_ai_index": True,
+                "ccb_docs_id": "cpp.activities",
             },
         }
 

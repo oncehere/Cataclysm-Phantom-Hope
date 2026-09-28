@@ -2,7 +2,7 @@
 
 本次从源码仓库的 Git 跟踪路径建立清单，基线为
 `d88815158ad31104ab4cde9fdd7537c7180cf7ff`。候选新增文档也纳入清单。
-旧的 `doc/migration/markdown-inventory.yml` 仅用于追溯 CCB 迁移历史，
+旧的 [冻结迁移清单](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/1057a15bf802572b7497ffd9617083a9b6935321/doc/migration/markdown-inventory.yml) 仅用于追溯 CCB 迁移历史，
 不决定本轮现行文档范围。
 
 整理期间主线先前进至 `785bcc2a9e540b46b7b12f37b19510390236e6f9`，
@@ -303,8 +303,8 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日
 | [doc/design-balance-lore/melee_weapons/MELEE_BALANCE_SPREADSHEET.md](../../doc/design-balance-lore/melee_weapons/MELEE_BALANCE_SPREADSHEET.md) | Melee Balance Spreadsheet | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
 | [doc/design-balance-lore/technology.md](../../doc/design-balance-lore/technology.md) | Lore - Technology in the Cataclysm | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
 | [doc/development_process.md](../../doc/development_process.md) | The DDA Development Process | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
-| [doc/migration/classification-report.md](../../doc/migration/classification-report.md) | Legacy Markdown classification report | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
-| [doc/migration/history-assessment.md](../../doc/migration/history-assessment.md) | Documentation history assessment | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
+| [doc/migration/classification-report.md](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/1057a15bf802572b7497ffd9617083a9b6935321/doc/migration/classification-report.md) | Legacy Markdown classification report | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
+| [doc/migration/history-assessment.md](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/1057a15bf802572b7497ffd9617083a9b6935321/doc/migration/history-assessment.md) | Documentation history assessment | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
 | [doc/reviewing_PR_guide.md](../../doc/reviewing_PR_guide.md) | Reviewing CPH pull requests / 审阅 PR | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | CPH review checklist and required gate evidence replace CDDA Discord role and senior lead authority. |
 | [doc/unicode_chars_palette.txt](../../doc/unicode_chars_palette.txt) | Unicode chars palette: | 现行技术参考 | 按现行入口、角色及维护边界复核 | 静态核对用途、入口、维护声明与链接；保留内容和兼容边界 |
 | [doc/user-guides/COLOR.md](../../doc/user-guides/COLOR.md) | Colors | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 修订仓内维护、项目身份、过时步骤或链接；核对相应源码/工具入口 |

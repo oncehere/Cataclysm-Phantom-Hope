@@ -1,9 +1,9 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: b7a6cbb67044f6542c8b81c6ff37189724432590
+source_commit: 1057a15bf802572b7497ffd9617083a9b6935321
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
-entry_count: 264
+entry_count: 256
 entries:
 - id: repo.deepcode-plans-sim-render-decoupling-plan-md
   path: .deepcode/plans/sim-render-decoupling-plan.md
@@ -291,6 +291,17 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: false
+- id: repo.ai-history-ccb-document-origins-yml
+  path: ai/history/ccb-document-origins.yml
+  category: historical_document
+  status: historical
+  authority: historical
+  source_of_truth: false
+  stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: false
 - id: repo.ai-history-ccb-repository-settings-2026-08-02-schema-json
   path: ai/history/ccb-repository-settings-2026-08-02.schema.json
   category: historical_document
@@ -324,17 +335,6 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: true
-- id: repo.ai-lua-first-replacement-ledger-yml
-  path: ai/lua-first-replacement-ledger.yml
-  category: generated_document
-  status: generated
-  authority: generated_contract
-  source_of_truth: true
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/generate_lua_first_replacement_ledger.py
-  include_in_ai_index: false
 - id: repo.ai-lua-first-roadmap-schema-json
   path: ai/lua-first-roadmap.schema.json
   category: authoritative_document
@@ -2451,94 +2451,6 @@ entries:
   ccb_docs_ids: []
   generated: false
   generated_by: null
-  include_in_ai_index: false
-- id: repo.doc-migration-classification-report-md
-  path: doc/migration/classification-report.md
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/generate_migration_reports.py
-  include_in_ai_index: false
-- id: repo.doc-migration-contributor-anomalies-schema-json
-  path: doc/migration/contributor-anomalies.schema.json
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
-- id: repo.doc-migration-contributor-anomalies-yml
-  path: doc/migration/contributor-anomalies.yml
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/generate_markdown_inventory.py
-  include_in_ai_index: false
-- id: repo.doc-migration-history-assessment-md
-  path: doc/migration/history-assessment.md
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
-- id: repo.doc-migration-markdown-inventory-schema-json
-  path: doc/migration/markdown-inventory.schema.json
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
-- id: repo.doc-migration-markdown-inventory-yml
-  path: doc/migration/markdown-inventory.yml
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/generate_markdown_inventory.py
-  include_in_ai_index: false
-- id: repo.doc-migration-migration-batches-schema-json
-  path: doc/migration/migration-batches.schema.json
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
-- id: repo.doc-migration-migration-batches-yml
-  path: doc/migration/migration-batches.yml
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: true
-  generated_by: python3 tools/agent/generate_migration_reports.py
   include_in_ai_index: false
 - id: repo.doc-reviewing-pr-guide-md
   path: doc/reviewing_PR_guide.md

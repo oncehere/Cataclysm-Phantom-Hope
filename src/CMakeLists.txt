@@ -125,8 +125,10 @@ add_custom_target(
 
 add_custom_command(
         OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/version.h
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        COMMAND ${CMAKE_COMMAND} "-DGIT_BINARY=${GIT_EXECUTABLE}"
+                -P "${CMAKE_CURRENT_SOURCE_DIR}/version.cmake"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        VERBATIM)
 
 # Build tiles version if requested
 if (TILES)

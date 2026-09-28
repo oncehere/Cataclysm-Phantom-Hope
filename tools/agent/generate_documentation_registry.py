@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import re
 import subprocess
 import sys
@@ -14,7 +15,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT = ROOT / "ai/documentation-registry.yml"
-INVENTORY = ROOT / "doc/migration/markdown-inventory.yml"
+ORIGINS = ROOT / "ai/history/ccb-document-origins.yml"
+GENERATED_FILES = ROOT / "ai/generated-files.yml"
 ROOT_GOVERNANCE = {
     "AGENTS.md",
     "CODE_OF_CONDUCT.md",
@@ -40,7 +42,6 @@ AGENT_METADATA = {
     "ai/docs-impact.yml",
     "ai/generated-files.yml",
     "ai/lua-first-replacement-ledger.schema.json",
-    "ai/lua-first-replacement-ledger.yml",
     "ai/lua-first-roadmap.schema.json",
     "ai/lua-first-roadmap.yml",
     "ai/project-map.yml",
@@ -80,7 +81,9 @@ CURRENT_PLATFORM_DOCUMENTS = {
     "data/mods/TEST_DATA/README.md": "test-data.overview",
     ".github/pull_request_template.md": "cph.contributing.pull-request",
     "tools/json_api/README.md": "tool-json-contract",
-    "tools/lua_api/fixtures/native_probe/README.md": "lua.platform.native-probe-fixture",
+    "tools/lua_api/fixtures/native_probe/README.md": (
+        "lua.platform.native-probe-fixture"
+    ),
     "data/json/LOADING_ORDER.md": "json.loading-order",
 }
 CURRENT_CPH_DOCUMENTS = {
@@ -134,7 +137,8 @@ def tracked_paths() -> list[str]:
 def is_documentation_path(path: str) -> bool:
     if path.lower().endswith(".md"):
         return True
-    if path.startswith("ai/history/") and path.endswith((".yml", ".yaml", ".json")):
+    if (path.startswith("ai/history/") and
+            path.endswith((".yml", ".yaml", ".json"))):
         return True
     if path in AGENT_METADATA or path in API_CONTRACTS:
         return True
@@ -152,54 +156,54 @@ def registry_id(path: str) -> str:
     return "repo." + slug
 
 
-def load_inventory() -> dict[str, dict]:
-    data = yaml.safe_load(INVENTORY.read_text(encoding="utf-8"))
-    return {entry["original_path"]: entry for entry in data["documents"]}
+def load_origins() -> dict[str, dict]:
+    """Read retained IDs and attribution without historical Git objects."""
+    data = yaml.safe_load(ORIGINS.read_text(encoding="utf-8"))
+    if (data.get("schema_version") != 1 or
+            data.get("kind") != "document_origins" or
+            not re.fullmatch(r"[0-9a-f]{40}", data.get("source_commit", "")) or
+            not data.get("source_inventory", "").startswith(
+                "https://github.com/")):
+        raise ValueError("invalid document origins source")
+    origins = {}
+    identifiers = set()
+    for entry in data["documents"]:
+        path = entry["path"]
+        identifier = entry["stable_document_id"]
+        if (not isinstance(path, str) or Path(path).is_absolute() or
+                any(part in {"..", "obj-lua"}
+                    for part in Path(path).parts)):
+            raise ValueError("invalid document origin path")
+        if (not isinstance(identifier, str) or not identifier or
+                not isinstance(entry.get("license"), str) or
+                not entry["license"] or
+                not isinstance(entry.get("contributors"), list) or
+                any(not isinstance(name, str) or not name.strip()
+                    for name in entry["contributors"])):
+            raise ValueError(f"missing document ID or attribution: {path}")
+        if path in origins or identifier in identifiers:
+            raise ValueError("duplicate document origin path or ID")
+        target = entry.get("ccb_docs_id")
+        if target is not None and (not isinstance(target, str) or not target):
+            raise ValueError(f"invalid historical documentation ID: {path}")
+        identifiers.add(identifier)
+        origins[path] = entry
+    return origins
 
 
-def generated_by(path: str) -> str | None:
-    if path in API_CONTRACTS:
-        return None
-    if path == "ai/documentation-registry.yml":
-        return "python3 tools/agent/generate_documentation_registry.py"
-    if path == "ai/agent-benchmark-baseline.json":
-        return "python3 tools/agent/benchmark_context_pack.py"
-    if path == "ai/lua-first-replacement-ledger.yml":
-        return "python3 tools/agent/generate_lua_first_replacement_ledger.py"
-    if path in {
-        "data/mods/Migrated_Core/README.md",
-        "data/mods/Migrated_Core/MIGRATION_REPORT.md",
-    }:
-        return "python3 tools/migrate_lua_first.py"
-    if path in {
-        "doc/migration/contributor-anomalies.yml",
-        "doc/migration/markdown-inventory.yml",
-    }:
-        return "python3 tools/agent/generate_markdown_inventory.py"
-    if path in {
-        "doc/migration/classification-report.md",
-        "doc/migration/migration-batches.yml",
-    }:
-        return "python3 tools/agent/generate_migration_reports.py"
-    if path.startswith("data/lua/reference/"):
-        generators = {
-            "ccb_platform_native_inventory": (
-                "python3 tools/lua_api/generate_platform_native_inventory.py"
-            ),
-            "ccb_platform_api_v1": (
-                "python3 tools/lua_api/generate_platform_contract.py"
-            ),
-            "ccb_platform_api_v1_coverage": (
-                "python3 tools/lua_api/generate_platform_coverage.py"
-            ),
-        }
-        return generators.get(
-            Path(path).stem,
-            "Lua contract generator; see ai/generated-files.yml",
-        )
-    if path.startswith("data/reference/json/"):
-        return "python3 tools/json_api/generate_contracts.py"
-    return None
+def generated_by(
+    path: str, declarations: list[dict] | None = None,
+) -> str | None:
+    if declarations is None:
+        declarations = yaml.safe_load(
+            GENERATED_FILES.read_text(encoding="utf-8")
+        )["entries"]
+    matches = [entry for entry in declarations if any(
+        fnmatch.fnmatchcase(path, pattern) for pattern in entry["paths"]
+    )]
+    if len(matches) > 1:
+        raise ValueError(f"ambiguous generated-file declarations: {path}")
+    return matches[0]["generated_by"] if matches else None
 
 
 def is_retired_platform_path(path: str) -> bool:
@@ -209,15 +213,16 @@ def is_retired_platform_path(path: str) -> bool:
     )
 
 
-def classify(path: str, legacy: dict[str, dict]) -> dict:
+def classify(path: str, legacy: dict[str, dict],
+             declarations: list[dict] | None = None) -> dict:
     historical = legacy.get(path)
     retired = is_retired_platform_path(path) or path in HISTORICAL_DOC_PATHS
     current_platform = path in CURRENT_PLATFORM_DOCUMENTS
-    generator = None if retired else generated_by(path)
-    if (retired or path.startswith("ai/history/")
-            or path.startswith("doc/migration/")
-            or path.startswith("doc/design-balance-lore/")
-            or path.startswith(".deepcode/plans/")):
+    generator = None if retired else generated_by(path, declarations)
+    if (retired or path.startswith("ai/history/") or
+            path.startswith("doc/migration/") or
+            path.startswith("doc/design-balance-lore/") or
+            path.startswith(".deepcode/plans/")):
         category = "historical_document"
         status = "historical"
         authority = "historical"
@@ -294,9 +299,9 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
         source_of_truth = False
 
     stable_document_id = (
-        CURRENT_PLATFORM_DOCUMENTS.get(path)
-        or CURRENT_CPH_DOCUMENTS.get(path)
-        or (historical.get("stable_document_id") if historical else None)
+        CURRENT_PLATFORM_DOCUMENTS.get(path) or
+        CURRENT_CPH_DOCUMENTS.get(path) or
+        (historical.get("stable_document_id") if historical else None)
     )
     ccb_docs_ids = []
     if current_platform:
@@ -305,14 +310,8 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
             if path == "data/lua/README.md"
             else []
         )
-    elif not retired and historical and historical["action"] not in {
-        "keep_in_repo",
-        "retain_third_party",
-    }:
-        target_id = (
-            historical.get("merge_target") or historical["stable_document_id"]
-        )
-        ccb_docs_ids.append(target_id)
+    elif not retired and historical and historical.get("ccb_docs_id"):
+        ccb_docs_ids.append(historical["ccb_docs_id"])
     ccb_docs_ids.extend(CCB_DOCS_IDS.get(path, []))
     return {
         "id": registry_id(path),
@@ -330,9 +329,12 @@ def classify(path: str, legacy: dict[str, dict]) -> dict:
 
 
 def build_registry(source_commit: str) -> dict:
-    legacy = load_inventory()
+    legacy = load_origins()
+    declarations = yaml.safe_load(
+        GENERATED_FILES.read_text(encoding="utf-8")
+    )["entries"]
     entries = [
-        classify(path, legacy)
+        classify(path, legacy, declarations)
         for path in tracked_paths()
         if is_documentation_path(path)
     ]

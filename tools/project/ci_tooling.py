@@ -23,6 +23,10 @@ def flatten(suite):
 
 
 def run_suite(directory, excluded_prefixes, output):
+    # build() launches this trusted script with the candidate as cwd. Nested
+    # discovery adds only its test directory; package imports need that root.
+    # Do not preload controller modules in this unprivileged subprocess.
+    sys.path.insert(0, str(Path.cwd()))
     discovered = list(
         flatten(
             unittest.defaultTestLoader.discover(directory, pattern="test_*.py")
@@ -63,8 +67,7 @@ def run_suite(directory, excluded_prefixes, output):
             },
             ensure_ascii=False,
             indent=2,
-        )
-        + "\n",
+        ) + "\n",
         encoding="utf-8",
     )
     return 0 if passed else 1
@@ -99,8 +102,8 @@ def build(source, evidence):
         environment = ci_build.clean_environment()
         ci_build.verify_checkout(source, environment, identity)
         if (
-            ci_build.git(ci_build.CONTROL, environment, "rev-parse", "HEAD")
-            != identity["control_sha"]
+            ci_build.git(ci_build.CONTROL, environment, "rev-parse", "HEAD") !=
+            identity["control_sha"]
         ):
             raise ValueError("unexpected control checkout")
         runner = ci_build.Runner(evidence, environment)

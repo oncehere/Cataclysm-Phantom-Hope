@@ -133,6 +133,19 @@ try {
     $ResourcesDir = Full-Path $ResourcesDir
     $VcpkgRoot = Full-Path $VcpkgRoot
     $VcpkgInstalled = Full-Path $VcpkgInstalled
+    # Resolve policy beside the running script, independently of SourceDir/cwd.
+    $policyPath = Join-Path $PSScriptRoot '../../project/check-policy.json'
+    $policy = Get-Content -Raw -LiteralPath $policyPath | ConvertFrom-Json -AsHashtable
+    $target = $policy.targets.windows
+    if ($target.tests -isnot [Collections.IDictionary] -or $target.tests.Count -eq 0) {
+        throw 'Policy requires a nonempty tests mapping'
+    }
+    foreach ($test in $target.tests.GetEnumerator()) {
+        if ($test.Key -isnot [string] -or [string]::IsNullOrWhiteSpace($test.Key) -or
+            $test.Value -isnot [string] -or [string]::IsNullOrWhiteSpace($test.Value)) {
+            throw 'Policy requires nonempty test names and selectors'
+        }
+    }
     foreach ($pair in @(@($SourceDir, $BuildDir),
                        @($SourceDir, $EvidenceDir),
                        @($BuildDir, $EvidenceDir))) {
@@ -153,7 +166,7 @@ try {
         'Source must be the isolated CPH checkout'
     Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgRoot 'scripts/buildsystems/vcpkg.cmake')) `
         'VcpkgRoot must be the existing pinned vcpkg checkout'
-    Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgInstalled 'x64-windows-static/include/SDL2/SDL.h')) `
+    Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgInstalled "$($target.vcpkg_triplet)/include/SDL2/SDL.h")) `
         'Preinstall manifest SDL2/static x64 dependencies; this probe does not install them'
 
     # These changes apply only to this process and are restored on every exit.
@@ -200,8 +213,9 @@ try {
     $manifestPath = Join-Path $SourceDir 'msvc-full-features/vcpkg.json'
     $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
     $vcpkgHead = (Get-Content -Raw (Join-Path $EvidenceDir 'vcpkg-head.log')).Trim()
-    Assert-Prerequisite ($vcpkgHead -eq $manifest.'builtin-baseline') `
-        'vcpkg checkout differs from the manifest baseline; no automatic checkout'
+    Assert-Prerequisite ($vcpkgHead -eq $manifest.'builtin-baseline' -and
+                         $vcpkgHead -eq $target.vcpkg_commit) `
+        'vcpkg checkout differs from policy/manifest baseline; no automatic checkout'
     $cachePath = Join-Path $BuildDir 'CMakeCache.txt'
     if (Test-Path -LiteralPath $cachePath) {
         $cacheSource = @(Get-Content -LiteralPath $cachePath |
@@ -218,7 +232,8 @@ try {
     @{
         source_sha = $state.head; branch = $state.branch
         source = $SourceDir; build = $BuildDir; resources = $ResourcesDir
-        preset = 'windows-tiles-sounds-x64-msvc'; configuration = 'RelWithDebInfo'
+        preset = $target.preset; configuration = $target.configuration
+        policy_sha256 = (Get-FileHash $policyPath -Algorithm SHA256).Hash
         vcpkg_commit = $vcpkgHead; vcpkg_installed = $VcpkgInstalled
         assets_lock_sha256 = (Get-FileHash $lockPath -Algorithm SHA256).Hash
         manifest_sha256 = (Get-FileHash $manifestPath -Algorithm SHA256).Hash
@@ -233,29 +248,26 @@ try {
     New-Item -ItemType Directory -Path $fixtureDir -Force | Out-Null
     $binaryDir = Join-Path $BuildDir 'bin'
     $msgfmt = (Get-Command 'msgfmt').Source
-    Invoke-Logged 'configure' 'cmake' @('--preset', 'windows-tiles-sounds-x64-msvc',
-        '-S', $SourceDir, '-B', $BuildDir, '-A', 'x64', '-DUSE_SDL3=OFF',
-        '-DUSE_HOME_DIR=OFF', '-DUSE_XDG_DIR=OFF', '-DUSE_PREFIX_DATA_DIR=OFF',
-        '-DCATA_CCACHE=OFF', '-DCATA_ENABLE_LUA_PLATFORM=ON',
-        '-DLOCALIZE=ON', '-DTESTS=ON', '-DBUILD_TESTING=ON',
-        '-DVCPKG_MANIFEST_FEATURES=sdl2', '-DVCPKG_MANIFEST_INSTALL=OFF',
+    $configurationKey = 'CMAKE_RUNTIME_OUTPUT_DIRECTORY_' + $target.configuration.ToUpperInvariant()
+    $configureArguments = @('--preset', $target.preset,
+        '-S', $SourceDir, '-B', $BuildDir, '-G', $target.generator,
+        '-A', $target.generator_platform, '-DVCPKG_MANIFEST_FEATURES=sdl2',
         "-DVCPKG_ROOT=$VcpkgRoot", "-DVCPKG_INSTALLED_DIR=$VcpkgInstalled",
         "-DGETTEXT_MSGFMT_BINARY=$msgfmt",
         "-DGETTEXT_MSGFMT_EXECUTABLE=$msgfmt",
-        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO=$binaryDir")
+        "-D$configurationKey=$binaryDir")
+    foreach ($option in $target.options.GetEnumerator()) {
+        $value = if ($option.Value) { 'ON' } else { 'OFF' }
+        $configureArguments += "-D$($option.Key)=$value"
+    }
+    Invoke-Logged 'configure' 'cmake' $configureArguments
     $configured = @{}
     foreach ($line in Get-Content -LiteralPath $cachePath) {
         if ($line -match '^([^#/:][^:]*):[^=]+=(.*)$') {
             $configured[$Matches[1]] = $Matches[2]
         }
     }
-    $expectedOptions = @{
-        TILES = $true; SOUND = $true; LOCALIZE = $true; TESTS = $true
-        BUILD_TESTING = $true; CATA_ENABLE_LUA_PLATFORM = $true
-        USE_SDL3 = $false; USE_HOME_DIR = $false; USE_XDG_DIR = $false
-        USE_PREFIX_DATA_DIR = $false; CATA_CCACHE = $false
-        VCPKG_MANIFEST_INSTALL = $false
-    }
+    $expectedOptions = $target.options
     foreach ($key in $expectedOptions.Keys) {
         $validValues = if ($expectedOptions[$key]) { @('ON', 'TRUE', '1', 'YES') }
                        else { @('OFF', 'FALSE', '0', 'NO') }
@@ -266,27 +278,28 @@ try {
     $expectedPaths = @{
         CMAKE_HOME_DIRECTORY = $SourceDir; VCPKG_ROOT = $VcpkgRoot
         VCPKG_INSTALLED_DIR = $VcpkgInstalled
-        CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO = $binaryDir
     }
+    $expectedPaths[$configurationKey] = $binaryDir
     foreach ($key in $expectedPaths.Keys) {
         if (-not $configured.ContainsKey($key) -or
             (Full-Path $configured[$key]) -ne (Full-Path $expectedPaths[$key])) {
             throw "Configured $key differs from the explicit input"
         }
     }
-    if ($configured['CMAKE_GENERATOR'] -ne 'Visual Studio 17 2022' -or
-        $configured['CMAKE_GENERATOR_PLATFORM'] -ne 'x64' -or
+    if ($configured['CMAKE_GENERATOR'] -ne $target.generator -or
+        $configured['CMAKE_GENERATOR_PLATFORM'] -ne $target.generator_platform -or
         $configured['VCPKG_MANIFEST_FEATURES'] -ne 'sdl2') {
         throw 'Configured generator/platform/dependency feature differs from the probe'
     }
     $cacheHash = (Get-FileHash -LiteralPath $cachePath -Algorithm SHA256).Hash
     @{ options = $expectedOptions; paths = $expectedPaths; cache_sha256 = $cacheHash
-       generator = $configured['CMAKE_GENERATOR']; platform = 'x64'; features = 'sdl2'
+       generator = $configured['CMAKE_GENERATOR']; platform = $target.generator_platform; features = 'sdl2'
     } | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $EvidenceDir 'configured-cache.json')
-    Invoke-Logged 'build' 'cmake' @('--build', $BuildDir, '--config', 'RelWithDebInfo',
+    Invoke-Logged 'build' 'cmake' @('--build', $BuildDir, '--config', $target.configuration,
         '--parallel', "$Parallel", '--target', 'cataclysm-tiles', 'cata_test-tiles')
-    foreach ($name in @('cataclysm-tiles.exe', 'cata_test-tiles.exe')) {
-        $binary = Join-Path $binaryDir $name
+    foreach ($relative in $target.binaries) {
+        $binary = Join-Path $BuildDir $relative
+        $name = [IO.Path]::GetFileName($binary)
         $binaryInputs[$name] = @{
             path = $binary; bytes = (Get-Item -LiteralPath $binary).Length
             sha256 = (Get-FileHash -LiteralPath $binary -Algorithm SHA256).Hash
@@ -294,20 +307,18 @@ try {
     }
     $versionUser = Join-Path $EvidenceDir 'version-user'
     New-Item -ItemType Directory -Path $versionUser | Out-Null
-    Invoke-Logged 'game-version' (Join-Path $binaryDir 'cataclysm-tiles.exe') @(
+    Invoke-Logged 'game-version' (Join-Path $BuildDir $target.binaries[0]) @(
         '--userdir', $versionUser, '--version')
-    foreach ($test in @(@('translations', '[translations]~[.]'),
-                       @('chinese-runtime', 'TranslationPluralRulesEvaluatorPerformance'),
-                       @('horde-map', 'horde_map_*'))) {
-        $userDir = Join-Path $EvidenceDir ($test[0] + '-user')
+    foreach ($test in $target.tests.GetEnumerator()) {
+        $userDir = Join-Path $EvidenceDir ($test.Key + '-user')
         New-Item -ItemType Directory -Path $userDir | Out-Null
-        $xml = Join-Path $EvidenceDir ($test[0] + '.xml')
-        Invoke-Logged $test[0] (Join-Path $binaryDir 'cata_test-tiles.exe') @(
-            $test[1], '--rng-seed', '4902', '--order', 'lex', '--user-dir', $userDir,
+        $xml = Join-Path $EvidenceDir ($test.Key + '.xml')
+        Invoke-Logged $test.Key (Join-Path $BuildDir $target.binaries[1]) @(
+            $test.Value, '--rng-seed', '4902', '--order', 'lex', '--user-dir', $userDir,
             '--reporter', 'junit', '--out', $xml)
         $counts = Check-JUnit $xml
         $testResults += @{
-            name = $test[0]; test_cases = $counts.test_cases
+            name = $test.Key; test_cases = $counts.test_cases
             assertions = $counts.assertions; status = 'PASS'; report = $xml
             report_sha256 = (Get-FileHash -LiteralPath $xml -Algorithm SHA256).Hash
         }

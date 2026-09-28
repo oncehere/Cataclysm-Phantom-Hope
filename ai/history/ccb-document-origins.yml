@@ -1,0 +1,179 @@
+schema_version: 1
+kind: document_origins
+source_commit: 0378ca2b84303cf614c617c9d9eaa50138cd21ff
+source_inventory: https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/1057a15bf802572b7497ffd9617083a9b6935321/doc/migration/markdown-inventory.yml
+documents:
+- {path: CODE_OF_CONDUCT.md, stable_document_id: governance.code-of-conduct, contributors: [LunaGlaze, thaelina], license: CC-BY-SA-3.0}
+- {path: CONTRIBUTING.md, stable_document_id: governance.contributing, contributors: [David Seguin, thaelina], license: CC-BY-SA-3.0}
+- {path: ISSUES.md, stable_document_id: governance.issue-workflow, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: README.md, stable_document_id: project.readme, contributors: [LYHGLYTX, LunaGlaze, Asthmatic123, EArias, lapp2333xhj, thaelina], license: CC-BY-SA-3.0}
+- {path: SYNC_EXCLUDED_PRS.md, stable_document_id: upstream.excluded-prs, contributors: [LYHGLYTX, EliadOArias], license: CC-BY-SA-3.0}
+- {path: TRANSLATION_CREDITS.md, stable_document_id: translation.credits, contributors: [LYHGLYTX], license: CC-BY-SA-3.0}
+- {path: data/json/LOADING_ORDER.md, stable_document_id: legacy.data-json-loading-order, ccb_docs_id: json.loading-order, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/json/npcs/godco/NECC_INFO.md, stable_document_id: content.npc.godco-roster, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/json/npcs/refugee_center/FREE_MERCHANTS_INFO.md, stable_document_id: content.npc.free-merchants-economy, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/lua/README.md, stable_document_id: lua.v5.overview, ccb_docs_id: api.lua.v5.overview, contributors: [LYHGLYTX], license: CC-BY-SA-3.0}
+- {path: data/mods/Backrooms/README.md, stable_document_id: mods.backrooms.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/BombasticPerks/docs/contributing.md, stable_document_id: mods.bombastic-perks.contributing, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/BombasticPerks/docs/expanding_with_mods.md, stable_document_id: mods.bombastic-perks.extension-contract, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/DinoMod/DESIGN.md, stable_document_id: mods.dinomod.design, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/DinoMod/README.md, stable_document_id: mods.dinomod.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MA/README.md, stable_document_id: mods.massachusetts.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Magiclysm/lore.md, stable_document_id: mods.magiclysm.lore, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Magiclysm/magic_balance.md, stable_document_id: mods.magiclysm.balance, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Megafauna/readme.md, stable_document_id: mods.megafauna.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/GainingPowerSpoilers.md, stable_document_id: mods.mind-over-matter.gaining-powers, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/NetherAttunementSpoilers.md, stable_document_id: mods.mind-over-matter.nether-attunement, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/NewPowerGuide.md, stable_document_id: mods.mind-over-matter.new-power-guide, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/PowerDescriptionSpoilers.md, stable_document_id: mods.mind-over-matter.power-reference, ccb_docs_id: mods.mind-over-matter.power-reference, contributors: [Standing-Storm, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/README.md, stable_document_id: mods.mind-over-matter.overview, contributors: [Standing-Storm, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatter/lore_spoilers.md, stable_document_id: mods.mind-over-matter.lore, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/MindOverMatterNoKnacks/README.md, stable_document_id: mods.mind-over-matter.no-knacks, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/No_Hope/CONTRIBUTING.md, stable_document_id: mods.no-hope.contributing, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/No_Hope/DIFFICULTY_OPTIONS.md, stable_document_id: mods.no-hope.difficulty-options, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Sky_Island/README.md, stable_document_id: mods.sky-island.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Sorcerer/README.md, stable_document_id: mods.sorcerer.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/TEST_DATA/README.md, stable_document_id: testing.test-data-mod, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/XedraWood/README.md, stable_document_id: mods.xedra-wood.overview, contributors: [Standing-Storm], license: CC-BY-SA-3.0}
+- {path: data/mods/Xedra_Evolved/README.md, stable_document_id: mods.xedra-evolved.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Xedra_Evolved/design_doc_spoilers.md, stable_document_id: mods.xedra-evolved.design, contributors: [SariusSkelrets, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/Xedra_Evolved/vampire_guide.md, stable_document_id: mods.xedra-evolved.vampire-guide, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/Hacking.md, stable_document_id: mods.aftershock-exoplanet.hacking, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/crafting_system.md, stable_document_id: mods.aftershock-exoplanet.crafting-system, contributors: [Mihály Verhás, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/cyberpunk_future.md, stable_document_id: mods.aftershock-exoplanet.lore.cyberpunk-future, ccb_docs_id: mods.aftershock-exoplanet.lore.organizations, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/factions.md, stable_document_id: mods.aftershock-exoplanet.lore.factions, contributors: [Mihály Verhás, Standing-Storm, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/organizations.md, stable_document_id: mods.aftershock-exoplanet.lore.organizations, contributors: [Mihály Verhás, Standing-Storm, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/points_of_interest.md, stable_document_id: mods.aftershock-exoplanet.lore.points-of-interest, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/ranged_weapon_balance.md, stable_document_id: mods.aftershock-exoplanet.balance.ranged-weapons, ccb_docs_id: mods.aftershock-exoplanet.balance.ranged-weapons, contributors: [Mihály Verhás, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/salus_4.md, stable_document_id: mods.aftershock-exoplanet.lore.salus-iv, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/lore/timeline.md, stable_document_id: mods.aftershock-exoplanet.lore.timeline, contributors: [Mihály Verhás, thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/doc/suit_operating_time.md, stable_document_id: mods.aftershock-exoplanet.balance.powered-armor, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/aftershock_exoplanet/items/armor/exosuit/exosuit_guide.md, stable_document_id: mods.aftershock-exoplanet.exosuit-guide, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/alt_map_key/README.md, stable_document_id: mods.alternative-map-key.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/classic_zombies/design-doc.md, stable_document_id: mods.classic-zombies.design, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/classic_zombies/place_names.md, stable_document_id: mods.classic-zombies.place-names, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/hunvre/documentation/lore.md, stable_document_id: mods.hunvre.lore, contributors: [BalthazarArgall], license: CC-BY-SA-3.0}
+- {path: data/mods/hunvre/progress_tracker.md, stable_document_id: mods.hunvre.progress, contributors: [BalthazarArgall], license: CC-BY-SA-3.0}
+- {path: data/mods/immortal_path/GLOSSARY.md, stable_document_id: mods.immortal-path.glossary, contributors: [Asthmatic123, EliadOArias], license: CC-BY-SA-3.0}
+- {path: data/mods/immortal_path/LANGUAGE_CONVENTION.md, stable_document_id: mods.immortal-path.language-convention, contributors: [EliadOArias, LYHGLYTX], license: CC-BY-SA-3.0}
+- {path: data/mods/immortal_path/doc/game-design.md, stable_document_id: mods.immortal-path.game-design, contributors: [EliadOArias], license: CC-BY-SA-3.0}
+- {path: data/mods/immortal_path/doc/lore.md, stable_document_id: mods.immortal-path.lore, contributors: [EliadOArias], license: CC-BY-SA-3.0}
+- {path: data/mods/immortal_path/doc/spell-design.md, stable_document_id: mods.immortal-path.spell-design, contributors: [EliadOArias], license: CC-BY-SA-3.0}
+- {path: data/mods/innawood/readme.md, stable_document_id: mods.innawood.overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: data/mods/translate-dialogue/README.md, stable_document_id: mods.translate-dialogue.maintenance, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/ASCII_ART.md, stable_document_id: content.ascii-art, ccb_docs_id: content.ascii-art, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/CHANGELOG_GUIDELINES.md, stable_document_id: contributing.changelog-guidelines, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/DEVELOPER_FAQ.md, stable_document_id: contributing.developer-faq, ccb_docs_id: how-to.common-tasks, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/FREQUENTLY_MADE_SUGGESTIONS.md, stable_document_id: design.frequently-made-suggestions, ccb_docs_id: design.frequently-made-suggestions, contributors: [LunaGlaze, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/GUN_NAMING_AND_INCLUSION.md, stable_document_id: content.firearms-naming-and-inclusion, ccb_docs_id: content.firearms-naming-and-inclusion, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/HOWTO_MASSAGE_MA_GUN_DATA.md, stable_document_id: archive.firearms-massachusetts-data-workflow, ccb_docs_id: archive.firearms-massachusetts-data-workflow, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/HOW_YOU_CAN_HELP.md, stable_document_id: getting-started.how-you-can-help, ccb_docs_id: getting-started.first-contribution, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/IN_REPO_MODS.md, stable_document_id: mods.in-repository-policy, ccb_docs_id: mods.in-repository-policy, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/ISSUE_TRIAGE.md, stable_document_id: maintainers.issue-triage, ccb_docs_id: maintainers.issue-triage, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/ARTIFACTS.md, stable_document_id: json.artifacts, ccb_docs_id: json.artifacts, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/BASECAMP.md, stable_document_id: json.basecamp, ccb_docs_id: json.basecamp, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/CLIMBING.md, stable_document_id: json.climbing-aids, ccb_docs_id: json.climbing-aids, contributors: [Killa-bite, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/DIMENSIONS.md, stable_document_id: json.dimensions, ccb_docs_id: json.dimensions, contributors: [LYHGLYTX, Anton Simakov, Maleclypse, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/EFFECTS_JSON.md, stable_document_id: json.effects, ccb_docs_id: json.effects, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/EFFECT_ON_CONDITION.md, stable_document_id: eoc.reference, ccb_docs_id: eoc.reference, contributors: [zihanZheng, LunaGlaze, Anton Simakov, Maleclypse, GuardianDll, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/EXAMINE.md, stable_document_id: json.examine-actions, ccb_docs_id: json.examine-actions, contributors: [LunaGlaze, Maleclypse, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/FACTIONS.md, stable_document_id: json.npc-factions, ccb_docs_id: json.npc-factions, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/FACTION_MISSIONS.md, stable_document_id: json.faction-missions, ccb_docs_id: json.faction-missions, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/GUIDE_COMESTIBLES.md, stable_document_id: json.comestibles-placement, ccb_docs_id: json.comestibles-placement, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/HELP_MENU.md, stable_document_id: json.help-menu, ccb_docs_id: json.help-menu, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/ITEM.md, stable_document_id: json.items, ccb_docs_id: json.items, contributors: [LunaGlaze, Standing-Storm, zihanZheng, Anton Simakov, EArias, RenechCDDA, dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/ITEM_CRAFT_AND_DISASSEMBLY.md, stable_document_id: json.recipes-and-disassembly, ccb_docs_id: json.recipes-and-disassembly, contributors: [Anton Simakov, RenechCDDA, dobbry-vechur, dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/ITEM_SPAWN.md, stable_document_id: json.item-groups, ccb_docs_id: json.item-groups, contributors: [dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_FLAGS.md, stable_document_id: json.flags, ccb_docs_id: json.flags, contributors: [LunaGlaze, LYHGLYTX, Standing-Storm, Mihály Verhás, zihanZheng, Tektolnes, RenechCDDA, dumb-kevin, evilbananas, Anton Simakov, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_INFO.md, stable_document_id: json.object-types, ccb_docs_id: json.object-types, contributors: [LunaGlaze, MrDraMaster, OromisElf, zihanZheng, Fris0uman, Maleclypse, Mihály Verhás, Tektolnes, ehughsbaird, Anton Simakov, RenechCDDA], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_INHERITANCE.md, stable_document_id: json.inheritance, ccb_docs_id: json.inheritance, contributors: [zihanZheng, ehughsbaird, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_LOADING_ORDER.md, stable_document_id: legacy.doc-json-json-loading-order, ccb_docs_id: json.loading-order, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_Mapping_Guides/Guide_for_beginning_mapgen.md, stable_document_id: tutorial.mapgen-beginner, ccb_docs_id: tutorial.mapgen-beginner, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_Mapping_Guides/Guide_for_intermediate_mapgen.md, stable_document_id: tutorial.mapgen-intermediate, ccb_docs_id: tutorial.mapgen-intermediate, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md, stable_document_id: tutorial.mapgen-roofs, ccb_docs_id: tutorial.mapgen-beginner, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_STYLE.md, stable_document_id: contributing.json-style, ccb_docs_id: contributing.json-style, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/JSON_TOOLS.md, stable_document_id: how-to.json-tools, ccb_docs_id: how-to.json-tools, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MAGIC.md, stable_document_id: json.magic-spells-enchantments, ccb_docs_id: json.magic-spells-enchantments, contributors: [LYHGLYTX, Standing-Storm, LunaGlaze, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MAPGEN.md, stable_document_id: json.mapgen, ccb_docs_id: json.mapgen, contributors: [dumb-kevin, ehughsbaird, RenechCDDA, Tektolnes], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MAP_SMASHING.md, stable_document_id: json.map-smashing, ccb_docs_id: json.terrain-and-furniture, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MARTIALART_JSON.md, stable_document_id: json.martial-arts, ccb_docs_id: json.martial-arts, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MISSIONS_JSON.md, stable_document_id: json.missions, ccb_docs_id: json.missions, contributors: [Maleclypse, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MONSTERS.md, stable_document_id: json.monsters, ccb_docs_id: json.monsters, contributors: [Maleclypse, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MONSTER_SPECIAL_ATTACKS.md, stable_document_id: json.monster-special-attacks, ccb_docs_id: json.monster-special-attacks, contributors: [Maleclypse, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MOVE_MODE.md, stable_document_id: json.movement-modes, ccb_docs_id: json.movement-modes, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/MUTATIONS.md, stable_document_id: json.mutations, ccb_docs_id: json.mutations, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/NPCs.md, stable_document_id: json.npcs-dialogue, ccb_docs_id: json.npcs-dialogue, contributors: [Killa-bite, Standing-Storm, Maleclypse, LunaGlaze, 李诗琪, Anton Simakov, Tektolnes, RenechCDDA, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/OBSOLETION_AND_MIGRATION.md, stable_document_id: json.obsoletion-and-migration, ccb_docs_id: json.obsoletion-and-migration, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/OPTIONS.md, stable_document_id: json.options, ccb_docs_id: json.options, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/OVERMAP.md, stable_document_id: json.overmap, ccb_docs_id: json.overmap, contributors: [dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/PRACTICE_RECIPES.md, stable_document_id: json.practice-recipes, ccb_docs_id: json.practice-recipes, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/PROFICIENCY.md, stable_document_id: json.proficiencies, ccb_docs_id: json.proficiencies, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/PROFICIENCY_LIST.md, stable_document_id: json.proficiencies-index, ccb_docs_id: json.proficiencies-index, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/REGION_LAYOUT.md, stable_document_id: json.region-layout, ccb_docs_id: json.region-layout, contributors: [LYHGLYTX, Anton Simakov], license: CC-BY-SA-3.0}
+- {path: doc/JSON/REGION_SETTINGS.md, stable_document_id: json.region-settings, ccb_docs_id: json.region-settings, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/TER_FURN_TRANSFORM.md, stable_document_id: json.terrain-furniture-transforms, ccb_docs_id: json.terrain-furniture-transforms, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/VEHICLES_JSON.md, stable_document_id: json.vehicle-prototypes, ccb_docs_id: json.vehicle-prototypes, contributors: [LunaGlaze, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/VITAMIN.md, stable_document_id: json.vitamins, ccb_docs_id: json.vitamins, contributors: [zihanZheng, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/WEATHER_TYPE.md, stable_document_id: json.weather-types, ccb_docs_id: json.weather-types, contributors: [Anton Simakov, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/JSON/WOUNDS.md, stable_document_id: json.wounds, ccb_docs_id: json.wounds, contributors: [Anton Simakov, GuardianDll, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/MANUAL_OF_STYLE.md, stable_document_id: content.manual-of-style, ccb_docs_id: content.manual-of-style, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/MODDING.md, stable_document_id: modding-overview, ccb_docs_id: modding-overview, contributors: [SpinosaurusBoat, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/MOD_COMPATIBILITY.md, stable_document_id: mod-compatibility, ccb_docs_id: mod-compatibility, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/PLAYER_ACTIVITY.md, stable_document_id: cpp-activities, ccb_docs_id: cpp.activities, contributors: [Antonín Drdácký, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/RELEASE_DIFF.md, stable_document_id: legacy.doc-release-diff, ccb_docs_id: maintenance.releases, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/RELEASE_PROCESS.md, stable_document_id: legacy.doc-release-process, ccb_docs_id: maintenance.releases, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/SOUNDPACKS.md, stable_document_id: soundpacks, ccb_docs_id: soundpacks, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/TESTING_YOUR_CHANGES.md, stable_document_id: testing-manual, ccb_docs_id: testing-manual, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/TILESET.md, stable_document_id: tilesets, ccb_docs_id: tilesets, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/TRANSLATING.md, stable_document_id: translation-guide, ccb_docs_id: translation-guide, contributors: [LunaGlaze, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/TRANSLATING_MOD.md, stable_document_id: mod-localization, ccb_docs_id: mod-localization, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/USER_INTERFACE_AND_ACCESSIBILITY.md, stable_document_id: ui-accessibility, ccb_docs_id: ui-accessibility, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/WIDGETS.md, stable_document_id: json-widgets, ccb_docs_id: json-widgets, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/CODE_STYLE.md, stable_document_id: cpp-code-style, ccb_docs_id: cpp-code-style, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILER_SUPPORT.md, stable_document_id: platform-matrix, ccb_docs_id: platform-matrix, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-CMAKE-VCPKG.md, stable_document_id: legacy.doc-c-compiling-cmake-vcpkg, ccb_docs_id: build-windows-msvc, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-CMAKE.md, stable_document_id: build-cmake, ccb_docs_id: build-cmake, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-CYGWIN.md, stable_document_id: archive-build-cygwin, ccb_docs_id: archive-build-cygwin, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-DEVCONTAINER.md, stable_document_id: build-devcontainer, ccb_docs_id: build-devcontainer, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-FLATPAK.md, stable_document_id: archive-build-flatpak, ccb_docs_id: archive-build-flatpak, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-MSYS.md, stable_document_id: build-windows-msys2, ccb_docs_id: build-windows-msys2, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING-VS-VCPKG.md, stable_document_id: build-windows-msvc, ccb_docs_id: build-windows-msvc, contributors: [Maleclypse, dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/COMPILING.md, stable_document_id: build-overview, ccb_docs_id: build.overview, contributors: [LYHGLYTX, Anton Simakov, Maleclypse, dobbry-vechur, dumb-kevin, evilbananas, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/DEVELOPER_TOOLING.md, stable_document_id: developer-tooling, ccb_docs_id: developer-tooling, contributors: [dumb-kevin, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/JSON_INTERFACE.md, stable_document_id: cpp-json-interface, ccb_docs_id: cpp-json-interface, contributors: [ehughsbaird], license: CC-BY-SA-3.0}
+- {path: doc/c++/PERFORMANCE.md, stable_document_id: cpp-performance, ccb_docs_id: cpp-performance, contributors: [g1ytx], license: CC-BY-SA-3.0}
+- {path: doc/c++/POINTS_COORDINATES.md, stable_document_id: cpp-coordinates, ccb_docs_id: cpp-coordinates, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/c++/TESTING.md, stable_document_id: cpp-testing, ccb_docs_id: cpp-testing, contributors: [g1ytx, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/ARMOR_BALANCE_AND_DESIGN.md, stable_document_id: json-armor-design, ccb_docs_id: json-armor-design, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/CONSTRUCTION_BALANCE.md, stable_document_id: archive-construction-balance, ccb_docs_id: archive-construction-balance, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/GAME_BALANCE.md, stable_document_id: legacy.doc-design-balance-lore-game-balance, ccb_docs_id: design-balance, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/LORE_FAQ.md, stable_document_id: archive-lore-faq, ccb_docs_id: archive-lore-faq, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/PORTAL_STORM_BALANCE_AND_DESIGN.md, stable_document_id: design-portal-storms, ccb_docs_id: design-portal-storms, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/POSTAPOC_PRICE_GUIDE.md, stable_document_id: json-item-pricing, ccb_docs_id: json-item-pricing, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/STEEL_CRAFTING.md, stable_document_id: design-steel-crafting, ccb_docs_id: design-steel-crafting, contributors: [FarFarLakeSea, thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/VARIANTS.md, stable_document_id: json-item-variants, ccb_docs_id: json-item-variants, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/batteries_and_electricity.md, stable_document_id: design-batteries-electricity, ccb_docs_id: design-batteries-electricity, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/design-balance.md, stable_document_id: design-balance, ccb_docs_id: design-balance, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/design-doc.md, stable_document_id: design-overview, ccb_docs_id: design-overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/design-gameplay.md, stable_document_id: design-gameplay, ccb_docs_id: design-gameplay, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/design-user-experience.md, stable_document_id: design-user-experience, ccb_docs_id: design-user-experience, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/lore-background.md, stable_document_id: lore-background, ccb_docs_id: lore-background, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/lore-factions.md, stable_document_id: lore-factions, ccb_docs_id: lore-factions, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/lore.md, stable_document_id: lore-overview, ccb_docs_id: lore-overview, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/melee_weapons/MELEE_BALANCE_SPREADSHEET.md, stable_document_id: archive-melee-balance-spreadsheet, ccb_docs_id: archive-melee-balance-spreadsheet, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/design-balance-lore/technology.md, stable_document_id: lore-technology, ccb_docs_id: lore-technology, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/development_process.md, stable_document_id: archive-upstream-development-process, ccb_docs_id: archive-upstream-development-process, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/reviewing_PR_guide.md, stable_document_id: pr-review-guide, ccb_docs_id: pr-review-guide, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/user-guides/COLOR.md, stable_document_id: ui-colors, ccb_docs_id: ui-colors, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: doc/user-guides/FONT_OPTIONS.md, stable_document_id: ui-fonts, ccb_docs_id: ui-fonts, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: lang/notes/README_all_translators.md, stable_document_id: legacy.lang-notes-readme-all-translators, ccb_docs_id: translation-guide, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: lang/notes/ru-notes.md, stable_document_id: translation-notes-ru, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: src/lua/LICENSE.md, stable_document_id: third-party.src-lua-license, contributors: [LYHGLYTX], license: MIT}
+- {path: src/lua/README.md, stable_document_id: vendor-lua-runtime-provenance, contributors: [LYHGLYTX], license: CC-BY-SA-3.0}
+- {path: src/third-party/snmalloc/README.md, stable_document_id: third-party.src-third-party-snmalloc-readme, contributors: [thaelina], license: file-specific third-party license}
+- {path: src/third-party/snmalloc/stl/README.md, stable_document_id: third-party.src-third-party-snmalloc-stl-readme, contributors: [thaelina], license: file-specific third-party license}
+- {path: src/third-party/snmalloc/stl/cxx/README.md, stable_document_id: third-party.src-third-party-snmalloc-stl-cxx-readme, contributors: [thaelina], license: file-specific third-party license}
+- {path: src/third-party/snmalloc/stl/gnu/README.md, stable_document_id: third-party.src-third-party-snmalloc-stl-gnu-readme, contributors: [thaelina], license: file-specific third-party license}
+- {path: src/third-party/zstd/README.md, stable_document_id: third-party.src-third-party-zstd-readme, contributors: [thaelina], license: file-specific third-party license}
+- {path: tools/llama/README.md, stable_document_id: tool-llama-build-acceleration, contributors: [thaelina], license: CC-BY-SA-3.0}
+- {path: tools/lua_api/README.md, stable_document_id: tool-lua-api-coverage, contributors: [LYHGLYTX], license: CC-BY-SA-3.0}

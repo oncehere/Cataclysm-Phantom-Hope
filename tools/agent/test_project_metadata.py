@@ -10,7 +10,6 @@ from check_project_metadata import (
     tracked_paths,
     validate_context,
     validate_documentation_registry,
-    validate_inventory,
     validate_lua_first_roadmap,
     validate_repository_settings,
 )
@@ -96,9 +95,6 @@ class ProjectMetadataTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "operational"):
             validate_repository_settings(settings)
-
-    def test_inventory_is_valid(self):
-        validate_inventory()
 
     def test_lua_first_roadmap_is_valid(self):
         validate_lua_first_roadmap()

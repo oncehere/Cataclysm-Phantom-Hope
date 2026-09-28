@@ -100,6 +100,37 @@ class ReportValidation(unittest.TestCase):
             ("chinese-runtime", "TranslationPluralRulesEvaluatorPerformance"),
         )
 
+    def test_invalid_policy_tests_fail_before_probe_starts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scripts = root / "tools/project"
+            scripts.mkdir(parents=True)
+            for name in ("linux_probe.py", "check_merge_evidence.py"):
+                (scripts / name).write_bytes(
+                    (MODULE_PATH.parent / name).read_bytes()
+                )
+            (root / "project").mkdir()
+            policy = json.loads(
+                (MODULE_PATH.parents[2] / "project/check-policy.json")
+                .read_text()
+            )
+            for tests in ({}, [], {"": "selection"}, {" ": "selection"},
+                          {"name": ""}, {"name": " "}, {"name": None}):
+                with self.subTest(tests=tests):
+                    policy["targets"]["linux"]["tests"] = tests
+                    (root / "project/check-policy.json").write_text(
+                        json.dumps(policy)
+                    )
+                    result = subprocess.run(
+                        [sys.executable, str(scripts / "linux_probe.py"),
+                         "--help"], cwd=root, capture_output=True, text=True,
+                        check=False,
+                    )
+                    self.assertEqual(result.returncode, 1)
+                    self.assertIn("nonempty test names and selectors",
+                                  result.stderr)
+                    self.assertEqual(result.stdout, "")
+
 
 class SyntheticProbe(unittest.TestCase):
     """A tiny Git repository and Python executables, not a game build."""
@@ -239,7 +270,13 @@ class SyntheticProbe(unittest.TestCase):
         self.assertEqual(manifest["build_command"]["exit_code"], 0)
         code, result = self.run_phase("test")
         self.assertEqual(code, 0, result)
-        self.assertEqual(len(result["checks"]), 5)
+        policy = json.loads(
+            (MODULE_PATH.parents[2] / "project/check-policy.json").read_text()
+        )["targets"]["linux"]
+        self.assertEqual(
+            {row["check"]: row["selection"] for row in result["checks"]},
+            policy["tests"],
+        )
         self.assertTrue(
             all(row["assertions"] == 3 for row in result["checks"])
         )
@@ -251,6 +288,27 @@ class SyntheticProbe(unittest.TestCase):
             str(self.evidence / "xdg-config"),
             (self.evidence / "translations.log").read_text(),
         )
+
+    def test_configure_uses_policy_from_script_checkout(self):
+        # A different source checkout cannot supply the running probe's policy.
+        (self.source / "project/check-policy.json").write_text(
+            '{"targets": {}}'
+        )
+        self.commit()
+        code, result = self.run_phase("configure")
+        self.assertEqual(code, 0, result)
+        command = json.loads(
+            (self.evidence / "commands.jsonl").read_text()
+        )["argv"]
+        self.assertEqual(command[command.index("--preset") + 1],
+                         probe.TARGET["preset"])
+        self.assertEqual(command[command.index("-G") + 1],
+                         probe.TARGET["generator"])
+        for key, value in probe.BUILD_SETTINGS.items():
+            self.assertIn("-D" + key + "=" + value, command)
+        for key, value in probe.TARGET["options"].items():
+            self.assertIn("-D" + key + "=" + ("ON" if value else "OFF"),
+                          command)
 
     def test_test_only_requires_successful_build_evidence(self):
         code, result = self.run_phase("test")

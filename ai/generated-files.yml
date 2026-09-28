@@ -12,26 +12,6 @@ entries:
     tracked: true
     generated_by: python3 tools/agent/benchmark_context_pack.py
     validation_id: agent-context
-  - id: markdown-migration-inventory
-    paths: [doc/migration/markdown-inventory.yml]
-    tracked: true
-    generated_by: python3 tools/agent/generate_markdown_inventory.py
-    validation_id: agent-context
-  - id: contributor-anomaly-report
-    paths: [doc/migration/contributor-anomalies.yml]
-    tracked: true
-    generated_by: python3 tools/agent/generate_markdown_inventory.py
-    validation_id: agent-context
-  - id: markdown-classification-report
-    paths: [doc/migration/classification-report.md]
-    tracked: true
-    generated_by: python3 tools/agent/generate_migration_reports.py
-    validation_id: agent-context
-  - id: markdown-migration-batches
-    paths: [doc/migration/migration-batches.yml]
-    tracked: true
-    generated_by: python3 tools/agent/generate_migration_reports.py
-    validation_id: agent-context
   - id: version-header
     paths: [src/version.h]
     tracked: false
@@ -77,9 +57,14 @@ entries:
     validation_id: json-eoc-contract
   - id: lua-first-replacement-ledger
     paths: [ai/lua-first-replacement-ledger.yml]
-    tracked: true
-    generated_by: python3 tools/agent/generate_lua_first_replacement_ledger.py
+    tracked: false
+    generated_by: python3 tools/agent/generate_lua_first_replacement_ledger.py --output ai/lua-first-replacement-ledger.yml
     validation_id: agent-context
+  - id: migrated-core-documentation
+    paths: [data/mods/Migrated_Core/README.md, data/mods/Migrated_Core/MIGRATION_REPORT.md]
+    tracked: true
+    generated_by: python3 tools/migrate_lua_first.py
+    validation_id: lua-migration
   - id: shader-artifacts
     paths: [data/shaders/*.spv, data/shaders/*.dxil, data/shaders/*.msl, data/shaders/build-*.stamp]
     tracked: false

@@ -67,10 +67,14 @@ XDG directories additionally redirected into this attempt. The actual configured
 cache must match all declared options, generator/platform and explicit vcpkg
 root/install/output paths; a previous cache cannot silently substitute them.
 
-After the game `--version` invocation, the probe runs these real C++ selections
-from the source directory with distinct temporary user directories and seed
-4902: `[translations]~[.]`, `TranslationPluralRulesEvaluatorPerformance`, and
-`horde_map_*`. The explicit Chinese benchmark is hidden from ordinary default
+The probe reads the Windows target, options, binaries and complete test list
+from `project/check-policy.json` in the script's checkout. After `--version`,
+it runs those C++ selections from the source directory with distinct temporary
+user directories and seed 4902. The current list includes translations, the
+Chinese benchmark, horde-map and Lua callback garbage-collection regression.
+This shared declaration does not turn local evidence into a trusted CI result;
+the revised PowerShell path still needs native Windows validation.
+The explicit Chinese benchmark is hidden from ordinary default
 selection; it loads `zh_CN` and requires the real `battery` translation. Its
 Russian section uses the maintained `TEST_DATA` fixture in this checkout.
 `tests/CMakeLists.txt` compiles that fixture from its checked-in PO through the

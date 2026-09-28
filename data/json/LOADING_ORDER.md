@@ -3,7 +3,7 @@
 > maintained with the source. Stable IDs: `legacy.data-json-loading-order` and
 > `legacy.doc-json-json-loading-order`. The `doc/JSON/JSON_LOADING_ORDER.md`
 > compatibility symlink and installed copy retain this content.
-> [Documentation index](../../docs/README.md); [historical CCB migration](../../doc/migration/history-assessment.md).
+> [Documentation index](../../docs/README.md); [historical CCB migration](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/1057a15bf802572b7497ffd9617083a9b6935321/doc/migration/history-assessment.md).
 
 # JSON Loading Order #
 

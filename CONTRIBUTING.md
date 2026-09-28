@@ -36,6 +36,21 @@ git switch -c topic/short-description upstream/main
 
 Keep a branch focused and reviewable. For a substantial change, start a Draft PR and update it as evidence arrives. Avoid rewriting imported third-party history, unrelated formatting changes, committed credentials, build caches, local SDK paths, or `obj-lua/`. A contribution with public contract changes must include the corresponding source, declarations, tests, generated outputs and documentation impact.
 
+Before adding an API, dependency, configuration, generator or supported build
+variant, identify the current user need, why existing mechanisms are insufficient,
+and the ongoing validation and upstream-adaptation cost. Prefer replacing or
+sharing an existing path; if both must remain, explain when the old path can
+retire. Defer speculative generalization until a real workflow needs it.
+Apply this review in the existing PR description, without a separate scoring
+system or progress ledger. Code and test line counts are not deletion quotas.
+
+The initial four-platform release should have one explicitly validated profile
+per platform. Extra ABI/UI/rendering combinations need a concrete use case and
+validation capacity before becoming supported products. Existing development
+switches do not create that promise. Removing working content or compatibility
+requires a separate explanation of lost uses, dependencies and alternatives,
+followed by the maintainer's decision; preserve source history and attribution.
+
 ## Development routes
 
 | Change | Read and verify |

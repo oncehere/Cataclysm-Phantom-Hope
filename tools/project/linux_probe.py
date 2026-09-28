@@ -15,29 +15,25 @@ import xml.etree.ElementTree as ET
 from check_merge_evidence import check_junit as check_junit_bytes
 
 
-TESTS = (
-    ("translations", "[translations]~[.]"),
-    ("chinese-runtime", "TranslationPluralRulesEvaluatorPerformance"),
-    ("horde-map", "horde_map_*"),
-    ("lua-callback", (
-        "lua_platform_callback_errors_name_the_trigger_and_continue_dispatch"
-    )),
-    ("lua-task", (
-        "lua_platform_task_failure_message_identifies_the_scheduled_instance"
-    )),
-)
-OPTIONS = {
-    "TILES": True, "SOUND": True, "LOCALIZE": True, "USE_SDL3": True,
-    "CATA_ENABLE_LUA_PLATFORM": True, "TESTS": True, "BUILD_TESTING": True,
-    "CURSES": False, "USE_PREFIX_DATA_DIR": False, "USE_XDG_DIR": False,
-    "CPH_TEST_IDENTITY": False,
-}
+# Use this script's checkout, independent of the source being built or cwd.
+TARGET = json.loads(
+    (Path(__file__).resolve().parents[2] / "project/check-policy.json")
+    .read_text(encoding="utf-8")
+)["targets"]["linux"]
+if (
+    not isinstance(TARGET.get("tests"), dict) or not TARGET["tests"] or
+    any(not isinstance(value, str) or not value.strip()
+        for pair in TARGET["tests"].items() for value in pair)
+):
+    raise ValueError("policy requires nonempty test names and selectors")
+TESTS = tuple(TARGET["tests"].items())
+OPTIONS = TARGET["options"]
 BUILD_SETTINGS = {
-    "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-    "CMAKE_CXX_FLAGS_RELWITHDEBINFO": "-O1 -g0 -DNDEBUG",
-    "CMAKE_C_FLAGS_RELWITHDEBINFO": "-O1 -g0 -DNDEBUG",
+    "CMAKE_BUILD_TYPE": TARGET["configuration"],
+    "CMAKE_CXX_FLAGS_" + TARGET["configuration"].upper(): TARGET["cxx_flags"],
+    "CMAKE_C_FLAGS_" + TARGET["configuration"].upper(): TARGET["c_flags"],
 }
-BINARIES = ("src/cataclysm-tiles", "tests/cata_test-tiles")
+BINARIES = TARGET["binaries"]
 BUILD_MANIFEST = "cph-probe-build.json"
 SAFE_GIT_ENV = {
     "GIT_OPTIONAL_LOCKS", "GIT_NO_LAZY_FETCH",
@@ -379,15 +375,16 @@ def main(argv=None):
         build.mkdir(parents=True, exist_ok=True)
         if args.phase in ("configure", "all"):
             run_command(
-                ["cmake", "--preset", "linux-tiles-sounds-x64", "-S",
-                 str(source), "-G", "Ninja", "-B", str(build),
-                 "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
-                 "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O1 -g0 -DNDEBUG",
-                 "-DCMAKE_C_FLAGS_RELWITHDEBINFO=-O1 -g0 -DNDEBUG",
-                 "-DCATA_CCACHE=OFF", *[
-                     "-D" + name + "=" + ("ON" if value else "OFF")
-                     for name, value in OPTIONS.items()
-                 ]],
+                [
+                    "cmake", "--preset", TARGET["preset"], "-S",
+                    str(source), "-G", TARGET["generator"], "-B", str(build),
+                    *["-D" + name + "=" + value
+                      for name, value in BUILD_SETTINGS.items()],
+                    "-DCATA_CCACHE=OFF", *[
+                        "-D" + name + "=" + ("ON" if value else "OFF")
+                        for name, value in OPTIONS.items()
+                    ],
+                ],
                 source, evidence, "configure", env,
             )
             check_cache(source, build)

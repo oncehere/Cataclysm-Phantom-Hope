@@ -19,7 +19,7 @@ import time
 import urllib.request
 
 import bootstrap_translations
-from linux_probe import check_junit
+from check_merge_evidence import check_junit
 
 
 CONTROL = Path(__file__).resolve().parents[2]
@@ -493,11 +493,12 @@ def configure(runner, source, build, target, dependency_paths, msgfmt):
     if target["os"] == "windows":
         command += [
             "-A",
-            "x64",
+            target["generator_platform"],
             "-DVCPKG_MANIFEST_FEATURES=sdl2",
             "-DGETTEXT_MSGFMT_BINARY=" + msgfmt,
             "-DGETTEXT_MSGFMT_EXECUTABLE=" + msgfmt,
-            "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO=" +
+            "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_" +
+            target["configuration"].upper() + "=" +
             str(build / "bin"),
         ]
         command += [
@@ -506,8 +507,10 @@ def configure(runner, source, build, target, dependency_paths, msgfmt):
     else:
         command += [
             "-DCMAKE_BUILD_TYPE=" + target["configuration"],
-            "-DCMAKE_C_FLAGS_RELWITHDEBINFO=" + target["c_flags"],
-            "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=" + target["cxx_flags"],
+            "-DCMAKE_C_FLAGS_" + target["configuration"].upper() + "=" +
+            target["c_flags"],
+            "-DCMAKE_CXX_FLAGS_" + target["configuration"].upper() + "=" +
+            target["cxx_flags"],
         ]
     command += ["-DCATA_CCACHE=OFF"]
     command += [
@@ -752,7 +755,7 @@ def build(args):
                 {
                     "check": name,
                     "selection": selection,
-                    **check_junit(xml),
+                    **check_junit(xml.read_bytes()),
                     "status": "PASS",
                     "report": xml.name,
                     "report_sha256": digest(xml),

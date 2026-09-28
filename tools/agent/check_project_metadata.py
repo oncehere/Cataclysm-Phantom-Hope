@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate agent routing metadata and the frozen Markdown inventory."""
+"""Validate current agent routing, document origins, and repository policy."""
 
 from __future__ import annotations
 
@@ -7,8 +7,6 @@ import argparse
 import fnmatch
 import json
 import subprocess
-from collections import Counter
-from functools import lru_cache
 from pathlib import Path
 
 import jsonschema
@@ -18,8 +16,9 @@ from audit_repository_governance import validate_repository, validate_target
 from check_lua_first_replacement_ledger import (
     check as check_lua_first_replacement_ledger,
 )
-from generate_markdown_inventory import contributor_rejection_reason
-from generate_documentation_registry import build_registry, classify, load_inventory
+from generate_documentation_registry import (
+    build_registry, classify, load_origins,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -48,35 +47,6 @@ def tracked_paths() -> list[str]:
         stdout=subprocess.PIPE,
     ).stdout.decode("utf-8")
     return [item for item in output.split("\0") if item]
-
-
-@lru_cache(maxsize=None)
-def historical_source_text(source_commit: str, path: str) -> str:
-    """Read frozen inventory evidence from its recorded Git commit.
-
-    Migration entries intentionally retain historical source paths even when
-    the current Platform cleanup removes those files.  Keep validation tied to
-    the inventory's recorded commit instead of requiring every historical path
-    to remain in the current worktree.
-    """
-    if "obj-lua" in Path(path).parts:
-        raise ValueError("obj-lua is forbidden in inventory source paths")
-    result = subprocess.run(
-        ["git", "show", f"{source_commit}:{path}"],
-        cwd=ROOT,
-        check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    if result.returncode != 0:
-        current_path = ROOT / path
-        if current_path.is_file():
-            return current_path.read_bytes().decode("utf-8", errors="replace")
-        raise ValueError(
-            f"missing source path {path} at inventory commit {source_commit} "
-            "and in the current worktree"
-        )
-    return result.stdout.decode("utf-8", errors="replace")
 
 
 def path_pattern_exists(pattern: str, known: list[str]) -> bool:
@@ -260,7 +230,7 @@ def validate_context() -> None:
     impact = documents["docs-impact.yml"]
     if impact.get("enforcement") != "staged":
         raise ValueError("documentation impact must use staged enforcement")
-    historical_ids = load_inventory()
+    historical_ids = load_origins()
     for entry in impact["entries"]:
         enforcement = entry.get("enforcement")
         if enforcement not in {"advisory", "required"}:
@@ -299,14 +269,23 @@ def validate_context() -> None:
             )
         readiness = entry.get("documentation_readiness")
         if not isinstance(readiness, dict):
-            raise ValueError(f"required impact {entry['id']} needs repository documents")
+            raise ValueError(
+                f"required impact {entry['id']} needs repository documents"
+            )
         if readiness.get("state") != "in_repository_review_required":
-            raise ValueError(f"required impact {entry['id']} has invalid docs readiness")
+            raise ValueError(
+                f"required impact {entry['id']} has invalid docs readiness"
+            )
         if readiness.get("repository") != "oncehere/Cataclysm-Phantom-Hope":
-            raise ValueError(f"required impact {entry['id']} has invalid docs repository")
+            raise ValueError(
+                f"required impact {entry['id']} has invalid docs repository"
+            )
         documents_for_impact = readiness.get("documents")
-        if not isinstance(documents_for_impact, list) or not documents_for_impact:
-            raise ValueError(f"required impact {entry['id']} needs document paths")
+        if (not isinstance(documents_for_impact, list) or
+                not documents_for_impact):
+            raise ValueError(
+                f"required impact {entry['id']} needs document paths"
+            )
         mapped_ids = []
         mapped_paths = []
         for document in documents_for_impact:
@@ -314,24 +293,34 @@ def validate_context() -> None:
                 raise ValueError(f"invalid document mapping in {entry['id']}")
             identifier, path = document.get("id"), document.get("path")
             if not isinstance(identifier, str) or not isinstance(path, str):
-                raise ValueError(f"invalid document ID or path in {entry['id']}")
+                raise ValueError(
+                    f"invalid document ID or path in {entry['id']}"
+                )
             if path not in known or not (ROOT / path).is_file():
-                raise ValueError(f"untracked document path in {entry['id']}: {path}")
-            if "CCB-DOC-MOVED-START" in (ROOT / path).read_text(encoding="utf-8")[:600]:
-                raise ValueError(f"moved CCB stub cannot satisfy {entry['id']}: {path}")
+                raise ValueError(
+                    f"untracked document path in {entry['id']}: {path}"
+                )
+            opening = (ROOT / path).read_text(encoding="utf-8")[:600]
+            if "CCB-DOC-MOVED-START" in opening:
+                raise ValueError(
+                    f"moved CCB stub cannot satisfy {entry['id']}: {path}"
+                )
             current = classify(path, historical_ids)
-            if (current["status"] != "active"
-                    or current["stable_document_id"] != identifier):
+            if (current["status"] != "active" or
+                    current["stable_document_id"] != identifier):
                 raise ValueError(
                     f"document ID/path is not current in {entry['id']}: "
                     f"{identifier} -> {path}"
                 )
             mapped_ids.append(identifier)
             mapped_paths.append(path)
-        if len(mapped_ids) != len(set(mapped_ids)) or len(mapped_paths) != len(set(mapped_paths)):
+        if (len(mapped_ids) != len(set(mapped_ids)) or
+                len(mapped_paths) != len(set(mapped_paths))):
             raise ValueError(f"duplicate document ID/path in {entry['id']}")
         if set(mapped_ids) != set(documentation_ids):
-            raise ValueError(f"documentation IDs and paths differ in {entry['id']}")
+            raise ValueError(
+                f"documentation IDs and paths differ in {entry['id']}"
+            )
 
     router = load_yaml(ROOT / "ai/task-router.yml")
     router_schema = json.loads(
@@ -366,25 +355,24 @@ def validate_context() -> None:
         raise ValueError("duplicate id in agent-benchmark.yml")
     for case in benchmark["cases"]:
         unknown_routes = sorted(
-            (set(case["expected_routes"])
-             | set(case.get("forbidden_routes", [])))
-            - set(route_ids)
+            (set(case["expected_routes"]) |
+             set(case.get("forbidden_routes", []))) - set(route_ids)
         )
         if unknown_routes:
             raise ValueError(
                 f"unknown benchmark routes in {case['id']}: {unknown_routes}"
             )
         unknown_tests = sorted(
-            (set(case["expected_validation_ids"])
-             | set(case.get("forbidden_validation_ids", []))) - test_ids
+            (set(case["expected_validation_ids"]) |
+             set(case.get("forbidden_validation_ids", []))) - test_ids
         )
         if unknown_tests:
             raise ValueError(
                 f"unknown benchmark validation ids in {case['id']}: "
                 f"{unknown_tests}"
             )
-        for path in (case.get("expected_agents", [])
-                     + case.get("forbidden_agents", [])):
+        for path in (case.get("expected_agents", []) +
+                     case.get("forbidden_agents", [])):
             if path not in known or Path(path).name != "AGENTS.md":
                 raise ValueError(
                     f"unknown benchmark instructions in {case['id']}: {path}"
@@ -394,113 +382,6 @@ def validate_context() -> None:
                 raise ValueError(
                     f"untracked benchmark file in {case['id']}: {path}"
                 )
-
-
-def validate_inventory() -> None:
-    inventory_path = ROOT / "doc/migration/markdown-inventory.yml"
-    schema_path = ROOT / "doc/migration/markdown-inventory.schema.json"
-    inventory = load_yaml(inventory_path)
-    schema = json.loads(schema_path.read_text(encoding="utf-8"))
-    jsonschema.Draft202012Validator(schema).validate(inventory)
-    if inventory["document_count"] != len(inventory["documents"]):
-        raise ValueError("document_count does not match documents length")
-    paths = [entry["original_path"] for entry in inventory["documents"]]
-    if len(paths) != len(set(paths)):
-        raise ValueError("duplicate Markdown path in inventory")
-    if any(path == "obj-lua" or path.startswith("obj-lua/") for path in paths):
-        raise ValueError("obj-lua must not be scanned or inventoried")
-    stable_ids = [
-        entry["stable_document_id"] for entry in inventory["documents"]
-    ]
-    if len(stable_ids) != len(set(stable_ids)):
-        raise ValueError("duplicate stable_document_id in Markdown inventory")
-    action_counts = Counter(
-        entry["action"] for entry in inventory["documents"]
-    )
-    status_counts = Counter(
-        entry["migration_status"] for entry in inventory["documents"]
-    )
-    summary = inventory["classification_summary"]
-    if summary["review"] != action_counts.get("review", 0):
-        raise ValueError("Markdown review count is stale")
-    if summary["actions"] != dict(sorted(action_counts.items())):
-        raise ValueError("Markdown action summary is stale")
-    if summary["migration_statuses"] != dict(sorted(status_counts.items())):
-        raise ValueError("Markdown migration-status summary is stale")
-    for entry in inventory["documents"]:
-        if any(
-            "obj-lua" in Path(path).parts
-            for path in entry["source_paths"]
-        ):
-            raise ValueError("obj-lua is forbidden in inventory source paths")
-        for contributor in entry["contributors"]:
-            reason = contributor_rejection_reason(contributor)
-            if reason:
-                raise ValueError(
-                    f"unsafe contributor in {entry['original_path']}: {reason}"
-                )
-        source_text = "\n".join(
-            historical_source_text(inventory["source_commit"], path)
-            for path in entry["source_paths"]
-        )
-        missing_symbols = sorted(
-            symbol
-            for symbol in entry["source_symbols"]
-            if symbol not in source_text
-        )
-        if missing_symbols:
-            raise ValueError(
-                f"missing source symbols for {entry['original_path']}: "
-                f"{missing_symbols}"
-            )
-
-    anomaly_path = ROOT / "doc/migration/contributor-anomalies.yml"
-    anomaly_schema_path = (
-        ROOT / "doc/migration/contributor-anomalies.schema.json"
-    )
-    anomalies = load_yaml(anomaly_path)
-    anomaly_schema = json.loads(
-        anomaly_schema_path.read_text(encoding="utf-8")
-    )
-    jsonschema.Draft202012Validator(anomaly_schema).validate(anomalies)
-    if anomalies["source_commit"] != inventory["source_commit"]:
-        raise ValueError(
-            "contributor anomaly report uses another source commit"
-        )
-    if anomalies["rejected_count"] != len(anomalies["entries"]):
-        raise ValueError("contributor anomaly report count is stale")
-    if any("value" in entry for entry in anomalies["entries"]):
-        raise ValueError(
-            "raw rejected contributor identities must not be published"
-        )
-
-    batches_path = ROOT / "doc/migration/migration-batches.yml"
-    batches_schema_path = ROOT / "doc/migration/migration-batches.schema.json"
-    batches = load_yaml(batches_path)
-    batches_schema = json.loads(
-        batches_schema_path.read_text(encoding="utf-8")
-    )
-    jsonschema.Draft202012Validator(batches_schema).validate(batches)
-    batch_documents = [
-        document
-        for batch in batches["batches"]
-        for document in batch["documents"]
-    ]
-    if batches["batch_count"] != len(batches["batches"]):
-        raise ValueError("migration batch_count is stale")
-    if batches["document_count"] != len(batch_documents):
-        raise ValueError("migration batch document_count is stale")
-    expected_batched = {
-        entry["stable_document_id"]
-        for entry in inventory["documents"]
-        if entry["migration_batch"]
-        if entry["migration_status"] not in {"verified", "stubbed", "archived"}
-    }
-    actual_batched = {
-        entry["stable_document_id"] for entry in batch_documents
-    }
-    if actual_batched != expected_batched:
-        raise ValueError("migration batches do not match the inventory")
 
 
 def validate_documentation_registry() -> None:
@@ -550,10 +431,9 @@ def main() -> int:
     parser.parse_args()
     validate_context()
     validate_lua_first_roadmap()
-    validate_inventory()
     validate_documentation_registry()
     validate_repository_settings()
-    print("agent metadata and Markdown inventory are valid")
+    print("current agent and documentation metadata are valid")
     return 0
 
 

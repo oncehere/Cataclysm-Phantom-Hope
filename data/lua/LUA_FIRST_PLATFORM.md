@@ -580,6 +580,16 @@ are defined once in [the EOC capability workflow](LUA_FIRST_EOC_WORKFLOW.md).
 Platform reference、账本、文档 registry 与迁移报告是生成输出，禁止手改；只在声明的输入
 变化时刷新。当前优先级、验证流程与完成度口径统一见 [EOC 能力流程](LUA_FIRST_EOC_WORKFLOW.md)。
 
+The expanded replacement ledger is not versioned. Run
+`python3 tools/agent/generate_lua_first_replacement_ledger.py --check` for
+in-memory coverage, evidence and semantic-status validation. The default command
+prints the complete YAML; `--output /absolute/path/ledger.yml` exports it for
+review. `--check --output /absolute/path/ledger.yml` also checks that export for
+staleness. The authoritative mappings, source inventories and schema remain tracked.
+
+完整替代账本按需生成、不纳入版本控制；默认校验在内存完成，不要求先写回文件。
+导出只是查阅副本，不作为新的权威来源或已经通过游戏行为验收的证明。
+
 PR 664's foundation scope and later capabilities retain their evidence in
 `ai/lua-first-roadmap.yml`. They are not recurring prerequisites for every
 change. Optional standard helpers, internationalization and author tools remain
