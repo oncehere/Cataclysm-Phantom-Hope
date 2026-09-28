@@ -23,6 +23,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
+#include "translations.h"
 #include "type_id.h"
 
 static const itype_id itype_bag_plastic( "bag_plastic" );
@@ -125,6 +126,10 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
                 REQUIRE( har_multitool.first == true );
                 REQUIRE( har_multitool.second == false );
                 REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &multitool } ) );
+                item_location const loc( map_cursor{ tripoint_bub_ms::zero }, &multitool );
+                ret_val<void> const refusal = guy.wants_to_sell( loc, 0 );
+                REQUIRE( !refusal.success() );
+                CHECK( refusal.str() == _( "<npc_faction> will not trade this." ) );
             }
         }
         WHEN( "condition met" ) {
