@@ -16,7 +16,7 @@
 | 平台 | 真实入口来源 | 必需记录 |
 | --- | --- | --- |
 | Linux | `linux_probe.py`，Ninja，继承 SDL3 图形/声音 preset | 构建 `cataclysm-tiles`、`cata_test-tiles`；版本入口；翻译、中文、horde、Lua callback/task 五组 |
-| Windows | `windows_probe.ps1`，VS 2022 x64，SDL2 CMake preset | 相同两个构建目标；版本入口；翻译、中文、horde 三组 |
+| Windows | `windows_probe.ps1`，VS 2022 x64，SDL3 CMake preset | 相同两个构建目标；版本入口；翻译、中文、horde 三组 |
 
 配置为 E1 的 RelWithDebInfo；Linux 保留实际采用的 `-O1 -g0 -DNDEBUG`。
 命令及工作目录由可信 context 的 source/build/evidence 路径、并行度与

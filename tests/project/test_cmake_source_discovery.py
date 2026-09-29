@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -135,6 +136,112 @@ TestRegistration test_registration;
 
     def test_makefiles_discovers_source_changes(self):
         self.exercise_generator("Unix Makefiles", "make")
+
+    def test_tiles_build_uses_sdl3_without_a_backend_flag(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        # Only SDL3 targets are supplied. Selecting the former default SDL2
+        # branch must fail configuration, even though these are tiny sources.
+        (self.source / "data/shaders").mkdir()
+        shutil.copyfile(ROOT / "tools/build_shaders.py",
+                        self.source / "tools/build_shaders.py")
+        cmake = """
+cmake_minimum_required(VERSION 3.20)
+project(tiles_backend_fixture LANGUAGES C CXX)
+set(TILES ON)
+set(CURSES OFF)
+set(SOUND ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+foreach(component SDL3 SDL3_image SDL3_ttf SDL3_mixer)
+    add_library(${component}::${component} INTERFACE IMPORTED)
+    if(FIXTURE_STATIC_TARGETS)
+        add_library(${component}::${component}-static INTERFACE IMPORTED)
+    endif()
+endforeach()
+add_subdirectory(src)
+"""
+        self.write("CMakeLists.txt", cmake)
+        # The empty shader fixture exercises the real build rule/stamp without
+        # claiming to validate GPU artifacts or needing glslang in tooling CI.
+        with mock.patch.dict(os.environ, {"GLSLANG": COMPILER}):
+            for dynamic, static_targets in (("ON", "OFF"), ("OFF", "ON"),
+                                            ("OFF", "OFF")):
+                with self.subTest(dynamic=dynamic, static=static_targets):
+                    build = self.root / f"tiles-{dynamic}-{static_targets}"
+                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
+                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                                 "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                                 "-DDYNAMIC_LINKING=" + dynamic,
+                                 "-DFIXTURE_STATIC_TARGETS=" + static_targets)
+                    self.command(CMAKE, "--build", str(build), "--target",
+                                 "cataclysm-tiles", "--parallel", "15")
+                    self.command(str(build / "src/cataclysm-tiles"))
+                    stamp = self.source / "data/shaders/build-spv.stamp"
+                    self.assertTrue(stamp.is_file())
+                    stamp.unlink()
+
+    def test_headless_build_does_not_require_sdl_targets(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        self.write("CMakeLists.txt", """
+cmake_minimum_required(VERSION 3.20)
+project(headless_backend_fixture LANGUAGES C CXX)
+set(TILES OFF)
+set(CURSES OFF)
+set(HEADLESS ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+add_subdirectory(src)
+""")
+        self.command(CMAKE, "-S", str(self.source), "-B", str(self.build),
+                     "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                     "-DCMAKE_CXX_COMPILER=" + COMPILER)
+        self.command(CMAKE, "--build", str(self.build), "--target", "cataclysm",
+                     "--parallel", "15")
+        self.command(str(self.build / "src/cataclysm"))
+
+    def test_text_backends_link_sound_without_image_or_font_libraries(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        (self.source / "audio").mkdir()
+        self.write("audio/fixture_audio.h", "int fixture_audio();\n")
+        self.write("audio/fixture_audio.cpp",
+                   "int fixture_audio() { return 42; }\n")
+        self.write("src/main.cpp", """
+#ifndef SDL_SOUND
+#error Terminal sound was requested but was not enabled.
+#endif
+#include "fixture_audio.h"
+int main() { return fixture_audio() == 42 ? 0 : 1; }
+""")
+        self.write("CMakeLists.txt", """
+cmake_minimum_required(VERSION 3.20)
+project(text_audio_fixture LANGUAGES C CXX)
+set(TILES OFF)
+set(SOUND ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+add_library(fixture_audio STATIC audio/fixture_audio.cpp)
+target_include_directories(fixture_audio PUBLIC "${CMAKE_SOURCE_DIR}/audio")
+add_library(SDL3::SDL3 INTERFACE IMPORTED)
+add_library(SDL3_mixer::SDL3_mixer ALIAS fixture_audio)
+if(NOT DYNAMIC_LINKING)
+    add_library(SDL3::SDL3-static INTERFACE IMPORTED)
+    add_library(SDL3_mixer::SDL3_mixer-static ALIAS fixture_audio)
+endif()
+add_subdirectory(src)
+""")
+        for backend in ("CURSES", "HEADLESS"):
+            for dynamic in ("ON", "OFF"):
+                with self.subTest(backend=backend, dynamic=dynamic):
+                    build = self.root / f"audio-{backend}-{dynamic}"
+                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
+                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                                 "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                                 "-D" + backend + "=ON",
+                                 "-DDYNAMIC_LINKING=" + dynamic)
+                    self.command(CMAKE, "--build", str(build), "--target",
+                                 "cataclysm", "--parallel", "15")
+                    self.command(str(build / "src/cataclysm"))
 
 
 if __name__ == "__main__":

@@ -274,7 +274,7 @@ Lua 崩溃诊断、远端 CI 证据和复现输入继续原位保留。原始日
 | [doc/c++/COMPILING-CMAKE-VCPKG.md](../../doc/c++/COMPILING-CMAKE-VCPKG.md) | CPH CMake and vcpkg builds | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧 CMake 支持声明和路径指导过时；使用当前 MSVC/preset/锁定依赖契约 |
 | [doc/c++/COMPILING-CMAKE.md](../../doc/c++/COMPILING-CMAKE.md) | Building CPH with CMake | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧文误称 CMake 非官方且仅支持 SDL2；按现行 presets/options 重写，区分 E4 历史状态字段与当前目标 |
 | [doc/c++/COMPILING-CYGWIN.md](../../doc/c++/COMPILING-CYGWIN.md) | Compilation guide for 64 bit Windows (using Cygwin) | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
-| [doc/c++/COMPILING-DEVCONTAINER.md](../../doc/c++/COMPILING-DEVCONTAINER.md) | CPH development containers | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧截图要求修改不存在的 Dockerfile 段；改为现有三种配置与 SDL2 环境边界 |
+| [doc/c++/COMPILING-DEVCONTAINER.md](../../doc/c++/COMPILING-DEVCONTAINER.md) | CPH development containers | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧截图要求修改不存在的 Dockerfile 段；改为现有三种配置，后续 SDL3 专项同步依赖边界 |
 | [doc/c++/COMPILING-FLATPAK.md](../../doc/c++/COMPILING-FLATPAK.md) | Compiling Flatpak | 历史 | 历史内容不得误认作 CPH 当前规范 | 保留原文/历史决定；现行入口另行说明，不作为当前政策或同步文档 |
 | [doc/c++/COMPILING-MSYS.md](../../doc/c++/COMPILING-MSYS.md) | Compilation guide for 64-bit Windows (using MSYS2) | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧 CDDA 下载、仓库及 Windows 7 等支持声明误导；改 CPH 来源和按实际工具链验证 |
 | [doc/c++/COMPILING-VS-VCPKG.md](../../doc/c++/COMPILING-VS-VCPKG.md) | Compilation guide for Windows (using Visual Studio and vcpkg) | 现行技术参考 | 旧 CCB 外部维护/迁移声明 | 旧上游测试被当作现行证据、vcpkg 使用移动分支；区分继承记录并锁定当前政策提交 |

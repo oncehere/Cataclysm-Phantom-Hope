@@ -166,8 +166,8 @@ try {
         'Source must be the isolated CPH checkout'
     Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgRoot 'scripts/buildsystems/vcpkg.cmake')) `
         'VcpkgRoot must be the existing pinned vcpkg checkout'
-    Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgInstalled "$($target.vcpkg_triplet)/include/SDL2/SDL.h")) `
-        'Preinstall manifest SDL2/static x64 dependencies; this probe does not install them'
+    Assert-Prerequisite (Test-Path -LiteralPath (Join-Path $VcpkgInstalled "$($target.vcpkg_triplet)/include/SDL3/SDL.h")) `
+        'Preinstall manifest SDL3/static x64 dependencies; this probe does not install them'
 
     # These changes apply only to this process and are restored on every exit.
     foreach ($item in Get-ChildItem Env:) {
@@ -251,7 +251,7 @@ try {
     $configurationKey = 'CMAKE_RUNTIME_OUTPUT_DIRECTORY_' + $target.configuration.ToUpperInvariant()
     $configureArguments = @('--preset', $target.preset,
         '-S', $SourceDir, '-B', $BuildDir, '-G', $target.generator,
-        '-A', $target.generator_platform, '-DVCPKG_MANIFEST_FEATURES=sdl2',
+        '-A', $target.generator_platform, '-DVCPKG_MANIFEST_FEATURES=sdl3',
         "-DVCPKG_ROOT=$VcpkgRoot", "-DVCPKG_INSTALLED_DIR=$VcpkgInstalled",
         "-DGETTEXT_MSGFMT_BINARY=$msgfmt",
         "-DGETTEXT_MSGFMT_EXECUTABLE=$msgfmt",
@@ -288,12 +288,12 @@ try {
     }
     if ($configured['CMAKE_GENERATOR'] -ne $target.generator -or
         $configured['CMAKE_GENERATOR_PLATFORM'] -ne $target.generator_platform -or
-        $configured['VCPKG_MANIFEST_FEATURES'] -ne 'sdl2') {
+        $configured['VCPKG_MANIFEST_FEATURES'] -ne 'sdl3') {
         throw 'Configured generator/platform/dependency feature differs from the probe'
     }
     $cacheHash = (Get-FileHash -LiteralPath $cachePath -Algorithm SHA256).Hash
     @{ options = $expectedOptions; paths = $expectedPaths; cache_sha256 = $cacheHash
-       generator = $configured['CMAKE_GENERATOR']; platform = $target.generator_platform; features = 'sdl2'
+       generator = $configured['CMAKE_GENERATOR']; platform = $target.generator_platform; features = 'sdl3'
     } | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $EvidenceDir 'configured-cache.json')
     Invoke-Logged 'build' 'cmake' @('--build', $BuildDir, '--config', $target.configuration,
         '--parallel', "$Parallel", '--target', 'cataclysm-tiles', 'cata_test-tiles')

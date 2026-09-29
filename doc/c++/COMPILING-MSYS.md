@@ -30,13 +30,10 @@ This is an inherited recipe for local CPH builds with MSYS2/MinGW. It is not a r
 
 **Compatibility boundary:** Use a Windows version supported by your selected MSYS2 toolchain and record an actual CPH build/test result. Toolchain selection below is not an operating-system support promise.
 
-### MINGW64
-* MINGW64 dependency environment; the example below selects SDL2.
+### UCRT64
+* UCRT64 dependency environment with SDL3.
 * NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
 * 64-bit version of MSYS2
-
-### UCRT64
-* UCRT64 dependency environment; the example below selects SDL3.
 
 
 ## Installation:
@@ -74,20 +71,13 @@ pacman -Su
 
 4. Install packages required for compilation:
 
--> MINGW64 (SDL2 fallback)
-```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
-```
-
 -> UCRT64 (SDL3)
 ```bash
 pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
 ```
 
--> Windows 10 and later (With SDL2)
-```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf} zlib-devel
-```
+**Note:** The tiles build needs SDL3 >= 3.4.0, so a Windows version that the
+UCRT64 packages support is required.
 
 5. Close MSYS2.
 
@@ -108,14 +98,12 @@ git clone --branch main https://github.com/oncehere/Cataclysm-Phantom-Hope.git c
 
 ```bash
 cd cph
-make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL3=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
 This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
-
-It is now using `SDL3` flag to determine wether to use `SDL2` or `SDL3`, it is set to `SDL3=1` by default when you don't pass in this parameter, you can set it to `SDL3=0` to use SDL2 instead.
 
 **Note:** See [CMake setup](COMPILING-CMAKE.md) for the out-of-source workflow. The `windows-tiles-sounds-x64` preset targets MSYS2/MinGW; provide its matching dependencies and record your own build/test results. It is not the native MSVC acceptance target.
 

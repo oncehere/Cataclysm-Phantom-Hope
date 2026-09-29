@@ -139,6 +139,8 @@ class ExecutionTests(unittest.TestCase):
                                  target["preset"])
                 self.assertEqual(result["options"], target["options"])
                 if platform_name == "windows":
+                    self.assertIn("-DVCPKG_MANIFEST_FEATURES=sdl3", argv)
+                    self.assertNotIn("-DUSE_SDL3=OFF", argv)
                     self.assertEqual(argv[argv.index("-A") + 1],
                                      target["generator_platform"])
                     self.assertIn("-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_" +
@@ -248,6 +250,10 @@ class ExecutionTests(unittest.TestCase):
                 "vcpkg_triplet": "x64-windows-static",
             }, 2)
         self.assertEqual(fetch.call_args.kwargs, {"shallow": False})
+        install = next(call.args[1] for call in runner.run.call_args_list
+                       if call.args[0] == "vcpkg-install")
+        self.assertIn("--x-feature=sdl3", install)
+        self.assertNotIn("--x-feature=sdl2", install)
 
     def test_candidate_environment_removes_credentials_and_runner_channels(
         self,

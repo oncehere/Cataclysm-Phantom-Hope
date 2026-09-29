@@ -126,7 +126,7 @@ class SafeCleanTests(unittest.TestCase):
                    'data/shaders/build-spv.stamp')
         for name in outputs + ('trial-cataclysm', 'trial-obj-lua/example.o'):
             self.write(name)
-        self.make('clean', 'BUILD_PREFIX=trial-', 'TILES=1', 'SDL3=1')
+        self.make('clean', 'BUILD_PREFIX=trial-', 'TILES=1')
         self.assert_removed(*outputs)
         self.assert_kept('trial-cataclysm', 'trial-obj-lua/example.o')
 

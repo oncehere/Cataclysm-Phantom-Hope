@@ -83,14 +83,9 @@ then
         -DCATA_ENABLE_LUA_PLATFORM="${CATA_ENABLE_LUA_PLATFORM:-1}" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
-        ${SDL3:+-DUSE_SDL3=${SDL3}} \
         ..
     make -j$num_jobs
 else
-    effective_sdl3="${SDL3:-}"
-    if [ -z "${SDL3+x}" ] && [ "${TILES:-0}" = "1" ]; then
-        effective_sdl3=1
-    fi
     make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 )
     # Full debug information substantially increases GCC's memory use for the
     # monolithic Lua Platform translation unit.  Keep it for artifact-
@@ -99,20 +94,7 @@ else
     if [ "${FULL_DEBUG_SYMBOLS:-1}" = "1" ]; then
         make_args+=( DEBUG_SYMBOLS=1 )
     fi
-    if [ -n "${SDL3+x}" ]; then
-        make_args+=( SDL3="$SDL3" )
-    fi
-    if [ "$effective_sdl3" != "1" ]; then
-        make_args+=( FRAMEWORK=1 UNIVERSAL_BINARY=1 )
-    fi
     make -j "$num_jobs" "${make_args[@]}"
-
-    # For CI on macOS, patch the test binary so it can find SDL2 libraries.
-    if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
-    then
-        file tests/cata_test
-        install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
-    fi
 fi
 
 # vim:tw=0

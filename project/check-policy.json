@@ -35,7 +35,6 @@
         "CURSES": false,
         "USE_PREFIX_DATA_DIR": false,
         "USE_XDG_DIR": false,
-        "USE_SDL3": true,
         "CPH_TEST_IDENTITY": false
       },
       "binaries": [
@@ -70,7 +69,6 @@
         "CURSES": false,
         "USE_PREFIX_DATA_DIR": false,
         "USE_XDG_DIR": false,
-        "USE_SDL3": false,
         "USE_HOME_DIR": false,
         "CATA_CCACHE": false,
         "VCPKG_MANIFEST_INSTALL": false

@@ -19,7 +19,7 @@ if (SOUND)
     list(APPEND CATACLYSM_DATA_DIRS sound)
 endif ()
 
-if (USE_SDL3)
+if (TILES)
     list(APPEND CATACLYSM_DATA_DIRS shaders)
 endif ()
 

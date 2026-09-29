@@ -1,7 +1,12 @@
 #if defined(SDL_SOUND)
 
+#include <SDL3/SDL.h>
+#include <optional>
+#include <string>
+
 #include "cached_options.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "sdlsound.h"
 #include "sound_backend.h"
 #include "sounds.h"
@@ -23,6 +28,27 @@ bool predicate_flag()
     return flag;
 }
 } // namespace
+
+TEST_CASE( "audio_only_initialization_accepts_sdl3_success", "[sound_backend][sdl3]" )
+{
+    const char *previous_driver = SDL_GetHint( SDL_HINT_AUDIO_DRIVER );
+    const std::optional<std::string> saved_driver = previous_driver
+            ? std::optional<std::string>( previous_driver ) : std::nullopt;
+    REQUIRE( SDL_SetHintWithPriority( SDL_HINT_AUDIO_DRIVER, "dummy", SDL_HINT_OVERRIDE ) );
+    on_out_of_scope restore( [&]() {
+        SDL_QuitSubSystem( SDL_INIT_AUDIO );
+        if( saved_driver ) {
+            SDL_SetHintWithPriority( SDL_HINT_AUDIO_DRIVER, saved_driver->c_str(), SDL_HINT_OVERRIDE );
+        } else {
+            SDL_ResetHint( SDL_HINT_AUDIO_DRIVER );
+        }
+    } );
+
+    // This is also the initialization entry point used by ncurses/PDCurses.
+    // SDL3 returns true on success; the old SDL2 integer check rejected it.
+    CHECK_NOTHROW( initSDLAudioOnly() );
+    CHECK( ( SDL_WasInit( SDL_INIT_AUDIO ) & SDL_INIT_AUDIO ) != 0 );
+}
 
 TEST_CASE( "sound_backend_slow_time_predicate_install_and_clear", "[sound_backend]" )
 {
@@ -64,7 +90,6 @@ TEST_CASE( "sound_backend_poll_is_safe_without_init", "[sound_backend]" )
     SUCCEED();
 }
 
-#if defined(USE_SDL3)
 TEST_CASE( "sound_backend_slow_time_drives_reserved_track_frequency_ratio",
            "[sound_backend][slow_time]" )
 {
@@ -165,9 +190,7 @@ TEST_CASE( "sound_backend_slow_time_composes_with_play_opts_pitch",
     sound_backend::set_slow_time_predicate( nullptr );
     sound_backend::shutdown();
 }
-#endif // USE_SDL3
 
-#if defined(USE_SDL3)
 TEST_CASE( "sfx_wrapper_routes_is_channel_playing_through_backend",
            "[sound_backend][integration]" )
 {
@@ -209,6 +232,5 @@ TEST_CASE( "sfx_wrapper_routes_is_channel_playing_through_backend",
     sounds::sound_enabled = prev_sound_enabled;
     sound_init_success = prev_init_success;
 }
-#endif // USE_SDL3
 
 #endif // SDL_SOUND
