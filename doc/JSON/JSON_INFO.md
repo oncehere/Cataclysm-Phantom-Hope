@@ -10,7 +10,7 @@ The checked object-type inventory in `data/reference/json/ccb_json_object_types.
 is generated from the current source and data tree. Regenerate it with
 `python3 tools/json_api/generate_contracts.py` after changing tracked JSON;
 source fingerprints or reference locations can change without adding a new
-JSON object type.
+JSON object type. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
 Use the `Home` key to return to the top.
 
