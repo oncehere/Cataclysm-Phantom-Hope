@@ -53,6 +53,7 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_pure( "pure" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_downed( "downed" );
@@ -125,7 +126,10 @@ static float pit_effectiveness( const tripoint_bub_ms &p )
     // About five ordinary zombie corpses; see item::volume.
     const units::volume filled_volume = 300_liter;
 
-    return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
+    // Dividing two volume values directly truncates the ratio to an integer.
+    const float filled_fraction = static_cast<float>( units::to_milliliter( corpse_volume ) ) /
+                                  units::to_milliliter( filled_volume );
+    return std::max( 0.0f, 1.0f - filled_fraction );
 }
 
 // Resolve death first so a creature killed by the fall can fill the pit.
@@ -1070,7 +1074,7 @@ bool trapfunc::pit( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
-    const float eff = pit_effectiveness( p );
+    const int expected_dmg = pit_effectiveness( p ) * rng( 6, 12 );
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
     c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
@@ -1083,25 +1087,23 @@ bool trapfunc::pit( const tripoint_bub_ms &p, Creature *c, item * )
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
         } else {
-            int dodge = you->get_dodge();
-            ///\EFFECT_DODGE reduces damage taken falling into a pit
-            int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
+            const int dodge = you->get_dodge();
+            // Keep CPH's post-trigger dodge reduction while applying upstream's armor-aware bash damage.
+            const int damage = expected_dmg - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
-                you->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                // like the message says \-:
-                you->hurtall( rng( static_cast<int>( damage / 2 ), damage ), you );
-                you->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, damage ) );
-                you->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, damage ) );
+                you->add_msg_if_player( m_bad, _( "You are hurt from falling into a pit!" ) );
+                for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                    const int part_damage = bp->primary_limb_type() == bp_type::leg ? damage * 2 : damage;
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, part_damage ) );
+                }
             } else {
                 you->add_msg_if_player( _( "You land nimbly." ) );
             }
         }
     } else if( z != nullptr ) {
         pit_dismount_player( z );
-        z->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, eff * rng( 10,
-                        20 ) ) );
-        z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, eff * rng( 10,
-                        20 ) ) );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::leg ),
+                        damage_instance( damage_bash, expected_dmg ) );
     }
     cleanup_after_pit( here, p, c );
     return true;
@@ -1118,53 +1120,39 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
+    const int expected_dmg = rng( 10, 20 );
+    const float total_pit_eff = std::max( 0.0f, pit_effectiveness( p ) - 0.2f );
     c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
                               _( "<npcname> falls in a spiked pit!" ) );
     c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        int dodge = you->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 20, 50 );
         if( you->can_fly() ) {
             you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                         _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
-        } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
+        } else if( rng( 5, 30 ) < you->get_dodge() ) {
+            // CPH keeps the post-trigger whole-event dodge before upstream's per-limb damage.
             you->add_msg_if_player( _( "You avoid the spikes within." ) );
         } else {
-            bodypart_id hit = bodypart_str_id::NULL_ID();
-            switch( rng( 1, 10 ) ) {
-                case  1:
-                    hit = bodypart_id( "leg_l" );
-                    break;
-                case  2:
-                    hit = bodypart_id( "leg_r" );
-                    break;
-                case  3:
-                    hit = bodypart_id( "arm_l" );
-                    break;
-                case  4:
-                    hit = bodypart_id( "arm_r" );
-                    break;
-                case  5:
-                case  6:
-                case  7:
-                case  8:
-                case  9:
-                case 10:
-                    hit = bodypart_id( "torso" );
-                    break;
+            bool did_any_stab_dmg = false;
+            for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( total_pit_eff > 0.0f && total_pit_eff >= rng_float( 0.0, 1.0 ) ) {
+                    you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
+                                            body_part_name_accusative( bp ) );
+                    dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, bp,
+                                                      damage_instance( damage_stab, expected_dmg ) );
+                    did_any_stab_dmg |= dealt_dmg.type_damage( damage_stab ) > 0;
+                } else {
+                    you->add_msg_if_player( m_bad, _( "Your %s hits the ground, missing the spikes!" ),
+                                            body_part_name_accusative( bp ) );
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, expected_dmg / 2 ) );
+                }
             }
-            you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
-                                    body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_cut,
-                                              damage ) );
-            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
-                dealt_dmg.type_damage( damage_cut ) > 0 ) {
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && did_any_stab_dmg ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1173,7 +1161,8 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
         }
     } else if( z != nullptr ) {
         pit_dismount_player( z );
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20, 50 ) ) );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::torso ),
+                        damage_instance( damage_stab, expected_dmg ) );
     }
     const bool filled_up = cleanup_after_pit( here, p, c );
     if( !filled_up && one_in( 4 ) ) {
@@ -1201,57 +1190,40 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
+    const float pit_eff = pit_effectiveness( p );
+    const int expected_dmg = pit_eff * rng( 6, 12 );
+    const float total_pit_eff = std::max( 0.0f, pit_eff - 0.5f );
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
                               _( "<npcname> falls in pit filled with glass shards!" ) );
     c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        int dodge = you->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 15, 35 );
         if( you->can_fly() ) {
             you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                         _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
-        } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
+        } else if( 0 == expected_dmg || rng( 5, 30 ) < you->get_dodge() ) {
+            // CPH keeps the post-trigger whole-event dodge before upstream's per-limb damage.
             you->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
-            bodypart_id hit = bodypart_str_id::NULL_ID();
-            switch( rng( 1, 10 ) ) {
-                case  1:
-                    hit = bodypart_id( "leg_l" );
-                    break;
-                case  2:
-                    hit = bodypart_id( "leg_r" );
-                    break;
-                case  3:
-                    hit = bodypart_id( "arm_l" );
-                    break;
-                case  4:
-                    hit = bodypart_id( "arm_r" );
-                    break;
-                case  5:
-                    hit = bodypart_id( "foot_l" );
-                    break;
-                case  6:
-                    hit = bodypart_id( "foot_r" );
-                    break;
-                case  7:
-                case  8:
-                case  9:
-                case 10:
-                    hit = bodypart_id( "torso" );
-                    break;
+            bool did_any_cut_dmg = false;
+            for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( total_pit_eff > 0.0f && total_pit_eff >= rng_float( 0.0, 1.0 ) ) {
+                    you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
+                                            body_part_name_accusative( bp ) );
+                    dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, bp,
+                                                      damage_instance( damage_cut, expected_dmg ) );
+                    did_any_cut_dmg |= dealt_dmg.type_damage( damage_cut ) > 0;
+                } else {
+                    you->add_msg_if_player( m_bad, _( "Your %s hits the ground, missing the glass!" ),
+                                            body_part_name_accusative( bp ) );
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, expected_dmg ) );
+                }
             }
-            you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
-                                    body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_cut,
-                                              damage ) );
-            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
-                dealt_dmg.type_damage( damage_cut ) > 0 ) {
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && did_any_cut_dmg ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1260,8 +1232,8 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
         }
     } else if( z != nullptr ) {
         pit_dismount_player( z );
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20,
-                        50 ) ) );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::torso ),
+                        damage_instance( damage_cut, expected_dmg ) );
     }
     const bool filled_up = cleanup_after_pit( here, p, c );
     if( !filled_up && one_in( 5 ) ) {
