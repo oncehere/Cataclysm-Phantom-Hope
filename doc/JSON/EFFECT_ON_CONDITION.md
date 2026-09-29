@@ -5975,3 +5975,8 @@ Combination of values work as `and`, no matter how they are arranged. This two n
 ```jsonc
 "search_data": [ { "category": "weapons", "wielded_only": true } ]
 ```
+
+For example, changing inherited spear damage or crafting tool requirements
+refreshes these inventories' input fingerprints without adding EOC selectors.
+Combat damage, recipe availability and tool checks still need native gameplay
+tests; the inventory alone does not validate those balance effects.
