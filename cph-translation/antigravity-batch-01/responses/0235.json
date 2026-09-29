@@ -1,0 +1,81 @@
+{
+  "request_sha256": "ea17899506e9386d544a0e85e32ce3ccc7e3082d1b1acec2f1d0a6e0d3947247",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "e00cd7bed7e5e52ad25a450428c2a4a1419bbab069ece03f5690f77644927c72",
+      "values": [
+        "啊，是你啊。很高兴见到你。我能为你做点什么？是来领取悬赏金的吗？"
+      ]
+    },
+    {
+      "id": "e02a3908bf5c17848745e98e1110416a54cc7f60fb1a0e43560d38cce49f919c",
+      "values": [
+        "你的搭档将一个区域标记为危险。"
+      ]
+    },
+    {
+      "id": "e03a5c3c6ec4018cab3d20585fbb768604cf77b6149aa93236ccc32c1556371f",
+      "values": [
+        "真有劲头！作为交换，我会给你一些这些发亮的工具，随你挑选。听起来如何？"
+      ]
+    },
+    {
+      "id": "e054a950d50cab656ea2b907d401d75973f075c0cccb7fac1f4e8994101cceb0",
+      "values": [
+        "一本书道尽宇宙的整部历史，亦或是一整本书对原子或水循环的深入探究。"
+      ]
+    },
+    {
+      "id": "e069d8af013fcd0a6ce8fdd62853b9fa2705c934a0ef6292bd271e8b8802f5ce",
+      "values": [
+        "将你的马匹转变成一匹配得上最强猎人的骏马。遗憾的是，它每周都需要吸食血液，否则要么死亡，要么沦为怪物。理论上吸血鬼也可以做到这一点，但这似乎从来不是他们的优先考量。"
+      ]
+    },
+    {
+      "id": "e0843c43168ff2fcc83a4c5b61ff3a31e9a0308d74cc19fb7b5c6e25d0a5e032",
+      "values": [
+        "超魔特权：\n等级 <u_val:current_level>。\n有 <u_val:num_perks> 点特权点数可用。\n有 <u_val:playstyle_perks_available> 项游玩风格特权可选。\n当前经验值：<u_val:available_exp>。\n升至下一级所需经验值：<u_val:exp_to_perk>。"
+      ]
+    },
+    {
+      "id": "e08af453ee064d653fb73a09f48b5983702d9824462c02df8ca12f3dd16d0afa",
+      "values": [
+        "有活儿给我干吗？"
+      ]
+    },
+    {
+      "id": "e0b41d23e208204258b3b86cff83a04d94367b07d8fbac37326b706c40b730cb",
+      "values": [
+        "默认尾中部"
+      ]
+    },
+    {
+      "id": "e0bbb9bb5fd8dffe1a9cfce4517054f5522e14575896804a508169ed5d9a6809",
+      "values": [
+        "[激怒] 搬出枢纽 01 来破坏谈判。“事实上，斯莫克斯，和你交易的那些枢纽 01 的人拥有相当先进的科技，或者至少看起来是这样。也许这玩意儿根本不值得纳入这笔交易。”"
+      ]
+    },
+    {
+      "id": "e0c520d14d03a6e5f8f77f43ef16679ba17249c962b5aee9ef871948a10a6ba9",
+      "values": [
+        "&对讲机打开的速度比平时要慢。“你听起来像 <u_name>。但你看上去像某种生化改造人。到底发生了什么事？”"
+      ]
+    },
+    {
+      "id": "e0c525f3798babb66a0bb22e6ecaff4d3d4c45af50e9df393773e78afb724c40",
+      "values": [
+        "《社会主义》"
+      ]
+    },
+    {
+      "id": "e0ceca31977204f5088b71ed57f266b05ed80402da0ef701a95f40e3bef081c9",
+      "values": [
+        "哨兵-lx 的超黑斗篷披在肩头，宛如一团凝固而怪诞的阴影。它由石墨烯编织而成，轻盈且坚韧，但无法被修复。"
+      ]
+    }
+  ]
+}

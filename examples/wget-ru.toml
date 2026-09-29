@@ -1,0 +1,15 @@
+version = 1
+project = 'gnu-wget-1.25.0-ru'
+language = 'ru'
+plural_forms = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+template = 'upstream/po/wget.pot'
+catalog = 'output/ru.po'
+state = 'output/ru.state.json'
+
+[[sources]]
+name = 'gnu-wget'
+path = 'upstream/po/ru.po'
+revision = 'wget-1.25.0'
+
+[rules]
+preserve_newlines = false

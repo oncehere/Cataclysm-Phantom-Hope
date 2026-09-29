@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'backrooms_very_old_news'\n~ This category is for news after 1950 until the time of Cataclysm lore and\nshould adopt the tone of voice of its era.",
+      "flags": [],
+      "id": "f607ecd6e5e3864a2b763eb2198c01ae15a4ca62649020ce11e2d4944f30e035",
+      "identity": [
+        null,
+        "LUNCH MENUS:  MONDAY, February 16 - NO SCHOOL.  TUESDAY, February 17 - Corn dog with catsup and mustard, potatoes au gratin, bread and butter, buttered spinach, apple half, milk.  WEDNESDAY February 18 - Wildcat goulash, buttered green beans, hot rolls and butter, orange jello with pears, milk.  THURSDAY, February 19 - Tacos with cheese and lettuce, applesauce, milk.  FRIDAY, February 20 - Creamed turkey over mashed potatoes, peanutbutter sandwiches, cherry shortcake, chocolate milk.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Backrooms/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "LUNCH MENUS:  MONDAY, February 16 - NO SCHOOL.  TUESDAY, February 17 - Corn dog with catsup and mustard, potatoes au gratin, bread and butter, buttered spinach, apple half, milk.  WEDNESDAY February 18 - Wildcat goulash, buttered green beans, hot rolls and butter, orange jello with pears, milk.  THURSDAY, February 19 - Tacos with cheese and lettuce, applesauce, milk.  FRIDAY, February 20 - Creamed turkey over mashed potatoes, peanutbutter sandwiches, cherry shortcake, chocolate milk.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Aye, so this one's a lot like mine.  Real popular among this Exodii node.\nIt's heavy duty, but as you can see, it's a little less human-like than\nmaybe you're comfortable with.  It's a good, sturdy design, that will keep\nyou safe.  But you'll have to get used to going without most clothing and\narmor.  The body just isn't made for them.  This is my suggestion.",
+      "flags": [],
+      "id": "f608b653dce9ca902f4871f4b803a2f45d1a7dee3a130d0ec8c1f6a53edc4369",
+      "identity": [
+        null,
+        "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this'n like thisn's, ol' Rubik's I mean.  Popular with us'n.  It's heavy n' tough.  Keep yer mince meat safe.  But if ye' wanna be real human, yer out of luck, as ye'll have to get used to goin' without cloth n' steel gear.  The frame just isn't made for them.  Won't fit.  But who needs'em?  Not me.  My lump'a'ice is ta' seal yourself up in this one.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this'n like thisn's, ol' Rubik's I mean.  Popular with us'n.  It's heavy n' tough.  Keep yer mince meat safe.  But if ye' wanna be real human, yer out of luck, as ye'll have to get used to goin' without cloth n' steel gear.  The frame just isn't made for them.  Won't fit.  But who needs'em?  Not me.  My lump'a'ice is ta' seal yourself up in this one.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "f62a853124176fbd7c733475324d1b40d75f808eebe4a2c31ed4bfcff713120a",
+      "identity": [
+        null,
+        "Exodii Cyberframe 1a",
+        "Exodii Cyberframe 1a"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Exodii Cyberframe 1a",
+      "singular": "Exodii Cyberframe 1a",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f64375e0e4841f85179e44b55070ec707c667c21b1eee8709bd3de7ca42f5f35",
+      "identity": [
+        null,
+        "The vehicle or service counter changed while removal was underway.  The order was canceled and fully credited.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "14729"
+        ]
+      ],
+      "plural": null,
+      "singular": "The vehicle or service counter changed while removal was underway.  The order was canceled and fully credited.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "f648006ca9e1c724e9e42d46b1a19cf4b9ce7b5b91984d07a0ec4ada89df9c13",
+      "identity": [
+        null,
+        "Disposition Matrix",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Disposition Matrix",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f691cc12d710a75068aa04736ca5dc51cd938d7c018f23baca1d064b884645da",
+      "identity": [
+        null,
+        "Oh, my.  Look at you.  As they promised, you are quite the machine.  On the side of humanity, too, I hear.  I take it you're here for the bounty?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NC_ROBOFAC_SCIENTIST_GARAGE.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Oh, my.  Look at you.  As they promised, you are quite the machine.  On the side of humanity, too, I hear.  I take it you're here for the bounty?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'weed_high'",
+      "flags": [],
+      "id": "f6b900fa4025d879d36f95609782326184200033222cc82c6b451749cb761c0f",
+      "identity": [
+        null,
+        "Zooted",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Zooted",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "f6ca59fc564461ba00dd87cdb02177268981e2638fb40d14eefd87c034198627",
+      "identity": [
+        null,
+        "Bionic Right Leg (Cyberframe 1a)",
+        "Bionic Right Legs (Cyberframe 1a)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Right Legs (Cyberframe 1a)",
+      "singular": "Bionic Right Leg (Cyberframe 1a)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f70685a9c73e88c81169d8d4fd92b89b80720a85171a737fcbc5d399fa823462",
+      "identity": [
+        null,
+        "After so long spent experimenting on vampire blood, I found a way to push vampirism beyond its absolute limits.\nBy taking vampire blood, a drop of my own blood, some blood no human nor vampire could ever want to drink and an assortment of poisons and toxins, it is possible to apply the process of an ancient poison-making method to vampire blood, forcing it to devour itself to become stronger.\nWhen the process was over and I drank the remaining blood, I could now drink vampire blood to become more of a vampire than they are, with all the power this brings.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/talk_read_vampire_anathema_book.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "After so long spent experimenting on vampire blood, I found a way to push vampirism beyond its absolute limits.\nBy taking vampire blood, a drop of my own blood, some blood no human nor vampire could ever want to drink and an assortment of poisons and toxins, it is possible to apply the process of an ancient poison-making method to vampire blood, forcing it to devour itself to become stronger.\nWhen the process was over and I drank the remaining blood, I could now drink vampire blood to become more of a vampire than they are, with all the power this brings.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'dolm goblin fruit'",
+      "flags": [],
+      "id": "f707bd291b7078997a4d1e4fec2efed754fb42eb8ca6661b76956e7b404b2f35",
+      "identity": [
+        null,
+        "This teardrop-shaped goblin fruit hurts to look at.  Sometimes it's a dark blue, sometimes it's a feverish red, and sometimes it's a mix of the two that you would previously have sworn could not exist.  It smells faintly peppery with a hint of lemon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/comestibles/goblin_fruits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This teardrop-shaped goblin fruit hurts to look at.  Sometimes it's a dark blue, sometimes it's a feverish red, and sometimes it's a mix of the two that you would previously have sworn could not exist.  It smells faintly peppery with a hint of lemon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f71e2564d6794b5de5b7b187cebaeafd6a1806bddde9fb5f70484dc9d4cbddb5",
+      "identity": [
+        null,
+        "Buy from mechanic first",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "897"
+        ]
+      ],
+      "plural": null,
+      "singular": "Buy from mechanic first",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_XedraWood_RandEnc'",
+      "flags": [],
+      "id": "f728f25a788d0ba667c7ec1f4dbc9bf226f51fcdf07adae21b234387804778df",
+      "identity": [
+        null,
+        "XedraWood random encounter has met its conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/encounters/base_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "XedraWood random encounter has met its conditions.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

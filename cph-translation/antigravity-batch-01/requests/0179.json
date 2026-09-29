@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a94a978f171dc4e820e395b1622a2f4fc70c88076f6d89e9be37e24494f173fb",
+      "identity": [
+        null,
+        "I…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a9789bd6e8f452a1c944d37ace8c19d94592a3a9f0a715ba6268aded55fc1307",
+      "identity": [
+        null,
+        "Maximum Lift: <color_light_blue>%5.0f</color> %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "3043"
+        ]
+      ],
+      "plural": null,
+      "singular": "Maximum Lift: <color_light_blue>%5.0f</color> %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a9a9d7a42cf34257caa4f73b033b9c5e3bc58b5d1c9966439ab3b2020643aa7d",
+      "identity": [
+        null,
+        "Unrack the carried vehicle before removing this part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "464"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unrack the carried vehicle before removing this part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a9abc7281403fc774c4979723a32f792db744960b06cff64a2dfd802aee8f6b1",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a9b9d09d1aa5a55c5f583d9e405e3ca6ebe82b96af5c1977ddae665b5c6e1d2c",
+      "identity": [
+        null,
+        "But why?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "But why?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a9c91a09272e4b4f4493f0dceae57e7eb64417bac2bb12a4b45f728c749e3fb2",
+      "identity": [
+        null,
+        "<color_light_green>ERROR001: No contact with Earth gate",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_green>ERROR001: No contact with Earth gate",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "a9d761e2c84355bdf01db6eae59967419e0f077d331a2284f7cbcfac00cc974a",
+      "identity": [
+        null,
+        "吐纳打坐（基底）",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "吐纳打坐（基底）",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_xedrawood_hedge_magic_spirit_quest_completed'",
+      "flags": [],
+      "id": "a9f311f3a9ab7d9860f75effbb185b24c40faed9a5a004309b2a36e2521af65c",
+      "identity": [
+        null,
+        "Underwent Spirit-Quest",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/recipe_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Underwent Spirit-Quest",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor/tool name",
+      "flags": [],
+      "id": "a9f799df562dcdb3506d8f3b6436b17f6ee7f2e7e66d9141f6a6e5a07b4dd4c8",
+      "identity": [
+        null,
+        "periapt of health",
+        "periapts of health"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": "periapts of health",
+      "singular": "periapt of health",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "aa12224b7030d8f396f5d5f196df04d0025bbbe1535a77b8233be746d203c528",
+      "identity": [
+        null,
+        "Active",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/auto_pickup.cpp",
+          "252"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "270"
+        ]
+      ],
+      "plural": null,
+      "singular": "Active",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aa2054fb35265527a2576debdbb349540505606851dae87a527245219789ec85",
+      "identity": [
+        null,
+        "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nYou were saved from your peril.\n\nYour new implants were necessary to stabilize your reality.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nYou were saved from your peril.\n\nYour new implants were necessary to stabilize your reality.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'mortar container'",
+      "flags": [],
+      "id": "aa26c2e9065348db5a9d1faec6300be28bc70fd83d96900f9351d39339629cf9",
+      "identity": [
+        null,
+        "A small, thick cylindrical container.  Designed to store a single mortar round.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/military.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small, thick cylindrical container.  Designed to store a single mortar round.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

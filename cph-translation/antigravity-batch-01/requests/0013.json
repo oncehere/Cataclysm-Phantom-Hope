@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "012cba1c2aaaa8a8c8b731fd4f8dfd9be17833427ca165d5ec928fb04897c377",
+      "identity": [
+        null,
+        "Install %1$d copies of %2$s in the selected area of the %3$s for %4$s?  Estimated total time: %5$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1151"
+        ]
+      ],
+      "plural": null,
+      "singular": "Install %1$d copies of %2$s in the selected area of the %3$s for %4$s?  Estimated total time: %5$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "0132447ceed09df23c2308c16e59615423d595f39d91466949d5d430dc67e655",
+      "identity": [
+        null,
+        "Review of probe footage shows that matrix crystals tend to be found among larger crystalline formations.  Once manned dives resume we'll need to check those crystals out in person.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Review of probe footage shows that matrix crystals tend to be found among larger crystalline formations.  Once manned dives resume we'll need to check those crystals out in person.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Field intensity level",
+      "flags": [],
+      "id": "01394c0ea37eaea44086ad684fe4151fceec55c19ed43ec33ad61ee5c150390e",
+      "identity": [
+        null,
+        "breaking redcap",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "breaking redcap",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'shielded PAPR-EEG helmet'",
+      "flags": [],
+      "id": "015a047c0aaaee348bfa8839a1ce932904905b80ff9af23d248df0c5f20ea236",
+      "identity": [
+        null,
+        "A white plastic helmet fit with a transparent full-face mask.  It has been modified for some unknown purpose.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  A cotton cap covered in electrodes and wires, like those used to make electroencephalogram recordings, has been integrated as an underlayer, with a thick connection cable exiting a grommeted and sealed hole in the back.  A layer of shiny metallized polyethylene terephthalate has been glued to the interior of the helmet itself.  A tinfoil hat for a prepper with class.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A white plastic helmet fit with a transparent full-face mask.  It has been modified for some unknown purpose.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  A cotton cap covered in electrodes and wires, like those used to make electroencephalogram recordings, has been integrated as an underlayer, with a thick connection cable exiting a grommeted and sealed hole in the back.  A layer of shiny metallized polyethylene terephthalate has been glued to the interior of the helmet itself.  A tinfoil hat for a prepper with class.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Intermediate Eyestalks'",
+      "flags": [],
+      "id": "0172dc8c562182aea86e4b1af5cb830a27c9ba6717c223c8aab0952030062c95",
+      "identity": [
+        null,
+        "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "017a7a22c4826ffe7e47f566cccac777a765122ab2e5fcc74a75ab0cb4ae9ac7",
+      "identity": [
+        null,
+        "default tail centers",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default tail centers",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "01b7c7f16080af3746258ec070bce6c4aae844cf35fce11eb5811862231565be",
+      "identity": [
+        null,
+        "Net refund: %d point(s)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3673"
+        ]
+      ],
+      "plural": null,
+      "singular": "Net refund: %d point(s)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_teleportation'\n~ Phavian designation for teleportation study is LOST RAIN",
+      "flags": [],
+      "id": "01bf5c1c6416d1ab2222032b16fd2d291108fa7bc22082c81cd1851345f340f9",
+      "identity": [
+        null,
+        "At 1238 yesterday during COBALT THORN testing, a malfunction occurred, leading to a power surge in the matrix crystal housing.  While Dr. Simmons immediately engaged the shutdown sequence and prevented any damage to the prototype, smoke began filling the room after her actions.  I hit the alarm button but security did not respond before the appearance of an entity since designated XE754.  XE754 immediately attacked Dr. Simmons and Dr. Rodriguez and, though security did arrive within the ideal 1 minute response time, XE754 seemed to be nearly immune to small-arms fire.  Dr. Simmons suffered serious injuries during the attack and when XE754 retreated it appeared to take her with it.  The smoke vanished soon afterward and the COBALT THORN prototype was successfully returned to an inactive state.\n\nFinally, I must protest at the treatment I have received over my accounting of the incident.  This is the third report I have submitted and I have not changed my story in any way.  I was there.  I know what I saw.  I do not understand why I am being put through this or why sole responsibility is being assigned to me when I was not in charge of the project.  I especially do not understand why Dr. Rodriguez has not been subject to the same process nor why I have not been permitted to speak to him.  I worked with him and Julia on this project for six months!  I refuse to be treated this way.\nArthur Mitchell\nResearcher, COBALT THORN",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "At 1238 yesterday during COBALT THORN testing, a malfunction occurred, leading to a power surge in the matrix crystal housing.  While Dr. Simmons immediately engaged the shutdown sequence and prevented any damage to the prototype, smoke began filling the room after her actions.  I hit the alarm button but security did not respond before the appearance of an entity since designated XE754.  XE754 immediately attacked Dr. Simmons and Dr. Rodriguez and, though security did arrive within the ideal 1 minute response time, XE754 seemed to be nearly immune to small-arms fire.  Dr. Simmons suffered serious injuries during the attack and when XE754 retreated it appeared to take her with it.  The smoke vanished soon afterward and the COBALT THORN prototype was successfully returned to an inactive state.\n\nFinally, I must protest at the treatment I have received over my accounting of the incident.  This is the third report I have submitted and I have not changed my story in any way.  I was there.  I know what I saw.  I do not understand why I am being put through this or why sole responsibility is being assigned to me when I was not in charge of the project.  I especially do not understand why Dr. Rodriguez has not been subject to the same process nor why I have not been permitted to speak to him.  I worked with him and Julia on this project for six months!  I refuse to be treated this way.\nArthur Mitchell\nResearcher, COBALT THORN",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dead holy tree'",
+      "flags": [],
+      "id": "01d4b53b5586a6505ff7f22d2e0483fbab5e5dafe1e6f8f7b22be5fa8371a606",
+      "identity": [
+        null,
+        "Censers and candlelamps hang from the twisted branches of this tree, which seems to have been revered in the past.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/terrain_trees.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Censers and candlelamps hang from the twisted branches of this tree, which seems to have been revered in the past.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Underwent Spirit-Quest'",
+      "flags": [],
+      "id": "01d77bd92076ddd4d034e29b27b89d1066a1e9b3b938bff52c7543e4b445dd6b",
+      "identity": [
+        null,
+        "You underwent a quest to the Unseen World and your spirit is depleted.  You cannot use either the lesser or greater mysteries until it recovers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/recipe_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You underwent a quest to the Unseen World and your spirit is depleted.  You cannot use either the lesser or greater mysteries until it recovers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Perfect Warrior'",
+      "flags": [],
+      "id": "01d8c0eba126f1ef6a69b1c7bd80ab53f89d94330e0b7f02b5e8050b9bae5580",
+      "identity": [
+        null,
+        "None around you could best you in a fight.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "None around you could best you in a fight.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'GG Stinger 3x35mm flechette'",
+      "flags": [],
+      "id": "01ea379db24dd1e442f6859d870bf6ba98f146dce4616536ce52c09ae6055931",
+      "identity": [
+        null,
+        "The Gibson Gear Stinger flechette is a magnetically propelled dart roughly half the length of the average human thumb.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/ammo/needle.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Gibson Gear Stinger flechette is a magnetically propelled dart roughly half the length of the average human thumb.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

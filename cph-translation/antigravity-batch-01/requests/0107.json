@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_spring'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "62dc5ee5c85ab3ef659895f27ee052b8217c3856c2917b4a9dedbea5f150ba40",
+      "identity": [
+        null,
+        "%1$s gestures and plants grow in moments.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s gestures and plants grow in moments.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'arbor press'",
+      "flags": [],
+      "id": "63530cb606c2735fa364e15b0ce32755b159f78542ceeefba39200aa6e24a0ea",
+      "identity": [
+        null,
+        "A small hand operated press, it can be used for staking, rivetting, or various other small jobs.  If you had a swage and die, you could use it to make copper jackets for handloading.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/handloading.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small hand operated press, it can be used for staking, rivetting, or various other small jobs.  If you had a swage and die, you could use it to make copper jackets for handloading.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '[Ψ]Illuminate'\n~ Description of spell 'Moon's Cold Glow'",
+      "flags": [],
+      "id": "6358f4ee62b83f419bde51f6f183a45340273754d1e2c05b1c813fb4be3485bb",
+      "identity": [
+        null,
+        "Surround a single target with an outline of light that follows them as they move, revealing their position at all times.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/photokinesis.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/werewolf_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Surround a single target with an outline of light that follows them as they move, revealing their position at all times.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_stop_nether_conditions'",
+      "flags": [],
+      "id": "636dfb9555178ea1cd0640825b96ff2bb678ddfdd21cc11b9f2eceef9a97d620",
+      "identity": [
+        null,
+        "Dancer in the Endless Dark",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dancer in the Endless Dark",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_spring'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "63720ad7af97044c07b522e807081d05e75b783c4e8c08de0cd90026f791c992",
+      "identity": [
+        null,
+        "%1$s gestures and an armor of vines and leaves grows around them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s gestures and an armor of vines and leaves grows around them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Hand of Lugh'",
+      "flags": [],
+      "id": "6382ab3560e340e997d389db3b31707be4c52be2226af93fcfc1c41a3a397cb9",
+      "identity": [
+        null,
+        "Your borrowed strength drains away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your borrowed strength drains away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'royal sarcophagus'",
+      "flags": [],
+      "id": "6383974ed8ac9c47add6469ef869faf8f79c48435cc62143298e9e2e3512ab80",
+      "identity": [
+        null,
+        "An army of ossified figures marches across the four sides of this massive stone coffin, their procession led by a regal figure whose features are obscured by a veil.  The lid is firmly sealed, and whatever lies within is inaccessible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-graves.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An army of ossified figures marches across the four sides of this massive stone coffin, their procession led by a regal figure whose features are obscured by a veil.  The lid is firmly sealed, and whatever lies within is inaccessible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_portal'",
+      "flags": [],
+      "id": "638beb9de183179ab020671f26d95c88136bb55f7cf25e519290942cff2320f1",
+      "identity": [
+        null,
+        "All samples of XE323, whether found in a PHAVIAN-designate sub-plane are not, are to immediately be turned over to XEDRA-23 on cessation of dive.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "All samples of XE323, whether found in a PHAVIAN-designate sub-plane are not, are to immediately be turned over to XEDRA-23 on cessation of dive.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "63b989017f4e28b7166d4cb05b631e0937ad72eba3c63294239eb0f9e20cabf3",
+      "identity": [
+        null,
+        "Co-op: armed — re-enter Host to pick world / character",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6292"
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op: armed — re-enter Host to pick world / character",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<drop_it>'\n~ General warning to put a weapon down, either in preparation for a mugging\nor by an scared NPC as part of a request to establish trust with the\navatar.",
+      "flags": [],
+      "id": "63bb534932aba07ee6aa255275368ebee63a5a0071a773b4544455ff5de66ceb",
+      "identity": [
+        null,
+        "Drop the <freaking> <yrwp>!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_combat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Drop the <freaking> <yrwp>!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of addiction effect 'ælfadl' as it appears in the player's\nstatus",
+      "flags": [],
+      "id": "63c847c15232acff6a3c341b2ab00255a8a1417ff34a6daff384b0be2138dac8",
+      "identity": [
+        null,
+        "You consumed faewild until it has left its mark upon you.  You have become elf addled.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/addictions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You consumed faewild until it has left its mark upon you.  You have become elf addled.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "63d16931c6c5175a1f4fcec533fea736681266953987ba09666741597fc9038d",
+      "identity": [
+        null,
+        "Create Character",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4284"
+        ],
+        [
+          "src/newcharacter.cpp",
+          "4289"
+        ]
+      ],
+      "plural": null,
+      "singular": "Create Character",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

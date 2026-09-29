@@ -1,0 +1,81 @@
+{
+  "request_sha256": "3a2dce402c1b462cc3058a0db5346bb1ef8cdde6a350615abb20f13372da2962",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "12e7b14a3615cf525f1e1568bcc92dfffadd9e5988ad84c91c554b2e00faefa8",
+      "values": [
+        "[安装空气过滤 CBM] 行吧，我看中那个空气过滤玩意儿了。它自带松木清香味吗？"
+      ]
+    },
+    {
+      "id": "130106a08516d0288d604cfc95403de941b747c67e6524d30ddf5a2f6cec2527",
+      "values": [
+        "右前触手"
+      ]
+    },
+    {
+      "id": "1319f3a1f33f411c6110bc6becc8ea293fe07c4fca5b52b1de4d156b4c65f628",
+      "values": [
+        "你能制造一些梦滓吗？"
+      ]
+    },
+    {
+      "id": "131bfe6c87d1245e9ced1cd508621daebe8951161c2aa2e5b3588af2315ab9d5",
+      "values": [
+        "距离天亮还剩 <global_val:TIME_TILL_DAYTIME> 分钟"
+      ]
+    },
+    {
+      "id": "1321fa636a1f129f349382ef5ff5b806e0029a2f8692ba6ccbd3c2e33839a896",
+      "values": [
+        "&鲁比克谈起了招募与 CBM 接口的话题……"
+      ]
+    },
+    {
+      "id": "132879f1d10df100dcbc10b3e925bca3dcb84f485eca8afabfa8df49564fdd93",
+      "values": [
+        "何必用氯丙嗪来磨灭你的锋芒？"
+      ]
+    },
+    {
+      "id": "132e0c70201ef1a7d156287eadf9b5d0c2635d231c746483d3781b11c440b46a",
+      "values": [
+        "排干积聚的积水后留下的潮湿地面。"
+      ]
+    },
+    {
+      "id": "132f827c82ff4596fc75921893b668e6db8b30464e9cd226d3819a97ff0c9e5e",
+      "values": [
+        "一条大而舒适的被子，由带有三角形图案的厚羊毛制成。极其舒适温暖！"
+      ]
+    },
+    {
+      "id": "134d5d8b112a3fc7b70286695101f33890f4652d6fd3dc5cbcf0ffe078939602",
+      "values": [
+        "人工 %s"
+      ]
+    },
+    {
+      "id": "134e42e6505894c8cd9dd713d8fd5dcecd462a905c04d0680c67c886cb5d71a0",
+      "values": [
+        "无法添加 %s。它与 %s 冲突。"
+      ]
+    },
+    {
+      "id": "13887db0506b8758648251353e89f2ca806db0d593b4d137db9db13fb1da0b74",
+      "values": [
+        "外来步枪子弹，穿甲（复装）"
+      ]
+    },
+    {
+      "id": "138c16a0ca8c13c87a9dfdb1fcffb5621876f5c70b5402901f18699ea093bb3d",
+      "values": [
+        "冰冻恶魔"
+      ]
+    }
+  ]
+}

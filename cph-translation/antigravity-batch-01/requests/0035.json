@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_RandEnc_Roadstop_Jotunn'",
+      "flags": [],
+      "id": "18d5bd7c869eb540590bf4708f6394dd378b564a825fce59dc621da24379e07b",
+      "identity": [
+        null,
+        "Xedra Evolved Jotunn/Zebra encounter has triggered!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/jotunn_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Xedra Evolved Jotunn/Zebra encounter has triggered!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "18d96fbdfff4405f1c02770052544a84c693259fd3263ff3b027df74bdd3dfe1",
+      "identity": [
+        null,
+        "Oh, a U.S. marshal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Oh, a U.S. marshal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "18e2a0f53cb2833922904cccb4d0afb459797d58093fae2a52a577510cfe6ff4",
+      "identity": [
+        null,
+        "This appears to be a locally saved livestream archive, with the feed filming a decrepit backstreet.  An older, bespectacled man and a middle-aged Latina woman stand huddled in a line against the wall, their legs lashed to each other and their hands bound to the front.  Beaming like a ray of sunshine, a man dressed in tactical gear prances before them, a baseball bat resting conspicuously upon his shoulder as he greets the camera.  \"Hey guys,\" he says, \"this is Andre Diliman, and we're going to be putting our detective hats on and figuring out who's to blame for all the shit going on, and we're going to do that, with the help of these beautiful people right here, so please, introduce yourselves.\"\n\nExchanging resigned glances, the two captives lower their heads as the woman mutters, \"I'm Dr. Martha Sharma.\"\n\n\"And I'm Dr. Conrad Sharma,\" her compatriot glumly adds.\n\n\"And both you fuckers work at Jameson Biotech,\" the spokesman concludes in a sing-song cadence as he saunters before the couple.  \"We're going to start easy.  The CDC has been saying that something's messing with people's brains: making them act all aggressive.  Now, my question to you is simple: What did y'all cook up in those labs of yours?\"\n\nLifting her head and making eye contact with her questioner, the woman shakes her head incredulously.  \"You fucking idiot.\"\n\nNodding understandingly, the man turns away from the couple.  \"I see we might need some harder persuasion, that's not too surprising.  Alexander, Tomas, and Mary, bring in the kid… and the wire!\"\n\nAmidst a flurry of horrified protests from the captives, a gaunt man appears from off-frame, a goofy grin creasing his unshaven face as he lugs a squalling baby in his arms.  A second man and a woman follow him into view… uncoiling a length of barbed wire.  Wrapping the rusted steel about the infant's midsection, heedless of the pained wails emanating as the barbs scrape its skin, the duo stand apart, gripping opposite ends of the makeshift garrote.  \"Ok guys,\" the ringleader gleefully instructs, \"on my mark, we'll give the little shit a light squeezing.  If the good doctors don't want to talk after that… then I want it rendered into mincemeat!  3, 2, 1…\"\n\nSpouts of blood spurt in all directions as bullet-riddled bodies collapse to the ground, the camera toppling rearwards as a bark of automatic gunfire echoes through the audio, accompanied by the approaching, hurried stomps of soldiers' boots.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This appears to be a locally saved livestream archive, with the feed filming a decrepit backstreet.  An older, bespectacled man and a middle-aged Latina woman stand huddled in a line against the wall, their legs lashed to each other and their hands bound to the front.  Beaming like a ray of sunshine, a man dressed in tactical gear prances before them, a baseball bat resting conspicuously upon his shoulder as he greets the camera.  \"Hey guys,\" he says, \"this is Andre Diliman, and we're going to be putting our detective hats on and figuring out who's to blame for all the shit going on, and we're going to do that, with the help of these beautiful people right here, so please, introduce yourselves.\"\n\nExchanging resigned glances, the two captives lower their heads as the woman mutters, \"I'm Dr. Martha Sharma.\"\n\n\"And I'm Dr. Conrad Sharma,\" her compatriot glumly adds.\n\n\"And both you fuckers work at Jameson Biotech,\" the spokesman concludes in a sing-song cadence as he saunters before the couple.  \"We're going to start easy.  The CDC has been saying that something's messing with people's brains: making them act all aggressive.  Now, my question to you is simple: What did y'all cook up in those labs of yours?\"\n\nLifting her head and making eye contact with her questioner, the woman shakes her head incredulously.  \"You fucking idiot.\"\n\nNodding understandingly, the man turns away from the couple.  \"I see we might need some harder persuasion, that's not too surprising.  Alexander, Tomas, and Mary, bring in the kid… and the wire!\"\n\nAmidst a flurry of horrified protests from the captives, a gaunt man appears from off-frame, a goofy grin creasing his unshaven face as he lugs a squalling baby in his arms.  A second man and a woman follow him into view… uncoiling a length of barbed wire.  Wrapping the rusted steel about the infant's midsection, heedless of the pained wails emanating as the barbs scrape its skin, the duo stand apart, gripping opposite ends of the makeshift garrote.  \"Ok guys,\" the ringleader gleefully instructs, \"on my mark, we'll give the little shit a light squeezing.  If the good doctors don't want to talk after that… then I want it rendered into mincemeat!  3, 2, 1…\"\n\nSpouts of blood spurt in all directions as bullet-riddled bodies collapse to the ground, the camera toppling rearwards as a bark of automatic gunfire echoes through the audio, accompanied by the approaching, hurried stomps of soldiers' boots.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "19011fb57771da72273c3522540564171fb56d4412973649b048d204af6323e3",
+      "identity": [
+        null,
+        "%1$s begins repairing the %2$s's %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1019"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s begins repairing the %2$s's %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "19284f71c8fd95ba2f37127e534232dd695103b51c11b1af57fd70ff8c763c69",
+      "identity": [
+        null,
+        "This Widget belongs to several sidebar contexts; standalone defaults are used.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "747"
+        ]
+      ],
+      "plural": null,
+      "singular": "This Widget belongs to several sidebar contexts; standalone defaults are used.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ [DEPRECATED] Don't translate this line.\n~ This string is from an obsolete source and will no longer be used in the\ngame.",
+      "flags": [],
+      "id": "195e760ead0a35abdd16aa838de708fafaa5473d84b4478d678f3d7a58595977",
+      "identity": [
+        null,
+        "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, white represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/obsoletion_and_migration_0.J/pride_flag.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, white represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "195e8f28fdd1d6679e582261d4d496789ec4b2ee4bf93e1832266da1a6de117e",
+      "identity": [
+        null,
+        "That's how Bloodthorne druids call the plant inside them.  It empowers us through the essence of nature spirits so we may kill the blood-drinkers.  Before you ask, I can't help you become one.  I wasn't taught how to do this before I lost contact with other Bloodthorne druids.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "That's how Bloodthorne druids call the plant inside them.  It empowers us through the essence of nature spirits so we may kill the blood-drinkers.  Before you ask, I can't help you become one.  I wasn't taught how to do this before I lost contact with other Bloodthorne druids.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "197250aa2a926258340086fd26e83ed17dc647553234f7070ad936849afcdcb0",
+      "identity": [
+        null,
+        "The Defence of Terrorism",
+        "copies of The Defence of Terrorism"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Defence of Terrorism",
+      "singular": "The Defence of Terrorism",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'shorts'",
+      "flags": [],
+      "id": "1976222e11eb2f376887df88780599139293619285e502f69d6b12414c516bc4",
+      "identity": [
+        null,
+        "Shorts going down to mid thighs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shorts going down to mid thighs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'right tentacles'",
+      "flags": [],
+      "id": "197781b34a48d71260441f32e91a6d0652a47721cc08a2d48f45ef53902aaff2",
+      "identity": [
+        null,
+        "R TENTS",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "R TENTS",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "199686f0d5c630ea7ce6963fab39528c3d3290e4192eff26c9103e3b15c64f5f",
+      "identity": [
+        null,
+        "minimal shoes (pair)",
+        "minimal shoes (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "minimal shoes (pair)",
+      "singular": "minimal shoes (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "19a5f89d078ae56a1d8d9f83da95f65dd5f53ba62500d76259b05de9cd79b4ab",
+      "identity": [
+        null,
+        "The Myth of Sisyphus",
+        "copies of The Myth of Sisyphus"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Myth of Sisyphus",
+      "singular": "The Myth of Sisyphus",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

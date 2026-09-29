@@ -1,0 +1,81 @@
+{
+  "request_sha256": "8e423397ae982cfec611849d96a12c338421d92b93969f91b7f9f5e09d4c6c2a",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "3c0a9f8a318ffd4c46ee6e30b44341e17c56a8f7cfa5835ae674ee4687c92335",
+      "values": [
+        "你没有足够的梦滓来汲取力量。你至少需要 <u_val:changeling_new_trait_dreamdross_research_cost> 块梦滓碎片。"
+      ]
+    },
+    {
+      "id": "3c1b4b0036b98191b2261addfd9e0b72f927fc0a879a2271feadd25603528d90",
+      "values": [
+        "一张带轮子的坚硬金属手术台，配有数件来源不明的辅助医疗设备。边缘悬挂着几块屏幕，待机时呈黑色，但留有几道烧屏残影，仿佛已经连续服役了许多年。"
+      ]
+    },
+    {
+      "id": "3c292bb1dc34ac11b9deb001bb15a8176feadcd4b5873a0f894ff36fd58f2ea4",
+      "values": [
+        "你左右谈判的企图惹恼了双方。"
+      ]
+    },
+    {
+      "id": "3c663fd7585211895b2ebcdc156310525574602c975f700ffc0efb541a950f60",
+      "values": [
+        "抽象服装（高级变体）"
+      ]
+    },
+    {
+      "id": "3c880045dfd7fbe51d1585950d00ac880de13714e14228b6a70340e34d1f12b2",
+      "values": [
+        "我想要一些解药。"
+      ]
+    },
+    {
+      "id": "3ca6a038966a3bf2431626fc6b5d2c521bf25503bea0ffc07092552159062825",
+      "values": [
+        "你必须身处地下深处且立于鲜活大地之上才能施展该法术。"
+      ]
+    },
+    {
+      "id": "3cbc4e7f00afb852515cef275a6eed5c8c4a8230effeb47ae5edbfef55d167f2",
+      "values": [
+        "你吸食了一口浓缩膏。"
+      ]
+    },
+    {
+      "id": "3d0d0f0005106bf1ac94b223f841c8ab6f2ee1ae1d21725fd38a343dc4c8e2ff",
+      "values": [
+        "&<color_light_green> @User > skill -EXIT -@User\n\n<color_light_green> 确定要退出吗？你</color><color_white>可以</color><color_light_green>返回此处，但</color><color_white>只能</color><color_light_green>返回此处。"
+      ]
+    },
+    {
+      "id": "3d38fca802ffc0e01b798f92b87ce2c391b62d4706fb4fe886b78c5a8fd99904",
+      "values": [
+        "右中触手"
+      ]
+    },
+    {
+      "id": "3d3c023a8bcbebddb79d3d59758d1dee2020624cad11b547a76b93200367f195",
+      "values": [
+        "笨厚生化插件"
+      ]
+    },
+    {
+      "id": "3d4d85fed24a44d25c925f2d8e1d3a3301976d65d9a55e68833560d78866d0ad",
+      "values": [
+        "我该走了。"
+      ]
+    },
+    {
+      "id": "3d6ea60cfd77347bba45954260459985005ef62ecb49c49a044f4a933b07aa80",
+      "values": [
+        "%1$s做出手势，热浪在其周身微微闪烁片刻。"
+      ]
+    }
+  ]
+}

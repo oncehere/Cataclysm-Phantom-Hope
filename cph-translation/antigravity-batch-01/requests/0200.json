@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'abyssal coffee'",
+      "flags": [],
+      "id": "bdf42511d2437a83a19aa38b4d8acdb7ee5f4d0c4da62634495f703927b24cba",
+      "identity": [
+        null,
+        "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Well, that's true for regular coffee, but this doesn't look regular.  It's so coffee is so dark it seems to dim the light around it and its aroma fills the entire room.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Well, that's true for regular coffee, but this doesn't look regular.  It's so coffee is so dark it seems to dim the light around it and its aroma fills the entire room.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'CANNOT_CONSUME_DRUGS'",
+      "flags": [],
+      "id": "be19679bc8503f059dcb5e71d025d5a859cdb62602709b055774eb052a3ce770",
+      "identity": [
+        null,
+        "You cannot use any item with the consume_drug use_action when you have this flag.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You cannot use any item with the consume_drug use_action when you have this flag.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "be631064b348574d961bdf7d9bc561437fcb99eeb4e3248a99b010d112ccb92b",
+      "identity": [
+        null,
+        "If you can find your way back to that place, look all over for some sort of terminal or computer.  You may or may not find one with a plug for this contraption.  If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use.  Do this for me, and I'll reward you handsomely.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you can find your way back to that place, look all over for some sort of terminal or computer.  You may or may not find one with a plug for this contraption.  If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use.  Do this for me, and I'll reward you handsomely.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Dancer in the Endless Dark'",
+      "flags": [],
+      "id": "be74eb7b5c2d664531a042dcc0ba6d2a799e089f471d9166415d5583c40feb89",
+      "identity": [
+        null,
+        "Your protection against otherworldly threats fades away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your protection against otherworldly threats fades away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "be83c812aa74197ee22d50066348e03498be0088cce3689b46a56232d1015e02",
+      "identity": [
+        null,
+        "recording_april_20_03:50.mp3\n\nThe background of this recording is underscored by a bazaar of swirling noise and muffled cracks emanating through the audio, causing a faint and inexplicable tingling sensation to prickle at the roots of your teeth.  \"Dear Diary,\" mumbles a child's voice.  \"It's been a few hours since all the weirdness started, and there are still noises outside, so I guess it isn't over.  We're still hiding in the armory building, and…\"\n\n\"Hey, kid,\" interjects a woman's horse voice.  \"We need to save that thing's charge, so, mind not draining it all.\"\n\nMuttering a reluctant apology, a light thwack and swish jostle the audio as some manner of cover is lowered over the recording device and the child slides it to the floor, the feed still unterminated.  Moments pass, during which only the disquieting sounds of a world in unnatural flux can be heard, accompanied by the clinking of various small metal objects being toyed with next to the microphone.  Eventually, the uncomfortable silence is broken as the woman clears her voice.\n\n\"Listen… I'm sorry.  Honestly, I don't really care about it too much: it's just that… I'm just as scared as you are.\"\n\n\"I thought soldiers didn't get scared.\"\n\nAny form of reply is cut off as a frantic banging suddenly batters into the soundscape: with a man's muffled shrieks for help audible as the child, alarm raising their voice by several octaves, cries, \"That's dad!  We've got to open the door!\"\n\nA scramble ensues, eventually culminating in the child's yelling protests as they're evidently restrained.\n\n\"Listen to me,\" the woman's voice barks.  \"Kid, you can't open that door.  The thing out there ain't your dad.\"\n\n\"What're you talking about?\" the youth sobs.  The soldier's cadence softens with no small measure of sadness as she audibly pulls the struggling child to a sitting position by the microphone.\n\n\"No one knows we're in here,\" she replies.  \"Nobody would be begging to be let in.  Plus, no one could have lasted this long outside.  Just, cover your ears.  It'll stop once it realizes it's not fooling anyone.\"\n\nAs the screams and pleas grow increasingly distorted, eventually verging on a blood-curdling wail, the youth sniffles, \"Then, what is it?\"\n\nLong moments pass, during which the child's weeping grows muted as they're pulled into an evident embrace.  \"Not a person,\" the woman eventually whispers.  \"Definitely not a person.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "recording_april_20_03:50.mp3\n\nThe background of this recording is underscored by a bazaar of swirling noise and muffled cracks emanating through the audio, causing a faint and inexplicable tingling sensation to prickle at the roots of your teeth.  \"Dear Diary,\" mumbles a child's voice.  \"It's been a few hours since all the weirdness started, and there are still noises outside, so I guess it isn't over.  We're still hiding in the armory building, and…\"\n\n\"Hey, kid,\" interjects a woman's horse voice.  \"We need to save that thing's charge, so, mind not draining it all.\"\n\nMuttering a reluctant apology, a light thwack and swish jostle the audio as some manner of cover is lowered over the recording device and the child slides it to the floor, the feed still unterminated.  Moments pass, during which only the disquieting sounds of a world in unnatural flux can be heard, accompanied by the clinking of various small metal objects being toyed with next to the microphone.  Eventually, the uncomfortable silence is broken as the woman clears her voice.\n\n\"Listen… I'm sorry.  Honestly, I don't really care about it too much: it's just that… I'm just as scared as you are.\"\n\n\"I thought soldiers didn't get scared.\"\n\nAny form of reply is cut off as a frantic banging suddenly batters into the soundscape: with a man's muffled shrieks for help audible as the child, alarm raising their voice by several octaves, cries, \"That's dad!  We've got to open the door!\"\n\nA scramble ensues, eventually culminating in the child's yelling protests as they're evidently restrained.\n\n\"Listen to me,\" the woman's voice barks.  \"Kid, you can't open that door.  The thing out there ain't your dad.\"\n\n\"What're you talking about?\" the youth sobs.  The soldier's cadence softens with no small measure of sadness as she audibly pulls the struggling child to a sitting position by the microphone.\n\n\"No one knows we're in here,\" she replies.  \"Nobody would be begging to be let in.  Plus, no one could have lasted this long outside.  Just, cover your ears.  It'll stop once it realizes it's not fooling anyone.\"\n\nAs the screams and pleas grow increasingly distorted, eventually verging on a blood-curdling wail, the youth sniffles, \"Then, what is it?\"\n\nLong moments pass, during which the child's weeping grows muted as they're pulled into an evident embrace.  \"Not a person,\" the woman eventually whispers.  \"Definitely not a person.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "be97c39638168bd9db13b8bb4898ae889e308914038a1ba5c389bb4233352d7c",
+      "identity": [
+        null,
+        "Unavailable",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager_ui.cpp",
+          "43"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unavailable",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "bebc1293a46260d877df04f7d2520f8f81a6c5bbf5ac0b189e13562c9aac4199",
+      "identity": [
+        null,
+        "I hate Thorazine!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I hate Thorazine!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bec7f0a44ae18350142a889bbcf2054642f81cb289cf007f9467869c5536e35b",
+      "identity": [
+        null,
+        "No, my friend, no!  Don't make contact, understand?  This is a covert op.  If you see that it's safe you can go in closer and look around, but for goodness' sake, don't talk to anyone and don't linger.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No, my friend, no!  Don't make contact, understand?  This is a covert op.  If you see that it's safe you can go in closer and look around, but for goodness' sake, don't talk to anyone and don't linger.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bef7f0352e8b1e9d916b21572a1c14400ee105a770d5920c31abac910b560a69",
+      "identity": [
+        null,
+        "What form should your artificial hair take?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/EOC_talkers/artificial_hair.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What form should your artificial hair take?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Spinning'",
+      "flags": [],
+      "id": "befe5ae8b41d2b5a4c38cd858d729202478849f414f418caec8b18500881a157",
+      "identity": [
+        null,
+        "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MMA/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Cyberbone Collar CBM'",
+      "flags": [],
+      "id": "bf047cb7a3af6152e7711619a292687523ed13319c7ce45867dddb7a90436eb0",
+      "identity": [
+        null,
+        "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bf0f82036b88f238394458d5f1d54feb336a54bb47e654e61cfca479b5fbb0a3",
+      "identity": [
+        null,
+        "Defaults",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/safemode_ui.cpp",
+          "317"
+        ]
+      ],
+      "plural": null,
+      "singular": "Defaults",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

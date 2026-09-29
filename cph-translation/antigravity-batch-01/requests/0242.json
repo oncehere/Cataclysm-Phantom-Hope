@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'malnourished giant solar beetle'",
+      "flags": [],
+      "id": "e6d7a42338b2a9f37c4063f4f73580dabe406bbdf8a9e85cec1a4de8b09c7b66",
+      "identity": [
+        null,
+        "Giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved solar panels.  Despite weak attempts, it can't move.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/reverberation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved solar panels.  Despite weak attempts, it can't move.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION'",
+      "flags": [],
+      "id": "e6e9aaba255bb8dc9ebe5acf5c91158c21bcfbecda3c08e2f08f6aeabe0be071",
+      "identity": [
+        null,
+        "Modifier calculation is <context_val:calculations>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Modifier calculation is <context_val:calculations>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Display name of a crafting requirement",
+      "flags": [],
+      "id": "e707d709aa6cc6057252cc44e4472982c5e7b974d3acc3ad69956f5159a244e0",
+      "identity": [
+        null,
+        "Writing",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/requirements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Writing",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e78083c6861806d88d09b8a323da36c41cb7b8fc97efe53ffb134fb95ff80235",
+      "identity": [
+        null,
+        "Same as most people who didn't get killed straight up during the riots.  I went to one of those stupid <freaking> cave death traps.  I actually lived there for a while with three others.  One guy who I guess had a lot of good mojo kinda ran the show, because he seemed to really know what was going on.  Spoiler alert: he fucking didn't.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/evacuee_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Same as most people who didn't get killed straight up during the riots.  I went to one of those stupid <freaking> cave death traps.  I actually lived there for a while with three others.  One guy who I guess had a lot of good mojo kinda ran the show, because he seemed to really know what was going on.  Spoiler alert: he fucking didn't.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To Shut the Bear's Mouth'",
+      "flags": [],
+      "id": "e7d7f81d8d64ceba8c610892beb45248da218b9d42229d9bead3b145ce0ba10e",
+      "identity": [
+        null,
+        "Wild animals are one of the greatest threats to you now.  By entreating the aid of the spirits who rule over dangerous creatures and using the droppings of living animals, you can prevent nearby wild animals from attacking you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Wild animals are one of the greatest threats to you now.  By entreating the aid of the spirits who rule over dangerous creatures and using the droppings of living animals, you can prevent nearby wild animals from attacking you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Ammunition name",
+      "flags": [],
+      "id": "e7ee53b2a9c6acb917ff7a5755c6418823149e2219b4ff22fa4a26d8b5684411",
+      "identity": [
+        null,
+        "vortex token",
+        "vortex tokens"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/items.json",
+          ""
+        ]
+      ],
+      "plural": "vortex tokens",
+      "singular": "vortex token",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Artifact Aegis'",
+      "flags": [],
+      "id": "e80d239d7bc521739f899eee25141f4a94936fc3748b608cacbd416389ba90bc",
+      "identity": [
+        null,
+        "The air around you shimmers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The air around you shimmers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Lotus Seedling'",
+      "flags": [],
+      "id": "e82394f716c181a91a386c06543c87dee559b4c0478f3015314f0daf35198ad5",
+      "identity": [
+        null,
+        "A young lotus seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young lotus seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "e83002b15e801ab8b9afa5ce04234db79007003bbad475171a37a52c4ff0e370",
+      "identity": [
+        null,
+        "Your mind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your mind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_XE_DEBUG_OUTPUT'",
+      "flags": [],
+      "id": "e842a936819806820f250b14bc710e7cf3d88a4d42196366e5635dbf3bc222e8",
+      "identity": [
+        null,
+        "magic_potential: <global_val:magic_potential>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/spell_learning_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "magic_potential: <global_val:magic_potential>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected 29x-\"Noonien\"'",
+      "flags": [],
+      "id": "e8585053065f178f386735e3e4818dc70ca6e8a16e30dbe9a9c510251fd0fd8d",
+      "identity": [
+        null,
+        "You just took a shot of that strange vial you found.  You feel like you could take on the entire world, but your stomach feels a bit odd.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/super_soldier_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You just took a shot of that strange vial you found.  You feel like you could take on the entire world, but your stomach feels a bit odd.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'fey smith's hammer'",
+      "flags": [],
+      "id": "e88f259dcf0c209970bf259cb21cc188891134b7f96bffa8b556f4d0f58e358e",
+      "identity": [
+        null,
+        "This blacksmith's hammer is so full of delicate carvings and filigree it seems like it would snap at the first blow against heated metal.  Despite that, it doesn't have a single scratch or mark on it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/tools.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This blacksmith's hammer is so full of delicate carvings and filigree it seems like it would snap at the first blow against heated metal.  Despite that, it doesn't have a single scratch or mark on it.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

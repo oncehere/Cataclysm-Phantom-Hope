@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "eaa4f0350cc923ad3a031cbb395a3b6bcde70674fcd994844b06f965cda6e94d",
+      "identity": [
+        null,
+        "Honestly, I have no idea how all of this happened.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Honestly, I have no idea how all of this happened.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mathematician A57'",
+      "flags": [],
+      "id": "eaa594f4b53daa2cea3e626d1f615c39b4f07238648b5863a522a7badc099e93",
+      "identity": [
+        null,
+        "The air around Mathematician A57 wavers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/monsters/bosses.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The air around Mathematician A57 wavers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'dehydrated_cured_meat' step 2",
+      "flags": [],
+      "id": "eaac94561ab1855fa23ab85a434d7ba7c6eb8214dea1d6b0a7c6e7906b7eb092",
+      "identity": [
+        null,
+        "Dehydrate the cured strips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dehydrate the cured strips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of practice 'natural observations'",
+      "flags": [],
+      "id": "eab0378b0a0ecad0e781959fdf2de1f1b67d0c32207c347004c02fb1b176ecd0",
+      "identity": [
+        null,
+        "Observe the flight of birds, the movement of the stars, the wind among the trees, and the tremors of the earth.  There's something more out there, if you look for it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Observe the flight of birds, the movement of the stars, the wind among the trees, and the tremors of the earth.  There's something more out there, if you look for it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "eab6e115645beb9ac4cb193f9f658eca38c33c794d5cd01f8b69c11140e82ead",
+      "identity": [
+        null,
+        "<npc_name> thanks you for the cure and departs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<npc_name> thanks you for the cure and departs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "eac0b8bdc4235e0e6ca5d6fe967de22c9fd5648a907bcbdbea9aa836afcb42e5",
+      "identity": [
+        null,
+        "[Update HUMAN NEEDS: WATER available]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Update HUMAN NEEDS: WATER available]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "eacc3879e8f3954e80211d85a14c8affaddcbb402a407309eb9372d9e6680592",
+      "identity": [
+        null,
+        "Up",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/auto_pickup.cpp",
+          "297"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "322"
+        ]
+      ],
+      "plural": null,
+      "singular": "Up",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry underground water bottom'",
+      "flags": [],
+      "id": "eb12dd41127625743c830241d40d14f7455f8b4bc1b669f701aab32fbc700e1d",
+      "identity": [
+        null,
+        "The muddy stone bottom left after underground murky water was drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy stone bottom left after underground murky water was drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ No.  That's too much to ask, and we can't spare the materials.  I'll give\nyou some advice.  Keep up the good work, and maybe I'll change my mind one\nday.",
+      "flags": [],
+      "id": "eb21c321c63f46daf341117d5a517332a5e939812cbbf29b4fb656280fab32c2",
+      "identity": [
+        null,
+        "No.  Too mighty an ask, and we can't spare the steelies.  I'll give ye a lump'a'ice.  Keep up the work, n' mayhaps somethin' changes one'a these days.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  Too mighty an ask, and we can't spare the steelies.  I'll give ye a lump'a'ice.  Keep up the work, n' mayhaps somethin' changes one'a these days.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "eb428cff0173118881dce6dd27a3fc119f07ae74ba59d61e3e30d8ce39debf64",
+      "identity": [
+        null,
+        "29x-\"Noonien\"",
+        "29x-\"Noonien\""
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": "29x-\"Noonien\"",
+      "singular": "29x-\"Noonien\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "eb4497074432ea7804b7aab1b48a9c0d9adf61d4d730cc19e4a79b19c250f681",
+      "identity": [
+        null,
+        "Legacy point modes limit base stats to %d.  Lower the over-limit stats and try again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4198"
+        ]
+      ],
+      "plural": null,
+      "singular": "Legacy point modes limit base stats to %d.  Lower the over-limit stats and try again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "eb54f595b11c03ef2ceaa08346479ba5c1f06132b2bfdf113f7d438447f62b2a",
+      "identity": [
+        null,
+        "front tentacle bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "front tentacle bases",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

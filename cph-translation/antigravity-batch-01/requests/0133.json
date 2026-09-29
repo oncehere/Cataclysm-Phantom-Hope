@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle part name",
+      "flags": [],
+      "id": "7b4d24377810c0073de1cd25eb4b06e8f5c29ee712e68ba061ff5edbd253c2a8",
+      "identity": [
+        null,
+        "high-output gasoline generator",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/generators.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "high-output gasoline generator",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7b543f6c6960fc449e1972248583a16cb76df5d35cec33de2d85f2a56440ba20",
+      "identity": [
+        null,
+        "I'd like some advice about the star-crowned hound.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd like some advice about the star-crowned hound.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'The Withering'",
+      "flags": [],
+      "id": "7b5c7dbb5a9ffe2fa9632648c456f7f403d770c3cf6c26d43f3694282b2675fc",
+      "identity": [
+        null,
+        "Blast your targets with the raw energy of the grave, withering their flesh.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/nether_sorcery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blast your targets with the raw energy of the grave, withering their flesh.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of starting location",
+      "flags": [],
+      "id": "7b62df782ddd4fc9cefaed5949518b175fc4025e17fdb3a89a4b4ebd2b35470f",
+      "identity": [
+        null,
+        "Remote dwelling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/start_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Remote dwelling",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7b640e471042a201a271f8f96b5552c4a702a748742cd23c63333412c21d6d28",
+      "identity": [
+        null,
+        "Custom options",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "183"
+        ]
+      ],
+      "plural": null,
+      "singular": "Custom options",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'Disposition Matrix'",
+      "flags": [],
+      "id": "7b64fdc02bfba7079bebe0effba369e6c59bb72928fe319d09a8c2385e3b8b41",
+      "identity": [
+        null,
+        "Eliminate 10 UICA soldiers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Eliminate 10 UICA soldiers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Harvested Dreams'",
+      "flags": [],
+      "id": "7b6a587b05016d8dddc4bc2f002aeb904f7e60d79435a4f074c109b8b300e3ec",
+      "identity": [
+        null,
+        "Your dreams were harvested by a changeling for dreamdross, and cannot be harvested for a time after.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your dreams were harvested by a changeling for dreamdross, and cannot be harvested for a time after.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Since we're stripping you down to flesh and bone you need to survive, we\ncan take the time to salvage your CBMs, and keep it all intact, reinstalled\nin your new Cyberframe.  But your limbs and other parts will be\nexchangeable, like bionics.  In the future, if you take off a limb, you'll\nhave to remove your CBMs, fix them, clean them, and reinstall them.",
+      "flags": [],
+      "id": "7b6ad0ddeec7b120108209954f3ea3c029b39c0c7431fd857344d3229da9c97d",
+      "identity": [
+        null,
+        "Since ye've gotta strip down t'vital flesh n' hard scones, we'll salvage your bright'n'steelies, and repackage them in the new frame.  After, you can swap your wiggles and wobs, that is yer limbs and digits, like steelies, with a bit of effort.  If ye plan to do that, also plan to remove your implants, fix'em, clean'em, and shove'em back in.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Since ye've gotta strip down t'vital flesh n' hard scones, we'll salvage your bright'n'steelies, and repackage them in the new frame.  After, you can swap your wiggles and wobs, that is yer limbs and digits, like steelies, with a bit of effort.  If ye plan to do that, also plan to remove your implants, fix'em, clean'em, and shove'em back in.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Good Memory'",
+      "flags": [],
+      "id": "7b6f65d8f6af4a4b885beca37b63138357b6de606e377458a4cda147c56991e2",
+      "identity": [
+        null,
+        "You have an exceptional memory, and find it easy to remember things.  This makes it easier to apply your theoretical knowledge when learning skills.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have an exceptional memory, and find it easy to remember things.  This makes it easier to apply your theoretical knowledge when learning skills.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<wait>'\n~ The NPC says these things when the player has moved out of sight and the\nNPCs wants to catch up.",
+      "flags": [],
+      "id": "7b78b5fe52ada2229779fd527fe9f5afe12cb2373d93f239a80beeb674aa8e81",
+      "identity": [
+        null,
+        "Wait <name_g>, gotta slow the pace.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_follower.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Wait <name_g>, gotta slow the pace.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_telepathy'\n~ Phavian designation for telepathic study is GRAY DAWN.  Phavian\ndesignating for use of telepathy for internal security is GLASS ANVIL",
+      "flags": [],
+      "id": "7b9f6b63e222c35fd9c0c9871bc14548a4169ac0414d57027c925d43c9976633",
+      "identity": [
+        null,
+        "At 1545 yesterday, GRAY DAWN mathematician Sylvia Ho was eating a snack in one of the break areas when Dr. Sanchez-Perez approached her and asked her if he could sit with her.  According to Sanchez-Perez, she nodded and he sat and engaged her in conversation about her day and the course of her training and participation in experiments.  Though seeming slightly distracted, Ho answered Sanchez-Perez's questions and continued as the conversation shifted toward the next Superbowl when she suddenly grabbed her lunch tray in both hands and hit Sanchez-Perez in the head with it with full force, fracturing his cheekbone.  Ho showed no reaction to Sanchez-Perez's signs of distress, continuing to eat her snack without attempting to offer first aid, and made no attempt to flee the scene.\n\nWhen questioned later, Ho said that Sanchez-Perez was \"annoying me\" and that she \"just wanted him to go away.\"  When asked why she didn't attempt to disengage from the conversation verbally, she had no response other than a shrug.\n\nDr. Sanchez-Perez, is convinced that this is a side effect of the PATIENT MOSAIC process and has suggested that Ho be examined by a member of GLASS ANVIL to determine any further undesirable effects.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "At 1545 yesterday, GRAY DAWN mathematician Sylvia Ho was eating a snack in one of the break areas when Dr. Sanchez-Perez approached her and asked her if he could sit with her.  According to Sanchez-Perez, she nodded and he sat and engaged her in conversation about her day and the course of her training and participation in experiments.  Though seeming slightly distracted, Ho answered Sanchez-Perez's questions and continued as the conversation shifted toward the next Superbowl when she suddenly grabbed her lunch tray in both hands and hit Sanchez-Perez in the head with it with full force, fracturing his cheekbone.  Ho showed no reaction to Sanchez-Perez's signs of distress, continuing to eat her snack without attempting to offer first aid, and made no attempt to flee the scene.\n\nWhen questioned later, Ho said that Sanchez-Perez was \"annoying me\" and that she \"just wanted him to go away.\"  When asked why she didn't attempt to disengage from the conversation verbally, she had no response other than a shrug.\n\nDr. Sanchez-Perez, is convinced that this is a side effect of the PATIENT MOSAIC process and has suggested that Ho be examined by a member of GLASS ANVIL to determine any further undesirable effects.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7bac152d120b9cb81004e5a901613914d773bbbbd2e1dd4c31f5449a92e3da02",
+      "identity": [
+        null,
+        "Thanks, Doc.  See you some other time.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks, Doc.  See you some other time.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

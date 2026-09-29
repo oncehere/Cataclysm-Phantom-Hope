@@ -1,0 +1,79 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "scenario_male",
+      "developer_comments": "~ Scenario name for male",
+      "flags": [],
+      "id": "18b5d7689dc8b9c16ef3b13b873266967eb2952403cabb3a570dd22412b7760a",
+      "identity": [
+        "scenario_male",
+        "Path of the Wise",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Path of the Wise",
+      "translator_comments": ""
+    },
+    {
+      "context": "scenario_male",
+      "developer_comments": "~ Scenario name for male",
+      "flags": [],
+      "id": "2791ddb8373cff6f7c87b609723afe8f250ee7f013989cf9dacd58cfa636aaa5",
+      "identity": [
+        "scenario_male",
+        "Challenge - The Fog",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Challenge - The Fog",
+      "translator_comments": ""
+    },
+    {
+      "context": "scenario_male",
+      "developer_comments": "~ Scenario name for male",
+      "flags": [],
+      "id": "95567d85b694d7cc3ffa17fb58f4e815e8058680f3a5eda171ad8adf158f235c",
+      "identity": [
+        "scenario_male",
+        "Challenge - Undying Vengeance",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Challenge - Undying Vengeance",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

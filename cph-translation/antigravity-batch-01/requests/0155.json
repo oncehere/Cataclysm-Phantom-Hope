@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'ichcahuipilli'",
+      "flags": [],
+      "id": "928281eefce98fba3b9e8646ef81e485aeca436f9ba456cf4bd96c24d15172e9",
+      "identity": [
+        null,
+        "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystallized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/torso_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystallized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ This Exodii is named Venn.  You've met before.  Venn and the Autodoc will\ndo some serious work on you.  They'll take out all of your important organs\nand stick them in a Cyberframe, like these.  It will take a long time.  We\ncan offer you one of two basic Cyberframes.  If your mind is set on doing\nthis, you can pick.",
+      "flags": [],
+      "id": "92841da50f3cfcd08ab43fdf7245471e2eb4b6701eb6ff03bb6dd6abc03031f7",
+      "identity": [
+        null,
+        "&Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.\n\n\"This'ere Exodii monicked Venn.  Ye've met'afore.  Venn'n'the'robot here'll do you somethin' fierce.  They'll carve out all yer important meat bits, and stick'em in a Cyberframe, like this'n.  It'll take time.  Lots'o'time.  We've the means for two basic frames.  If yer lump is set, ye can pick.\"\n\nRubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.\n\n\"This'ere Exodii monicked Venn.  Ye've met'afore.  Venn'n'the'robot here'll do you somethin' fierce.  They'll carve out all yer important meat bits, and stick'em in a Cyberframe, like this'n.  It'll take time.  Lots'o'time.  We've the means for two basic frames.  If yer lump is set, ye can pick.\"\n\nRubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "928b337add937a991ae3f7eb0d8644cc3795b4e7fc9b8306fe24744bc6eaa63f",
+      "identity": [
+        null,
+        "This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry murky water bottom'",
+      "flags": [],
+      "id": "929457b0b78800dc375b1f324bddc9a05f04720a0079db4c7e673962cd3acfe7",
+      "identity": [
+        null,
+        "The muddy bottom left after a patch of murky water was drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy bottom left after a patch of murky water was drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ You're good enough with people.  Better than most surivivors.  Keep it\nfriendly, don't mention the Enemy, and don't make expensive promises,\nplease.",
+      "flags": [],
+      "id": "9294bab82201912b046b52577036ed7db78f3b87b16f4dd825df998f10e815fa",
+      "identity": [
+        null,
+        "Ye've decent enough people-sense.  Better'an most scavvers.  Keep the yark friendly, don't menton the Enemy, an' try not t'promise anything too expensive, aye?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ye've decent enough people-sense.  Better'an most scavvers.  Keep the yark friendly, don't menton the Enemy, an' try not t'promise anything too expensive, aye?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation '百炼成锋'",
+      "flags": [],
+      "id": "92f1cdd889fa68c9136cb337170725dbe39e6aa63d687c3fcff40d60cd9326eb",
+      "identity": [
+        null,
+        "久修金行所成之体。筋骨百炼如精钢，肃杀锋锐内蕴——出手锋利精准，所御金行之力愈利。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "久修金行所成之体。筋骨百炼如精钢，肃杀锋锐内蕴——出手锋利精准，所御金行之力愈利。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "931bf8b68c46f33f8e72ec67d100e1d0b8e1187893421e286f3334cee3776b05",
+      "identity": [
+        null,
+        "Choose custom invert color",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1469"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose custom invert color",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'biography (deceased person)'",
+      "flags": [],
+      "id": "934ef7958549ca3830beb86b18132bca42c70ccd6b07f4b312e91342fe6e2368",
+      "identity": [
+        null,
+        "A biography of someone who has already passed away.  At least they were lucky enough to live before the Cataclysm happened.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A biography of someone who has already passed away.  At least they were lucky enough to live before the Cataclysm happened.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Weald-Walking'",
+      "flags": [],
+      "id": "935ef5bd499850bf67a14d9f21cdac16126021fbd77b847c09fc32ca2ac29db9",
+      "identity": [
+        null,
+        "Blend in to the forests and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The ritual must be enacted in the forest and will fail if you pass out from beneath the boughs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blend in to the forests and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The ritual must be enacted in the forest and will fail if you pass out from beneath the boughs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Indian Restaurant Curries at Home, Volume 1' of\nbook 'Curry cookbook'",
+      "flags": [],
+      "id": "935f5874282ed1e2dd4b6b7ffea9aecde27800bb41da1d4476bf9628d9a47936",
+      "identity": [
+        null,
+        "A cookbook filled with recipes that replicate curries served in famous British restaurants.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A cookbook filled with recipes that replicate curries served in famous British restaurants.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "936242c32533c1e4321a33695fe534c21b5657e64f9d9d68372d842d302b204f",
+      "identity": [
+        null,
+        "[$100 credit] Some store credit would do nicely.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$100 credit] Some store credit would do nicely.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "93963b804e8a7c2a341b3326e71211c920d81435885d47e40c76e355e0f8d382",
+      "identity": [
+        null,
+        "distraction",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/effect.cpp",
+          "981"
+        ]
+      ],
+      "plural": null,
+      "singular": "distraction",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'mon_shoggoth'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ba818fabe622bf6a962957a7a84563a80730afda44199c9caf213d7d6f2c64a0",
+      "identity": [
+        null,
+        "The %s bubbles and steams as it melts into protoplasmic ooze.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/nether.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %s bubbles and steams as it melts into protoplasmic ooze.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "baa959693a7807506eab141cee659d7641b35645f436f7fdff707061a4b20c48",
+      "identity": [
+        null,
+        "left tentacle midsections",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left tentacle midsections",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "bb0222c073158c9ba4555f79515f3875a23db8ae0eebda2e8ad06d644ad66a79",
+      "identity": [
+        null,
+        "right middle tentacle midsection",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right middle tentacle midsection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Curry: Recipes From Indian Home Kitchens' of book\n'Curry cookbook'",
+      "flags": [],
+      "id": "bb022bcd8d7fba54b33d5303ea3aca834183f48d586fe403dcb3c248d27996c8",
+      "identity": [
+        null,
+        "A curry cookbook with a variety of curries from across India.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A curry cookbook with a variety of curries from across India.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'Penumbral Interstitium'\n~ Description of mutation 'Penumbral Interstitium'",
+      "flags": [],
+      "id": "bb093d5d8d05eac04cad3bb6d4af72c0841307081ff41009b818a91120e90472",
+      "identity": [
+        null,
+        "Your cells operate under different rules.  While you still need to breathe, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/integrated.json",
+          ""
+        ],
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your cells operate under different rules.  While you still need to breathe, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bb57850e1c19202314abd18439972aee1107b1efdcfffb36a29f6898ce5adf44",
+      "identity": [
+        null,
+        "<context_val:trait_name>: \"<context_val:trait_description>\"\n<context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ],
+        [
+          "data/mods/Perk_melee/menu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<context_val:trait_name>: \"<context_val:trait_description>\"\n<context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bb67300d54122f6827cc481bb9405c15574bec1ae833e5c9d5050e1412a63fbd",
+      "identity": [
+        null,
+        "We know little about them, but we noticed they lack super-speed and hypnotic eyes.  If they had, I wouldn't send you on your own against them.  Approach during the day, so combat will result in them slowly burning under the sun or attacking you with an umbrella.  Unlike the previous missions, this one can be completed by luring the undead hordes at the target so they kill each other.  However, try to speak with them first to see if they want to be cured.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We know little about them, but we noticed they lack super-speed and hypnotic eyes.  If they had, I wouldn't send you on your own against them.  Approach during the day, so combat will result in them slowly burning under the sun or attacking you with an umbrella.  Unlike the previous missions, this one can be completed by luring the undead hordes at the target so they kill each other.  However, try to speak with them first to see if they want to be cured.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "bb70674707a8769df977dbf3a51a699d32eb5a8f59e0fc152ae56ddd9de30e16",
+      "identity": [
+        null,
+        "[-$<u_val:number_artisans_gunsmith_sum3>, 600 rounds, 3 days] See you later.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/isolated_road/isolated_road_jay_convert.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[-$<u_val:number_artisans_gunsmith_sum3>, 600 rounds, 3 days] See you later.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bb77fc84e598c7bd89bcdafdff8cc91a47b32afd6eeb8da4da968b9a552468da",
+      "identity": [
+        null,
+        "mechanic",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "810"
+        ]
+      ],
+      "plural": null,
+      "singular": "mechanic",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "bb87db31b663c82b023dbd5954c28a24469d85feddc909e6c0b9516303bd59fd",
+      "identity": [
+        null,
+        "high briefs",
+        "high briefs"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": "high briefs",
+      "singular": "high briefs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'grave_label'\n~ these labels are meant for graves made during or after the initial\nCataclysm, riots, or portal storm craziness and are not meant for pre-\napocalypse grave sites.",
+      "flags": [],
+      "id": "bb981f7c163b2197af50fc0e5b1f81caef57056ba7971ae76e7777a2c8f8422e",
+      "identity": [
+        null,
+        "<lt>illegible text<gt>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/grave_labels.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<lt>illegible text<gt>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'many_years_old_news'",
+      "flags": [],
+      "id": "bbca963fdd20cc8e67f98f1ce6cf1d17ea5fcab05969d947a96ffca496c60dc4",
+      "identity": [
+        null,
+        "Announcement of rare elements discovery near the Canadian border.  The US government has discovered what they are calling an unexpected windfall of rare elements on the border with Canada.  At these sites large domes with irising roofs have been erected before anti-satellite measures were enacted.  The government claims that these domes were built  \"In order to protect the natural environment surrounding these mineral deposits\"  Some people living nearby the domes have claimed increased UFO activity after the domes began, but satellite images no longer seem able to view these regions and drones attempting to enter the restricted areas cease to work.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/newspapers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Announcement of rare elements discovery near the Canadian border.  The US government has discovered what they are calling an unexpected windfall of rare elements on the border with Canada.  At these sites large domes with irising roofs have been erected before anti-satellite measures were enacted.  The government claims that these domes were built  \"In order to protect the natural environment surrounding these mineral deposits\"  Some people living nearby the domes have claimed increased UFO activity after the domes began, but satellite images no longer seem able to view these regions and drones attempting to enter the restricted areas cease to work.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

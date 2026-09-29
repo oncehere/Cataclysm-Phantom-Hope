@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "dddbe01ccbda3b4a7d987226fd6f60362933b664a7854a51ba40fd5d9a16d546",
+      "identity": [
+        null,
+        "Enhanced Glide on Ice",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/Spells/kelvinist.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Enhanced Glide on Ice",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "dde162069f699e1f636ed42dc0e21ab530c00b8d08df5797a454125f213b41fa",
+      "identity": [
+        null,
+        "Random location",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4427"
+        ]
+      ],
+      "plural": null,
+      "singular": "Random location",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'true crime book'",
+      "flags": [],
+      "id": "dde2d3fe0d30201b490605da1b4632493360aa70b96172e1de64068bbfc17a70",
+      "identity": [
+        null,
+        "Part history, part biography, the story of a real crime and the people affected by it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Part history, part biography, the story of a real crime and the people affected by it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "de07f45e339de41e8ea552012269f3c3faead2b6eb6fa1dfb0a4d531170bbd65",
+      "identity": [
+        null,
+        "dry shallow salt basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry shallow salt basin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "de3ae1122506b2a3ab006a01036da1a407b82d6e887734d0a6cb233849109fd5",
+      "identity": [
+        null,
+        "Superhuman Physique",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Superhuman Physique",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "de3e5fed34e06efa5c0e8fa9230502ab341cd36f5b8dd3b92ebbcc752ad4057f",
+      "identity": [
+        null,
+        "malnourished giant solar beetle",
+        "malnourished giant solar beetles"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/reverberation.json",
+          ""
+        ]
+      ],
+      "plural": "malnourished giant solar beetles",
+      "singular": "malnourished giant solar beetle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "de45b4d6bf1fadd7a49e775f9d3787d86a7c704ffd085c8d7360aac1d6a93594",
+      "identity": [
+        null,
+        "Could you heal my wounds?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you heal my wounds?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "de4d97306166bc350985ea20ccdbb6b7de402245b1294edcc7e1e68f48020f5c",
+      "identity": [
+        null,
+        "tall mound of contaminated dirt",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "tall mound of contaminated dirt",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "de4f719876539114c22b1f90029208cfdedee0a0bc002580cb55d3df1387735e",
+      "identity": [
+        null,
+        "I'll spare you the marketing pitch.  The Hybrid Weapons Platform - or more commonly the HWP - is a weapons platform capable of supporting multiple calibers via the use of quick-release adapters.  On its own, the platform does nothing; each adapter, however, allows it to chamber and fire a different type of round.\"\n\n\"Each new HWP is printed to order.  Materials will require eight HGC up front, and fabrication will take seven days.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_prototypes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll spare you the marketing pitch.  The Hybrid Weapons Platform - or more commonly the HWP - is a weapons platform capable of supporting multiple calibers via the use of quick-release adapters.  On its own, the platform does nothing; each adapter, however, allows it to chamber and fire a different type of round.\"\n\n\"Each new HWP is printed to order.  Materials will require eight HGC up front, and fabrication will take seven days.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<serum_testing_regen>'",
+      "flags": [],
+      "id": "de5c888c98d31ea4e271219110a06072387db003a0aa704709320acb2105f4da",
+      "identity": [
+        null,
+        "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects had ceased.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject's cataract were not cured; investigation is ongoing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects had ceased.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject's cataract were not cured; investigation is ongoing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "de774b3ae6f8ac3c49ef308017d0cc110f62c24970720788081bad80203e08aa",
+      "identity": [
+        null,
+        "right middle tentacle base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right middle tentacle base",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "de7bc35b5a409aa4a46c6c44867d8aa46d392a17cdffc3bcabbd65d33d8112f6",
+      "identity": [
+        null,
+        "This vehicle cannot be modified in this way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "350"
+        ],
+        [
+          "src/veh_interact.cpp",
+          "452"
+        ]
+      ],
+      "plural": null,
+      "singular": "This vehicle cannot be modified in this way.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "sleepiness": "困倦"
+  }
+}

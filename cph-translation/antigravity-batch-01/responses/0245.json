@@ -1,0 +1,81 @@
+{
+  "request_sha256": "b0a2f3282e3ea546b65a6bb7d62ad9bf73528c20cb13b317c551bb90dde6a337",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "eaa4f0350cc923ad3a031cbb395a3b6bcde70674fcd994844b06f965cda6e94d",
+      "values": [
+        "老实说，我根本不知道这一切是怎么发生的。"
+      ]
+    },
+    {
+      "id": "eaa594f4b53daa2cea3e626d1f615c39b4f07238648b5863a522a7badc099e93",
+      "values": [
+        "数学家 A57 周围的空气泛起波纹。"
+      ]
+    },
+    {
+      "id": "eaac94561ab1855fa23ab85a434d7ba7c6eb8214dea1d6b0a7c6e7906b7eb092",
+      "values": [
+        "将腌肉条脱水烘干"
+      ]
+    },
+    {
+      "id": "eab0378b0a0ecad0e781959fdf2de1f1b67d0c32207c347004c02fb1b176ecd0",
+      "values": [
+        "观察鸟类的飞翔、群星的运行、树木间的微风以及大地的震颤。只要你留心探寻，那里定有更深层的奥秘。"
+      ]
+    },
+    {
+      "id": "eab6e115645beb9ac4cb193f9f658eca38c33c794d5cd01f8b69c11140e82ead",
+      "values": [
+        "<npc_name> 感谢你的解药，随后离去。"
+      ]
+    },
+    {
+      "id": "eac0b8bdc4235e0e6ca5d6fe967de22c9fd5648a907bcbdbea9aa836afcb42e5",
+      "values": [
+        "[有可用的“人类需求：水”更新]"
+      ]
+    },
+    {
+      "id": "eacc3879e8f3954e80211d85a14c8affaddcbb402a407309eb9372d9e6680592",
+      "values": [
+        "向上"
+      ]
+    },
+    {
+      "id": "eb12dd41127625743c830241d40d14f7455f8b4bc1b669f701aab32fbc700e1d",
+      "values": [
+        "地下浑浊水排干后留下的泥泞石底。"
+      ]
+    },
+    {
+      "id": "eb21c321c63f46daf341117d5a517332a5e939812cbbf29b4fb656280fab32c2",
+      "values": [
+        "不行。这要求忒大了，我们腾不出铁料。我给你句忠告。踏踏实实干活，兴许哪天事情就有了转机。"
+      ]
+    },
+    {
+      "id": "eb428cff0173118881dce6dd27a3fc119f07ae74ba59d61e3e30d8ce39debf64",
+      "values": [
+        "29x-“努尼恩”"
+      ]
+    },
+    {
+      "id": "eb4497074432ea7804b7aab1b48a9c0d9adf61d4d730cc19e4a79b19c250f681",
+      "values": [
+        "旧版点数模式将基础属性限制为 %d。请降低超限属性后重试。"
+      ]
+    },
+    {
+      "id": "eb54f595b11c03ef2ceaa08346479ba5c1f06132b2bfdf113f7d438447f62b2a",
+      "values": [
+        "前触手根部"
+      ]
+    }
+  ]
+}

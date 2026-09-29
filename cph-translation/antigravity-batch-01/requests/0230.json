@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'borosilicide lasing magnifier'",
+      "flags": [],
+      "id": "db6b265549a92d352bd6c932386cfd899ac069534dd8858de59666cde71e5d93",
+      "identity": [
+        null,
+        "A previously cheap, easily replaceable component vital to industrial lasing applications.  They burn out after several hundred hours of use, intended to be replaced rather than repaired.  Superior performance was attained by atomically binding conventional glass materials in hard vacuum, microgravity environments.  This \"low technology\" was easily produced in the trillions by the great space manufacturies of Earth, ready to ship lifetime supplies of replacements to every colony out there.  The Discontinuity has made such reliable interstellar shipping impossible, and the recycling of existing supplies can only go so far.  Unblemished examples would easily be valued by any faction outside of Sol.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/crafting_scrap/optics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A previously cheap, easily replaceable component vital to industrial lasing applications.  They burn out after several hundred hours of use, intended to be replaced rather than repaired.  Superior performance was attained by atomically binding conventional glass materials in hard vacuum, microgravity environments.  This \"low technology\" was easily produced in the trillions by the great space manufacturies of Earth, ready to ship lifetime supplies of replacements to every colony out there.  The Discontinuity has made such reliable interstellar shipping impossible, and the recycling of existing supplies can only go so far.  Unblemished examples would easily be valued by any faction outside of Sol.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_PORTAL_STORM_DUNGEON'",
+      "flags": [],
+      "id": "db717f183c42e6c2e7713ee219dcbd8b3271459ff3e490517f960a66589e9898",
+      "identity": [
+        null,
+        "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/portal_storm_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'then' statement in false effect in\nEoC 'EOC_LS_earth_jaunt_extraction'",
+      "flags": [],
+      "id": "db85cb96b66db526ef65beba118aa765b88f3befdd717a960babf647b8bccc34",
+      "identity": [
+        null,
+        "Your neck feels less stiff.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/labyrinth_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your neck feels less stiff.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "dbac77d3b4c5a631d25e5305a0d7f661efe3eb0627ffd73670bfa66d007f8aad",
+      "identity": [
+        null,
+        "dry water channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry water channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "dbb161e5c6451955d57bb01093207a8204a6ba6929429f3c19506903584fcb3f",
+      "identity": [
+        null,
+        "That's why I'm here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/UICA/spaceport_portmaster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "That's why I'm here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in 'then' statement in EoC\n'eoc_hunvre_weather'",
+      "flags": [],
+      "id": "dbe15be74ee1b7914d7635d3456501c688b14356211291ce04c463ba08b2e882",
+      "identity": [
+        null,
+        "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary RISE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/effects_on_condition/ship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary RISE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE'",
+      "flags": [],
+      "id": "dc23c10853c177fc42cb8b7f5aef641647bb9e19d93c5dda433d8761ef089ebc",
+      "identity": [
+        null,
+        "You have reached the pinnacle of power possible in the mortal lands.  For any greater advancements, you'll need to travel Under the Hill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/playable_changeling_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have reached the pinnacle of power possible in the mortal lands.  For any greater advancements, you'll need to travel Under the Hill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION'",
+      "flags": [],
+      "id": "dc2a87cfd09146f28fdf5e02142c47ed59cb1745d3e1837949b312143ba944a6",
+      "identity": [
+        null,
+        "Awakening calculation is <context_val:awakenings>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Awakening calculation is <context_val:awakenings>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a fault",
+      "flags": [],
+      "id": "dc39b63d583ed63afec338ec3c49eaac4c094afa7f663959fee74be6f2a7de2b",
+      "identity": [
+        null,
+        "Ripped thong",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ripped thong",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "dc652039a0f5f5e319373b2d2a8ca7fa27da73cf3b0e0b19879e1026e0743b73",
+      "identity": [
+        null,
+        "operation table",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/furniture_labyrinth_safehouse.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "operation table",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "dc7935aaf28c6a73340069f4d95e10ade1e6719bc143c9e6d380aae75c4cbc7a",
+      "identity": [
+        null,
+        "Only one %s powered engine can be installed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "347"
+        ]
+      ],
+      "plural": null,
+      "singular": "Only one %s powered engine can be installed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Make Thy Plagues Wonderful'",
+      "flags": [],
+      "id": "dc79ec7bd758ccec3b2ddac9384546371966d0ebed8690d4864a4a3ec8909d9f",
+      "identity": [
+        null,
+        "Touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/lilin_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系"
+  }
+}

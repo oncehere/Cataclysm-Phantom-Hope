@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4f283b1e208cae34989556cb6bbaec7e3cd6d673059df6a867452e38d43b2f6f",
+      "identity": [
+        null,
+        "CO-OP: may break.  Perk leveling is driven by kill events that aren't credited to the remote player, so the joining player gains no perks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "99"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Perk leveling is driven by kill events that aren't credited to the remote player, so the joining player gains no perks.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4f7b712837a689e48e884d752c94adc5799bdeeea68bfe7a79ef57d360305157",
+      "identity": [
+        null,
+        "<color_red>[Against your better judgment, give Doc Stevens permission to put you to sleep, here, strapped down beneath a spinning bone saw]</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_red>[Against your better judgment, give Doc Stevens permission to put you to sleep, here, strapped down beneath a spinning bone saw]</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'PAPR helmet'",
+      "flags": [],
+      "id": "4f95d57eda9fe7e644abb487e9a72f473b2d884895d43c3c9206d883cfd71ed1",
+      "identity": [
+        null,
+        "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Guy Fawkes mask' of armor 'skull mask'",
+      "flags": [],
+      "id": "4faade67c985ab3bd6d11913e241797c87a9c390609a19580c616bb5cb48a640",
+      "identity": [
+        null,
+        "Remember, remember, the fifth of November.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/masks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Remember, remember, the fifth of November.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Dancer in the Endless Dark'",
+      "flags": [],
+      "id": "4fcce812698e1eb231d432a8894932c2536eea05cc09b3d3c82630c20a1e62fa",
+      "identity": [
+        null,
+        "You are immune to several deleterious otherworldly conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are immune to several deleterious otherworldly conditions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4fe88ee87501cb3bed9f04947bcaf5b52ca1ed89dd589826456c8aba36f1358b",
+      "identity": [
+        null,
+        "An Exodii?  Here to trade, I hope?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An Exodii?  Here to trade, I hope?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4fecc4da1a32d04977df253f9b48690ecbeaa85e30634c22d7ed422c41c28f52",
+      "identity": [
+        null,
+        "CO-OP: minor issues.  Most works, but on-kill style buffs aren't credited to the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "163"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: minor issues.  Most works, but on-kill style buffs aren't credited to the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_memo'",
+      "flags": [],
+      "id": "4ff04dd466a04200f46514c309cdb4732bedb78087310f8fcf2611ce374d8c02",
+      "identity": [
+        null,
+        "Dr. Liu,\nBased on these preliminary results, I'm afraid there is no other option than to seek XEDRA-external candidates.  We've run every single employee at site 2 through the resonance detector and none of them came up higher than Minor, with most not even registering at all.  The capability to understand and manipulate dimensional metaphysics seems limited to a small fraction of the population, and until we can figure some way to affect that it means that our mathematician pool is extremely and unacceptably limited.  As such, I propose that we begin limited screening from among other government employees and, if necessary, among the general population.\n\nI recognize the security concerns inherent in this suggestion, but until we can convince the other XEDRA divisions to allow us to screen all of their employees or otherwise find a large pool of cleared candidates, recruitment is going to be the only option.\nJoshua Sanders\nLead Researcher, AZURE SONNET",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Liu,\nBased on these preliminary results, I'm afraid there is no other option than to seek XEDRA-external candidates.  We've run every single employee at site 2 through the resonance detector and none of them came up higher than Minor, with most not even registering at all.  The capability to understand and manipulate dimensional metaphysics seems limited to a small fraction of the population, and until we can figure some way to affect that it means that our mathematician pool is extremely and unacceptably limited.  As such, I propose that we begin limited screening from among other government employees and, if necessary, among the general population.\n\nI recognize the security concerns inherent in this suggestion, but until we can convince the other XEDRA divisions to allow us to screen all of their employees or otherwise find a large pool of cleared candidates, recruitment is going to be the only option.\nJoshua Sanders\nLead Researcher, AZURE SONNET",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5000642dab3baa8aaeeb70a646d16c0103350a507c66e74cd6c1657f41398796",
+      "identity": [
+        null,
+        "Go ahead.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Go ahead.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Silent Spell'",
+      "flags": [],
+      "id": "5015fd0025cd78713d556eac495649edcb6f33421322a3dececcda1cbf3746a3",
+      "identity": [
+        null,
+        "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "5016efb36d4c07a0868b24035b2e1b08c4452b56203c6344cb45d7dc9fa3504c",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Unknown background'",
+      "flags": [],
+      "id": "501ece49b4423a6dc46d4838e09046440ea3b40fceaa9348e65d358f12136013",
+      "identity": [
+        null,
+        "You have no idea where you came from, or what you were doing before you ended up in the frontier.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have no idea where you came from, or what you were doing before you ended up in the frontier.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

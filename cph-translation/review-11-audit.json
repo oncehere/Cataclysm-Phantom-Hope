@@ -1,0 +1,342 @@
+{
+  "version": 2,
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-11-corrections",
+  "checks": {
+    "completed_entries": 3392
+  },
+  "proposal_sources": {
+    "external: Antigravity / Gemini 3.8 Flash": 3076,
+    "gemini: gemini-3.5-flash-lite": 304,
+    "gemini: gemini-3.8-flash": 12
+  },
+  "review_flags": [
+    {
+      "id": "01bf5c1c6416d1ab2222032b16fd2d291108fa7bc22082c81cd1851345f340f9",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {
+            "1238": 1,
+            "754": 4,
+            "1": 1
+          },
+          "translation": {
+            "12": 1,
+            "38": 1,
+            "754": 4,
+            "1": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "1650091052ed1a7dfb453609d44574fc443d0b8449602c5d56af36bd45d66ca3",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {
+            "413": 1,
+            "555": 1,
+            "8476": 1,
+            "4": 1
+          },
+          "translation": {
+            "413": 1,
+            "555": 1,
+            "8476": 1,
+            "5": 1,
+            "4": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "16ae658176a509fcb67e18b9bc5fedcc9607159421c5f876c4bde31fa700a8ee",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {
+            "11": 1,
+            "617": 1,
+            "555": 1,
+            "1745": 1
+          },
+          "translation": {
+            "10": 1,
+            "11": 1,
+            "617": 1,
+            "555": 1,
+            "1745": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "1c8c1cc6688855dbc1ea233ff69914a1407e4617bdfdf186989d9c7d6fa32687",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "color_structure",
+          "level": "difference",
+          "source": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>"
+            ],
+            "opens": 3,
+            "closes": 3,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "translation": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 3,
+            "closes": 3,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "source_already_unbalanced": false
+        }
+      ]
+    },
+    {
+      "id": "437bdf798c89c01095b8274b3d151d361c9ccfd0414c3efc2b8c9a05f551bb7a",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {},
+          "translation": {
+            "2": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "8085bc58ec6a6122ec364eca120ead20e4dc75630fd4a7e81b511a432b624477",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "color_structure",
+          "level": "difference",
+          "source": {
+            "tags": [
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>"
+            ],
+            "opens": 4,
+            "closes": 4,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "translation": {
+            "tags": [
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 4,
+            "closes": 4,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "source_already_unbalanced": false
+        }
+      ]
+    },
+    {
+      "id": "97a0cc79a531f4955850c23e22f88717dc006530b0546bc0b1077d7a4ced212b",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {
+            "37": 2,
+            "12": 1,
+            "471": 2,
+            "84": 1,
+            "10": 1
+          },
+          "translation": {
+            "37": 2,
+            "12": 1,
+            "471": 2,
+            "84": 1,
+            "100": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "c44bd4c18ae684cfe2eada8d6b9c3c54764e2887e1c9caa9792a3682dd848f8d",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "color_structure",
+          "level": "difference",
+          "source": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 5,
+            "closes": 5,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "translation": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 5,
+            "closes": 5,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "source_already_unbalanced": false
+        }
+      ]
+    },
+    {
+      "id": "c60efeeae065a1414cef164c0a7915ddf1beb68e500945b41cc0734687eefaf5",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "possibly_untranslated_english",
+          "level": "review",
+          "reason": "A sequence of ten source English words remains; an intentional quotation is possible."
+        }
+      ]
+    },
+    {
+      "id": "d27d7824ab199eccb27d4bc255f18cbfd06aa5c316cc64d0d56e0cc9ab59d0e5",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "possibly_untranslated_english",
+          "level": "review",
+          "reason": "A sequence of ten source English words remains; an intentional quotation is possible."
+        }
+      ]
+    },
+    {
+      "id": "f607ecd6e5e3864a2b763eb2198c01ae15a4ca62649020ce11e2d4944f30e035",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "arabic_numbers",
+          "level": "difference",
+          "source": {
+            "16": 1,
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1
+          },
+          "translation": {
+            "2": 5,
+            "16": 1,
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "fe2ceea63b84396c40e728ae393584462760c1f4973009297b99fee570fd2b27",
+      "variant": 0,
+      "findings": [
+        {
+          "kind": "color_structure",
+          "level": "difference",
+          "source": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 4,
+            "closes": 4,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "translation": {
+            "tags": [
+              "<color_yellow>",
+              "</color>",
+              "<color_yellow>",
+              "</color>",
+              "<color_red>",
+              "</color>",
+              "<color_red>",
+              "</color>"
+            ],
+            "opens": 4,
+            "closes": 4,
+            "unmatched_closes": 0,
+            "unclosed_opens": 0
+          },
+          "source_already_unbalanced": false
+        }
+      ]
+    }
+  ],
+  "remaining_gaps": 0,
+  "provider_results": {},
+  "external_batches": {},
+  "limitation": "Review flags require contextual judgment. This is not full semantic or human acceptance."
+}

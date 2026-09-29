@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b61e1cfbec7a5258ee9515e1947f44415abb7ece2bd451967875308b15d637ac",
+      "identity": [
+        null,
+        "Disconnect the cable attached at this position before removing the part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "480"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disconnect the cable attached at this position before removing the part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b62945348ef02c3a1e7318e6a7f2f3e2871402a9a6d3b7a0b16d1ec2001d0260",
+      "identity": [
+        null,
+        "Magic is in the blood of every sorcerer, but for you it's more literal.  Your magical powers surges as your blood does.\nYour caster level bonus is based off of strength instead of intelligence.  You get an extra boost during adrenaline rushes, but you take a penalty if you lose too much blood.\nIs this your bloodline?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sorcerer/pick_bloodline.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Magic is in the blood of every sorcerer, but for you it's more literal.  Your magical powers surges as your blood does.\nYour caster level bonus is based off of strength instead of intelligence.  You get an extra boost during adrenaline rushes, but you take a penalty if you lose too much blood.\nIs this your bloodline?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'abstract garment with basic variants'",
+      "flags": [],
+      "id": "b631bdea4c3ccac9faf820240a09a330d2d5a2de622f3c78b3fa37f2ace41db4",
+      "identity": [
+        null,
+        "Abstract garment with solid color variants.  If you see this it's a bug, please report.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Abstract garment with solid color variants.  If you see this it's a bug, please report.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in result of recipe crafting\n'EOC_PREPARE_LEARN_THAUMATURGY_NOTES'",
+      "flags": [],
+      "id": "b67447e9bca80f77ec011ce3c9a515a2718d96eb30bf7b9ab8754f774d395aeb",
+      "identity": [
+        null,
+        "You've discovered an avenue that deserves for further research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've discovered an avenue that deserves for further research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Bio-Sculpted Musculature'",
+      "flags": [],
+      "id": "b6829cbb09ad4fc27daaf19385aa7042083ba2cc731bb8c00b3e950dedbc11fa",
+      "identity": [
+        null,
+        "Your arms and legs are finely threaded pieces of living machinery, greatly increasing your strength and capacity to lift and carry heavy objects.  Unfortunately, the complex tissue heals at a slower rate than normal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your arms and legs are finely threaded pieces of living machinery, greatly increasing your strength and capacity to lift and carry heavy objects.  Unfortunately, the complex tissue heals at a slower rate than normal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b6a6aa15350674fcdb7f1e531a12c80fc12090d38ba2a1aab3600c5196028fc7",
+      "identity": [
+        null,
+        "Well, from taking a look at you, I can only guess what these Exodii are all about.  But trade's trade, so tell me more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, from taking a look at you, I can only guess what these Exodii are all about.  But trade's trade, so tell me more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'ornate leather gloves (pair)'",
+      "flags": [],
+      "id": "b6c9dbf3469d76a17638498e795a2c80e0ca10d746e562906704a1c6bc7f5afb",
+      "identity": [
+        null,
+        "A set of worn leather gloves embossed with silver.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of worn leather gloves embossed with silver.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "b6d18b7beb9a5515eab90d11426b98e8baa5e4474bcda5595475e742a18c7732",
+      "identity": [
+        null,
+        "Pathfinder schematics",
+        "Pathfinder schematics"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/books.json",
+          ""
+        ]
+      ],
+      "plural": "Pathfinder schematics",
+      "singular": "Pathfinder schematics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'cryogenic flask'",
+      "flags": [],
+      "id": "b6d7f5cca5b5b9e0c14ff5b9245d043b50c9ce44a6f8de058b84aaa3f78bd28c",
+      "identity": [
+        null,
+        "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized Riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/containers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized Riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b6d99d7893f60d4948c8ba9b2d7281d59d04b64b1ea89589f7f8e8c8951562d9",
+      "identity": [
+        null,
+        "Paste personal zones to which character?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2509"
+        ]
+      ],
+      "plural": null,
+      "singular": "Paste personal zones to which character?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Immunostimulated'",
+      "flags": [],
+      "id": "b6e6c7938849277bfbcc08769661c9ab1dbbf4b9ea3e14f3a5a5e070639c05c3",
+      "identity": [
+        null,
+        "You cough once.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_psionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You cough once.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b6f75246eaa942c29d63e8593f662ad16474031b629d4b4948a0539ce44d1b20",
+      "identity": [
+        null,
+        "Your partner marked a spot on the map.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10559"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner marked a spot on the map.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

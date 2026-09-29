@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (spider periapta)'",
+      "flags": [],
+      "id": "aa4337e7b4873542e6da697021b2187c4c5831cfdf483191e3986fbf986260ae",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes repeatedly mention \"Webs aren't really big enough to test, thank God.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes repeatedly mention \"Webs aren't really big enough to test, thank God.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "aa457d3523609895ef0c1bc8e6d120ee8b85182b98dfccecf9473ce384d724b3",
+      "identity": [
+        null,
+        "Yes, that's right.  Thank you for reminding me.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yes, that's right.  Thank you for reminding me.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_forest_traverse_the_wilds'\n~ Name of a spell",
+      "flags": [],
+      "id": "aa4eda663aa09a713f30fc8beed6a19cb3c924ff57821c414cc40d2424735696",
+      "identity": [
+        null,
+        "Weald-Walking",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/forest_magic_effects.json",
+          ""
+        ],
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Weald-Walking",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "aa699337bcbf8034fa0d2be4b9943e36af07875adae25fc8c07a7c9f22ccf875",
+      "identity": [
+        null,
+        "End an active portal storm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/dialog_statue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "End an active portal storm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "aa728f5ddf1b9ca0b954049984548e3486e71b2c1ad6c711baa7fe157e2bea54",
+      "identity": [
+        null,
+        "untitled2047-2842.mp4\nThe video starts with a shaky view of a deserted city street, filmed through a pane of glass framed by drawn curtains.  The grind of tracks and base-growl of an engine dominate the choppy audio as an Abrams tank rumbles into view, flanked by several squads of armed soldiers running beside the vehicle.  Locked behind the rubber shell of a gas mask, each man carries an automatic rifle, skulking carefully along the sides of the tank as the group proceeds down the road.  As the view pans, a soldier leading the column briefly pauses by a blown-open cellar, the cameraman audibly whispering hurried prayers as the infantryman trains their rifle on the abyss.  The view jerks sharply as a glistening, artery-like appendage writhes from an unseen point, crashing through the soldier's mask and bursting out the back of their skull before yanking them from the ground.  The desperate liturgies grow louder as the view tilts up and reveals the opposite building's roof line, thickly coated in a crust of churning cytoplasm and organ-like flesh, and over which the hapless soldier's body is dragged out of sight, before a waterfall of blood erupts and spurts across the convoy.  As the cameraman whimpers in terror, a nightmarish, spidery amalgamation of flesh and bones clambers over the roof's edge and plunges into the amassed soldiers.  The scene erupts in a mass of gunfire and frantic screams.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "untitled2047-2842.mp4\nThe video starts with a shaky view of a deserted city street, filmed through a pane of glass framed by drawn curtains.  The grind of tracks and base-growl of an engine dominate the choppy audio as an Abrams tank rumbles into view, flanked by several squads of armed soldiers running beside the vehicle.  Locked behind the rubber shell of a gas mask, each man carries an automatic rifle, skulking carefully along the sides of the tank as the group proceeds down the road.  As the view pans, a soldier leading the column briefly pauses by a blown-open cellar, the cameraman audibly whispering hurried prayers as the infantryman trains their rifle on the abyss.  The view jerks sharply as a glistening, artery-like appendage writhes from an unseen point, crashing through the soldier's mask and bursting out the back of their skull before yanking them from the ground.  The desperate liturgies grow louder as the view tilts up and reveals the opposite building's roof line, thickly coated in a crust of churning cytoplasm and organ-like flesh, and over which the hapless soldier's body is dragged out of sight, before a waterfall of blood erupts and spurts across the convoy.  As the cameraman whimpers in terror, a nightmarish, spidery amalgamation of flesh and bones clambers over the roof's edge and plunges into the amassed soldiers.  The scene erupts in a mass of gunfire and frantic screams.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "aa768ca590f0ad535d7b1f132b149f7923e93dcc4b8f3a30291acecf69decfbc",
+      "identity": [
+        null,
+        "labyrinthian structure",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "labyrinthian structure",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'The Withering'",
+      "flags": [],
+      "id": "aa82aa4d2801fd5d30d9b9f35641399eb8b7db4cd08a91977e07efef819378a5",
+      "identity": [
+        null,
+        "Your strength returns.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_nether_sorcery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your strength returns.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected 51x-\"Landru\"'",
+      "flags": [],
+      "id": "aa873b8821c1a3a7ec8c4547dad76801f53cb91e1a2220ae3530cf9646fce559",
+      "identity": [
+        null,
+        "You just took a shot of that strange vial you found.  Time seems to have slowed down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/speed_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You just took a shot of that strange vial you found.  Time seems to have slowed down.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FOREST_TRAVERSE_THE_WILDS_REMOVER_INDOORS'",
+      "flags": [],
+      "id": "aa90c8df84abfaac4a39906884bd817cdc6a44989643d63e487acd02262210b8",
+      "identity": [
+        null,
+        "As you step indoors, your spell fades.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As you step indoors, your spell fades.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aaa1c4223a1b8bb601db44beb43c8fd70e9151f228c489806cf18bf50b574fe7",
+      "identity": [
+        null,
+        "Before that, you must starve yourself of blood so I know you genuinely want to be freed.  Return to me when you will show symptoms of blood starvation and I will cure you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Before that, you must starve yourself of blood so I know you genuinely want to be freed.  Return to me when you will show symptoms of blood starvation and I will cure you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "aaa383ae0c35f6e064ee498cdd30dada0c5d48085070dc75d51fd09d42529942",
+      "identity": [
+        null,
+        "giant solar beetle",
+        "giant solar beetles"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/reverberation.json",
+          ""
+        ]
+      ],
+      "plural": "giant solar beetles",
+      "singular": "giant solar beetle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "aaa626f18b337b5ebe9848dd3886f620823f993fa992bced2d8fbeba8f2b17f7",
+      "identity": [
+        null,
+        "Rerisen Revengeance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rerisen Revengeance.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

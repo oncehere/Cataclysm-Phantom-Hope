@@ -1,0 +1,241 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e0dadd38561271471c0337c3d871cb18aee629eaeb22b4b7b6e67bb4d797d13b",
+      "identity": [
+        null,
+        "Thanks.  See you later.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks.  See you later.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC\n'EOC_WEREWOLF_CURE_OUTSIDE_EFFECTS_ACTIVATED'",
+      "flags": [],
+      "id": "e0f6f3dbe7c0b45f857dc9a89119fe8e0431010e8cc14c8eecf50ca44656225d",
+      "identity": [
+        null,
+        "You try to focus your mana, but you don't have enough to purge yourself from the Outsiders' ailments.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/werewolf_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You try to focus your mana, but you don't have enough to purge yourself from the Outsiders' ailments.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To Don the Mantle of the Sun'",
+      "flags": [],
+      "id": "e0fb954269056bac91e69d601fb44c52bda604058effd1004faeb3ab19ae3ed8",
+      "identity": [
+        null,
+        "The sun is light and heat, filling the sky and providing life to the earth below, and the stars fear it and hide from its light.  This charm allows you to imitate the sun, subduing all lesser fires and causing them to flee for places safer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The sun is light and heat, filling the sky and providing life to the earth below, and the stars fear it and hide from its light.  This charm allows you to imitate the sun, subduing all lesser fires and causing them to flee for places safer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "e10f55afb5db5ad03b6645d2ee793c83a627613c73a6a5c1daddd5e65d94418e",
+      "identity": [
+        null,
+        "The quality of this footage is both choppy and filled with the background fluctuations of static, with the view being angled upwards through the shattered beams of what used to have been a roof.  The structure looks as though it's been the recipient of a mortar bombardment, with large swaths of the roiling gray sky visible through the gaps and stifling volumes of heavy fog rolling in over the edges.  Unsteadily zooming past the wreckage, the camera focuses on the distant profile of a helicopter raveled in the depths of the filth-tinged clouds, the drone of its rotors audible as the aircraft beats its way through the bank of fog.  In the airspace around the machine, you can vaguely detect bands of ebony black undulating through the clouds—strands of oily darkness waning and fattening about its fuselage like writhing sea serpents.\n\nJust as you fancy that the tendrils were bulging into outlines, shadowy limbs extending from them, and, for a split second, appearing like suspended ranks of unnaturally lanky figures, the whole view devolves into the screech of static.  It takes you a moment to realize that what you originally took to be the shriek of interference was actually just the video's audio.\n\nFor the last 45 seconds, it transmits the distant sounds of many hundreds of nearing, drawn-out screams.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The quality of this footage is both choppy and filled with the background fluctuations of static, with the view being angled upwards through the shattered beams of what used to have been a roof.  The structure looks as though it's been the recipient of a mortar bombardment, with large swaths of the roiling gray sky visible through the gaps and stifling volumes of heavy fog rolling in over the edges.  Unsteadily zooming past the wreckage, the camera focuses on the distant profile of a helicopter raveled in the depths of the filth-tinged clouds, the drone of its rotors audible as the aircraft beats its way through the bank of fog.  In the airspace around the machine, you can vaguely detect bands of ebony black undulating through the clouds—strands of oily darkness waning and fattening about its fuselage like writhing sea serpents.\n\nJust as you fancy that the tendrils were bulging into outlines, shadowy limbs extending from them, and, for a split second, appearing like suspended ranks of unnaturally lanky figures, the whole view devolves into the screech of static.  It takes you a moment to realize that what you originally took to be the shriek of interference was actually just the video's audio.\n\nFor the last 45 seconds, it transmits the distant sounds of many hundreds of nearing, drawn-out screams.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction_dream'",
+      "flags": [],
+      "id": "e11fd5bde2762e52a5492926ed96a4b9bbc71cbee4eba83d6bdb7916e18cd8b2",
+      "identity": [
+        null,
+        "An otherworldly lover takes your heart, your passion, your desire.  Clad in diaphonous clothing, they take what you both want of you but soon you wake and realize you are alone in an empty bear's den.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An otherworldly lover takes your heart, your passion, your desire.  Clad in diaphonous clothing, they take what you both want of you but soon you wake and realize you are alone in an empty bear's den.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ This is extending the vanilla snippets belonging to mostly work of random\npeople: chat logs, SMSes, popular photos and videos that people share, or\nsomething they can film by themselves.",
+      "flags": [],
+      "id": "e12307f66a1aebd648e6aa025a7b509a4e55e586b5d1a5729f92b20ad0aabcd7",
+      "identity": [
+        null,
+        "hunternetvulfgar.mp4\nThe video cuts in as a montage of school security cameras in hallways, as a young man and woman break into the school.  As they walk past each camera, that image drops and the others rearrange larger, while a popular song from the 90's begins playing.  The young adults enter a classroom and are clearly flirting.\nAwoo oooh, got you where I want you\nplays over top of the video.  The man laughs at something the woman says, and throws his head back laughing while she is clearly annoyed.  His face elongates as his body grows, shredding the clothes he is wearing as limbs change and sprout thick fur.  She has backed away from him and put the students' and teacher's desks between them.  Fully transformed into a hideous wolfman, he begins his approach towards his once date now prey, smashing chairs and students' desks out of his way.  Suddenly the wolfcreature pauses and its ears prick up.  It turns and looks at the wall of windows in the classroom.  Glass erupts into the room as the darkness outside the window shows the muzzle flare of at least a dozen different guns firing.  The wolfcreature is hit more times than you can count in a span of seconds and falls to the ground.\nThe song reaches a crescendo 'Got you where I want you, got you, yeahhhhh!' as his date pulls a large caliber pistol out of the teachers desk, walks over to the fallen beast and calmly puts three bullets in its skull.  The video ends.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "hunternetvulfgar.mp4\nThe video cuts in as a montage of school security cameras in hallways, as a young man and woman break into the school.  As they walk past each camera, that image drops and the others rearrange larger, while a popular song from the 90's begins playing.  The young adults enter a classroom and are clearly flirting.\nAwoo oooh, got you where I want you\nplays over top of the video.  The man laughs at something the woman says, and throws his head back laughing while she is clearly annoyed.  His face elongates as his body grows, shredding the clothes he is wearing as limbs change and sprout thick fur.  She has backed away from him and put the students' and teacher's desks between them.  Fully transformed into a hideous wolfman, he begins his approach towards his once date now prey, smashing chairs and students' desks out of his way.  Suddenly the wolfcreature pauses and its ears prick up.  It turns and looks at the wall of windows in the classroom.  Glass erupts into the room as the darkness outside the window shows the muzzle flare of at least a dozen different guns firing.  The wolfcreature is hit more times than you can count in a span of seconds and falls to the ground.\nThe song reaches a crescendo 'Got you where I want you, got you, yeahhhhh!' as his date pulls a large caliber pistol out of the teachers desk, walks over to the fallen beast and calmly puts three bullets in its skull.  The video ends.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "e1388178caf0ff2d201801352be92504cb161fa085c044606d1be04600673b77",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -BIONICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to BIONIC PIWER available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -BIONICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to BIONIC PIWER available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "e13ec0670688eca015019ede37e30f658f9f804a9c0242da02127e5cf4748f2e",
+      "identity": [
+        null,
+        "Enquiry Concerning Political Justice",
+        "copies of Enquiry Concerning Political Justice"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Enquiry Concerning Political Justice",
+      "singular": "Enquiry Concerning Political Justice",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e15297c5e5057e4e356c6e4a25f5bb9119d972c6d00a8c6cea914b37903d38c3",
+      "identity": [
+        null,
+        "[Update BIONIC POWER available]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Update BIONIC POWER available]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e1623aeb5c7e18576ec50f03e5945d38c3afb696aabf0a1fc8f388eccd9eb122",
+      "identity": [
+        null,
+        "Choose part\nto draw blood from.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/magic.cpp",
+          "1876"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose part\nto draw blood from.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e186a62ddcbe815fb8143b7a2196218b1f4ed61c231326b9bc42e3915f5d8257",
+      "identity": [
+        null,
+        "Ah, yes, our cybernetic visitor.  Would you be willing to tell us more about the cyborgs that did this to you?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, yes, our cybernetic visitor.  Would you be willing to tell us more about the cyborgs that did this to you?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

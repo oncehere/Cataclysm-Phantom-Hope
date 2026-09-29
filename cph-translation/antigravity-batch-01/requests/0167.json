@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '素锋录'",
+      "flags": [],
+      "id": "9ed86d5bff5750837467f81eb8f3e96ab9a22c087c9b45fe8ef9301f91a0c79b",
+      "identity": [
+        null,
+        "一部金行修炼功法，以薄金片为页，寒光内蕴。所载淬锋诀引金行锐气淬炼筋骨，出手锋锐精准。乃练气期之法。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一部金行修炼功法，以薄金片为页，寒光内蕴。所载淬锋诀引金行锐气淬炼筋骨，出手锋锐精准。乃练气期之法。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9ed8dff88c1bc3c25f6860f2960fa9206f669a1b42c2ed358291464eba62104d",
+      "identity": [
+        null,
+        "What are they, you ask?  If I knew, I'd be afraid to say.  They aren't like other places.  They don't just exist.  Something put them there, piece by piece.  A workshop of unknown purpose.  But also, not like any of that.  Honestly, not really sure if they exist before we pass by, or through them, anyway.  Anything we say about them is basically waxing religiously - maybe they can't be explained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What are they, you ask?  If I knew, I'd be afraid to say.  They aren't like other places.  They don't just exist.  Something put them there, piece by piece.  A workshop of unknown purpose.  But also, not like any of that.  Honestly, not really sure if they exist before we pass by, or through them, anyway.  Anything we say about them is basically waxing religiously - maybe they can't be explained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Treads (Cyberframe 1a)'",
+      "flags": [],
+      "id": "9ee9877cf7dfddd9004eeb046fe258d42ec4ab5e9eb9f13742f2216f1920291a",
+      "identity": [
+        null,
+        "Sturdy treads for replacing legs and feet on an Exodii Cyberframe.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated by telescoping knees, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  One's former ankles and associated anatomy will be integrated into the servomotors.  Unlike bipedal human legs, these move faster over most terrain, but will severely hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sturdy treads for replacing legs and feet on an Exodii Cyberframe.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated by telescoping knees, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  One's former ankles and associated anatomy will be integrated into the servomotors.  Unlike bipedal human legs, these move faster over most terrain, but will severely hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'green' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "9ef7e57f65257b86a475f11dfe6cebc2ea4203a6afa54cc84b8a332aac122383",
+      "identity": [
+        null,
+        "This one is <color_prefix> green.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix> green.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Bottle Gourd Seedling'",
+      "flags": [],
+      "id": "9efd86261ee43435ea5e54a85e4c6daaec395f5698cb3c29f5ef347eaebcce6b",
+      "identity": [
+        null,
+        "A young bottle gourd seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young bottle gourd seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9f1cc176ead0518a5b9a1a055c7c4ff2f708de29c113eb0534322258008b1923",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵖˡᵉᵃˢᵉ ᵍᵒ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵖˡᵉᵃˢᵉ ᵍᵒ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'kid's backpack' of armor 'small backpack'",
+      "flags": [],
+      "id": "9f30f7fa7c18fc2c96f0872cbe9b94c77f1a1caced36b5a89af411ab019003d2",
+      "identity": [
+        null,
+        "A kid's backpack.  <kid_brand>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/storage_packs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A kid's backpack.  <kid_brand>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "9f5eaa928c59f5f62e8d3c5397fe5d2a3bb7fff1483c72fe4188a7f24ddfd44b",
+      "identity": [
+        null,
+        "the adventures of tintin",
+        "the adventures of tintin comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "the adventures of tintin comics",
+      "singular": "the adventures of tintin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9f707a04504b3681c7ddd00fec5571f8a501397dd68a63076fb0f1216f9175a0",
+      "identity": [
+        null,
+        "Starting City",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4400"
+        ]
+      ],
+      "plural": null,
+      "singular": "Starting City",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "9f7ac5763739cbd5028f78760e2d57b7aa8fe309f44efcadb6ef78e0b43cab1e",
+      "identity": [
+        null,
+        "相克之力扰乱真气运转，本系修为难以凝练，进境大减。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "相克之力扰乱真气运转，本系修为难以凝练，进境大减。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Left Leg (Cyberframe 1b)'",
+      "flags": [],
+      "id": "9f80578b6b1f67a42ccf3747e16914e0a10f0ea3eb766d5e3fd1cbdec200a14c",
+      "identity": [
+        null,
+        "A bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry deep pool bottom'",
+      "flags": [],
+      "id": "9f9c6f7c8acfca705f8769f620020d26854c5721d60121c39978ed4a08077b32",
+      "identity": [
+        null,
+        "The concrete bottom of a drained deep outdoor swimming pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The concrete bottom of a drained deep outdoor swimming pool.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

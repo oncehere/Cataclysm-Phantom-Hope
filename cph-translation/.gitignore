@@ -1,0 +1,24 @@
+.pokeeper/gemini-cache.json
+.pokeeper/*.lock
+.pokeeper/*.pending
+*.lock
+*.mo
+.env
+.env.*
+*.key
+
+# Full historical candidates remain local; the project state retains all
+# provenance snapshots required by check/plan. Keep compact audit evidence.
+/review-[0-9][0-9]-*/*
+!/review-08-offline-cache/manifest.json
+!/review-08-offline-cache/report.json
+!/review-09-antigravity/manifest.json
+!/review-09-antigravity/report.json
+!/review-10-idempotence/manifest.json
+!/review-10-idempotence/report.json
+!/review-11-corrections/manifest.json
+!/review-11-corrections/report.json
+!/review-12-idempotence/manifest.json
+!/review-12-idempotence/report.json
+/acceptance-gemini-*/
+/inputs/ccb-20260923.recovered.zh_CN.po

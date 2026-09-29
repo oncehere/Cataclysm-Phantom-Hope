@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "model": "gemini-3.5-flash-lite",
+  "entries_requested": 2,
+  "automatic_retries": 0,
+  "human_semantic_review": "NOT_RUN",
+  "gemini": [
+    {
+      "id": "5a53b3ae1f53a2c5089102e298039c3f8dff345a012b5778388a4a47917a3455",
+      "status": "completed"
+    },
+    {
+      "id": "bad058b79ea50afdf228d3a5d85d7349b934129a8caef58818c00a4de677286b",
+      "status": "completed"
+    }
+  ],
+  "remaining_gaps": 0,
+  "offline_check": {
+    "status": "PASS",
+    "entries": 2,
+    "translated": 2,
+    "fuzzy": 0,
+    "obsolete": 0
+  },
+  "transport_calls": 1,
+  "production_source_sha256": {
+    "cli.py": "63d2a5b982740bc54a7fab6a44bdba6b0b68657a392d75452adff188408eb0bd",
+    "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "catalog.py": "5d12227d6c8e2c7cd4383be25e89e98ff7b22eb8442471b255f141049535c967",
+    "config.py": "6269e831efc1c8d7ea87d86586063a437d358b7eb1de06fe8d3109de867c7e04",
+    "transaction.py": "d0d53ab3be315e0e8ea12aad402c80ae7721b174bbdc6fa15cd57a27535d0687",
+    "core.py": "37773a2c3f722654f0013cbca9d62862f0ff6940712a134df91fba45d790fdb8",
+    "__init__.py": "d386738720dec717cd96d45b7e5faf1ec2fff1e320f772ec9d714a9a662f662d",
+    "validation.py": "2919b8b3155fe51b3e4f1f1fb29c4783a68b13f01348ac1bc172cb917d3598af",
+    "gemini.py": "a509ec00e77bad3040ab094223977c8883193b2351367cdd77897a2976417c7c"
+  },
+  "previous_model_attempt": {
+    "status": "FAIL",
+    "model": "gemini-2.5-flash",
+    "entries_requested": 2,
+    "automatic_retries": 0,
+    "human_semantic_review": "NOT_RUN",
+    "gemini": [
+      {
+        "id": "5a53b3ae1f53a2c5089102e298039c3f8dff345a012b5778388a4a47917a3455",
+        "status": "rejected"
+      },
+      {
+        "id": "bad058b79ea50afdf228d3a5d85d7349b934129a8caef58818c00a4de677286b",
+        "status": "rejected"
+      }
+    ],
+    "remaining_gaps": 2,
+    "transport_calls": 1
+  },
+  "previous_model_diagnostic": {
+    "operation": "generate_content_diagnostic",
+    "model": "gemini-2.5-flash",
+    "generation_requests": 1,
+    "entries_requested": 1,
+    "automatic_retries": 0,
+    "status": "FAIL",
+    "http_code": 404,
+    "api_status": "NOT_FOUND",
+    "reasons": [],
+    "message_categories": []
+  },
+  "metadata_diagnostic": {
+    "operation": "models.get",
+    "model": "gemini-2.5-flash",
+    "generation_requests": 0,
+    "status": "PASS"
+  },
+  "generation_requests_total": 3,
+  "credential_storage": "process environment only; no credential retained in project",
+  "command": [
+    ".venv/bin/python",
+    "scripts/verify_gemini.py",
+    "--model",
+    "gemini-3.5-flash-lite",
+    "--workdir",
+    "/tmp/pokeeper-gemini-live-available-model"
+  ]
+}

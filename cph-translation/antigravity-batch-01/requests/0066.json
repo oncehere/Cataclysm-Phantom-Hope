@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "365a6513bb99944d990c0130029680284409921a9d2c2506ffa775897e8bbf01",
+      "identity": [
+        null,
+        "葳蕤经",
+        "葳蕤经"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "葳蕤经",
+      "singular": "葳蕤经",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'iron ballista bolt'",
+      "flags": [],
+      "id": "366b09d2336ad2cf543d25ac94153492271de05d4c5b2a27ee7bf8f073f9a5c3",
+      "identity": [
+        null,
+        "A thick wooden projectile not much longer than an arrow, tipped with a heavy iron point.  Stands a decent chance of remaining intact once fired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ranged/ballista.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A thick wooden projectile not much longer than an arrow, tipped with a heavy iron point.  Stands a decent chance of remaining intact once fired.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "367a60eb0e87c2e237217b09f37da65f6d7fcff1d141c20981f125a81dc17ecf",
+      "identity": [
+        null,
+        "the zombies",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the zombies",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "36bf7f49b007d555de0f5634c5821ea6e825c9d9940f453b3c91e13dd975b68e",
+      "identity": [
+        null,
+        "low pool water",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "low pool water",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ No, not The Enemy, but something like their wife (Rubik is trying to be\nfunny).  If you go, you'll see.  It'll talk to you.  It knows what shape to\ntake, or it just takes it, anyway.  For me, an old friend, in a Temple of\nale I barely remember.  For others, other things.  But, if it starts\ntalking to you in a familiar way?  It it offers you safety?  Leave, quick\nand quiet.  It's a lie.  Death by another name.",
+      "flags": [],
+      "id": "36cc6f8b1c1db69808b925ff68d814e17c50a17200ef927a26fd9fcb10936dd8",
+      "identity": [
+        null,
+        "No, not The Enemy, but might be their trouble n' strife.  If ye' go, just wait n' see.  It'll ask.  It knows what shape to wear, or it just takes it, anyhow.  For me, an ol' friend, in the Temple of ale this'n scarce remembers.  For others, other things.  But, if it starts answerin' ye in a way just for you?  If it offers ye' a safety you think this broken world don't have?  Best be on yer way, quick and quiet.  It's a lie.  Just death by another name.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No, not The Enemy, but might be their trouble n' strife.  If ye' go, just wait n' see.  It'll ask.  It knows what shape to wear, or it just takes it, anyhow.  For me, an ol' friend, in the Temple of ale this'n scarce remembers.  For others, other things.  But, if it starts answerin' ye in a way just for you?  If it offers ye' a safety you think this broken world don't have?  Best be on yer way, quick and quiet.  It's a lie.  Just death by another name.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'lizardfolk warrior'",
+      "flags": [],
+      "id": "36ea94e0a76fe8295fac333de82f98afd1e178fb1a44ade617d6e1f2fe94a282",
+      "identity": [
+        null,
+        "A tall, powerful, reptilian humanoid with a muscular tail whose skin is covered in dark gray-green scales.  They are coldblooded and primarily live in swamps.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/lizardfolk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tall, powerful, reptilian humanoid with a muscular tail whose skin is covered in dark gray-green scales.  They are coldblooded and primarily live in swamps.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "36edd4214ba398cf2c856210f221bb2c7bbcda6321d534555976560dce2f2c00",
+      "identity": [
+        null,
+        "tall mound of degraded nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "tall mound of degraded nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_CANT_GIVE_ATTUNEMENT_NO_LEVEL_FIFTEEN_SPELL'",
+      "flags": [],
+      "id": "3719040cab445e74ae36928fa726bcc383cc0892439688b4cb19f3f3e5ca208e",
+      "identity": [
+        null,
+        "The altar does not respond to your touch.  Your spell knowledge is broad and deep, but you must master at least one spell to level 15 before attempting attunement.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/effect_on_conditions/attunement_choices.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The altar does not respond to your touch.  Your spell knowledge is broad and deep, but you must master at least one spell to level 15 before attempting attunement.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Yes, and yes again.  If every world has zombies, 90% of the ones we reach\nhave dinos.",
+      "flags": [],
+      "id": "371bfb42b610bd7041de76d4c68c3847ffeff7613128b376ca05725d95057df4",
+      "identity": [
+        null,
+        "Aye, n'aye again!  E'ry ball o mud has the Enemy.  Nine mudballs out o' ten are mudded up wit thunder chickees.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/NPC/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Aye, n'aye again!  E'ry ball o mud has the Enemy.  Nine mudballs out o' ten are mudded up wit thunder chickees.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "371ffab2680f0f95abf72a999e57a7572bf0ea6b927b7b504c6ea109ed49a206",
+      "identity": [
+        null,
+        "Excellent.  Thank you very much.\"  The intercom recites a series of coordinates.  \"Exercise a great deal of caution.  We do not know what the conditions on the ground are like.  Use your best judgment.  As before, we are willing to offer you better protective gear, if you would like it, we can't know if this mask will be enough without direct field tests.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Excellent.  Thank you very much.\"  The intercom recites a series of coordinates.  \"Exercise a great deal of caution.  We do not know what the conditions on the ground are like.  Use your best judgment.  As before, we are willing to offer you better protective gear, if you would like it, we can't know if this mask will be enough without direct field tests.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "37689562349e601ec912eb54d3ee43b59c3fe7c036cc629a05e99699ec49085e",
+      "identity": [
+        null,
+        "Cool.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cool.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "37b202862e7e8b7b2ddaf5928c6f2566ef00c72e4e78567bc773906b9c712983",
+      "identity": [
+        null,
+        "Stormwrought: Mana-Touched",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/mod_interactions/bombastic_perks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stormwrought: Mana-Touched",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

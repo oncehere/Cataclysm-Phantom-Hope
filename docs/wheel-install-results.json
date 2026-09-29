@@ -1,0 +1,62 @@
+{
+  "imported_module": "/tmp/pokeeper-wheel-env/lib/python3.13/site-packages/pokeeper/__init__.py",
+  "commands": [
+    {
+      "argv": [
+        "/tmp/pokeeper-wheel-env/bin/pokeeper",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "0.1.0rc1\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/tmp/pokeeper-wheel-env/bin/pokeeper",
+        "plan",
+        "--config",
+        "project.toml",
+        "--candidate",
+        "review"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"candidate\": \"/tmp/pokeeper-wheel-smoke-p0x8oupl/review\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/tmp/pokeeper-wheel-env/bin/pokeeper",
+        "apply",
+        "review"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"applied\": \"review\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/tmp/pokeeper-wheel-env/bin/pokeeper",
+        "check",
+        "--config",
+        "project.toml"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 4,\n  \"translated\": 3,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/tmp/pokeeper-wheel-env/bin/pokeeper",
+        "compile",
+        "--config",
+        "project.toml",
+        "--output",
+        "result.mo"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 4,\n  \"translated\": 3,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    }
+  ],
+  "status": "PASS"
+}

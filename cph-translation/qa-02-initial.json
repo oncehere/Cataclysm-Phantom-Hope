@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "review_scope": "首轮生产缓存快照中的全部 9 条 complete 结果；不含 failed 项。",
+  "result": "PASS_WITH_ADVISORY",
+  "counts": {
+    "cache_entries": 12,
+    "complete_reviewed": 9,
+    "pass": 8,
+    "pass_with_advisory": 1,
+    "blocking_findings": 0,
+    "numeric_entries": 0,
+    "narrative_or_dialogue_entries": 0
+  },
+  "inputs": {
+    "source_index": {
+      "path": "cph-translation/qa-source-index.json",
+      "sha256": "740c3595e428b20e7803543cd26894de94a95553f73729b02b1e80eccdccfada"
+    },
+    "cache_snapshot": {
+      "path": "cph-translation/.pokeeper/gemini-cache.json",
+      "sha256": "7d71ee5e1c804b10de883b9855089bfa389fb217a7645adfbf3f045ee820ccee"
+    },
+    "config_snapshot": {
+      "path": "cph-translation/project.toml",
+      "sha256": "8885f146a9b5350933348d0151f5721c0278bc2a1d67bc9666b4edc6c18abdd1"
+    }
+  },
+  "evidence": {
+    "source_context": [
+      "/tmp/pokeeper-cph-style-source-20260928/data/mods/hunvre/json/snippets/clothing_snippets.json",
+      "/tmp/pokeeper-cph-style-source-20260928/data/mods/hunvre/json/items/clothing/asbtract_garments.json:87",
+      "/tmp/pokeeper-cph-style-source-20260928/data/mods/hunvre/json/items/clothing/asbtract_garments.json:241",
+      "/tmp/pokeeper-cph-style-source-20260928/data/mods/hunvre/json/items/clothing/asbtract_garments.json:318"
+    ],
+    "method": "只读加载源文索引与缓存一次，按 scope 第三个元素直接查找完整身份；检查身份哈希，使用冻结配置对九条重新执行 validate_values；逐条人工语义审读。未读取完整 POT。"
+  },
+  "limitations": [
+    "九条均为 clothing_pattern 短词，不能据此证明长篇叙事、对白的黑色幽默表现。",
+    "九条均无数值，数值翻译能力没有被本批实际覆盖。",
+    "只验证缓存快照中的译文；本报告不执行应用，不证明游戏运行时表现。"
+  ],
+  "reviews": [
+    {
+      "id": "018ea36a44c002716c78b9955e19353ef6b8d3af69787e96efe223e108846139",
+      "cache_key": "5a8ba8d213cfe8cdac8ae4093e3f82ce4b3bae490dc42ca0a32448b98be2d31d",
+      "review_fingerprint": "427abf8181ec59c6577159ec276ca4eb5f39f1a61a7b91a9f81528c806dd3f41",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "paisley",
+        null
+      ],
+      "values": [
+        "佩斯利纹"
+      ],
+      "comments": "~ Snippet in category '<generic_fancy_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "佩斯利纹与原词对应，符合服装纹样语境。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "17a40f23bb03e9524fa1e33e460c3c423d4aae12234d2a284f20959bbcb2b6bd",
+      "cache_key": "83a32fd04f9232eefbf29d8042a3388e7fd6aadb4155cc689d0679e81e6d85dd",
+      "review_fingerprint": "bf6ab4abc857295050f24e27142ed34cf2cd259b89cd0f51a830f11e19c31ff5",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "plaid",
+        null
+      ],
+      "values": [
+        "格纹"
+      ],
+      "comments": "~ Snippet in category '<generic_casual_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "格纹准确；此处不必引入特定苏格兰氏族含义。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "2234004fe82a938cf48f17de0ffdc1a6dfddd69de56a1eb6d167d58bde14a46c",
+      "cache_key": "5248b8e867b35e567dd47676024bf30c9a412e607e06983004b15b43d5a9c46c",
+      "review_fingerprint": "6647d740d99b284d0fd0194f65e2e5f64167548ce03eb993706e301f63822f96",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "floral",
+        null
+      ],
+      "values": [
+        "碎花"
+      ],
+      "comments": "~ Snippet in category '<generic_fancy_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS_WITH_ADVISORY",
+      "semantic_review": "碎花通常暗示细小、零散的花朵图案；floral 原文只限定花卉题材，未限定花朵大小。当前译文可理解，但略缩窄含义。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": {
+        "severity": "minor",
+        "required": false,
+        "values": [
+          "花卉"
+        ],
+        "reason": "保留 floral 的一般含义，避免额外限定为细小碎花；用于 print 前仍自然。"
+      }
+    },
+    {
+      "id": "51318b601fcc187830715f1514a0f80f72dfc1444964e0bd90e8150783b5d1e0",
+      "cache_key": "2bf79e1d9d42a3e5607d96cea1eb1873698b968f289e469672909ecae4509362",
+      "review_fingerprint": "1be61a08ee314ba89f8f7d7ed0db81af8a01694b6d0d40ce815c8e36aa5a5ff0",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "polka dot",
+        null
+      ],
+      "values": [
+        "波点"
+      ],
+      "comments": "~ Snippet in category '<generic_fancy_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "波点准确指服装上的圆点纹样。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "6a375be567aade7187ad5709ac3af4e5cb68b2af362f965579f1d02a1934b50f",
+      "cache_key": "5e42b2d68c696f16b46850bc6f1ba9a1a338050c4e0a5139a3790b80e99d01f7",
+      "review_fingerprint": "5764f112f682edb015680293dea8bf41bd0e21256408c6305992e8be4d48c96d",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "celtic knot",
+        null
+      ],
+      "values": [
+        "凯尔特结"
+      ],
+      "comments": "~ Snippet in category '<generic_casual_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "凯尔特结准确；作为 print 前的图案修饰语可用。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "6a65b7712d5aa2b856878f4e4f3adec9eb4edd11c53b4673d1e848de99119202",
+      "cache_key": "61d7f44dea9fceb13a030f2ea74e5926bf9676d2874048a29f50df66b5c4c1dd",
+      "review_fingerprint": "30b6c6e8651e8ec1f364411940f9e335acc44713f110f7bdbef57f0a0220b694",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "stripe",
+        null
+      ],
+      "values": [
+        "条纹"
+      ],
+      "comments": "~ Snippet in category '<generic_fancy_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "条纹准确。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "768416e23d20b1f66c0a8d8c14370cd21444b4a4d5f46877bc721d7d1099f131",
+      "cache_key": "fb8c6a0dd31b1d3772875d1a0a28aaa1854df050f1bb56e1abd4d0e5039812c6",
+      "review_fingerprint": "94a6a9bbc8b0230b0890cda6b8f7f2b5fdfc0dfcb9b9d7282b98fdf44b362f3f",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "psychedelic",
+        null
+      ],
+      "values": [
+        "迷幻"
+      ],
+      "comments": "~ Snippet in category '<generic_casual_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "迷幻准确表达纹样风格；作为 print 的修饰语可用，没有误译成药物或精神状态。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "b12b47cd7a35c5b68933543654ae0466785f4e56ba71dc38df11f2e693e2aa48",
+      "cache_key": "a23200a9c58bcbf00e27959c43558ea10c6b35292539b12864be6d2a6d028c40",
+      "review_fingerprint": "b6895b67260d9f052a50b6c274a25a19acd42c02c9dbbf028516942a56e11e78",
+      "request": "48fbf4c7e7f7a12f81b70c0b03e10ad4749d520b0297f47fddba4cfa4878797a",
+      "identity": [
+        "<clothing_pattern>",
+        "zebra",
+        null
+      ],
+      "values": [
+        "斑马纹"
+      ],
+      "comments": "~ Snippet in category '<animal_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "结合 clothing_pattern 上下文译为斑马纹准确。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    },
+    {
+      "id": "d952e18b18762b2b4a7491844910be81151f6b9da630aeee751ce339a4d245b9",
+      "cache_key": "512bbf11840a8528e327cce4e62313a95e6fa11bfe774911d87d26af986c9b80",
+      "review_fingerprint": "449e7ce4348878a6c6147b38a8c75fdd547c67f1ce9152021c6d0f6b203fef2b",
+      "request": "112287f6c7f6ad937d48b9cc8af1ea83c0eb4adb121ca884627afd73e8300feb",
+      "identity": [
+        "<clothing_pattern>",
+        "leopard",
+        null
+      ],
+      "values": [
+        "豹纹"
+      ],
+      "comments": "~ Snippet in category '<animal_pattern>'",
+      "locations": [
+        [
+          "data/mods/hunvre/json/snippets/clothing_snippets.json",
+          ""
+        ]
+      ],
+      "status": "PASS",
+      "semantic_review": "结合 clothing_pattern 上下文译为豹纹，而非动物名豹子，准确。",
+      "format_validation": "PASS",
+      "numeric_review": {
+        "status": "NOT_APPLICABLE",
+        "reason": "原文和译文均无数量、百分比、数值范围或单位。"
+      },
+      "tone_review": {
+        "status": "PASS",
+        "reason": "这是可插入服装描述的纹样词，不宜额外编写黑色幽默；译文保留简短中性表达。"
+      },
+      "suggestion": null
+    }
+  ],
+  "streaming_review_design": {
+    "status": "DESIGN_ONLY",
+    "steps": [
+      "进程启动时只读取一次 qa-source-index.json，构造 id 到完整身份、注释、位置的字典。",
+      "每次接到新完成批次时读取缓存的一次字节快照并计算 SHA256；只选择 status=complete，失败或结果未知项不能当作已完成。",
+      "以 cache_key、scope、request、values 的规范 JSON SHA256 作为审校指纹；只筛出没有完全相同已审指纹的条目，同一身份重新生成或译文变化必须重新审。",
+      "按 request 和 msgctxt 分组，最多每包 24 条或 8000 原文加译文字符，保留全部复数形式；超长单条独立送审。",
+      "每条先执行身份与格式验证；另外提取数值、范围、百分比、单位、否定词、条件与主体做复核。数字正则差异只作审校提示，不能误报合理的阿拉伯数字/汉字数字转换。",
+      "语义审校重点检查遗漏、添加事实、主客体、否定、可能/必然、数字单位；仅在原文已有叙事空间时审黑色幽默是否克制，不给UI、数值说明、纹样词强加笑话。",
+      "将每包结果写为独立 qa-NN.json，包含输入快照哈希与逐条指纹。合并统计按审校指纹去重，不按整个缓存文件mtime或数组序号记进度。",
+      "正式应用前读取最终候选并确认每个审校指纹对应的译文仍一致；cache或candidate被改写的条目须重新审，建议修订始终与生产输入分开。"
+    ],
+    "coverage_policy": "本批全审9/9。后续可持续全审新的小批次；若只抽样，报告必须明确未审数量，并优先全审带数值/单位、复杂标签、长叙事和已有修复记录的条目。"
+  }
+}

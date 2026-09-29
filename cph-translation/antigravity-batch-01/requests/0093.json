@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "52f209f56d2469c37863dfac208d413530fb19e46d2ce11ee4d44703c87b16ad",
+      "identity": [
+        null,
+        "Filter mods",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2110"
+        ]
+      ],
+      "plural": null,
+      "singular": "Filter mods",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle name",
+      "flags": [],
+      "id": "52f33fd771a4461e1843405a8cb3e67ca2b743dd0233ee39e60d81202e63889a",
+      "identity": [
+        null,
+        "airship",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicles/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "airship",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Devoured by Pestilence'",
+      "flags": [],
+      "id": "532dfb16cfc7dfb731b24aca833a4187180e392e26a8163ccaf942d2f17a0fb6",
+      "identity": [
+        null,
+        "You may greatly enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.  However, mortals who spend too long in your presence have a chance of falling ill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You may greatly enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.  However, mortals who spend too long in your presence have a chance of falling ill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "536501e1f87d6f80f105d9819b5864877996a525dd865d3ba75c5a31e058e522",
+      "identity": [
+        null,
+        "%s high-fives you!",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10465"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s high-fives you!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected Serum Crash'",
+      "flags": [],
+      "id": "5369d61b14be2e21a68a6a718d9e5df8ce6ee5c2dfda5a91b3a3f98763c50561",
+      "identity": [
+        null,
+        "Your enhanced strength has faded away, your body aches, and you're having a hard time concentrating.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/super_soldier_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your enhanced strength has faded away, your body aches, and you're having a hard time concentrating.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_b>'",
+      "flags": [],
+      "id": "53a968391b4f10e2748ae7878a43ea679e42a09436167be67826f1511723f399",
+      "identity": [
+        null,
+        "having lost contact with other hunter groups",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "having lost contact with other hunter groups",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of material",
+      "flags": [],
+      "id": "53a9a996dc28acb959aed9974c442fe49577613fd483bd28eaf47852465f7f4d",
+      "identity": [
+        null,
+        "Proto-plasmic Ooze",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/material.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Proto-plasmic Ooze",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_strong_asleep'",
+      "flags": [],
+      "id": "53adf1a378e6c2aefbbee7fbf470ffaccefee4ca179479e6cdf59e31a9547adc",
+      "identity": [
+        null,
+        "You dream of being abducted by big pink aliens.  They flew across the galaxy in search of Earth's strongest weed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You dream of being abducted by big pink aliens.  They flew across the galaxy in search of Earth's strongest weed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Dhampir'",
+      "flags": [],
+      "id": "53b2e45e7bdf546e7be9cc25c5542ddaca642896c7ae1b57d0e3918059b174be",
+      "identity": [
+        null,
+        "You are a dhampir, the child of a vampire.  You have inherited a portion of their vampiric power, as well as the ability to drink blood.  Hopefully you can keep your urges under control.\n\nAs a dhampir, your blood naturally slowly fills with power over time, which you can use to fuel your abilities.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are a dhampir, the child of a vampire.  You have inherited a portion of their vampiric power, as well as the ability to drink blood.  Hopefully you can keep your urges under control.\n\nAs a dhampir, your blood naturally slowly fills with power over time, which you can use to fuel your abilities.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction'",
+      "flags": [],
+      "id": "53b82a0b159e7d3f1b19e7a28e9ca89da8af0b31e4e22a3c8f49e6f295a462d5",
+      "identity": [
+        null,
+        "You taste the magic, both bitter and sweet as if you had just dosed up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You taste the magic, both bitter and sweet as if you had just dosed up.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "53f14a9cc1705d925e5b328156cfdb6bf384f00574ec8a0343abd5b5f136d0c9",
+      "identity": [
+        null,
+        "Resonating Empowerment",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Resonating Empowerment",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_sec'\n~ Long-form interrogation transcripts, surveillance logs",
+      "flags": [],
+      "id": "53f6b4db79b8046e1468348a2d9fd6d0019a64d537b30fefc06d1186c9f01a3d",
+      "identity": [
+        null,
+        "<color_green>STANDARD IN-FACILITY AUDIO RECORDING, CUSTODIAN STORAGE SPACE ROOM ID X61/-4/037</color>\"\n\n\"What the fu…\"\n\n\"Shut up for a second<color_green>[EXTRAPLANAR INTERFERENCE DETECTED.  CALIBRATION PLANE 091RQ CI 0.98 TIME SPENT 15784 MS ACCEPTABLE]</color>alk for a bit.\"\n\n\"Jesus, Anna, is tha<color_green>[INTERFERENCE SOURCE SHIFTING ALONG EPSILON.  CALIBRATION PLANE 091BR CI 0.65 TIME ELAPSED 8144 MS ACCEPTABLE]</color>a night's sleep?\"\n\n\"I can sleep after I figure out what we got ourselves into.\"\n\n\"What we go… Is this about Marie?  Look, she always was too sensitive for her own good and the work got to her.  We don't exactly deal with sanity-friendly things, it was bound to send one of us breaking down sooner or later.\"\n\n\"The work didn't get to her.  Security did.\"\n\n\"Anna, she hun<color_green>[INTERFERENCE SOURCE SHIFTING ALONG THETA.  CALIBRATION PLANE 177GG CI 0.81 TIME ELAPSED 2157 MS.  DERANDOMIZATION ACHIEVED VIA TRANSPLANAR REGRESSION ANALYSIS ACCEPTABLE]</color>ft a note.\"\n\n\"It wasn't what she would have written.  Don't act like that crap convinced you.\"\n\n\"You look half dead and hold a piece of a portal generator taped to a slightly smoking circuit board.  You look less like somebody I should listen to and more like someone in need of help, Anne… is that thing supposed to blink like that?\"\n\n\"Shit, battery's nearly dead.  I need your help finding out why they killed her.  If you get your head out of your ass ask to borrow my headphones and I can figure out a way to talk again.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_green>STANDARD IN-FACILITY AUDIO RECORDING, CUSTODIAN STORAGE SPACE ROOM ID X61/-4/037</color>\"\n\n\"What the fu…\"\n\n\"Shut up for a second<color_green>[EXTRAPLANAR INTERFERENCE DETECTED.  CALIBRATION PLANE 091RQ CI 0.98 TIME SPENT 15784 MS ACCEPTABLE]</color>alk for a bit.\"\n\n\"Jesus, Anna, is tha<color_green>[INTERFERENCE SOURCE SHIFTING ALONG EPSILON.  CALIBRATION PLANE 091BR CI 0.65 TIME ELAPSED 8144 MS ACCEPTABLE]</color>a night's sleep?\"\n\n\"I can sleep after I figure out what we got ourselves into.\"\n\n\"What we go… Is this about Marie?  Look, she always was too sensitive for her own good and the work got to her.  We don't exactly deal with sanity-friendly things, it was bound to send one of us breaking down sooner or later.\"\n\n\"The work didn't get to her.  Security did.\"\n\n\"Anna, she hun<color_green>[INTERFERENCE SOURCE SHIFTING ALONG THETA.  CALIBRATION PLANE 177GG CI 0.81 TIME ELAPSED 2157 MS.  DERANDOMIZATION ACHIEVED VIA TRANSPLANAR REGRESSION ANALYSIS ACCEPTABLE]</color>ft a note.\"\n\n\"It wasn't what she would have written.  Don't act like that crap convinced you.\"\n\n\"You look half dead and hold a piece of a portal generator taped to a slightly smoking circuit board.  You look less like somebody I should listen to and more like someone in need of help, Anne… is that thing supposed to blink like that?\"\n\n\"Shit, battery's nearly dead.  I need your help finding out why they killed her.  If you get your head out of your ass ask to borrow my headphones and I can figure out a way to talk again.\"",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

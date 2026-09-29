@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'And There Was Evening'",
+      "flags": [],
+      "id": "6cd39c514a3fe42f97accf0d59c5104aaac56b6305ac04d20f38bc3bdac3e76d",
+      "identity": [
+        null,
+        "You were born to walk the night, and have a much easier time sleeping during the day.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You were born to walk the night, and have a much easier time sleeping during the day.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Apply message of effect 'A desolation called Peace'",
+      "flags": [],
+      "id": "6d2825e62a37acc78d707489bd49904711002b19eb58caba4a9400a5ea4ee625",
+      "identity": [
+        null,
+        "A deep and abiding calm settles upon you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A deep and abiding calm settles upon you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "6d2dad30dcef599c879448d0041f8237fcfdb0f0d7147b0804ad3750a6f1ff36",
+      "identity": [
+        null,
+        "dead grove",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dead grove",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6d395485766467831b857f49a8983f549e2c6ea3cf5d482138b011be9a5123ac",
+      "identity": [
+        null,
+        "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of item 'plush toy'",
+      "flags": [],
+      "id": "6d42cf4eea87f8941dff63c1be487b2052e1458ca7cf3e58cfd1aa36f7a95fd5",
+      "identity": [
+        null,
+        "gray alien plushie",
+        "gray alien plushies"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/toy.json",
+          ""
+        ]
+      ],
+      "plural": "gray alien plushies",
+      "singular": "gray alien plushie",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6d8ec8d917c8b0f6a401bf8808cef06e82e862c8edbcbfe6fea0e8559ec23e62",
+      "identity": [
+        null,
+        "[Install Radiation Scrubber CBM] Well, I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Radiation Scrubber CBM] Well, I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6d9dd8e310d883e72cff882cd3d91ddc0d987efaa1d5922295e0ec9e1cfb52ca",
+      "identity": [
+        null,
+        "Listen carefully:  not everything we gather comes from places like this.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by Benzete themselves.  These places aren't safe, and they aren't friendly.  But, they seem made for us, which is convenient, if you don't think too hard about it.  Honestly, it's where most of our bionics come from.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Listen carefully:  not everything we gather comes from places like this.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by Benzete themselves.  These places aren't safe, and they aren't friendly.  But, they seem made for us, which is convenient, if you don't think too hard about it.  Honestly, it's where most of our bionics come from.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'many_years_old_news'",
+      "flags": [],
+      "id": "6dae4e77d4a99569270509ea4f9fdd371a2867261fc844849719233abd94d572",
+      "identity": [
+        null,
+        "UPTICK IN UFO SIGHTINGS CONCERN THE PUBLIC.  There has been a decidedly large increase in UFO sightings among the general public, among all ages, races, and classes.  Government spokesperson Jamie Vargas had the following to say.  \"All these UFO sightings are due to climate change impacting the Aurora Borealis,\" she told an assembled press.  \"There certainly aren't any aliens making contact with the US government and there aren't any aliens flying around.  You can count on that!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/newspapers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "UPTICK IN UFO SIGHTINGS CONCERN THE PUBLIC.  There has been a decidedly large increase in UFO sightings among the general public, among all ages, races, and classes.  Government spokesperson Jamie Vargas had the following to say.  \"All these UFO sightings are due to climate change impacting the Aurora Borealis,\" she told an assembled press.  \"There certainly aren't any aliens making contact with the US government and there aren't any aliens flying around.  You can count on that!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "6db53dfe480bf291431d2ffa7ad7ea68ab5e3779994c4900dc0c9c3808c1ae84",
+      "identity": [
+        null,
+        "No Thorazine, keep your mind's edge.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No Thorazine, keep your mind's edge.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6dcca48bb503895b021f405b09fa9d63f6833cdaac503a3e0adad061979be62c",
+      "identity": [
+        null,
+        "Terrain or furniture blocks the installation position.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "391"
+        ]
+      ],
+      "plural": null,
+      "singular": "Terrain or furniture blocks the installation position.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'disconnected bulk liquid tank'",
+      "flags": [],
+      "id": "6df87dae165a220aa3ba51907d0b55078a22502553c5b901ded02642109c164a",
+      "identity": [
+        null,
+        "A heavy rack of ten interconnected steel tanks providing 600 liters of liquid storage.  It is built for stationary use, includes electric heating to keep its contents from freezing, and can accept plumbing equipment once placed as an appliance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/appliances.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A heavy rack of ten interconnected steel tanks providing 600 liters of liquid storage.  It is built for stationary use, includes electric heating to keep its contents from freezing, and can accept plumbing equipment once placed as an appliance.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6e119fc59713b4feacda6d418f8df0fee6ab55dc1387fcc93925915757b1617e",
+      "identity": [
+        null,
+        "Mod conflict",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2069"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod conflict",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

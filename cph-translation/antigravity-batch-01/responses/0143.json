@@ -1,0 +1,81 @@
+{
+  "request_sha256": "175d9fda396345c74b60c6e0b72b9669d122b82b4ddcb88f44c91a9af867e052",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "853267f25fa3c849460d7267fe83a023150c36aaa85b2ed8611c30d18e06013f",
+      "values": [
+        "热成像视觉"
+      ]
+    },
+    {
+      "id": "853f864f082735e8ec409fc970472af348ed03f928f2cb8796d066d7dbe74b9e",
+      "values": [
+        "《景观社会》"
+      ]
+    },
+    {
+      "id": "857b3c5f7fdd2d796157b01333a6f6360a6ee84a16559eea546c371e8c82c82b",
+      "values": [
+        "存档压缩"
+      ]
+    },
+    {
+      "id": "85823636d827c96224061bdd238acb07a5557b3668f3a1b943017644f6dedcec",
+      "values": [
+        "你的掷骰结果为 <context_val:roll_results>，对照难度 15。"
+      ]
+    },
+    {
+      "id": "859a4e065bb88510e11832d91f475f9c9b58db3459af7896e6dfed8756f3fcce",
+      "values": [
+        "联机模式：不兼容。基于《灵能飞升》（Mind Over Matter）构建，该模组不兼容联机模式。"
+      ]
+    },
+    {
+      "id": "85b5787545dc2741dcd7218e1692dc0e36c06163c9acf7d9a152d57c7e6ebbc9",
+      "values": [
+        "你向上伸出双手，感受到太阳的温暖。"
+      ]
+    },
+    {
+      "id": "85c4bc126adad650fc16b13d1c5e3e0657a92aad3f45aa372ba16e52c9dcc8e2",
+      "values": [
+        "联机模式：已连接至主机——重新进入“加入”以选择角色"
+      ]
+    },
+    {
+      "id": "85ea58a002d747db5ee4ca83e3752bf265e1480457497b098f6a9b371238d633",
+      "values": [
+        "一套全身无尾礼服。让世界末日也显得稍微体面优雅了一些。"
+      ]
+    },
+    {
+      "id": "862809387e63b9a4efa2b7da4ae2432aa60b1e2f22a1545dcf0832efabc498c0",
+      "values": [
+        "励志书"
+      ]
+    },
+    {
+      "id": "862bf7f5194a772fdd1c531fc57d6623292813486be02ccbdfe2d72f4a6acac6",
+      "values": [
+        "培育缸巨力"
+      ]
+    },
+    {
+      "id": "86336cd202a86cb5353626b2b0244bace32e73def6b22b2302d9e76cd980adbc",
+      "values": [
+        "巨龙犬"
+      ]
+    },
+    {
+      "id": "8640896226d63fd55921a61eca707873e3a00ee309ba863fe04984140266eacb",
+      "values": [
+        "鉴于你早已习惯了沼泽的温热，酷暑对你几乎毫无困扰。"
+      ]
+    }
+  ]
+}

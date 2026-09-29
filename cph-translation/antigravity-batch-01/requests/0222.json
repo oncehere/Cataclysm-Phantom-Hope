@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'military PAPR blower (on)'",
+      "flags": [],
+      "id": "d3fc37a4fcfedc14e661883e6f5b2652c7a2242ed4cc053e9b79b1fa9c8afeb8",
+      "identity": [
+        null,
+        "An active, sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An active, sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'vampire_infected_fae_wake_up'",
+      "flags": [],
+      "id": "d418d1729d3e28eea78746f8e1d1455aaf1fac400fb8f7dcf81a879552967db4",
+      "identity": [
+        null,
+        "Your dreams are those of the undead.  Until you cure yourself from their infection, your dreams will not help you grow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your dreams are those of the undead.  Until you cure yourself from their infection, your dreams will not help you grow.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d4325d740098da042d98a8ce3a19eac94cdba109732c1a122df53a54e34c6d09",
+      "identity": [
+        null,
+        "<bold>Pocket %d</bold>: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/item_pocket.cpp",
+          "1225"
+        ]
+      ],
+      "plural": null,
+      "singular": "<bold>Pocket %d</bold>: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d450c46264c6291c8c75c9af1d8e1218c10aa8a7d3b5ccaf94e329a62fd6fb83",
+      "identity": [
+        null,
+        "[Antagonize] Make a mocking, robotic voice: \"Hahaha, we will add your biological and technological distinctiveness to our own!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Make a mocking, robotic voice: \"Hahaha, we will add your biological and technological distinctiveness to our own!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "d46ed9f17f163916dade2ae0229c9f0e2ffb78cefbd01dad6797d8379f2860a2",
+      "identity": [
+        null,
+        "\"Violation of law detected!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Violation of law detected!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'dehydrated_cured_meat' step 1",
+      "flags": [],
+      "id": "d47e836382ec251f0279f3fedc5b5a23ffbf19e80bf7e359762879952598c19f",
+      "identity": [
+        null,
+        "Slice the cured meat into thin strips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Slice the cured meat into thin strips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_strong_awake'",
+      "flags": [],
+      "id": "d482b474c11318e38be3111cf3f4a069b9f57359a3b4ca8e920350b1d41e578a",
+      "identity": [
+        null,
+        "Your stomach is doing flip-flops.  You NEED a toke.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your stomach is doing flip-flops.  You NEED a toke.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Resonating Empowerment'",
+      "flags": [],
+      "id": "d491616643d3a955bae64570c30ff3c2622c674da576c12d30527c9bdb073103",
+      "identity": [
+        null,
+        "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regeneration.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regeneration.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d4c768995edc148cb6c8c30d553d2c941bd98aa6c8caf11b71c66828baf0b5c6",
+      "identity": [
+        null,
+        "Fresh and salt water would mix here, so the channel stays dry.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1172"
+        ]
+      ],
+      "plural": null,
+      "singular": "Fresh and salt water would mix here, so the channel stays dry.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d4e9bb5ad57a576e4bd67f1bb0f8fbf959a3eac0ab2946d501db0b70d4f64945",
+      "identity": [
+        null,
+        "[Antagonize] Introduce Rubik as an alien and compare the Exodii to a few \"unfriendly\" robots from your Earth's popular culture.  \"So, they're sort of like the Borg, the Terminator, those machines from The Matrix, you know, that kind of thing…\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Introduce Rubik as an alien and compare the Exodii to a few \"unfriendly\" robots from your Earth's popular culture.  \"So, they're sort of like the Borg, the Terminator, those machines from The Matrix, you know, that kind of thing…\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Commanding the Grasses'",
+      "flags": [],
+      "id": "d50f63316125c01528eb276b92f0453cf3832f0b0d9d30bac0c1f0fc1c4b9b94",
+      "identity": [
+        null,
+        "You reach out and infuse life into the least of the plants of the earth.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You reach out and infuse life into the least of the plants of the earth.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Construction group name",
+      "flags": [],
+      "id": "d593f0e13ff6a455a8a4d617a126e4dae2ca6640ecf690ade23f2f2d94ac1c75",
+      "identity": [
+        null,
+        "Dig a Small Water Basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/construction_group.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dig a Small Water Basin",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "stamina": "耐力"
+  }
+}

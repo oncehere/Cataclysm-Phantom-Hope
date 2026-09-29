@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4d3122294eb1d57f34d3e9ca8461467526252991e28a083754c96aac476e2489",
+      "identity": [
+        null,
+        "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4d40368a41fe5d6a458654632e06110826657b3bd66de51eeabde4c5cbf23bad",
+      "identity": [
+        null,
+        "EMPLOYEE NAME: Amanda Hugentskis\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Terminated\n REVIEW DUE: December\n\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_NURSING_HOME.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "EMPLOYEE NAME: Amanda Hugentskis\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Terminated\n REVIEW DUE: December\n\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4d42ca8e65e24678e4ef0806e174b86d9d2ed399f3b28f693fb6c8586c8e1d92",
+      "identity": [
+        null,
+        "Maps and radar",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "702"
+        ],
+        [
+          "src/android_hud.cpp",
+          "705"
+        ],
+        [
+          "src/android_hud.cpp",
+          "707"
+        ]
+      ],
+      "plural": null,
+      "singular": "Maps and radar",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "4d69c98ed3d03aed216f8cb77ff634f2c41311e9da3548aa6d6bd63a76186b21",
+      "identity": [
+        null,
+        "the saga of the meta-barons",
+        "the saga of the meta-barons comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "the saga of the meta-barons comics",
+      "singular": "the saga of the meta-barons",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "4d7aca706a2d6456f28556d3163cfe7f196265fa23e8328b0c6556938c521516",
+      "identity": [
+        null,
+        "Don't let Thorazine take your edge.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Don't let Thorazine take your edge.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Conditional name for 'protoplasmic ooze' when 'FLAG' matches 'DIRTY'",
+      "flags": [],
+      "id": "4d7fda745e71457386ea8bbba829eb5547791f31aa7f664e47e52b2740975224",
+      "identity": [
+        null,
+        "protoplasmic spill",
+        "protoplasmic spills"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/nether_monster_drops.json",
+          ""
+        ]
+      ],
+      "plural": "protoplasmic spills",
+      "singular": "protoplasmic spill",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4db074dbcc8244d361425b293da621cc72a17b59a5e2434a65f1559eb8d1b2b8",
+      "identity": [
+        null,
+        "I'm back and I killed the titan stag beetle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the titan stag beetle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4db64015da7f9462e4ff6f55ed1285430771f7f67ef07afccb50e7afb881fbf7",
+      "identity": [
+        null,
+        "Yeah, some old place in the woods, all fenced off.  That place is fahkin' hauwnted - my uncle told me all about it.  They say it's full of ghosts and shit like that.  Wicked scary.  I don't believe in ghosts, don't get me wrong, but I didn't believe in zombies either before <the_cataclysm>, so, ya' know, put that in ya' pipe and smoke it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat_POIs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yeah, some old place in the woods, all fenced off.  That place is fahkin' hauwnted - my uncle told me all about it.  They say it's full of ghosts and shit like that.  Wicked scary.  I don't believe in ghosts, don't get me wrong, but I didn't believe in zombies either before <the_cataclysm>, so, ya' know, put that in ya' pipe and smoke it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "4dbb92dd94acbfa1089f4ed83099b08c360c6c9e26b79c9858c1b132374963e4",
+      "identity": [
+        null,
+        "dry deep pond bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry deep pond bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "4dd62a5e3a2aa252ccd14ef222db040c0c665d1d9a82b0e8d775be483e0ac94a",
+      "identity": [
+        null,
+        "%s turns off the engine and lets go of the controls.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3804"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s turns off the engine and lets go of the controls.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Hungry for your blood'",
+      "flags": [],
+      "id": "4de2dfbc9c79b4f7b8b30a6588e75827a23cde013be3afcd47fb85a3fb09ffa3",
+      "identity": [
+        null,
+        "Transforms your dhampir horse to a blood-hungry monster.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/vampire_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Transforms your dhampir horse to a blood-hungry monster.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Injected 76x-\"Lore\"'",
+      "flags": [],
+      "id": "4de5b2a258963da66480a5a9239ded04cfadf5bdbd93590f6faeee3bd0510c02",
+      "identity": [
+        null,
+        "Your thoughts slow gradually.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/learning_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your thoughts slow gradually.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Label of UI widget 'immortal_path_qi_power_num'\n~ Label of UI widget 'immortal_path_qi_power_layout'",
+      "flags": [],
+      "id": "a1b050c6c1a81ec6b915bf2053e4edad7220edbae39a11c903d966adffc8c4d9",
+      "identity": [
+        null,
+        "灵气强度",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/ui/sidebar.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "灵气强度",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message after descent with 'veh_LADDER'",
+      "flags": [],
+      "id": "a1c2d3f07f01d4480eba41835d4a0cc0570e13e2a6b2c8d4194a79c208cac35f",
+      "identity": [
+        null,
+        "You climb down the vehicle ladder.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/climbing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You climb down the vehicle ladder.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'radio_archive'",
+      "flags": [],
+      "id": "a1c8bfbb9ef6db90720a3437dd0e8356c663cfea71ec6c7c2ad7d251b03f1067",
+      "identity": [
+        null,
+        "What's up, people of <the_cataclysm>?  I'm DJ Dustbowl, this is my canine partner in crime, Sam, and you're listening to Dark Days Radio, but… let me shut my mouth for a bit.\n\n\"Hey hey, this is Anarchy, former writer, now turned apocalypse survivor and wearer of oven-derived sheet metal armor.\"\n\nAren't you forgetting, \"Driver of a hatchback turned death brick?\"\n\n\"Yes.  That's an important part of my zombie-trashing credentials.\"\n\nSo yeah, ladies and gentlemen, if you didn't catch my last broadcast, I did the impossible: I found, quite possibly, the only other living, breathing nerd operating a radio on the eastern seaboard.\n\n\"Truly, we are an endangered species.\"\n\nThat we are, but, Anarchy, please enlighten the people bunkering down on how you got here.\n\n\"Let's just say… a lot of zombies got introduced to the front grill of the death brick.\"\n\nMetal.  Now, folks, I'm going to step out for a smoke, and I'll leave y'all in Anarchy's hands.  I'm not responsible for anything that gets said.\n\n\"OK, so I'm going to be bringing you whatever music I feel like playing, as well as tips, tricks, and excerpts from whatever I've been writing in this apocalyptic hellscape.  But before we launch, I'd like to give some dad advice.  Don't forget to work on your personal projects, people.  I know you've got plenty of time sitting in those shelters of yours.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/radio.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What's up, people of <the_cataclysm>?  I'm DJ Dustbowl, this is my canine partner in crime, Sam, and you're listening to Dark Days Radio, but… let me shut my mouth for a bit.\n\n\"Hey hey, this is Anarchy, former writer, now turned apocalypse survivor and wearer of oven-derived sheet metal armor.\"\n\nAren't you forgetting, \"Driver of a hatchback turned death brick?\"\n\n\"Yes.  That's an important part of my zombie-trashing credentials.\"\n\nSo yeah, ladies and gentlemen, if you didn't catch my last broadcast, I did the impossible: I found, quite possibly, the only other living, breathing nerd operating a radio on the eastern seaboard.\n\n\"Truly, we are an endangered species.\"\n\nThat we are, but, Anarchy, please enlighten the people bunkering down on how you got here.\n\n\"Let's just say… a lot of zombies got introduced to the front grill of the death brick.\"\n\nMetal.  Now, folks, I'm going to step out for a smoke, and I'll leave y'all in Anarchy's hands.  I'm not responsible for anything that gets said.\n\n\"OK, so I'm going to be bringing you whatever music I feel like playing, as well as tips, tricks, and excerpts from whatever I've been writing in this apocalyptic hellscape.  But before we launch, I'd like to give some dad advice.  Don't forget to work on your personal projects, people.  I know you've got plenty of time sitting in those shelters of yours.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'weed_high'",
+      "flags": [],
+      "id": "a1d32feb189ce0a845f7b30ab4e00a17b0555f5b419e7d08f2f522b15a24b40e",
+      "identity": [
+        null,
+        "Baked",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Baked",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name suffix of a female NPC\n~ A bloodthorne druid helping the hunters, mainly by proposing a cure to\nvampirism that's not dependent on current supplies.\n~ Name of an NPC class\n~ Hunts with her heartvines, so she's better at melee but poor at\ncrossbows.",
+      "flags": [],
+      "id": "a201335b0080b56bb2d5459dbcdc5f3538ae47c09a8830d47638c38796d460dc",
+      "identity": [
+        null,
+        "Bloodthorne druid",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bloodthorne druid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "a20da3b1ec988f710920b9d3ae581ec7b90a99e0514b455336c9a1dbf7a7213d",
+      "identity": [
+        null,
+        "Strike the Inner Outsider",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/werewolf_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Strike the Inner Outsider",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Kill the monstrous renfield'",
+      "flags": [],
+      "id": "a21ab4e900e8aadea2de0506f15664193ae91a23380af33ec71d252e64741adc",
+      "identity": [
+        null,
+        "A massive renfield is roaming near the base.  Better kill it before they attack the hunters.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A massive renfield is roaming near the base.  Better kill it before they attack the hunters.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a22185cf24c56296d4ca7f9bae7616682aa3eb1364a2a458646d46b558d00014",
+      "identity": [
+        null,
+        "There are other hunters, but they are traitors to the cause.  All of them.\nHow can they attack me?  How can some of them team up with vampires to attack me?\nIt is worse than I thought.  I am the last true hunter.  The duty of purging the world of vampires is mine and mine alone now.  I still let my past allies decide between running away or dying, but so many refuse to flee.\nThey force my hand over and over, I hope they will remember that.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/talk_read_vampire_anathema_book.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There are other hunters, but they are traitors to the cause.  All of them.\nHow can they attack me?  How can some of them team up with vampires to attack me?\nIt is worse than I thought.  I am the last true hunter.  The duty of purging the world of vampires is mine and mine alone now.  I still let my past allies decide between running away or dying, but so many refuse to flee.\nThey force my hand over and over, I hope they will remember that.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION'",
+      "flags": [],
+      "id": "a225f0ad4654e1300b237c66970371d0f30045333014119dc071476c954cc85f",
+      "identity": [
+        null,
+        "Your spirit returns with knowledge from the Unseen World.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your spirit returns with knowledge from the Unseen World.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Upgrade: Personal temperature adjustement'",
+      "flags": [],
+      "id": "a22adecb99b1e30301b7ed7d0842e8be01cfdb2ab9d3b8dcea2237bf7390062c",
+      "identity": [
+        null,
+        "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain vision level name",
+      "flags": [],
+      "id": "a239fa5e44b7f48b92c1edd71165580450028fc9f0fb9094ca22584cf5c44fca",
+      "identity": [
+        null,
+        "cluster of buildings",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/vision_levels.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "cluster of buildings",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "a242dba90c7c63f4b12cdb6f5e88baa52f476385d4352f7fdb538a1973093fac",
+      "identity": [
+        null,
+        "Hypermetabolism",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hypermetabolism",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

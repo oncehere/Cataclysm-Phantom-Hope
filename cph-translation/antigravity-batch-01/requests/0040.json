@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1d00ea6ba462831de8ad599f40c1cbab80c432cfbca58ffcd2f5105b02ff6cad",
+      "identity": [
+        null,
+        "&It all goes black.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&It all goes black.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Eyestalks'",
+      "flags": [],
+      "id": "1d01729d8481ffc624e6ebd3362157999d0aaa6b042384188efcb5dd4a3005a0",
+      "identity": [
+        null,
+        "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "1d3aab77440b8868373a81ebbf9331760fccb8cdeee9257435539bd5adfa35dc",
+      "identity": [
+        null,
+        "An Essay on Liberation",
+        "copies of An Essay on Liberation"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of An Essay on Liberation",
+      "singular": "An Essay on Liberation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "1d43cc251a550cc69b9487cc0ef286de24387cb732c6b471c8d765a1d9a2b1ad",
+      "identity": [
+        null,
+        "Reject Thorazine, embrace clarity.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Reject Thorazine, embrace clarity.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1d4caedab1407f59e1819009df7fab4b90d8f3fe6ee4fd67d6f3d01262c0c96a",
+      "identity": [
+        null,
+        "For me?  Well, twisted halls of steel.  But there's another place.  It's a little like a pub I barely remember, if it ever existed.  Warm.  Wood.  Fire.  Like a Temple (this should be capitalized, as it's what it calls itself for Rubik) for the soul, if I still have one.  But I don't stay there or trust it.  These days, I don't even visit.  I have other things to do, like run this shop.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "For me?  Well, twisted halls of steel.  But there's another place.  It's a little like a pub I barely remember, if it ever existed.  Warm.  Wood.  Fire.  Like a Temple (this should be capitalized, as it's what it calls itself for Rubik) for the soul, if I still have one.  But I don't stay there or trust it.  These days, I don't even visit.  I have other things to do, like run this shop.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "1d5312a6f8a38b62cd7f48886930cbb947a7eb9d10e25b792ab7977a7f268605",
+      "identity": [
+        null,
+        "royal sarcophagus",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-graves.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "royal sarcophagus",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "1d6fbbd1944cc13dadef20a7371be396fd98851717ea1b6aa2e9a0890e9c88e8",
+      "identity": [
+        null,
+        "drained flooded floor",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "drained flooded floor",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Thai Curry Cookbook - Exploring Thailand’s Rich\nand Spicy Curry Traditions' of book 'Curry cookbook'",
+      "flags": [],
+      "id": "1d84044b0a817e90a201752e9d1d921be00f0f02c45401cd493b4bf7046ced1d",
+      "identity": [
+        null,
+        "A cookbook with a variety of Thai curries, from regional specialties to street food.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A cookbook with a variety of Thai curries, from regional specialties to street food.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "1d981f34dd940efd49aef75b6a2c218e44611ed52916a3e6bf650ef2f0649a6c",
+      "identity": [
+        null,
+        "\"Requesting human officer!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Requesting human officer!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Injected 09x-\"Anaximander\"'",
+      "flags": [],
+      "id": "1d9b971365561ae4fb9c91eec8879859a70d78bb61688e385651a91b05e7ec4c",
+      "identity": [
+        null,
+        "The darkness returns to impenetrability.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/night_operations_serum.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The darkness returns to impenetrability.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1daa7b9e15a2877ae90dc5b581d5fef461ae57f3c8e4ebbc0471d64cc69facab",
+      "identity": [
+        null,
+        "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1daaeb502ffa15e784a235accb41eff519af47e6ded512ac5b0d2cdef6d10fbc",
+      "identity": [
+        null,
+        "I'll take as many as you offer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll take as many as you offer.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

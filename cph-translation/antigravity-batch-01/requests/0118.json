@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'collector's edition book'",
+      "flags": [],
+      "id": "6c230a4ea3984178ef835d058f72a8ed1f5e8c03e35a7f3a2b84e98c82a46246",
+      "identity": [
+        null,
+        "collector's edition of Pride and Prejudice and Zombies",
+        "copies of collector's edition of Pride and Prejudice and Zombies"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "copies of collector's edition of Pride and Prejudice and Zombies",
+      "singular": "collector's edition of Pride and Prejudice and Zombies",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6c5a7660c3132fca85d94fc26c80d4def7844c0cc3ea3b9eddb77f3241205313",
+      "identity": [
+        null,
+        "[Install Air Filtration CBM] Nevermind.  I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Air Filtration CBM] Nevermind.  I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6c62d59b8c655c93eec97ae487e79349ac48da797aaab723d4a6e14ccb2422c7",
+      "identity": [
+        null,
+        "Co-op world saved — the authoritative save of the shared world and your partner's character.  (Your partner also keeps a local copy of their own character.)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5538"
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op world saved — the authoritative save of the shared world and your partner's character.  (Your partner also keeps a local copy of their own character.)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6c87c9008310d347ae7d4b6a31328a429590f1d40925f1dffa5059d60f578f22",
+      "identity": [
+        null,
+        "That's great!  What would you like as payment?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "That's great!  What would you like as payment?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'salt water channel'",
+      "flags": [],
+      "id": "6c9f04a6e911c1621e1d1062a126668b8a016e7b4eb1d12bcfa0cd1478bfdf84",
+      "identity": [
+        null,
+        "A hand-dug channel holding salt water.  An unbroken route to the sea keeps it supplied.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hand-dug channel holding salt water.  An unbroken route to the sea keeps it supplied.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6ca0ea96f7502a8388680fd91eba5b5da5a91784d3c560c31417b29721e3c260",
+      "identity": [
+        null,
+        "You seem unwell.  Are you looking for a cure to your condition?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You seem unwell.  Are you looking for a cure to your condition?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'pond water'",
+      "flags": [],
+      "id": "6cb11d61035b57305bf8cac77910a80ffdc6a9e1eb755f5a57608b4ce3810ee3",
+      "identity": [
+        null,
+        "The shallow water of a small pond.  This closed body of water can be drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The shallow water of a small pond.  This closed body of water can be drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'wyrmhound puppy'",
+      "flags": [],
+      "id": "6cba1be3ae8f332de3512c93461bf3a9b648a807028a437ccbec55b7fe57d661",
+      "identity": [
+        null,
+        "A heavily mutated small dog.  Almost all of its fur has been replaced by scales, and it has no ears.  Its eyes are an unsettling yellow color.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/mutant_mammal.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A heavily mutated small dog.  Almost all of its fur has been replaced by scales, and it has no ears.  Its eyes are an unsettling yellow color.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Vanguard Truck'",
+      "flags": [],
+      "id": "6cc5cbe9b87e84910369234a7780edc1ee508296b68211ad8a7a0747aa6491fe",
+      "identity": [
+        null,
+        "A crashed Vanguard Pharmaceuticals truck.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A crashed Vanguard Pharmaceuticals truck.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6cc7e59bb82dcf59e8e45e3deb94fc618240620af23512cab47dcfda69bd263f",
+      "identity": [
+        null,
+        "Choose one part type to install throughout the selected area:",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1418"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose one part type to install throughout the selected area:",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6cc8146d51c6aa7d37bbd48a3d17a498509d5c49399d48b5f9fbeb034929f681",
+      "identity": [
+        null,
+        "[Sell her 1 arvore sample]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Sell her 1 arvore sample]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Magazine name\n~ Vehicle part name",
+      "flags": [],
+      "id": "6ccc637acaf04b5feb3b9e7954df13d949713d4b3ab3f23254f99247d601df91",
+      "identity": [
+        null,
+        "portable power station",
+        "portable power stations"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/vehicle/battery.json",
+          ""
+        ],
+        [
+          "data/json/vehicleparts/battery.json",
+          ""
+        ]
+      ],
+      "plural": "portable power stations",
+      "singular": "portable power station",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

@@ -1,0 +1,44 @@
+# Copy this config to your isolated translation project, then provide the named
+# local inputs. Paths are relative to this config, never the CPH game checkout.
+version = 1
+project = "cph-zh-cn"
+language = "zh_CN"
+plural_forms = "nplurals=1; plural=0;"
+template = "inputs/cph.pot"
+catalog = "po/zh_CN.po"
+state = ".pokeeper/zh_CN.state.json"
+
+# Priority is the order of sources. Protected human changes always win, and
+# existing valid translations are the fallback after these sources.
+[[sources]]
+name = "cdda"
+path = "inputs/cdda/zh_CN.po"
+revision = "replace-with-pinned-cdda-version-or-commit"
+
+[[sources]]
+name = "ccb"
+path = "inputs/ccb/zh_CN.po"
+revision = "replace-with-pinned-ccb-version-or-commit"
+
+[rules]
+preserve_newlines = true
+# Examples only: audit the project's actual tag syntax before use.
+# token_patterns = ['</?color_[^>]+>', '<[^<>]+>']
+
+[gemini]
+# Quality-oriented choice reviewed 2026-09-28; see docs/gemini-model.md.
+# This model has not yet passed this project's live API acceptance test.
+model = "gemini-3.7-flash"
+batch_size = 4
+retries = 2
+timeout_seconds = 120
+prompt = """
+Translate game UI, item descriptions and character dialogue into Simplified Chinese.
+Preserve the original meaning, speaker's personality, register, humour and tone.
+Use context and developer notes to distinguish dialogue from UI and narration.
+Do not invent lore, add explanations, soften or embellish the source.
+Follow the supplied confirmed terminology and examples consistently.
+"""
+# Add only project-approved terms and examples; do not invent a glossary here.
+terms = {}
+examples = []

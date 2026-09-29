@@ -1,0 +1,81 @@
+{
+  "request_sha256": "23883d0f26d2df16992c24db7f03847b739d24a581bc3d50406573b0a6d4617a",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "2340c8cf5ee4cec0fb63ce5b5c9f2130c55de81c5269c0d46428933eb128c756",
+      "values": [
+        "你将大量战斗强化物质释放入血液之中。"
+      ]
+    },
+    {
+      "id": "2341db3097891637969cd813cad359ae7c744f2167753e5f77bc1aba2621ac8a",
+      "values": [
+        "&小吃摊上摆满了各式各样的菜肴，香料和熟肉的香气轻易穿透了冰冷的空气。你走近时，摊主正忙着准备餐食。\n“哎呀，客官，有看到什么喜欢的吗？”"
+      ]
+    },
+    {
+      "id": "23595194c552fc9262e6f7a4cb73916eb3940c46f3c316a9945ace7df2b39576",
+      "values": [
+        "需要近战 5、敏捷 10 以及击剑武器专精"
+      ]
+    },
+    {
+      "id": "2363ac19399553c6d3bf5355daf28729ce74934c8e5abd068881b79720f8a919",
+      "values": [
+        "我负责照料受伤的猎人。"
+      ]
+    },
+    {
+      "id": "238e85d30cefd401a6abe0aea57a39ba983519f6be8aa64963333e740e011d54",
+      "values": [
+        "&你插入基质水晶，屏幕上随即显示出看似X光检查结果或某种医学图表的内容。你还没来得及细看，一阵轻微的嗡鸣声便充斥了你的耳畔，淹没了所有其他声音，黑暗悄然笼罩了你的视线。"
+      ]
+    },
+    {
+      "id": "23e93335f1f0f45526569e4ac7ec670f1373d655eb2b5d8d7de1d4425a27db84",
+      "values": [
+        "为受试者注射 10 ml 16x-“Armus”化合物\n"
+      ]
+    },
+    {
+      "id": "24167b8788509766897048166161f91a772354554685c9b3cbb32424af366b29",
+      "values": [
+        "富有弹性且贴身的裤子，轻薄透气。"
+      ]
+    },
+    {
+      "id": "24336c5906c5a913ca3e9eaea72c5b9d8a43be3275871ffe6c43ac21963be4d6",
+      "values": [
+        "错误：未检测到 XM-BACK 接口"
+      ]
+    },
+    {
+      "id": "243671a6dcbeb2a9fd9778bb57c2e6af2a6ea7f6ea913ee540f02dbfb6e7dd97",
+      "values": [
+        "智者法杖"
+      ]
+    },
+    {
+      "id": "245ef440853fd78951d474d79c7c1a4751a8aaf3e56f691e2d67460173858cf8",
+      "values": [
+        "Xedra Evolved 随机遭遇未满足触发条件。"
+      ]
+    },
+    {
+      "id": "24680a2097c7e5db9f6007b421919ba08451e80104b6b55eee0eb8afb925cf1e",
+      "values": [
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   ᴴᵁᴹᴬᴺ 当前无法离开 ʰᵒᵐᵉ 并重新校准回自身的现实。\n   你和你这远离家园的容身之所已经行进了太远。\n   你目前正通过 AltarOS 远端进行操作。\n   若你返回 AltarOS 本地终端，\n   即类似于你最初进入的地方，\n   便可重新建立联系。"
+      ]
+    },
+    {
+      "id": "248fdee6205737b8e91878afd60502bbdd7a00f7c16b378e09cd62f4af327b92",
+      "values": [
+        "修为精进！炼气已至 <u_val:qi_refining_layer> 层。"
+      ]
+    }
+  ]
+}

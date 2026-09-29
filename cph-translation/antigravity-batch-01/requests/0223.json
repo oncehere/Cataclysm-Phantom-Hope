@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Well, I think it's obvious that someone people might be intimidated by\nour cybernetic enhancements. Rightfully so.  Might even think we're part of\nthe Enemy.  You, though?  Normal, by their standards.  I think we stand a\nbetter chance.",
+      "flags": [],
+      "id": "d5a0f23f9c9d20421e94aedaaab832993a7cdf8b91399e8366778576d17bbd4e",
+      "identity": [
+        null,
+        "Well an' surely, some folk'll take a mightly long squint at the bright'n'steelies on me an' feel a MITE uneasy, aye?  And rightly so, an I'm ken.  Might even reckon us kin'o'the Enemy.  But you?  By their reckonin', yer ordinary.  Normal.  Regular clap.  Gives us a finer chance, I'd razz.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well an' surely, some folk'll take a mightly long squint at the bright'n'steelies on me an' feel a MITE uneasy, aye?  And rightly so, an I'm ken.  Might even reckon us kin'o'the Enemy.  But you?  By their reckonin', yer ordinary.  Normal.  Regular clap.  Gives us a finer chance, I'd razz.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d5b341b159f57b544c1b0e68c68fd2eef4bd6618038c97a8e1f43e74c7593c90",
+      "identity": [
+        null,
+        "[$3] I'll take a beer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_BARKEEP.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$3] I'll take a beer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'deathrattle snakelet'",
+      "flags": [],
+      "id": "d5b44400eb3ef76f7719b84621b69e987cc4ac6c2aab66f0cd6633a701a3d330",
+      "identity": [
+        null,
+        "A baby deathrattle, not dangerous now but with time it will eventually become a monster.  It will eventually grow a rattle and learn how to hunt.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A baby deathrattle, not dangerous now but with time it will eventually become a monster.  It will eventually grow a rattle and learn how to hunt.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Tomato Seedling'",
+      "flags": [],
+      "id": "d5bde54b62aad14368498ab7869f0bf9d8e9015ec05952075a5d3400e49c4d95",
+      "identity": [
+        null,
+        "A young tomato seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young tomato seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "d5c9f2c6517f19e0ef45e15cdf695377c237525400156cfe0feb68e206dbe587",
+      "identity": [
+        null,
+        "chunk of plutonium",
+        "chunks of plutonium"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/chemicals_and_resources.json",
+          ""
+        ]
+      ],
+      "plural": "chunks of plutonium",
+      "singular": "chunk of plutonium",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "d5ed0ee5ba4906a8d26711c80645a75dc9604541a90f364cc2a296360b106af8",
+      "identity": [
+        null,
+        "All-Star Pitch",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "All-Star Pitch",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_c>'",
+      "flags": [],
+      "id": "d6070c015404c0ce9228aecb8668426c290533626bbeb0c6f24c9f9a3c4f795a",
+      "identity": [
+        null,
+        "the vampires' brainwashed slaves seeking hunters to kill for their masters",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the vampires' brainwashed slaves seeking hunters to kill for their masters",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "d608dc652cff80d3a21b321910227d4d2b47dcea00ea6362b92eb971be7cd897",
+      "identity": [
+        null,
+        "right middle tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right middle tentacle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'jackhammer'",
+      "flags": [],
+      "id": "d60a5e78f337ad95aea530312985a8550c65fc0bbb13f72ce3e06a23bba13ec2",
+      "identity": [
+        null,
+        "A construction or mining tool for breaking rock and other hard surfaces.  This model runs on gasoline.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/workshop.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A construction or mining tool for breaking rock and other hard surfaces.  This model runs on gasoline.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "d60b4809a6538415f91f581965cbb082e956f77f49c30a54a3f42682220456eb",
+      "identity": [
+        null,
+        "right front tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right front tentacle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "d61d3c89345e9c49715561c2c26eaca492520fb563ff0f11944db8a4d5d7cf07",
+      "identity": [
+        null,
+        "somewhere",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_nether.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "somewhere",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d6241d34199ecebd93241751ee79fa3faca606ec22a9936ce859912a40f82662",
+      "identity": [
+        null,
+        "Failed to export message log.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/messages.cpp",
+          "868"
+        ]
+      ],
+      "plural": null,
+      "singular": "Failed to export message log.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

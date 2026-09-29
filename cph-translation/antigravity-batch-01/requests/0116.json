@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "69ce4274a28a878d8298424e40533f609d98780c874f759d52cceb08d04f96bc",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'Hub 01 LEG exoskeleton'",
+      "flags": [],
+      "id": "69e651084f5a89cb3ee92ea13923c485a02dfa08c2c05cbf670bd027805d3d53",
+      "identity": [
+        null,
+        "The Hub 01 Lower Extremity Gaitframe, or LEG, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of the legs, with clasps for the hips, femurs, and knees, twisting at the lower leg into a metal plate with additional straps for the shin.  The frame covering the knee and lower leg has clips custom-fit for Hub 01 greaves, and there is a hip-mounted battery compartment.  When powered, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 20kg of extra weight.  Unpowered, they are a significant burden.  Activate them to toggle power.  Requires an XM-LEG Interface bionic to function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Hub 01 Lower Extremity Gaitframe, or LEG, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of the legs, with clasps for the hips, femurs, and knees, twisting at the lower leg into a metal plate with additional straps for the shin.  The frame covering the knee and lower leg has clips custom-fit for Hub 01 greaves, and there is a hip-mounted battery compartment.  When powered, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 20kg of extra weight.  Unpowered, they are a significant burden.  Activate them to toggle power.  Requires an XM-LEG Interface bionic to function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'bulk storage tank'",
+      "flags": [],
+      "id": "6a0c8215e3f385dfd198f7f87cc38e2a1790020b1a50ac3150699379fe181ebc",
+      "identity": [
+        null,
+        "A 2 meters high tank that can store up to 1500 liters of liquid.  That's a lot.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-storage.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A 2 meters high tank that can store up to 1500 liters of liquid.  That's a lot.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'high gauge pipe'",
+      "flags": [],
+      "id": "6a0d66f88f58360ae65e0902c9807f88f568ce3a512cd59a0349cf0282586b0b",
+      "identity": [
+        null,
+        "A massive section of high gauge pipe.  Every few meters the pipe-fittings holding it together rotate in jittery motion.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/terrain_labyrinth_flooded.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A massive section of high gauge pipe.  Every few meters the pipe-fittings holding it together rotate in jittery motion.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'clock'",
+      "flags": [],
+      "id": "6a1ac462d37432963ea6c5c691074a92397b06995ddb3e8466e091f9d5d982c6",
+      "identity": [
+        null,
+        "A small mechanical clock, it's stopped at 10:10.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small mechanical clock, it's stopped at 10:10.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6a5d121bc26db1e7ad1f41d0a563c1b29d2f933e9c3ec09c845d357720a2b0cc",
+      "identity": [
+        null,
+        "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your needs on a low resolution blueprint of your Cyberframe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your needs on a low resolution blueprint of your Cyberframe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Unique name of a male NPC\n~ The leader of this bunch of vampire hunters.  He seeks nothing less than\nthe total extermination of all vampires.",
+      "flags": [],
+      "id": "6a6867e41ebc74a9d95e443e50f3e0a15395b830c115e8b9223d8858ae5e2750",
+      "identity": [
+        null,
+        "Leonard Mai",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Leonard Mai",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'funeral mask'",
+      "flags": [],
+      "id": "6a6f9dcc19fc7bd7fcd5bd4db3c5fc48990011ecbafe8d84435e4465021b26f0",
+      "identity": [
+        null,
+        "A serene visage carved from a large piece of ivory.  Its internal surface is completely smooth, and adorned with a a series of concentric bronze rings and grooves.  You could wear it over your face, but it lacks any way to see or comfortably breathe through it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A serene visage carved from a large piece of ivory.  Its internal surface is completely smooth, and adorned with a a series of concentric bronze rings and grooves.  You could wear it over your face, but it lacks any way to see or comfortably breathe through it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6ab64c182b06e6bc3458e0b65601a027c01b4e80bc2a5c35557eb17a321f1736",
+      "identity": [
+        null,
+        "Why do we gather these bones again?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why do we gather these bones again?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "6ac59c44c73de6adb549d2ae1dcca9cb3f59262583943a7adf2c2d508b5af9b5",
+      "identity": [
+        null,
+        "the hostile changelings",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the hostile changelings",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Careful Spell'",
+      "flags": [],
+      "id": "6acf6acfb83d103e1bef9c074966a9746b5d93e164c1a195d456e24163e44811",
+      "identity": [
+        null,
+        "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "6ad3ec68d4ba7daf4ff63c75025850c4fd2a6f2d7f8f459e79b269e420c67e3b",
+      "identity": [
+        null,
+        "Indian Restaurant Curries at Home, Volume 1",
+        "copies of Indian Restaurant Curries at Home, Volume 1"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Indian Restaurant Curries at Home, Volume 1",
+      "singular": "Indian Restaurant Curries at Home, Volume 1",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

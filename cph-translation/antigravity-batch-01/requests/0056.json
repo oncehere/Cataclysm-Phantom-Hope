@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "2c2636c65286d132f77b6e563a6ce29db400da5b67fb4548b415b4a2b7c8d160",
+      "identity": [
+        null,
+        "The Revolution of Everyday Life",
+        "copies of The Revolution of Everyday Life"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Revolution of Everyday Life",
+      "singular": "The Revolution of Everyday Life",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "2c30dafaa662ea1e90f8de0e48676c28e67e9a579e1912a1a7536e2320a7d551",
+      "identity": [
+        null,
+        "powder fusion bed",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture_and_terrain/funiture_heavy_industry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "powder fusion bed",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in 'then' statement in EoC\n'EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC'",
+      "flags": [],
+      "id": "2c389376271f01b37761eff5176596a30d0dbe82dd92fd6f8c0ec007da5d01b9",
+      "identity": [
+        null,
+        "Infecting <u_name> with a cold.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infecting <u_name> with a cold.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "2c49a0c2347e0a66bdf5bcef70f15a3f0a2c031677dd324267ca11ab07d65d2d",
+      "identity": [
+        null,
+        "Unable to add %1$s: %2$s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager_ui.cpp",
+          "135"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unable to add %1$s: %2$s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2c756f29b05e1d497af1ed29c42bfafac4363d7f5cae8b18bb412544c0d543f9",
+      "identity": [
+        null,
+        "It won't happen to me, though.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It won't happen to me, though.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "2c7993e9e2f8223f6a3fcd4148d9de0629f4d0e112b8d14b84ec3a789d803363",
+      "identity": [
+        null,
+        "claw hunter hatchling",
+        "claw hunter hatchlings"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": "claw hunter hatchlings",
+      "singular": "claw hunter hatchling",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'femtosecond laser'",
+      "flags": [],
+      "id": "2c9139912181ef6bbedef9926515c9f0d0970e88167bfb2f4074fadeeda55ee7",
+      "identity": [
+        null,
+        "An intact laser assembly salvaged from a high-power industrial laser or weapon.  Although not of a particularly advanced design, their sale is tightly controlled by interstellar authorities, and they fetch high prices on the black market.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/crafting_scrap/optics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An intact laser assembly salvaged from a high-power industrial laser or weapon.  Although not of a particularly advanced design, their sale is tightly controlled by interstellar authorities, and they fetch high prices on the black market.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "2ca331e6a2b879d84fc737352a62e9e140dced9272977e2fbb7537637fbdfd6c",
+      "identity": [
+        null,
+        "Mouth of the Island",
+        "Mouth of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/center_rooms.json",
+          ""
+        ]
+      ],
+      "plural": "Mouth of the Island",
+      "singular": "Mouth of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2cdd5d43b752a553da4f8a6699fef781f65d6ecb588cf2dd10396b8ba47a7ac2",
+      "identity": [
+        null,
+        "World mods",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1997"
+        ]
+      ],
+      "plural": null,
+      "singular": "World mods",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "2cddaec40f48d4801c703d4c629f62975ac072a31ba6f92de7763674acf33a10",
+      "identity": [
+        null,
+        "%s lets go of the controls.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3588"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s lets go of the controls.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of vehicle part location",
+      "flags": [],
+      "id": "2cf9a257a0c515c7ccd574be6b2c7d770dc253d6b0cfaa3d690b0178e8e0f74c",
+      "identity": [
+        null,
+        "Structural",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicle_part_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Structural",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "2cfce1dd897b7f5bb6a921e230a67098e1375192fdf84671f950fc1f5786e96c",
+      "identity": [
+        null,
+        "At 1405 during a routine CRYPTIC FORGE test, mathematician A34 reported feeling \"strange, I don't know what\" and immediately afterwards all monitoring and testing equipment ceased transmitting.  Security responded immediately and found A34 uninjured inside the testing room, though they were forced to cut through the door since the electronic lock had failed.  Subsequent investigation of network footage revealed that when attempting to radiation-sterilize various vegetables, A34 had somehow triggered an electromagnetic pulse.  When interviewed after the incident, A34 stated that, \"the energy just kept building and building and I guess it had to go somewhere.\"\n\nUnfortunately, due to the lockdowns and the prohibitive cost, as well as the disruptions it would cause other experiments and daily operations in general, any form of electromagnetic hardening is impractical.  Dr. Al-Masri has floated the possibility of attempting to train other CRYPTIC FORGE mathematicians to provide a control in case of an EMP, but at the moment, this is only theoretical as no mathematician has demonstrated the conscious abilty to produce one.  I'm sorry to say that for the moment, all we can do is hope it doesn't happen again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "At 1405 during a routine CRYPTIC FORGE test, mathematician A34 reported feeling \"strange, I don't know what\" and immediately afterwards all monitoring and testing equipment ceased transmitting.  Security responded immediately and found A34 uninjured inside the testing room, though they were forced to cut through the door since the electronic lock had failed.  Subsequent investigation of network footage revealed that when attempting to radiation-sterilize various vegetables, A34 had somehow triggered an electromagnetic pulse.  When interviewed after the incident, A34 stated that, \"the energy just kept building and building and I guess it had to go somewhere.\"\n\nUnfortunately, due to the lockdowns and the prohibitive cost, as well as the disruptions it would cause other experiments and daily operations in general, any form of electromagnetic hardening is impractical.  Dr. Al-Masri has floated the possibility of attempting to train other CRYPTIC FORGE mathematicians to provide a control in case of an EMP, but at the moment, this is only theoretical as no mathematician has demonstrated the conscious abilty to produce one.  I'm sorry to say that for the moment, all we can do is hope it doesn't happen again.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,81 @@
+{
+  "request_sha256": "f57c948158889c75183c3effc7bb952578f843468e32ea558acc69ecc9851fd2",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "68decf1c147c5eed09f6c856534c7daec5b941fd93eb0deb8918d3f13dbf7d04",
+      "values": [
+        "一个饰有掐丝金叶与珍珠的金冠。残存的白丝面纱依然附着在冠冕上。"
+      ]
+    },
+    {
+      "id": "68ec1c5e5c2491ee54389a8e4bffe6d88732c384f9299a19d5edc6502c0b12fd",
+      "values": [
+        "一只严重烧焦的丧尸恐龙，背部有一条高耸的脊突，带有尾巴、蹄子、短喙以及宽阔圆润的头冠；它身上依然散发着焦肉的恶臭。它的皮肉已经愈合成一层皮革般的硬壳。"
+      ]
+    },
+    {
+      "id": "68ff24c1ea892b2b0d3a08f5e215956fda46b6c0a969b3b499bca8be2a7ee50e",
+      "values": [
+        "[偏向外来者] 指出外来者的需求稳定且简单。“他们需要很多其他幸存者可能不会购买的东西。”"
+      ]
+    },
+    {
+      "id": "6901ce45bd26f5724647784bd023dc056fb05d141ffbc4a40e024f187ce070f0",
+      "values": [
+        "抵制氯丙嗪，那是精神毒药。"
+      ]
+    },
+    {
+      "id": "6919781ae78143b3e231fba03d47deaa2fbca37c2062fa2ce4cdbda445c5d900",
+      "values": [
+        "世界末日的恶作剧者。"
+      ]
+    },
+    {
+      "id": "6935f94d1fc76493ac14b24fd5e11bf0acd8087f4b63bdd6fdc5d4e250bebd5b",
+      "values": [
+        "奔爪龙巢穴"
+      ]
+    },
+    {
+      "id": "693fd9ec4418c770d44d61cda623475bc272aa257b5850df30dae014f6367ed7",
+      "values": [
+        "必须拥有 <trait_name:perk_artifact_resonance_detection>。不能拥有 <trait_name:perk_artifact_resonance_exploitation>"
+      ]
+    },
+    {
+      "id": "6960526335aa13eb5ab5d5a63a9e683ee03305e028be26f41a59387ec0531201",
+      "values": [
+        "从哪个角色复制个人区域？"
+      ]
+    },
+    {
+      "id": "6969bf29cf1bc99d54d4d6624e0b6bfb1e79ac831bfa4d588dd5f8045172fd7c",
+      "values": [
+        "吸上一口能让你平复下来。"
+      ]
+    },
+    {
+      "id": "698042e78f07807647d0ffa5f7edff18eb2c6ecb5947353908ae0d5b9dd22a95",
+      "values": [
+        "负载重量"
+      ]
+    },
+    {
+      "id": "69ad359ae64908da6f1d5346c1c5b12d9877f056cb34063b4b667a4b9005796a",
+      "values": [
+        "你会留在此处，抚平人类走向最后黄昏的苦难与辛劳？还是会在这个母星之外寻找新的壁炉归宿？"
+      ]
+    },
+    {
+      "id": "69cb834854684a273df3588f48b9a93e98945ffd52d970128aeb198ff94a98ad",
+      "values": [
+        "< 按 %s 筛选，按 %s 导出，按 %s 重置 >"
+      ]
+    }
+  ]
+}

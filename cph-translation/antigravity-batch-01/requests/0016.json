@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "04a49677cb9bb7f9290b1cf966e4c06a5368605a10bcfeb22190f35daf7b6879",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your durability against debilitating injury.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:vita_stop_infection>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/recipes/practice/vitakinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your durability against debilitating injury.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:vita_stop_infection>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "04ac314ab570c525474648f52e8b142d9eb85af9e9764f72ba48fa64e78fd4f8",
+      "identity": [
+        null,
+        "tall mound of nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "tall mound of nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "04b14a6cdea299ebf1b72daaddcd758e1a1fa81092732327c21d29439ddc30ce",
+      "identity": [
+        null,
+        "The Abolition of Work and Other Essays",
+        "copies of The Abolition of Work and Other Essays"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Abolition of Work and Other Essays",
+      "singular": "The Abolition of Work and Other Essays",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "04c5b0b915aa11204fb802edd447fcb211526fef24d37a731f0926afc834e0fd",
+      "identity": [
+        null,
+        "the smurfs",
+        "the smurfs comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "the smurfs comics",
+      "singular": "the smurfs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "04e943817ddbdefcb0e1bb776182da9e7fd1397570377ec2fa55c3c97c58943f",
+      "identity": [
+        null,
+        "There's power in the natural world.  You can see that now.  Using your compiled notes and studying previous observations, you're sure you can find out how to access it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There's power in the natural world.  You can see that now.  Using your compiled notes and studying previous observations, you're sure you can find out how to access it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "050638c7637407ac56c8d24f78864eb1f29930956da0faad1e2ddb054a0b7302",
+      "identity": [
+        null,
+        "Download map data.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Download map data.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0555d793ff5d85843908e1ee621bd312e0a2c9e548e90581897a734e0b314022",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_fish_in_water>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_fish_in_water>]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'inactive Regulator'",
+      "flags": [],
+      "id": "055d55d3728d4c67c3be07776d16acfe3a869f9955fe14ead9239e1c67cebfa2",
+      "identity": [
+        null,
+        "This is an inactive Regulator.  Using this item involves placing it on the ground, loading the unit with 7.50mm rounds and 40x46mm grenades in your inventory and turning it on.  If reprogrammed and rewired successfully the drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is an inactive Regulator.  Using this item involves placing it on the ground, loading the unit with 7.50mm rounds and 40x46mm grenades in your inventory and turning it on.  If reprogrammed and rewired successfully the drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'mutant_kidney_desc'",
+      "flags": [],
+      "id": "058452b91ac46188be5b976de07e78ac72c28133ddb99a754b807dd514a4b344",
+      "identity": [
+        null,
+        "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, fraying into myriad tiny berries still connected to a stem.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/mutant_anatomy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, fraying into myriad tiny berries still connected to a stem.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Field intensity level",
+      "flags": [],
+      "id": "0597084ee6d94ee1bb9a2ae630ecbbff8bbe966c21e91db6e9fde226d298dcbf",
+      "identity": [
+        null,
+        "vehicle service output zone",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/zone_field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "vehicle service output zone",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of the category 'chunks of steel'",
+      "flags": [],
+      "id": "05a83238e661871482281cc3a9b9c2e68f77f6cd0245599479c882454e8bd1b7",
+      "identity": [
+        null,
+        "Recipes related to forging steel into different quality chunks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/nested.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Recipes related to forging steel into different quality chunks.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "05af5c8a9be6380efeec9828dafc92e319774527f6e8554252fba269bb61fcd5",
+      "identity": [
+        null,
+        "left middle tentacle base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacle base",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

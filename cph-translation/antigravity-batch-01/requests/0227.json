@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "d9bef03f1f0bbec6f3d35dbc88842742500d11a0ace1da8803b86f4c23f2a21a",
+      "identity": [
+        null,
+        "dry murky water bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry murky water bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'research notes abstract'",
+      "flags": [],
+      "id": "d9bf7674296f35c973dfbd7f84e6064fc650e05997c87e15ec043efba6948caa",
+      "identity": [
+        null,
+        "A bunch of loose notes for researching bugs, which you're probably doing if you can see this.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bunch of loose notes for researching bugs, which you're probably doing if you can see this.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "d9ca9426a95fa3deeb6fd77225907254501c947102503ee456f014091f051174",
+      "identity": [
+        null,
+        "heat dissipation unit",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "heat dissipation unit",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "d9daad5ac8ae70d721ad076ed5445bfba987163b4f1738743ce1ea21896c945f",
+      "identity": [
+        null,
+        "Mutagen Gland - Lagomorph",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/extra_mut_scen/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Mutagen Gland - Lagomorph",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'HYGROMETER'",
+      "flags": [],
+      "id": "d9e269bf95a3a7f032e18f7e038f2eb99443da757a79c15f5c172f8cf301a4c2",
+      "identity": [
+        null,
+        "This gear is equipped with an accurate hygrometer (which is used to measure humidity).",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This gear is equipped with an accurate hygrometer (which is used to measure humidity).",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d9e4cd46384fc655aa0ad4b54b3ba2ceb6de764b78debc7acc37e364fabbc148",
+      "identity": [
+        null,
+        "Thanks so much for this ginseng!  With it, I'll take less than an hour to make the potion.  We do not have more demand for elder ginseng for now, but I again thank you for this service.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks so much for this ginseng!  With it, I'll take less than an hour to make the potion.  We do not have more demand for elder ginseng for now, but I again thank you for this service.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d9e59eb09b925bf684d407b461897674c8a86f254a67e6ca0e19a824c893b3b0",
+      "identity": [
+        null,
+        "Yeah, it's definitely for the best.  See you around.  Maybe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yeah, it's definitely for the best.  See you around.  Maybe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "da0349ac1ab724f2a57a8db4e6707104a05c1ff5331c14774f967c3685cb1fe3",
+      "identity": [
+        null,
+        "[Install Blood Analysis CBM] Okay, I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Blood Analysis CBM] Okay, I've always wondered what's in my veins.  Let's try that blood analysis module.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "da3c2e08fb147edb2e0ef50c3b0db8affa156c77e8a6ee0ca3932a1265077736",
+      "identity": [
+        null,
+        "Random name",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "237"
+        ]
+      ],
+      "plural": null,
+      "singular": "Random name",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "da4565611a672b72588814d7e260b09619c5435abd84ab0cf8ba7bb60e9773a5",
+      "identity": [
+        null,
+        "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today - negotiations with, well, whatever they are - but that went well.  I appreciate you.  Not sure we would've come to a deal without someone to do a bit of translating.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today - negotiations with, well, whatever they are - but that went well.  I appreciate you.  Not sure we would've come to a deal without someone to do a bit of translating.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "da530084947593f798b3da06fa1c0b1da5379594480efc3e3ff465a83399e486",
+      "identity": [
+        null,
+        "They are fearsome opponents and have warriors at their command but lack long-range attacks.  You can find them in the border patrol offices or during one of their rare hunts amidst the mists.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are fearsome opponents and have warriors at their command but lack long-range attacks.  You can find them in the border patrol offices or during one of their rare hunts amidst the mists.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "da588223a4c7b94ae9704b036d42b2599af954e981c385f4466d7d92133f232d",
+      "identity": [
+        null,
+        "Not much to say, because I'm not sure.  I just woke up like this.  Crazy stuff, isn't it?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Not much to say, because I'm not sure.  I just woke up like this.  Crazy stuff, isn't it?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

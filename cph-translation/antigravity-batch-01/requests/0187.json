@@ -1,0 +1,275 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "b0effe7b9769effc8c106b638d4567338769eeae714d65004a351d61ee8f666c",
+      "identity": [
+        null,
+        "Easy Indian Curry Recipes for Beginners",
+        "copies of Easy Indian Curry Recipes for Beginners"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Easy Indian Curry Recipes for Beginners",
+      "singular": "Easy Indian Curry Recipes for Beginners",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b1148f44e97833706318dd0fcabcf1b4b38917cb8d5a8782e9ad104649b3d6ce",
+      "identity": [
+        null,
+        "Alright, I'll do that.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Alright, I'll do that.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'moon magic research materials'",
+      "flags": [],
+      "id": "b11ae41bff2121b72677237f48d5824e8d4cf1cd2edbebce8baddeffb250a4b9",
+      "identity": [
+        null,
+        "A set of documents, scribbed notes, musings, lunar observations, star charts, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the moon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of documents, scribbed notes, musings, lunar observations, star charts, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the moon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_c>'",
+      "flags": [],
+      "id": "b12a2729a40551451774ca0b5f705389514384496db5f1acff49b439bfc596f5",
+      "identity": [
+        null,
+        "the harder times increasing the amount of potential vampires",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the harder times increasing the amount of potential vampires",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'short mound of degraded nurdle'",
+      "flags": [],
+      "id": "b172c6de8de6f62164ec75926e9af391c51b6e69e3972ab84882f3fb69eece6d",
+      "identity": [
+        null,
+        "An area of heaped degraded nurdle, not easily traversable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of heaped degraded nurdle, not easily traversable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b1743e81dc9bd735915cffa742d2cee3b03d70356d5674c70e3ded57ed1d09df",
+      "identity": [
+        null,
+        "Remove",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "525"
+        ],
+        [
+          "src/auto_pickup.cpp",
+          "295"
+        ],
+        [
+          "src/input_context.cpp",
+          "1115"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "320"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "730"
+        ]
+      ],
+      "plural": null,
+      "singular": "Remove",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'heat dissipation unit'",
+      "flags": [],
+      "id": "b189eca1f59b12159ec40dcbee094c7690068c5d438ed98160ecff9800e8d2a8",
+      "identity": [
+        null,
+        "A miniature forest of metallic fins and sparkling panels, this is a dedicated heat dissipation module for a high-energy machine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A miniature forest of metallic fins and sparkling panels, this is a dedicated heat dissipation module for a high-energy machine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b1a1c777f1b7a760cc0d959e12a785bc4ac0b6ac60330a05c70abc8146c30e54",
+      "identity": [
+        null,
+        "[Take the device] Will do, Rubik.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Take the device] Will do, Rubik.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'Project Sobek Genetech'",
+      "flags": [],
+      "id": "b1b5cafbe0535e6010b3c57a8b37b0f10980da99aa83d2dad64f925dfbeb7d04",
+      "identity": [
+        null,
+        "A genetic treatment from Project Sobek, part of Mercurial's own military augmentation program.  The whole treatment is designed for general combat enhancement, without the xenobiology-derived traits that are rumored to exist in more secretive programs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/genetech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A genetic treatment from Project Sobek, part of Mercurial's own military augmentation program.  The whole treatment is designed for general combat enhancement, without the xenobiology-derived traits that are rumored to exist in more secretive programs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "b1bf372149303f0c019e9e01970ed5fb5ea78f8aa657c081f99117967654c4ee",
+      "identity": [
+        null,
+        "We got another batch of XE323 from a completely different subplane.  These things are more common than we expected.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We got another batch of XE323 from a completely different subplane.  These things are more common than we expected.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'switch' statement in 'then'\nstatement in EoC 'EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS'",
+      "flags": [],
+      "id": "b1cb0e52a433fdb5b8cb61bf5f6e0b9e7312c1182d90c30047e6e9da3843aadf",
+      "identity": [
+        null,
+        "Your hands suddenly twitch, releasing your grip!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/speed_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your hands suddenly twitch, releasing your grip!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b1d9f59087e2d5e728c5d2aaae94aa76e0dc932081bb1b415715199fddb07135",
+      "identity": [
+        null,
+        "Lua-first Mod runtime is not ready.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/lua_platform_runtime_services.cpp",
+          "471"
+        ]
+      ],
+      "plural": null,
+      "singular": "Lua-first Mod runtime is not ready.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'Aztlani bow (active)'",
+      "flags": [],
+      "id": "75dc7da74a6da15950f2c99d303c5e5c4457064f7e70f9f5596b129dc3b42abe",
+      "identity": [
+        null,
+        "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/weapons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "75fc3f2ead196bf729261150dce05bd70a9af22dc7ba263880c98f8a672a72a7",
+      "identity": [
+        null,
+        "Interesting, interesting, interesting.  Hm.  I'll note that information.  Now, about that dangerous task.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Interesting, interesting, interesting.  Hm.  I'll note that information.  Now, about that dangerous task.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "7628b856e0a220037bafad62f180b2b389ce887051974b6cb1cf6f160712f802",
+      "identity": [
+        null,
+        "Conduct observation of the soil quality and study magical minerals to develop a corpus of research for lesser mysteries.  You must be underground to conduct your research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Conduct observation of the soil quality and study magical minerals to develop a corpus of research for lesser mysteries.  You must be underground to conduct your research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'floral blanket' of armor 'blanket'",
+      "flags": [],
+      "id": "763edcbcd7e00b2e1c3dcc220176e6e2ef175ffb12af7aaa39f40a1209600081",
+      "identity": [
+        null,
+        "The ever popular floral print blanket.  This one is patterned with <flowers>.  Popular with grandmothers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic/bedding.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The ever popular floral print blanket.  This one is patterned with <flowers>.  Popular with grandmothers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'strange object' of item 'strange object'",
+      "flags": [],
+      "id": "76773bf897b774ea87badcc7b2c361e068b7e4543979519e0a59f18c6a91d9d9",
+      "identity": [
+        null,
+        "It appears to be a small black box made out of some kind of hard metal.  Although it has no discernable openings, you call it a box because when you shake it you can feel things moving around inside.  Strangely, though, what's inside always seems to be… changing.  One moment it's a liquid, the next it feels like marbles or rocks, and then the next it feels like sand.\n\nAlthough probably inconsequential, the object emits a fairly strong odor of ginger at all times.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Backrooms/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It appears to be a small black box made out of some kind of hard metal.  Although it has no discernable openings, you call it a box because when you shake it you can feel things moving around inside.  Strangely, though, what's inside always seems to be… changing.  One moment it's a liquid, the next it feels like marbles or rocks, and then the next it feels like sand.\n\nAlthough probably inconsequential, the object emits a fairly strong odor of ginger at all times.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Shielded Youth'",
+      "flags": [],
+      "id": "767c3e19d8d08aa6241bf546d280194d601c75d31157eef2e37cd810bca6714e",
+      "identity": [
+        null,
+        "You remember the great luxury of your childhood, the endless parties underneath diamond-glass domes, the great entourages of servants and companions, and the backdoor plays and plots against your peers for the future of humanity.  How little they must think of you now, if they even remember you at all.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You remember the great luxury of your childhood, the endless parties underneath diamond-glass domes, the great entourages of servants and companions, and the backdoor plays and plots against your peers for the future of humanity.  How little they must think of you now, if they even remember you at all.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "76a9592fd288d08335dd8e204790b72bea3207ff9c125ac3743488cbeb4e735b",
+      "identity": [
+        null,
+        "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "76b0f45cf730653e8a50eff1a3e1d546c1d59e5707b5d45b286d7026b3a6589d",
+      "identity": [
+        null,
+        "To Wrap Yourself in the Names",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To Wrap Yourself in the Names",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "76e558598421f0b1ad975314be9e69e4757577b027a6613d46b1f69e77af46c2",
+      "identity": [
+        null,
+        "&\"Did someone send you?  Are you… human?  Our scann- I mean, our camera feed suggests you are some sort of cybernetic being?\"\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&\"Did someone send you?  Are you… human?  Our scann- I mean, our camera feed suggests you are some sort of cybernetic being?\"\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'the saga of the meta-barons' of book 'european\ncomic'",
+      "flags": [],
+      "id": "76ede3e23579f5e206b4e995927f3e1f92d0facff89480a864216971500a9d6d",
+      "identity": [
+        null,
+        "This album is part of the saga of the meta-barons series, which is about a dynasty of space warriors called the meta-barons, the narration is made by a duo of quirky robots, Tonto and Lothar, as they chronicle the life of each of them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This album is part of the saga of the meta-barons series, which is about a dynasty of space warriors called the meta-barons, the narration is made by a duo of quirky robots, Tonto and Lothar, as they chronicle the life of each of them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'The Tome of the Hollow Earth'",
+      "flags": [],
+      "id": "77167a6f3ba40e0f486b9f0142136f393a29f688f4ba5f75baf59730fa521be6",
+      "identity": [
+        null,
+        "This large dusty spellbook seems perpetually, well, dusty.  It contains a considerable amount of earthly power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/spellbooks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This large dusty spellbook seems perpetually, well, dusty.  It contains a considerable amount of earthly power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "771b19ddf06740c12b77ed565b2f0bc7d56536f6359175cde32867d4576c0231",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_gunslinger>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_gunslinger>]",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

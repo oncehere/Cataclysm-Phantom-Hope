@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-28",
+  "model": "gemini-3.7-flash",
+  "selection": "online evidence; not a local quality benchmark",
+  "config_checks": [
+    {
+      "config": "examples/demo/project.toml",
+      "status": "PASS",
+      "model": "gemini-3.7-flash"
+    },
+    {
+      "config": "examples/cph.toml",
+      "status": "PASS",
+      "model": "gemini-3.7-flash"
+    }
+  ],
+  "tests": [
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/python -m pytest -q --tb=short",
+      "exit_code": 0,
+      "result": "99 passed, 1 known SDK Pydantic deprecation warning in 30.81s"
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH PYTHONPATH=src .venv/bin/python -m pytest tests/test_gemini.py -q",
+      "exit_code": 0,
+      "result": "32 passed, 1 warning in 7.91s"
+    }
+  ],
+  "live_api": "NOT_RUN",
+  "human_translation_quality": "NOT_RUN",
+  "paid_generation_requests_this_change": 0,
+  "source_sha256": {
+    "src/pokeeper/__init__.py": "d386738720dec717cd96d45b7e5faf1ec2fff1e320f772ec9d714a9a662f662d",
+    "src/pokeeper/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/pokeeper/catalog.py": "5d12227d6c8e2c7cd4383be25e89e98ff7b22eb8442471b255f141049535c967",
+    "src/pokeeper/cli.py": "63d2a5b982740bc54a7fab6a44bdba6b0b68657a392d75452adff188408eb0bd",
+    "src/pokeeper/config.py": "6269e831efc1c8d7ea87d86586063a437d358b7eb1de06fe8d3109de867c7e04",
+    "src/pokeeper/core.py": "37773a2c3f722654f0013cbca9d62862f0ff6940712a134df91fba45d790fdb8",
+    "src/pokeeper/gemini.py": "45a8ce9fa917c9e4b89fb84ed7987e687a2a700987d2b0b91e375da93132d2b4",
+    "src/pokeeper/transaction.py": "d0d53ab3be315e0e8ea12aad402c80ae7721b174bbdc6fa15cd57a27535d0687",
+    "src/pokeeper/validation.py": "2919b8b3155fe51b3e4f1f1fb29c4783a68b13f01348ac1bc172cb917d3598af"
+  },
+  "build": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "build",
+      "--outdir",
+      "dist"
+    ],
+    "exit_code": 0,
+    "stdout": "* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - hatchling==1.27.0\n* Getting build dependencies for sdist...\n* Building sdist...\n* Building wheel from sdist\n* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - hatchling==1.27.0\n* Getting build dependencies for wheel...\n* Building wheel...\nSuccessfully built po_keeper-0.1.0rc1.tar.gz and po_keeper-0.1.0rc1-py3-none-any.whl\n",
+    "stderr": ""
+  },
+  "artifact_sha256": {
+    "dist/po_keeper-0.1.0rc1-py3-none-any.whl": "a9f42a3878685c7dbc69a556d0473b6606a5ba4dd82e7750320b5844e83acf2d",
+    "dist/po_keeper-0.1.0rc1.tar.gz": "ef01d6b1776c37f0e4300db34023e6ceacbf0952a5aaa9d06767a9275c85b132"
+  }
+}

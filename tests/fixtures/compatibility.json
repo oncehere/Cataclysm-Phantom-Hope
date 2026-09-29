@@ -1,0 +1,9 @@
+[
+  {"name":"missing-context","context":null,"msgid":"Open","plural":null,"translations":["Otwórz"],"comments":"Developer marker: bare action","occurrences":[["src/ui.c","10"]]},
+  {"name":"empty-context","context":"","msgid":"Open","plural":null,"translations":["Otwarte"],"comments":"Developer marker: deliberately empty context","occurrences":[["src/ui.c","11"]]},
+  {"name":"verb-context","context":"audit:verb","msgid":"Open","plural":null,"translations":["Otwórz"],"comments":"Developer marker: verb button","occurrences":[["src/ui.c","12"]]},
+  {"name":"adjective-context","context":"audit:adjective","msgid":"Open","plural":null,"translations":["Otwarte"],"comments":"Developer marker: adjective status","occurrences":[["src/ui.c","13"]]},
+  {"name":"three-plurals","context":"audit:files","msgid":"%d file","plural":"%d files","translations":["%d plik","%d pliki","%d plików"],"comments":"Developer marker: count of regular files","occurrences":[["src/files.c","20"]]},
+  {"name":"newlines","context":null,"msgid":"First line\nSecond line\n","plural":null,"translations":["Pierwsza linia\nDruga linia\n"],"comments":"Developer marker: preserve line breaks","occurrences":[["src/ui.c","30"]]},
+  {"name":"named-placeholder","context":"audit:greeting","msgid":"Hello %(name)s","plural":null,"translations":["Witaj %(name)s"],"comments":"Developer marker: do not translate name placeholder","occurrences":[["src/main.py","40"]]}
+]

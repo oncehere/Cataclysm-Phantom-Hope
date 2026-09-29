@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8aa40fa1f68cf7298dd3b5f6a0aa3365f3b5cbca85b5c61d7d09273c32539377",
+      "identity": [
+        null,
+        "Select an option to change it. Use the arrows or keyboard to choose a value.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "222"
+        ]
+      ],
+      "plural": null,
+      "singular": "Select an option to change it. Use the arrows or keyboard to choose a value.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8ae11dbe69c0489ba8e4f3c07e75a3e588a0810379fbd104a4fc7d55e7517c4d",
+      "identity": [
+        null,
+        "&This computer controls the elevator platform.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/npcs/elevator_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&This computer controls the elevator platform.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8b555de209a1e369e2d093d25f344d438d64cc82772d44776a2bbaaabcfe3296",
+      "identity": [
+        null,
+        "Glad to be of service.  I better get back to the Exodii.  See you around.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Glad to be of service.  I better get back to the Exodii.  See you around.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8b748a890b6a63d0384ac0e2a9c443ad4324a91960b5991734a53756c2976b17",
+      "identity": [
+        null,
+        "Max item in square",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3624"
+        ]
+      ],
+      "plural": null,
+      "singular": "Max item in square",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_feed_the_black_horse'",
+      "flags": [],
+      "id": "8b89439881bb2ef1508cef58ef84c59faa6c6b6799ea35e11d04cb7bebd50190",
+      "identity": [
+        null,
+        "Feed Arion",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Feed Arion",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_IG882_P'",
+      "flags": [],
+      "id": "8b8a49e0569a33e909daefb5b4a6547229040fed6e07c064e879f75ab46919ca",
+      "identity": [
+        null,
+        "PATIENT MOSAIC latest update\nI am pleased to report a major breakthrough in the process of personality updating.  A73 volunteered to be the initial subject to test the updated version of the PATIENT MOSAIC process.  Briefing her on the effects of the process demonstrated by X89 did not deter her, as well as a visit to X89 in the infirmary, and after two weeks of studying the process and practicing its initial protocols, she prepared for her first major effort.  A73 had severe arachnophobia stemming from several incidents in her childhood, which was the proximate reason for her to volunteer for PATIENT MOSAIC.\n\nThe process took most of a day and A73 completed it with no ill effects other than hunger (an IV had been administered to prevent dehydration).  When the process was completed, she unwent an MRI, showing no changes in the physical structure of the brain.  Subsequent to the MRI, A73 voluntarily agreed to submit to a test of her arachnophobia.  She showed no reaction to high-definition images of spiders and was able to remain in close proximity to a spider crawling across a table she was sitting at, and while she declined the researcher's suggestion of allowing the spider to crawl on her arm, her vitals showed no undue distress at the suggestion.\n\nFurther testing is necessary to determine the conditions that led to such disparate outcomes, but the results of A73's tests show exceptional promise.  G59 has also expressed willingness to volunteer for PATIENT MOSAIC and I believe we should grant the request.\nRonald Sanchez-Perez\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "PATIENT MOSAIC latest update\nI am pleased to report a major breakthrough in the process of personality updating.  A73 volunteered to be the initial subject to test the updated version of the PATIENT MOSAIC process.  Briefing her on the effects of the process demonstrated by X89 did not deter her, as well as a visit to X89 in the infirmary, and after two weeks of studying the process and practicing its initial protocols, she prepared for her first major effort.  A73 had severe arachnophobia stemming from several incidents in her childhood, which was the proximate reason for her to volunteer for PATIENT MOSAIC.\n\nThe process took most of a day and A73 completed it with no ill effects other than hunger (an IV had been administered to prevent dehydration).  When the process was completed, she unwent an MRI, showing no changes in the physical structure of the brain.  Subsequent to the MRI, A73 voluntarily agreed to submit to a test of her arachnophobia.  She showed no reaction to high-definition images of spiders and was able to remain in close proximity to a spider crawling across a table she was sitting at, and while she declined the researcher's suggestion of allowing the spider to crawl on her arm, her vitals showed no undue distress at the suggestion.\n\nFurther testing is necessary to determine the conditions that led to such disparate outcomes, but the results of A73's tests show exceptional promise.  G59 has also expressed willingness to volunteer for PATIENT MOSAIC and I believe we should grant the request.\nRonald Sanchez-Perez\nResearcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8bb6009b5a75bfab9912483224f45826ee374fe6d2c9c8eca6136475f746c43a",
+      "identity": [
+        null,
+        "You have no items to pass.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10285"
+        ]
+      ],
+      "plural": null,
+      "singular": "You have no items to pass.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Clause text of UI widget 'immortal_path_qi_desc'",
+      "flags": [],
+      "id": "8bc317b53b40be6058505beb36ded71b968fdbba07f74926d4e55948afb85f41",
+      "identity": [
+        null,
+        "炼气 <u_val:qi_refining_layer> 层",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/ui/sidebar.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "炼气 <u_val:qi_refining_layer> 层",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Fists of Stone'",
+      "flags": [],
+      "id": "8be0277fcc3d695c3a67b28d6122f8fd6257862475642f02e08ac9510d4c4933",
+      "identity": [
+        null,
+        "Your tough skin and thick nails allow you to use your hands to replace some simple tools.  Your punches hit harder as well.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your tough skin and thick nails allow you to use your hands to replace some simple tools.  Your punches hit harder as well.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "8c141b8158b86acbbf2fbf8e6071abdd8a11c31e64099bd3addbbaf902d88c93",
+      "identity": [
+        null,
+        "lucky luke",
+        "lucky luke comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "lucky luke comics",
+      "singular": "lucky luke",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8c2402ee197a46418369361eba9035a59e26a7b669af2a7837700631467bed68",
+      "identity": [
+        null,
+        "Advanced",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "328"
+        ]
+      ],
+      "plural": null,
+      "singular": "Advanced",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "8c320730c7d9d4d8716f9559dfb3dbec0ccc02d57ec1c6391c4a3740b95f9354",
+      "identity": [
+        null,
+        "cargo capris",
+        "cargo capris"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": "cargo capris",
+      "singular": "cargo capris",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

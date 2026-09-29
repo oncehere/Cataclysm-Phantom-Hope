@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ee0fff2cb619e7db7a5fea8d3276d564a55ee108842f619ece93ddc8464ed97b",
+      "identity": [
+        null,
+        "Empty world",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1348"
+        ]
+      ],
+      "plural": null,
+      "singular": "Empty world",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Exodii-style cyborg'",
+      "flags": [],
+      "id": "ee2b9c7f88b73555c6ca836de3f258d3f0d9cd0114d457232c1c1cb99c217d81",
+      "identity": [
+        null,
+        "Your body has been reduced to your nervous system, sensory organs, core skeleton and musculature, and other critical internal meat-bits.  It can now only exist inside of an Exodii Cyberframe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/cybernetic_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body has been reduced to your nervous system, sensory organs, core skeleton and musculature, and other critical internal meat-bits.  It can now only exist inside of an Exodii Cyberframe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ee306a9478e00bb79b778b31defc2b14c6908cb444d0478fe43c61e063b33421",
+      "identity": [
+        null,
+        "%s taps you on the shoulder, snapping you out of your wait.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3319"
+        ],
+        [
+          "src/mp_gamestate.cpp",
+          "7188"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s taps you on the shoulder, snapping you out of your wait.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'lab_file_serum_testing_super_soldier' of item\n'production tests'",
+      "flags": [],
+      "id": "ee5397567f55bda5dfaaf00d99dd6720b1774e4a144aaf80a864b9d7315d5beb",
+      "identity": [
+        null,
+        "\n\n<serum_testing_super_soldier>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/newspaper.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\n\n<serum_testing_super_soldier>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ee653337acf11b4c2539f39f08ccba051459fdf9d37c3c2b7b0812de0da82dd3",
+      "identity": [
+        null,
+        "How many items could place in one tile.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3625"
+        ]
+      ],
+      "plural": null,
+      "singular": "How many items could place in one tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Weather Permitting'",
+      "flags": [],
+      "id": "ee7b5d62f10d34f844bb10c0f6589f721b545402e7c6a32705a1beda6621454d",
+      "identity": [
+        null,
+        "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "ee8280480a1a93cda3fff210ee814f054a398fab7e5711e269c8385edb0603fb",
+      "identity": [
+        null,
+        "The last helpmeet.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The last helpmeet.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "ee9917a8bd6fc4a6b6bdb8e856f34d09d1057c5ce363da2faeaceb3f0c3902f1",
+      "identity": [
+        null,
+        "With bloodshot eyes and a ripped orange jumpsuit, this obviously-feral human wanders among the undead.  Their movements are uncanny, almost like an old-fashioned camera film that's been sped up.  All of their motions are jerky and unfocused but they make them at blinding speed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "With bloodshot eyes and a ripped orange jumpsuit, this obviously-feral human wanders among the undead.  Their movements are uncanny, almost like an old-fashioned camera film that's been sped up.  All of their motions are jerky and unfocused but they make them at blinding speed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_xe_abyssal_coffee'",
+      "flags": [],
+      "id": "ee9eae4446c0ff582f00f93399c05ba1d23b0384a013b04323b29948f245408a",
+      "identity": [
+        null,
+        "A W A K E",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A W A K E",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "eea214f446ef4b18820427f4554685c329c787e4d8d4cafad998505bf6cc4ac0",
+      "identity": [
+        null,
+        "7x7 overmap grid",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "704"
+        ]
+      ],
+      "plural": null,
+      "singular": "7x7 overmap grid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "eea25de2778e2f838c90ba04f096806fc349a360bdf1c7591612c10e85ac78e9",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Leans heavily on teleport spells and scripted (effect-on-condition) effects that don't apply to the remote player, and long-range teleports break the shared map.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "67"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Leans heavily on teleport spells and scripted (effect-on-condition) effects that don't apply to the remote player, and long-range teleports break the shared map.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "eea635a9284a237c9b0636b1a7c846f0307cf427be26027cc559045c7b6a9a05",
+      "identity": [
+        null,
+        "Mod \"%s\" may break in co-op.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5932"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod \"%s\" may break in co-op.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

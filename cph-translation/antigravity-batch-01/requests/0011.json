@@ -1,0 +1,59 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "vpart_variants",
+      "developer_comments": "~ Label of vehicle part variant",
+      "flags": [],
+      "id": "03edc1b2981e69e8326abba76446a1c54d13100c5bf31054a030cdffec98534a",
+      "identity": [
+        "vpart_variants",
+        "Up",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vehicle_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Up",
+      "translator_comments": ""
+    },
+    {
+      "context": "vpart_variants",
+      "developer_comments": "~ Label of vehicle part variant",
+      "flags": [],
+      "id": "14b70e32fa871531b8bc4db1013a5524d012d8f1d5908e1c032cf714109efc59",
+      "identity": [
+        "vpart_variants",
+        "Down",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vehicle_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Down",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

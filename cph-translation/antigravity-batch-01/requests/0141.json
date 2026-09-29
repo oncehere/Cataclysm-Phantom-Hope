@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry shallow pool bottom'",
+      "flags": [],
+      "id": "833c7f6e23550d0ff8cf6f7311890c4e3b77c85343d664549d570aa84198f6dd",
+      "identity": [
+        null,
+        "The concrete bottom of a drained shallow outdoor swimming pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The concrete bottom of a drained shallow outdoor swimming pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Moving Oddly'",
+      "flags": [],
+      "id": "8363ac2fadf83f8c83f50493d4a995e49e3c8fbe89785d7618cf86012821d09d",
+      "identity": [
+        null,
+        "The Hound flickers as it moves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_monster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Hound flickers as it moves.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "83a9e042dbd81cf76a72c8e1b453afc49270813bfda4876006966474a3136bb6",
+      "identity": [
+        null,
+        "Default mods",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2119"
+        ]
+      ],
+      "plural": null,
+      "singular": "Default mods",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "83be2311c7532921dbb7641e11153c3983bfeff6473c154628b19851d0d4ac24",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ],
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "83c6efd57b28fdfcfab5d6444c887b6d83f22d18720d4393109f99389aa85731",
+      "identity": [
+        null,
+        "丹田灵气已满，盈则溢，吐纳暂无益于蓄气。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "丹田灵气已满，盈则溢，吐纳暂无益于蓄气。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "83efb949afcef32e5b0db8ce38d930c8f2fb8a90ef9d47eef8b080e976dd39a3",
+      "identity": [
+        null,
+        "A creature blocks the installation position.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "398"
+        ]
+      ],
+      "plural": null,
+      "singular": "A creature blocks the installation position.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'broken Regulator'",
+      "flags": [],
+      "id": "841873f1f5dfc86d396d06fc586a4daecc5a98e3e1b343053435998697a8cea1",
+      "identity": [
+        null,
+        "A broken Regulator.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A broken Regulator.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8421757dc62b7c76dbab3538aed53b47e092c8f2aba523130b09edd016650b3c",
+      "identity": [
+        null,
+        "I will find another way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I will find another way.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "842351c5c264d9fac3c94564c5327eb1f6928cdac48b5cfdc75c994638433db4",
+      "identity": [
+        null,
+        "The selected vehicle part cannot be removed by the mechanic.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1028"
+        ]
+      ],
+      "plural": null,
+      "singular": "The selected vehicle part cannot be removed by the mechanic.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "84320ddb6af57573ac49c204fd1ade1808a9d97480171d52ff8c18ee6f684d5b",
+      "identity": [
+        null,
+        "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.\n\"Need something salvor?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/UICA/ground_quartermaster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.\n\"Need something salvor?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'menu_text' action message of item 'Gracken Shade Hands'\n~ 'menu_text' action message of item 'Gracken Sharp Nails'\n~ 'menu_text' action message of item 'Gracken Dextrous Hands'",
+      "flags": [],
+      "id": "843ba5ec4f3aa99633d5ad46c39d785fd38dc1a991cae45eb79eee42ddec181c",
+      "identity": [
+        null,
+        "Replace hands",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/gracken_trait_improvements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Replace hands",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "84900c2c8c6e65205707b93646461e172c8acd8d9d198ccf5dc6883e5fa10563",
+      "identity": [
+        null,
+        "In order to make our reports sound less like we're just staring at goats, we've been instructed to designate all phenomena resulting from the matrix crystals with the label \"Netherum mathematics.\"  That makes L61 our first \"mathematician.\"  Maybe they won't suddenly cut our funding if we obfuscate things that way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "In order to make our reports sound less like we're just staring at goats, we've been instructed to designate all phenomena resulting from the matrix crystals with the label \"Netherum mathematics.\"  That makes L61 our first \"mathematician.\"  Maybe they won't suddenly cut our funding if we obfuscate things that way.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

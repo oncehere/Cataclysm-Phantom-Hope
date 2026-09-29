@@ -1,0 +1,15 @@
+{
+  "request_sha256": "0b6937a016f35e71c2ecb2ba5ab855dea783bc1319a135ea58f1a615bd1560ff",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ad052cce76c6ddd7980bb4911bfb44445e530fb8f59b8cc6c41393a67ebf24c7",
+      "values": [
+        "根部"
+      ]
+    }
+  ]
+}

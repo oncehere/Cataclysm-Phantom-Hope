@@ -1,0 +1,81 @@
+{
+  "request_sha256": "bd4145aa715bcd2dd36947efaac9a867422a45decd5c2aabf50989d62c3d6fd7",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "0c939fb8e71fd03c328a41ff8191d31ab3f98c7d2371a2c5f44912295cb91410",
+      "values": [
+        "其中一只寄生虫被这一击震落了。"
+      ]
+    },
+    {
+      "id": "0cd774962d407c963a6781874331c187b7ddf2da780e75c98fd8ee8a6a4b5755",
+      "values": [
+        "古墓屋顶"
+      ]
+    },
+    {
+      "id": "0d0ac4d524f71cfa1fe10b099b1ed63eb7c7b7fb2be8c426ccb48dc16b230e18",
+      "values": [
+        "温和"
+      ]
+    },
+    {
+      "id": "0d1c2f6a0737a9be82f8152c4972d5c1a4c1ba5308506fafa446a76193714a42",
+      "values": [
+        "孤岛意志"
+      ]
+    },
+    {
+      "id": "0d2c49358deaea5054c22e1eae7de4f611aa5078276210753c4542f943276873",
+      "values": [
+        "%1$s：%2$s — %3$s；%4$s"
+      ]
+    },
+    {
+      "id": "0d2f33485c866cff147b9be259c86a6781152917462f4c5e46010f421a7c5175",
+      "values": [
+        "一个玻璃水槽和水龙头。内壁中途收拢于一层层同心涟漪之中，中央有一颗飞溅水滴凝结成的小巧尖塔。"
+      ]
+    },
+    {
+      "id": "0da6f8ca28a46f510f553d962460f73d1fa8199ed787c14c7a99632b304c1811",
+      "values": [
+        "[向他展示你关于长生不老药的笔记]"
+      ]
+    },
+    {
+      "id": "0dbf62c32bbe0494ddc770b7a3e255fea93e7585edee8b1ec432ae4de4ed08de",
+      "values": [
+        "杀害你的凶手就在这个世界的某个角落，而你终将找到他们。"
+      ]
+    },
+    {
+      "id": "0dc53482716d88c5b99ec0d42a115a9e61d9ae238ec0a7a1076cadd62ac2cb6d",
+      "values": [
+        "亡魂"
+      ]
+    },
+    {
+      "id": "0e1bf6e1c6701f60d5e4f6f583421545e1a7212ac58320e3992bee7051d40bff",
+      "values": [
+        "替换手臂"
+      ]
+    },
+    {
+      "id": "0e74946d52bdbd1e0964eb52f508c6fd5af600f715af0c6574ae3a472538af7c",
+      "values": [
+        "一株根系细小的蔓越莓幼苗。种植后比普通种子更快迎来收获。必须种植在水田中。"
+      ]
+    },
+    {
+      "id": "0e8aa5ed8bda09c267e74f3f10124b3db4a5e7ff0cd5044776c8b354e2de6b2d",
+      "values": [
+        "你在不知不觉中成为了下一代 CRISPR 基因编辑实验的受试者，导致你的胰腺长出了一个小腺体，逐渐使你突变出兔形目动物的特征。"
+      ]
+    }
+  ]
+}

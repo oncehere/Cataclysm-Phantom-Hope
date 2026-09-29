@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Find the building from the smudged map.'",
+      "flags": [],
+      "id": "74f9c51fbc2387872211f67e32f3ad13de3a536cfe1dc104c156483305ad36df",
+      "identity": [
+        null,
+        "You found a map pointing to a building on a vampire's corpse.  Going there might not be safe, but it will surely be worth it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You found a map pointing to a building on a vampire's corpse.  Going there might not be safe, but it will surely be worth it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'charm of Marzanna'",
+      "flags": [],
+      "id": "74fbb3686605911ae31662ace99ad6348020592551c11be0031116666ceefa32",
+      "identity": [
+        null,
+        "A tiny effigy of a woman with singed extremities and a waterlogged face.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'degraded nurdle'",
+      "flags": [],
+      "id": "74fefb6a39fbbfaf78e757e311145070eacd86d515c5cff331ef7e4d1768f6a3",
+      "identity": [
+        null,
+        "Yellowed and cloudy pellets of degraded polymers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/trash/resources.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yellowed and cloudy pellets of degraded polymers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ I know you're good at this.  Sometimes I forget you're just a survivor,\nand not some sort of diplomat.  Try not to do better than I would do, yeah?",
+      "flags": [],
+      "id": "750ae40bfdfcd1c16a2af3c13a1de5030c6976ea6c639e7aacbfd9d23d5688c8",
+      "identity": [
+        null,
+        "&\"Tell ye' true, I often forget ye're a scavver and not some sorta' treat-an'-sweety.  Do try not t'negotiate a bettter deal than ol' Rubik woul've got 'imself, aye?\"  Rubik chuckles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&\"Tell ye' true, I often forget ye're a scavver and not some sorta' treat-an'-sweety.  Do try not t'negotiate a bettter deal than ol' Rubik woul've got 'imself, aye?\"  Rubik chuckles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7525a06c1769831a5fd7803e79807f415593c313bc9acae2e60efd51d7f5345f",
+      "identity": [
+        null,
+        "That liquid does not belong in a water channel.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1066"
+        ]
+      ],
+      "plural": null,
+      "singular": "That liquid does not belong in a water channel.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'ancient spear'",
+      "flags": [],
+      "id": "7535e0c0c7232106accb4d677e5bd8f272b64af145c63c4ea6167d8a20a1ae90",
+      "identity": [
+        null,
+        "A sturdy wooden pole with a sharp bronze spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy wooden pole with a sharp bronze spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "757fb3c3f565cb1c146581aa7e818e3f4dfa0cee66b165bc67acc7685fab4115",
+      "identity": [
+        null,
+        "Warn before consuming food containing toxins. Disabling this warning does not remove the toxins or their effects.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/distraction_manager.cpp",
+          "50"
+        ]
+      ],
+      "plural": null,
+      "singular": "Warn before consuming food containing toxins. Disabling this warning does not remove the toxins or their effects.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "758cf4e5e784e0bfd803f7ccfe7baa8e2ad8ef672b2db8926eafcc653735289b",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion - they use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion - they use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "75a4c8cf43707c1aafcf5a8d9e4e8819d8d53ffbda8818855fcb330a61b6587d",
+      "identity": [
+        null,
+        "Glad to be of service.  Seems the deal went pretty well for you, yeah?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Glad to be of service.  Seems the deal went pretty well for you, yeah?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "75c15025a2ce5d2bd17be627cb402ff10c12d5935b12a1edee210980e189f572",
+      "identity": [
+        null,
+        "abstract garment with basic variants",
+        "abstract garment with basic variants"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": "abstract garment with basic variants",
+      "singular": "abstract garment with basic variants",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Help message in menu 'Combat'",
+      "flags": [],
+      "id": "75c247bf2987e6ad00dbea39135274092f9a736c376e88111606eb772092078b",
+      "identity": [
+        null,
+        "While magazines and clips are often firearm-specific, on some occasions a magazine/speedloader is compatible with several other firearms or calibers.  Below are some examples of calibers that might share magazines or speedloaders:\n\n.380 ACP and 9mm Luger,\n.40 S&W and 10mm Auto,\n.45 ACP and .460 Rowland, and\n.45 Colt and .454 Casull.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/core/help.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "While magazines and clips are often firearm-specific, on some occasions a magazine/speedloader is compatible with several other firearms or calibers.  Below are some examples of calibers that might share magazines or speedloaders:\n\n.380 ACP and 9mm Luger,\n.40 S&W and 10mm Auto,\n.45 ACP and .460 Rowland, and\n.45 Colt and .454 Casull.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "75c4934a7f6c6aaa4e40d6f01e2bfcf96d3684eb093bb095e88d3a377bb54b2c",
+      "identity": [
+        null,
+        "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d02f40a8dfd83e9e8d3917412156f840b4b3c9537dba3efe199280a8087948c8",
+      "identity": [
+        null,
+        "Apply diamond coating",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "392"
+        ]
+      ],
+      "plural": null,
+      "singular": "Apply diamond coating",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_xe_nether_sorcery_cause_withering_damage'\n~ Name of a spell",
+      "flags": [],
+      "id": "d03683b6e5eed9902aa1f41aaca273cf400c701b9a78311c43338b616fb2f2ff",
+      "identity": [
+        null,
+        "The Withering",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_nether_sorcery.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/nether_sorcery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Withering",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d038999daff8e42fff0f6face75ba350355df2fb346d870f00e761b5f2105237",
+      "identity": [
+        null,
+        "Did not find anything to remove from the priority filter.\nFilter: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/crafting_gui.cpp",
+          "3324"
+        ]
+      ],
+      "plural": null,
+      "singular": "Did not find anything to remove from the priority filter.\nFilter: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "d07e525f9226b844a15d9570f138ffce1c2a4a8c43fd3c80e291e9d1947a9ce6",
+      "identity": [
+        null,
+        "asterix",
+        "asterix comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "asterix comics",
+      "singular": "asterix",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d08d81309a6de6b55f604cdea4e72454b602021d939601e0ba88eeecac0b8dcc",
+      "identity": [
+        null,
+        "%s loses control of %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3772"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s loses control of %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d0a61335041de7593f89fa6ff88b853a30f13c51b3036542062fac856df2f6fc",
+      "identity": [
+        null,
+        "Those negotiations didn't go so well, did they?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Those negotiations didn't go so well, did they?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "d0c31975c3a63111894a7ba14ca4cbaf203d6ff5297dbf52cf6fcd710e1ae761",
+      "identity": [
+        null,
+        "This person, clad in the remnants of an orange jumpsuit, looks healthy.  Their eyes are bright, without any red markings; their hair has a pleasant shine; and their skin is practically glowing.  Only the twitching and the pipe held in one hand as they walk among the zombies would tell you that they've gone feral.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This person, clad in the remnants of an orange jumpsuit, looks healthy.  Their eyes are bright, without any red markings; their hair has a pleasant shine; and their skin is practically glowing.  Only the twitching and the pipe held in one hand as they walk among the zombies would tell you that they've gone feral.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d1035293789bb4ce96dbd55ae5db6a5056fb750a6262cb48756d25124732f426",
+      "identity": [
+        null,
+        "&You poke at the computer, and while it does turn on and you see a login screen for a moment, it's quickly replaced with a popup that reads:\n\n\"No occupant detected.  SHADOW URGE functions unavailable.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You poke at the computer, and while it does turn on and you see a login screen for a moment, it's quickly replaced with a popup that reads:\n\n\"No occupant detected.  SHADOW URGE functions unavailable.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant '3 Wolf Moon t-shirt' of armor 't-shirt'",
+      "flags": [],
+      "id": "d10851bb34d4ecdbd38f4c0aa9cf1ee31748fd49975e3bc33533a3b9ae81bb15",
+      "identity": [
+        null,
+        "This magnificent piece of clothing contains not one, not two, but THREE WOLVES.  THREE WOLVES HOWLING AT THE MOON!  It is the most badass item of clothing ever produced.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/torso_clothes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This magnificent piece of clothing contains not one, not two, but THREE WOLVES.  THREE WOLVES HOWLING AT THE MOON!  It is the most badass item of clothing ever produced.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_teleportation'\n~ Phavian designation for teleportation study is LOST RAIN",
+      "flags": [],
+      "id": "d155c80a9b95d0e064b0837f8209a65b3cbb7279950cc9e9f8f784b4bd66b9f7",
+      "identity": [
+        null,
+        "Let's start with the obvious.  Teleportation is moving faster than light, by definition.  Even though our most powerful mathematicians can currently only teleport a few grams a few meters distant, we've used slow-motion photography and confirmed that while the transit is not instantaneous, it's still faster than c.  So, as the saying goes, relativity, causality, faster than light travel, pick two, right?  Which are we going to pick?\n\nWell, as much as it pains me as a physicist to say it, relativity, at least as it relates in this case.  Now we have a third domain alongside quantum mechanics and general relativity: Netherum mathematics.  While I hesitate to speculate on something that we have collected so little data on, it is possible that the Netherum provides its own reference frame coterminous with our own (or multiple) realities.  If we built our satellites with matrix technology, would they still need to account for time dilation?  Would relativity override Netherum mathematics in that case?\n\nBut to return to the title: there is no evidence time travel is possible despite repeated attempts.  Perhaps if we had a LOST RAIN mathematician capable of moving interstellar distances we could ask them to come back before they left.  Barring that, I'm afraid asking LOST RAIN to retroactively avert any disasters is not on the table.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Let's start with the obvious.  Teleportation is moving faster than light, by definition.  Even though our most powerful mathematicians can currently only teleport a few grams a few meters distant, we've used slow-motion photography and confirmed that while the transit is not instantaneous, it's still faster than c.  So, as the saying goes, relativity, causality, faster than light travel, pick two, right?  Which are we going to pick?\n\nWell, as much as it pains me as a physicist to say it, relativity, at least as it relates in this case.  Now we have a third domain alongside quantum mechanics and general relativity: Netherum mathematics.  While I hesitate to speculate on something that we have collected so little data on, it is possible that the Netherum provides its own reference frame coterminous with our own (or multiple) realities.  If we built our satellites with matrix technology, would they still need to account for time dilation?  Would relativity override Netherum mathematics in that case?\n\nBut to return to the title: there is no evidence time travel is possible despite repeated attempts.  Perhaps if we had a LOST RAIN mathematician capable of moving interstellar distances we could ask them to come back before they left.  Barring that, I'm afraid asking LOST RAIN to retroactively avert any disasters is not on the table.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "d15a63c3bde513c65b177df9cea53db474915f27c8408cda56b54b30d05cc043",
+      "identity": [
+        null,
+        "stiltwalker",
+        "stiltwalkers"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/netherum/labyrinth_monsters.json",
+          ""
+        ]
+      ],
+      "plural": "stiltwalkers",
+      "singular": "stiltwalker",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d16a17e8d901195fe5af52177d58127dc0d1f26a26258337dbe7df609865b6c9",
+      "identity": [
+        null,
+        "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

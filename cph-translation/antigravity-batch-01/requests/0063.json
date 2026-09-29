@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'bikini panties'",
+      "flags": [],
+      "id": "33556dfc2d183bdc7b80fbf8ba915129236fca9fe877b7d2bc8dfd80914450ca",
+      "identity": [
+        null,
+        "Women underwear with a low-rise and high leg cut.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Women underwear with a low-rise and high leg cut.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "336591cd142f859e97216de43e9035456bceaeb69b7bf0b5b7c6dfde67103052",
+      "identity": [
+        null,
+        "Lua script reload failed.  The previous script registrations remain active.\n\n%s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/debug_menu.cpp",
+          "5016"
+        ]
+      ],
+      "plural": null,
+      "singular": "Lua script reload failed.  The previous script registrations remain active.\n\n%s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of tool quality",
+      "flags": [],
+      "id": "3389d9e4ccc0861b7650cfc1c83fcb47144e4a6c44bf44c4253ae8af2eedbbdc",
+      "identity": [
+        null,
+        "occult research",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/qualities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "occult research",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "33a11449355e8728c28c66929bf845a4f3f19e4530cd98806c9a66382321c638",
+      "identity": [
+        null,
+        "W20 entered the testing chamber with instructions to don the protective gear inside, and stand in front of the X-ray screen.  The X-ray technician performed the scan of W20's arms and when the film was processed, it showed nothing, exactly as it though it had hit a protective barrier.\n\nOur subsequent proposal to use a radium sample was immediately denied by W20, who stated they would never participate in such an experiment and left the room.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "W20 entered the testing chamber with instructions to don the protective gear inside, and stand in front of the X-ray screen.  The X-ray technician performed the scan of W20's arms and when the film was processed, it showed nothing, exactly as it though it had hit a protective barrier.\n\nOur subsequent proposal to use a radium sample was immediately denied by W20, who stated they would never participate in such an experiment and left the room.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "33c10a541b00afbd5c6d9cc9bab28c4f50916195100ea9df6db7d9bea63cb28f",
+      "identity": [
+        null,
+        "Exodii-style cyborg",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/cybernetic_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exodii-style cyborg",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "33cd85ba76c65391c309988ecdf0ae066deadf5d81052cd6549795add812ced0",
+      "identity": [
+        null,
+        "What do we actually do with the bones?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What do we actually do with the bones?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "33d1eef2c954a4d44c1eb8a2214fb8adfda81f0289a74c79897951db3e829abe",
+      "identity": [
+        null,
+        "I found it, but I'm keeping it, and I'll find you another one.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/common_chat/TALK_COMMON_MISSION.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I found it, but I'm keeping it, and I'll find you another one.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "340615b27564d6cbdf6173ee9587861900b185f486832e9f759a3ccadb075104",
+      "identity": [
+        null,
+        "old occult research notes",
+        "sets of old occult research notes"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of old occult research notes",
+      "singular": "old occult research notes",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3413aa411e7e714a0a8eaa3f6b238dc6c0bce51551822d95fcc638ba13c753d3",
+      "identity": [
+        null,
+        "Why are you here?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why are you here?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "341f427bc8f33300c3dd6cfe2606a9919353d3e9813659028060e5e7c851e364",
+      "identity": [
+        null,
+        "<- Back",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2384"
+        ]
+      ],
+      "plural": null,
+      "singular": "<- Back",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3432a15266156c980288d053d3ebe4e77664483ea50c2b5fa55c73a60c47bb32",
+      "identity": [
+        null,
+        "So, now that I'm a cyborg, could I get a full bionic body like yours?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So, now that I'm a cyborg, could I get a full bionic body like yours?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'razorclaw roe'",
+      "flags": [],
+      "id": "34441823dfd1f7d1eee48200ecfe5bab5125d52d65f0534068f62b8244f97144",
+      "identity": [
+        null,
+        "A clump of razorclaw eggs.  A post-Cataclysm delicacy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/egg.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A clump of razorclaw eggs.  A post-Cataclysm delicacy.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

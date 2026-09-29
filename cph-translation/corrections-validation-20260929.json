@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "generated_at_utc": "2026-09-29T12:17:43.311910+00:00",
+  "status": "PASS",
+  "commands": [
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH env -u GEMINI_API_KEY .venv/bin/python -m pytest -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests": 161,
+      "seconds": 14.26,
+      "warnings": 1
+    },
+    {
+      "command": "polib identity/before-value-guarded correction; msgfmt validation; atomic PO write",
+      "status": "PASS",
+      "exit_code": 0,
+      "entries_changed": 2,
+      "substitutions": 5,
+      "untouched_identity_flags_comments_occurrences": true
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper plan --config cph-translation/project.toml --candidate cph-translation/review-11-corrections",
+      "status": "PASS",
+      "exit_code": 0,
+      "human_changes": 2,
+      "gaps": 0
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper apply cph-translation/review-11-corrections",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper compile --config cph-translation/project.toml --output cph-translation/zh_CN-reviewed.mo",
+      "status": "PASS",
+      "exit_code": 0,
+      "entries": 117224,
+      "translated": 117224,
+      "fuzzy": 0,
+      "obsolete": 0,
+      "includes_po_state_and_gettext_check": true
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python cph-translation/audit_candidate.py cph-translation/review-11-corrections --output cph-translation/review-11-audit.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "checked_machine_proposals": 3392,
+      "explained_review_flags": 12
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper plan --config cph-translation/project.toml --candidate cph-translation/review-12-idempotence",
+      "status": "PASS",
+      "exit_code": 0,
+      "updates": 0,
+      "human_changes": 0,
+      "gaps": 0,
+      "po_and_state_byte_identical": true
+    },
+    {
+      "command": "Python assertions over snapshot hashes, protected records, exact change set, candidate manifests and current inputs",
+      "status": "PASS",
+      "exit_code": 0,
+      "snapshots": 10,
+      "original_protected_records_unchanged": 256,
+      "unrelated_entry_changes": 0
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "KNOWN_SOURCE_WHITESPACE",
+      "exit_code": 2,
+      "findings_by_path": {
+        "cph-translation/.pokeeper/snapshots/72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e.po": 2,
+        "cph-translation/.pokeeper/snapshots/97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510.po": 2,
+        "cph-translation/inputs/ccb-10715293685.zh_CN.po": 2,
+        "cph-translation/inputs/cdda-11003869087.zh_CN.po": 2,
+        "cph-translation/inputs/cph.pot": 149,
+        "cph-translation/inputs/notices/ccb-bcb85682/LICENSE-OFL-Terminus-Font.txt": 1,
+        "cph-translation/inputs/notices/ccb-bcb85682/LICENSE-SDL.txt": 4,
+        "cph-translation/inputs/notices/ccb-bcb85682/LICENSE-libbacktrace.txt": 3,
+        "cph-translation/inputs/notices/ccb-bcb85682/LICENSE.txt": 3,
+        "cph-translation/inputs/notices/ccb-bcb85682/config": 1,
+        "cph-translation/inputs/notices/ccb-bcb85682/data/credits/fr.credits": 5,
+        "cph-translation/inputs/notices/ccb-bcb85682/data/credits/hu.credits": 2,
+        "cph-translation/inputs/notices/cdda-325f6822/LICENSE.txt": 4,
+        "cph-translation/inputs/notices/cdda-325f6822/config": 1
+      },
+      "reason": "Only unchanged upstream PO/POT/license bytes and their content-addressed snapshots; historical sources remain byte-exact."
+    },
+    {
+      "command": "git diff --cached --check -- . :(exclude)cph-translation/inputs :(exclude)cph-translation/.pokeeper/snapshots",
+      "status": "PASS",
+      "exit_code": 0,
+      "scope": "Owned code, current PO/state and documentation; immutable source bytes excluded explicitly."
+    },
+    {
+      "command": "AST comparison for whitespace-only cleanup of save_batch_response.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "scope": "Seven whitespace-only lines; no functional changes."
+    }
+  ],
+  "fixed_ids": [
+    "37c5067147ba22bac207cf15b9dc612ab1a41c21fa197e9a8c1896f20f58019a",
+    "b253e7f831ed0cda2319f28467a100206209b9002148006a2c38bcd980622acd"
+  ],
+  "protected_before": 256,
+  "protected_after": 258,
+  "baseline_before": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+  "baseline_after": "ea44f957f2188f6a954635b8bd292d85eb4f60a2b8661312164d66f205c12d9d",
+  "po_sha256": "ea44f957f2188f6a954635b8bd292d85eb4f60a2b8661312164d66f205c12d9d",
+  "state_sha256": "a969e1ea21af4ccf271082d63640266140c373d4c69bec416b523b8eb7216758",
+  "mo": {
+    "path": "cph-translation/zh_CN-reviewed.mo",
+    "bytes": 20492017,
+    "sha256": "c3dc9c33471f0e9c46dd67fc8e2bc2cabec22933fac94087cfcb5ef4c8de1360"
+  },
+  "sources": {
+    "upstream": 113574,
+    "external": 3076,
+    "human": 258,
+    "gemini": 316
+  },
+  "not_run": [
+    "Model API requests",
+    "Game repository modifications or MO installation",
+    "Game runtime/CI validation",
+    "Full semantic review of all translations",
+    "Remote push or publication"
+  ],
+  "submission_scope": "Initial local repository commit: tool, reproducible PO/POT inputs, current PO/state and all referenced source snapshots, attribution and compact review evidence. Historical candidate payloads/caches/builds remain local and ignored.",
+  "limitations": [
+    "The two user-authorized reviewed PO edits are protected by the same baseline policy as contributor edits.",
+    "Twelve deterministic flags remain explained by the prior bounded review; this is not full linguistic acceptance.",
+    "Historical batches/candidate manifests contain absolute paths and stale application baselines; they are audit evidence, not replayable candidates."
+  ]
+}

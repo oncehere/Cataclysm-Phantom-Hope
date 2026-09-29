@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'spined daemon'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a39348d17d07a0652b90436ad61be6c83014aa7fb2e487f9f436febf6f9e7342",
+      "identity": [
+        null,
+        "The %s melts, leaving only a bloodstain!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %s melts, leaving only a bloodstain!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Help message in menu 'Mind Over Matter: Using Psionic Powers'",
+      "flags": [],
+      "id": "a3a1bbc0926702ee4c8379ec6ab3593b84ef33e0bd280091c11a6eb38489b68f",
+      "identity": [
+        null,
+        "Powers have a chance to fail based on a number of factors.  The most important by far is your Metaphysics skill vs. the power's Difficulty, and the chance of failure is also reduced by your intelligence and, to a much lesser extent, the power's level.  It is increased by having a high Nether Attunement, by channeling several powers in short succession, and by having higher weariness levels (Moderate or above). Your chance of success is capped based on whether you have the concentration proficiencies or not; only with Concentration (Master) can you reach 100% chance to succeed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/help_files.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Powers have a chance to fail based on a number of factors.  The most important by far is your Metaphysics skill vs. the power's Difficulty, and the chance of failure is also reduced by your intelligence and, to a much lesser extent, the power's level.  It is increased by having a high Nether Attunement, by channeling several powers in short succession, and by having higher weariness levels (Moderate or above). Your chance of success is capped based on whether you have the concentration proficiencies or not; only with Concentration (Master) can you reach 100% chance to succeed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "a3b6bc7dc022e096eb87df59fa2c0a41bb73f2db728fc1269608432120042040",
+      "identity": [
+        null,
+        "disconnected bulk liquid tank",
+        "disconnected bulk liquid tanks"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/appliances.json",
+          ""
+        ]
+      ],
+      "plural": "disconnected bulk liquid tanks",
+      "singular": "disconnected bulk liquid tank",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "a3ba03b110549aa0c677ed63694a8837003ae8cb1c4b09b139be2595cf5678b7",
+      "identity": [
+        null,
+        "Shielded Youth",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shielded Youth",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of practice 'airship piloting drills'",
+      "flags": [],
+      "id": "a3d0a7e1a25fdaac8321330355497e075159b8832011089d8e94691e4799e339",
+      "identity": [
+        null,
+        "Practice airship piloting with a flight manual, reviewing lift, ballast, wind drift, and propeller steering procedures.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/practice/aircraft.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Practice airship piloting with a flight manual, reviewing lift, ballast, wind drift, and propeller steering procedures.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "a3e15f010c0e52ebadbae8a359ac644d561e7eebce9e3947bee4ae71ac6a5dfc",
+      "identity": [
+        null,
+        "inactive surgical bonebot",
+        "inactive surgical bonebots"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_robots.json",
+          ""
+        ]
+      ],
+      "plural": "inactive surgical bonebots",
+      "singular": "inactive surgical bonebot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Bulky Bionics'",
+      "flags": [],
+      "id": "a41458ae045f50ec44049c024a8a0dafdb2530f21b40d975c70e55ed027670fa",
+      "identity": [
+        null,
+        "Your Exodii Cyberframe is so large that you won't fit through very small spaces, and you cannot wear most normal-sized clothing and armor.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/cybernetic_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your Exodii Cyberframe is so large that you won't fit through very small spaces, and you cannot wear most normal-sized clothing and armor.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'activation_message' action message of item 'cannabis wax'",
+      "flags": [],
+      "id": "a42bab836e94e29b36d2a9b29b58ca4f0ebf7315fd0291ae1d46b4a6b1f4c820",
+      "identity": [
+        null,
+        "You take a dab of wax.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You take a dab of wax.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a45399492b5be1498cc013ec6b3bd12cf0f647c88c7cc6509d499eb74e4a98e6",
+      "identity": [
+        null,
+        "&You sit down and activate the screen, trying to ignore your awkward positioning, and within a few moments are greeted with a login prompt.\n\n\"Project SHADOW URGE.  Enter login credentials.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You sit down and activate the screen, trying to ignore your awkward positioning, and within a few moments are greeted with a login prompt.\n\n\"Project SHADOW URGE.  Enter login credentials.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'afs_personal_card'",
+      "flags": [],
+      "id": "a45e0ebecd4bce56a10907ab41ff12edbb482580644b8bad3c44cec99e4fd123",
+      "identity": [
+        null,
+        "A person wrapped up in bandages in a hospital bed is pictured on the front of this card.  \"Get well soon!!!\n\n Torrance, I'm sorry you feel ill but many new colonists forget to process any foodstuffs from Salus IV to remove the macronutrient.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/snippets/personal_cards.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A person wrapped up in bandages in a hospital bed is pictured on the front of this card.  \"Get well soon!!!\n\n Torrance, I'm sorry you feel ill but many new colonists forget to process any foodstuffs from Salus IV to remove the macronutrient.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Iron Safari'",
+      "flags": [],
+      "id": "a49b88af849aac800ff16cbb62cc2f569c6c1fa6e39f46c876109f2e4b053c95",
+      "identity": [
+        null,
+        "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need to read the 'trifacet handling procedures' manual before trying to deactivate it</color>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need to read the 'trifacet handling procedures' manual before trying to deactivate it</color>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '纳川息'",
+      "flags": [],
+      "id": "a4a6540d6844571e0ac3bd20b5329a5fe9f149ba4db183ece4019c74b5ca1322",
+      "identity": [
+        null,
+        "玄渊心法的吐纳法门。心静如止水，纳水行至阴之气，丹田如渊纳百川。修炼使灵气蓄养更深更广。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "玄渊心法的吐纳法门。心静如止水，纳水行至阴之气，丹田如渊纳百川。修炼使灵气蓄养更深更广。",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "weariness": "疲劳"
+  }
+}

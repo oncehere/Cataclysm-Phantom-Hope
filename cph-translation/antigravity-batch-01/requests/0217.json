@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cf13e8c5d8932eef6dca0a5adfcbca7ba5c58c9a71b50d2e5128325c00dcd927",
+      "identity": [
+        null,
+        "Your partner is leaving.  The game has been saved.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "2648"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner is leaving.  The game has been saved.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'drained sewage channel'",
+      "flags": [],
+      "id": "cf3592a217037aed2b6de61091aa480ab85b1fd3eba7675c7c8ce204fae55381",
+      "identity": [
+        null,
+        "A foul, muddy channel left after the sewage was drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A foul, muddy channel left after the sewage was drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cf37f9bc98bef6ab3b5bf8bbd3079e480406d50232e71bdd968e99aeb7e41231",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_fencing_footwork>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_fencing_footwork>]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "cf6107370801242cb3a082ca848935477199f4f4d8f03d3ba01c90689877ac40",
+      "identity": [
+        null,
+        "Dr. Liu told us that following recent developments they've authorized the formation of XEDRA-23 to study XE323 and turned over all samples of XE323 to it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Liu told us that following recent developments they've authorized the formation of XEDRA-23 to study XE323 and turned over all samples of XE323 to it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cf6303a95b958719e649dd37b0afbf93cfef6614b94b1b74410c64d1302a0d13",
+      "identity": [
+        null,
+        "Abilities",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3399"
+        ]
+      ],
+      "plural": null,
+      "singular": "Abilities",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cf65173ec1eac2f78ce8d32e9ba7af8e60c23afcdbb830023347ecc3751fdeb1",
+      "identity": [
+        null,
+        "Search keybindings",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1397"
+        ],
+        [
+          "src/input_context.cpp",
+          "1400"
+        ]
+      ],
+      "plural": null,
+      "singular": "Search keybindings",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "cf73dc62a45845f12de6607e269d28fed8b1ba5c254f7c9139e4c4e30b1d0c42",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nCurrent Power Level: <u_spell_level:telepathic_morale_knack>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/recipes/practice/psychic_knacks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nCurrent Power Level: <u_spell_level:telepathic_morale_knack>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'heightened_senses'",
+      "flags": [],
+      "id": "cf9100fe15399cbba01f9fe2f68623d5f4b8b8949817a0fb215f471ee0fbcfd8",
+      "identity": [
+        null,
+        "Heightened senses",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Heightened senses",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cf93e4037a49824c105339a1c16977c5f67f61e378c4558ac2f8c4741300001c",
+      "identity": [
+        null,
+        "I volunteered for the Exodii to give me these implants, but don't worry, there's still a red white and blue American in this shell, ready to serve science and humanity.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I volunteered for the Exodii to give me these implants, but don't worry, there's still a red white and blue American in this shell, ready to serve science and humanity.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cf99578b05112e08dc281591818aa62839f5bfe0330c12ff86543e991a877b38",
+      "identity": [
+        null,
+        "Pickup range",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3634"
+        ]
+      ],
+      "plural": null,
+      "singular": "Pickup range",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cfc01131073a1712dd3df8fa3072a3e31989fb7be271f91c09b0d1b148e1b0c5",
+      "identity": [
+        null,
+        "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say.  Try to keep everything intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say.  Try to keep everything intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cfef0b53354cc21240fd2c09adc38199fb9c39d5f706ac71e4c97ac7bd1c36e3",
+      "identity": [
+        null,
+        "Splendid!  With it, we will be one step closer of breaking the vampires' monopoly on agelessness!  Bring it here, and I'll prepare it for Leonard.  This rejuvenation will be very beneficial to his health and ability to flee this place alongside us if vampires or something else wreck it down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Splendid!  With it, we will be one step closer of breaking the vampires' monopoly on agelessness!  Bring it here, and I'll prepare it for Leonard.  This rejuvenation will be very beneficial to his health and ability to flee this place alongside us if vampires or something else wreck it down.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

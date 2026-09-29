@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f95e9fc9191d77775c90ce3882c0455253780fe218070c5e46da7d0caff937c3",
+      "identity": [
+        null,
+        "CO-OP: may break.  Some scripted effects (e.g. the immortal snail instant-kill) don't apply to the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "129"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Some scripted effects (e.g. the immortal snail instant-kill) don't apply to the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_clairsentience'\n~ Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian\ndesignation for use of clairsentience to find appropriate portal targets\nfor immersion dives is COLD BELOW",
+      "flags": [],
+      "id": "f95f1c99bfea0db1bf77858ad7ecaaaa3cecbb9c1e8ef77cd3dd5b7f15e5317a",
+      "identity": [
+        null,
+        "J99 was blindfolded and placed in a dark room, spotlit from above, and several members of security were given one dozen ping-pong balls with instructions to throw them at J99 when the signal was given.\n\nTest 1: One security guard as thrower, five seconds advance warning.  J99 avoided every single ball.\nTest 2: Three security guards as throwers, five seconds advance warning.  J99 avoided 25 balls before being grazed by one on the upper arm.\nTest 3: Three security guards as throwers, one second advance warning.  Similar results to test 2, though J99 avoided 20 balls this time.\nTest 4: Three security guards as throwers, no warning.  J99 avoided 18 balls before being hit, though their movements were notably lest coordinated than in previous tests.\nTest 5: Five security guards as throwers, no warning.  J99 avoided 8 balls before being hit.  As expected, with a high enough volume of fire the human body simply cannot move fast enough to avoid them all even if their paths are known.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "J99 was blindfolded and placed in a dark room, spotlit from above, and several members of security were given one dozen ping-pong balls with instructions to throw them at J99 when the signal was given.\n\nTest 1: One security guard as thrower, five seconds advance warning.  J99 avoided every single ball.\nTest 2: Three security guards as throwers, five seconds advance warning.  J99 avoided 25 balls before being grazed by one on the upper arm.\nTest 3: Three security guards as throwers, one second advance warning.  Similar results to test 2, though J99 avoided 20 balls this time.\nTest 4: Three security guards as throwers, no warning.  J99 avoided 18 balls before being hit, though their movements were notably lest coordinated than in previous tests.\nTest 5: Five security guards as throwers, no warning.  J99 avoided 8 balls before being hit.  As expected, with a high enough volume of fire the human body simply cannot move fast enough to avoid them all even if their paths are known.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'shallow pit'",
+      "flags": [],
+      "id": "f95fa5fb305b9a8a7b5674d49f82dee0109b607e25da3debd14a2e6d66b37957",
+      "identity": [
+        null,
+        "A pit that could be dug even deeper or filled up.  Also useful as a starting foundation for some constructions.  You can also use it to contain a fire.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-traps.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A pit that could be dug even deeper or filled up.  Also useful as a starting foundation for some constructions.  You can also use it to contain a fire.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'grave_label'\n~ these labels are meant for graves made during or after the initial\nCataclysm, riots, or portal storm craziness and are not meant for pre-\napocalypse grave sites.",
+      "flags": [],
+      "id": "f994f82d98b72d66f191c045df65fa48a1d17215e890dc0d496ccc8daf7745b8",
+      "identity": [
+        null,
+        "<lt>nothing is written here<gt>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/grave_labels.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<lt>nothing is written here<gt>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry shallow pond bottom'",
+      "flags": [],
+      "id": "f9a85be16b58e05515b95d2fe124b658af4f0129dc069064468c8279a3626703",
+      "identity": [
+        null,
+        "The muddy bottom of a drained shallow pond.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy bottom of a drained shallow pond.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'short socks'",
+      "flags": [],
+      "id": "f9de8f860eb5a2892e270efb2e797be19bfd79a5bce684922f3c32a45ad79dc9",
+      "identity": [
+        null,
+        "Socks reaching below the ankle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Socks reaching below the ankle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f9fd9c27aaa9999418b4f45421bea1c8994ef187da7c3b7f4e98d91ad1af20be",
+      "identity": [
+        null,
+        "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled or repaired, or a good fishing spot.  Then talk to me about my current activity and tell me to sort stuff, or build stuff, or cut down trees, or repair or dismantle a vehicle, or do farmwork, or catch some fish, and I'll go off and do my best to get what you want done.\n  If I need tools, you should leave them in a loot zone near where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I promise to put stuff back in an unsorted loot zone when I'm finished.\n  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/TALK_ALLY_TUTORIAL.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled or repaired, or a good fishing spot.  Then talk to me about my current activity and tell me to sort stuff, or build stuff, or cut down trees, or repair or dismantle a vehicle, or do farmwork, or catch some fish, and I'll go off and do my best to get what you want done.\n  If I need tools, you should leave them in a loot zone near where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I promise to put stuff back in an unsorted loot zone when I'm finished.\n  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "fa0994a55095e922f387b1ae066b2de0d467d07f9f045758975e1b92ee562b4c",
+      "identity": [
+        null,
+        "popular science book",
+        "popular science books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "popular science books",
+      "singular": "popular science book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Weald-Walking'",
+      "flags": [],
+      "id": "fa1456c2bbdf5dd59e49e2777f50c5e2c95b3d0cbdcc94df510d6204ef4166e2",
+      "identity": [
+        null,
+        "You beseech the leaves and the roots to speed your passage through the forest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You beseech the leaves and the roots to speed your passage through the forest.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "fa231c5843826e99fc05aed5684169858fcb231e3392241927213fa4f567a9ec",
+      "identity": [
+        null,
+        "history book (modern)",
+        "history books (modern)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "history books (modern)",
+      "singular": "history book (modern)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'religion book'",
+      "flags": [],
+      "id": "fa68ab377c72c20939abe6b0347afb3d4dc1da892fe1047ce799b52a65b21a14",
+      "identity": [
+        null,
+        "A book about religion, not a religious book.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A book about religion, not a religious book.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fa7b2dbc864524dfdba9e8250d9404bb586f2e6eee958c1a51f86d24fac465b9",
+      "identity": [
+        null,
+        "So, how would I get to these \"labyrinths\"?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So, how would I get to these \"labyrinths\"?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

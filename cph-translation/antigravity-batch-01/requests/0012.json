@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'spined daemon'",
+      "flags": [],
+      "id": "0016f2798dbfcdb50f70f6be7f8b9e66e84824cac9133f901255bd7cbe0cdeb3",
+      "identity": [
+        null,
+        "A mass of spined chitin and muscle, this creature stalks on four clawed legs with a lashing tail behind, but from where its head should be, a torso erupts.  The actual head is insectile, with a massive pair of mandibles and a set of compound eyes, but the torso has two reptilian arms.  Each arm splits at the elbow into a pair of forearms, ending with vicious claws.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A mass of spined chitin and muscle, this creature stalks on four clawed legs with a lashing tail behind, but from where its head should be, a torso erupts.  The actual head is insectile, with a massive pair of mandibles and a set of compound eyes, but the torso has two reptilian arms.  Each arm splits at the elbow into a pair of forearms, ending with vicious claws.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "0022c5a0291d14fb719a201d655ebc81ce70cdf78c514ca184c9b925611cd438",
+      "identity": [
+        null,
+        "deathrattle snakelet",
+        "deathrattle snakelet"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": "deathrattle snakelet",
+      "singular": "deathrattle snakelet",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "00517b0b97a167988be0c9966dea454343ff48bc957e31060c61af57ff59b65d",
+      "identity": [
+        null,
+        "Madness and Civilization",
+        "copies of Madness and Civilization"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Madness and Civilization",
+      "singular": "Madness and Civilization",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun/tool '377-UASTA (weaponized)'",
+      "flags": [],
+      "id": "0073053017aa498cb2d16527fe84404fe8187ac7e3f652d8cc57c87e0f1180cd",
+      "identity": [
+        null,
+        "A common modification for directed plasma torches that involves the installation of oversize capacitor banks and judiciously bypassed safety mechanisms, allowing them to function as a deadly if decidedly short-ranged weapons.  In most cases, the resulting \"gun\" can still perform its original metalworking functions, albeit at a much lower efficiency.\n\nUnlike purposefully made plasma weapons, the propelled plasma bottle won't cause a considerable explosion upon contact, allowing for relatively safe operation within enclosed spaces.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/gun/plasma.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A common modification for directed plasma torches that involves the installation of oversize capacitor banks and judiciously bypassed safety mechanisms, allowing them to function as a deadly if decidedly short-ranged weapons.  In most cases, the resulting \"gun\" can still perform its original metalworking functions, albeit at a much lower efficiency.\n\nUnlike purposefully made plasma weapons, the propelled plasma bottle won't cause a considerable explosion upon contact, allowing for relatively safe operation within enclosed spaces.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Artifact Teleport'",
+      "flags": [],
+      "id": "00b4dddceb4c45b87c48afcbf7321bdc991cdb1bbcd5b54f5e4525b9f070dcc5",
+      "identity": [
+        null,
+        "It's not like you were teleported somewhere else, rather the whole world has shifted around you, and you are left in the same place.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/XAEA.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's not like you were teleported somewhere else, rather the whole world has shifted around you, and you are left in the same place.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "00cd8b1a056cd14fae8c647c1ae8fabd2739b4cda20ac5ca91cf4010c8f1b0bc",
+      "identity": [
+        null,
+        "She was alone when the fires started and the world went to hell.  I was working on something.  I tried to make it to her, but the whole area was a war zone.  Things I can't describe lurching along, crushing people and worse.  Some people were trying to stop them, but hitting other people trying to get away as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually <freaking> made it alive.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/lost_partner_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "She was alone when the fires started and the world went to hell.  I was working on something.  I tried to make it to her, but the whole area was a war zone.  Things I can't describe lurching along, crushing people and worse.  Some people were trying to stop them, but hitting other people trying to get away as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually <freaking> made it alive.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "00f638c540576416afc3fe5c9249520ea1851c23725863e0d8e5bdec4ac77fb7",
+      "identity": [
+        null,
+        "Try a random username and password.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Try a random username and password.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DRINK_ABYSSAL_COFFEE'",
+      "flags": [],
+      "id": "01180f7d7a2d00c724a5097c1f3de7f7185703a4119b364bb0434f83a7001f83",
+      "identity": [
+        null,
+        "You drink the coffee.  It may be the most bitter thing you've ever drunk.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You drink the coffee.  It may be the most bitter thing you've ever drunk.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "011821b9f3690242a5d4996161f81dc1a2cc4fafee5b763ced8b5492f24f79e2",
+      "identity": [
+        null,
+        "flowing water channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "flowing water channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "011de37b956afcf8499c13cd8c2528c8d69b15d934116bbbe8104c10c6e21c6b",
+      "identity": [
+        null,
+        "You succeed in antagonizing both parties.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You succeed in antagonizing both parties.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_sec'\n~ Long-form interrogation transcripts, surveillance logs",
+      "flags": [],
+      "id": "011f20ba19040c4f4bc00525e6beb3243f3ca4420dcf02b3bed2be086f456d6a",
+      "identity": [
+        null,
+        "<color_green>BACKTRACE OF INCIDENT X12/ES081, CIVILIAN VIDEO FOOTAGE EXTRACTED, ENHANCED AND VISUALLY TRANSCRIBED BY MELCHIOR\nTARGET SEATED ON THE TERRACE OF JONES WHARF SEAFOOD, BATH, ME</color>\nS-1010:\"Why would you think meeting aboveground is a good idea?\"\"\n\nM-3825:\"Come on, seeing the sky is nice.  I also can't shake the feeling that they are running the water recirculation system already, so I wanted to drink coffee that I'm pretty sure isn't made of my own piss.\"\n\nS-1010:\"You said you wanted to discuss something important?\"\n\nM-3825:\"What are your guys working on?\"\n\nS-1010:\"You can't be this stupid, Adrian.  I'm leaving.\"\n\nM-3285:\"Dad, I know you consider my profession a \"bunch of feelgood bullshit\", but the impact the work has on your people makes me worry about… well, everything.  The dreams, the new phobias, the occasional honest sentence they blurt out by mistake, it's all decidedly apocalyptic.\"\n\nS-1010:\"You always had an overactive imagination.  I thought bringing you onboard would help keep you out of trouble, but I was obviously mistaken.  If you'll excuse me, I need to go organize the expedited reassignment of an unreliable Psych consultant.\"\n\nM-3285:\"Charming as always, but I already requested the termination of my employment from Admin.  I'll have my hands full soon, and I don't feel like being stuck in that hole with a baby when whatever makes your people dream of eating their mother alive happens.\"\n\nS-1010:\"…what?\"\n\nM-3285:\"You heard me just fine, Dad.  I'm leaving our employer to be a better father than the one I grew up with, but I need to know if I should make any preparations for the future.  So I ask again, for the last time: should I be worried about the world?\"\n\nS-1010:\"No, Adrian, you should be worried about providing for your family.  Leave worrying about the world to the people who can actually do something about it.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_green>BACKTRACE OF INCIDENT X12/ES081, CIVILIAN VIDEO FOOTAGE EXTRACTED, ENHANCED AND VISUALLY TRANSCRIBED BY MELCHIOR\nTARGET SEATED ON THE TERRACE OF JONES WHARF SEAFOOD, BATH, ME</color>\nS-1010:\"Why would you think meeting aboveground is a good idea?\"\"\n\nM-3825:\"Come on, seeing the sky is nice.  I also can't shake the feeling that they are running the water recirculation system already, so I wanted to drink coffee that I'm pretty sure isn't made of my own piss.\"\n\nS-1010:\"You said you wanted to discuss something important?\"\n\nM-3825:\"What are your guys working on?\"\n\nS-1010:\"You can't be this stupid, Adrian.  I'm leaving.\"\n\nM-3285:\"Dad, I know you consider my profession a \"bunch of feelgood bullshit\", but the impact the work has on your people makes me worry about… well, everything.  The dreams, the new phobias, the occasional honest sentence they blurt out by mistake, it's all decidedly apocalyptic.\"\n\nS-1010:\"You always had an overactive imagination.  I thought bringing you onboard would help keep you out of trouble, but I was obviously mistaken.  If you'll excuse me, I need to go organize the expedited reassignment of an unreliable Psych consultant.\"\n\nM-3285:\"Charming as always, but I already requested the termination of my employment from Admin.  I'll have my hands full soon, and I don't feel like being stuck in that hole with a baby when whatever makes your people dream of eating their mother alive happens.\"\n\nS-1010:\"…what?\"\n\nM-3285:\"You heard me just fine, Dad.  I'm leaving our employer to be a better father than the one I grew up with, but I need to know if I should make any preparations for the future.  So I ask again, for the last time: should I be worried about the world?\"\n\nS-1010:\"No, Adrian, you should be worried about providing for your family.  Leave worrying about the world to the people who can actually do something about it.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "0123c8aaa98f5cd5e19d78f14dfca72706e0c7fc7b1b1b7d692baba071380a4c",
+      "identity": [
+        null,
+        "drained sewage channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "drained sewage channel",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

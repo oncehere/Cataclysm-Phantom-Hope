@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Gremlinize'",
+      "flags": [],
+      "id": "90dedbe10920e9689734f61d05b81891978e1a31f6a2315c63be6918404c8e00",
+      "identity": [
+        null,
+        "This glamour plays haywire with the systems of machines, overloading them for a time and damaging them slightly.  The glamour does <color_yellow>reduced damage</color> in spring.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This glamour plays haywire with the systems of machines, overloading them for a time and damaging them slightly.  The glamour does <color_yellow>reduced damage</color> in spring.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Widen Spell'",
+      "flags": [],
+      "id": "90e2d6553381aef4a468df2deba8b8ddc17c07fa480351d12221a83b88891efc",
+      "identity": [
+        null,
+        "You have learned to cast spells that affects a larger area.  +100% area of effect, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have learned to cast spells that affects a larger area.  +100% area of effect, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'experimental seedlings'",
+      "flags": [],
+      "id": "90eed9318ee8ace278c3a714e3c2510ccec77e8fc511113e19845f6b945a1e6a",
+      "identity": [
+        null,
+        "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/cryostorage_loot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "90fc0b15725a5628ed1158cdb44408f7aff35aa560e79574e59069eabdb5fbc4",
+      "identity": [
+        null,
+        "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Temperature cannot affect you while on the island.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Temperature cannot affect you while on the island.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'",
+      "flags": [],
+      "id": "9108300d38f0c62a1346740e7ea33a21fcd6ab57af2f8f1a841b976b3fbc457d",
+      "identity": [
+        null,
+        "209809238942181449.jpg\n\nA screenshot of a Facebook post, with a picture of a ravenfolk wearing six large gold necklaces, rings on each one of their talons, and gold bracelets around their legs, taken at some sort of music festival.  Their arm is around another ravenfolk, who is wearing a flashy dress made of a series of multi-colored scarves, and both of them have their beaks open as though the picture were taken mid-laugh.  In the background are several people, walking around under a night sky lit by several floodlights.  The caption reads, \"EDC!!  At last!!  Living the dream\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "209809238942181449.jpg\n\nA screenshot of a Facebook post, with a picture of a ravenfolk wearing six large gold necklaces, rings on each one of their talons, and gold bracelets around their legs, taken at some sort of music festival.  Their arm is around another ravenfolk, who is wearing a flashy dress made of a series of multi-colored scarves, and both of them have their beaks open as though the picture were taken mid-laugh.  In the background are several people, walking around under a night sky lit by several floodlights.  The caption reads, \"EDC!!  At last!!  Living the dream\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_RandEnc_March_Lord_Hunting_Party'",
+      "flags": [],
+      "id": "910cf71fe8516a6b6dad2ed76cfb0c3147a7d36413bbd77c037d769e0a7d8f64",
+      "identity": [
+        null,
+        "Xedra Evolved March Lord hunt encounter has triggered!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/march_lord_hunt_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Xedra Evolved March Lord hunt encounter has triggered!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'TsKBEM Udarnik'",
+      "flags": [],
+      "id": "910f430e8e52a2ed8c000b310121d500e36883a1f662ff9e758723ae998e99f3",
+      "identity": [
+        null,
+        "A highly customizable light industrial and agricultural robot.  Its original design dates back to the ancient Soviet Union; the aptly named Udarnik \"shock worker\" was the trigger behind the automation revolution, and with subsequent adaptations, became the workhorse of early human space colonization.  Although outdated by modern standards, the Udarnik is still commonly seen in frontier worlds - thanks to its easily obtainable fabrication schematics.\n\nThis particular version is equipped with a mix of construction and heavy cargo-handling tools and was likely involved in the construction of colony buildings.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/robots.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A highly customizable light industrial and agricultural robot.  Its original design dates back to the ancient Soviet Union; the aptly named Udarnik \"shock worker\" was the trigger behind the automation revolution, and with subsequent adaptations, became the workhorse of early human space colonization.  Although outdated by modern standards, the Udarnik is still commonly seen in frontier worlds - thanks to its easily obtainable fabrication schematics.\n\nThis particular version is equipped with a mix of construction and heavy cargo-handling tools and was likely involved in the construction of colony buildings.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "91269749c9ccc734e750cdd3d4bb0572d67362ad87561b5dd92db0d2dddadbef",
+      "identity": [
+        null,
+        "autobiography",
+        "autobiographies"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "autobiographies",
+      "singular": "autobiography",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Light as a Spider's Thread'",
+      "flags": [],
+      "id": "9145deab5777e513ea6825c7559a7fb9bf78eb0a8cafd95fbe9662a7723d0953",
+      "identity": [
+        null,
+        "Your gravity has been reduced further, increasing your carry capacity by 25% and granting you the ability to glide down from heights.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/vampire_trait_refinements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your gravity has been reduced further, increasing your carry capacity by 25% and granting you the ability to glide down from heights.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "91560c3550a02b4834c0e008587f8a061eedb2d3690bddf98e6b3a906f212bac",
+      "identity": [
+        null,
+        "Toxic food confirmation",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/distraction_manager.cpp",
+          "50"
+        ]
+      ],
+      "plural": null,
+      "singular": "Toxic food confirmation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'trunks'",
+      "flags": [],
+      "id": "91a3748da6339052a54b403757fe68bb479380d30e12c4d453d02447be9289d0",
+      "identity": [
+        null,
+        "Men underwear with a square shape cut.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Men underwear with a square shape cut.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "91c1f3113b14684c4dfd9e7d12544542dadf7a32fda84267f895991b7d768f21",
+      "identity": [
+        null,
+        "Ahh, now that's a big question.  Not something I'd share with anyone who wandered in.  But yes, I know, you have one of our interfaces.  You carry our trust with you, and maybe you have the right to know.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ahh, now that's a big question.  Not something I'd share with anyone who wandered in.  But yes, I know, you have one of our interfaces.  You carry our trust with you, and maybe you have the right to know.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

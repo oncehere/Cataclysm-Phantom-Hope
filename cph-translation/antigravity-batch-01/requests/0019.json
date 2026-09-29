@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of tool quality",
+      "flags": [],
+      "id": "073c5cc289380c9028d453ba7286e7072c082000228846cefeb2bd708b33b824",
+      "identity": [
+        null,
+        "non-iron hammering",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/tool_qualities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "non-iron hammering",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction_dream'",
+      "flags": [],
+      "id": "076c6fe1111548e3b03aa35c0b496232447dae4400fb1a1e5538d5d403d56f7e",
+      "identity": [
+        null,
+        "You wake up to the sounds of music outside of the house you are in.  When you exit the house, it is still the dead of night, but you can see a house across the way, well lit and open with people moving between the open doors.  Your dead relatives find you at the buffet and berate you for eating the food and drinking the drink at this party.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You wake up to the sounds of music outside of the house you are in.  When you exit the house, it is still the dead of night, but you can see a house across the way, well lit and open with people moving between the open doors.  Your dead relatives find you at the buffet and berate you for eating the food and drinking the drink at this party.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'boy shorts'",
+      "flags": [],
+      "id": "077c7a76ed1e83d65400708148f02dad2f0e38720b8790f081a37520062bcaea",
+      "identity": [
+        null,
+        "Women underwear with a small rectangular shape cut.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Women underwear with a small rectangular shape cut.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'claw hunter hatchling'",
+      "flags": [],
+      "id": "078cda01b9aa992e9e0fa9fdefabc9787e0e475ab13a315f64f87c83af54a870",
+      "identity": [
+        null,
+        "A small claw hunter hatchling with bedraggled feathers.  Its teeth are small now, but they won't be for long.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small claw hunter hatchling with bedraggled feathers.  Its teeth are small now, but they won't be for long.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "07a190b17c88dbfe15b60867707064877f1d19a64cb05a8594cae1d5d09749fb",
+      "identity": [
+        null,
+        "left rear tentacles (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacles (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Field intensity level",
+      "flags": [],
+      "id": "081b56001826c59386cf2c39bbc4801161a1022b1e06802b22005bbbc19bb496",
+      "identity": [
+        null,
+        "breaking ripple",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "breaking ripple",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0833f88ae0490bf1b7e39cfe10bfae9c84ed199d5cd99a6f339735f5b764c188",
+      "identity": [
+        null,
+        "Saved list of active mods as default.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2119"
+        ]
+      ],
+      "plural": null,
+      "singular": "Saved list of active mods as default.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_IG882_P'",
+      "flags": [],
+      "id": "083b850386fe3624fa361da677568d98895ebe9ede7f326761042199a1f5015a",
+      "identity": [
+        null,
+        "Greetings,\nThank you for your participation in the development of the PATIENT MOSAIC process.  Your work here will advance the foundation of human understand of the inner workings of the mind.\n\nThe PATIENT MOSAIC personality updating process allows the mathematician to change the fundamentals of their personality.  To turn a wallflower to the life of the party, to get rid of your deepest anxieties or fears, to cure depression instead of managing it with therapy or medication.  With refinement, all of these things will not only be possible, but easy, and you will be one of the people who makes it possible.\n\nAt the moment, PATIENT MOSAIC has two primary points of difficulty which you, as a participant, must be aware of.  The first is that it can only be executed by the mathematician upon themselves.  Despite continued progress in the functioning of the process, PATIENT MOSAIC cannot make even the smallest change on another person as of yet.  The second is that the mind is a complex thing and despite the new understanding that GRAY DAWN has brought to us, there is still much to learn.  Small changes can have unexpected ripple effects, leading to undesirable outcomes.  It should be stressed that none of these outcomes are irreversible, but due to the first point, any adverse effects incurred as as a result of the process must be reversed by you; XEDRA researchers and mathematicians cannot assist you except to diagnose any problems that may have resulted.\n\nWe welcome your assistance on this endeavor to expand the frontiers of human knowledge and thank you for your efforts toward the goals of Project PHAVIAN.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Greetings,\nThank you for your participation in the development of the PATIENT MOSAIC process.  Your work here will advance the foundation of human understand of the inner workings of the mind.\n\nThe PATIENT MOSAIC personality updating process allows the mathematician to change the fundamentals of their personality.  To turn a wallflower to the life of the party, to get rid of your deepest anxieties or fears, to cure depression instead of managing it with therapy or medication.  With refinement, all of these things will not only be possible, but easy, and you will be one of the people who makes it possible.\n\nAt the moment, PATIENT MOSAIC has two primary points of difficulty which you, as a participant, must be aware of.  The first is that it can only be executed by the mathematician upon themselves.  Despite continued progress in the functioning of the process, PATIENT MOSAIC cannot make even the smallest change on another person as of yet.  The second is that the mind is a complex thing and despite the new understanding that GRAY DAWN has brought to us, there is still much to learn.  Small changes can have unexpected ripple effects, leading to undesirable outcomes.  It should be stressed that none of these outcomes are irreversible, but due to the first point, any adverse effects incurred as as a result of the process must be reversed by you; XEDRA researchers and mathematicians cannot assist you except to diagnose any problems that may have resulted.\n\nWe welcome your assistance on this endeavor to expand the frontiers of human knowledge and thank you for your efforts toward the goals of Project PHAVIAN.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0857b77328d214952c4c72cc0c819f837a82249b7a2b9748cc401dde4337bae8",
+      "identity": [
+        null,
+        "&The negotiation is coming to an end…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The negotiation is coming to an end…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0863d99800acd3f0ba4075299537791bb1129e7f1e6119067a5d70d32a513cf2",
+      "identity": [
+        null,
+        "No messages to export.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/messages.cpp",
+          "841"
+        ]
+      ],
+      "plural": null,
+      "singular": "No messages to export.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'distorted image'",
+      "flags": [],
+      "id": "08778dd04407b3f3f2228e4a1b7984316cd445676525fd0da8e3641a010815b5",
+      "identity": [
+        null,
+        "The landscape looks warped and distorted here, as if had been unnaturally stretched above a thin membrane.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-nether.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The landscape looks warped and distorted here, as if had been unnaturally stretched above a thin membrane.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Uncaring'",
+      "flags": [],
+      "id": "08956eef724b25322846e8b02d74df1db4129f20d419cc7b8bc8f69cc493b69d",
+      "identity": [
+        null,
+        "The suffering of others does not affect you, they either serve a purpose or they do not.  It's pragmatism, nothing more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/vanilla_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The suffering of others does not affect you, they either serve a purpose or they do not.  It's pragmatism, nothing more.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected Serum Crash'",
+      "flags": [],
+      "id": "726dad854ede2b80fe984cdf806a66868605e59cec5bc330c61457a9d7d6c95e",
+      "identity": [
+        null,
+        "Your enhanced resilience has faded away, your skin is flushed, and everything hurts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/resilience_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your enhanced resilience has faded away, your skin is flushed, and everything hurts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'The Dying of the Year'",
+      "flags": [],
+      "id": "727e80102ed7c5857ef0d9940f7f66a7246ac7edfb784a873a72d1be40b2cb8c",
+      "identity": [
+        null,
+        "You throw both your hands wide and the vegetation around you starts to wither and die.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You throw both your hands wide and the vegetation around you starts to wither and die.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'handheld x-ray cannon'",
+      "flags": [],
+      "id": "72813421c7acb1da748d5412e70bd1c786e44bf5e8f8944da3216fd2af86ca47",
+      "identity": [
+        null,
+        "This is an x-ray laser stripped from a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for its ability to destroy power armor.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/gun/laser.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is an x-ray laser stripped from a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for its ability to destroy power armor.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "728c7621cbc339faec8ad04780d971cda0ec71c01c68da630dc4a85b43cb9384",
+      "identity": [
+        null,
+        "I guess I'll ask again another time.  <done_conversation_section>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I guess I'll ask again another time.  <done_conversation_section>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7299e713d161ced3e21efea448752268a32009a98c79cdbb142ac02a2f6384c1",
+      "identity": [
+        null,
+        "Would you be able to take out one of my bionic implants?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/NPC_old_guard_doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Would you be able to take out one of my bionic implants?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'CZ 75 B pistol'",
+      "flags": [],
+      "id": "72b85cdbec247e4e246e02287405cb938c64e5139db17f3709799ca769763637",
+      "identity": [
+        null,
+        "The CZ 75 B is a semi-automatic pistol developed in Czechoslovakia, and is one of the original wonder nines.  Though designed for export to western countries, it was declared a state secret; lack of international patent protection meant that many clones and variants were produced and distributed around the world, with Česká zbrojovka only joining in the 90's.  This pistol remains wildly popular among competition shooters.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/gun/9mm.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The CZ 75 B is a semi-automatic pistol developed in Czechoslovakia, and is one of the original wonder nines.  Though designed for export to western countries, it was declared a state secret; lack of international patent protection meant that many clones and variants were produced and distributed around the world, with Česká zbrojovka only joining in the 90's.  This pistol remains wildly popular among competition shooters.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "72d8d44177bb5fb23599a1d1e7824e94993755738e0c37d1c39d0ca7ac4ed66c",
+      "identity": [
+        null,
+        "The open channels fill with salt water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1164"
+        ]
+      ],
+      "plural": null,
+      "singular": "The open channels fill with salt water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "733c83dca17166e7f21885a04dfc281554bbfaf1a51cde4af1e9e5beda2c2cdb",
+      "identity": [
+        null,
+        "Unable to delete world \"%s\".  Some files or its folder could not be removed.  Close programs using the save directory, check its permissions, and try again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2407"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unable to delete world \"%s\".  Some files or its folder could not be removed.  Close programs using the save directory, check its permissions, and try again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "736a8e874600db6d79b567a981ed30ce37046990890dcf8c853676bc2f9388c7",
+      "identity": [
+        null,
+        "Any advice for the vampire I must try to cure?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Any advice for the vampire I must try to cure?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7375f019326dda048eff30af0c4498d5011f0b68c6897d039d9afb1d7d319b22",
+      "identity": [
+        null,
+        "[Update HUMAN DESIRES: LIVING SPACE available]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Update HUMAN DESIRES: LIVING SPACE available]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'general_graffiti_snippets'\n~ This graffiti is generally assumed to come from before the Cataclysm",
+      "flags": [],
+      "id": "73838333a0c1adcd0135f83aefba2fd69ee0735b020b1be7677cf4f7585529c9",
+      "identity": [
+        null,
+        "I <lt>3 <full_name>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/graffiti.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I <lt>3 <full_name>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "73851e31256f045cf8bd9af1801f4e6a9f79fc943498556178f67739fa21b876",
+      "identity": [
+        null,
+        "Well I'm heading out then.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/prepnet_dialogue.json",
+          ""
+        ],
+        [
+          "data/mods/aftershock_exoplanet/npcs/whately_generic_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well I'm heading out then.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

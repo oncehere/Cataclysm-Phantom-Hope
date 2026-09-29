@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "c30e5d01e5b969aee0c3bdb7f129d39791d6ca191616a39fe189f5e224c97905",
+      "identity": [
+        null,
+        "You pass the %s to %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10300"
+        ]
+      ],
+      "plural": null,
+      "singular": "You pass the %s to %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "c3187988789ff96fbaedba93df3787a402e710a1a0c6048a9245735c8fb0b690",
+      "identity": [
+        null,
+        "Conduct observation of the moon and study astrological charts to develop a corpus of research for lesser mysteries.  You must be outdoors at night to conduct your research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Conduct observation of the moon and study astrological charts to develop a corpus of research for lesser mysteries.  You must be outdoors at night to conduct your research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c328496a0dfbccf07f7d112ebb7fde3bbba01d39c5128d7ee4bc071d31cd7633",
+      "identity": [
+        null,
+        "I'm ready to become a true cyborg.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm ready to become a true cyborg.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c33dccce6c73668cc77f9f7ab1814c30d86c41fa67d62f4d90cdd8b2c9f0f2c8",
+      "identity": [
+        null,
+        "&Doc Stevens ties down your limbs, and gives you a firm nod.  Then he wipes his brow, again.  And then again with the other sleeve.  The bone saw quickens until it is spinning with a deafening sound.  Its biting teeth cut the air with a harsh whistle.  \"Hoowee, it's hot today.  Alright, give me just a second to boot up the twilight juice, yeah?  Stay still!\".\n\n<color_red>You have a VERY bad feeling about this.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Doc Stevens ties down your limbs, and gives you a firm nod.  Then he wipes his brow, again.  And then again with the other sleeve.  The bone saw quickens until it is spinning with a deafening sound.  Its biting teeth cut the air with a harsh whistle.  \"Hoowee, it's hot today.  Alright, give me just a second to boot up the twilight juice, yeah?  Stay still!\".\n\n<color_red>You have a VERY bad feeling about this.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c350953940bb7a687162498e08ce069250d0210220db20588c801c6ce0ca383e",
+      "identity": [
+        null,
+        "Copy",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/auto_pickup.cpp",
+          "296"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "321"
+        ]
+      ],
+      "plural": null,
+      "singular": "Copy",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c360a0acfe384c3d13d987f6fe9939b52f10969ac7e7cfe2c14529b0f4d880ae",
+      "identity": [
+        null,
+        "Not today.  That's too much to ask, and we can't spare the materials.  But, I'll give you some advice.  Keep up the working and trading, and maybe I'll change my mind one day.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Not today.  That's too much to ask, and we can't spare the materials.  But, I'll give you some advice.  Keep up the working and trading, and maybe I'll change my mind one day.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'THROW_KEEP_WIELDED'",
+      "flags": [],
+      "id": "c369f6d27e59a46f1731d2c6d15d72fed9176683591dace0efe450de8ee8b817",
+      "identity": [
+        null,
+        "Can be kept wielded while throwing another item, boosting the throw.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Can be kept wielded while throwing another item, boosting the throw.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c377412d09db6ca401b55bbe4444ede35fa21475e47eff8f24f4dc9526dc3025",
+      "identity": [
+        null,
+        "So you know about AltarOS, or at least where it's from.  Do you have a way to get back there?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So you know about AltarOS, or at least where it's from.  Do you have a way to get back there?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c37aacdfc6c6e4ab84259a158c7ef48ab7f461a1e5e79a5d0a665eada5cf2c48",
+      "identity": [
+        null,
+        "This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It will take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It will take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c384b51645f3d28a48b222237f205e094ec203d8a75f524c90a41de06c349af8",
+      "identity": [
+        null,
+        "[Hop off the exam table] Actually… maybe some other time.  I have some things to do.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Hop off the exam table] Actually… maybe some other time.  I have some things to do.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (Väinämöinen's Kantele, imitation)'",
+      "flags": [],
+      "id": "c3b1ebfdf48ef986f33816d937ac7352ac87a31eda459f8abb1c3c690f3490eb",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for…a musical instrument?  You didn't realize that alchemy could be used to get the band back together again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for…a musical instrument?  You didn't realize that alchemy could be used to get the band back together again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Not today.  That's too much to ask, and we can't spare the materials.\nBut, I'll give you some advice.  Keep up the working and trading, and maybe\nI'll change my mind one day.",
+      "flags": [],
+      "id": "c3de03aeb58757845bd8bd0b95fdfc69152e225c30931d6e84fbd1ec033abf0d",
+      "identity": [
+        null,
+        "Not today.  Too mighty an ask, and we can't spare the steelies.  But, I'll give ye a lump'a'ice.  Keep up work'n'trade, n' mayhaps somethin' changes one'a these days.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Not today.  Too mighty an ask, and we can't spare the steelies.  But, I'll give ye a lump'a'ice.  Keep up work'n'trade, n' mayhaps somethin' changes one'a these days.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

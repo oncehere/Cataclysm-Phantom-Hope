@@ -1,0 +1,43 @@
+{
+  "kind": "official-build-po",
+  "repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+  "commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+  "workflow_run": 35769923993,
+  "artifact_id": 10715293685,
+  "archive_sha256": "fa5008e9c674073cfa78a0f869edc17dbabde7b156cc2a459c9d0ed665555062",
+  "archive_bytes": 320257438,
+  "files": [
+    {
+      "member": "lang/po/zh_CN.po",
+      "path": "ccb-10715293685.zh_CN.po",
+      "bytes": 32311214,
+      "sha256": "72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e"
+    },
+    {
+      "member": "lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo",
+      "path": "ccb-10715293685.zh_CN.mo",
+      "bytes": 19746454,
+      "sha256": "879103d10f691e0db783a08be76b6b331224cd6656e68430cb218d269e5b67c1"
+    }
+  ],
+  "validation": {
+    "msgfmt_check_exit": 0,
+    "msgfmt_check_output": "113917 translated messages, 3072 untranslated messages.\n",
+    "entries": 116989,
+    "translated": 113917,
+    "fuzzy": 0,
+    "obsolete": 0,
+    "plural_forms": "nplurals=1; plural=0;",
+    "revision_date": "2026-06-25 16:49+0000",
+    "artifact_mo_equal_locked_runtime_mo_bytes": true,
+    "recompiled_po_equal_artifact_mo_catalog": true
+  },
+  "license": "CC BY-SA 3.0 with inherited notices",
+  "license_path": "notices/ccb-bcb85682/LICENSE.txt",
+  "credits_path": "notices/ccb-bcb85682/data/credits/zh_CN.credits",
+  "url": "https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/actions/runs/35769923993/artifacts/10715293685",
+  "limitations": [
+    "Artifact records a build snapshot, not a promise of live Transifex freshness.",
+    "Input PO bytes and translator comments remain unchanged."
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "2e8b7aaaec41666be3f09341eb5f10b3512f2db0e4f637a7384c1e516af6b0b3",
+      "identity": [
+        null,
+        "testing report C2-8850",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "testing report C2-8850",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (potion of terrible strength)'",
+      "flags": [],
+      "id": "2e9e39b6205a9f17185587d8057259bb79e950b4c3b7a271e15184f8f5713ed3",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a potion to increase your strength.  Written at the bottom is the note, \"Be very careful after drinking!\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a potion to increase your strength.  Written at the bottom is the note, \"Be very careful after drinking!\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2eadfe306520fb774faff3503ba9239b8fe4ee01533ee6dc563d1dcd828c3e5f",
+      "identity": [
+        null,
+        "Thanks for the advice.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks for the advice.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_summer_stay_awake_in_sunlight'\n~ Name of a spell",
+      "flags": [],
+      "id": "2ec90b4646d9c2f6742b43338d74d4e9877408b237594caa1b00df83f40f674c",
+      "identity": [
+        null,
+        "Invigorating Sunlight",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Invigorating Sunlight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2ed58ff476ac57d85ec37497c37d2d9c0246f63b947023bb5177a2dc1c0d3e29",
+      "identity": [
+        null,
+        "Maybe later.  Bye!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Maybe later.  Bye!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'claw runner hatchling'",
+      "flags": [],
+      "id": "2f14d2dc6143b70fb58b53d9ca3de5bb1935d875fa50d03aea746c43f3675b35",
+      "identity": [
+        null,
+        "A tiny claw runner hatchling with huge shiny eyes.  Its teeth are small now, but they won't be for long.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tiny claw runner hatchling with huge shiny eyes.  Its teeth are small now, but they won't be for long.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "2f33f3e417aad354cc83872ca2accc596bc65690127ebfcef63153be59baa00c",
+      "identity": [
+        null,
+        "Jacques Derrida essays",
+        "copies of Jacques Derrida essays"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Jacques Derrida essays",
+      "singular": "Jacques Derrida essays",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "2f35ee13fa137701803c380335af541eaabba0231e865c6dd0b2174ca80e64e7",
+      "identity": [
+        null,
+        "degraded nurdle",
+        "degraded nurdle"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/trash/resources.json",
+          ""
+        ]
+      ],
+      "plural": "degraded nurdle",
+      "singular": "degraded nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Corporate Aspirant'",
+      "flags": [],
+      "id": "2f7c6c8ef1cec31b4f352a80bc4cff6b070a1c3adabae335649d0afae347dd6b",
+      "identity": [
+        null,
+        "You were born and raised within a corporate creche, where your every action was monitored to asses your value.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You were born and raised within a corporate creche, where your every action was monitored to asses your value.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'Jedi cloak'",
+      "flags": [],
+      "id": "2f8311988118bbf242536349f88a4e4fb49e5f4f6bc062b8984fac59abb286b3",
+      "identity": [
+        null,
+        "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/cloaks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'wooden aircraft propeller'",
+      "flags": [],
+      "id": "2f8dd08c336cac59c794b4db483c0e5031fb464b800cd86e7c7bf6acbddb339e",
+      "identity": [
+        null,
+        "A wooden propeller and spinner from an airplane.  When attached to a vehicle, engine power will provide lift to any installed wings, allowing it to take off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/vehicle/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A wooden propeller and spinner from an airplane.  When attached to a vehicle, engine power will provide lift to any installed wings, allowing it to take off.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2fc7f89cd6bed09cdc164d195f707920b512674592de98ba64b8e4ff34f547d8",
+      "identity": [
+        null,
+        "No valid vehicle service output zone is available for the removed items.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1034"
+        ]
+      ],
+      "plural": null,
+      "singular": "No valid vehicle service output zone is available for the removed items.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

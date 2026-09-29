@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "3208e474880e6f0becfe1b00d4737187f36eb3806e66f8c860675e425cf673ec",
+      "identity": [
+        null,
+        "Beyond Good and Evil",
+        "copies of Beyond Good and Evil"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Beyond Good and Evil",
+      "singular": "Beyond Good and Evil",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "32266f195012abbe6633c9e37d86b54e636bc9d117f6d50f93ac8544ed9b96a6",
+      "identity": [
+        null,
+        "I can use my heartvines to cure people from vampirism.  I let the heartvines enter their veins where the curse will be destroyed by the heartvines and their intense desire to kill all vampires.  It's painful for them, but it's better than staying a vampire.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can use my heartvines to cure people from vampirism.  I let the heartvines enter their veins where the curse will be destroyed by the heartvines and their intense desire to kill all vampires.  It's painful for them, but it's better than staying a vampire.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "32313eb0b95f92dfff0c04fdc5c1015579446ad357b13a227601536a7c1c3a8c",
+      "identity": [
+        null,
+        "abstract socks",
+        "abstract socks"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": "abstract socks",
+      "singular": "abstract socks",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "32767e8c326c445267574ce02cae80805670fec2b073cb40477050995a47d45d",
+      "identity": [
+        null,
+        "No.  Can't offer ye that.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  Can't offer ye that.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'HEW printout MROTS-S'",
+      "flags": [],
+      "id": "32aadf3c12c39219da0605bd9ecd75365c648ca6f6b38fb62492bd88cee6dcb1",
+      "identity": [
+        null,
+        "A short paper report labeled with the mysterious title \"MROTS-S\".  Most of the document is coded in a series of complex equations and data that you cannot understand, but there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  Printed on the bottom of the page is some sort of topological map, which has been overwritten several times in confusing patterns, making it difficult to decipher.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/weather_reports.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A short paper report labeled with the mysterious title \"MROTS-S\".  Most of the document is coded in a series of complex equations and data that you cannot understand, but there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  Printed on the bottom of the page is some sort of topological map, which has been overwritten several times in confusing patterns, making it difficult to decipher.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "32b53277dc4dfca0f3ed99f5ea6777c97db00bb5c66277b94e068523de070133",
+      "identity": [
+        null,
+        "right eyestalk",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right eyestalk",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "32bbd52a25f64bfaf2d107c19c5dad9f7601a4600a3b75592d492aba33b1194d",
+      "identity": [
+        null,
+        "Rubik agrees that the Free Merchants can take over a nearby Exodii warehouse.  You feel that the deal favors the Free Merchants a bit more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rubik agrees that the Free Merchants can take over a nearby Exodii warehouse.  You feel that the deal favors the Free Merchants a bit more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "32beb2d203552381413ba115dae5427c161b901c0b4cdfff28b8dc59bf887622",
+      "identity": [
+        null,
+        "I can't do that right now.  I need time to gather more dreamdross.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can't do that right now.  I need time to gather more dreamdross.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "32e0900fd29b39e598facd5936ecebc53dff5eef9fab840de63345ed8e9841c2",
+      "identity": [
+        null,
+        "*<npc_name> puts a hand on you and you feel a warmth spread across your entire body.  \"But remember, stay outside or the glamour won't work.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "*<npc_name> puts a hand on you and you feel a warmth spread across your entire body.  \"But remember, stay outside or the glamour won't work.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "32fd13879b40351da4c1f6ad499338cecb0002f4a6dcd1163d53e63e19c712c1",
+      "identity": [
+        null,
+        "scribbled recipe (abyssal coffee)",
+        "scribbled recipe (abyssal coffee)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": "scribbled recipe (abyssal coffee)",
+      "singular": "scribbled recipe (abyssal coffee)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "33279bb0ef841614cc574414ed1a32694b3509bcfce6748122dbfd2c93a870f1",
+      "identity": [
+        null,
+        "Maybe some other time…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Maybe some other time…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "3350d0a5f6a69ebe563c67c4b1d1bfc10a3003e7bd02be70a9ee1d59e2f6b51e",
+      "identity": [
+        null,
+        "Νυκτίππος",
+        "Νυκτίππος"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/bloodsuckers.json",
+          ""
+        ]
+      ],
+      "plural": "Νυκτίππος",
+      "singular": "Νυκτίππος",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

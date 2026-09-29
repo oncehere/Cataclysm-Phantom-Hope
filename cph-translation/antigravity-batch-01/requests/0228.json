@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'water channel'",
+      "flags": [],
+      "id": "da58bc7071b3922fb5a9e406298f6c3b4842a4d77e63f98bd25a912f1a2d7706",
+      "identity": [
+        null,
+        "A hand-dug channel holding fresh water.  An unbroken route to a river, stream or large lake keeps it supplied.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hand-dug channel holding fresh water.  An unbroken route to a river, stream or large lake keeps it supplied.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Unity with Nature'",
+      "flags": [],
+      "id": "da6a1f56177493ec014f3e0694c4487a113aad1690adbb3289e49a4a3fac488f",
+      "identity": [
+        null,
+        "Reaching out to the forest, you absorb some of its serenity and peace into yourself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Reaching out to the forest, you absorb some of its serenity and peace into yourself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "da9e5f3bc32680fd4bd0d030a658febe23bcb253698dffd1beb90656e8a0fa5a",
+      "identity": [
+        null,
+        "Couldn't prepare a client scratch world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "1921"
+        ]
+      ],
+      "plural": null,
+      "singular": "Couldn't prepare a client scratch world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'PAPR blower (on)'",
+      "flags": [],
+      "id": "daa9cd334d0bfe619789b2d2c815018fbc5a18bb3491818300a886e9ebdb0142",
+      "identity": [
+        null,
+        "An active blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An active blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "dab75a944b48a1526d603d078cdac12fc187495476ff2555d479c2d279617c39",
+      "identity": [
+        null,
+        "%s begins refurbishing the entire vehicle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "638"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s begins refurbishing the entire vehicle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "dabcfbdcf9abb621bc97417e036395ab24d959bba917944359b5beb5a5f6ca50",
+      "identity": [
+        null,
+        "I'd like some advice about the titan stag beetle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd like some advice about the titan stag beetle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 5",
+      "flags": [],
+      "id": "dac343c831dd1a8d36358827c91d710e89b53ba7f31dcee0dfea5c96a687a2c8",
+      "identity": [
+        null,
+        "Clean the ingot and prepare it to be dipped with nitric acid",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Clean the ingot and prepare it to be dipped with nitric acid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "dacb40c7af97c62002a80af526651e2cd7c36aff279caa835f7a4c4d5dea7a65",
+      "identity": [
+        null,
+        "Like all vampires, the best time to attack it is during the day.  This one won't burn under the sun like true vampires, but it will stop its regeneration.  The zombies will ignore it and attacking without cutting or stabbing weapons is a bad idea.  Lastly, don't get bitten or you're in risk of catching vampirism.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Like all vampires, the best time to attack it is during the day.  This one won't burn under the sun like true vampires, but it will stop its regeneration.  The zombies will ignore it and attacking without cutting or stabbing weapons is a bad idea.  Lastly, don't get bitten or you're in risk of catching vampirism.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ 'Saluton' and 'Ĉu vi povas kompreni min?' are Esperanto, and should stay\nEsperanto, unless being this line is being translated into Esperanto, of\ncourse.",
+      "flags": [],
+      "id": "daee00aaf41e4d379f8e004def2376428405dd880c6c967cf8ec75386001d797",
+      "identity": [
+        null,
+        "&The intercom hisses.  You hear a series of beeps, then a THUNK as if someone were touching a microphone.  Muffled voices argue in the background.  A brief moment of clarity allows you to hear \"-o that didn't work.\"  After a moment, a voice of indeterminate sex speaks flatly.  \"Saluton.  Greetings.  Ĉu vi povas kompreni min?  Or do you speak English, by chance?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The intercom hisses.  You hear a series of beeps, then a THUNK as if someone were touching a microphone.  Muffled voices argue in the background.  A brief moment of clarity allows you to hear \"-o that didn't work.\"  After a moment, a voice of indeterminate sex speaks flatly.  \"Saluton.  Greetings.  Ĉu vi povas kompreni min?  Or do you speak English, by chance?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'powder candy sticks'",
+      "flags": [],
+      "id": "daee11e13d77f7459abdcf25bf27e964c0f64a24965847d49abd647a5cbaa7be",
+      "identity": [
+        null,
+        "Thin paper tubes of sweet & sour candy powder.  Who thinks of this stuff?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/junkfood.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thin paper tubes of sweet & sour candy powder.  Who thinks of this stuff?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "daf74e5de0bd72eeaaa14fd611791fd676eb115be234af25e9ef89c53d291f19",
+      "identity": [
+        null,
+        "No eligible locations found to place resulting liquids, placing them at random.\n\nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/faction_camp.cpp",
+          "6199"
+        ]
+      ],
+      "plural": null,
+      "singular": "No eligible locations found to place resulting liquids, placing them at random.\n\nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Henge of Iron Thorns'",
+      "flags": [],
+      "id": "daf95ba3cd7bd1cc91b3df7e8c2d5684a0fa80e4d0adb83d63b02f219ad00fa3",
+      "identity": [
+        null,
+        "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.\n\nThis spell still works on other targets, but simply causes bleeding and creates a tangle of thorns, it <color_red>will not</color> restrain them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/bloodthorne_druid_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.\n\nThis spell still works on other targets, but simply causes bleeding and creates a tangle of thorns, it <color_red>will not</color> restrain them.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

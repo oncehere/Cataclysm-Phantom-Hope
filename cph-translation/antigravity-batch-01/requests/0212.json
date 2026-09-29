@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left middle tentacle'",
+      "flags": [],
+      "id": "c9b4ea3501ee255f48fec837134862188e635215448091989148114c7235f2be",
+      "identity": [
+        null,
+        "l. m. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "l. m. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (spirit show dust)'",
+      "flags": [],
+      "id": "c9c38171a5b1051197520664a5ef793c10f882632c154882dbfc8d44f3149514",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a powder to \"reveal that which is unseen\".  There are repeated references testing its effects at dusk, at crossroads, and on Halloween.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a powder to \"reveal that which is unseen\".  There are repeated references testing its effects at dusk, at crossroads, and on Halloween.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ No, I don't think so.  Not today.",
+      "flags": [],
+      "id": "c9cd3abe7c01f5cd1dd92a73488641750b68ca25bc04ec9f649ec01e22242a0e",
+      "identity": [
+        null,
+        "&Rubik is quiet for a long moment, and is clearly sizing you up.  \"No, methinks not today.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik is quiet for a long moment, and is clearly sizing you up.  \"No, methinks not today.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Malediction of the Recalcitrant Wound'",
+      "flags": [],
+      "id": "c9fca5572b1d375d1dc211a9988430966e98011d6809c8a403661b1e51aeea56",
+      "identity": [
+        null,
+        "You mutter a curse under your breath and point at your target.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You mutter a curse under your breath and point at your target.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Illuminatio'",
+      "flags": [],
+      "id": "ca088452260100fd72e1d5bc933cd0fc4fee804493223aa6d17e36ca817171b4",
+      "identity": [
+        null,
+        "Your body emits a lot of light around you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body emits a lot of light around you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ca45b77e4286d7adc98d43d2f3ba0dbe2a659f601fb6dedaaf87f064c3316785",
+      "identity": [
+        null,
+        "Save and disconnect?  Your character will be saved locally so you can load it on rejoin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "4198"
+        ]
+      ],
+      "plural": null,
+      "singular": "Save and disconnect?  Your character will be saved locally so you can load it on rejoin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "ca4e73ffa46c10287f4a445c9ab191958b336f5ac1e1870a0b5eedef28dc0337",
+      "identity": [
+        null,
+        "Stay strong, avoid Thorazine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stay strong, avoid Thorazine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "ca576edfebf57c244dc53e56dcc64547378f6d932e3ff44e763825fc8e9fdd6a",
+      "identity": [
+        null,
+        "炼焰息",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "炼焰息",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "ca6746783083ec6ba6bb19ae8265abe7a6aa937f8b58b6362551ea95d4229f8c",
+      "identity": [
+        null,
+        "草木同春",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "草木同春",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of mutation class 'Perfect Warrior'",
+      "flags": [],
+      "id": "ca725bd1bef4b8b243d64023106afca150e1b0dd4dae37b3958e9effef78571f",
+      "identity": [
+        null,
+        "You feel like a trillion bucks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel like a trillion bucks.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'sprayable toxic gas'",
+      "flags": [],
+      "id": "ca764fb8ac040f4a4b9b46c0dfa830646a1699930f1f13ae6a457de6fc304e88",
+      "identity": [
+        null,
+        "A hazardous mixture made from household cleaning chemicals, improvised for use in a chemical thrower.  Best used with some kind of mask or mouth protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ammo/chemical_spray.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hazardous mixture made from household cleaning chemicals, improvised for use in a chemical thrower.  Best used with some kind of mask or mouth protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (Imbuement of Parchment)'",
+      "flags": [],
+      "id": "ca9b4802339896b402066e21744d7587cb6d42ef27f5ad8654eb68273011bb3a",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of…humanity?  More human than human, you suppose.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of…humanity?  More human than human, you suppose.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

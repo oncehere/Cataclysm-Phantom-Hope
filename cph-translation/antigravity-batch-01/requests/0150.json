@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of practice 'helicopter piloting drills'",
+      "flags": [],
+      "id": "8d64e1bf9380f1aa41431a6ca1ef0960bc2c2721ce06e3e053fbded85a8f5945",
+      "identity": [
+        null,
+        "Practice helicopter piloting with a flight manual, reviewing cyclic, collective, anti-torque, hover, and emergency procedures.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/practice/aircraft.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Practice helicopter piloting with a flight manual, reviewing cyclic, collective, anti-torque, hover, and emergency procedures.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'Rules of Engagement'",
+      "flags": [],
+      "id": "8d66ab1943f7024489562ccc6ef89f20b4c1da904c0949a67e137dbe9560d0f4",
+      "identity": [
+        null,
+        "Eliminate another mercenary.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Eliminate another mercenary.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'For Everlasting Life'",
+      "flags": [],
+      "id": "8de1db2551db9d0dcdd2d08e9141dd05b74696fde6b3db0d954e05aa33d51c9e",
+      "identity": [
+        null,
+        "Your body has now stopped aging, massively extending your longevity.  You can still be killed but as long as your body can heal, all your wounds will eventually fully heal no matter how severe they are.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body has now stopped aging, massively extending your longevity.  You can still be killed but as long as your body can heal, all your wounds will eventually fully heal no matter how severe they are.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "8e1b0369a3de7f0f8e8f5c2983e03c04db2400e88b489f67d44c0b695f25a044",
+      "identity": [
+        null,
+        "bosky labyrinth",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "bosky labyrinth",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "8e40c4584e56efe091a5ae6a649d5204bb4191effe1a048ae4aac1caa75d9bad",
+      "identity": [
+        null,
+        "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find five different locations you can exit from.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/exits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find five different locations you can exit from.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8e57535382fb921e7c15317625e1bc1024db173b7e27e1ebb95dbae06fac8194",
+      "identity": [
+        null,
+        "& Cycle in effect.  Wait five days from last jump.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/exodii_labyrinth_computer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "& Cycle in effect.  Wait five days from last jump.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "8e6d475488195100b945f274a9eeb494a69ce21f824c01835b09effac59d1a5b",
+      "identity": [
+        null,
+        "apprentice's grimoire",
+        "copies of apprentice's grimoire"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/books.json",
+          ""
+        ]
+      ],
+      "plural": "copies of apprentice's grimoire",
+      "singular": "apprentice's grimoire",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Burning New Wood'",
+      "flags": [],
+      "id": "8e8264425c5f2e678f4eb1211e3d53fe084abc5c73b0218d3d821914a6f78098",
+      "identity": [
+        null,
+        "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of HP.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/paraclesians/salamander_mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of HP.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "8e8a9849a52799da944a23e1d93824a83c32e7c48a2df2359c9bba9b02454951",
+      "identity": [
+        null,
+        "Arson Girl",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Arson Girl",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'The Good Old Thai Curry Cookbook: Classic Thai\nRecipes Featuring Red, Green, and Yellow Curries' of book 'Curry cookbook'",
+      "flags": [],
+      "id": "8e9dc6a8f0ea4707d6a0a0a99144ceb3ecfece46498e564a59eb0abef5b06774",
+      "identity": [
+        null,
+        "A cookbook focused on breaking down red, green, and yellow curries with step-by-step instructions.  You're not sure the cutesy names for all the curries are authentic, though.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A cookbook focused on breaking down red, green, and yellow curries with step-by-step instructions.  You're not sure the cutesy names for all the curries are authentic, though.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of weakpoint\n~ ex. '[You hit the zombie in] a crack in the armor!'",
+      "flags": [],
+      "id": "8ed8863fa4cb214493458fe0aadaf525ff18845effa17ceefcb5a167fcd0e87d",
+      "identity": [
+        null,
+        "the upper body",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/monster_weakpoints/moxie_weakpoints.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the upper body",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8edd0ceb9613a64bfb9af8ad1e94db49b6f1c626c25de960e924cc0a6718cecf",
+      "identity": [
+        null,
+        "focus",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/effect.cpp",
+          "980"
+        ]
+      ],
+      "plural": null,
+      "singular": "focus",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

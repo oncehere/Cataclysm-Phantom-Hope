@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "256387787aec47a804d95520c51c028fcfdb79e5550b076b36e1527b3417c589",
+      "identity": [
+        null,
+        "火弹术",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_attack.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "火弹术",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Hand of Lugh'",
+      "flags": [],
+      "id": "25695d58b377149d7b8801dd12ab7d99260719fe7581ba47962f2939656d481c",
+      "identity": [
+        null,
+        "Touch a target, drawing in some of their strength to yourself.  It will not work on mechanical enemies.  In winter you must be <color_yellow>outdoors in the sunlight</color> to weave the glamour.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Touch a target, drawing in some of their strength to yourself.  It will not work on mechanical enemies.  In winter you must be <color_yellow>outdoors in the sunlight</color> to weave the glamour.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'long socks'",
+      "flags": [],
+      "id": "256b5958e666a75463016789fddf65dc35976ab2045949494a98c75324579b48",
+      "identity": [
+        null,
+        "Thick socks reaching the middle of the calves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thick socks reaching the middle of the calves.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "257d63a4b8d4a67a0c9eab933b8061adcf17a2fb7fe8474c02cb0d3be6d2a95b",
+      "identity": [
+        null,
+        "This build does not include Lua Platform support.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/debug_menu.cpp",
+          "5002"
+        ]
+      ],
+      "plural": null,
+      "singular": "This build does not include Lua Platform support.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "25816e965bfd6a5994bd70e3ba533d40ad06dbb9d9839e2e50ee26a9ca5b0976",
+      "identity": [
+        null,
+        "No one swims only in the shallow water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No one swims only in the shallow water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "258371e0514641e645419c2e273545d886b4c9daa02cea7fa33f75f746fcb12d",
+      "identity": [
+        null,
+        "FABRICATOR COMPLIANT ITEM %s DETECTED, BUT NOT DAMAGED REMOVE WORKING ITEM FROM FABRICATOR",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "661"
+        ]
+      ],
+      "plural": null,
+      "singular": "FABRICATOR COMPLIANT ITEM %s DETECTED, BUT NOT DAMAGED REMOVE WORKING ITEM FROM FABRICATOR",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "25848cabb38ffd6e5064803f1ad69eb80374c59351e8599d04d92f0a66fc9491",
+      "identity": [
+        null,
+        "There are no selectable parts at this position.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1029"
+        ]
+      ],
+      "plural": null,
+      "singular": "There are no selectable parts at this position.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "258d82238ced424b464bbbce02f12794f55eb48aecaec80f22827dbbdde9d674",
+      "identity": [
+        null,
+        "left rear tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "25a5528f4f2651c8a48f2ec1fcf1a104c31c37599fb37079eac8b442915d1dbd",
+      "identity": [
+        null,
+        "Well, the deal went through.  I did my best, Rubik.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, the deal went through.  I did my best, Rubik.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_REFINE_VAMPIRE_EARTH_SLUMBER_CREATE_PITS'",
+      "flags": [],
+      "id": "25aa0b8333d7cf961cfe6d93d1f6c2eab37b7ca6ab20c814060337d3e8ccc6cb",
+      "identity": [
+        null,
+        "You learned Earthen Grave, a new use for your Earthen Slumber Blood Art.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You learned Earthen Grave, a new use for your Earthen Slumber Blood Art.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'infested MoxPhore'",
+      "flags": [],
+      "id": "25aec4193be8564921bffd9e53d8df7d323d9d2fdd2499e02f9bcb73a9747a99",
+      "identity": [
+        null,
+        "One last parasite scuttles out of the corpse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/zombies.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "One last parasite scuttles out of the corpse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "25cf0aa4142f33b53fbd3ace247bef49524e4246914b6740b6a84fff1df09848",
+      "identity": [
+        null,
+        "So, we seem to be done with the negotiations.  Let's talk payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So, we seem to be done with the negotiations.  Let's talk payment.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

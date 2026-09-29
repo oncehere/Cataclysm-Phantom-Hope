@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Dancing in the Endless Dark'",
+      "flags": [],
+      "id": "60daf32398492a629147d4e9e89c4842e70d10a29cad4c5b206dcb36112504c4",
+      "identity": [
+        null,
+        "This glamour will protect you from a variety of deleterious otherworldly afflictions, such as the gaze of a flaming eye or the side effects of sudden teleportation.  It may also be applied to allies, but it must be applied before exposure",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This glamour will protect you from a variety of deleterious otherworldly afflictions, such as the gaze of a flaming eye or the side effects of sudden teleportation.  It may also be applied to allies, but it must be applied before exposure",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Distortion'",
+      "flags": [],
+      "id": "60f7c31cca53b442d1d6881466cac4a6fda1a017dbc7c0045b2b09aa34136c2a",
+      "identity": [
+        null,
+        "A strange item is here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras_dimensions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A strange item is here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "610b04abee11cf91f0fe4ec9f535c7326ef4416327b3d9fdce9491cf49aab74b",
+      "identity": [
+        null,
+        "Population: %d",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4391"
+        ]
+      ],
+      "plural": null,
+      "singular": "Population: %d",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Left Arm (Cyberframe 1b)'\n~ Description of compact bionic module 'Bionic Right Arm (Cyberframe 1b)'",
+      "flags": [],
+      "id": "6121e29bd9f8bb934735f64952eb1f9910a8ed7177dcbf57ef2de6e072999604",
+      "identity": [
+        null,
+        "A bionic right arm and hand fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bionic right arm and hand fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_phavian_private'",
+      "flags": [],
+      "id": "6121e2a60fb66fec78ebef84d5df013fd054ac0ccf4a2ee0ca81d71fada64587",
+      "identity": [
+        null,
+        "Note on folded legal paper",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mod_interactions/xedra_evolved/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Note on folded legal paper",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "6121ef0926b4bc4fe040c28f7892822b1a98ae64164192dfa666dd25cec179d0",
+      "identity": [
+        null,
+        "What is Property?",
+        "copies of What is Property?"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of What is Property?",
+      "singular": "What is Property?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "613451836b85237a79f8a6d3c65c8187457e477e9ef450686e6f4cd65eca28fd",
+      "identity": [
+        null,
+        "Color themes",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1475"
+        ]
+      ],
+      "plural": null,
+      "singular": "Color themes",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in use action of item 'Hub 01 LEG\nexoskeleton'",
+      "flags": [],
+      "id": "6139ac191e574805bb53f18cf87093ab1422d871fdd230d2ab903edda03e2756",
+      "identity": [
+        null,
+        "ERROR: NO XM-LEG INTERFACE DETECTED",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ERROR: NO XM-LEG INTERFACE DETECTED",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'contaminated dirt'",
+      "flags": [],
+      "id": "616520b06cd2480a46f00be100bf22a614945f86fafdb39e965ed4f85239e270",
+      "identity": [
+        null,
+        "Brownish biological matter mixed with toxic contaminants, generally a byproduct of cleaning processes, it's meant to be further processed and its components separated to be of any use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/trash/resources.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Brownish biological matter mixed with toxic contaminants, generally a byproduct of cleaning processes, it's meant to be further processed and its components separated to be of any use.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "617f736b0a6a5b5383097e70ccac31126b699435f273231240018b56007986ba",
+      "identity": [
+        null,
+        "Select a mod to view its details.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "644"
+        ]
+      ],
+      "plural": null,
+      "singular": "Select a mod to view its details.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'BAROMETER'",
+      "flags": [],
+      "id": "618c623fce7a35f3c99341c231c73fc3a5a715632d5d3b23f81ba78841e1eea3",
+      "identity": [
+        null,
+        "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "61b05c32ccbc23107a245d4bb18b23f72905f693420b582496161dfa06340215",
+      "identity": [
+        null,
+        "I'm back and I killed the armored centipede.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the armored centipede.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

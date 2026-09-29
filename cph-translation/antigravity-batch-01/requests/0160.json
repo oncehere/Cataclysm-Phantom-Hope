@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "975678113495327fa2e3d81694085b43345afb25957cbe52edad919d5dff52f3",
+      "identity": [
+        null,
+        "Disconnect the item linked to this part before removing it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "467"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disconnect the item linked to this part before removing it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'fragment of reality'",
+      "flags": [],
+      "id": "979e6954e21d8c0ea023fb63282934dd3bce24e78efb31c7332ac77c5dfeeca2",
+      "identity": [
+        null,
+        "You can leave this place, if you want.  Focus on the world you left behind in the storm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can leave this place, if you want.  Focus on the world you left behind in the storm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_vitakinesis'\n~ Phavian designation for vitakinetic study is SMOKE USHER",
+      "flags": [],
+      "id": "97a0cc79a531f4955850c23e22f88717dc006530b0546bc0b1077d7a4ced212b",
+      "identity": [
+        null,
+        "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "97ce9731aa11cf8b6470443f2732fb39d01d0f7d546fb4c4574f4f03b525f805",
+      "identity": [
+        null,
+        "To Shield the Spirit from Assault",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To Shield the Spirit from Assault",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "97d924fbd1ecc6737782684afdd16615e3bd9c199fa0f114bfec710a7138f6de",
+      "identity": [
+        null,
+        "Thank you.  This might be of use to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time to look it over.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thank you.  This might be of use to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time to look it over.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "97eaaa5db3ad67b2aecb1c91fc1156ecc9cc6d910f25cfc7ce4fc93e329cea3d",
+      "identity": [
+        null,
+        "Finish world",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2805"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "2811"
+        ]
+      ],
+      "plural": null,
+      "singular": "Finish world",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'red' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "98045bfdf4a2ad30a96bddc4e305f62ed1d41ec628bb6604737a915843197214",
+      "identity": [
+        null,
+        "This one is <color_prefix> red.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix> red.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 1",
+      "flags": [],
+      "id": "981e86489816cb3dbf678658bf7a0dd67bd573d60044e6e688a0f7a66fa5d2b9",
+      "identity": [
+        null,
+        "Grind coal and mix with borax and oxidizer powder",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Grind coal and mix with borax and oxidizer powder",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_WEREWOLF_CURE_OUTSIDE_EFFECTS_ACTIVATED'",
+      "flags": [],
+      "id": "982e28e4a86667211a593a316fc8f09b15dedae606ed12316c677fe585cab40c",
+      "identity": [
+        null,
+        "You focus your mana within your body, using it to destroy your ailments like you use your claws to destroy the Outsiders.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/werewolf_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You focus your mana within your body, using it to destroy your ailments like you use your claws to destroy the Outsiders.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of creature revealed by special vision\n'nether_creature_sense'",
+      "flags": [],
+      "id": "9847cdca696cbc8a105881e0b7de8c511c90e8560d826ef2af6bee0e379e89ca",
+      "identity": [
+        null,
+        "You see an otherworldy danger here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You see an otherworldy danger here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet of item 'scifi novel'",
+      "flags": [],
+      "id": "98a5beb7acda6dc796bd11944b7727b89f864671eee2516111e90e59d776af26",
+      "identity": [
+        null,
+        "This is a copy of \"Endymion\" by Dan Simmons.  It opens with a poem by D.H. Lawrence:\n\nGive us gods.  Oh give them us!\nGive us gods.\nWe are so tired of men\nAnd motor-power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_scifi.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is a copy of \"Endymion\" by Dan Simmons.  It opens with a poem by D.H. Lawrence:\n\nGive us gods.  Oh give them us!\nGive us gods.\nWe are so tired of men\nAnd motor-power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "98b875e863c3f4f80289961635cac1028e4b2d428aac18d8adda190d0a7513cc",
+      "identity": [
+        null,
+        "rear tentacle bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "rear tentacle bases",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

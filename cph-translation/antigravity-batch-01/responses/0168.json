@@ -1,0 +1,81 @@
+{
+  "request_sha256": "4ed52aa2a95282c487a865dc54bc66ec1d014589f971115c8618fc987bd48cad",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "9fd25736495ab90699001a5d13cfd3ba54cabadb9283c97f30a98599197d6f96",
+      "values": [
+        "一支密封的小安瓿瓶，里面装有来源不明的黄色半透明液体。上面的标签写着“51x-\"Landru\"”，不管那代表什么意思。"
+      ]
+    },
+    {
+      "id": "9fe9b2dd86c27cb28278c17d388fe717da2c089677de46408d098128329d389b",
+      "values": [
+        "精炼地寝：大地之墓"
+      ]
+    },
+    {
+      "id": "a0094266a42b84e3645784280751cea8baa6dd4effbfba3feeddcf65f0db1e85",
+      "values": [
+        "我理解。谁愿意为了微薄的个人收益，在全州范围的大海捞针中寻找一株植物呢？不过，要是你真能以某种方式找到这株老山参，我很乐意买下来。"
+      ]
+    },
+    {
+      "id": "a054866cd4f00ae2d65ab8ba56602440d7a9ee54504f945f4254c6a36fe63771",
+      "values": [
+        "世界名称为空。是否随机生成名称？"
+      ]
+    },
+    {
+      "id": "a05abe51d9c2f58d8784364795bb7ddb10ec23f56293d01ee8a88198fb3d1dc0",
+      "values": [
+        "错误：未装备手臂外骨骼"
+      ]
+    },
+    {
+      "id": "a0a52612e5a12957be15b741c69c5e459935bf49ee2e3a79fefd6ebd334f5c50",
+      "values": [
+        "森林魔法研究资料"
+      ]
+    },
+    {
+      "id": "a0c40c2b1369c271b6b28b33577c0e5d03e6cec1d65a6901513fd73193e8094d",
+      "values": [
+        "一个开箱即用的便携式可充电电池单元，配有用于为家用电器供电的逆变器和用于电子设备的插座接口。适合露营、停电以及在末日中求生。"
+      ]
+    },
+    {
+      "id": "a0cf99c695bcc97cb85b3314fd04bf8fc01c9b4cbeabf6b60fee83d3c7634fba",
+      "values": [
+        "久修血煞炼尸功所成之体。死气血煞侵入骨髓，凶威渐长——然邪气反噬，根本受损，气血不宁。"
+      ]
+    },
+    {
+      "id": "a0dc6ed45471bc82bf018ccb9ab72e58c1cde9b82af4dfbf693006bb4051edfa",
+      "values": [
+        "正是我。把我从这诅咒中解救出来吧。"
+      ]
+    },
+    {
+      "id": "a0ef020d35c793ee5c24d9fa794bac6a8195e7f2fe13b2653dc6c38164e6f84a",
+      "values": [
+        "它的投掷倍率仅适用于由激活状态的电磁轨道炮生化插件驱动的投掷。"
+      ]
+    },
+    {
+      "id": "a0f846ae9a2c94bca0a8dae4954c532cc65b0ab366220fa86f9d5a2e6ca263aa",
+      "values": [
+        "传记（在世人物）"
+      ]
+    },
+    {
+      "id": "a0fc7b8b0b696eb2e1f5822bd8db73f3db0871086c9c7c142c9c207f6f848324",
+      "values": [
+        "当一道扭曲脉冲穿过身体时，你微微颤抖了一下。另一道脉冲将在 <global_val:readablesicknessintervals> 分钟后袭来。还要再经过 <global_val:readablepulsesleft> 次脉冲才会引发扭曲病。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "e9d22edee5a904cef4f934583b720941debac3d30b181943379fef0868ec935f",
+      "identity": [
+        null,
+        "language learning book",
+        "language learning books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "language learning books",
+      "singular": "language learning book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e9e2973279581c72542f1e70eaaf0d3d8ffa65f8899055ced21a722b89ce3ba9",
+      "identity": [
+        null,
+        "Add global",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1117"
+        ]
+      ],
+      "plural": null,
+      "singular": "Add global",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_VITAKIN_LEARNING_INCREASED_HP'",
+      "flags": [],
+      "id": "e9e96e9362120b246a460759ff5ee578c0ff6d932aacd90c70e376b7d7544006",
+      "identity": [
+        null,
+        "Use of your powers has led to an insight.  You can already increase your general level of health and focus your body's healing energies on particular locations.  You could probably increase your overall resilience, requiring much larger injuries to completely incapacitate you, if you can figure out the proper technique.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/learning_eocs/vitakinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Use of your powers has led to an insight.  You can already increase your general level of health and focus your body's healing energies on particular locations.  You could probably increase your overall resilience, requiring much larger injuries to completely incapacitate you, if you can figure out the proper technique.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Dragonfly Head'",
+      "flags": [],
+      "id": "ea077eb30b61db26508b16d0ec1d8ec54742bc7f2fbdfbe9440a7799231376a1",
+      "identity": [
+        null,
+        "You remember having tiny, unassuming eyes condemned into cramped slits in your face.  No more.  Since your last molt your eyes take up most of your head, giving you inhuman reaction speed at the cost of fine vision.  You wouldn't want to cover up too much of the view, however.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations_limbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You remember having tiny, unassuming eyes condemned into cramped slits in your face.  No more.  Since your last molt your eyes take up most of your head, giving you inhuman reaction speed at the cost of fine vision.  You wouldn't want to cover up too much of the view, however.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ea1911f9c988cbf9d248864033bc172a62da5cd36a0173a73078d08386203201",
+      "identity": [
+        null,
+        "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permanent.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permanent.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ea34af82e3897e0ebc38f867181700f125214d703000a1a441d4edc4a3516a81",
+      "identity": [
+        null,
+        "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "ea41f211b8c155d57d56dd12a4fc5b2d22003be76b09aef2815878a89a92ef46",
+      "identity": [
+        null,
+        "The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries",
+        "copies of The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries",
+      "singular": "The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "ea4d039656e326f44f40595daa1a48c776adc9582b605cbbaffa02da175a8562",
+      "identity": [
+        null,
+        "left middle tentacle midsection",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacle midsection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Calorie Etherealization System'\n~ Description of bionic 'Calorie Etherealization System'",
+      "flags": [],
+      "id": "ea626b31f69ad741b9e0a38a18fdb9c7abc84f7c5dd90516fe6fb607269fe154",
+      "identity": [
+        null,
+        "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital trajectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/inventor/cbms.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/player/inventor_cbms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital trajectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ea72b7bcac93d871f00002c3d073758b3110ec993cba58bec5d14faff5126474",
+      "identity": [
+        null,
+        "I'd take more jerky.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd take more jerky.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ea7b0193b09e1af4112fadfb473abc366839015dba71b092c6496792101ad353",
+      "identity": [
+        null,
+        "&You awaken.  Your vision is blurry, and it's as if there's something hiding at the edges of your sight that you can't shake.  You try to swat it away, only to find that your limbs don't work.  You become suddenly aware that none of your senses are truly working.  You're just staring at a great sea of nothing, through a non-existent window you can't discern the edges of.\n\nBefore you have time to panic, you come to.  Your head is swimming.  You see Rubik and Venn standing before you with a device wired to your chest.  But is it your chest?  You move your hands to feel, and all you sense is metal on metal.  You're no longer just flesh.  All you can see and feel is your new, mechanical Cyberframe.\n\nVenn detaches the wires and Rubik speaks:  \"Easy.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You awaken.  Your vision is blurry, and it's as if there's something hiding at the edges of your sight that you can't shake.  You try to swat it away, only to find that your limbs don't work.  You become suddenly aware that none of your senses are truly working.  You're just staring at a great sea of nothing, through a non-existent window you can't discern the edges of.\n\nBefore you have time to panic, you come to.  Your head is swimming.  You see Rubik and Venn standing before you with a device wired to your chest.  But is it your chest?  You move your hands to feel, and all you sense is metal on metal.  You're no longer just flesh.  All you can see and feel is your new, mechanical Cyberframe.\n\nVenn detaches the wires and Rubik speaks:  \"Easy.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ea9c75df5d9b0aa94db3538548f502b542c194e5cedaebfd25a6540590507cf8",
+      "identity": [
+        null,
+        "[Antagonize] Hype up how far away and dangerous it is to trade with the Exodii.  \"Think carefully on this.  It's really nasty over there.  Shame they couldn't set up somewhere else!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Hype up how far away and dangerous it is to trade with the Exodii.  \"Think carefully on this.  It's really nasty over there.  Shame they couldn't set up somewhere else!\"",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

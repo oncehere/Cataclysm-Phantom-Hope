@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1b3f949c8d85be1173d1c3a5820934f1622b5dd5c805ea107a8cbff24e5d3807",
+      "identity": [
+        null,
+        "Run the Lua action registered for this item.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/avatar.cpp",
+          "1494"
+        ]
+      ],
+      "plural": null,
+      "singular": "Run the Lua action registered for this item.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_XE_REMOVE_OMINOUS_FOG_WEATHER'",
+      "flags": [],
+      "id": "1b4662e25ca8c81bcb8f363a57cb67060d65859281ff0c7187aefcd28488fd51",
+      "identity": [
+        null,
+        "As quickly as it appeared, the strange fog blows away on the wind.  Things are back to normal, for now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/weather_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As quickly as it appeared, the strange fog blows away on the wind.  Things are back to normal, for now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "1b68d6c9d7d9731fdb4b9202ee68bbf45c7c5e191575b196469382a3168005e4",
+      "identity": [
+        null,
+        "Allegory of the Cave",
+        "copies of Allegory of the Cave"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Allegory of the Cave",
+      "singular": "Allegory of the Cave",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'noble' of armor 'burial shroud'",
+      "flags": [],
+      "id": "1b6a9e4361384d500dad0df093ac20ad3eab1530e0a154c20a084a83afbff93d",
+      "identity": [
+        null,
+        "A single tower pierces the heavens, its base obscured by swirling clouds.  Heraldic banners have been embroidered to serve as the scene's backdrop, and a large opal has been sewn into the fabric to represent the sun.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A single tower pierces the heavens, its base obscured by swirling clouds.  Heraldic banners have been embroidered to serve as the scene's backdrop, and a large opal has been sewn into the fabric to represent the sun.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Recently created dreamdross'",
+      "flags": [],
+      "id": "1b8deb7a238686d1a3e286b5196fb61b687a75c77180b657209318a47d19f9fc",
+      "identity": [
+        null,
+        "This person has recently gave you dreamdross.  It will take some time before they gather an usable amount of dross again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This person has recently gave you dreamdross.  It will take some time before they gather an usable amount of dross again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1b9d0908e801bd861c95766e0556804dd6cb548eb37d8047e9a45f00cfdacfdd",
+      "identity": [
+        null,
+        "Use scripted action",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/avatar.cpp",
+          "1493"
+        ]
+      ],
+      "plural": null,
+      "singular": "Use scripted action",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'sauropod leg'",
+      "flags": [],
+      "id": "1ba299fd5a5d0148892f1c346a99d1300b06f0d76ee79718803ee7e6ca1b9f8b",
+      "identity": [
+        null,
+        "The sauropod stumbles as one of its legs is badly hurt and collapses.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/monsters/dinosaur.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The sauropod stumbles as one of its legs is badly hurt and collapses.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "1ba98f7b0aaf7fcd9da9a5d2fc82b7072c9719fcb842cc83488f0157d2a847f1",
+      "identity": [
+        null,
+        "血煞侵髓",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "血煞侵髓",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Eating Drops of Honey'",
+      "flags": [],
+      "id": "1bb3b302190a637c379a9198fddeeb736c178e2e24e2ff745d9c329fd0d55d4b",
+      "identity": [
+        null,
+        "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1bc11925c943a88af47adab08b83ec23601ebcf1ea9bd46c0229dae370667cee",
+      "identity": [
+        null,
+        "Items on the map that are at most this distance from the player are considered available for crafting and other purposes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3635"
+        ]
+      ],
+      "plural": null,
+      "singular": "Items on the map that are at most this distance from the player are considered available for crafting and other purposes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'mid calf minimal shoes (pair)'",
+      "flags": [],
+      "id": "1bce58cf827f749e70831b593760fffe4801e9e4f2e56423643a71affed07d98",
+      "identity": [
+        null,
+        "Minimalist shoes reaching up to your calf, snug and featureless aside from the fasteners, with a thin, flexible sole.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minimalist shoes reaching up to your calf, snug and featureless aside from the fasteners, with a thin, flexible sole.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Augmented Reality'",
+      "flags": [],
+      "id": "1c03831fd088f2ded8c3da9be9b2bc19419fa5da6f9319e18f7095853dd5ec88",
+      "identity": [
+        null,
+        "The intercom has asked me to retrieve something called a <color_yellow>Military Visual Augmentation System</color>, which looks like a VR headset.  They're sending me to an in-town office to fetch it.  Use the <color_yellow>ID card</color> to gain access.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The intercom has asked me to retrieve something called a <color_yellow>Military Visual Augmentation System</color>, which looks like a VR headset.  They're sending me to an in-town office to fetch it.  Use the <color_yellow>ID card</color> to gain access.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

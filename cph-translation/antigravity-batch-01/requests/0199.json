@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "bcd7177252f95cc3f139aa4a9e2b100f60fe0dfd7a0ffb4f5d8ba8db8e373e53",
+      "identity": [
+        null,
+        "Those who disturb the warpstream must be put down.  There is no cruelty in this.  It is the order of the Island, and it will be kept.\nIn every future expedition, you will now be given 2 random missions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Those who disturb the warpstream must be put down.  There is no cruelty in this.  It is the order of the Island, and it will be kept.\nIn every future expedition, you will now be given 2 random missions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "bce13b8777c9afac2153429bcac2cd9606bc0e3bfafbe14c033410765bcf9095",
+      "identity": [
+        null,
+        "I'm not sure that clears it up, but thanks Rubik, I'll be careful.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm not sure that clears it up, but thanks Rubik, I'll be careful.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "bd26177700b441cea034a1645c0c99fec752f955c634a5a4f231351caa99847e",
+      "identity": [
+        null,
+        "Ah, well, I guess this could be useful for me, being a cyborg myself.  I'll go check it out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, well, I guess this could be useful for me, being a cyborg myself.  I'll go check it out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Rigid Eyestalks'",
+      "flags": [],
+      "id": "bd613667dafa83f1c43f49f3668582a8cb8bbdb52a37f4ec2fd740b424d7bc2b",
+      "identity": [
+        null,
+        "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Your vision and reaction limb scores are also increased.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Your vision and reaction limb scores are also increased.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bd810c0345ad3422d6e198cf6d71b53060b7203f41f4df8480bf8b5ffd499571",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in examine action of terrain 'odd fault'",
+      "flags": [],
+      "id": "bd9bbbd68242046e0a74e0a15789e9734d6227d9243e9e0abfefe9627bf54644",
+      "identity": [
+        null,
+        "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading as far back into the solid rock as you can see.  The holes are humanoid in shape, but with long, twisted, distended limbs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-floors-outdoors.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading as far back into the solid rock as you can see.  The holes are humanoid in shape, but with long, twisted, distended limbs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'flowing water channel'",
+      "flags": [],
+      "id": "bda4d686c65b24ce85ae91d64b3e8492b059cc0954aa62a1c20a861f541ff849",
+      "identity": [
+        null,
+        "A hand-dug channel supplied by a river, stream or large lake.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hand-dug channel supplied by a river, stream or large lake.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "bdb27e285cc7f5ba115af5c79675033e98db77d66c7d8c0a912c24017b2fad31",
+      "identity": [
+        null,
+        "travelogue",
+        "travelogues"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "travelogues",
+      "singular": "travelogue",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bdd0b47e639adac75963f7fc627128419e89a7c4b807641487e70c90a5840d7d",
+      "identity": [
+        null,
+        "received template",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5737"
+        ]
+      ],
+      "plural": null,
+      "singular": "received template",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'ballista'",
+      "flags": [],
+      "id": "bdd2a9bbb065d5d5d655b2de44b41b32c43fbe8c9157d75e8590d834c3e010b4",
+      "identity": [
+        null,
+        "A massive weapon resembling a crossbow, powered by two torsion springs made from tightly-wound rope and drawn using a winch.  Relatively light as far as siege weapons go, it's far too heavy to fire without adequate support and slow to reload.  Even so, it can send stones or specially-designed bolts downrange with devastating force.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ranged/ballista.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A massive weapon resembling a crossbow, powered by two torsion springs made from tightly-wound rope and drawn using a winch.  Relatively light as far as siege weapons go, it's far too heavy to fire without adequate support and slow to reload.  Even so, it can send stones or specially-designed bolts downrange with devastating force.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "bdda182bb7a09815cd90e0e851e7dbc2cd00b99a3875cf01adee80b1f5c3abce",
+      "identity": [
+        null,
+        "mound of degraded nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mound of degraded nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bddc527647acd859e8f61e467e8b596e94a16f726f0565990f594689a40796cc",
+      "identity": [
+        null,
+        "Disable",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2444"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disable",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "project": "GNU Wget",
+  "version": "1.25.0",
+  "source_url": "https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz",
+  "archive_sha256": "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784",
+  "member_sha256": {
+    "po/wget.pot": "1eec698763439e0680995ac1a4ee3c8d404bc9e3a7c51e4d11801609d78f63f4",
+    "po/pl.po": "9d8c07a9f974247a2f1b0001242b29567ec7b5db87cbaa27aca9e71d30b56143",
+    "po/ru.po": "86748d0ec7b0b33298efb4c2fd2ce94c9cbea36610b097f066e75e2fc38f5621",
+    "COPYING": "f7dc7522e7e1be9227f3dc8de8b39a4d1d2471968c893af15f00c1a2076a0eec"
+  },
+  "core_changes": false,
+  "commands": [
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "plan",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/pl.toml",
+        "--candidate",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-pl-1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"candidate\": \"/tmp/pokeeper-wget-validation-final-2/candidate-pl-1\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "apply",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-pl-1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"applied\": \"/tmp/pokeeper-wget-validation-final-2/candidate-pl-1\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "check",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/pl.toml"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 599,\n  \"translated\": 599,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "compile",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/pl.toml",
+        "--output",
+        "/tmp/pokeeper-wget-validation-final-2/output/pl.mo"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 599,\n  \"translated\": 599,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "plan",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/pl.toml",
+        "--candidate",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-pl-2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"candidate\": \"/tmp/pokeeper-wget-validation-final-2/candidate-pl-2\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "apply",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-pl-2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"applied\": \"/tmp/pokeeper-wget-validation-final-2/candidate-pl-2\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "plan",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/ru.toml",
+        "--candidate",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-ru-1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"candidate\": \"/tmp/pokeeper-wget-validation-final-2/candidate-ru-1\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "apply",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-ru-1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"applied\": \"/tmp/pokeeper-wget-validation-final-2/candidate-ru-1\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "check",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/ru.toml"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 599,\n  \"translated\": 599,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "compile",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/ru.toml",
+        "--output",
+        "/tmp/pokeeper-wget-validation-final-2/output/ru.mo"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"entries\": 599,\n  \"translated\": 599,\n  \"fuzzy\": 0,\n  \"obsolete\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "plan",
+        "--config",
+        "/tmp/pokeeper-wget-validation-final-2/ru.toml",
+        "--candidate",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-ru-2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"candidate\": \"/tmp/pokeeper-wget-validation-final-2/candidate-ru-2\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pokeeper",
+        "apply",
+        "/tmp/pokeeper-wget-validation-final-2/candidate-ru-2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"applied\": \"/tmp/pokeeper-wget-validation-final-2/candidate-ru-2\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "languages": {
+    "pl": {
+      "status": "PASS",
+      "template_entries": 599,
+      "output_entries": 599,
+      "translated_entries": 599,
+      "real_plural_entries": 2,
+      "plural_forms": "nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;",
+      "output_sha256": "71f46501aac0a23b85eac6d82eb2022b8c66a3c12fe91e43a7f2fc0826106387",
+      "repeat_update_identical": true,
+      "config_sha256": "d6acc383e4be9515e6fe320e38f8cb966fceb657d891e05f6f34085f9e5c9a44",
+      "report_counts": {
+        "conflicts": 0,
+        "gaps": 0,
+        "human_changes": 0,
+        "ignored": 0,
+        "removed": 0,
+        "unprotected": 0,
+        "updates": 599
+      }
+    },
+    "ru": {
+      "status": "PASS",
+      "template_entries": 599,
+      "output_entries": 599,
+      "translated_entries": 599,
+      "real_plural_entries": 2,
+      "plural_forms": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);",
+      "output_sha256": "532deb19cf9cb5fa345ec5d67b3c82392a52859027ba0c762e62824af7731472",
+      "repeat_update_identical": true,
+      "config_sha256": "7fc9c60c8ce751976b6aaf9fb40862321884d7ec2e0c9ea910cbac3360bbb228",
+      "report_counts": {
+        "conflicts": 0,
+        "gaps": 0,
+        "human_changes": 0,
+        "ignored": 74,
+        "removed": 0,
+        "unprotected": 0,
+        "updates": 599
+      }
+    }
+  },
+  "status": "PASS",
+  "limitations": [
+    "No Gemini request",
+    "No Wget build or runtime test",
+    "Archive signature not independently verified"
+  ],
+  "core_source_sha256": {
+    "__init__.py": "d386738720dec717cd96d45b7e5faf1ec2fff1e320f772ec9d714a9a662f662d",
+    "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "catalog.py": "5d12227d6c8e2c7cd4383be25e89e98ff7b22eb8442471b255f141049535c967",
+    "cli.py": "63d2a5b982740bc54a7fab6a44bdba6b0b68657a392d75452adff188408eb0bd",
+    "config.py": "6269e831efc1c8d7ea87d86586063a437d358b7eb1de06fe8d3109de867c7e04",
+    "core.py": "37773a2c3f722654f0013cbca9d62862f0ff6940712a134df91fba45d790fdb8",
+    "gemini.py": "a509ec00e77bad3040ab094223977c8883193b2351367cdd77897a2976417c7c",
+    "transaction.py": "d0d53ab3be315e0e8ea12aad402c80ae7721b174bbdc6fa15cd57a27535d0687",
+    "validation.py": "2919b8b3155fe51b3e4f1f1fb29c4783a68b13f01348ac1bc172cb917d3598af"
+  },
+  "python_version": "3.13.15",
+  "polib_version": "1.2.0"
+}

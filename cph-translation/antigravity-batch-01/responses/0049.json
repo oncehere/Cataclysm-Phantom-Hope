@@ -1,0 +1,81 @@
+{
+  "request_sha256": "fc64daaeac86d6d4d8034af0bf1fb5484a666af219242e83f6f63ceb504947bb",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "256387787aec47a804d95520c51c028fcfdb79e5550b076b36e1527b3417c589",
+      "values": [
+        "火弹术"
+      ]
+    },
+    {
+      "id": "25695d58b377149d7b8801dd12ab7d99260719fe7581ba47962f2939656d481c",
+      "values": [
+        "触碰目标，将他们的一部分力量抽取给自己。对机械类敌人无效。在冬季，你必须处于<color_yellow>室外阳光下</color>才能编织该幻术。"
+      ]
+    },
+    {
+      "id": "256b5958e666a75463016789fddf65dc35976ab2045949494a98c75324579b48",
+      "values": [
+        "长及小腿中部的厚袜子。"
+      ]
+    },
+    {
+      "id": "257d63a4b8d4a67a0c9eab933b8061adcf17a2fb7fe8474c02cb0d3be6d2a95b",
+      "values": [
+        "此构建版本不包含 Lua 平台支持。"
+      ]
+    },
+    {
+      "id": "25816e965bfd6a5994bd70e3ba533d40ad06dbb9d9839e2e50ee26a9ca5b0976",
+      "values": [
+        "无人只在浅滩游"
+      ]
+    },
+    {
+      "id": "258371e0514641e645419c2e273545d886b4c9daa02cea7fa33f75f746fcb12d",
+      "values": [
+        "检测到符合制造机要求的物品 %s，但该物品未损坏 请将完好的物品从制造机中取出"
+      ]
+    },
+    {
+      "id": "25848cabb38ffd6e5064803f1ad69eb80374c59351e8599d04d92f0a66fc9491",
+      "values": [
+        "该位置没有可选择的部件。"
+      ]
+    },
+    {
+      "id": "258d82238ced424b464bbbce02f12794f55eb48aecaec80f22827dbbdde9d674",
+      "values": [
+        "左后触手"
+      ]
+    },
+    {
+      "id": "25a5528f4f2651c8a48f2ec1fcf1a104c31c37599fb37079eac8b442915d1dbd",
+      "values": [
+        "好吧，交易谈成了。我已经尽力了，卢比克。"
+      ]
+    },
+    {
+      "id": "25aa0b8333d7cf961cfe6d93d1f6c2eab37b7ca6ab20c814060337d3e8ccc6cb",
+      "values": [
+        "你学会了“大地坟冢”，这是你“大地沉眠”血术的新用法。"
+      ]
+    },
+    {
+      "id": "25aec4193be8564921bffd9e53d8df7d323d9d2fdd2499e02f9bcb73a9747a99",
+      "values": [
+        "最后一只寄生虫从尸体里爬了出来。"
+      ]
+    },
+    {
+      "id": "25cf0aa4142f33b53fbd3ace247bef49524e4246914b6740b6a84fff1df09848",
+      "values": [
+        "那么，看来我们已经谈判完毕了。来谈谈报酬吧。"
+      ]
+    }
+  ]
+}

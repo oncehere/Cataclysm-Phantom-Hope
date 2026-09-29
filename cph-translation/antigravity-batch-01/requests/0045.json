@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ MOD name",
+      "flags": [],
+      "id": "211f7b6d8da36c40ccf540d70f6fd5bdbc4eea5f411939c5f7c2f201ec990681",
+      "identity": [
+        null,
+        "灾变仙路",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/modinfo.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "灾变仙路",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "2137d1024a4990bce37295a4921d5408a42637282f3493786d65e251fb77eaa4",
+      "identity": [
+        null,
+        "fragment of reality",
+        "fragment of reality"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": "fragment of reality",
+      "singular": "fragment of reality",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "21667c4176413fd6c0d63a47ea212206c4cc21f54c18cba70f8fcc6d5085080a",
+      "identity": [
+        null,
+        "Throwing time: ",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/item_info.cpp",
+          "3892"
+        ],
+        [
+          "src/item_info.cpp",
+          "3941"
+        ],
+        [
+          "src/item_info.cpp",
+          "3946"
+        ]
+      ],
+      "plural": null,
+      "singular": "Throwing time: ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "217bb864bde7d269ea5084329f8f1a70270ab588ec34b92eab0d577bd5e4b9a3",
+      "identity": [
+        null,
+        "Do nothing and log off",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Do nothing and log off",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "2184e9771aa370ab7c0d08e12255a7ef5e0fdcfa73dc863421da2358d08f79c7",
+      "identity": [
+        null,
+        "Leviathan",
+        "copies of Leviathan"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Leviathan",
+      "singular": "Leviathan",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2190c93b8956b18ff1776ede8a60e9f639e47a3b416cb7ea679327a8c1de0cd6",
+      "identity": [
+        null,
+        "Disconnect this part from the other vehicle before removing it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "470"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disconnect this part from the other vehicle before removing it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<insect_dream>'",
+      "flags": [],
+      "id": "219b5509b348d3f4c370728ba8a9467c2c3b96814bd1124ce823630e28ef3f64",
+      "identity": [
+        null,
+        "Getting the bodybag was harder than you would have thought, and ordinary garbage bags would just not do.  You eat your fill for the last time with this mouth, undress (you won't need clothes after the change), and climb in the bag.  Closing the zipper from the inside is a challenge, but you need complete darkness for what comes now.  You wait.\nAnd wait.\nAnd wait.\n\nCould you have been wrong?  You were so sure the time was right.\nYou need to get out of here, but you can't move your…anything.  Do you even have anything to move?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Limb_WIP/mutation_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Getting the bodybag was harder than you would have thought, and ordinary garbage bags would just not do.  You eat your fill for the last time with this mouth, undress (you won't need clothes after the change), and climb in the bag.  Closing the zipper from the inside is a challenge, but you need complete darkness for what comes now.  You wait.\nAnd wait.\nAnd wait.\n\nCould you have been wrong?  You were so sure the time was right.\nYou need to get out of here, but you can't move your…anything.  Do you even have anything to move?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_memo'",
+      "flags": [],
+      "id": "21cb5a83ff1afcf45b073b9f13de42e5254d3b83ecf401b8b0f9d6fa04de6cff",
+      "identity": [
+        null,
+        "Dr. Mitchell,\nPer our last email, Dr. Enrique Rodriguez passed away in a car accident almost two years ago, shortly after being assigned to XEDRA as a portal research specialist, and he never had the opportunity to work with XEDRA-23.  As you can see from the employee database, there has never been a Dr. Julia Simmons employed by either XEDRA-23 or any other XEDRA division.\n\nIn addition, the XEDRA handbook requires that all employees use their current title in their signature at all times.  Please update your signature to comply with this policy.\nAlicia Sanders\nSenior Talent Coodinator",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Mitchell,\nPer our last email, Dr. Enrique Rodriguez passed away in a car accident almost two years ago, shortly after being assigned to XEDRA as a portal research specialist, and he never had the opportunity to work with XEDRA-23.  As you can see from the employee database, there has never been a Dr. Julia Simmons employed by either XEDRA-23 or any other XEDRA division.\n\nIn addition, the XEDRA handbook requires that all employees use their current title in their signature at all times.  Please update your signature to comply with this policy.\nAlicia Sanders\nSenior Talent Coodinator",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "21d27050f4a63e554dc5dcec081249747d0436042a859f90755d3d32b8c4150a",
+      "identity": [
+        null,
+        "rear tentacle midsections",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "rear tentacle midsections",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'PAPR welding helmet (raised)'",
+      "flags": [],
+      "id": "21d38073dae62556ebc07a80bbcb7d2117f8506bba397d95064d9b65ef510a19",
+      "identity": [
+        null,
+        "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely without compromising its ability to filter air.  The welding mask it raised.  Activate it to prepare it, or to push the welding mask back down over your face.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely without compromising its ability to filter air.  The welding mask it raised.  Activate it to prepare it, or to push the welding mask back down over your face.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ No.  As you can probably see, we can't spare the parts.  Too much risk\nthese days.",
+      "flags": [],
+      "id": "21e027c667fffd701d45c6ebce598c2957b5f4841d0f0125e58421477818a1bb",
+      "identity": [
+        null,
+        "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "220607251343394f7b6b2ce3ee54f6198ab3f2aaa319bf0866d69f8f34cbad65",
+      "identity": [
+        null,
+        "Queue another action for this tile?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game.cpp",
+          "3116"
+        ]
+      ],
+      "plural": null,
+      "singular": "Queue another action for this tile?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

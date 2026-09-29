@@ -1,0 +1,15 @@
+{
+  "request_sha256": "f7b4d21bc19d823544eaca9799fe2ba7c768862c2d2baa7975df0d4fda485242",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "bab1802254bd796d78cebe50371a153c525d318354ee47d786cc4319caa4b695",
+      "values": [
+        "我有时候能看到一些怪东西，但绝不可能有人会长成你这副模样！我知道你不是真的，就算你是真的，也离我远点，你这个丑陋的<name_b>！"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "9df024e6b6f67c23d256efbcae12177f60ca68d5169b744f6236acb057bfe097",
+      "identity": [
+        null,
+        "[Favor Merchants] Remind Rubik that the Free Merchants are taking on the risk of the shipments, and need to stick around Earth even if the Exodii leave.  \"I think thats worth a small premium, no?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Remind Rubik that the Free Merchants are taking on the risk of the shipments, and need to stick around Earth even if the Exodii leave.  \"I think thats worth a small premium, no?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "9df75b30c320ef754d5cec508643bd55d660aa4a2abff0799e8586db7cde5a9e",
+      "identity": [
+        null,
+        "tanglevine root",
+        "tanglevine roots"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/harvest_plant_items.json",
+          ""
+        ]
+      ],
+      "plural": "tanglevine roots",
+      "singular": "tanglevine root",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "9dfe18274c28dabfbc608da67dc619aa28cac5c589717ff9368702bd21d9f03e",
+      "identity": [
+        null,
+        "Distortion",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras_dimensions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Distortion",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9e4781814309a96c466791f429cb0e2ed8cd48a7dfee8600cec92af97578081f",
+      "identity": [
+        null,
+        "That would mix fresh water and salt water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1078"
+        ]
+      ],
+      "plural": null,
+      "singular": "That would mix fresh water and salt water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'tip'",
+      "flags": [],
+      "id": "9e4b6f57ea5f8531689fcab3989c5bfadfedfa5090855502b0c727f39ae5fbc1",
+      "identity": [
+        null,
+        "Save time.  Instead of using a recipe, place water in a container on a fire to boil it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/core/tips.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Save time.  Instead of using a recipe, place water in a container on a fire to boil it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'To Don the Mantle of the Sun'",
+      "flags": [],
+      "id": "9e5173d3e525dc28e6d34490f8eca3f33b774f27ccf08f7b31c5ce8627f2af22",
+      "identity": [
+        null,
+        "You place the ash upon your tongue and, shredding the morningflower leaves and hurling them into the air, recite the words of the charm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You place the ash upon your tongue and, shredding the morningflower leaves and hurling them into the air, recite the words of the charm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9e5ff22db6dfb6729f0c8e0c6719f9a9b760d76b7a9a0cf46a8c2e9a44c0b0bd",
+      "identity": [
+        null,
+        "Which spell did you want?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Which spell did you want?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'FOLDABLE'",
+      "flags": [],
+      "id": "9e62382eeb9b1359a09d632433fc2df86fa57809571171f1a077eb893a552cd0",
+      "identity": [
+        null,
+        "This part can be folded up for storage and transport.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vp_flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This part can be folded up for storage and transport.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9ea110c93c32724ac1f1d8bb6f802a965ece19ae8bc1337ea4df43468da0fe39",
+      "identity": [
+        null,
+        "Wielded item",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "658"
+        ]
+      ],
+      "plural": null,
+      "singular": "Wielded item",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'crustacean mutagenic primer'",
+      "flags": [],
+      "id": "9eb6636f11dfbf129bb92108732110857f220888325758b26a3c6fd73df32cdb",
+      "identity": [
+        null,
+        "A red colored mutagenic primer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/mutagen.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A red colored mutagenic primer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "9ed08cff7967b4dfc28ffe4202852a9d9657abb97cbfbb779fe6aaa79170fd4d",
+      "identity": [
+        null,
+        "[Point to a CBM on the screen to remove]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Point to a CBM on the screen to remove]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9ed5b2784626745e6a6886a7c222f539bc584f4c1294b2592cdc9c3349f50dac",
+      "identity": [
+        null,
+        "I'm the most senior member at this point, so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/militia/GM_Militia_Merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm the most senior member at this point, so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

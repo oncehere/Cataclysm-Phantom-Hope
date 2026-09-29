@@ -1,0 +1,81 @@
+{
+  "request_sha256": "069bd22638c9d466db130e600239f4c7810f02b2e04b066c69a51ba10e5cb1e5",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "db1b259e382897e625765951cc228b557e1875596e39689a9f47b6481116b5e1",
+      "values": [
+        "对。来自太空的真菌甲壳生物。要我说，真是群极不讨喜的家伙。不过，呃，别告诉他们是我说的。熔炉之主说他们并没有恶意，把人切碎只是他们打招呼的方式。就我个人而言，我觉得这挺粗鲁的，但也许这是我站在人类中心主义的角度了吧。不过我扯远了。你对营地还是侦察塔感兴趣？"
+      ]
+    },
+    {
+      "id": "db1f349c2d6cc1a73ce3b76153862a3520a8d391277b4f9f555ac566af84c5c6",
+      "values": [
+        "该物品是枢纽 01 机械臂外骨骼。它需要植入 XM-ARM 接口才能运作。"
+      ]
+    },
+    {
+      "id": "db2b0e11b7afe50773e99623d471c1c2dc91a1ed03e40ab0ac7510cefe1a793e",
+      "values": [
+        "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>命令已接受。\n<color_light_green>正在延伸桥梁。\n<color_light_green>混蛋。\n\n<color_light_green> @User > _</color>"
+      ]
+    },
+    {
+      "id": "db2c86ad8af67b4339a3214f6760a425650abc31e5680782f6b6a4bf9fb16eae",
+      "values": [
+        "我不是外来者，我只是个生化人。"
+      ]
+    },
+    {
+      "id": "db318d235f2ea3295edd1a9f82d92607d4a382c633de70bcf7ac772eb679b83e",
+      "values": [
+        "\"\n\n[翻译：] \""
+      ]
+    },
+    {
+      "id": "db4a74401e5994d2fd1e9c12f16d9362a8c671a250a13de2df800bf104795f94",
+      "values": [
+        "调节者旋转炮塔，径直瞄准了你。可别吓得尿了裤子！"
+      ]
+    },
+    {
+      "id": "db4f9749ea191f39ab33e6ae88d4c373a78beced3f20c3adccdc109ba03bd011",
+      "values": [
+        "昆虫肉干"
+      ]
+    },
+    {
+      "id": "db536d981c187f6ca12b1fe40f5787bf567aa5a014ede26b56f44aab57151bd2",
+      "values": [
+        "发光流体"
+      ]
+    },
+    {
+      "id": "db5810ac8a72ee6bdf2410b51b00efd7f7c437d67435b7699746adedb1a093ce",
+      "values": [
+        "切换为控制该同伴。"
+      ]
+    },
+    {
+      "id": "db5e1b82239fc50adbc5067768874618f908108e9ecd453223b0db56f5e7da3c",
+      "values": [
+        "正在对 <u_name> 执行莉莉特瘟疫检测。"
+      ]
+    },
+    {
+      "id": "db60e0714cf7ef556235fb37b0e0687f659d9d26cbf2722dfc36a329d7ac3b74",
+      "values": [
+        "吸嗨了"
+      ]
+    },
+    {
+      "id": "db6a2c37cc2471ac9c6082884828e5542d862375dbbd6355db115b395c2e96d9",
+      "values": [
+        "右触手根部"
+      ]
+    }
+  ]
+}

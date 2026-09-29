@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'CANNOT_GAIN_WEARINESS'",
+      "flags": [],
+      "id": "56a03c349db9db55a9137ebb3ca57bfbd268a57408560b74169e7467c1bae737",
+      "identity": [
+        null,
+        "You have a seemingly inexhaustible supply of energy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have a seemingly inexhaustible supply of energy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'learning_serum_main'",
+      "flags": [],
+      "id": "56a16e2422df8fb605f8741756efe761d27b7dd00c6b96ad386a4cf15af43c39",
+      "identity": [
+        null,
+        "Injected 76x-\"Lore\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/learning_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Injected 76x-\"Lore\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'vegetarian dolmas'",
+      "flags": [],
+      "id": "56c924f9241cb83eaa7820601b4e4cdaf677814d167209e212bd52498fc5a92f",
+      "identity": [
+        null,
+        "Grape leaves stuffed with rice, vegetables, and spices.  A popular dish in Mediterranean and Middle Eastern cuisines.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/veggy_dishes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Grape leaves stuffed with rice, vegetables, and spices.  A popular dish in Mediterranean and Middle Eastern cuisines.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "56e75da4bb4018767ed9ba803b07fed588433c5dc5ba31754955a49422bca687",
+      "identity": [
+        null,
+        "I don't want them to know we are involved.  We've seen people like this in other otherlands, and we know it's dangerous to let them know too much about us.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I don't want them to know we are involved.  We've seen people like this in other otherlands, and we know it's dangerous to let them know too much about us.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '磐石篇'",
+      "flags": [],
+      "id": "56edbcf58fe4ffef00dcecd9f3782bdea0a4d1f378dd80e336d1f69ec7db4d4d",
+      "identity": [
+        null,
+        "一部土行修炼功法，封皮厚重如石板，入手沉甸。所载镇岳吐纳沉气入地，体魄坚凝如山岳，御伤难撼。乃练气期之法。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一部土行修炼功法，封皮厚重如石板，入手沉甸。所载镇岳吐纳沉气入地，体魄坚凝如山岳，御伤难撼。乃练气期之法。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "56f111ef85ed54c67428ae04efea61783d2538057aa6c5b3803f880bb6bd946d",
+      "identity": [
+        null,
+        "The Wise",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Wise",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "56f124b46da32a1b494a7bb8162dab88e5a6cfce3e7609cbbc5429ff5f1ddb29",
+      "identity": [
+        null,
+        "that's up to you, I think.  If I could find it myself, I'd send quads out there.  Maybe it would be worth asking around to other survivors?  Seems like a good job for a local guide.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "that's up to you, I think.  If I could find it myself, I'd send quads out there.  Maybe it would be worth asking around to other survivors?  Seems like a good job for a local guide.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in Result of practice 'knitting'",
+      "flags": [],
+      "id": "57325059baa0108c514a453fbdde16d37011c3e0f55ab807d49c80c08b34589e",
+      "identity": [
+        null,
+        "You admire your designs and find happiness in your advancements in the field of knitting.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/practice/tailoring.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You admire your designs and find happiness in your advancements in the field of knitting.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "578be6ea078046f6e227f0bfa059ce88677f21a38956e060dbe5a6ed818b552e",
+      "identity": [
+        null,
+        "cargo bermuda shorts",
+        "cargo bermuda shorts"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": "cargo bermuda shorts",
+      "singular": "cargo bermuda shorts",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "57aa921b57b5e9e3d35a8284abc54052fca96b950748b62dbc44a7670f225352",
+      "identity": [
+        null,
+        "You are no longer close enough to perform that action.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "1168"
+        ]
+      ],
+      "plural": null,
+      "singular": "You are no longer close enough to perform that action.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "57ea8ec4829f32d96fea68b895f801a9d5efe74570abb8eaedff8951dd388486",
+      "identity": [
+        null,
+        "No personal zones found for this character.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2493"
+        ]
+      ],
+      "plural": null,
+      "singular": "No personal zones found for this character.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Excellent.  I'll give you a radio.  Take it to them, make introductions,\nand help me with translating, now that you've hopefully starting to\nunderstand me.",
+      "flags": [],
+      "id": "580b18f7ba82005a4bcca1b1db6fb18402b2adba074d83c5e8e2f70b7f0cdd9f",
+      "identity": [
+        null,
+        "Aye, alright.  Good.  I'll give ye a chitchat - a talk-rad talk-vid.  Take it t'them, make the introductions, and mayhaps lend a mite o' translating, now ye've hopefully started kennin' ol' Rubik's yark.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Aye, alright.  Good.  I'll give ye a chitchat - a talk-rad talk-vid.  Take it t'them, make the introductions, and mayhaps lend a mite o' translating, now ye've hopefully started kennin' ol' Rubik's yark.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "weariness": "疲劳"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "snapshot": "/tmp/pokeeper-cph-style-source-20260928",
+  "head": "a43a8f2f270994dad716ab067c48aad7c2eeaee3",
+  "archive_sha256": "0c70aca162287a63cbcf43d610a79d68d8f46257d6b3a0777029453ef5d42176",
+  "archive_size": 203898880,
+  "archived_files": 12852,
+  "tracked_files": 12852,
+  "omitted_tracked_paths": [],
+  "extra_paths": [],
+  "version": 1,
+  "status": "PASS",
+  "generated_utc": "2026-09-29T00:48:04.731108+00:00",
+  "repository": "oncehere/Cataclysm-Phantom-Hope",
+  "source_checkout": "/home/oncehere/文档/ChatGPT/CPH/cph",
+  "branch": "main",
+  "tree": "27c3147e211c22cf47489770b277f0d7a52b7ee8",
+  "source_status_before": "clean excluding forbidden obj-lua path",
+  "source_status_after": "clean excluding forbidden obj-lua path",
+  "source_head_after": "a43a8f2f270994dad716ab067c48aad7c2eeaee3",
+  "filter_clean_process_query_exit": 1,
+  "real_obj_lua_accessed": false,
+  "source_checkout_modified": false,
+  "extraction": {
+    "cwd": "/tmp/pokeeper-cph-style-source-20260928",
+    "command": [
+      "bash",
+      "lang/update_pot.sh"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 8.534,
+    "log": "/tmp/pokeeper-cph-style-extract.log",
+    "stdout_stderr": "> Extracting strings from C++ code\n> Extracting strings from JSON\n> Unification of translation template\n> Testing to compile translation template\n> Checking for wrong Unicode symbols\nALL DONE!\n",
+    "log_sha256": "e94da7956ad2945a8a0fefbe2b9b3ca456151f55cad7e35c768682cbe794c9a5"
+  },
+  "lua_extraction": {
+    "command": [
+      "python3",
+      "tools/lua_api/extract_translations.py",
+      "data/mods/Lua_First_Example/content/cleanwater_charm.lua",
+      "data/mods/Lua_First_Example/content/environment_and_emissions.lua",
+      "data/mods/Lua_First_Example/content/items_and_tools.lua",
+      "data/mods/Lua_First_Example/content/magic_and_spells.lua",
+      "data/mods/Lua_First_Example/content/monsters_and_ai.lua",
+      "data/mods/Lua_First_Example/content/mutations_and_traits.lua",
+      "data/mods/Lua_First_Example/content/recipes_and_crafting.lua",
+      "data/mods/Lua_First_Example/main.lua",
+      "data/mods/Lua_First_Example/mod.lua",
+      "data/mods/Lua_First_Example/runtime/behaviour.lua",
+      "data/mods/Lua_First_Example/runtime/combat_and_hooks.lua",
+      "data/mods/Lua_First_Example/runtime/nano_tonic.lua",
+      "data/mods/Lua_First_Example/runtime/tasks_and_state.lua",
+      "data/mods/Lua_First_Example/runtime/tutorial_ui.lua",
+      "data/mods/Migrated_Core/main.lua",
+      "data/mods/Migrated_Core/mod.lua",
+      "--output",
+      "lang/po/cph-lua.pot"
+    ],
+    "cwd": "/tmp/pokeeper-cph-style-source-20260928",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "input_file_count": 16,
+    "extracted_entries": 0
+  },
+  "catalog": {
+    "entries": 117224,
+    "plural_entries": 18068,
+    "context_entries": 6519,
+    "explicit_empty_context_entries": 0,
+    "original_characters": 9212002,
+    "pot_bytes": 24420530,
+    "sha256": "45daf8012d1506fea29ba6c57a6ee8f3263f6547aead05de990002b9a3286fd2",
+    "cph_supplement_entries": 251,
+    "cph_supplement_missing_from_template": 0,
+    "missing_supplement_examples": []
+  },
+  "tools": {
+    "python": "Python 3.13.15",
+    "polib": "1.2.0",
+    "xgettext": "xgettext (GNU gettext-tools) 1.0",
+    "msgfmt": "msgfmt (GNU gettext-tools) 1.0"
+  },
+  "reused_scripts_sha256": {
+    "lang/update_pot.sh": "61256abaaf60b1646c0373705a0ebcb16418d0b7ba44647ee23fc8e585e67ed3",
+    "lang/extract_json_strings.py": "6d1d8098cf65ef9f772fb877f0ec597e00c3ffa25133d8f5fdb911712ecc1001",
+    "lang/string_extractor/pot_export.py": "36aed62c19d34f2ce7b8f1c5e021164c741dfe26af0819b0a1e5f29fcf9281b1",
+    "lang/string_extractor/parse.py": "de2ad2b433d6bf89eff965859c47beaffa8e6d5ba5cf7f8ea6dae3d695403f23",
+    "lang/unicode_check.py": "4a3ccd1536f8657aa9d1cf2e1cb1b87eb1654a5970c26d81bd6d3d861145bb2f",
+    "tools/lua_api/extract_translations.py": "d0b32bafab1b76ac65b3db55c8cb6dac20de275941a03890fa0628597bd5c4c1"
+  },
+  "instructions_read": [
+    "WORKSPACE.md",
+    "cph/AGENTS.md",
+    "cph/docs/project/execution-spec.md",
+    "cph/src/AGENTS.md",
+    "cph/data/AGENTS.md",
+    "cph/data/lua/AGENTS.md",
+    "cph/data/mods/AGENTS.md",
+    "cph/tools/AGENTS.md"
+  ],
+  "scope_notes": [
+    "POT follows current project C++/JSON extraction policy, including its declared test/debug exclusions.",
+    "Bundled Lua source files were passed to existing static extractor, with zero marked messages; no Lua code was executed.",
+    "Lua scaffolding templates, type declarations and tool test fixture were excluded from runtime message extraction.",
+    "Unmarked or dynamically constructed Lua text is not extractable by the current project contract.",
+    "No translation API calls, game build, runtime loading, installation, save access, or synchronization changes.",
+    "POT creation timestamp follows the existing extraction script; the fixed source commit and archive identify the exact input."
+  ],
+  "final_validation": {
+    "command": [
+      "msgfmt",
+      "--check",
+      "--check-format",
+      "-o",
+      "/tmp/pokeeper-cph-template-check.mo",
+      "cph-translation/inputs/cph.pot"
+    ],
+    "cwd": "/home/oncehere/文档/ChatGPT/CPH翻译",
+    "exit_code": 0,
+    "status": "PASS"
+  },
+  "upstream_license": {
+    "source_file": "LICENSE.txt",
+    "sha256": "48bd3d15e40bc00f2eb182105a64fc3b376a1a376172642fca5d6c82140d26d7",
+    "declared_project_license": "Creative Commons Attribution-ShareAlike 3.0 Unported",
+    "note": "The extracted game text is upstream content and is not relicensed under the PO Keeper tool MIT license."
+  },
+  "temporary_retention": {
+    "source_snapshot": "retained for translation context and review during this task",
+    "raw_git_archive": "removed after verified extraction; regenerable from the fixed commit",
+    "logs": "retained in /tmp; extraction stdout and SHA256 also embedded in this manifest"
+  }
+}

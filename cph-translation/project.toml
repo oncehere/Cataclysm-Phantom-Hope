@@ -1,0 +1,62 @@
+version = 1
+project = "cph-zh-cn-a43a8f2f-dark-humour"
+language = "zh_CN"
+plural_forms = "nplurals=1; plural=0;"
+template = "inputs/cph.pot"
+catalog = "po/zh_CN.po"
+state = ".pokeeper/zh_CN.state.json"
+
+[[sources]]
+name = "cdda"
+path = "inputs/cdda-11003869087.zh_CN.po"
+revision = "github-actions-artifact-11003869087; see inputs/upstream-sources.json"
+
+[[sources]]
+name = "ccb"
+path = "inputs/ccb-10715293685.zh_CN.po"
+revision = "github-actions-artifact-10715293685; see inputs/upstream-sources.json"
+
+[rules]
+preserve_newlines = true
+# Runtime tags allow nested expressions; literal UI text and prose inside
+# decorative angle brackets remain translatable. Pair ordering needs review.
+token_patterns = ['<(?!(?:empty|Global|Character)>)/?[A-Za-z_%+\-](?:[^\s<>]|<(?:[^\s<>]|<[^\s<>]*>)*>)*>']
+
+[gemini]
+# 3.7 returned 503; 3.8 repeatedly returned 503 on multi-entry batches;
+# 3.5 Flash-Lite passed the same local RPG-style probe with a more idiomatic joke.
+model = "gemini-3.5-flash-lite"
+batch_size = 16
+retries = 2
+timeout_seconds = 120
+prompt = """
+Translate the untranslated entries of Cataclysm: Phantom Hope into natural
+Simplified Chinese. This is a post-apocalyptic survival role-playing game.
+The requested literary style is restrained black humour and deadpan dry wit:
+平静地陈述荒诞，克制的黑色幽默、一本正经的冷笑话，不解释笑点。
+Use this voice for suitable flavour text, descriptions and character dialogue,
+while preserving the source meaning and each speaker's identity, mood and register.
+Do not invent lore, facts, plot clues, extra gore, additional joke endings or memes.
+Do not turn sincere grief into a joke or alter the intensity of insults.
+UI labels, item names, numerical stats, recipes, controls, warnings and gameplay
+instructions must stay concise and accurate. Do not joke at the expense of usability.
+Use developer comments, context and source locations to identify the type of text.
+Preserve numbers, units, literal newlines, printf arguments and runtime tokens
+matched by the supplied rules, including nested dynamic tokens and shortcut keys.
+Translate literal UI labels such as <empty>, <empty rule>, <Global>, <Character>,
+<Arrow Keys> and ordinary prose inside decorative angle brackets; preserve the
+brackets themselves and all actual inner colour tags. Valid numbered printf
+reordering is allowed when required by Chinese grammar. Do not translate runtime
+token names or parameters. Main-menu shortcut markup such as <a|A> may move as a
+whole beside the translated label; do not leave the remaining English letters
+as a half-translated word. For example, Lo<a|A>d can become <a|A>读取 and
+Se<t|T>tings can become <t|T>设置. Preserve proper names such as ImGui.
+Follow project-approved terminology and confirmed examples without copying
+irrelevant wording into another entry. Return only the required JSON structure.
+"""
+terms = { zombie = "丧尸", stamina = "耐力", sleepiness = "困倦", weariness = "疲劳", mutation = "突变", faction = "派系" }
+examples = [
+  { source = "Famous last words:  Let's poke this electric zombie with a metal stick.", translation = "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。" },
+  { source = "That's exactly what we need: more dead bodies.", translation = "这正是我们需要的：更多的尸体。" },
+  { source = "It needs a coffin, not a knife.", translation = "它需要的是一副棺材，而不是一把刀。" },
+]

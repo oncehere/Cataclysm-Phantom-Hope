@@ -1,0 +1,81 @@
+{
+  "request_sha256": "e5fc477c8a942fa64690e3f1966c65f3eaf32f89ba110da1e63c1f27b2995362",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ba818fabe622bf6a962957a7a84563a80730afda44199c9caf213d7d6f2c64a0",
+      "values": [
+        "%s冒泡并蒸发，融化成一滩原生质粘液。"
+      ]
+    },
+    {
+      "id": "baa959693a7807506eab141cee659d7641b35645f436f7fdff707061a4b20c48",
+      "values": [
+        "左触手中段"
+      ]
+    },
+    {
+      "id": "bb0222c073158c9ba4555f79515f3875a23db8ae0eebda2e8ad06d644ad66a79",
+      "values": [
+        "右中触手中段"
+      ]
+    },
+    {
+      "id": "bb022bcd8d7fba54b33d5303ea3aca834183f48d586fe403dcb3c248d27996c8",
+      "values": [
+        "一本收录了全印度各地多种咖喱的食谱。"
+      ]
+    },
+    {
+      "id": "bb093d5d8d05eac04cad3bb6d4af72c0841307081ff41009b818a91120e90472",
+      "values": [
+        "你的细胞依照不同的规则运转。虽然你仍需呼吸，但在其他方面，你对所谓宇宙带来的热力和化学伤害具有极高的抗性。"
+      ]
+    },
+    {
+      "id": "bb57850e1c19202314abd18439972aee1107b1efdcfffb36a29f6898ce5adf44",
+      "values": [
+        "<context_val:trait_name>: \"<context_val:trait_description>\"\n<context_val:trait_requirement_description>.\n<context_val:trait_additional_details>"
+      ]
+    },
+    {
+      "id": "bb67300d54122f6827cc481bb9405c15574bec1ae833e5c9d5050e1412a63fbd",
+      "values": [
+        "我们对它们知之甚少，但我们注意到它们缺乏极速和催眠眼。要是它们有的话，我就不会派你一个人去对付它们了。在白天接近它们，这样战斗时它们就会在阳光下慢慢自燃，或者拿着雨伞攻击你。与之前的任务不同，这个任务可以通过把不死生物尸潮引向目标让他们自相残杀来完成。不过，先试着和他们谈谈，看看他们是否愿意接受治疗。"
+      ]
+    },
+    {
+      "id": "bb70674707a8769df977dbf3a51a699d32eb5a8f59e0fc152ae56ddd9de30e16",
+      "values": [
+        "[-$<u_val:number_artisans_gunsmith_sum3>，600 发弹药，3 天] 回头见。"
+      ]
+    },
+    {
+      "id": "bb77fc84e598c7bd89bcdafdff8cc91a47b32afd6eeb8da4da968b9a552468da",
+      "values": [
+        "机械师"
+      ]
+    },
+    {
+      "id": "bb87db31b663c82b023dbd5954c28a24469d85feddc909e6c0b9516303bd59fd",
+      "values": [
+        "高腰三角裤"
+      ]
+    },
+    {
+      "id": "bb981f7c163b2197af50fc0e5b1f81caef57056ba7971ae76e7777a2c8f8422e",
+      "values": [
+        "<lt>难以辨认的文字<gt>"
+      ]
+    },
+    {
+      "id": "bbca963fdd20cc8e67f98f1ce6cf1d17ea5fcab05969d947a96ffca496c60dc4",
+      "values": [
+        "加拿大边境附近发现稀有元素的公告。美国政府在与加拿大接壤的边境发现了他们所称的意外之财——大批稀有元素。在实施反卫星监控措施之前，这些地点已经建起了带有光圈式启闭穹顶的大型圆顶建筑。政府声称建造这些圆顶是“为了保护这些矿藏周围的自然环境”。一些住在圆顶附近的居民声称，在圆顶建立后不明飞行物活动有所增加，但卫星图像似乎已无法观测这些区域，试图进入禁区的无人机也会停止工作。"
+      ]
+    }
+  ]
+}

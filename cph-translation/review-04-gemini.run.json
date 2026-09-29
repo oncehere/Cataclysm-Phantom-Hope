@@ -1,0 +1,99 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "requests": [
+    {
+      "request": 1,
+      "entries": 8,
+      "status": "response_received",
+      "seconds": 4.888
+    },
+    {
+      "request": 2,
+      "entries": 3,
+      "status": "response_received",
+      "seconds": 2.318
+    },
+    {
+      "request": 3,
+      "entries": 2,
+      "status": "response_received",
+      "seconds": 2.253
+    },
+    {
+      "request": 4,
+      "entries": 5,
+      "status": "response_received",
+      "seconds": 3.207
+    },
+    {
+      "request": 5,
+      "entries": 7,
+      "status": "response_received",
+      "seconds": 3.342
+    },
+    {
+      "request": 6,
+      "entries": 8,
+      "status": "response_received",
+      "seconds": 3.883
+    },
+    {
+      "request": 7,
+      "entries": 1,
+      "status": "response_received",
+      "seconds": 1.924
+    },
+    {
+      "request": 8,
+      "entries": 8,
+      "status": "response_received",
+      "seconds": 3.969
+    },
+    {
+      "request": 9,
+      "entries": 4,
+      "status": "response_received",
+      "seconds": 2.739
+    },
+    {
+      "request": 10,
+      "entries": 1,
+      "status": "response_received",
+      "seconds": 2.035
+    },
+    {
+      "request": 11,
+      "entries": 1,
+      "status": "response_received",
+      "seconds": 1.845
+    },
+    {
+      "request": 12,
+      "entries": 4,
+      "status": "response_received",
+      "seconds": 5.832
+    },
+    {
+      "request": 13,
+      "entries": 4,
+      "status": "response_received",
+      "seconds": 6.838
+    },
+    {
+      "request": 14,
+      "entries": 4,
+      "status": "UnknownOutcome",
+      "seconds": 5.013
+    }
+  ],
+  "status": "INCOMPLETE",
+  "remaining_gaps": 3346,
+  "entry_results": {
+    "completed": 40,
+    "placeholders_or_tokens": 16,
+    "unknown": 4,
+    "not_requested": 3326
+  },
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-04-gemini",
+  "seconds": 148.276
+}

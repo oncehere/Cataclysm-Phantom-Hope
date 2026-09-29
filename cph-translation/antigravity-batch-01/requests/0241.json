@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (life extension potion)'",
+      "flags": [],
+      "id": "e5c2fef24859d37e1585b9488b55b834ce4e3fef24b537447338fd1de4da556e",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for the elixir of life.  If only you had found this before the world ended.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for the elixir of life.  If only you had found this before the world ended.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_strong_asleep'",
+      "flags": [],
+      "id": "e5c5bda86bdf503489696a54c11782affb0a7b0b348241645e3d54faca7be29b",
+      "identity": [
+        null,
+        "You drift in and out of sleep, uncertain whether your stash is all gone.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You drift in and out of sleep, uncertain whether your stash is all gone.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'biography (living person)'",
+      "flags": [],
+      "id": "e5d558175479d264b8e1422d69198cdd4328330daf021333140e45a3041abbca",
+      "identity": [
+        null,
+        "A biography of a living person.  Well, living at the time it was written.  You'd be willing to bet they're shambling around looking for brains at the moment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A biography of a living person.  Well, living at the time it was written.  You'd be willing to bet they're shambling around looking for brains at the moment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "e5d5be9ba358c238575d6ac4945280b86a486c6053ef36f61edd79f24621839c",
+      "identity": [
+        null,
+        "%s is busy %s and leaves you hanging.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10363"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s is busy %s and leaves you hanging.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'To See Beyond the Barriers'",
+      "flags": [],
+      "id": "e615370a4c77f6ab2319487651558791236531a050a24f95655d661d360c8691",
+      "identity": [
+        null,
+        "You close your eyes and place the sharp rock over them and press, just slightly.  As the pain blooms and the blood trickles, you see beyond.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You close your eyes and place the sharp rock over them and press, just slightly.  As the pain blooms and the blood trickles, you see beyond.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'inactive Pathfinder'",
+      "flags": [],
+      "id": "e6212138b802872e99596ed4f45803ba2e63185b4ecff401e84af453485f1e6b",
+      "identity": [
+        null,
+        "This is an inactive Pathfinder.  Using this item involves placing it on the ground, loading the unit with 7.50mm rounds and 40x46mm grenades in your inventory and turning it on.  If reprogrammed and rewired successfully the drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is an inactive Pathfinder.  Using this item involves placing it on the ground, loading the unit with 7.50mm rounds and 40x46mm grenades in your inventory and turning it on.  If reprogrammed and rewired successfully the drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "e628041e103cda5498c81dd723f15eb60379f22bd6367185203bb31a239ef4f5",
+      "identity": [
+        null,
+        "Find some elder ginseng for Blaine",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Find some elder ginseng for Blaine",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "e64e621ad9888d6bf3415a0d49d6776b8929116da81f4092f6240f062a1c3e66",
+      "identity": [
+        null,
+        "capris",
+        "capris"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": "capris",
+      "singular": "capris",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Remove Sleepiness'",
+      "flags": [],
+      "id": "e686da596be323ce6fb91a9cdd606dea5609c05c0f78c66f407c6b3db8827ece",
+      "identity": [
+        null,
+        "Your tiredness falls away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your tiredness falls away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_memo'",
+      "flags": [],
+      "id": "e68a772a549f8182544e02a182cad466bddd0db7999bd1ad8d12214e129611ef",
+      "identity": [
+        null,
+        "Colleague,\n\nGreetings.  You have selected, or have been selected, to participate in XEDRA-23, or as we call it, Project PHAVIAN.  As a member of XEDRA, you will already have seen many extraordinary things in the course of your work, things which you previously might have scoffed at or dismissed out of hand.  You will see more extraordinary things in the course of your work here, things that even those at other XEDRA divisions would have thought impossible a few years ago.  Phase experiments expand the range of human exploration, but matrix technology unlocks human potential to a degree never before seen.  You will be a part of that endeavor, advancing human knowledge and ensuring the United States of America's place at the forefront of scientific advancement throughout the 21st century.\n\nThere is an ancient proverb that is often translated as \"A single spark can start a prairie fire.\"  Our work here will be the light that will lead humanity into a new age.  I look forward to working with you.\n\nHarold Liu\nDirector, Project PHAVIAN",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Colleague,\n\nGreetings.  You have selected, or have been selected, to participate in XEDRA-23, or as we call it, Project PHAVIAN.  As a member of XEDRA, you will already have seen many extraordinary things in the course of your work, things which you previously might have scoffed at or dismissed out of hand.  You will see more extraordinary things in the course of your work here, things that even those at other XEDRA divisions would have thought impossible a few years ago.  Phase experiments expand the range of human exploration, but matrix technology unlocks human potential to a degree never before seen.  You will be a part of that endeavor, advancing human knowledge and ensuring the United States of America's place at the forefront of scientific advancement throughout the 21st century.\n\nThere is an ancient proverb that is often translated as \"A single spark can start a prairie fire.\"  Our work here will be the light that will lead humanity into a new age.  I look forward to working with you.\n\nHarold Liu\nDirector, Project PHAVIAN",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e6bb9304b42e8caeac1e87a138a2551176aa683b35ef156870d407a93f6091ea",
+      "identity": [
+        null,
+        "How can you help me?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How can you help me?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'diseased coral sample'",
+      "flags": [],
+      "id": "e6c3024231e870a29646d4a13a5de4e4188b51d8d13a8aec0baf2ed88bc562eb",
+      "identity": [
+        null,
+        "A white polyp extracted from a mutant colony.  Appears to have been the result of failed genetic engineering experiments.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/cryostorage_loot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A white polyp extracted from a mutant colony.  Appears to have been the result of failed genetic engineering experiments.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "sleepiness": "困倦"
+  }
+}

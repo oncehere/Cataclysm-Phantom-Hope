@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "71341d9266752590126b836ec5a8d9a8288f651d32fc04a71ae186f292e95ab3",
+      "identity": [
+        null,
+        "crystalline wall",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/furniture_and_terrain/terrain_crystalline.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "crystalline wall",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "713b3161bd54f475bd6b76e9c6a80ad2d2b22479c7a91d5aa996cfc0cb9da901",
+      "identity": [
+        null,
+        "Stay clear of Thorazine, it's a trap.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stay clear of Thorazine, it's a trap.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'The Pestilence that Stalks in Darkness'",
+      "flags": [],
+      "id": "713dd8f739e14553293fd02351ed65931727fe5a3a7bde9ba8d3e3e88e6b7505",
+      "identity": [
+        null,
+        "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.  However, infused with plague as you are, mortals who spend too long in your presence have a chance of falling ill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.  However, infused with plague as you are, mortals who spend too long in your presence have a chance of falling ill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "7140de8ceba859e7b33957c07bc1600eee77c81ad5b5b4587d284fc3522da19f",
+      "identity": [
+        null,
+        "Bionic Right Arm (Cyberframe 1b)",
+        "Bionic Right Arms (Cyberframe 1b)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Right Arms (Cyberframe 1b)",
+      "singular": "Bionic Right Arm (Cyberframe 1b)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (potion of wicked quick hands)'",
+      "flags": [],
+      "id": "714aaeedf0d97e4999698956112c1ae7a6551ae301b9952d5ea256314cbf8bcc",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a potion to increase your dexterity.  It looks like the undead will be catching these hands.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a potion to increase your dexterity.  It looks like the undead will be catching these hands.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Zombie Trap'",
+      "flags": [],
+      "id": "7151d40e198ab422e2af59a408e4e1f9f072e175d70bb9d6f022e4ff7c0faba1",
+      "identity": [
+        null,
+        "Someone put up a trap against zombies here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Someone put up a trap against zombies here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "716e6cb556542fdbdefe7c24990e725b722b79268721f683a2367b0d5f094de8",
+      "identity": [
+        null,
+        "You no longer have the components to cast %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "2997"
+        ]
+      ],
+      "plural": null,
+      "singular": "You no longer have the components to cast %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "71ca224896b1c386f17f84d99f7808dfb955cc3a4a43cfe2e0c024c1e9f0c6fb",
+      "identity": [
+        null,
+        "&Jane glances at you, scowls, and ignores your presence.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/godco/members/NPC_Jane_Schulz.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Jane glances at you, scowls, and ignores your presence.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible '聚气丹'",
+      "flags": [],
+      "id": "7219a020a5c9f70cda965fc52e257ec2823976b2acd0b58e9d3e74b767e9eb15",
+      "identity": [
+        null,
+        "一枚淡青色小丹，入口后化作温润灵息，汇入丹田。可补充少量灵气，但不能增长修为。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/recipes/qi_gathering.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一枚淡青色小丹，入口后化作温润灵息，汇入丹田。可补充少量灵气，但不能增长修为。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "723e7039e9a26898a32b0685662e89d5df5ac0eaae76236271d81540521af67b",
+      "identity": [
+        null,
+        "feral test subject",
+        "feral test subjects"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": "feral test subjects",
+      "singular": "feral test subject",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "725736c8ec7bf387297be21dd1d33546baf450a4250e7a76fba3d36e5cd8ed4b",
+      "identity": [
+        null,
+        "Exodii Cyberframe 1b",
+        "Exodii Cyberframe 1b"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Exodii Cyberframe 1b",
+      "singular": "Exodii Cyberframe 1b",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "72667d8b4f9e55d79fd4b0db3e9c924d685988d562f65fc1947eb6655a5ee389",
+      "identity": [
+        null,
+        "left middle tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacle",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

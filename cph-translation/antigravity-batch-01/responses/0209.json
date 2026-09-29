@@ -1,0 +1,81 @@
+{
+  "request_sha256": "d1948849df1f94418483ab58beef0ee2c70324ea2fbb0a4d7dcc9e26a1667425",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "c724cb01fb9f63ebfd3f2ceca14943085230657da2fd2e2d9d78354633476d6f",
+      "values": [
+        "错误 - 用户已被维度锚定。"
+      ]
+    },
+    {
+      "id": "c73825a1a3847e4248664d3e337b9e32600473e483f986ccfbbcb8692d1dcf5a",
+      "values": [
+        "你现在真想来点草药。"
+      ]
+    },
+    {
+      "id": "c74d2630e5fb5c37c4273003e6323644cb138b3c9ef72516537ead68144f0b33",
+      "values": [
+        "大地之墓"
+      ]
+    },
+    {
+      "id": "c769540d9024230cdb83a8b172513594ca76ea9b03c22bd1dbf9a52819ddb63f",
+      "values": [
+        "灵气"
+      ]
+    },
+    {
+      "id": "c783e99f685cb48ad2171b1da05c1427ce1d4a9167103cbeab8cec7d0b0ae9be",
+      "values": [
+        "样本越多越好。我需要尽可能多的样本，以便有朝一日能造出更多的血荆棘德鲁伊。"
+      ]
+    },
+    {
+      "id": "c7ac309adf447d977db27ba3b70703441d22330a7fe3f034a3d805f4f4bfb163",
+      "values": [
+        "玄渊心法"
+      ]
+    },
+    {
+      "id": "c7c6177a0594bda73df23a718902b5e8d7e28574b7095cab5bc8ed120575768f",
+      "values": [
+        "%1$s 用虚灵之刃击中了 <npcname> 的 %2$s！"
+      ]
+    },
+    {
+      "id": "c7c651b20b0e8d595caae038d72e6a9bcfdc561a6d01211d6c3effbf430d51b7",
+      "values": [
+        "[-$<u_val:number_artisans_gunsmith_sum5>，1000 发，5 天] 回头见。"
+      ]
+    },
+    {
+      "id": "c7c74a11dac5d6b8cdaba9420acc484f0acbff8ef481612c60c81cee3e7cd022",
+      "values": [
+        "%s 击中了 %s。"
+      ]
+    },
+    {
+      "id": "c7d8bb061b7a5b0d219f9c6f3ee60d950839d50085de06477edc9e8b3385c8d5",
+      "values": [
+        "是的，我是人类。我是被称作“外来者”的存在改造成生化人的。"
+      ]
+    },
+    {
+      "id": "c7e1d4faffd6b420fe6b8ff2bcbc37831cb24ac31b8207649c77a4a83cb31bca",
+      "values": [
+        "天空魔法研究资料"
+      ]
+    },
+    {
+      "id": "c7e2c1f8246c245151ba39cdbf8432d33195ad748420d10856568edb95e13ece",
+      "values": [
+        "%s 生命值"
+      ]
+    }
+  ]
+}

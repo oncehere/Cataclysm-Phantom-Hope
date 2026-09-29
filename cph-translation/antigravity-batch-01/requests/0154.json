@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "91c2e87ea5805f7cf9b2352de1555a287baf5773920ee22fdf9ee0ac68d72761",
+      "identity": [
+        null,
+        "Here you go.  It should be more than enough to treat the affliction.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Here you go.  It should be more than enough to treat the affliction.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "91d5c30280c5cec4637cbc8b63ef8f9d19e1a578f7f23e1c1b244118e2b9562f",
+      "identity": [
+        null,
+        "\"Code 10-66.  Copy 10-4.  Possible 10-55.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Code 10-66.  Copy 10-4.  Possible 10-55.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "91ecefabc1d54d3ee7d30daa6e3853280be3368c8fea82135a123abd027763a4",
+      "identity": [
+        null,
+        "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your current bionics, and available upgrades, all accompanied by text you don't understand.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your current bionics, and available upgrades, all accompanied by text you don't understand.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'broken Pathfinder'",
+      "flags": [],
+      "id": "91ee301fd148b059ca9e8ca34427af8111b98c2030078303c151901aa1aecdcd",
+      "identity": [
+        null,
+        "A broken Pathfinder.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A broken Pathfinder.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "920827a4a7f2d185a6f38a9606f80d29bbe16af4a62226c6ba198db2c5d84164",
+      "identity": [
+        null,
+        "The installation position is outside the loaded map.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "388"
+        ]
+      ],
+      "plural": null,
+      "singular": "The installation position is outside the loaded map.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'fursuited zombie'",
+      "flags": [],
+      "id": "92150f6edc1131b9793e5738ed16053b91439438649d287ad98a6989e42b8e81",
+      "identity": [
+        null,
+        "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/zed_misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'No Worries, Just Chicken Curries: Over 70\nincredible Indian chicken recipes' of book 'Curry cookbook'",
+      "flags": [],
+      "id": "922d3248bf38177ed5d099ad8fe62cfa6a498efffcc659f1e995fa61407f9293",
+      "identity": [
+        null,
+        "Not just chicken curry, this contains recipes for sauces and vegetable sides as well.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Not just chicken curry, this contains recipes for sauces and vegetable sides as well.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9239f59c248fced19039f781ec148e768c8ed67b9e508158fc9cb16dbee9c270",
+      "identity": [
+        null,
+        "REFUGEE CENTER FOUND!  IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n 4PM AT 555-0164.\n\nIF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\nTO WRITE US A LETTER PLEASE SEND IT TO…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_COMPUTER.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "REFUGEE CENTER FOUND!  IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n 4PM AT 555-0164.\n\nIF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\nTO WRITE US A LETTER PLEASE SEND IT TO…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'LADDER'",
+      "flags": [],
+      "id": "923a80ca17f284fd35ba0c5bb72303f42b13b5465822e938a71d79d4c2ce4961",
+      "identity": [
+        null,
+        "This part is a ladder, letting you climb down from the vehicle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vp_flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This part is a ladder, letting you climb down from the vehicle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "923c19e2044edce1b2b456e4615c28e8bc0ec9ddca6390f8752f491d853c437a",
+      "identity": [
+        null,
+        "It's clear you've been there, Rubik.  What was it like, really?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's clear you've been there, Rubik.  What was it like, really?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "92622bebefa4d49f7d694db0fe3f38ab20b130b09b551d005a434c9fd5e9b7fc",
+      "identity": [
+        null,
+        "SHADOW URGE: Improve Resilience.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SHADOW URGE: Improve Resilience.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry hot spring bottom'",
+      "flags": [],
+      "id": "92804a57f5df9235b04418b64548c3cd9be36e2bb14dc6621307242f1b03307c",
+      "identity": [
+        null,
+        "The warm rocky bottom of a drained hot spring.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The warm rocky bottom of a drained hot spring.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

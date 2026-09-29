@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "278097b4b0e0911aadccd5fd5831ee62bd0cc2210be744be1b60c3181b67440a",
+      "identity": [
+        null,
+        "The crystals have been dubbed XE323 in accordance with standard material naming protocols but everyone is taking after Dr. Liu and calling them \"matrix crystals\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The crystals have been dubbed XE323 in accordance with standard material naming protocols but everyone is taking after Dr. Liu and calling them \"matrix crystals\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "278e188d4fa72f3dd566ef5b0e09006674d403012b809e31511bf9476e8b28f5",
+      "identity": [
+        null,
+        "Eventually yes.  It had been quiet for hours.  I was parched, injured, and terrified.  My training was maybe the only thing that kept me from freaking out.  I decided to try to pull myself out and see how bad my injuries were.  It was quite easy.  The people on top of me were torn open, and it turned out I was basically just lying under a little debris, with parts of people tented around me.  I wasn't even too badly hurt.  I grabbed as much to eat as I could, and I slipped away.  It was night.  I could hear fighting farther away in the woods, so I went the other way.  I made it a while before I ran into any <zombies>… I ran from them.  I ran, and I ran, and I ran some more.  And here I am.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/cop_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Eventually yes.  It had been quiet for hours.  I was parched, injured, and terrified.  My training was maybe the only thing that kept me from freaking out.  I decided to try to pull myself out and see how bad my injuries were.  It was quite easy.  The people on top of me were torn open, and it turned out I was basically just lying under a little debris, with parts of people tented around me.  I wasn't even too badly hurt.  I grabbed as much to eat as I could, and I slipped away.  It was night.  I could hear fighting farther away in the woods, so I went the other way.  I made it a while before I ran into any <zombies>… I ran from them.  I ran, and I ran, and I ran some more.  And here I am.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'earth magic research materials'",
+      "flags": [],
+      "id": "27a97aa4d32350f735c7571abbcacbfe30cf4a38b3fab1f69b48b147f5a5731d",
+      "identity": [
+        null,
+        "A set of documents, scribbed notes, musings, polished rocks and samples of soil, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the earth.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of documents, scribbed notes, musings, polished rocks and samples of soil, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the earth.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "27ad54559bdd47f296b1ded48fd8a7038a27a4c12fe0134ad66e867c6965811c",
+      "identity": [
+        null,
+        "I've been a vampire hunter since as far as I can remember.  I spent my entire life killing all the vampires I could find but I recently realized that doing so was futile with my current power.  I need more power.  No matter how many vampires I kill, there's always more.\nI became a vampire so I could kill them all, but even that wasn't enough.  I've followed the mentor's instructions until they had nothing more to tell me but that wasn't enough.\nI need to find a way to reach power undreamt of.  To protect everyone from the vampire threat, I must become the strongest vampire ever seen.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/talk_read_vampire_anathema_book.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I've been a vampire hunter since as far as I can remember.  I spent my entire life killing all the vampires I could find but I recently realized that doing so was futile with my current power.  I need more power.  No matter how many vampires I kill, there's always more.\nI became a vampire so I could kill them all, but even that wasn't enough.  I've followed the mentor's instructions until they had nothing more to tell me but that wasn't enough.\nI need to find a way to reach power undreamt of.  To protect everyone from the vampire threat, I must become the strongest vampire ever seen.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "27affac607f5eea59d50ace5189d7693faba6fbfa1cca593c11989fc7f326c88",
+      "identity": [
+        null,
+        "I'll buy some supplies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll buy some supplies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'tanto' step 1",
+      "flags": [],
+      "id": "27b032e34639663e877e0a63ef4f1325a4780799ba4f322c8fe0af96b63a7569",
+      "identity": [
+        null,
+        "Heating and cutting steel for blade and tang",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/weapon/piercing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Heating and cutting steel for blade and tang",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "27e4185d38fd53c4cf7c15792c5d50dcde2b82e75bbe1d19e6c22964ff046161",
+      "identity": [
+        null,
+        "%s taps you on the shoulder.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3322"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s taps you on the shoulder.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "27e80f38c0f05b85d136ccc3f738d69d86688e38ba05e838947eddd15fad0c77",
+      "identity": [
+        null,
+        "<color_red>Activate exit protocol: Scarlet Sea",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_red>Activate exit protocol: Scarlet Sea",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "27f9c65d80d4fe918232ff192fdc75186e2ddf92af07b7e5b7b77fc85a21c2e1",
+      "identity": [
+        null,
+        "low water in a deep pond",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "low water in a deep pond",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<dog_breed>'\n~ Dog breeds, just grabbed a handful from our monster list.",
+      "flags": [],
+      "id": "280792910a81494b2a9affb0298913d7ed218713429e68a2e08845d23de63f12",
+      "identity": [
+        null,
+        "Border Collie",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/home_pictures.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Border Collie",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "280f6b643e90e916cde93f1b153718992b0089b214e5667f5634259b9048b676",
+      "identity": [
+        null,
+        "This kind of renfield is massive, tough, quick, precise and can tear you apart like wet paper so never get close to it.  If I were you, I would find a decent gun with enough ammo and I would shoot it from a distance until it's dead.  Yes, this one is also far too gone to be attacked by zombies.  Only true vampires are attacked by the walking corpses.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This kind of renfield is massive, tough, quick, precise and can tear you apart like wet paper so never get close to it.  If I were you, I would find a decent gun with enough ammo and I would shoot it from a distance until it's dead.  Yes, this one is also far too gone to be attacked by zombies.  Only true vampires are attacked by the walking corpses.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "280fdeb741ab302491d8a608d8ef16e51f1649a6768e67fe6295203067c2e967",
+      "identity": [
+        null,
+        "No, not The Enemy, but something like their wife (Rubik is trying to be funny).  If you go, you'll see.  It'll talk to you.  It knows what shape to take, or it just takes it, anyway.  For me, an old friend, in a Temple of ale I barely remember.  For others, other things.  But, if it starts talking to you in a familiar way?  It it offers you safety?  Leave, quick and quiet.  It's a lie.  Death by another name.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No, not The Enemy, but something like their wife (Rubik is trying to be funny).  If you go, you'll see.  It'll talk to you.  It knows what shape to take, or it just takes it, anyway.  For me, an old friend, in a Temple of ale I barely remember.  For others, other things.  But, if it starts talking to you in a familiar way?  It it offers you safety?  Leave, quick and quiet.  It's a lie.  Death by another name.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

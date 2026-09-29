@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0f808d2c3344fc64b54652798af85c218e305ef13108ebb77a736cf819d6d7d2",
+      "identity": [
+        null,
+        "[Motion to your bionic limbs] Could you repair my Cyberframe?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Motion to your bionic limbs] Could you repair my Cyberframe?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_xedrawood_hedge_magic_spirit_questing'",
+      "flags": [],
+      "id": "0fb46ce266398311548047fd000828a52dedf321ac215efff6edc88093c04fd3",
+      "identity": [
+        null,
+        "Spirit-Questing",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/recipe_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Spirit-Questing",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "0fb65f603ec3afe0d462163d90ff1d8aabfe425bc8266a4a6e721ed882099d44",
+      "identity": [
+        null,
+        "Cure or kill the vampire",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cure or kill the vampire",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0fce05bfb5fa8efe315991102851ad41ccd1b4788bd3f49b817f73ecd04b07c5",
+      "identity": [
+        null,
+        "[Favor Merchants] Point out that the Exodii are asking for access to people, which should be negotiated like anything else.  \"Rubik, maybe it's worth sweetening the deal some, if you're going to be courting some of their people.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Point out that the Exodii are asking for access to people, which should be negotiated like anything else.  \"Rubik, maybe it's worth sweetening the deal some, if you're going to be courting some of their people.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0ffa564f1ce401cf7282c44c8faaf070e74993ca8316b5efd36c350b1d3ec35d",
+      "identity": [
+        null,
+        "I'd like some advice about the triffid heart.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd like some advice about the triffid heart.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'sprayable fungicide'",
+      "flags": [],
+      "id": "1095b50dad88dc9a964da22aea4455350347d3fdceed4606f5edcad159f147b4",
+      "identity": [
+        null,
+        "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ammo/chemical_spray.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "10a6434771604d3c51a01a55e7e4c90933ceeb03077c330f6be8e12e861ae251",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your ability to psychically fuel personal electronic devices.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/esper/electrokinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your ability to psychically fuel personal electronic devices.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "10b4af9b6a25e815cf918458c3a5dc1dac1a17a09402dee72b40575211107386",
+      "identity": [
+        null,
+        "%1$s has finished %2$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "778"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s has finished %2$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "10b95fa366c1e71cd00a492c69ae91b8fc6360e05965fa1f8cab33722ced43b6",
+      "identity": [
+        null,
+        "high top sneakers (pair)",
+        "high top sneakers (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "high top sneakers (pair)",
+      "singular": "high top sneakers (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "10cb1e691a111e03f93e045e85a8d06702ec21f72e7025c04086f21dab61c5a7",
+      "identity": [
+        null,
+        "Well, I assume you know about the riots and the freakin' nightmare monsters walking the earth beside zombies, right?  If you're asking what I think caused it all, well, I dunno.  My best guess it was some huge overreach, maybe some kind of experimental weapon that got away.  They tried to lie so much at the start about everything that was going on, I don't think any of it measures up.  They were trying to cover something up.  As for the real end times, maybe the rest of the world tried to contain it.  I heard about all kinds of wild stuff.  To me that seems like somewhere else trying to get whatever is going on here contained.  Maybe it even worked.  It's bad now but it's not like it was.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/evacuee_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, I assume you know about the riots and the freakin' nightmare monsters walking the earth beside zombies, right?  If you're asking what I think caused it all, well, I dunno.  My best guess it was some huge overreach, maybe some kind of experimental weapon that got away.  They tried to lie so much at the start about everything that was going on, I don't think any of it measures up.  They were trying to cover something up.  As for the real end times, maybe the rest of the world tried to contain it.  I heard about all kinds of wild stuff.  To me that seems like somewhere else trying to get whatever is going on here contained.  Maybe it even worked.  It's bad now but it's not like it was.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "10d3a4acb432493db071cf375c12509a7851062bcc658c6442958fcbb46544ca",
+      "identity": [
+        null,
+        "reinforced habitat window",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture_and_terrain/terrain_habitat_wall.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "reinforced habitat window",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "10ed25d66c83caf20a4bca8f9d68bfefa299e8f9185ff9b0b7b11221e26a8caa",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Every elevator descent teleports you into a freshly generated instanced level; co-op's single shared map can't hold two players on different levels.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "61"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Every elevator descent teleports you into a freshly generated instanced level; co-op's single shared map can't hold two players on different levels.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

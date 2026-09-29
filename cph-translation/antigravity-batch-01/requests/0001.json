@@ -1,0 +1,99 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "scen_desc_female",
+      "developer_comments": "~ Description of scenario 'Challenge - Undying Vengeance' for female",
+      "flags": [],
+      "id": "34f1a4b5f61d1b67c77d5592458c7497f543533e4a2616bb220fed19a989ec29",
+      "identity": [
+        "scen_desc_female",
+        "You died in the Cataclysm.  Perhaps during the Cataclysm itself, perhaps in the riots leading up to it.  Someone killed you and hastily dumped you in a shallow grave, and that should have been the end.\n\nBut it wasn't.  Your rage at your own death, your thirst for vengeance, the sheer unfairness of it all, dragged you out of the grave and propelled you onward.  You can feel your murderer, out there in the world, and will stop at nothing until you've tracked them down.  You don't need to eat, sleep, or breathe anymore.  All you need is revenge.\n\n<color_red>Scenario may take some time to load after game is entered</color>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You died in the Cataclysm.  Perhaps during the Cataclysm itself, perhaps in the riots leading up to it.  Someone killed you and hastily dumped you in a shallow grave, and that should have been the end.\n\nBut it wasn't.  Your rage at your own death, your thirst for vengeance, the sheer unfairness of it all, dragged you out of the grave and propelled you onward.  You can feel your murderer, out there in the world, and will stop at nothing until you've tracked them down.  You don't need to eat, sleep, or breathe anymore.  All you need is revenge.\n\n<color_red>Scenario may take some time to load after game is entered</color>.",
+      "translator_comments": ""
+    },
+    {
+      "context": "scen_desc_female",
+      "developer_comments": "~ Description of scenario 'Challenge - The Fog' for female",
+      "flags": [],
+      "id": "783848150421d9268fe1d1b1861831a14025b83574ec3dca91de0e2c3e7b0f2a",
+      "identity": [
+        "scen_desc_female",
+        "The Cataclysm was bad enough, but ever since then the weather has been…wrong.  An endless fog, interrupted only by the occasional remnant portal storm, shrouding the world in an obscuring blanket.  You managed to live through the Cataclysm, somehow, but you're not sure how you'll survive this.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Cataclysm was bad enough, but ever since then the weather has been…wrong.  An endless fog, interrupted only by the occasional remnant portal storm, shrouding the world in an obscuring blanket.  You managed to live through the Cataclysm, somehow, but you're not sure how you'll survive this.",
+      "translator_comments": ""
+    },
+    {
+      "context": "scen_desc_female",
+      "developer_comments": "~ Description of scenario 'One Last Dance on the Ice' for female",
+      "flags": [],
+      "id": "cb32e0a76ac351be0d92a4d550bdf0c55f8da5a971a826dd625e79342111b95d",
+      "identity": [
+        "scen_desc_female",
+        "You've chased your quarry from the tragedies they left behind in the core of civilized space; all the way out here to the fringes of inhabited space.  You caught up with their ship here in the Salus system, and heavily damaged it, but the combat didn't leave your ship unscathed.  Opportunistic scavengers or pirates you don't know which, ambushed you as you were harrying your mark's ship and forcing it to ground.  You know they'll have crash landed somewhere on this planet but your ship, Truth and Reconciliation will never fly again.\n\nYou won't even walk away from this icy wreck if you can't destroy the squad of drones and scavenger bots that have dropped in to finish you off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/scenarios.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've chased your quarry from the tragedies they left behind in the core of civilized space; all the way out here to the fringes of inhabited space.  You caught up with their ship here in the Salus system, and heavily damaged it, but the combat didn't leave your ship unscathed.  Opportunistic scavengers or pirates you don't know which, ambushed you as you were harrying your mark's ship and forcing it to ground.  You know they'll have crash landed somewhere on this planet but your ship, Truth and Reconciliation will never fly again.\n\nYou won't even walk away from this icy wreck if you can't destroy the squad of drones and scavenger bots that have dropped in to finish you off.",
+      "translator_comments": ""
+    },
+    {
+      "context": "scen_desc_female",
+      "developer_comments": "~ Description of scenario 'Path of the Wise' for female",
+      "flags": [],
+      "id": "cd4e2cbb2acc7de959e4676006d26694bb3124ccc1837435fda347113e57c266",
+      "identity": [
+        "scen_desc_female",
+        "You demonstrated a connection with the unseen world from a young age, and a passing member of the Wise take an interest in you when they visited your people.  They took you with them to train as an apprentice, initiating you into the mysteries, and you studied with an eager mind.  Now you'll need to find your own way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You demonstrated a connection with the unseen world from a young age, and a passing member of the Wise take an interest in you when they visited your people.  They took you with them to train as an apprentice, initiating you into the mysteries, and you studied with an eager mind.  Now you'll need to find your own way.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

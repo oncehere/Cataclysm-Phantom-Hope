@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "0366525933dfb9615cf7ef88e1c8d42e5dbc2f8764ac420f78ae9b54b717d809",
+      "identity": [
+        null,
+        "boxers",
+        "boxers"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": "boxers",
+      "singular": "boxers",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'right front tentacle'",
+      "flags": [],
+      "id": "0379561c823938d3cf40898a38b2ad422b9ac20a31f5bc1b57499e609d12d1f0",
+      "identity": [
+        null,
+        "R FTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "R FTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "037d7d02ad8151161d8bf6547fcf1439b7b371e0563b437ef7b52c4bb27c76ef",
+      "identity": [
+        null,
+        "%s encumbrance",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "689"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s encumbrance",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "03aeccface2101a06ab0291b88d620c694dc717d3185e79bcf2e88dfd7296b7d",
+      "identity": [
+        null,
+        "The World as Will and Representation",
+        "copies of The World as Will and Representation"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The World as Will and Representation",
+      "singular": "The World as Will and Representation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_OS647_P'",
+      "flags": [],
+      "id": "03df6730ebfd721a25d3b04014cb8231695b2a262061731dbae24461484eadf8",
+      "identity": [
+        null,
+        "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Richardson\nDirector of Research",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Richardson\nDirector of Research",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_follower_summoned_dross'",
+      "flags": [],
+      "id": "0405b201c6476d6a24cb4b81af3cd9c13b7a656567cc07929609f0b9a6ea16a7",
+      "identity": [
+        null,
+        "Recently created dreamdross",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Recently created dreamdross",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Unique name of a female NPC\n~ The hunter that hunted regular animals as part of the cover-up.  She is\nnow responsible to hunt animals for food.",
+      "flags": [],
+      "id": "040732609f46a144b7775688b90b31fb4296a5390d4ab675c51ba78324896d92",
+      "identity": [
+        null,
+        "Elsa Nielsen",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Elsa Nielsen",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "041c99bbb6482dd13c749ac0868ae287f33ac99666fc1ddc494e7624433649e7",
+      "identity": [
+        null,
+        "A statue of a man sitting, one hand raised above his knee and his head thrown back in laughter.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a man sitting, one hand raised above his knee and his head thrown back in laughter.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "04377e26e1332af9fd0a61f34f0ed5b10fa90b6d810de0f065216cb30b24366a",
+      "identity": [
+        null,
+        "Finish Character",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4304"
+        ],
+        [
+          "src/newcharacter.cpp",
+          "4311"
+        ]
+      ],
+      "plural": null,
+      "singular": "Finish Character",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0463938138dcbe0c81d3e14af62b3a8e9821ba94919109f62958f7ed9bf43de1",
+      "identity": [
+        null,
+        "We saw a nearby vampire walk under the sun recently.  Don't worry, they did not burn under the sun thanks to their umbrella.  It means they can be cured, should they accept to.  I will give you a dose of cure and you will go talk to them.  I'd prefer if you cured them from vampirism, but kill them if they refuse to take it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We saw a nearby vampire walk under the sun recently.  Don't worry, they did not burn under the sun thanks to their umbrella.  It means they can be cured, should they accept to.  I will give you a dose of cure and you will go talk to them.  I'd prefer if you cured them from vampirism, but kill them if they refuse to take it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "048365fd9758c638e8884c1c23b505c883bec6c74f5082fb42f8b81d42a142e3",
+      "identity": [
+        null,
+        "The Dying of the Year",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Dying of the Year",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC\n'EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_LOW'",
+      "flags": [],
+      "id": "04a371b7287e1b3f374852ef821bfe381b92b6ec5e2fabe77700da537c984fc3",
+      "identity": [
+        null,
+        "You reach into the mortal's feeble dreams and pull what few scraps of dreamdross out as you can.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You reach into the mortal's feeble dreams and pull what few scraps of dreamdross out as you can.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

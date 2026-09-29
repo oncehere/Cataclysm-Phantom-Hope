@@ -1,0 +1,81 @@
+{
+  "request_sha256": "0cd0ea263bdd6ac279c7d31fb63e101decd09fbecaed2e2c89eb8aa1b4c6fcc1",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "c3e161c39cfe05d85a6612e0647d4b51cf323a0b7f6bc62e7553f4a6712c0af8",
+      "values": [
+        "搜索：%s"
+      ]
+    },
+    {
+      "id": "c3e4de2e8bae2ba92c34dc5a76ff4be6f9fdf3d9dacb875a1c2c630110d65e93",
+      "values": [
+        "该物品是<info>角色扮演道具</info>。"
+      ]
+    },
+    {
+      "id": "c3e5582348926dfbfd3241ba5efa6d9350b264ce94e6679fa1176e4210afbdcf",
+      "values": [
+        "一本专为咖喱初学者设计的简易食谱。"
+      ]
+    },
+    {
+      "id": "c3eaa22f5dff1d8c7bf13b2c7146c2fa491856d94057a2d524fd1fbc83e50d72",
+      "values": [
+        "吐纳基底（抽象，不直接使用）。"
+      ]
+    },
+    {
+      "id": "c401c4b7d9de9b2a96c3b54b1aa4b498501583c7cb50cf6ede69115cc08570cb",
+      "values": [
+        "原生质软泥"
+      ]
+    },
+    {
+      "id": "c407dcf3301bba4ad679e5e16a2ae276ac012bf45fcdc13124f13e88a0eeda0b",
+      "values": [
+        "墨水的柏拉图式本质。你大概不该接触到这种东西。"
+      ]
+    },
+    {
+      "id": "c4366f297a58e52b928b67413804e73b38d84bb7ee87445028f5ed41d610b8d6",
+      "values": [
+        "无尽暗夜起舞"
+      ]
+    },
+    {
+      "id": "c438fbf28cef852a4bfe74d25b69219f0fa695e61f8ef3935728ac6ed7b9ecc4",
+      "values": [
+        "流亡起义者"
+      ]
+    },
+    {
+      "id": "c44581351b5c16cc5e97d9010dffb11c199d5a8ad537853e38ec116cfc38d253",
+      "values": [
+        "疏散警报。联邦政府已宣布对所有主要中心实施正式疏散，撤往预先指定的联邦应急管理局（FEMA）紧急避难所。发言人琳达·加里森表示：“预计这不会是一个永久性问题。通过撤离到 FEMA 专门为此类情况设立的避难所和营地，我们可以在不伤害无辜群众的情况下平息暴乱。”加里森拒绝对暴乱分子受到诱发精神错乱的生物制剂影响的广泛指控置评。"
+      ]
+    },
+    {
+      "id": "c44bd4c18ae684cfe2eada8d6b9c3c54764e2887e1c9caa9792a3682dd848f8d",
+      "values": [
+        "你对身体的掌控使你能以惊人的速度移动。虽然这不会让你攻击得更快，但你可以在眨眼间跨越遥远的距离，跑得比猎豹还要快。你甚至可以在水面上奔跑，尽管无法在水面上行走。\n\n此异能<color_yellow>依靠专注来维持</color>，若<color_yellow>专注被打断</color>则<color_red>可能失效</color>。它需要比平时<color_yellow>更多的专注</color>。\n\n完美身法<color_red>无法与</color>飓风连击同时生效。"
+      ]
+    },
+    {
+      "id": "c46a65a4d12a90beb6b06f34eaff6bd5d5ef0a37780862f67d7ce0c396022dc6",
+      "values": [
+        "一座被翡翠虞美人环绕的破损雕像。"
+      ]
+    },
+    {
+      "id": "c486dde3e85f70aba1b21450d25255c32c31b00f320eda92c4b0e6f4740ac5f6",
+      "values": [
+        "好吧，那可真够让人操蛋错乱的。你觉得自个儿还能回去？看着可真他妈不太明智，不过我猜那事儿打一开始就没聪明到哪儿去，反正是这么回事。"
+      ]
+    }
+  ]
+}

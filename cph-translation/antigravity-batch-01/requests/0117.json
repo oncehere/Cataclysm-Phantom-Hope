@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "6ad42ae64ae3b6214fc24229d24125c78882fe505f7206d82bfb236a2f28d42c",
+      "identity": [
+        null,
+        "untitled2047-1564.mp4\n\nIn what might be the first cheerful voices you've heard since the Cataclysm, a muddle of laughs and good-natured conversation fills the recording's audio.  The view is filled by a small group of grinning college-age individuals crowding in a haphazard line before the camera, a network of tents and camping equipment visible in the gloom-shrouded field behind them.\n\n\"Hey Mallick\" chirps a feminine voice as the film pans across the assembly, a handful of whooped salutations accompanying the speaker's voice.  \"We all heard about you being laid up in the hospital after the scuffle in <city> last week, and we wanted to say that we're actually really missing your broken ass out here in bum fuck nowhere.  We're recording this video cause we wanted to tell you…\"\n\n\"GET WELL SOON!\" As the raucous chorus of disjointed good wishes dies down, the friends' grins rapidly melt away and are replaced by a look of unified confusion as the call… repeats.  An uneasy silence falls across the group as, from an unseen point in the darkness, the chant resounds, growing more distorted and twisted with each inhuman repetition.  A muttered \"What the fuck?\" can be heard as the call continues, seeming to grow louder or closer, now accompanied with the audible crunch of trampled vegetation.  Nervously, a young man draws a 10mm pistol from beneath his jacket and opens his mouth, before a shapeless, pink mass gallops from the gloom behind him on many nimble legs, wrapping mauve tendrils about his head as it grips his shoulders with twitching claws, before wrenching its horrific tendrils and ripping the man's head clean off.\n\n\"GET WELL SOON!\" screams the Mi-go, blood showering from its fleshy, flower-like head before it lunges at the camera.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "untitled2047-1564.mp4\n\nIn what might be the first cheerful voices you've heard since the Cataclysm, a muddle of laughs and good-natured conversation fills the recording's audio.  The view is filled by a small group of grinning college-age individuals crowding in a haphazard line before the camera, a network of tents and camping equipment visible in the gloom-shrouded field behind them.\n\n\"Hey Mallick\" chirps a feminine voice as the film pans across the assembly, a handful of whooped salutations accompanying the speaker's voice.  \"We all heard about you being laid up in the hospital after the scuffle in <city> last week, and we wanted to say that we're actually really missing your broken ass out here in bum fuck nowhere.  We're recording this video cause we wanted to tell you…\"\n\n\"GET WELL SOON!\" As the raucous chorus of disjointed good wishes dies down, the friends' grins rapidly melt away and are replaced by a look of unified confusion as the call… repeats.  An uneasy silence falls across the group as, from an unseen point in the darkness, the chant resounds, growing more distorted and twisted with each inhuman repetition.  A muttered \"What the fuck?\" can be heard as the call continues, seeming to grow louder or closer, now accompanied with the audible crunch of trampled vegetation.  Nervously, a young man draws a 10mm pistol from beneath his jacket and opens his mouth, before a shapeless, pink mass gallops from the gloom behind him on many nimble legs, wrapping mauve tendrils about his head as it grips his shoulders with twitching claws, before wrenching its horrific tendrils and ripping the man's head clean off.\n\n\"GET WELL SOON!\" screams the Mi-go, blood showering from its fleshy, flower-like head before it lunges at the camera.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC message in 'then' statement in false effect in EoC\n'EOC_TELEPORT_DISPLACEMENT_CHECK'",
+      "flags": [],
+      "id": "6ad80d7f58cd78fd8893a20e973fab2994da7495c4011e366b6883698ffb8f84",
+      "identity": [
+        null,
+        "You touch <u_name> but nothing happens at all.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/teleportation_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You touch <u_name> but nothing happens at all.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'humorous book'",
+      "flags": [],
+      "id": "6ad87b8f21c0f7c93c35e1ad08042b7cae5730b7224c1ab36d4e160ef797288d",
+      "identity": [
+        null,
+        "A book entirely written to make the reader laugh.  Honestly it's exactly what you need right now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A book entirely written to make the reader laugh.  Honestly it's exactly what you need right now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "6af3ddc5752b64e759d74dbbb23d27ac1265c612fcd1768007d10eed812bd8a8",
+      "identity": [
+        null,
+        "the giant insects",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the giant insects",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'clickbait'",
+      "flags": [],
+      "id": "6b12253d3b3f64a92f92953606cf0c4709f1a7ec2c6f73d371beace8c4b97081",
+      "identity": [
+        null,
+        "MAYA SACRIFICING GAMEPLAY FOR REALISM?  THE SHOCKING TRUTH REVEALED",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/CrazyCataclysm/crazy_speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "MAYA SACRIFICING GAMEPLAY FOR REALISM?  THE SHOCKING TRUTH REVEALED",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Clause text of UI widget 'immortal_path_qi_desc'",
+      "flags": [],
+      "id": "6b1739596005d152bee1dae135f652b33271bbbce0d02acfca61b7693bcc8172",
+      "identity": [
+        null,
+        "未入门",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/ui/sidebar.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "未入门",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of loot zone 'Vehicle Service Output'",
+      "flags": [],
+      "id": "6b554cb0ecbee9599a2d7a9d82cdcfcafb2d232260c6b87466cbf9b11b69b76f",
+      "identity": [
+        null,
+        "NPC vehicle services place removed parts and related items in this zone.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/zones.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "NPC vehicle services place removed parts and related items in this zone.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "6b837e61dfb432462926c821f14396a6fe2865ab2e164e1d0e50727d886a8d08",
+      "identity": [
+        null,
+        "…so can we use a Sleepwalker to plug this leak?\n\n'Miranda': No, that's an incredibly bad idea.  What happens if they suddenly precog on pulling the trigger and it starts an interdepartmental war?  Then the war has already started and we will be the last to know.\n\n'Timothy': Surely there are other options?  Then I think we need to figure out some way to pull the leak over for an assignment at the gate and then have something come through.  Hostile environment spillover, subdued threat isn't actually subdued… what about a Dreamer summoning error?\n\n'Miranda': It'll have to be an actual error then, there's no doubt Gray Dawn will have someone bump into the patsy and scan them.  fdsu3r2 u34hwqe12udh213 'It fades into nonsense cryptographic hashes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mod_interactions/mindovermatter/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "…so can we use a Sleepwalker to plug this leak?\n\n'Miranda': No, that's an incredibly bad idea.  What happens if they suddenly precog on pulling the trigger and it starts an interdepartmental war?  Then the war has already started and we will be the last to know.\n\n'Timothy': Surely there are other options?  Then I think we need to figure out some way to pull the leak over for an assignment at the gate and then have something come through.  Hostile environment spillover, subdued threat isn't actually subdued… what about a Dreamer summoning error?\n\n'Miranda': It'll have to be an actual error then, there's no doubt Gray Dawn will have someone bump into the patsy and scan them.  fdsu3r2 u34hwqe12udh213 'It fades into nonsense cryptographic hashes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "6b8fcd7481bcb98c153e2bee786f1da38c9e57e1f49d181f2b2d5aaff5025181",
+      "identity": [
+        null,
+        "%d variant",
+        "%d variants"
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4428"
+        ],
+        [
+          "src/newcharacter.cpp",
+          "4439"
+        ]
+      ],
+      "plural": "%d variants",
+      "singular": "%d variant",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_PREPARE_LEARN_THAUMATURGY_NOTES'",
+      "flags": [],
+      "id": "6b9ca35b141ea519d63699efe52713ce7ecc1bb36c9578b1363cbc8138b0f13d",
+      "identity": [
+        null,
+        "delve into the lesser mysteries",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "delve into the lesser mysteries",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Lizardfolk'",
+      "flags": [],
+      "id": "6bf1f0ac64a5dc8359ffb9ff58c32729f03dd8cbd8b897e07db13876a098ac94",
+      "identity": [
+        null,
+        "Lizardfolk are taller, stronger, and more resilient than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).  Also, they are carnivorous.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Lizardfolk are taller, stronger, and more resilient than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).  Also, they are carnivorous.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'high top minimal shoes (pair)'",
+      "flags": [],
+      "id": "6c215afea23e7d9d229bb2438486ac2fd9d0bf4190fc0f1b6a6a6a0a49e89989",
+      "identity": [
+        null,
+        "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a high cut covering the ankles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a high cut covering the ankles.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

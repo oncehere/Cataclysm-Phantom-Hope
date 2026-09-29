@@ -1,0 +1,81 @@
+{
+  "request_sha256": "1b4d60089542d4756195459ef7a79625318f502f4c73fad9f11f8da846c05294",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "a4ba0cc6c6bd01b6fe305db122cbd372c61b8a26e68f2a5f6adcf15b754b109b",
+      "values": [
+        "该部件无法卸载。"
+      ]
+    },
+    {
+      "id": "a4c127dcd4fdc6716a4f18b27570f9f60ff825605c053be5ab8581ec3333f7b7",
+      "values": [
+        "你缺乏所需的额外血液。"
+      ]
+    },
+    {
+      "id": "a4d0aba4dc3e6c492a154b7afd948047d1cf75cb189ae40158251cfedc1858ef",
+      "values": [
+        "你初级魔法观察记录的汇编，包含一系列图表、地图、叶片、天空与月亮的图画，以及用来标记时间和你数过的数字的勾记。这作为参考资料会极其有用。"
+      ]
+    },
+    {
+      "id": "a4df20485576303646b618edd7f4fa18fc48d853a5673d4995cb982e6bf1639b",
+      "values": [
+        "[启动外来者电视无线电] 也许最好由他们的代表来沟通。我们会在这个屏幕上呼叫他们。他们勉强能说英语，我可以试着在中间来回翻译。"
+      ]
+    },
+    {
+      "id": "a4e37f265c6e92925aff5fcc574ce0bde79449c4b8b3448343ce3de59af4fb76",
+      "values": [
+        "一阵无声的爆轰从你体内喷涌而出！"
+      ]
+    },
+    {
+      "id": "a4ef7a6eb72ab8eb6a6e88cffb56b0bdd9bff70ce451a14ee0907275a7a6d40b",
+      "values": [
+        "该护甲部件的碳化物板上形成了断裂与裂隙，降低了它的防护效能。"
+      ]
+    },
+    {
+      "id": "a4f332fbfe23e6d9e87ca59f08bc57f0dd8124001082f966cb7e4daeaa019d56",
+      "values": [
+        "%1$s缠绕在你的身体上并用力挤压！"
+      ]
+    },
+    {
+      "id": "a4fd1ac2c5a288dfd96607d2016e8c18dfa0fd6496eca77133746ff21a201d81",
+      "values": [
+        "中触手尖端"
+      ]
+    },
+    {
+      "id": "a4fe010e28b9a45472e7a37a6b4ea9831c8fa8a03c86826bc97c58bcf47cdaa3",
+      "values": [
+        "不断侵蚀的真菌"
+      ]
+    },
+    {
+      "id": "a50af1f582a2e05d2efe3fce132e23dc7e039eb3bc1ecb56943208db5dbc9da4",
+      "values": [
+        "你激活的可穿戴腿部生化机械装置正在协助你在平地和障碍物上更迅速、更轻松地移动，并增加了你的负重能力。"
+      ]
+    },
+    {
+      "id": "a53a8b5c9b7c9015118af6a02c9fe224cb7cdb9596627cf2e817fd291dee3ce6",
+      "values": [
+        "长及小腿肚中部的裤子，两侧带有额外口袋。"
+      ]
+    },
+    {
+      "id": "a5af8af8eb48988f0b53fcbed5ed37eb8f5dba697557ebd9c7fbfd8e27ae5280",
+      "values": [
+        "左前触手"
+      ]
+    }
+  ]
+}

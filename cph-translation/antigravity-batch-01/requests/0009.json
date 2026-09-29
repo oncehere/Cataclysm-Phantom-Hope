@@ -1,0 +1,39 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "u:n",
+      "developer_comments": "~ NPC dialogue line\n~ You don't need to translate genders that aren't in your language\n~ Check: https://github.com/CleverRaven/Cataclysm-\nDDA/blob/master/doc/TRANSLATING.md#grammatical-gender",
+      "flags": [],
+      "id": "29375cc8dfff22a740f53a41ff8abdb38cf83add285b18a639b6c0f2694a3b7f",
+      "identity": [
+        "u:n",
+        "I see things sometimes, and there's no way anyone could look like you!  I know you're not real, and if you are, stay away you ugly <name_b>!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/godco/members/NPC_Arturo_Maldonado.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I see things sometimes, and there's no way anyone could look like you!  I know you're not real, and if you are, stay away you ugly <name_b>!",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

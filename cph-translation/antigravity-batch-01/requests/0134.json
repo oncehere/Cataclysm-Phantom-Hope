@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Mutation class name\n~ Mutation name",
+      "flags": [],
+      "id": "7bb8286290c98a0dd67430c132a5366a872c4f68b896b694e645aa0e202adca0",
+      "identity": [
+        null,
+        "Perfect Warrior",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Perfect Warrior",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "7bbd9a7ff2304651a649e4bc4223b997e564418853b1e831fca7b9e3175e949e",
+      "identity": [
+        null,
+        "You can't wield the %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/inventory_ui.cpp",
+          "4069"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't wield the %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7bdcbf29152826c30c3f71752eeeedf08109be4f6bdb81adb5de7b63369c44db",
+      "identity": [
+        null,
+        "Remove the carried animal before removing this part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "461"
+        ]
+      ],
+      "plural": null,
+      "singular": "Remove the carried animal before removing this part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "7be5fa7105289682d5e1113a546ddb829110a147492bf0cdf0b58aea095f7012",
+      "identity": [
+        null,
+        "six-bottle box",
+        "six-bottle boxes"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/containers.json",
+          ""
+        ]
+      ],
+      "plural": "six-bottle boxes",
+      "singular": "six-bottle box",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_volunteer_snippet'\n~ propaganda signage for the volunteer mutant level.",
+      "flags": [],
+      "id": "7c051ad8d5a70453dde16c23564c08d0691d04e611d1fcd4475f34ebb5810ca1",
+      "identity": [
+        null,
+        "<color_light_blue>Dream Journals\n   Save\n    Lives</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_blue>Dream Journals\n   Save\n    Lives</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7c1d9fd0122dee0503f1ad798c91db5cb4e1ed219d2d45d936540351cfb03914",
+      "identity": [
+        null,
+        "&You select Improve Strength and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You select Improve Strength and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '炎阳真传'",
+      "flags": [],
+      "id": "7c264f41edac61a7051ffaf11498ea747426f6e625a9f07b94d229585bb8fb6d",
+      "identity": [
+        null,
+        "一部火行修炼功法，纸页泛着焦黄，触手微温。所载炼焰息纳火行炎气入丹田，体魄染炎上之力，近战更具威势。乃练气期之法。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一部火行修炼功法，纸页泛着焦黄，触手微温。所载炼焰息纳火行炎气入丹田，体魄染炎上之力，近战更具威势。乃练气期之法。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Heh, just trying to be funny, when I shouldn't be.  A bad joke.  Nothing\nfunny about it.  I meant only this: it isn't the Enemy the one that raises\nthe dead here.  But, they're maybe similar in some way.  Not family, not\npart of the Enemy, but maybe an equal to it.  So don't take the joke for\nmore than a joke.  It's not its partner, its wife, or its friend, because I\ndoubt these things have such things.  Maybe just an illusion - a trick in\nthe head.  But that's just my thinking - it's all unknown.",
+      "flags": [],
+      "id": "7c33717212cc0731b94e0fe20705349c719fcb8a722db62e8ba5f2d77aa6c517",
+      "identity": [
+        null,
+        "Heh, just ol' Rubik tryin t'be clever, where clever can't be called for.  A poor jest, at that.  Nothin' funny in it.\"\n\nRubik's tone becomes a bit more somber - more serious.  \"I meant only this:  it's not The Enemy what walks among the dead, but mayhaps say she's cut from the same cloth.  Not kin, not part of it, but this'n reckons alike, yet in its own fashion.  So don't take the jest for more than it be.  Ain't really a wife, friend, of anything of the sort, 'cause there ain't any such thing.  Mayhaps all an illusion - a jape of the lump.  But that's just my thinkin'.  Mayhaps.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Heh, just ol' Rubik tryin t'be clever, where clever can't be called for.  A poor jest, at that.  Nothin' funny in it.\"\n\nRubik's tone becomes a bit more somber - more serious.  \"I meant only this:  it's not The Enemy what walks among the dead, but mayhaps say she's cut from the same cloth.  Not kin, not part of it, but this'n reckons alike, yet in its own fashion.  So don't take the jest for more than it be.  Ain't really a wife, friend, of anything of the sort, 'cause there ain't any such thing.  Mayhaps all an illusion - a jape of the lump.  But that's just my thinkin'.  Mayhaps.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'monitoring_equipment'",
+      "flags": [],
+      "id": "7c98687d03b87e5b7f2ec023faa06ae2ebd40482f65e659fb9ae48cdd16ce61e",
+      "identity": [
+        null,
+        "\nSECURITY ADVISORY\n\nWhen approaching or examining exotic material, ensure your 5-point-anchor remains active at all times.  You might not feel any different, but it will keep your insides from demonstrating new and interesting physics outside of your body during an unexpected resonance event.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/dimensional_exploration.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\nSECURITY ADVISORY\n\nWhen approaching or examining exotic material, ensure your 5-point-anchor remains active at all times.  You might not feel any different, but it will keep your insides from demonstrating new and interesting physics outside of your body during an unexpected resonance event.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "7c9e93d43e60260cc61ef3fdbc88fca114e9a5889a67151f7a4a3f3840b361b6",
+      "identity": [
+        null,
+        "For some reason Dr. Liu has taken to referring to XEDRA-23 as \"Project PHAVIAN\".  I don't think it's an acronym but I have no idea what it means, and by this point, everyone is using it and I'm too afraid to ask about it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "For some reason Dr. Liu has taken to referring to XEDRA-23 as \"Project PHAVIAN\".  I don't think it's an acronym but I have no idea what it means, and by this point, everyone is using it and I'm too afraid to ask about it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7c9fd9dc71243a4e7fcd3dd7b34551aaa8b13a96b2c955788782bfc1041add3d",
+      "identity": [
+        null,
+        "I made it to one of those <freaking> caves, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/evacuee_1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I made it to one of those <freaking> caves, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7ca27a4280c4cbff52feb894c1e5975938a9d5b2969575b302ed8726e0526ce7",
+      "identity": [
+        null,
+        "Return to the template list.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2006"
+        ]
+      ],
+      "plural": null,
+      "singular": "Return to the template list.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b47b8d76c0b1433145a8ab9ac4fa33ff5dc8a7b8a3af7e073a7b3ab6906ee359",
+      "identity": [
+        null,
+        "<color_red>[Against your better judgment, let Doc Stevens restrain you on the the Hub 01 automated surgical suite]</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_red>[Against your better judgment, let Doc Stevens restrain you on the the Hub 01 automated surgical suite]</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b490b8cada0b4c7f91f7bc50e5e470d6e52b0e74b727019cecc1650859714197",
+      "identity": [
+        null,
+        "Missing mod",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1809"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "2020"
+        ]
+      ],
+      "plural": null,
+      "singular": "Missing mod",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vitamin name",
+      "flags": [],
+      "id": "b492405900b26697234b7e1bfb19755788cb5e8a91f731c9167338039c54d671",
+      "identity": [
+        null,
+        "Cannabis",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vitamin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cannabis",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b496db3d41bcb99de282d1d3ce3e2b08931a732be7e31a5e2c9e789caaea16e3",
+      "identity": [
+        null,
+        "I have a few tasks to give you.  Which one do you want to do?.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have a few tasks to give you.  Which one do you want to do?.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 3",
+      "flags": [],
+      "id": "b49f531e6d36e51a0c177ad82406e421d69b8a778fd8e76894e293d93f0f49e2",
+      "identity": [
+        null,
+        "Add in the rest of the lead and the mixed powder to the melted metal and continue melting it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Add in the rest of the lead and the mixed powder to the melted metal and continue melting it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'The Wise'",
+      "flags": [],
+      "id": "b4ae124e0195d7442210b364b0ce56c73031de2d7add69c397b5f2fcba2bfff2",
+      "identity": [
+        null,
+        "You are one of the Wise, capable of performing the deeper mysteries having undergone the ordeal to bond your soul to one of the great natural forces of the Earth, the Forest, the Moon, the Sea, or the Sky.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are one of the Wise, capable of performing the deeper mysteries having undergone the ordeal to bond your soul to one of the great natural forces of the Earth, the Forest, the Moon, the Sea, or the Sky.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Like a Fish in the Water'",
+      "flags": [],
+      "id": "b4e1af264f27cf865ebccd5227640a3203aeeb80863f097ea69a4033f067d67a",
+      "identity": [
+        null,
+        "So unremarkable that there's no proverb about it.  When in deep water, your stamina regeneration is doubled, and you can swim 25% faster.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So unremarkable that there's no proverb about it.  When in deep water, your stamina regeneration is doubled, and you can swim 25% faster.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b4ed0c08541cd81eb82df1e1498819c88dcff712dd644a28f21538272e67d7ad",
+      "identity": [
+        null,
+        "Select",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "526"
+        ]
+      ],
+      "plural": null,
+      "singular": "Select",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b50ca52cfd553b2c8701e24bf780edc728236468c07d2212b63e9c334af4ea0f",
+      "identity": [
+        null,
+        "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'surgical bonebot brain'",
+      "flags": [],
+      "id": "b51f4d582ae07682e96f321cd1295f8da0130f2c07c9f1b979d2beccc006f06d",
+      "identity": [
+        null,
+        "The core of a surgical bonebot, dug out of its head capsule.  Its shape very much resembles a human brain, but is made of what appears to be hard, dark glass.  It looks a bit like a fancy, and creepy, decoration.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_tools.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The core of a surgical bonebot, dug out of its head capsule.  Its shape very much resembles a human brain, but is made of what appears to be hard, dark glass.  It looks a bit like a fancy, and creepy, decoration.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'spy novel'",
+      "flags": [],
+      "id": "b5335768a034e894e57163916895cdbcf10ef93032094547444b8e4c4b6afc25",
+      "identity": [
+        null,
+        "A tale of intrigue and espionage among Nazis, no, Commies, no, Iraqis!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tale of intrigue and espionage among Nazis, no, Commies, no, Iraqis!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Cranial EMF Shielding CBM'",
+      "flags": [],
+      "id": "b533742e6f3180fced3bbd16b4ce38f02642ab590e0ee2fe6873f4b7be346694",
+      "identity": [
+        null,
+        "A microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "stamina": "耐力"
+  }
+}

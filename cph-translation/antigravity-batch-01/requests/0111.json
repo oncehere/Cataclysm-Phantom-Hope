@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Miss message of effect 'A desolation called Peace'",
+      "flags": [],
+      "id": "65845056e5ef6263e30c470f5c178789fd2ebe1c3f8a14ace51c07ac1e60f4b4",
+      "identity": [
+        null,
+        "Peace be upon thee, whether you want it or not.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Peace be upon thee, whether you want it or not.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "658e291aee54714f9e5a85da61ae06ff8b64f0c35fa80cf76c8cb36b55b97a3f",
+      "identity": [
+        null,
+        "Unknown background",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Unknown background",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'leather pants'",
+      "flags": [],
+      "id": "65be4e6896fe1eb22628cfdd722c5514b32f41c0c22bc283b5f526939a241879",
+      "identity": [
+        null,
+        "A pair of pants made from animal skin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A pair of pants made from animal skin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "65d6027a7e05b5b0db778b01dc80eb45811f17da54d76bfe5b04b08d921032a7",
+      "identity": [
+        null,
+        "You start the engine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3829"
+        ]
+      ],
+      "plural": null,
+      "singular": "You start the engine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'asterix' of book 'european comic'",
+      "flags": [],
+      "id": "65e39315e19102e731e77ac8381afe6b26cb4e342631e8e6fe043d7468429126",
+      "identity": [
+        null,
+        "This album is part of the Asterix series, which is about the eponymous gaulish warrior, his friend Obelix and his dog Idefix, holding out against the roman invaders thanks to a magic potion giving them supernatural strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This album is part of the Asterix series, which is about the eponymous gaulish warrior, his friend Obelix and his dog Idefix, holding out against the roman invaders thanks to a magic potion giving them supernatural strength.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'WISE_SORCERY_AID'",
+      "flags": [],
+      "id": "66034330bbf0ea8887c4685aadf0817143670a2b261f388e1b13c762454ab2bd",
+      "identity": [
+        null,
+        "This item <good>reduces the cost of your enchantments</good> when wielded.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This item <good>reduces the cost of your enchantments</good> when wielded.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "660e68b8bdb91993873a66073f1f28d51069f67c458f9c0824a4f54776a56d55",
+      "identity": [
+        null,
+        "[Exchange your current CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Exchange your current CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "6617544b7ee6ff734b6cb49ec60a05203d7a1d498e4a26d9569094fdce6d4b01",
+      "identity": [
+        null,
+        "abstract underwear",
+        "abstract underwear"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": "abstract underwear",
+      "singular": "abstract underwear",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item '76x-\"Lore\"'",
+      "flags": [],
+      "id": "661e5e043cc86f6704608b55e624a402f0082a709ae96b6ca676ce0cf8229cc4",
+      "identity": [
+        null,
+        "A little, sealed ampule with some blue, semi-transparent liquid of unknown origin.  The label on it says \"76x-\"Lore\"\", whatever that means.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A little, sealed ampule with some blue, semi-transparent liquid of unknown origin.  The label on it says \"76x-\"Lore\"\", whatever that means.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "663a3f33c2d112fb62823b146843f2bd86953570fcdc51fead2a97945737b793",
+      "identity": [
+        null,
+        "51x-\"Landru\"",
+        "51x-\"Landru\""
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": "51x-\"Landru\"",
+      "singular": "51x-\"Landru\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '淬锋诀'",
+      "flags": [],
+      "id": "66503b88d99818a8ab5445a7349fdf3613887d092ca0c97fee7364afc7eda388",
+      "identity": [
+        null,
+        "素锋录的吐纳法门。引金行锐气入体，淬炼筋骨如百炼精钢。修炼之余，出手愈发锋锐。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "素锋录的吐纳法门。引金行锐气入体，淬炼筋骨如百炼精钢。修炼之余，出手愈发锋锐。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "66602719186ad5c4b223d48122ef9bad3c3d7fc5d42c21261db9bea2a74034fd",
+      "identity": [
+        null,
+        "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "request_sha256": "c11087e61b394cba298e2af9544e2f49d902801e3bc0189885517359ad5b8202",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "c0f4471158a54084e50415367aec9275bf04c4d66d5f4d0cdc26fef367f4c448",
+      "values": [
+        "批量安装"
+      ]
+    },
+    {
+      "id": "e08f0d3c0089b2003c68910cd9cef9a9f4674e6c1b3b538736346ec865ee03ec",
+      "values": [
+        "选择部件"
+      ]
+    }
+  ]
+}

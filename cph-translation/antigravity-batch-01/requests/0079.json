@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Invigorating Sunlight'",
+      "flags": [],
+      "id": "43e38b6197324b246e7db1450dc08b368a6a872737275af5bb34ffa828139842",
+      "identity": [
+        null,
+        "Absorb the energy of the sun, allaying sleep.  As long as the glamour is in effect and you remain outside in the light, your sleepiness will not increase.  In the winter the glamour <color_red>cannot be woven</color>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Absorb the energy of the sun, allaying sleep.  As long as the glamour is in effect and you remain outside in the light, your sleepiness will not increase.  In the winter the glamour <color_red>cannot be woven</color>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "43efa3253442a7006d1f3c170896cd0a2fd4f550bb6bbc9e1da3f2bcf31e28f1",
+      "identity": [
+        null,
+        "claw hunter juvenile",
+        "claw hunter juveniles"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": "claw hunter juveniles",
+      "singular": "claw hunter juvenile",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Westminster Catechism'",
+      "flags": [],
+      "id": "440dad0cb2382615a703373087bbb87fd6cef3b11003a455052cbb9dd4d97c64",
+      "identity": [
+        null,
+        "The Westminster Shorter Catechism and the Westminster Larger Catechism into one single large, hardcover book.  It serves as the doctrinal standard in the Reformed tradition of Protestant Christianity, a concise and systematic summary of Christian beliefs, intended to be used for teaching and instruction (and also one of the Four Forms of Unity, depending on the denomination).  This catechism is also divided into a series of questions and answers, covering various aspects of theology, morality, and Christian living.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/spiritual.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Westminster Shorter Catechism and the Westminster Larger Catechism into one single large, hardcover book.  It serves as the doctrinal standard in the Reformed tradition of Protestant Christianity, a concise and systematic summary of Christian beliefs, intended to be used for teaching and instruction (and also one of the Four Forms of Unity, depending on the denomination).  This catechism is also divided into a series of questions and answers, covering various aspects of theology, morality, and Christian living.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'cargo shorts'",
+      "flags": [],
+      "id": "4419503ba0f500a17f565001463a4cb663d7834118a1dab55459b3246b19047b",
+      "identity": [
+        null,
+        "Shorts going down to mid thighs with additional pockets on the sides.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shorts going down to mid thighs with additional pockets on the sides.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Gun name",
+      "flags": [],
+      "id": "44370472c719a32ce3e19100da699ccc74b0577f066ec3934711c63205778036",
+      "identity": [
+        null,
+        "ancient plasma rifle (projectile)",
+        "ancient plasma rifles (projectile)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/firearms/energy.json",
+          ""
+        ]
+      ],
+      "plural": "ancient plasma rifles (projectile)",
+      "singular": "ancient plasma rifle (projectile)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "443fd553d77c0df3e9ed4107ecae7dcd88a7d452c78612b30dc37b9128cb1cb5",
+      "identity": [
+        null,
+        "bikini panties",
+        "bikini panties"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": "bikini panties",
+      "singular": "bikini panties",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "449bd834c02171f243bd2df377124c89d9c006d3df590d40ea518cdb6ccff6db",
+      "identity": [
+        null,
+        "The Conquest of Bread",
+        "copies of The Conquest of Bread"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Conquest of Bread",
+      "singular": "The Conquest of Bread",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "449c7ca89ceb21c97134d16c96c0b968e813d906efb683bd44fed90740c74a5c",
+      "identity": [
+        null,
+        "right front tentacles (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right front tentacles (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "44c768b5c1fd1d97dfaf77a589ac10006d77e01e4c52717e157e8ff97b73dd2c",
+      "identity": [
+        null,
+        "Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions",
+        "copies of Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions",
+      "singular": "Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'COSPLAY_COSTUME'",
+      "flags": [],
+      "id": "44dac6833522661166ff3cc5690b2326f84d2c0bef6111bfaacadfccb6f709c6",
+      "identity": [
+        null,
+        "This clothing is <info>cosplay costume</info>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This clothing is <info>cosplay costume</info>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "44ea1f6147b4999c036ba7e10e7ab64eb4c10cdff75c1c58b9b125bb48bcb7c5",
+      "identity": [
+        null,
+        "It can't hold any more, so some %s remains in your container.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1121"
+        ]
+      ],
+      "plural": null,
+      "singular": "It can't hold any more, so some %s remains in your container.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "450cf6bf7732c162756daf8531622549c331ee1862d4176636e971afe1669f5d",
+      "identity": [
+        null,
+        "磐石篇",
+        "磐石篇"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "磐石篇",
+      "singular": "磐石篇",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "sleepiness": "困倦"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ab9a2f89fc1a3ed1aa356a70f25859d3720ee2e37b181fdd2008d880e46a5880",
+      "identity": [
+        null,
+        "Character template",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2009"
+        ]
+      ],
+      "plural": null,
+      "singular": "Character template",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "aba39376d95d6f08493da10bfa198145e37bb5e6b27533cab75ddb7653329744",
+      "identity": [
+        null,
+        "I'll find some.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll find some.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Earthen Grave'",
+      "flags": [],
+      "id": "abc426324b42591a11a92781b902d3b369c7033392d81a912f0511f135eab714",
+      "identity": [
+        null,
+        "You can part the earth near you to create holes for your foes to fall into.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/vampire_trait_refinements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can part the earth near you to create holes for your foes to fall into.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (charm of Marzanna)'",
+      "flags": [],
+      "id": "abf4c966c75ae5495be8c7ce79a126492d452b8d2702ce0059ccc84bc172bfe6",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate wearing it should protect you from cold temperatures.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate wearing it should protect you from cold temperatures.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ac10d19376fd9c7bda8251f7e266ffd2acc9aabe5d8151db9db65394a6eaeb18",
+      "identity": [
+        null,
+        "&Rubik moves on to medical services and starts to explain the nature of their medical robots.  Smokes talks a bit about the Old Guard and a medical doctor stationed at the center…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik moves on to medical services and starts to explain the nature of their medical robots.  Smokes talks a bit about the Old Guard and a medical doctor stationed at the center…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ac34f16ce619dc14b0462492fb27e972ad8f59406152fd563dda7a740bd4bcba",
+      "identity": [
+        null,
+        "You apply a diamond coating to your %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "419"
+        ]
+      ],
+      "plural": null,
+      "singular": "You apply a diamond coating to your %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ac3943d69c2f10e0281c1e8eb28d66cd5ea999d2440407302f5c97536560fea0",
+      "identity": [
+        null,
+        "Install %1$s into the %2$s for %3$s?  Estimated time: %4$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1155"
+        ]
+      ],
+      "plural": null,
+      "singular": "Install %1$s into the %2$s for %3$s?  Estimated time: %4$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_MOM_PREMONITION_QUIET_FARMSTEAD_WARNING'",
+      "flags": [],
+      "id": "ac4688b3dd64f36616c16ad9d8754678da777d4f4afeff9adaa1d204ec91e133",
+      "identity": [
+        null,
+        "As you approach the farmhouse the hair rises on the back of your neck.  Despite the calm appearance you have a distinct sense of danger here.  Things are not as they seem.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effectoncondition/eoc_premonition_instances.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As you approach the farmhouse the hair rises on the back of your neck.  Despite the calm appearance you have a distinct sense of danger here.  Things are not as they seem.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ [DEPRECATED] Don't translate this line.\n~ This string is from an obsolete source and will no longer be used in the\ngame.",
+      "flags": [],
+      "id": "ac5be0d32e9d895fcbb677d09211b8f0f5380da252b252a813c49a67214719ff",
+      "identity": [
+        null,
+        "The raggedly flying corpse of a feathered reptile over three feet long, with short wings and a big colorful beak.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/obsolete/monsters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The raggedly flying corpse of a feathered reptile over three feet long, with short wings and a big colorful beak.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ac70621e76ae99fa5e66ae2d5ef2d9eb39ff4c72e1b8464b900aea8c7857f123",
+      "identity": [
+        null,
+        "Batch install: choose the first corner",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "925"
+        ]
+      ],
+      "plural": null,
+      "singular": "Batch install: choose the first corner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ac95e7d469b967669091e3aad5e3bcf87d4c4bcbb9c7087d8d09e40b9997b990",
+      "identity": [
+        null,
+        "I'll help you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll help you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "ac9ab7ffda7b4f48c3073345956b2ebf71b2038bf0fac4d7b556237d16f2a090",
+      "identity": [
+        null,
+        "industrial habitat",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/overmap_terrain/overmap_terrain_habitats.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "industrial habitat",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

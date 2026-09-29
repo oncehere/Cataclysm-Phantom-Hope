@@ -1,0 +1,81 @@
+{
+  "request_sha256": "d833a407ab5cc343d7952fb7c4079eb72b0d5c09a921170de57ce3022d354332",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "59d1d289486cf37b10b5456888d9a610b9753e98b13e780b27b4ead1f2e6f993",
+      "values": [
+        "%1$s的皮条由于反复使用已经断成两半。"
+      ]
+    },
+    {
+      "id": "5a27c0b189e906ac118cb71ded2f8a409b4b4cc217d74004325ba791c8737340",
+      "values": [
+        "你在此处感应到了你复仇的目标。"
+      ]
+    },
+    {
+      "id": "5a2b6437061a62b8323a470211d330dcf01e23eafd05ffb79342e6b8e04a8cd3",
+      "values": [
+        "你正在增强自己的力量与敏捷。"
+      ]
+    },
+    {
+      "id": "5a5be1cda77a17b76b5722eb9718fa51de9518bb974462a1a0e0226e3dd69267",
+      "values": [
+        "前触手"
+      ]
+    },
+    {
+      "id": "5a6a7740375dbe2bb69402d52612880c98e072d5a224c12be24113bffe548316",
+      "values": [
+        "葬礼花冠"
+      ]
+    },
+    {
+      "id": "5ae31317ac8f49fb3989898d2649ec742de69f654b4e78f631c3817bfa1b9871",
+      "values": [
+        "一种重型等离子磁轨枪，可轻易击穿大多数常规护甲，并将其后方的一切瞬间焚化。其庞大的体积和容易过热的倾向使其不适合步兵使用，但在军用载具上以及动力装甲部队手中很常见，尤其是在预期会遭遇重装甲敌人的时候。"
+      ]
+    },
+    {
+      "id": "5af702edbde92735d5bd30eefd24d244a989392401bf20a114e44820ea00b859",
+      "values": [
+        "你听到迷雾深处的某处传来低沉的号角声。"
+      ]
+    },
+    {
+      "id": "5b3a0a113b32ec10ef4f4e921838869572d3b4a696adbbd20b96fc911beb56c1",
+      "values": [
+        "我还是没有完全想起来。"
+      ]
+    },
+    {
+      "id": "5b4b28c67d064eb4009b9e78253bac72e04708d51c6bf50ffdd0118b2a70f0c9",
+      "values": [
+        "那些疯狂的半机械改造人违背我的意愿做了这一切！但我设法逃了出来，这里的我依然还是我。"
+      ]
+    },
+    {
+      "id": "5b578c4fd2b2d0927d98d3504985a87b81b07a0edc7442581a5fcf7a68444ad2",
+      "values": [
+        "学徒级神秘学研究成果"
+      ]
+    },
+    {
+      "id": "5b58f54cfd8329b66906d4c7927959be8451ae0d16d7a0d34046c4aaa9d781cb",
+      "values": [
+        "你能修复我生化义肢的损伤吗？"
+      ]
+    },
+    {
+      "id": "5b8cc973ed0826014015884ff2bbbd896dfd287f03a00d745c62fb132e372d29",
+      "values": [
+        "[<color_yellow>%s</color>] = 将<color_cyan>模组加载顺序</color>设为默认 <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = 切换主标签页 <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = 在<color_cyan>模组列表</color>与<color_cyan>模组加载顺序</color>间切换 <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = 切换<color_cyan>模组列表</color>标签页 <color_red>|</color> [<color_yellow>%s</color>] = 按键绑定"
+      ]
+    }
+  ]
+}

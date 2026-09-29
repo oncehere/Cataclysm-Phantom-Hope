@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c7f47b7977c353f6bb0233e1069c813132706843551f5be61cdefa4c03359424",
+      "identity": [
+        null,
+        "&Smokes and Rubik start to discuss what exactly the Exodii have to offer.  Rubik first offers up firearms, hefting one of their zombie hunting rifles into the frame…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Smokes and Rubik start to discuss what exactly the Exodii have to offer.  Rubik first offers up firearms, hefting one of their zombie hunting rifles into the frame…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "c80b4765715808927bdce882755c3366c0409175b62341f76dfe3158662145a6",
+      "identity": [
+        null,
+        "Giant snakes",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Giant snakes",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c8198f1b1c2bd8427ad0a0c396acc6a6fdba8c3ff44e92165a54fc2ecabe7bfc",
+      "identity": [
+        null,
+        "A balrog mine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/npc/TALK_FORGE_DIVINER.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A balrog mine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Pre-Literate'",
+      "flags": [],
+      "id": "c8253fb75589842da666b3d5702cfe09620afa1ef0f0c722991fe806009f094d",
+      "identity": [
+        null,
+        "While some warrior societies or groups of the Wise may have secret runic codes, wide-scale writing has not yet been invented.  You cannot read.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "While some warrior societies or groups of the Wise may have secret runic codes, wide-scale writing has not yet been invented.  You cannot read.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "c829114f178b47ccd7d329ee34260aae7978f17d7d1e90f4864a5e1e768cc677",
+      "identity": [
+        null,
+        "broken Zenit",
+        "broken Zenits"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": "broken Zenits",
+      "singular": "broken Zenit",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "c82c51cd6562b3964f13476df20103e22e93b48affead1b51f77b03c3ad4d298",
+      "identity": [
+        null,
+        "Vengeance Shall Be Mine",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vengeance Shall Be Mine",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c83068b244b31e0e2b44ded01bd752d77572c50466da1adb92f910656abe0085",
+      "identity": [
+        null,
+        "How many liters of item could place in one tile.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3630"
+        ]
+      ],
+      "plural": null,
+      "singular": "How many liters of item could place in one tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected Serum Crash'",
+      "flags": [],
+      "id": "c85f6c3a2e4b26cf3d8d0ccdefe55dcb1b7c6172965e28a87ec579de2817b232",
+      "identity": [
+        null,
+        "The light hurts your eyes and the shadows seem extra dark.  Who knows what could be in there?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/night_operations_serum.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The light hurts your eyes and the shadows seem extra dark.  Who knows what could be in there?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c862db967194caccd294b74fdc83dba03c33be0d2bfca5d9c44a427a81fb2f43",
+      "identity": [
+        null,
+        "Needs and load",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "578"
+        ]
+      ],
+      "plural": null,
+      "singular": "Needs and load",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c8a94d15b5fc4370448e7cd112194e74b573c8660347134ffa0a62f3f50c30ef",
+      "identity": [
+        null,
+        "<color_red>Enter passcode: KÁ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_red>Enter passcode: KÁ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "c8ae4ca30be03baee2fe615bae990d4dc8154f9724351db88b2e6d5bca53d94b",
+      "identity": [
+        null,
+        "dry deep salt basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry deep salt basin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Smoother than Oil'",
+      "flags": [],
+      "id": "c8ddc72a731828b95ced6201e7c20f8f7e05933e8a862ce363e98b7567a2c579",
+      "identity": [
+        null,
+        "Your presence is intoxicating, and humans have a hard time resisting your charms.  You gain a bonus to your persuasion chance as long as you aren't empty of ruach.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your presence is intoxicating, and humans have a hard time resisting your charms.  You gain a bonus to your persuasion chance as long as you aren't empty of ruach.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

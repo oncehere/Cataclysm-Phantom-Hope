@@ -1,0 +1,81 @@
+{
+  "request_sha256": "1ad31a55f8eb9ff4abfaa3fa94d2df818eb17b78badea10ac84dd3bc3a584a91",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "cbd9636bbe0a50fe3c73338214c62cf4d9de91a398d60e1e60395221efb33cfd",
+      "values": [
+        "召唤浓厚的雾气，让你躲避敌人。此异能随着时间越临近新月，其<color_green>持续时间越长</color>。"
+      ]
+    },
+    {
+      "id": "cbde3a018752395302cf9b8ec2b2a0a776eba3c37a311456cbe16588b6a55eac",
+      "values": [
+        "血肉大教堂"
+      ]
+    },
+    {
+      "id": "cbe9f443fd3d0286d544a60eef26f5387cd0a61deed42dba696616b3f74e0fea",
+      "values": [
+        "这些器官来自一只产自幽丘的野兽。"
+      ]
+    },
+    {
+      "id": "cbee25891d1c70c14de3992aa4f055ac7057d58ab8032aba9b1fea7144afb606",
+      "values": [
+        "&<color_light_green> @User > update -help\n</color> update: update\n   搜索并为 ʰᵒᵐᵉ 准备更新。\n   如果有可用的更新，AltarOS 将下载更新或建立通往缓存的路径，使 hᵤmₐn 能够访问该更新包。\n   您的系统方尖碑将在现场提供说明。"
+      ]
+    },
+    {
+      "id": "cc043931669bb99ad50e84076b614c852ac4b60ef54fdab1dee52423dda6789a",
+      "values": [
+        "飞秒激光器"
+      ]
+    },
+    {
+      "id": "cc18177d52a3e38aababfd52d919f71ae40b51be43f60e24698dbe6f5779498f",
+      "values": [
+        "扔掉氯丙嗪，保持清醒。"
+      ]
+    },
+    {
+      "id": "cc2a3998d2cdd20d795417e71c2fb72a927050d9e8667733cb43037ba943ae6e",
+      "values": [
+        "后触手"
+      ]
+    },
+    {
+      "id": "cc2fadecab697dc4d074ab9da24580df299be7d7e5afe5e2a51a0fc69bfa1e97",
+      "values": [
+        "你成功替换了之前的器官。"
+      ]
+    },
+    {
+      "id": "cc34fce96fa00b05d8e7072f097938a69e7bfc8cfa415a239e7d3715d5dc0ef8",
+      "values": [
+        "[激怒] 哎呀，情况比我想象的还要糟得多！斯莫克、鲁比克，我觉得咱们这笔买卖谈不成了。"
+      ]
+    },
+    {
+      "id": "cc7e82bbd85a57c101c7564c3e00b532a24b72b179d9ec433b878bdf36e48241",
+      "values": [
+        "一份手写笔记，详细记录了一种制作附魔护符的炼金配方。笔记底部附近有几道平行的撕裂痕迹。"
+      ]
+    },
+    {
+      "id": "cc964441f88d831fd56a45a7645f05a3aaf128aef26681c0ae3180be0982e305",
+      "values": [
+        "锻焊用于剑刃、刀身剑柄芯、配重球及剑柄的钢材"
+      ]
+    },
+    {
+      "id": "ccaf5c248178ce13acb4592c6a6a83b857dac5d7553ee455432d948df8cf0760",
+      "values": [
+        "尝试呼叫电梯。"
+      ]
+    }
+  ]
+}

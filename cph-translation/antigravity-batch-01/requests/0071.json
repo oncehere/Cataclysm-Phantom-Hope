@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in false effect in EoC\n'EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS'",
+      "flags": [],
+      "id": "3c0a9f8a318ffd4c46ee6e30b44341e17c56a8f7cfa5835ae674ee4687c92335",
+      "identity": [
+        null,
+        "You don't have enough dreamdross to draw on for power.  You need at least <u_val:changeling_new_trait_dreamdross_research_cost> scraps of dreamdross.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/playable_changeling_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't have enough dreamdross to draw on for power.  You need at least <u_val:changeling_new_trait_dreamdross_research_cost> scraps of dreamdross.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'operation table'",
+      "flags": [],
+      "id": "3c1b4b0036b98191b2261addfd9e0b72f927fc0a879a2271feadd25603528d90",
+      "identity": [
+        null,
+        "A hard metal table on wheels, with several auxiliary medical devices of unknown origin.  Several screens dangle from the edge, black in their idle state, but with several burned-in lines, as if it had seen continuous service for many years.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/furniture_labyrinth_safehouse.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hard metal table on wheels, with several auxiliary medical devices of unknown origin.  Several screens dangle from the edge, black in their idle state, but with several burned-in lines, as if it had seen continuous service for many years.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "3c292bb1dc34ac11b9deb001bb15a8176feadcd4b5873a0f894ff36fd58f2ea4",
+      "identity": [
+        null,
+        "Your attempts at swaying the negotiation annoys both parties.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your attempts at swaying the negotiation annoys both parties.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "3c663fd7585211895b2ebcdc156310525574602c975f700ffc0efb541a950f60",
+      "identity": [
+        null,
+        "abstract garment with advanced variants",
+        "abstract garment with advanced variants"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": "abstract garment with advanced variants",
+      "singular": "abstract garment with advanced variants",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3c880045dfd7fbe51d1585950d00ac880de13714e14228b6a70340e34d1f12b2",
+      "identity": [
+        null,
+        "I'd like to have some cure.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd like to have some cure.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC 'EOC_IERDE_TUNNEL_ATTUNEMENT_CHECK'",
+      "flags": [],
+      "id": "3ca6a038966a3bf2431626fc6b5d2c521bf25503bea0ffc07092552159062825",
+      "identity": [
+        null,
+        "You must be deep underground on and on the living earth to cast this spell.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/paraclesians/ierde_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You must be deep underground on and on the living earth to cast this spell.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'activation_message' action message of item 'cannabis shatter'",
+      "flags": [],
+      "id": "3cbc4e7f00afb852515cef275a6eed5c8c4a8230effeb47ae5edbfef55d167f2",
+      "identity": [
+        null,
+        "You take a dab.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You take a dab.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3d0d0f0005106bf1ac94b223f841c8ab6f2ee1ae1d21725fd38a343dc4c8e2ff",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -EXIT -@User\n\n<color_light_green> Really exit?  You </color><color_white>will</color><color_light_green> be able to return to this place, but </color><color_white>only</color><color_light_green> to this place.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -EXIT -@User\n\n<color_light_green> Really exit?  You </color><color_white>will</color><color_light_green> be able to return to this place, but </color><color_white>only</color><color_light_green> to this place.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'right middle tentacle'",
+      "flags": [],
+      "id": "3d38fca802ffc0e01b798f92b87ce2c391b62d4706fb4fe886b78c5a8fd99904",
+      "identity": [
+        null,
+        "R MTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "R MTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "3d3c023a8bcbebddb79d3d59758d1dee2020624cad11b547a76b93200367f195",
+      "identity": [
+        null,
+        "Bulky Bionics",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/cybernetic_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bulky Bionics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3d4d85fed24a44d25c925f2d8e1d3a3301976d65d9a55e68833560d78866d0ad",
+      "identity": [
+        null,
+        "Time for me to leave.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/militia/GM_Militia_Merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Time for me to leave.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_summer'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "3d6ea60cfd77347bba45954260459985005ef62ecb49c49a044f4a933b07aa80",
+      "identity": [
+        null,
+        "%1$s gestures and heat-haze shimmers around them for a moment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s gestures and heat-haze shimmers around them for a moment.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

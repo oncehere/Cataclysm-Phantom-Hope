@@ -1,0 +1,273 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Yes, of course.  I'll go back to the shop.  Find me if you reconsider.",
+      "flags": [],
+      "id": "ec16d05aed7cc724421aed917cb901d58f16aa3a51e8a677a6add285f42847d8",
+      "identity": [
+        null,
+        "&Rubik lets out a mechanical chuckle.  \"Aye, 'course.  Escolt this'n out if ya' reconsider.\"\n\nWith that, Rubik gets up and leaves, offering a backward wave on his way out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik lets out a mechanical chuckle.  \"Aye, 'course.  Escolt this'n out if ya' reconsider.\"\n\nWith that, Rubik gets up and leaves, offering a backward wave on his way out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ec298a44bdd9d0d32c6d50a209489011250fd893c79d5eae15e2a457528d5a68",
+      "identity": [
+        null,
+        "&You lay down on the exam table and lean back.  The spider-like surgical robot that, at first, appeared familiar to you, now feels alien, jerking in its movement, greedily grasping at your ports, plates, and wires.  You hear a bone saw start to loudly whirr, as the Doc goes through various tests.\n\n<color_light_red>You have a bad feeling about this.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You lay down on the exam table and lean back.  The spider-like surgical robot that, at first, appeared familiar to you, now feels alien, jerking in its movement, greedily grasping at your ports, plates, and wires.  You hear a bone saw start to loudly whirr, as the Doc goes through various tests.\n\n<color_light_red>You have a bad feeling about this.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ec3929256c0008535d01d8636bdea643f237509da0864951cba585c06259d5c5",
+      "identity": [
+        null,
+        "Lost connection to server.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "7070"
+        ]
+      ],
+      "plural": null,
+      "singular": "Lost connection to server.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "ec442c6ef2a6ba01d404223c5b76af28075fcb6b80f9fc123a08c91d86568179",
+      "identity": [
+        null,
+        "Witch-Sight",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Witch-Sight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Apply message of effect 'Slowed Time'",
+      "flags": [],
+      "id": "ec60530d47ead00a66745e5f843b5d9dd8be4adde680bf8b2d380565720f3489",
+      "identity": [
+        null,
+        "Everything seems to suddenly slow down!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/learning_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Everything seems to suddenly slow down!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ec66c1a2f34ff9877518dadab6eae0dd3c2e0c3dbdd55c17370ffa33d308b514",
+      "identity": [
+        null,
+        "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Pathfinder schematics'",
+      "flags": [],
+      "id": "ec6ef18854b50fae71fb0efb8a74f2496d9f5a5580cafc7d42838ef6d4555981",
+      "identity": [
+        null,
+        "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Pathfinder.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/books.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Pathfinder.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_lilin_resist_infections'\n~ Mutation name\n~ This is a reference to Deuteronomy 28:59.  Note that it's not a positive\nstatement in context\n~ Name of a spell",
+      "flags": [],
+      "id": "ec7edc69d04925139c80d46d18039c1241b1443c01fe706d66bfaf545005d72a",
+      "identity": [
+        null,
+        "Make Thy Plagues Wonderful",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/lilin_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Make Thy Plagues Wonderful",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "eca73cd1f3aba51f4f527cba53201a2112706c57c275e1a6c6509c3223824133",
+      "identity": [
+        null,
+        "biotechnical flats",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "biotechnical flats",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of practice 'gramarye (beginner)'",
+      "flags": [],
+      "id": "ecc25533227127b6823302d8b5c33c89b79c40e24d6f60720163a7fa4b0e3b1b",
+      "identity": [
+        null,
+        "Practice using your newfound glamours to accustom yourself to the use of your powers.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/changeling/general.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Practice using your newfound glamours to accustom yourself to the use of your powers.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ecd9c96cba5349813bafdf74c73193c09914b20ff843c432496f44229e9edb35",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵃˢˢʰᵒˡᵉ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵃˢˢʰᵒˡᵉ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ecf0d71607d56db777ec5fed700dc3e9845671edfcf04e2e7994a28235309157",
+      "identity": [
+        null,
+        "&Rubik hands you the device and nods.  \"Good luck.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik hands you the device and nods.  \"Good luck.\"",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

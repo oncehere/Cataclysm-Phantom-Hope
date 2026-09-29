@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Invigorating Sunlight'",
+      "flags": [],
+      "id": "7fbe5a32bb1b1ce10eb85811cd131b8db31d664d99c8bdb973ffefe2ce255dbd",
+      "identity": [
+        null,
+        "The warmth and energy of the sun washes your tiredness away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The warmth and energy of the sun washes your tiredness away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "802931917bf55c05932705c30200698e80fbf862d4dad1b2307a405c914402ab",
+      "identity": [
+        null,
+        "Find the building from the smudged map.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Find the building from the smudged map.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in 'then' statement in 'then' statement in EoC\n'EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC'",
+      "flags": [],
+      "id": "8052a4ec6718170f9217c6738d3172a5af7b7ac6c31b1f3ce5b347d8f0c84c73",
+      "identity": [
+        null,
+        "Infecting <u_name> with pre-cold.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infecting <u_name> with pre-cold.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "8077e61c5857b3c0ea05ef4bc5a78054e3eb18252241549f0f4324a6ca96e99b",
+      "identity": [
+        null,
+        "Queued %d action at the selected tile.",
+        "Queued %d actions at the selected tile."
+      ],
+      "occurrences": [
+        [
+          "src/game.cpp",
+          "3018"
+        ]
+      ],
+      "plural": "Queued %d actions at the selected tile.",
+      "singular": "Queued %d action at the selected tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Vulgar Preparation'",
+      "flags": [],
+      "id": "807e60e2b794b09c766c27bf6a31d1032c250bdb0de82f3f40969334c2e023d2",
+      "identity": [
+        null,
+        "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, armor penetration increased by 225% of Strength.\nLasts 1 turn.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, armor penetration increased by 225% of Strength.\nLasts 1 turn.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '[Ψ]Temperature Adaptability (C)'",
+      "flags": [],
+      "id": "8085bc58ec6a6122ec364eca120ead20e4dc75630fd4a7e81b511a432b624477",
+      "identity": [
+        null,
+        "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/biokinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8087f1ebc413b54fbff3b53a50f7adabace6c514b0af29f0d3c4e8b9c6e5e6f1",
+      "identity": [
+        null,
+        "On a second thought, let me think about it a bit more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/holdouts/Rural-Cowboy_Friendly.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "On a second thought, let me think about it a bit more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_mild_asleep'",
+      "flags": [],
+      "id": "8096cd4bb8e81d1bccb1097e412637f42d7cb2e7204fc2e2e50b4211e0032b90",
+      "identity": [
+        null,
+        "You dream of rolling the perfect joint.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You dream of rolling the perfect joint.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (prophet's LSD)'",
+      "flags": [],
+      "id": "80a19efe1a8cc73f15e21d1d34270fa08b9f1e6027777a4cd76de37910d2ae18",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an extremely powerful hallucinogen.  The end product will supposedly allow you to \"see through time\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an extremely powerful hallucinogen.  The end product will supposedly allow you to \"see through time\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option name",
+      "flags": [],
+      "id": "80bd1ade01ea8919e8913eaa9b01e4a576346754f1b9dd8eec7f961430a21e36",
+      "identity": [
+        null,
+        "Refine Spider's Walk: Light as a Spider's Thread",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Refine Spider's Walk: Light as a Spider's Thread",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "80c62c2ea2860b6a2fa1b050d57983a12c6a0838914e0295a9cf9a1004e6ac0c",
+      "identity": [
+        null,
+        "Learn the basic controls and survival systems in a guided game.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "1024"
+        ]
+      ],
+      "plural": null,
+      "singular": "Learn the basic controls and survival systems in a guided game.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ No ammo sound of special attack of monster 'mossy boomer'",
+      "flags": [],
+      "id": "80cab5d194d36e2570226e8aef175d81de3502421b9d195cea287a5f61ac36e2",
+      "identity": [
+        null,
+        "The boomer tries to vomit more, but only droplets are thrown.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/TropiCataclysm/monsters/zed_plant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The boomer tries to vomit more, but only droplets are thrown.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

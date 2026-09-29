@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "4dfb3abfda7f74fbb0e5779768b46929d177b8a157077cb4238050b08142546f",
+      "identity": [
+        null,
+        "abyssal coffee",
+        "abyssal coffee"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": "abyssal coffee",
+      "singular": "abyssal coffee",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4e269a579a6dde832d7b1a6af564d857500add8675492210585b639efe759e98",
+      "identity": [
+        null,
+        "[Sell her 5 arvore samples]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Sell her 5 arvore samples]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4e26a85530290155766cb831215fd5f8df4d447ed5b465ae448c478fc970f413",
+      "identity": [
+        null,
+        "It's a bit hard to explain, but I'll do my best.  The forces we send far out, what I'd call 'escolts'… explorers?  They've scouted a place with a bit of promise, as far as I can tell.  A wall of concrete around a bunker.  That's not so odd in a place like this, but this one has people coming and going.  There's something still in there, and I wonder who.  Are they friendly or not?  What would you think about doing some scouting yourself?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's a bit hard to explain, but I'll do my best.  The forces we send far out, what I'd call 'escolts'… explorers?  They've scouted a place with a bit of promise, as far as I can tell.  A wall of concrete around a bunker.  That's not so odd in a place like this, but this one has people coming and going.  There's something still in there, and I wonder who.  Are they friendly or not?  What would you think about doing some scouting yourself?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'auropacter'",
+      "flags": [],
+      "id": "4e36a6d420ac8fe0719f27a4db92d31d648b49f3a490d4fda7f9eb5d5dd84901",
+      "identity": [
+        null,
+        "A sleek alien crustacean with a golden carapace and many razor-sharp claws.  It moves aggressively, having been forcefully detached from its previous meal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/aliens.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sleek alien crustacean with a golden carapace and many razor-sharp claws.  It moves aggressively, having been forcefully detached from its previous meal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<serum_testing_learning>'",
+      "flags": [],
+      "id": "4e4bc81a9929a276c421d784e8563dce8eebb1c4262758d869a90c9b602912d2",
+      "identity": [
+        null,
+        "Inject subject with 10 ml of 7x-\"Lore\" compound\nSubject was provided with a set of reference textbooks and the latest version of the ACT test (sans writing section) and instructed to complete it as quickly as possible while freely referencing the provided textbooks.  Despite having to occasionally reference the textbooks, subject completed each section in full before the allotted time expired (English in 27 minutes, 12 seconds; math in 40 minutes, 4 seconds; reading in 33 minutes, 56 seconds; and science in 32 minutes, 1 second).  The final score was 27, in the 88th percentile (admittedly, of high school students).\nDuring the testing period, researchers carefully observed the subject's behavior, particularly for any evidence of fidgeting or loss of concentration.  Fidgeting was observed within normal parameters (e.g. drumming fingers on table while thinking), but the subject did not lose concentration or cease working on the test for longer than ten seconds during any testing section.\nFollowing the ACT test administration, the subject was immediately given a series of logic puzzles to complete, and did so without taking a break or losing concentration.\nFollowing expiration of compound, subject reported to infirmary two hours after experiment ended, complaining of severe eye pain following a walk outside.  Further research necessary to counteract photosensitive effects.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Inject subject with 10 ml of 7x-\"Lore\" compound\nSubject was provided with a set of reference textbooks and the latest version of the ACT test (sans writing section) and instructed to complete it as quickly as possible while freely referencing the provided textbooks.  Despite having to occasionally reference the textbooks, subject completed each section in full before the allotted time expired (English in 27 minutes, 12 seconds; math in 40 minutes, 4 seconds; reading in 33 minutes, 56 seconds; and science in 32 minutes, 1 second).  The final score was 27, in the 88th percentile (admittedly, of high school students).\nDuring the testing period, researchers carefully observed the subject's behavior, particularly for any evidence of fidgeting or loss of concentration.  Fidgeting was observed within normal parameters (e.g. drumming fingers on table while thinking), but the subject did not lose concentration or cease working on the test for longer than ten seconds during any testing section.\nFollowing the ACT test administration, the subject was immediately given a series of logic puzzles to complete, and did so without taking a break or losing concentration.\nFollowing expiration of compound, subject reported to infirmary two hours after experiment ended, complaining of severe eye pain following a walk outside.  Further research necessary to counteract photosensitive effects.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4e5249a255c2ef3d26a0d45203c8e795a4f767c467273540e24f8f9512b1c1ae",
+      "identity": [
+        null,
+        "I don't have any more missions for you.  Thank you for all your help.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I don't have any more missions for you.  Thank you for all your help.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4e5ac72c2707ec3fccfaf633e553c636248dedb18a0ef1e9fbd5be3558f24fbe",
+      "identity": [
+        null,
+        "Curious.  Very curious.  We'll be interested to follow your… let us say, progress, with these Exodii.  We are glad you still seem so human.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Curious.  Very curious.  We'll be interested to follow your… let us say, progress, with these Exodii.  We are glad you still seem so human.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "4e649d9552e04bc331194326ff02f14f49a91b95050bf824e4e74a06c3a75b68",
+      "identity": [
+        null,
+        "%s yells",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10439"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s yells",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'afs_personal_card'",
+      "flags": [],
+      "id": "4e95fb86366ea2e68f3e32adda81586c1b5ef66710a22dfedaac9af0cdd382d8",
+      "identity": [
+        null,
+        "An orbital view of Salus IV.  \"Happy Colonization Day!\n\n Leonid,\n\n This place is cold as Hell but we've made a life out here in the last ten years.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/snippets/personal_cards.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An orbital view of Salus IV.  \"Happy Colonization Day!\n\n Leonid,\n\n This place is cold as Hell but we've made a life out here in the last ten years.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'stout'",
+      "flags": [],
+      "id": "4eb315263984adaa8a21a1de08935d6830128f9413bb5db57f536860538ad5d9",
+      "identity": [
+        null,
+        "A tasty craft beer, as dark in color as the days ahead.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/alcohol.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tasty craft beer, as dark in color as the days ahead.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a trap\n~ Terrain name",
+      "flags": [],
+      "id": "4ebc512f31abadaabb88b8d51414e3b07373ef0de4f3f02937952729cc1905c8",
+      "identity": [
+        null,
+        "contraband scanner",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/furniture_and_terrain/terrain/terrain_hunvre.json",
+          ""
+        ],
+        [
+          "data/mods/hunvre/json/traps.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "contraband scanner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4ee34f320fca5df37c31cc652f3e0b7b4bde971581607e119116b07abe81d54b",
+      "identity": [
+        null,
+        "A jut is a long, thin pole.  The warehouse is made of concrete and rusty iron, and atop it there's a glistening pole.  The pole is broken, turned off.  I got a tool for you to turn it back on.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A jut is a long, thin pole.  The warehouse is made of concrete and rusty iron, and atop it there's a glistening pole.  The pole is broken, turned off.  I got a tool for you to turn it back on.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

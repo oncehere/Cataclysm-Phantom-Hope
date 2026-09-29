@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "3af93a06ad0061ca1143590883da41d6c6fbb4a0c958ad3b15aee7a7a8cb820d",
+      "identity": [
+        null,
+        "火弹术（残卷）",
+        "火弹术（残卷）"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "火弹术（残卷）",
+      "singular": "火弹术（残卷）",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3b18cc69c4b66b1fce3a95120f45fa6cfa980fdc79beba7d0b3dab1d77e6a135",
+      "identity": [
+        null,
+        "Actually, I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually, I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3b196bea40d0dc6d321ac8d1f5fbe1b824ecf17e39e7024e7e9c1ba74be7bcd9",
+      "identity": [
+        null,
+        "So do you plan to stick around here permanently?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So do you plan to stick around here permanently?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3b20054f834864213ba7d38bd93873fd65fbf11c70da5460b900bfda1cc6cbcb",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -ENTER -@User\n\n<color_light_green> Blood required for reality stabilization.\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -ENTER -@User\n\n<color_light_green> Blood required for reality stabilization.\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3b212149d51469b96ed2c58649f088461f06c0a1b5e659e0b08997839257175d",
+      "identity": [
+        null,
+        "Well, we're part of the caravan depot set up to keep regular trade with the Exodii, here.  I'm in charge of keeping things running and restocking the caravans, but also doing trade with scavs and the like.  Happy to trade food and supplies, if you're interested.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, we're part of the caravan depot set up to keep regular trade with the Exodii, here.  I'm in charge of keeping things running and restocking the caravans, but also doing trade with scavs and the like.  Happy to trade food and supplies, if you're interested.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "3b2adac92384f3c14f5d12e61fc6080a99a9497b47a03b7a9d6712f8390b1ebb",
+      "identity": [
+        null,
+        "Stimulant biosynthesis",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stimulant biosynthesis",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Construct: East Room Gallery'",
+      "flags": [],
+      "id": "3b2cb8d7562ec5dfb3a71c745771e61bf90744fa51782c3a1b5a2a0f1c7d993a",
+      "identity": [
+        null,
+        "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Glass from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room Gallery.  Add an enclosed gallery to the eastern room to allow viewing off the side of the island.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/east_rooms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Glass from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room Gallery.  Add an enclosed gallery to the eastern room to allow viewing off the side of the island.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "3b6310eea4efbf0261913d168bc5910f5b0d82ddc78a46f78f4b2c72d4d59a07",
+      "identity": [
+        null,
+        "Game version: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager.cpp",
+          "126"
+        ]
+      ],
+      "plural": null,
+      "singular": "Game version: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3bc231cf2886ec14674656013e8a5272acb56eabc9e898c38a610e217a7af086",
+      "identity": [
+        null,
+        "I have the ginseng you asked for.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have the ginseng you asked for.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3bdd8241c90c42be00f149fd90e9d11ecbdb291cfd0e003c5f6230be22eefdf6",
+      "identity": [
+        null,
+        "I see, I'm sorry.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I see, I'm sorry.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "3be2519c50fc9fb2b0d00fdc805067a42d3f06561baeeec6663f78492a92d0fb",
+      "identity": [
+        null,
+        "Weariness penalty",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "655"
+        ]
+      ],
+      "plural": null,
+      "singular": "Weariness penalty",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "3be3721043aa485c75ae651c843bb58a2d6c7633344e50a34139dd1a5fc4d66e",
+      "identity": [
+        null,
+        "Downloads/Don't_Be_An_Andrew.mp4\n\nAn almost offensively bright soundtrack assaults your ears as this video opens—a piano, a drum set, and what sounds suspiciously like a saxophone rubbing shoulders in the background and playing over the words of an animated unicorn that stands in the foreground.  Dressed in a jumper with \"FEMA\" printed across the chest in bright colors, the character's voice has less to do with a magically glowing equine and more to do with a buttery Anglo-American male with a cadence deeper than the Grand Canyon, more reverberant than a set of church bells, and possessing an upbeat tone that belies the subject content.\n\n\"What to do?\"  The unicorn muses, leaning an elbow contemplatively upon a desk.\n\n\"It's a question that everybody's asking during these unhappy times, and that many folks are giving wrong answers to.  With all the mean people going around, you might find yourself, or might have even already been, in some pretty scary situations!  So, let me tell you what to do.  Don't be an Andrew.\"\n\nThe scene shifts, showing an anthropomorphic mouse huddling within a cartoon evacuation shelter as the unicorn's voice narrates over the top.\n\n\"This is Andrew.  Andrew needs to wait for people to come and take him to safety, and he's currently in what we call an evacuation shelter, but Andrew's decided that he's going to try and leave on his own!\"\n\nThe mouse proceeds to peek out the shelter's door before trotting casually into the road beyond.  This particular venture lasts for all of 3 seconds before he summarily gets trampled by an on-coming pony, flattening into a furry pancake upon the street as the unicorn resumes.\n\n\"Don't, do, this!  If you're in a safe area—a shelter, basement, or communal gathering point—do not leave it for any reason.  People can't protect you if they can't find you, so wait for grownups to come and take you to a safe place.\"\n\nAs the mouse peals himself off the street, a bus driven by a squirrel wearing a cartoon army helmet motors up, and the rodent boards the vehicle.\n\n\"Don't be scared of the people sent to evacuate you.  They might look scary with all the guns, but their only job is to keep you safe.\"\n\nThe clip proceeds in this fashion for several more minutes, demonstrating, among other matters, the importance of donning gas masks when venturing outside—always, as the unicorn jovially reminds, \"with the aid of an adult,\" boiling water before drinking, and maintaining a blackout curfew—all points helpfully illustrated by the titular Andrew dramatically failing to adhere to all of the above.  The last frame of the video concludes with a shot of the mouse safely installed within a brightly colored tent complex, a number of other animals poised at the perimeters in cartoon military uniforms, and a smattering of other characters dotted about the tents.  The legend, \"THE FEDERAL EMERGENCY MANAGEMENT AGENCY, HERE TO PROTECT YOUR SAFETY,\" spans the frame in block capitals.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Downloads/Don't_Be_An_Andrew.mp4\n\nAn almost offensively bright soundtrack assaults your ears as this video opens—a piano, a drum set, and what sounds suspiciously like a saxophone rubbing shoulders in the background and playing over the words of an animated unicorn that stands in the foreground.  Dressed in a jumper with \"FEMA\" printed across the chest in bright colors, the character's voice has less to do with a magically glowing equine and more to do with a buttery Anglo-American male with a cadence deeper than the Grand Canyon, more reverberant than a set of church bells, and possessing an upbeat tone that belies the subject content.\n\n\"What to do?\"  The unicorn muses, leaning an elbow contemplatively upon a desk.\n\n\"It's a question that everybody's asking during these unhappy times, and that many folks are giving wrong answers to.  With all the mean people going around, you might find yourself, or might have even already been, in some pretty scary situations!  So, let me tell you what to do.  Don't be an Andrew.\"\n\nThe scene shifts, showing an anthropomorphic mouse huddling within a cartoon evacuation shelter as the unicorn's voice narrates over the top.\n\n\"This is Andrew.  Andrew needs to wait for people to come and take him to safety, and he's currently in what we call an evacuation shelter, but Andrew's decided that he's going to try and leave on his own!\"\n\nThe mouse proceeds to peek out the shelter's door before trotting casually into the road beyond.  This particular venture lasts for all of 3 seconds before he summarily gets trampled by an on-coming pony, flattening into a furry pancake upon the street as the unicorn resumes.\n\n\"Don't, do, this!  If you're in a safe area—a shelter, basement, or communal gathering point—do not leave it for any reason.  People can't protect you if they can't find you, so wait for grownups to come and take you to a safe place.\"\n\nAs the mouse peals himself off the street, a bus driven by a squirrel wearing a cartoon army helmet motors up, and the rodent boards the vehicle.\n\n\"Don't be scared of the people sent to evacuate you.  They might look scary with all the guns, but their only job is to keep you safe.\"\n\nThe clip proceeds in this fashion for several more minutes, demonstrating, among other matters, the importance of donning gas masks when venturing outside—always, as the unicorn jovially reminds, \"with the aid of an adult,\" boiling water before drinking, and maintaining a blackout curfew—all points helpfully illustrated by the titular Andrew dramatically failing to adhere to all of the above.  The last frame of the video concludes with a shot of the mouse safely installed within a brightly colored tent complex, a number of other animals poised at the perimeters in cartoon military uniforms, and a smattering of other characters dotted about the tents.  The legend, \"THE FEDERAL EMERGENCY MANAGEMENT AGENCY, HERE TO PROTECT YOUR SAFETY,\" spans the frame in block capitals.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "weariness": "疲劳"
+  }
+}

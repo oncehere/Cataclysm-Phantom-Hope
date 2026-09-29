@@ -1,0 +1,81 @@
+{
+  "request_sha256": "7274320fe2858dc19341759303475dfc8fdf78df3efc225b841c6635efbdbe8a",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "2e8b7aaaec41666be3f09341eb5f10b3512f2db0e4f637a7384c1e516af6b0b3",
+      "values": [
+        "测试报告 C2-8850"
+      ]
+    },
+    {
+      "id": "2e9e39b6205a9f17185587d8057259bb79e950b4c3b7a271e15184f8f5713ed3",
+      "values": [
+        "一份手写笔记，详细记录了一种能够增强力量的魔药炼金配方。底部写着一行提示：“饮用后请务必多加小心！”。"
+      ]
+    },
+    {
+      "id": "2eadfe306520fb774faff3503ba9239b8fe4ee01533ee6dc563d1dcd828c3e5f",
+      "values": [
+        "多谢你的建议。"
+      ]
+    },
+    {
+      "id": "2ec90b4646d9c2f6742b43338d74d4e9877408b237594caa1b00df83f40f674c",
+      "values": [
+        "振奋日光"
+      ]
+    },
+    {
+      "id": "2ed58ff476ac57d85ec37497c37d2d9c0246f63b947023bb5177a2dc1c0d3e29",
+      "values": [
+        "以后再说吧。再见！"
+      ]
+    },
+    {
+      "id": "2f14d2dc6143b70fb58b53d9ca3de5bb1935d875fa50d03aea746c43f3675b35",
+      "values": [
+        "一只长着巨大闪亮眼睛的微型爪奔者幼体。它的牙齿现在还很小，但要不了多久就会长大了。"
+      ]
+    },
+    {
+      "id": "2f33f3e417aad354cc83872ca2accc596bc65690127ebfcef63153be59baa00c",
+      "values": [
+        "《雅克·德里达论文集》"
+      ]
+    },
+    {
+      "id": "2f35ee13fa137701803c380335af541eaabba0231e865c6dd0b2174ca80e64e7",
+      "values": [
+        "降解塑料颗粒"
+      ]
+    },
+    {
+      "id": "2f7c6c8ef1cec31b4f352a80bc4cff6b070a1c3adabae335649d0afae347dd6b",
+      "values": [
+        "你在企业的托育中心出生长大，在那里你的一举一动都受到严密监控，以评估你的个人价值。"
+      ]
+    },
+    {
+      "id": "2f8311988118bbf242536349f88a4e4fb49e5f4f6bc062b8984fac59abb286b3",
+      "values": [
+        "一件飘逸的长袍。与敌人交战前，记得充满戏剧性地一把将它扯下来！"
+      ]
+    },
+    {
+      "id": "2f8dd08c336cac59c794b4db483c0e5031fb464b800cd86e7c7bf6acbddb339e",
+      "values": [
+        "来自飞机的木质螺旋桨与整流罩。安装在载具上后，发动机动力将为所有已安装的机翼提供升力，从而使其能够起飞。"
+      ]
+    },
+    {
+      "id": "2fc7f89cd6bed09cdc164d195f707920b512674592de98ba64b8e4ff34f547d8",
+      "values": [
+        "没有可用的有效载具维护产出区来存放拆卸下来的物品。"
+      ]
+    }
+  ]
+}

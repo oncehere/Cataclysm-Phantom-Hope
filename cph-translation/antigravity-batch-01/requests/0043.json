@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "1ef0fca8fa1aee418add58087f426df8b845da062717e58c2ad4b078148e9a57",
+      "identity": [
+        null,
+        "Simulation and Simulacra",
+        "copies of Simulation and Simulacra"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Simulation and Simulacra",
+      "singular": "Simulation and Simulacra",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'strange crystal, yellow'",
+      "flags": [],
+      "id": "1ef6fd2279d9872883a5abd385f783e7d6d4561a329b5a20ae7684b662acefa0",
+      "identity": [
+        null,
+        "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel lighter.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/items/matrix_crystals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel lighter.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "1f0f891e5801e63c141d4e8295be3c397e884adb1ddb0dbcfd6a379401c1ebca",
+      "identity": [
+        null,
+        "funeral mask",
+        "funeral masks"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": "funeral masks",
+      "singular": "funeral mask",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1f16e5121a67b2f2529229e9239d49bbbd4c972eadd4050c2ddc3342924ea399",
+      "identity": [
+        null,
+        "Thank you for the recap, but I have to go now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thank you for the recap, but I have to go now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1f20b1ccc03839c56a4486e124550816c1279ad2be189a7b2b8429fec2b70c23",
+      "identity": [
+        null,
+        "Random NPCs are enabled — co-op can't sync them to the other player yet.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5955"
+        ]
+      ],
+      "plural": null,
+      "singular": "Random NPCs are enabled — co-op can't sync them to the other player yet.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "1f21b8fdb265f0677260f7d2021bf595c01a67dc91ab43268adb5d3b8420fec4",
+      "identity": [
+        null,
+        "part %1$s + labor %2$s = %3$s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "812"
+        ]
+      ],
+      "plural": null,
+      "singular": "part %1$s + labor %2$s = %3$s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "1f2314ffaf461103cafdc683fb88f0a5da34f4a160544e33827343fc86f25100",
+      "identity": [
+        null,
+        "The Bastiat Collection",
+        "copies of The Bastiat Collection"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Bastiat Collection",
+      "singular": "The Bastiat Collection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "1f420839c0a638d591870de3d73d22109a21ceac22fe02cece851da09962e7d7",
+      "identity": [
+        null,
+        "habitat roof",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/overmap_terrain/overmap_terrain_habitats.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "habitat roof",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1f7a91eced01d097d5e2d3e54dcd31c20a3bd227a09e2bb1c29d90a0f146dcac",
+      "identity": [
+        null,
+        "Sure!  How many do you want?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sure!  How many do you want?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "1f95298426e3079d5a9129d36ed3ec16efa19b6fbf5d7eff9ee4aafa0a82b346",
+      "identity": [
+        null,
+        "炎阳真传",
+        "炎阳真传"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "炎阳真传",
+      "singular": "炎阳真传",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1fc4286f494a74bbc4b798abc7e5d0b918f30991b3ef4d262022642fddbe4d5f",
+      "identity": [
+        null,
+        "How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or music.  It started with riots, and they had to dispatch violent goons to take care of the <freaking> criminals.  The leadership tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get away.  I heard rumors they were even burning some places to try to control it - which, I have to admit, is maybe a bit too hard-core.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/evacuee_4.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or music.  It started with riots, and they had to dispatch violent goons to take care of the <freaking> criminals.  The leadership tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get away.  I heard rumors they were even burning some places to try to control it - which, I have to admit, is maybe a bit too hard-core.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Activation message of mutation 'Banquet of Dreams'",
+      "flags": [],
+      "id": "1fd17d6bfc7f207795372d4ec6015d39d12b79585ba390b4479eaa87a5e6cb8e",
+      "identity": [
+        null,
+        "You get ready to rip as much power from mortal dreams as you can.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You get ready to rip as much power from mortal dreams as you can.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'dungeon' of book 'european comic'",
+      "flags": [],
+      "id": "93c1040f13a98bb45dbccb69d7ee7048522c88fe8bd46427426ac1ea15c91315",
+      "identity": [
+        null,
+        "This album is part of the Dungeon series, which is mainly about the adventures of Herbert the duck and Marvin the dragon working for the \"dungeon\", a business establishment where heroes come in search of adventure and treasure and invariably die.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This album is part of the Dungeon series, which is mainly about the adventures of Herbert the duck and Marvin the dragon working for the \"dungeon\", a business establishment where heroes come in search of adventure and treasure and invariably die.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ This is extending the vanilla snippets belonging to mostly work of random\npeople: chat logs, SMSes, popular photos and videos that people share, or\nsomething they can film by themselves.",
+      "flags": [],
+      "id": "93c44d6d117a9f6425e9390337fd060693919efccaf9a43ac603e56d68875fd5",
+      "identity": [
+        null,
+        "hunternetlinda.mp4\nElectronic music plays on a black screen.  Text appears on the screen\n'Stand still, pause clocks, we can make the world stop'\nA video montage follows a woman across multiple days and outfits.  On errands, at work, traveling in different cities.  About a minute into the montage of video there are short cuts to her violently attacking people in secluded settings.  Those gradually become the dominant images until it's only video of her feasting on the blood of her fallen victims.  The final image is her looking up; face covered, blood dripping down onto her ruined outfit; eyes staring straight into the camera as the image freezes.  On the now black screen, a name and address appear.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "hunternetlinda.mp4\nElectronic music plays on a black screen.  Text appears on the screen\n'Stand still, pause clocks, we can make the world stop'\nA video montage follows a woman across multiple days and outfits.  On errands, at work, traveling in different cities.  About a minute into the montage of video there are short cuts to her violently attacking people in secluded settings.  Those gradually become the dominant images until it's only video of her feasting on the blood of her fallen victims.  The final image is her looking up; face covered, blood dripping down onto her ruined outfit; eyes staring straight into the camera as the image freezes.  On the now black screen, a name and address appear.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "93dbffadb07be11d8ed4fecce9b58fe58ca33eb47ea201c6c0a79d2b1a00b741",
+      "identity": [
+        null,
+        "You fail to antagonize them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You fail to antagonize them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "93df8b31aba1eb8e5b3bcf61c3d6d099c4973cc3085c3dec53760cb481fb3576",
+      "identity": [
+        null,
+        "dry interstice swimming pool",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry interstice swimming pool",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "93e698e6637def12ac6a07c092e84e2c0a11d7eaf1c300afbd7864dc3320d11a",
+      "identity": [
+        null,
+        "Right… maybe we'll talk again sometime soon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Right… maybe we'll talk again sometime soon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "93ed7f0d133ecfe16465a5ae6a6cc9c2f5491b187788742b4d7b7eeff7d2b126",
+      "identity": [
+        null,
+        "Activity and fatigue",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "580"
+        ]
+      ],
+      "plural": null,
+      "singular": "Activity and fatigue",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'bermuda shorts'",
+      "flags": [],
+      "id": "93f6dad5b674e23e77b0a547325efc0033fb3ee510e2782881280a6520115052",
+      "identity": [
+        null,
+        "Shorts reaching just above the knees.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shorts reaching just above the knees.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "93fc95b8fb576bbac7995b153bccf19b7bdf8a9d6c1aaadb5b23a5e6aeccbb08",
+      "identity": [
+        null,
+        "[Point to a CBM on the screen to install]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Point to a CBM on the screen to install]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant '.50 BMG ammo box' of item '12 gauge ammo box'",
+      "flags": [],
+      "id": "940845ca12e96056b51b298e377da4e83ed1889a4fb3e8c87653de248209f65f",
+      "identity": [
+        null,
+        "A small painted in white ammo box.  Black text printed on the front says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/ammo_boxes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small painted in white ammo box.  Black text printed on the front says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_winter'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9426d1507088faf53fb1d689e6ad275b5573272fe6cb940fddbbaf10661924d9",
+      "identity": [
+        null,
+        "%1$s takes a deep breath and blows out freezing air!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s takes a deep breath and blows out freezing air!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "94348b86f49be7ee44ff2b6d3633537b1743fe0416273c506ed1a5014a9c0b15",
+      "identity": [
+        null,
+        "&Smokes rubs his chin thoughtfully.  \"Yeah, it did, in no small part to you, I think.  How about I repay the favor?  You have anything in mind?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Smokes rubs his chin thoughtfully.  \"Yeah, it did, in no small part to you, I think.  How about I repay the favor?  You have anything in mind?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "9436bdc3e7146525a2541afb2ea0eb393b1a7ff55d3eab17ce4f25b38bc7d3cc",
+      "identity": [
+        null,
+        "\"You have right to remain silent!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"You have right to remain silent!\"",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

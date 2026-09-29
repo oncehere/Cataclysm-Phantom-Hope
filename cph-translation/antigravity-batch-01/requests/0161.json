@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "98c2c973eea5976b8367b3004c08839000aa00ea3b8bac0c8e9c949c0a60070e",
+      "identity": [
+        null,
+        "No more complex engines can be installed on this vehicle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "373"
+        ]
+      ],
+      "plural": null,
+      "singular": "No more complex engines can be installed on this vehicle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'Prankster at the end of the world.'",
+      "flags": [],
+      "id": "98cf58507041979d8e3463ee0c2a814a0eb9e64e35bbcae4406ed2d5ea2e86b9",
+      "identity": [
+        null,
+        "A unbroken trail alternating between feet and paws.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A unbroken trail alternating between feet and paws.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "98cf8137138ee7bc3b6cfc5a39a80512aae80574334f89f4cfc3334264f6d06e",
+      "identity": [
+        null,
+        "[Favor Merchants] Subtly hint to Smokes that they could probably negotiate protection, or a fortified structure for the Free Merchants.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Subtly hint to Smokes that they could probably negotiate protection, or a fortified structure for the Free Merchants.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "98e755bc13e7039ef5c2a9dd46d8c65ee2e77921ae2132a26d12a8d77164fb5a",
+      "identity": [
+        null,
+        "Arm Host (co-op)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6058"
+        ]
+      ],
+      "plural": null,
+      "singular": "Arm Host (co-op)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left tentacles'",
+      "flags": [],
+      "id": "9911f774386a735c220e16f19081e5bec36788e9c113624a0f2e3023eb02159a",
+      "identity": [
+        null,
+        "l. tents",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "l. tents",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'then' statement in EoC\n'eoc_hunvre_weather'",
+      "flags": [],
+      "id": "99158b20fbcfe119ffeb67c7db6084d308de6e54fddb56245fa84ae006dfbfe3",
+      "identity": [
+        null,
+        "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary DECLINE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/effects_on_condition/ship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary DECLINE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "9922d13d630c0b563dfdc0475092fcc70e69af444691016b8c8d5c981ca71677",
+      "identity": [
+        null,
+        "50 Great Curries of India",
+        "copies of 50 Great Curries of India"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of 50 Great Curries of India",
+      "singular": "50 Great Curries of India",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "992691d8b1ea599d405fcab8dcde2963e2daeebef57313f88c8f34c3b55b17fb",
+      "identity": [
+        null,
+        "EMPLOYEE NAME: Connie Malackey\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Active\n REVIEW DUE: May\n\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_NURSING_HOME.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "EMPLOYEE NAME: Connie Malackey\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Active\n REVIEW DUE: May\n\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ We brought out the armored forces early on this journey.  Specifically\nsince this world hosts not just the undead but people who hunted us in\nother worlds.",
+      "flags": [],
+      "id": "9937187d69fcd10690da7f856830549cd2d5a5cc82e18e7aa435514058aea96f",
+      "identity": [
+        null,
+        "Four-by-twos woke afore the dawn this green and blue.  Us un's prefer to duck and dive but this mudball's filth kicked it off afore our landing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/rubik.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Four-by-twos woke afore the dawn this green and blue.  Us un's prefer to duck and dive but this mudball's filth kicked it off afore our landing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'The False Witness'",
+      "flags": [],
+      "id": "993832d27f592ef6267147daa12919e1250a8d476ec4d5183a107726f28a5773",
+      "identity": [
+        null,
+        "You have a much easier time spinning lies and making people believe them.  You gain a bonus to your lying chance as long as you aren't empty of ruach.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have a much easier time spinning lies and making people believe them.  You gain a bonus to your lying chance as long as you aren't empty of ruach.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (scorpion periapta)'",
+      "flags": [],
+      "id": "993aa475f3a369ff296de8eb88d0f005f4ca783febbb85ed6e4371e189a6173b",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  There are several stick-figure drawings of a person with a scorpion's tail in the margins.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  There are several stick-figure drawings of a person with a scorpion's tail in the margins.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "99439f4aebd6ed806a7548f43d5e8874fb0170d7d0ab826e63ca56947ee3753f",
+      "identity": [
+        null,
+        "Mod source: %s [%s]",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager.cpp",
+          "117"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod source: %s [%s]",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

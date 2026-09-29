@@ -1,0 +1,273 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of weakpoint\n~ ex. '[You hit the zombie in] a crack in the armor!'",
+      "flags": [],
+      "id": "2b82349bd17beea5b7504da90aca85ec90ef93079bd96c07edafd92941c46bfd",
+      "identity": [
+        null,
+        "the foot",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/dinosaur_weakpoints.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the foot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'low pool water'",
+      "flags": [],
+      "id": "2b907e3a7b52e079c60683d550113291c9f0b16660673081172a3dda025bc442",
+      "identity": [
+        null,
+        "Only shallow water remains over the deep bottom of this outdoor pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only shallow water remains over the deep bottom of this outdoor pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2bb30b2456a7dcd9e4278f3eed24559599d47dd566a7ccf0fe77133e58b04785",
+      "identity": [
+        null,
+        "[Offer to trade for the repairs]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Offer to trade for the repairs]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'low water in a deep pond'",
+      "flags": [],
+      "id": "2bb9486ce75211d8fa292483a4e6934f481a6e57bdba1ae2d8e0c40059e045e5",
+      "identity": [
+        null,
+        "Only shallow water remains over the deep bottom of this pond.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only shallow water remains over the deep bottom of this pond.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2bc582cabcc9600b6d17d50b7ac742f2f776153f1e21c7fe3430bb60fdb9ff74",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_soothing_the_savage_beast>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_soothing_the_savage_beast>]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "2bcc60910a665964bcae44234afac6561f4192fac9cd70a15b8a8e1966de5101",
+      "identity": [
+        null,
+        "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Thank you for your order\n\n Hi KRISTI GORDEE,\n\n We have received your order and will begin processing it immediately.\n 1x Jet Injector, RX12 by Rivtech\n\n You will receive an additional email when your order has shipped.\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions?  Contact customer service xxx-xxx-xxxx.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_NURSING_HOME.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Thank you for your order\n\n Hi KRISTI GORDEE,\n\n We have received your order and will begin processing it immediately.\n 1x Jet Injector, RX12 by Rivtech\n\n You will receive an additional email when your order has shipped.\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions?  Contact customer service xxx-xxx-xxxx.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "2bda0d7c4935af12963d027c7907f2a354f28d21b6331bd466a9ad640ae802e8",
+      "identity": [
+        null,
+        "吐纳引气诀（残卷）",
+        "吐纳引气诀（残卷）"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "吐纳引气诀（残卷）",
+      "singular": "吐纳引气诀（残卷）",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'tentacled daemon'",
+      "flags": [],
+      "id": "2bdca3065862bacb8f9ee38263b292136b9a2ff0225299deb2124666e7ac7591",
+      "identity": [
+        null,
+        "A huge, slimy worm-like creature, moving through dirt as though it were water.  Myriad long tentacles writhe on its sides, and four eyes on its flattened head gaze malevolently at its surroundings.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A huge, slimy worm-like creature, moving through dirt as though it were water.  Myriad long tentacles writhe on its sides, and four eyes on its flattened head gaze malevolently at its surroundings.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2c00539b144956285a5029407c4366e27228975211366ed835ef01b7346cb64f",
+      "identity": [
+        null,
+        "Add",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "525"
+        ],
+        [
+          "src/auto_pickup.cpp",
+          "293"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "318"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "729"
+        ]
+      ],
+      "plural": null,
+      "singular": "Add",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Right Leg (Cyberframe 1b)'",
+      "flags": [],
+      "id": "2c116833664a88bc150d0d9e3ac0eb8faa86c2bb247e107e3a0d850d0dfda6c3",
+      "identity": [
+        null,
+        "A bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Warped Reinforcement (East)'",
+      "flags": [],
+      "id": "2c1fe98c8f03e698a8a39afb4c8234e0eb95545219948ffb1a943693bbde8efe",
+      "identity": [
+        null,
+        "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 3",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/east_rooms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 3",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'SugarKin flyer'",
+      "flags": [],
+      "id": "2c22d831cfdef32822c3a9443e89a51231ebbdf9ada67af35e7318c96a073ced",
+      "identity": [
+        null,
+        "A flyer for some kind of candy.  It shows a picture of a gleaming human made of smooth candy looking at you in terror.  \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"\n On the back of the flyer you can see some hastily scribbled words:\n \"Hello, my child, welcome to this world.  A world where you'll be able to thrive if you follow a few rules:\n1) Never ever get into contact with water, it would melt you!\n2) Avoid humans with clear eyes they are very dangerous!  (You can ignore the ones with black eyes they are harmless to you.)\n3) Learn how to make caramel ointment, it's the only way to fix your body if you get hurt.\n There are many more things I'd like to tell you but I must leave before it's too late.  I've made you a friend to keep you company, be kind to it.\n I love you,\n - F.  \".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/My_Sweet_Cataclysm/sweet_items.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A flyer for some kind of candy.  It shows a picture of a gleaming human made of smooth candy looking at you in terror.  \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"\n On the back of the flyer you can see some hastily scribbled words:\n \"Hello, my child, welcome to this world.  A world where you'll be able to thrive if you follow a few rules:\n1) Never ever get into contact with water, it would melt you!\n2) Avoid humans with clear eyes they are very dangerous!  (You can ignore the ones with black eyes they are harmless to you.)\n3) Learn how to make caramel ointment, it's the only way to fix your body if you get hurt.\n There are many more things I'd like to tell you but I must leave before it's too late.  I've made you a friend to keep you company, be kind to it.\n I love you,\n - F.  \".",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

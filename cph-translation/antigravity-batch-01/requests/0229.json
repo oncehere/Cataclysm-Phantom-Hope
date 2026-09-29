@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "db1b259e382897e625765951cc228b557e1875596e39689a9f47b6481116b5e1",
+      "identity": [
+        null,
+        "Right.  Fungal crustaceans from space.  Mighty unpleasant fellas, if you ask me.  But, uh, don't tell them I said so.  The forge lord says they mean no offense, that cutting people up is just their way of saying 'hi'.  Personally I find it rude, but perhaps that's anthropocentric of me.  But I digress.  Are you interested in an encampment or a scout tower?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/npc/TALK_FORGE_DIVINER.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Right.  Fungal crustaceans from space.  Mighty unpleasant fellas, if you ask me.  But, uh, don't tell them I said so.  The forge lord says they mean no offense, that cutting people up is just their way of saying 'hi'.  Personally I find it rude, but perhaps that's anthropocentric of me.  But I digress.  Are you interested in an encampment or a scout tower?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'ROBOFAC_ARM'",
+      "flags": [],
+      "id": "db1f349c2d6cc1a73ce3b76153862a3520a8d391277b4f9f555ac566af84c5c6",
+      "identity": [
+        null,
+        "This item is a Hub 01 ARM exoskeleton.  It requires an implanted XM-ARM interface to function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This item is a Hub 01 ARM exoskeleton.  It requires an implanted XM-ARM interface to function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "db2b0e11b7afe50773e99623d471c1c2dc91a1ed03e40ab0ac7510cefe1a793e",
+      "identity": [
+        null,
+        "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "db2c86ad8af67b4339a3214f6760a425650abc31e5680782f6b6a4bf9fb16eae",
+      "identity": [
+        null,
+        "I'm not an Exodii, I'm just a cyborg.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm not an Exodii, I'm just a cyborg.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "db318d235f2ea3295edd1a9f82d92607d4a382c633de70bcf7ac772eb679b83e",
+      "identity": [
+        null,
+        "\"\n\n[TRANSLATE:] \"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"\n\n[TRANSLATE:] \"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'hostile_msg' action message of item 'inactive Regulator'",
+      "flags": [],
+      "id": "db4a74401e5994d2fd1e9c12f16d9362a8c671a250a13de2df800bf104795f94",
+      "identity": [
+        null,
+        "The Regulator swivels its turret and aims directly at you.  Don't brown your pants!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Regulator swivels its turret and aims directly at you.  Don't brown your pants!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Conditional name for 'jerky' when 'COMPONENT_ID_SUBSTRING' matches\n'insect'",
+      "flags": [],
+      "id": "db4f9749ea191f39ab33e6ae88d4c373a78beced3f20c3adccdc109ba03bd011",
+      "identity": [
+        null,
+        "insect jerky",
+        "insect jerky"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/comestibles/vanilla_overrides.json",
+          ""
+        ]
+      ],
+      "plural": "insect jerky",
+      "singular": "insect jerky",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "db536d981c187f6ca12b1fe40f5787bf567aa5a014ede26b56f44aab57151bd2",
+      "identity": [
+        null,
+        "luminous fluid",
+        "luminous fluid"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/cryostorage_loot.json",
+          ""
+        ]
+      ],
+      "plural": "luminous fluid",
+      "singular": "luminous fluid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "db5810ac8a72ee6bdf2410b51b00efd7f7c437d67435b7699746adedb1a093ce",
+      "identity": [
+        null,
+        "Switch to controlling this follower.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/TALK_COMMON_OVERRIDES.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Switch to controlling this follower.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in EoC 'EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC'",
+      "flags": [],
+      "id": "db5e1b82239fc50adbc5067768874618f908108e9ecd453223b0db56f5e7da3c",
+      "identity": [
+        null,
+        "Running Lilit plague check on <u_name>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Running Lilit plague check on <u_name>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'weed_high'",
+      "flags": [],
+      "id": "db60e0714cf7ef556235fb37b0e0687f659d9d26cbf2722dfc36a329d7ac3b74",
+      "identity": [
+        null,
+        "Stoned",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stoned",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "db6a2c37cc2471ac9c6082884828e5542d862375dbbd6355db115b395c2e96d9",
+      "identity": [
+        null,
+        "right tentacle bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right tentacle bases",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

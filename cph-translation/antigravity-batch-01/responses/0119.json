@@ -1,0 +1,81 @@
+{
+  "request_sha256": "74bc992ec023d4ee01b533205b101cdf112294a1a54631c7020e6a6fa43b2c9c",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "6cd39c514a3fe42f97accf0d59c5104aaac56b6305ac04d20f38bc3bdac3e76d",
+      "values": [
+        "你天生适合在黑夜中漫步，在白天入睡要容易得多。"
+      ]
+    },
+    {
+      "id": "6d2825e62a37acc78d707489bd49904711002b19eb58caba4a9400a5ea4ee625",
+      "values": [
+        "一种深沉而持久的平静笼罩了你。"
+      ]
+    },
+    {
+      "id": "6d2dad30dcef599c879448d0041f8237fcfdb0f0d7147b0804ad3750a6f1ff36",
+      "values": [
+        "枯死树丛"
+      ]
+    },
+    {
+      "id": "6d395485766467831b857f49a8983f549e2c6ea3cf5d482138b011be9a5123ac",
+      "values": [
+        "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>命令已接受。\n<color_light_green>附近的门已解锁。\n<color_light_green>感谢您使用 AltarOS。\n\n<color_light_green> @User > _"
+      ]
+    },
+    {
+      "id": "6d42cf4eea87f8941dff63c1be487b2052e1458ca7cf3e58cfd1aa36f7a95fd5",
+      "values": [
+        "灰色外星人毛绒玩具"
+      ]
+    },
+    {
+      "id": "6d8ec8d917c8b0f6a401bf8808cef06e82e862c8edbcbfe6fea0e8559ec23e62",
+      "values": [
+        "[安装辐射洗脱器 CBM] 呃，我猜我总是做噩梦梦见自己落得居里夫人那样的下场。那就非辐射洗脱器莫属了。"
+      ]
+    },
+    {
+      "id": "6d9dd8e310d883e72cff882cd3d91ddc0d987efaa1d5922295e0ec9e1cfb52ca",
+      "values": [
+        "仔细听好：我们搜集到的东西并不全来自这种地方。有时，我们会发现被我们称为“迷宫”的场所。那是通往其他世界的阶梯。我们一直记录着它们的位置。而且，附近就有一个，是本泽特亲自发现的。这些地方既不安全，也不友善。但是，它们似乎是专门为我们打造的，只要你不去深究，这倒挺方便。坦白讲，我们绝大多数的生化部件都是从那里弄来的。"
+      ]
+    },
+    {
+      "id": "6dae4e77d4a99569270509ea4f9fdd371a2867261fc844849719233abd94d572",
+      "values": [
+        "UFO 目击事件激增引发公众担忧。普通民众目击 UFO 的事件明显大幅增加，涵盖了所有年龄、种族和阶层。政府发言人杰米·巴尔加斯发表了以下声明。“所有这些 UFO 目击事件都是由气候变化对北极光造成的影响所致，”她对聚集的媒体表示。“绝对没有任何外星人与美国政府接触，也没有任何外星人在四处飞行。这一点你们大可放心！”"
+      ]
+    },
+    {
+      "id": "6db53dfe480bf291431d2ffa7ad7ea68ab5e3779994c4900dc0c9c3808c1ae84",
+      "values": [
+        "别用氯丙嗪，保持你心智的锋芒。"
+      ]
+    },
+    {
+      "id": "6dcca48bb503895b021f405b09fa9d63f6833cdaac503a3e0adad061979be62c",
+      "values": [
+        "地形或家具阻挡了安装位置。"
+      ]
+    },
+    {
+      "id": "6df87dae165a220aa3ba51907d0b55078a22502553c5b901ded02642109c164a",
+      "values": [
+        "由十个相互连接的钢制储罐组成的沉重货架结构，提供 600 升的液体储存容量。专为固定使用而打造，包含电加热功能以防止储存物结冰，作为设施安置后可接入管道设备。"
+      ]
+    },
+    {
+      "id": "6e119fc59713b4feacda6d418f8df0fee6ab55dc1387fcc93925915757b1617e",
+      "values": [
+        "模组冲突"
+      ]
+    }
+  ]
+}

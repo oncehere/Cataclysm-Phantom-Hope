@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_summer_absorb_strength'\n~ Name of effect 'effect_changeling_summer_absorb_strength_self'\n~ Name of a spell",
+      "flags": [],
+      "id": "5f3277c6e55d8e0ecdd50b70ee855899482d6c41249e9eb25ae91d52c14f7e2d",
+      "identity": [
+        null,
+        "Hand of Lugh",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hand of Lugh",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5f47175217708b1e7bba1987887e30dfa628bf941846c3af858fd52a560ebbdb",
+      "identity": [
+        null,
+        "I'm descended from the house fae that help good people with their chores and protect their homes!  I never knew until after the Cataclysm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm descended from the house fae that help good people with their chores and protect their homes!  I never knew until after the Cataclysm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "5f4a236aa7da8a812744526bf28e31178e5e3e71ff46f7fc3a0443065ab55750",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your ability to pick up and move items without touching them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/esper/telekinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your ability to pick up and move items without touching them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "5f52be426b87ff07510708d7c6535926ebe960e296395bfd3b364b13b061ec8e",
+      "identity": [
+        null,
+        "Accelerated Hematopoiesis",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Accelerated Hematopoiesis",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5f5c8d170e2fcec396a8bc9645c578450012d82bc9f507499b0ae2d42d14d091",
+      "identity": [
+        null,
+        "The mechanic supplies all skills, tools, lifting, and installation materials.\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1240"
+        ]
+      ],
+      "plural": null,
+      "singular": "The mechanic supplies all skills, tools, lifting, and installation materials.\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation '不动如山'",
+      "flags": [],
+      "id": "5f7e5d30728485f224ec8ebb6e9680b655721062beb5892bd809fa1ebe45d323",
+      "identity": [
+        null,
+        "久修土行所成之体。厚重之元沉于体魄，坚凝如山岳——皮肉御伤，难被撼动击退，所御土行之力愈厚。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "久修土行所成之体。厚重之元沉于体魄，坚凝如山岳——皮肉御伤，难被撼动击退，所御土行之力愈厚。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5f8948c996c60cb1e208742ecfdbef9a1db5b3a09eebeae66549a51d3a6619bb",
+      "identity": [
+        null,
+        "The installation would take too long.  Choose a smaller area.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1107"
+        ]
+      ],
+      "plural": null,
+      "singular": "The installation would take too long.  Choose a smaller area.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Stimulant biosynthesis'",
+      "flags": [],
+      "id": "5fb3b553e2fd966110f54d414aa2e3fe245ae7f7c2295603f3c00896a3b9e0e8",
+      "identity": [
+        null,
+        "You naturally produce combat-enhancing substances, and you might consciously trigger their release as you see fit.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You naturally produce combat-enhancing substances, and you might consciously trigger their release as you see fit.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5fc92e630470e984fc73613adc09b423f300aeca816be44fc97b7e38fe194924",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_portal_storm_mutator_mana>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/mod_interactions/bombastic_perks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_portal_storm_mutator_mana>]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'note'",
+      "flags": [],
+      "id": "5fcd90436b32aed36c6a258ce443c48a857261003a1a8b1686e0215c5e842aa9",
+      "identity": [
+        null,
+        "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two nights running.  Something's still happening up there.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two nights running.  Something's still happening up there.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "5fd69144599e2f1f2cbfd806ed020e604847e3c277dac4ff7e9d1fa1acaedeb1",
+      "identity": [
+        null,
+        "Reader on Hegel's Dialectics",
+        "copies of Reader on Hegel's Dialectics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Reader on Hegel's Dialectics",
+      "singular": "Reader on Hegel's Dialectics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_telekinesis'\n~ Phavian designation for telekinetic study is JUNIPER GOLD.  Phavian\ndesignation for telekinetic study for use in combat is ONYX LIGHTNING",
+      "flags": [],
+      "id": "5fd8e1a10bee8990dc68253b638e4eec045c48e734c79530e975d59b4750ad0d",
+      "identity": [
+        null,
+        "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway unless you buy Dr. Ho's ridiculous \"The soul is a Nether construct\" theory.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway unless you buy Dr. Ho's ridiculous \"The soul is a Nether construct\" theory.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1fdb736a0f5fb22f0b1e4465968b4001b25200309040038e868a49fa21da91fb",
+      "identity": [
+        null,
+        "&You see a black computer screen with a flickering cursor and some text.  The cursor looks to be controlled by an old mouse that has been hard-wired to the side of terminal.  Only one option appears:\n\n<color_light_green> Labyrinth AB02123.3-4a</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/exodii_labyrinth_computer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You see a black computer screen with a flickering cursor and some text.  The cursor looks to be controlled by an old mouse that has been hard-wired to the side of terminal.  Only one option appears:\n\n<color_light_green> Labyrinth AB02123.3-4a</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "1fe25baa72d725bfa30911b8ec315651f126b7d49fcdcbacbbe6a311d8d0584f",
+      "identity": [
+        null,
+        "short mound of contaminated dirt",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "short mound of contaminated dirt",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1ff65a04160289d50c6e89a56b31e984c6e3e29962cf0238e3dac4f9e3538cc5",
+      "identity": [
+        null,
+        "We got to my buddy's place, but the <freaking> spearmen had been there first.  It was all boarded up and there was a wooden barricade out front.  One of those <freaking> giant insects… <freaking> got Buck.  Almost got me too.  I managed to get my pup… get him outta there, that… it wasn't easy, had to use a dead bug as a shield.  And then, well, while I was still cryin', Buck came back.  I had to… <swear!>.  I… I can't say it.  You know.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/rural_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We got to my buddy's place, but the <freaking> spearmen had been there first.  It was all boarded up and there was a wooden barricade out front.  One of those <freaking> giant insects… <freaking> got Buck.  Almost got me too.  I managed to get my pup… get him outta there, that… it wasn't easy, had to use a dead bug as a shield.  And then, well, while I was still cryin', Buck came back.  I had to… <swear!>.  I… I can't say it.  You know.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_telekinesis'\n~ Phavian designation for telekinetic study is JUNIPER GOLD.  Phavian\ndesignation for telekinetic study for use in combat is ONYX LIGHTNING",
+      "flags": [],
+      "id": "20062310959fca917781a874fcb9447ed4cf15c0afcb4e08a6eedcb603a64c0a",
+      "identity": [
+        null,
+        "Dr. Richardson,\nPer request, we assessed the ability of three JUNIPER GOLD mathematicians to affect very small masses.  Subjects were ordered to look into a microscope at water flora, then at bacterial samples, and then at images from electron microscopes.  While it makes intuitive sense that larger masses would require more effort and control to manipulate through telekinesis, its actual behavior does not always follow logical constraints--see the way that barriers react to external forces.  In this experiment, we found that manipulating water flora was possible but bacterial samples and electron microscopes both failed.  Our initial hypothesis was that direct observation was required, but the bacterial test provided that is not sufficient to explain JUNIPER GOLD's limitations.  It is currently unclear if this is a psychological limitation or something inherent to JUNIPER GOLD.  Further testing with a wider variety of mathematicians is required.\nMadeline Robbins\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Richardson,\nPer request, we assessed the ability of three JUNIPER GOLD mathematicians to affect very small masses.  Subjects were ordered to look into a microscope at water flora, then at bacterial samples, and then at images from electron microscopes.  While it makes intuitive sense that larger masses would require more effort and control to manipulate through telekinesis, its actual behavior does not always follow logical constraints--see the way that barriers react to external forces.  In this experiment, we found that manipulating water flora was possible but bacterial samples and electron microscopes both failed.  Our initial hypothesis was that direct observation was required, but the bacterial test provided that is not sufficient to explain JUNIPER GOLD's limitations.  It is currently unclear if this is a psychological limitation or something inherent to JUNIPER GOLD.  Further testing with a wider variety of mathematicians is required.\nMadeline Robbins\nResearcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'photography collection'",
+      "flags": [],
+      "id": "20992f11a83040d1224eb85e86ab8a7de23296d83ae5efb5d67412d15197180a",
+      "identity": [
+        null,
+        "A hardbound book containing a set of very impressive photographs of animals you'll never see and places you'll never be able to go to.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hardbound book containing a set of very impressive photographs of animals you'll never see and places you'll never be able to go to.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Gun name",
+      "flags": [],
+      "id": "20cb1a4f6e34d2f7bebcf3c544c9a2ac1914bd24c2b8032c05c1b9c24a80eed4",
+      "identity": [
+        null,
+        "ancient plasma rifle (fan)",
+        "ancient plasma rifles (fan)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/firearms/energy.json",
+          ""
+        ]
+      ],
+      "plural": "ancient plasma rifles (fan)",
+      "singular": "ancient plasma rifle (fan)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Regulator schematics'",
+      "flags": [],
+      "id": "20d1316db88ecdfd6c8e685cb2a4b586a455af44880de78016d62908c45edf7e",
+      "identity": [
+        null,
+        "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Regulator.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/books.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Regulator.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "20d8f00b3b8c9786a1074739961851f73e0b1d53656c99b0def0a3dcd5f75a8b",
+      "identity": [
+        null,
+        "Hand of the Island",
+        "Hand of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": "Hand of the Island",
+      "singular": "Hand of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "20e711b7c06604fbcc792a244b75929e0b1e814860bede71c9354b2197c78ab5",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -HUMANNEEDS\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN NEEDS: WATER available from AltarOS remote.  Route a path to cache?  Y/N",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -HUMANNEEDS\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN NEEDS: WATER available from AltarOS remote.  Route a path to cache?  Y/N",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Still Spell'",
+      "flags": [],
+      "id": "20f654b1066496d2e4c2f6de5ab192371c95a352f800f0f87bfc0eb21e3bbbfe",
+      "identity": [
+        null,
+        "You have learned to cast spells without moving.  +20% cast cost, ignores arm, leg, and hand encumbrance.  Can cast spells while holding items.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have learned to cast spells without moving.  +20% cast cost, ignores arm, leg, and hand encumbrance.  Can cast spells while holding items.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'horror novel'",
+      "flags": [],
+      "id": "210552864005949bcb3bedc4cb5619d3599423009dd2a875edfc486aa0535cbd",
+      "identity": [
+        null,
+        "Maybe not the best reading material considering the situation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Maybe not the best reading material considering the situation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "21140a88e72876c595f2a9f7e1682a17713208f1c029ff26b345f6e028351f61",
+      "identity": [
+        null,
+        "%s smashes the %s to pieces!",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3494"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s smashes the %s to pieces!",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

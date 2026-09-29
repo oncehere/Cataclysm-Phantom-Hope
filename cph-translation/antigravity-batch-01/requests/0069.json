@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'US Weekly'",
+      "flags": [],
+      "id": "3a017a5c6157b30acdbb8eb199f71151f29eb874b9378124fa9cd2d7ad514e76",
+      "identity": [
+        null,
+        "Weekly news about a bunch of famous people who're all (un)dead now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Weekly news about a bunch of famous people who're all (un)dead now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in false effect in EoC\n'EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS'",
+      "flags": [],
+      "id": "3a0d6e7d715f50973226264f6b935a3dd37c0245620f601b1e84b3c8897d3846",
+      "identity": [
+        null,
+        "You try to research new magicks but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling_seasonal_magic_research_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You try to research new magicks but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "3a626c76ebdaf083f8a4e6e062362e3d133a10e54bf2787db1b0c77b325af4ef",
+      "identity": [
+        null,
+        "biography (deceased person)",
+        "biographies (deceased person)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "biographies (deceased person)",
+      "singular": "biography (deceased person)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3a8875f04a3f29830326636da94b547554cf49448b4d5c17de53a9aa2a96476d",
+      "identity": [
+        null,
+        "They all said that, but it happened to each of them.  I won't ask again.  If you refuse the cure, we will have no choice but to kill you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They all said that, but it happened to each of them.  I won't ask again.  If you refuse the cure, we will have no choice but to kill you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in result of recipe crafting\n'EOC_RESEARCH_MATERIAL_FOREST'\n~ Player message in result of recipe crafting 'EOC_RESEARCH_MATERIAL_EARTH'\n~ Player message in result of recipe crafting 'EOC_RESEARCH_MATERIAL_MOON'\n~ Player message in result of recipe crafting 'EOC_RESEARCH_MATERIAL_SKY'\n~ Player message in result of recipe crafting 'EOC_RESEARCH_MATERIAL_SEA'",
+      "flags": [],
+      "id": "3a95b656285b7abdb54bff94264c100dcadce6dcd032ed83cd375bc74307dc75",
+      "identity": [
+        null,
+        "You successfully assemble your varied notes and samples into a coherent plan for research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You successfully assemble your varied notes and samples into a coherent plan for research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'night_ops_serum_main'",
+      "flags": [],
+      "id": "3a96b424aeae59527e4670d772a25ef18b4afa65c0efd47d85120c465fdea1e9",
+      "identity": [
+        null,
+        "Injected 09x-\"Anaximander\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/night_operations_serum.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Injected 09x-\"Anaximander\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Getting there is tricky, but easier than moving a castle.  They're less\nexpensive and dangerous than a whole jump, which itself is curious.\nDownstairs is a metal ring with a terminal - I wrote the messages, so\nyou'll understand it.  We'll consider you a volunteer who wants to scout\nthe place out.  It's good for both of us.  You're free to use it.  Keep in\nmind that the teleporter needs to recharge for 5 days between jumps.  Your\nfirst time will leave you dizzy, but it'll pass if you're tough.",
+      "flags": [],
+      "id": "3aa321f90340fd039517a8c27d2126fd1cb43afcb95d9c982508c3b4d4d61205",
+      "identity": [
+        null,
+        "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nFirst time'll leave ya' addled, though, spin o' the boat race.  If ye've the grit, passes quick enough.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nFirst time'll leave ya' addled, though, spin o' the boat race.  If ye've the grit, passes quick enough.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "3ad19cb0c2852dc8a29d83a55181ffcf6b4236475d0236dc6bf491d420f78123",
+      "identity": [
+        null,
+        "Parallax-3A Secutor",
+        "Parallax-3A Secutors"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/robots.json",
+          ""
+        ]
+      ],
+      "plural": "Parallax-3A Secutors",
+      "singular": "Parallax-3A Secutor",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_xedra'\n~ Messages, logs and videos, that xedra agent may have on it's laptop",
+      "flags": [],
+      "id": "3ad2c7a1436fb6ef99f6fdda14245c0adc44c09a4896ded968dcbd3c425eaf44",
+      "identity": [
+        null,
+        "need_to_discuss.mp4\n*It seems to be a part of some video for a newcomer mortician.*\nHost: … Oh, and also, do you remember those small pieces of metal we found covering the skin?  I recommend not throwing it away, but cleaning it up and storing it in some bag - apparently zebra departments really like to buy some of them for a whopping price.\nCameraman: Do you know why?\nHost: I don't give a shit actually, but 50 bucks per month is 50 bucks per month.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "need_to_discuss.mp4\n*It seems to be a part of some video for a newcomer mortician.*\nHost: … Oh, and also, do you remember those small pieces of metal we found covering the skin?  I recommend not throwing it away, but cleaning it up and storing it in some bag - apparently zebra departments really like to buy some of them for a whopping price.\nCameraman: Do you know why?\nHost: I don't give a shit actually, but 50 bucks per month is 50 bucks per month.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "3ae051b43815b78bbd8d9ddb420d67106b800260387a8d7cbb85c580ce5d628d",
+      "identity": [
+        null,
+        "Conduct observation of the sky and study weather recordings develop a corpus of research for lesser mysteries.  You must be outdoors on a day with clouds to conduct your research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Conduct observation of the sky and study weather recordings develop a corpus of research for lesser mysteries.  You must be outdoors on a day with clouds to conduct your research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "3ae1cea45a92ab8e1925e9e824629a22bcaaa400c20b1451d1b94146c9b7fe3c",
+      "identity": [
+        null,
+        "middle tentacles",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "middle tentacles",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "3aee7b1a13b150d8987da01c561b5425a0fb7da757ed408d12010e06ce43b7ec",
+      "identity": [
+        null,
+        "Arg Thorazine, don't touch it!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Arg Thorazine, don't touch it!",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

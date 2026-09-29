@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "NO_FLAGS_IN_COMPLETED_SNAPSHOT",
+  "counts": {
+    "source_index_entries": 3415,
+    "cache_records": 20,
+    "cache_statuses": {
+      "failed": 8,
+      "complete": 12
+    },
+    "complete_records_in_cache": 12,
+    "complete_records": 9,
+    "matched_complete_records": 9,
+    "unique_complete_entry_ids": 9,
+    "translation_variants_checked": 9,
+    "flagged_records_or_variants": 0,
+    "source_color_imbalance_records": 0,
+    "findings_by_kind": {},
+    "findings_by_level": {}
+  },
+  "selection": {
+    "limit": 9,
+    "order": "cache key sorted",
+    "excluded_complete_records": 3
+  },
+  "runtime_tag_patterns": [
+    "<(?!(?:empty|Global|Character)>)/?[A-Za-z_%+\\-](?:[^\\s<>]|<(?:[^\\s<>]|<[^\\s<>]*>)*>)*>"
+  ],
+  "results": [],
+  "limitations": [
+    "Only complete cache records in this read snapshot are checked; failed/unknown/inflight records are not translations.",
+    "No PO or cache entries were modified. No numerical differences were corrected.",
+    "Differences require review: Chinese numerals, unit conversions, quotations and names may be intentional.",
+    "Unchanged pre-existing source color imbalance is accepted and counted, not treated as a new translation defect.",
+    "For plural entries, comparison with either source form may satisfy the checks; this is not plural-semantic validation.",
+    "These checks do not establish linguistic quality or full translation acceptance."
+  ],
+  "generated_at_utc": "2026-09-29T01:24:52.556534+00:00",
+  "command": [
+    "/etc/profiles/per-user/oncehere/bin/python3",
+    "cph-translation/audit_translations.py",
+    "--limit",
+    "9"
+  ],
+  "inputs": {
+    "source_index": {
+      "path": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/qa-source-index.json",
+      "sha256": "740c3595e428b20e7803543cd26894de94a95553f73729b02b1e80eccdccfada",
+      "bytes": 1624770
+    },
+    "cache": {
+      "path": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/gemini-cache.json",
+      "sha256": "6e4952d265fa0f2fc20c5e461b85b37357eb4dde1015a30ad555ef36fca300eb",
+      "bytes": 8019
+    },
+    "config": {
+      "path": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/project.toml",
+      "sha256": "8885f146a9b5350933348d0151f5721c0278bc2a1d67bc9666b4edc6c18abdd1",
+      "bytes": 2793
+    }
+  },
+  "inputs_changed_during_audit": [],
+  "checks_execution": "PASS"
+}

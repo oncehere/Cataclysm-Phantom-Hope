@@ -1,0 +1,81 @@
+{
+  "request_sha256": "80940fa3d890762921acaaa7a2dc8007700a423e03dceaf30d557ca9c1e436ff",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "f0b2d23268ea851ba178b2a5d7cc2aacde7af40f39151f56cdb7ad477d10114f",
+      "values": [
+        "这是一个首字母缩写词，代表“激光干涉仪异次元共振阵列”（Laser Interferometer eXodimensional resonance Array）。"
+      ]
+    },
+    {
+      "id": "f13128c79c256e0a89c29e71099444a1f14e7f62b751944df66a3a2227f3eaa9",
+      "values": [
+        "选择自定义常规颜色"
+      ]
+    },
+    {
+      "id": "f153c6ef28e187074c717bf3d3f9e5df80d6ba5d090c553dfd466a2fe9faa555",
+      "values": [
+        "错误：未检测到 XM-ARM 接口"
+      ]
+    },
+    {
+      "id": "f173e83ef7d366eb30c56fcb79e00a6db7f6b05366a0aeea77f39091d84c4d7f",
+      "values": [
+        "已注射 51x-“兰德鲁”"
+      ]
+    },
+    {
+      "id": "f176485e4e10572d2c2fbda738b7557594c3d7e504b07bf2d1f2dfdc3d55f0dc",
+      "values": [
+        "[心灵感应] *读取 <npc_name> 的心智*"
+      ]
+    },
+    {
+      "id": "f179700e604b4bb80ad268259cc93506bc3969ad63ed015b95a8e3cc38b2cb07",
+      "values": [
+        "你的"
+      ]
+    },
+    {
+      "id": "f1a6cdf03a53085476861015f5df6f4fbd9fb282dc08e53ec69414c6eafa9f3e",
+      "values": [
+        "飘飘欲仙"
+      ]
+    },
+    {
+      "id": "f1ad734e4ba3455bf133cfe0a83fcf05a547cde802ca75b4731cffe512f906c4",
+      "values": [
+        "披上太阳斗篷"
+      ]
+    },
+    {
+      "id": "f1af8b5be9193d5c7f7a724ad3699070092a2bb6d594d064c1ed33621200eb77",
+      "values": [
+        "结实厚底的靴子，高度及小腿以提供更多支撑与防护。"
+      ]
+    },
+    {
+      "id": "f1b7f38eea2499479cf6ce21c1cda176b68d27bec58558c5f83fc22c82223248",
+      "values": [
+        "%1$s：%2$d 件自带，%3$d 件来自技工；总计 %4$s"
+      ]
+    },
+    {
+      "id": "f1ce7b0f521c176c4f696c6e006bf400ccfcdc97e6a4ddb7c76a768ee036e918",
+      "values": [
+        "在翻新开始前车辆发生了变化。%s 已将付款退还给你。"
+      ]
+    },
+    {
+      "id": "f1e3583d013180cb001085cdc3036cfa606c57caf127081a45e7f76366d82a78",
+      "values": [
+        "在<the_cataclysm>这件事上我真他妈走运。我当时正蜷缩在河边的一艘小独木舟里。我的处境糟糕透顶，我的同伙大多刚因为非法入侵被逮捕，但我溜掉了。我当时很害怕他们会以为是我告密而出卖了他们，然后来找我算账，不过嘿，现在完全不用担心这个了。"
+      ]
+    }
+  ]
+}

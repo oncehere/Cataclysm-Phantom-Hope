@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Value of variable 'message_success' in EoC\n'EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST'",
+      "flags": [],
+      "id": "9c975908d4f65e3ee4769ff2a741a509e87482f4cbf28f37878d6823a45039b7",
+      "identity": [
+        null,
+        "You sing a song to charm the most wild heart.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkdata/soothing_the_savage_beast.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You sing a song to charm the most wild heart.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "9ca47b2c0e5034119f91ed90be467a596c1c3016a361b52087db44e5d7091d51",
+      "identity": [
+        null,
+        "Go to the Refugee Center and negotiate a trade deal between the Free Merchants and the Exodii.  Don't forget to take the Exodii \"talk-rad talk-vid\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Go to the Refugee Center and negotiate a trade deal between the Free Merchants and the Exodii.  Don't forget to take the Exodii \"talk-rad talk-vid\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_autumn_stop_supernatural_healing'\n~ Name of a spell",
+      "flags": [],
+      "id": "9cb0a64e545456c3559cf2509d5c38c2ee8b8a524c1761b1b3f80897e06636b8",
+      "identity": [
+        null,
+        "Malediction of the Recalcitrant Wound",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Malediction of the Recalcitrant Wound",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "9cc7cce392c88abeaeb32b3ca0164d98054787359e699daf718d9b629c1bc591",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_morale>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/recipes/practice/telepathy_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_morale>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "9cc8d6dfa5f133ef822b2924db432125ed743db2db113e6c738786184b4978c4",
+      "identity": [
+        null,
+        "To Shut the Bear's Mouth",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To Shut the Bear's Mouth",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9ce924fb3a6d9c5ce0623af99fb6d89a6c0df47d40bb78b34ec15c9c3a5c77e1",
+      "identity": [
+        null,
+        "Install one identical part at each of %1$d eligible tiles.\n%2$d tiles in the selected rectangle cannot accept this part.\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1245"
+        ]
+      ],
+      "plural": null,
+      "singular": "Install one identical part at each of %1$d eligible tiles.\n%2$d tiles in the selected rectangle cannot accept this part.\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "9d1c6a6c765032ad84aff86866cdd24ff0f42f9d0db2dcca65b399e051f284cc",
+      "identity": [
+        null,
+        "Don't let Thorazine take control.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Don't let Thorazine take control.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'cheese_powder' step 1",
+      "flags": [],
+      "id": "9d3ae9b4aef97d5e20de223b86e263931353d9881a2879498b968ebdcd87a570",
+      "identity": [
+        null,
+        "Cut it into small pieces",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cut it into small pieces",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_DEATH_PORTAL_DUNGEON'",
+      "flags": [],
+      "id": "9d62c9ed1b6e80b2aef606c54bfae545303c49c0ab01b6901718d671dcef07c3",
+      "identity": [
+        null,
+        "You fall, and fall, and fall, through an endless black void devoid of stars.  No light.  No sound.  No sensation of wind.  You try to shout, to scream, but hear nothing.  When you try to grab your own hand, you cannot feel it.  There is only the dark.\n\nPerhaps fortunately, your mind gives way before your body does.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/portal_storm_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You fall, and fall, and fall, through an endless black void devoid of stars.  No light.  No sound.  No sensation of wind.  You try to shout, to scream, but hear nothing.  When you try to grab your own hand, you cannot feel it.  There is only the dark.\n\nPerhaps fortunately, your mind gives way before your body does.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'Carved from the Mountain.'",
+      "flags": [],
+      "id": "9d7e528d2f309f526abc82f99c8135e85c2195fbb05141bc679446c7f2a84665",
+      "identity": [
+        null,
+        "Where you stand, none shall pass without your leave.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Where you stand, none shall pass without your leave.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9d8acc458c065d5f726dc16c281c4a5e40f146ff501ec4dad67cd6fbb9cd18e1",
+      "identity": [
+        null,
+        "Save as (optional label, e.g. 'Intel Mac' — blank to skip)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6280"
+        ]
+      ],
+      "plural": null,
+      "singular": "Save as (optional label, e.g. 'Intel Mac' — blank to skip)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "9db2d7c223fcca67b8125a31840ea72668f255977baa14e688d9547a44401819",
+      "identity": [
+        null,
+        "true crime book",
+        "true crime books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "true crime books",
+      "singular": "true crime book",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6524bf3cfc5802bf0522f41529c1a2d32b052d7118bc74f9311165b48cac9c30",
+      "identity": [
+        null,
+        "If you're looking for a cure, you'll find that inside.  If you're not, go away now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/generic_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you're looking for a cure, you'll find that inside.  If you're not, go away now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speed description of monsters",
+      "flags": [],
+      "id": "652d07dcc9076f10666b302b75d8eecbdbccaaa170c3bb213e73bd7da4e550f3",
+      "identity": [
+        null,
+        "<color_white>It is about as fast as you.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/speed_descriptions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_white>It is about as fast as you.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "652e48471459ed635d4b205005bbdde8c5e991385a56ee4a5a9e2698ceaff774",
+      "identity": [
+        null,
+        "Mod version: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager.cpp",
+          "132"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod version: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "652f071f384be08e11fcaf419b1efdc1d464648300e25341009f17f191f142f0",
+      "identity": [
+        null,
+        "Dragonfly Head",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations_limbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dragonfly Head",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6544fc20f1169a28dba8c9c3e8383c6065cb7d7a2e7d5074050e3916e5c85dbf",
+      "identity": [
+        null,
+        "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my face and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/beggars/BEGGAR_3_Luo_Meizhen.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my face and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'bronze khopesh'",
+      "flags": [],
+      "id": "654d989d91da573e0fe6db8eec33380042ac267a8de1855a5c8b97440e054fee",
+      "identity": [
+        null,
+        "A cheap, yellow-colored replica of an ancient bronze weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.  The sword is quite worn, and bent at an odd angle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/melee/swords_and_blades.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A cheap, yellow-colored replica of an ancient bronze weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.  The sword is quite worn, and bent at an odd angle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Numbing world'",
+      "flags": [],
+      "id": "655712068a75750147dad6d9fca2e4a44148a0c73ba88f8cb2cd9cbd251abda8",
+      "identity": [
+        null,
+        "Everything feels distant and muted, as if behind thick glass.  Your perception is greatly reduced.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Everything feels distant and muted, as if behind thick glass.  Your perception is greatly reduced.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "655a239f8ab16e70748454b897cdf37d7a72b05066590022fbc35e316775267a",
+      "identity": [
+        null,
+        "What do we do with the bones?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What do we do with the bones?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'A desolation called Peace'",
+      "flags": [],
+      "id": "655b06a82dff1dc1aad660835f1a9cc9f4b20ad66a3a43a92663a00666858316",
+      "identity": [
+        null,
+        "The Pax is no more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Pax is no more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "655c25985c8bdf9a181d2217557e806a0c74c233381b3613519d1185a09473a0",
+      "identity": [
+        null,
+        "Downloads/Приходите в подполье.mp4\n\nMagnitudes darker than the soot-caked countenance of the man who forms this video's subject, the footage captures a vertically shot view of arched concrete walls and steel rail lines leading off into an impenetrable vale of black.  The man, enwrapped within an olive-green military uniform and clutching a rifle, stands framed within this utilitarian warren of grime and rust, the beam of radiance from his weapon light quivering across his face as his hands shiver.  In the background, you can pick up a low murmur of voices along with a fainter series of reverberant clinks and clangs, the latter of which are drowned out as the soldier's lips part in a croaky monologue, thickly seasoned by an eastern European accent.\n\n\"Я 2-й лейтенант российских вооруженных сил Гавриил Фадеев, и я записываю это сообщение для всех, кто еще находится в городе.  Поверхность больше не безопасна; силы армии развалились.  Если вы на это способны, уходите под землю, в линии метро.  Мы с моими людьми установили периметр в туннелях, ведущих к Чистым Прудам.\"\n\nAs the video trundles onwards, a level of peculiar distortion grows evident in the footage.  It almost seems like, at points, micro-second-long clips of a second film perspective have been embedded into the tape, struggling to grow visible over the original footage before flashing by in a blur of brown, red, and gray hues—too fast to properly catch.  You're about to fast-forward the tape before, suddenly, as though in a hard-won breakthrough, the view of the soldier dissolves and is replaced by a different perspective of the man, presented within an alternative version of the tunnel.  At least… you think what you're seeing is meant to be the tunnel.  It looks far more like the pulsating interior of some beast's esophagus, and you have to do your best to link that flailing, flesh-stripped thing immersed waist-deep in a bubbling brown slurry in the frame's center with anything remotely human.  It stands, held upright by a bulbous white appendage extending from the ceiling and smothering the oozing remnants of its head.\n\n\"ЭТО ЛОЖЬ, ЭТО ЛОЖЬ,\" the thing that is and isn't a man screams, before a club-like limb extends from the white mass, plows through its chest in a shower of bone and mangled lungs, and the tape jumps back to the soldier.\n\n\"Приходите на линии метро,\" the man croaks.  \"У нас есть тепло.  У нас есть еда.  Мы позаботимся о вас.\"  He smiles at the camera.  Half of his face stays limp.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Downloads/Приходите в подполье.mp4\n\nMagnitudes darker than the soot-caked countenance of the man who forms this video's subject, the footage captures a vertically shot view of arched concrete walls and steel rail lines leading off into an impenetrable vale of black.  The man, enwrapped within an olive-green military uniform and clutching a rifle, stands framed within this utilitarian warren of grime and rust, the beam of radiance from his weapon light quivering across his face as his hands shiver.  In the background, you can pick up a low murmur of voices along with a fainter series of reverberant clinks and clangs, the latter of which are drowned out as the soldier's lips part in a croaky monologue, thickly seasoned by an eastern European accent.\n\n\"Я 2-й лейтенант российских вооруженных сил Гавриил Фадеев, и я записываю это сообщение для всех, кто еще находится в городе.  Поверхность больше не безопасна; силы армии развалились.  Если вы на это способны, уходите под землю, в линии метро.  Мы с моими людьми установили периметр в туннелях, ведущих к Чистым Прудам.\"\n\nAs the video trundles onwards, a level of peculiar distortion grows evident in the footage.  It almost seems like, at points, micro-second-long clips of a second film perspective have been embedded into the tape, struggling to grow visible over the original footage before flashing by in a blur of brown, red, and gray hues—too fast to properly catch.  You're about to fast-forward the tape before, suddenly, as though in a hard-won breakthrough, the view of the soldier dissolves and is replaced by a different perspective of the man, presented within an alternative version of the tunnel.  At least… you think what you're seeing is meant to be the tunnel.  It looks far more like the pulsating interior of some beast's esophagus, and you have to do your best to link that flailing, flesh-stripped thing immersed waist-deep in a bubbling brown slurry in the frame's center with anything remotely human.  It stands, held upright by a bulbous white appendage extending from the ceiling and smothering the oozing remnants of its head.\n\n\"ЭТО ЛОЖЬ, ЭТО ЛОЖЬ,\" the thing that is and isn't a man screams, before a club-like limb extends from the white mass, plows through its chest in a shower of bone and mangled lungs, and the tape jumps back to the soldier.\n\n\"Приходите на линии метро,\" the man croaks.  \"У нас есть тепло.  У нас есть еда.  Мы позаботимся о вас.\"  He smiles at the camera.  Half of his face stays limp.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'self-help book'",
+      "flags": [],
+      "id": "65696dfa9eb2017f4c443934835272844840dce11019bb0c271011adcdbc0eb6",
+      "identity": [
+        null,
+        "A book to help you sleep better, increase your productivity, finally accomplish those life goals, or attain psychological satisfaction.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A book to help you sleep better, increase your productivity, finally accomplish those life goals, or attain psychological satisfaction.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "65798fa2fa4a92a305d74279696d7c53d45a69915d705c5dbd496737b6fafba4",
+      "identity": [
+        null,
+        "No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes",
+        "copies of No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes",
+      "singular": "No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系",
+    "mutation": "突变"
+  }
+}

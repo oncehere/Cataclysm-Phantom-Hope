@@ -1,0 +1,27 @@
+{
+  "request_sha256": "19c51104f3a904e6a8517f730b9442621e5edc82c2ea2ba38d2bf51b859624ff",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "487cb126c43126c5aed4cddd7e30b9a1e6d56ccc4b933621d8a1f31527598e35",
+      "values": [
+        "挑战 - 迷雾"
+      ]
+    },
+    {
+      "id": "a57119dc2246872d25e07f8e4e2029e02d8c432449194b0278d83a1ef3afc4da",
+      "values": [
+        "挑战 - 不死复仇"
+      ]
+    },
+    {
+      "id": "c2ad54798b832095bf25cb52637557742845cab06cf016fce7fb0524c6db23bb",
+      "values": [
+        "智者之路"
+      ]
+    }
+  ]
+}

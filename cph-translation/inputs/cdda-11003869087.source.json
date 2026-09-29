@@ -1,0 +1,46 @@
+{
+  "kind": "official-build-po",
+  "repository": "CleverRaven/Cataclysm-DDA",
+  "commit": "325f682298f6fe9ece6b8b7bdd7840244bc81741",
+  "workflow_run": 36497683966,
+  "artifact_id": 11003869087,
+  "archive_sha256": "8b78bf08e533da334af3e25ffcc5e4697abe2b01ff141505f6254c8615db45a6",
+  "archive_bytes": 213256908,
+  "files": [
+    {
+      "member": "lang/po/zh_CN.po",
+      "path": "cdda-11003869087.zh_CN.po",
+      "bytes": 32129228,
+      "sha256": "97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510"
+    },
+    {
+      "member": "data/credits/zh_CN.credits",
+      "path": "notices/cdda-325f6822/zh_CN.credits",
+      "bytes": 15175,
+      "sha256": "0d92c3702fe65e6f5e6485537f4d09b8f1ecada84e6fb353849504a76f3ad3c7"
+    },
+    {
+      "member": "data/motd/zh_CN.motd",
+      "path": "notices/cdda-325f6822/zh_CN.motd",
+      "bytes": 4505,
+      "sha256": "4475c260c6e4cac95b0fc725b71b603a1fb47422b4d75503a705a4920536fa1f"
+    }
+  ],
+  "validation": {
+    "msgfmt_check_exit": 0,
+    "msgfmt_check_output": "113156 translated messages, 2920 untranslated messages.\n",
+    "entries": 116076,
+    "translated": 113156,
+    "fuzzy": 0,
+    "obsolete": 0,
+    "plural_forms": "nplurals=1; plural=0;",
+    "revision_date": "2018-04-26 14:47+0000"
+  },
+  "license": "CC BY-SA 3.0 with inherited notices",
+  "license_path": "notices/cdda-325f6822/LICENSE.txt",
+  "url": "https://github.com/CleverRaven/Cataclysm-DDA/actions/runs/36497683966/artifacts/11003869087",
+  "limitations": [
+    "Artifact records a build snapshot, not a promise of live Transifex freshness.",
+    "Input PO bytes and translator comments remain unchanged."
+  ]
+}

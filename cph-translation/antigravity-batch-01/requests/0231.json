@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (eXtra strength aspirin)'",
+      "flags": [],
+      "id": "dc8e9e0027d8ab53dcaddde2e969da8e6ad63d1dce1242f6f0e1fe24bbf2e36f",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for extra strength aspirin.  The active ingredient is apparently hallucinogenic, which is certainly one way to stop from feeling pain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for extra strength aspirin.  The active ingredient is apparently hallucinogenic, which is certainly one way to stop from feeling pain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "dca5a19d1d9540ab9bfb6f84b3248f07ecd964eb7cb65b7c822d99e6bef1d72e",
+      "identity": [
+        null,
+        "dry shallow pond bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry shallow pond bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "dd33812dc3315bfa4a507329766c487fd2caaa0bd8284ab216fe1f953fa3cda1",
+      "identity": [
+        null,
+        "Unable to add %1$s because trusted Lua dependency %2$s is unavailable: %3$s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager_ui.cpp",
+          "158"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unable to add %1$s because trusted Lua dependency %2$s is unavailable: %3$s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'bindle'",
+      "flags": [],
+      "id": "dd34fcc934e0d4ec0b54192d5f590e186df92b13a0e2690a7a607603f0706cad",
+      "identity": [
+        null,
+        "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/storage.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "dd4dece695f90897bb9f5ccb912e72beaa4de6583f1e88fbaa37403a61e804a9",
+      "identity": [
+        null,
+        "reinforced habitat window (lockdown)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture_and_terrain/terrain_habitat_wall.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "reinforced habitat window (lockdown)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "dd5fc55d3dfe3c0613711942ba5951dfd88d2e7b5423545094189c53806079fd",
+      "identity": [
+        null,
+        "I'd take some jerky.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'd take some jerky.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Banquet of Dreams'",
+      "flags": [],
+      "id": "dd743facec42f9fce1db0a4e7021bb36a7ceb3c9a3e99c8cfac06adf9f55812f",
+      "identity": [
+        null,
+        "The Fair Folk rely on mortal dreams for power, and this glamour is one of the ways they harvest them.  When woven over a sleeping mortal, some of the power of their dreams coalesces as a shimmering metallic substance called dreamdross.  Activate to increase the intensity, drawing out far more dreamdross but causing permanent damage to the target's dreams.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Fair Folk rely on mortal dreams for power, and this glamour is one of the ways they harvest them.  When woven over a sleeping mortal, some of the power of their dreams coalesces as a shimmering metallic substance called dreamdross.  Activate to increase the intensity, drawing out far more dreamdross but causing permanent damage to the target's dreams.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "dd7e1e1dbb1e0f9691d45db005238b30ac6bc7c148bba7b4edfe438d9b731b46",
+      "identity": [
+        null,
+        "Police stunned with their own flashbang!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Police stunned with their own flashbang!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'deathrattle serpent'",
+      "flags": [],
+      "id": "dd87f6d83a94e9390b3c7580555c7a6dd9d4cef7ce1b7fc46c8deb523822ec41",
+      "identity": [
+        null,
+        "A large deathrattle serpent, about the same size and weight as a human.  They only rarely hunt humans, but will attack opportunistically or if threatened.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large deathrattle serpent, about the same size and weight as a human.  They only rarely hunt humans, but will attack opportunistically or if threatened.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in Result of practice 'knitting'",
+      "flags": [],
+      "id": "dd88668a512dbebbdf495d49c43c3711f5f2c23bd4207077a0f3a92d39b7c515",
+      "identity": [
+        null,
+        "You contemplate your designs but fail to see any artistic value in them.  At least you learnt something.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/practice/tailoring.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You contemplate your designs but fail to see any artistic value in them.  At least you learnt something.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry deep pond bottom'",
+      "flags": [],
+      "id": "dd92fa3c4c3bf172508e293ff589aac16f158838b3562d21fb5825b78460387f",
+      "identity": [
+        null,
+        "The muddy bottom of a drained deep pond.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy bottom of a drained deep pond.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'purple' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "dddaa6626989dfd1fa445f5c6beedb0e21809ae3aa2fdce99704d7a7ce44d37d",
+      "identity": [
+        null,
+        "This one is <color_prefix> purple.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix> purple.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

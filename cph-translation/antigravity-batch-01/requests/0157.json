@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "94588bb6ad5a6f83d3115950d8adb36f0d7efba3372ce026fc9e96c32c547fbc",
+      "identity": [
+        null,
+        "&Rubik unceremoniously shuts off the the screen, leaving nothing but static.  Smokes leans back in his chair, wiping his brow.  \"Well, that didn't go well.  Something tells me it isn't gonna work out, and it's for the best.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik unceremoniously shuts off the the screen, leaving nothing but static.  Smokes leans back in his chair, wiping his brow.  \"Well, that didn't go well.  Something tells me it isn't gonna work out, and it's for the best.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "9472b2de0383118cc212d4f9f0209f144b2f3dd08723efd1d676b24b0ebfd280",
+      "identity": [
+        null,
+        "Bio-Sculpted Musculature",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bio-Sculpted Musculature",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'aromantic flag' of armor 'pride flag'",
+      "flags": [],
+      "id": "94ab486d38f1ffd3509413fd892044aab2fe86f0452e7ae88c8daec3046b7ac0",
+      "identity": [
+        null,
+        "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/pride_items/variants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "94b80f1a167f073376f811fc5e03f4f87b74bb6b9829f4870a69e912c7a0df20",
+      "identity": [
+        null,
+        "Who knows?  Lots of scavs come through.  The Exodii are quick to dispatch any <zombies>.  And the Exodii seem happy about it all.  Seems good a place as any to settle down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Who knows?  Lots of scavs come through.  The Exodii are quick to dispatch any <zombies>.  And the Exodii seem happy about it all.  Seems good a place as any to settle down.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9503ffb0d0da93c1424ddf87cdf2aee3b1a3081123cc881eab21d80ad111861c",
+      "identity": [
+        null,
+        "You are hit for %d damage!",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "7522"
+        ]
+      ],
+      "plural": null,
+      "singular": "You are hit for %d damage!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'CONTRABAND'",
+      "flags": [],
+      "id": "9515e9a6bdddd2ff16c5590b5648e5a7fc3fff28dcd7832364ddca71030e599f",
+      "identity": [
+        null,
+        "Items with this flag are treated as contraband by the contraband scanner.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Items with this flag are treated as contraband by the contraband scanner.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'damaged'",
+      "flags": [],
+      "id": "95183fedfaa24c8a5377e83e018d647af71a008bd5c502894fa85ee59c2c9b73",
+      "identity": [
+        null,
+        "Successive impacts have dented and weakened the steel panels of this armor piece, reducing its effectiveness.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/faults/armor_fault.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Successive impacts have dented and weakened the steel panels of this armor piece, reducing its effectiveness.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "953df6b48247d85c041fb8d4f8b9eb4f1e9ae0f8830f6eb2f8e55f61c0ebcc01",
+      "identity": [
+        null,
+        "It's so weird ever since the Cataclysm I've been having these dreams of swimming and when I see myself in the water I'm not a person but a seal.  I think I'm some kind of seal faerie.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's so weird ever since the Cataclysm I've been having these dreams of swimming and when I see myself in the water I'm not a person but a seal.  I think I'm some kind of seal faerie.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Find the Water Source'",
+      "flags": [],
+      "id": "958471bd70226dfff32b90c7a6372042dad0c8ebb1a7e474944be2a447a4f635",
+      "identity": [
+        null,
+        "I've been tasked with finding some sort of water source, but it is hidden in this place.  Find and <color_yellow>\"feed\"</color> it to take the technology back to the safehouse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_update_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I've been tasked with finding some sort of water source, but it is hidden in this place.  Find and <color_yellow>\"feed\"</color> it to take the technology back to the safehouse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "958d8b0b10538c2655a6052c2a29b8cf16d4399dada573d77d6d09e925db74b0",
+      "identity": [
+        null,
+        "Avoid Thorazine, it's your enemy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Avoid Thorazine, it's your enemy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Artifact Mind Sight'",
+      "flags": [],
+      "id": "95b64edec36e9a552d7ba5adb8525d7bb5de6fbfa9382a6bb526f24a844fd2bd",
+      "identity": [
+        null,
+        "Your senses expand.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your senses expand.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "95e42052b5e80b3b9dd92b08d542f69e6663602102e26ddfe8683e2000335941",
+      "identity": [
+        null,
+        "%s takes control of the %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3630"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s takes control of the %s.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

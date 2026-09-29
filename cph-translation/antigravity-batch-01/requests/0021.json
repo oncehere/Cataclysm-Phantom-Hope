@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'giant solar beetle corpse'",
+      "flags": [],
+      "id": "0999bf1f3dbfe1b0080d5be468d031b893dd070d8aefb0ed8a5dc3ad1ce3b8f1",
+      "identity": [
+        null,
+        "Corpse of a giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved, degraded solar panels.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/corpses/nether.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Corpse of a giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved, degraded solar panels.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "099def2a96ec7500b0bca3f5a9c55d37aa11212dcf54cd3928877a289cf1afdc",
+      "identity": [
+        null,
+        "rudimentary occult research results",
+        "sets of rudimentary occult research results"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of rudimentary occult research results",
+      "singular": "rudimentary occult research results",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ %1$s is the name of the ally",
+      "flags": [
+        "c-format"
+      ],
+      "id": "09ef046bf647978f443f15b1066b5b929287de91d17ad2e5b3ef2b4dfdc5fece",
+      "identity": [
+        null,
+        "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "6534"
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Display name of a crafting requirement",
+      "flags": [],
+      "id": "0a08649399c204ab682cac210191bf43a9b2ccf4bcbcbf55c46767e17d8d7bb6",
+      "identity": [
+        null,
+        "Apprentice occult writing",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/requirements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Apprentice occult writing",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'left rear tentacle'",
+      "flags": [],
+      "id": "0a1d7fab7a5f47817f4601695582e8bdddc97ed9ec1273286fee6cbbf58b3efe",
+      "identity": [
+        null,
+        "L RTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "L RTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0a2646ad329ecb1d751c06e3f6b0af34ea22c2018cd7d5b946efa39e54f00611",
+      "identity": [
+        null,
+        "[Neutral] Introduce Rubik and Smokes to each other, then give them the floor.  Offer occasional help translating.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Neutral] Introduce Rubik and Smokes to each other, then give them the floor.  Offer occasional help translating.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0a31e8468fa643ea091ba110edea9f1ac00b617d4b8c77ad89610fc18bd4e374",
+      "identity": [
+        null,
+        "Huh, where did you get those from?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/BAR_ENCOUNTER_MERCENARIES/BEM_keycard_seller.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Huh, where did you get those from?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "0a3b61530cd971998e839b4fa67edef564be0668b63532c4da696a551ae96b8d",
+      "identity": [
+        null,
+        "Tanglevines",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Tanglevines",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ A verb expressing an ongoing action",
+      "flags": [],
+      "id": "0a541a4fdb0ef19eb28f9edb2fa4cce957678bc1c84f624320b49f26c1cf9b2d",
+      "identity": [
+        null,
+        "performing queued actions",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/player_activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "performing queued actions",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0a69e85f9460f79e5f802937f23a37a503f9f73a61685dce8740b50a2bbc6967",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -ELECTRICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -ELECTRICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0a6d167582f660b1b81ea174eb987ad739bc9dd6e217bfcb847fe48159f0568b",
+      "identity": [
+        null,
+        "Clear invert",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1056"
+        ]
+      ],
+      "plural": null,
+      "singular": "Clear invert",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "0a822610c2ae2fe5c6d4443839acda01f4365ad3a5a4bfbb49ca75b56da8d293",
+      "identity": [
+        null,
+        "The video starts with an exhausted-looking white woman with shaggy brown hair clumsily setting her phone onto what you assume to be a table.  She then sits back, leaving her face and upper body in frame with a stained wallpaper behind her.  \"Hello, my name is Fergie Hensen, I am 47 years old and have worked the last 10 years of my life as a neonatal nurse.  By the time you see this video, I've committed suicide.\"  She winces and gasps in pain lifting up her left arm - showing a massive bite mark leaking with muddy green pus.  \"I don't have long before I die - and before I do, I have to say something important, something you MUST remember.\"  She looks back at the camera with a pained half-smile and gritted teeth, speaking with a low but sincere tone.  \"You, you watching this video, don't ever give up, keep pushing, don't call it quits by killing yourself.  Keep going for as long as you can.\"  Her voice trembles and her eyes get watery, \"I… believe there are people out there in this hell, people like you, who can make things better.\"  The woman is trying her best to hold back the agonized tears streaming down her disheveled face as her voice starts to crack.  \"Find happiness and friends wherever you can, and remember you've got a purpose, and that purpose is not only to survive, it's to thrive.\"  She lets out an anguished gasp, nearly doubling over in pain before stammering out \"Promise me, please, j-just promise me whoever you are, that you'll do that, please.\"  She then tries to grab the phone off the table to stop recording, but it falls onto the floor the video doesn't end until 7 seconds later.  In the time remaining, she languorously picks the phone off the floor and holds it close to her face - it is only then you register just how bloodshot her eyes are.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The video starts with an exhausted-looking white woman with shaggy brown hair clumsily setting her phone onto what you assume to be a table.  She then sits back, leaving her face and upper body in frame with a stained wallpaper behind her.  \"Hello, my name is Fergie Hensen, I am 47 years old and have worked the last 10 years of my life as a neonatal nurse.  By the time you see this video, I've committed suicide.\"  She winces and gasps in pain lifting up her left arm - showing a massive bite mark leaking with muddy green pus.  \"I don't have long before I die - and before I do, I have to say something important, something you MUST remember.\"  She looks back at the camera with a pained half-smile and gritted teeth, speaking with a low but sincere tone.  \"You, you watching this video, don't ever give up, keep pushing, don't call it quits by killing yourself.  Keep going for as long as you can.\"  Her voice trembles and her eyes get watery, \"I… believe there are people out there in this hell, people like you, who can make things better.\"  The woman is trying her best to hold back the agonized tears streaming down her disheveled face as her voice starts to crack.  \"Find happiness and friends wherever you can, and remember you've got a purpose, and that purpose is not only to survive, it's to thrive.\"  She lets out an anguished gasp, nearly doubling over in pain before stammering out \"Promise me, please, j-just promise me whoever you are, that you'll do that, please.\"  She then tries to grab the phone off the table to stop recording, but it falls onto the floor the video doesn't end until 7 seconds later.  In the time remaining, she languorously picks the phone off the floor and holds it close to her face - it is only then you register just how bloodshot her eyes are.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

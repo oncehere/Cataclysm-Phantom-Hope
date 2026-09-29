@@ -1,0 +1,26 @@
+version = 1
+project = "example-editor"
+language = "pl"
+plural_forms = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);"
+template = "messages.pot"
+catalog = "output.po"
+state = ".pokeeper/state.json"
+
+[[sources]]
+name = "upstream"
+path = "upstream.po"
+revision = "demo-v1"
+
+[rules]
+preserve_newlines = true
+token_patterns = ['</?b>']
+
+[gemini]
+# Explicit model choice; availability is checked only by a real fill request.
+model = "gemini-3.7-flash"
+batch_size = 4
+retries = 2
+timeout_seconds = 60
+prompt = "Translate user interface strings for a desktop text editor."
+terms = { document = "dokument", Save = "Zapisz" }
+examples = [{ source = "Save", translation = "Zapisz" }]

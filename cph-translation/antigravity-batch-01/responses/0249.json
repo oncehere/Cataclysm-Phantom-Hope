@@ -1,0 +1,81 @@
+{
+  "request_sha256": "f9f9d5472e38b5b85a3f9cd123885658e87fd5c1154fc58f836b0e1b5c7f890c",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ee0fff2cb619e7db7a5fea8d3276d564a55ee108842f619ece93ddc8464ed97b",
+      "values": [
+        "空世界"
+      ]
+    },
+    {
+      "id": "ee2b9c7f88b73555c6ca836de3f258d3f0d9cd0114d457232c1c1cb99c217d81",
+      "values": [
+        "你的身体已被精简至仅剩神经系统、感觉器官、核心骨骼与肌肉群，以及其他关键的体内血肉组织。它现在只能存活在外来者机械骨架之内。"
+      ]
+    },
+    {
+      "id": "ee306a9478e00bb79b778b31defc2b14c6908cb444d0478fe43c61e063b33421",
+      "values": [
+        "%s 拍了拍你的肩膀，打断了你的等待。"
+      ]
+    },
+    {
+      "id": "ee5397567f55bda5dfaaf00d99dd6720b1774e4a144aaf80a864b9d7315d5beb",
+      "values": [
+        "\n\n<serum_testing_super_soldier>"
+      ]
+    },
+    {
+      "id": "ee653337acf11b4c2539f39f08ccba051459fdf9d37c3c2b7b0812de0da82dd3",
+      "values": [
+        "单个地块可放置多少件物品。"
+      ]
+    },
+    {
+      "id": "ee7b5d62f10d34f844bb10c0f6589f721b545402e7c6a32705a1beda6621454d",
+      "values": [
+        "在传送门风暴处于<color_yellow>初期</color>、<color_yellow>远距离</color>或<color_yellow>近距离</color>期间，组装并在<color_yellow>移动气象站</color>上<color_yellow>激活 1 小时记录子程序</color>。1 小时后，气象站将打印出某种<color_yellow>奇异天气数据表</color>带回枢纽 01。"
+      ]
+    },
+    {
+      "id": "ee8280480a1a93cda3fff210ee814f054a398fab7e5711e269c8385edb0603fb",
+      "values": [
+        "最后的得力助手。"
+      ]
+    },
+    {
+      "id": "ee9917a8bd6fc4a6b6bdb8e856f34d09d1057c5ce363da2faeaceb3f0c3902f1",
+      "values": [
+        "双眼布满血丝，身穿破烂的橙色连体服，这个显然已经狂暴野化的人类在不死生物中穿行游荡。他们的动作诡异古怪，几乎就像快进播放的老式电影胶片一样。他们所有的动作都生硬抽搐且缺乏焦点，但速度快得令人眼花缭乱。"
+      ]
+    },
+    {
+      "id": "ee9eae4446c0ff582f00f93399c05ba1d23b0384a013b04323b29948f245408a",
+      "values": [
+        "清 醒"
+      ]
+    },
+    {
+      "id": "eea214f446ef4b18820427f4554685c329c787e4d8d4cafad998505bf6cc4ac0",
+      "values": [
+        "7x7 大地图网格"
+      ]
+    },
+    {
+      "id": "eea25de2778e2f838c90ba04f096806fc349a360bdf1c7591612c10e85ac78e9",
+      "values": [
+        "合作模式：不兼容。高度依赖瞬移法术和脚本化（条件触发）效果，这些效果不适用于远程玩家，而且远程瞬移会破坏共享地图。"
+      ]
+    },
+    {
+      "id": "eea635a9284a237c9b0636b1a7c846f0307cf427be26027cc559045c7b6a9a05",
+      "values": [
+        "模组“%s”在合作模式中可能会出错。"
+      ]
+    }
+  ]
+}

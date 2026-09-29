@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fea65d839de5da81f2594d118fc5772fca61133b6a704a141883847d046d9fd9",
+      "identity": [
+        null,
+        "Choose the exact part and supplier:",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "807"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose the exact part and supplier:",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_autumn'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "fec96d3777c95cd9ee041c546c7b3e40245b6b9fbb37de8e06538ba967c50127",
+      "identity": [
+        null,
+        "%1$s gestures and whirling colored leaves surround them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s gestures and whirling colored leaves surround them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "fed116fc6872d8b4e59517eaa472dff2a0db6eb4e639e1e70396b96b5dc67255",
+      "identity": [
+        null,
+        "mound of nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mound of nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "fee4e2a8911f6bb11165b3df0c431de0bb7163a75b43a60040f60a35ad57900c",
+      "identity": [
+        null,
+        "Anarchy, State, and Utopia",
+        "copies of Anarchy, State, and Utopia"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Anarchy, State, and Utopia",
+      "singular": "Anarchy, State, and Utopia",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "fee8df53f7df5de8d46eafa8d5de29a866c446465cf7425f7a17045a57187197",
+      "identity": [
+        null,
+        "%s pulls a handbrake.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3766"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s pulls a handbrake.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '养荣导引'",
+      "flags": [],
+      "id": "ff0e4d75ec906c5fd219198d40e93aaea09cc5c4fb0de5c5ec2a78c5de634e16",
+      "identity": [
+        null,
+        "葳蕤经的吐纳法门。引木行生气入体，经脉如春木抽枝，温养之余更添生机。打坐推进炼气修为，兼能滋养气血。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "葳蕤经的吐纳法门。引木行生气入体，经脉如春木抽枝，温养之余更添生机。打坐推进炼气修为，兼能滋养气血。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'nicotine pouch can'",
+      "flags": [],
+      "id": "ff1d3c4312100d791b7f20f9963dc9aa033e64954eab169df4cbc6724ff054fd",
+      "identity": [
+        null,
+        "TYNN 15 NICOTINE POUCHES WARNING: This product contains an addictive chemical, nicotine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/containers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "TYNN 15 NICOTINE POUCHES WARNING: This product contains an addictive chemical, nicotine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'PAPR blower (off)'",
+      "flags": [],
+      "id": "ff1fd1a8b3c4a352d686767d9927630a535a4257f645d39cbd7a8c22f2c6108f",
+      "identity": [
+        null,
+        "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  When active and loaded with a charged battery and a filter canister, it can be paired with a prepared PAPR mask to provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  When active and loaded with a charged battery and a filter canister, it can be paired with a prepared PAPR mask to provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ff2560b8057307927b4f7e34ed6eb2691aca139de85e27d8e14f295e5fe43077",
+      "identity": [
+        null,
+        "You've got one of those interfaces?  Sure.  Let me fire up the robot.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/NPC_old_guard_doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've got one of those interfaces?  Sure.  Let me fire up the robot.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ff2d9231064cf2552cbf8861760655e2be983d778356af340c30fd60e7f83d99",
+      "identity": [
+        null,
+        "[Favor Merchants] Encourage Smokes to negotiate a medical robot be installed at the Evacuee Center.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Encourage Smokes to negotiate a medical robot be installed at the Evacuee Center.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in EoC\n'EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER'",
+      "flags": [],
+      "id": "ff3679d6d579ecbf2b32bc13dc32e2a00a81032bbb1b64f3534bfa9ddb1cc2bb",
+      "identity": [
+        null,
+        "You wait as the heartvines do their work.  Once they're done they retract, leaving you in terrible pain…but without your curse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/bloodthorne_druid_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You wait as the heartvines do their work.  Once they're done they retract, leaving you in terrible pain…but without your curse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ff3a20512755e152856be74e575b27799b1932d9a47908c14a563d755ed92cc0",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

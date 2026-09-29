@@ -1,0 +1,81 @@
+{
+  "request_sha256": "6cc33364b5fc9a0bad0e80423ceed764e8685bb2418ccdd2ade4959a123778b5",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "4d3122294eb1d57f34d3e9ca8461467526252991e28a083754c96aac476e2489",
+      "values": [
+        "[中立] 安静地坐着让他们谈判。偶尔协助翻译一下。"
+      ]
+    },
+    {
+      "id": "4d40368a41fe5d6a458654632e06110826657b3bd66de51eeabde4c5cbf23bad",
+      "values": [
+        "员工姓名：阿曼达·休根茨基斯（Amanda Hugentskis）\n 员工职位：前台接待员\n 雇佣日期：xx-xx-xxxx\n 状态：已解聘\n 考评到期：十二月\n\n"
+      ]
+    },
+    {
+      "id": "4d42ca8e65e24678e4ef0806e174b86d9d2ed399f3b28f693fb6c8586c8e1d92",
+      "values": [
+        "地图与雷达"
+      ]
+    },
+    {
+      "id": "4d69c98ed3d03aed216f8cb77ff634f2c41311e9da3548aa6d6bd63a76186b21",
+      "values": [
+        "《元男爵传说》"
+      ]
+    },
+    {
+      "id": "4d7aca706a2d6456f28556d3163cfe7f196265fa23e8328b0c6556938c521516",
+      "values": [
+        "别让氯丙嗪磨平你的棱角。"
+      ]
+    },
+    {
+      "id": "4d7fda745e71457386ea8bbba829eb5547791f31aa7f664e47e52b2740975224",
+      "values": [
+        "原生质溢出物"
+      ]
+    },
+    {
+      "id": "4db074dbcc8244d361425b293da621cc72a17b59a5e2434a65f1559eb8d1b2b8",
+      "values": [
+        "我回来了，我宰了那只泰坦锹甲。"
+      ]
+    },
+    {
+      "id": "4db64015da7f9462e4ff6f55ed1285430771f7f67ef07afccb50e7afb881fbf7",
+      "values": [
+        "是啊，树林里的某个老地方，全被栅栏围起来了。那地方他妈的绝对闹鬼——我叔叔把事情全告诉我了。他们说那里全都是幽灵之类的鬼玩意儿。吓人得很。别误会，我可不信什么幽灵，但在<the_cataclysm>之前我也不信有什么丧尸，所以，你懂的，好好咂摸咂摸这话吧。"
+      ]
+    },
+    {
+      "id": "4dbb92dd94acbfa1089f4ed83099b08c360c6c9e26b79c9858c1b132374963e4",
+      "values": [
+        "干涸的深塘底"
+      ]
+    },
+    {
+      "id": "4dd62a5e3a2aa252ccd14ef222db040c0c665d1d9a82b0e8d775be483e0ac94a",
+      "values": [
+        "%s熄灭了发动机并松开了操控装置。"
+      ]
+    },
+    {
+      "id": "4de2dfbc9c79b4f7b8b30a6588e75827a23cde013be3afcd47fb85a3fb09ffa3",
+      "values": [
+        "将你的半吸血鬼坐骑转化为渴望鲜血的怪物。"
+      ]
+    },
+    {
+      "id": "4de5b2a258963da66480a5a9239ded04cfadf5bdbd93590f6faeee3bd0510c02",
+      "values": [
+        "你的思绪逐渐慢了下来。"
+      ]
+    }
+  ]
+}

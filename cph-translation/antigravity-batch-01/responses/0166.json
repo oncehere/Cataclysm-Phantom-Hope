@@ -1,0 +1,81 @@
+{
+  "request_sha256": "e84c446bc2fd55668576dc7d94a33a7d4e8a0bb64ba8dba63d013073e2b10c5d",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "9df024e6b6f67c23d256efbcae12177f60ca68d5169b744f6236acb057bfe097",
+      "values": [
+        "[偏向商人] 提醒鲁比克，自由商人承担着货物运输的风险，而且哪怕外来者离开，他们也得继续留在地球上。“我觉得这值得加点溢价，不是吗？”"
+      ]
+    },
+    {
+      "id": "9df75b30c320ef754d5cec508643bd55d660aa4a2abff0799e8586db7cde5a9e",
+      "values": [
+        "缠结藤根"
+      ]
+    },
+    {
+      "id": "9dfe18274c28dabfbc608da67dc619aa28cac5c589717ff9368702bd21d9f03e",
+      "values": [
+        "扭曲"
+      ]
+    },
+    {
+      "id": "9e4781814309a96c466791f429cb0e2ed8cd48a7dfee8600cec92af97578081f",
+      "values": [
+        "那样做会把淡水和咸水混合在一起。"
+      ]
+    },
+    {
+      "id": "9e4b6f57ea5f8531689fcab3989c5bfadfedfa5090855502b0c727f39ae5fbc1",
+      "values": [
+        "节省时间。不必使用配方，直接将装有水的容器放在火上煮沸即可。"
+      ]
+    },
+    {
+      "id": "9e5173d3e525dc28e6d34490f8eca3f33b774f27ccf08f7b31c5ce8627f2af22",
+      "values": [
+        "你将余烬置于舌尖，撕碎晨辉花的叶片抛向空中，口中诵念咒语的词句。"
+      ]
+    },
+    {
+      "id": "9e5ff22db6dfb6729f0c8e0c6719f9a9b760d76b7a9a0cf46a8c2e9a44c0b0bd",
+      "values": [
+        "你想要哪道法术？"
+      ]
+    },
+    {
+      "id": "9e62382eeb9b1359a09d632433fc2df86fa57809571171f1a077eb893a552cd0",
+      "values": [
+        "该部件可以折叠以便储存和运输。"
+      ]
+    },
+    {
+      "id": "9ea110c93c32724ac1f1d8bb6f802a965ece19ae8bc1337ea4df43468da0fe39",
+      "values": [
+        "手持物品"
+      ]
+    },
+    {
+      "id": "9eb6636f11dfbf129bb92108732110857f220888325758b26a3c6fd73df32cdb",
+      "values": [
+        "一种红色的突变诱导剂。"
+      ]
+    },
+    {
+      "id": "9ed08cff7967b4dfc28ffe4202852a9d9657abb97cbfbb779fe6aaa79170fd4d",
+      "values": [
+        "[指向屏幕上的一个生化插件进行移除]"
+      ]
+    },
+    {
+      "id": "9ed5b2784626745e6a6886a7c222f539bc584f4c1294b2592cdc9c3349f50dac",
+      "values": [
+        "事到如今我是资历最老的成员了，所以现在我勉强算这里的领头人。自从一切分崩离析以来，我只是在尽量制定计划，让我们大家都能活下去。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f1f4958ea9823a1a1b607dfee7fa307cdbbf55b95d9be3712a43d8424aeee866",
+      "identity": [
+        null,
+        "Who I was is gone.  All that stuff burned away in <the_cataclysm>.  Got it?  Who I am now started two days into it.  I was on the run from a big-ass hell zombie, running like I'd always been doing, when I found a stick laying on the ground.  I took it as a sign and beat that gooey bastard to a pulp… and that's when I became me.  I still run, because who doesn't, but I stand my ground now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/no_past_4.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Who I was is gone.  All that stuff burned away in <the_cataclysm>.  Got it?  Who I am now started two days into it.  I was on the run from a big-ass hell zombie, running like I'd always been doing, when I found a stick laying on the ground.  I took it as a sign and beat that gooey bastard to a pulp… and that's when I became me.  I still run, because who doesn't, but I stand my ground now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'msg' action message of item 'expandable baton'\n~ 'msg' action message of item 'PR-24 baton (retracted)'",
+      "flags": [],
+      "id": "f1f77676068a51980aa98493a6c66a4ccdb2d3ae43b3b2351d4117324d3a922b",
+      "identity": [
+        null,
+        "You snap open your baton.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/melee/bludgeons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You snap open your baton.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Key binding name",
+      "flags": [],
+      "id": "f1fed5b5d2c90dc7b48bb23240188476970e773b87c166c7c321624a8df01d7b",
+      "identity": [
+        null,
+        "High five partner",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/raw/keybindings.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "High five partner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_b>'",
+      "flags": [],
+      "id": "f215b91048bc7a4afe6ffe08fa998b5eadf4c261bda092698b4d842e8356ac66",
+      "identity": [
+        null,
+        "the electrical grid being down",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the electrical grid being down",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'mound of contaminated dirt'",
+      "flags": [],
+      "id": "f2378c1b69984030862e63089d0c02eb6817149f734b958666be58b158d39176",
+      "identity": [
+        null,
+        "An area of contaminated dirt heaped up to your shoulders, not easily traversable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of contaminated dirt heaped up to your shoulders, not easily traversable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f27446fd2c851fee1b1cbe27251d0002cdb3e803f531eb60d342e6c375159628",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n Update available from AltarOS remote.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n Update available from AltarOS remote.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'abstract underwear'",
+      "flags": [],
+      "id": "f27fb8271215cc045ec2b085427ec5ed6c946a38860f142014acf733efc1a99a",
+      "identity": [
+        null,
+        "Abstract underwear.  If you see this it's a bug, please report.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Abstract underwear.  If you see this it's a bug, please report.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC message in false effect in EoC\n'EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS'",
+      "flags": [],
+      "id": "f29873bd25c08894ce49a9fba874885c7089c4c59ae432072a2b369dc9457ae9",
+      "identity": [
+        null,
+        "The mortal's dreams are fragile, evanescent things, not suitable for the harvest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The mortal's dreams are fragile, evanescent things, not suitable for the harvest.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "f2be26aba271c02441081e1f1e5775db7a5268a24eaa3e54107e4f0d04b77dd7",
+      "identity": [
+        null,
+        "血煞炼尸功（残篇）",
+        "血煞炼尸功（残篇）"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "血煞炼尸功（残篇）",
+      "singular": "血煞炼尸功（残篇）",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'handmade half gas mask'",
+      "flags": [],
+      "id": "f2c0b1f7d52fc0f3c8f27909324861297cba07327fa27005267a65ecac96a358",
+      "identity": [
+        null,
+        "A half-face gas mask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A half-face gas mask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "f2e93deddc5ee4459f10a0738acca8226e3e058c06201dea235a41ceb22a6ce4",
+      "identity": [
+        null,
+        "thong",
+        "thong"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": "thong",
+      "singular": "thong",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f2ea1c3f701b0ab9a37ef1e22c15231eb66da0258c52c1ad6c0371a4428c19e7",
+      "identity": [
+        null,
+        "Next",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "593"
+        ],
+        [
+          "src/options.cpp",
+          "257"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "799"
+        ]
+      ],
+      "plural": null,
+      "singular": "Next",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

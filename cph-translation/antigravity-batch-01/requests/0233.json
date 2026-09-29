@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain vision level name",
+      "flags": [],
+      "id": "deaba30cc4296342b3efff24daf9101ac01a58ed4f4e7429421d87751cdde31d",
+      "identity": [
+        null,
+        "village",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/vision_levels.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "village",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "deb0db1194e01420b352455b3dc2f70f9e5d9d60ee733ab934435b56538090d6",
+      "identity": [
+        null,
+        "surgical bonebot",
+        "surgical bonebots"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/netherum/labyrinth_monsters.json",
+          ""
+        ]
+      ],
+      "plural": "surgical bonebots",
+      "singular": "surgical bonebot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "dedb4de4ef217ec1b654fb862bad4e7e8161455ba9bf46e59a9fb910bedb8585",
+      "identity": [
+        null,
+        "[Ask them to produce more dreamdross]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Ask them to produce more dreamdross]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "dedbdde52189fd6f6cfe823f4830440e1a493bf6fd47fe2f717dd229b1a6e718",
+      "identity": [
+        null,
+        "%1$d × %2$s installed into the %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "14565"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$d × %2$s installed into the %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "def1b544d648e9888ed9b06472d8a56b26f445c9ccc3c634eaf0e188921db098",
+      "identity": [
+        null,
+        "&Rubik chuckles and nods, leaning against the counter.  \"Aye, ye did us'n a fine turn.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list you cannot understand, they click on an option, and some complex robot schematics come on screen.\n\n\"How'd ye like ta'be cut inta' this sort'o crowded space?\"  Rubik taps their metal torso.  \"This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"\n\n\"Think on it, decide on a last.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik chuckles and nods, leaning against the counter.  \"Aye, ye did us'n a fine turn.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list you cannot understand, they click on an option, and some complex robot schematics come on screen.\n\n\"How'd ye like ta'be cut inta' this sort'o crowded space?\"  Rubik taps their metal torso.  \"This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"\n\n\"Think on it, decide on a last.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "defaa45ca8336a6240ff2bdfd15b7858876461a43e8a34463f47cf923de94b11",
+      "identity": [
+        null,
+        "sauropod leg",
+        "sauropod legs"
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/monsters/dinosaur.json",
+          ""
+        ]
+      ],
+      "plural": "sauropod legs",
+      "singular": "sauropod leg",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "defd77272f36caa955128caf32bfdfb7e1c2201976e5924d3ae800d99661caa2",
+      "identity": [
+        null,
+        "That vehicle part no longer exists.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "442"
+        ]
+      ],
+      "plural": null,
+      "singular": "That vehicle part no longer exists.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "df2567a88d83629fbfa61981e71ce73654ecbc76a8db24f89ea469a6de08125c",
+      "identity": [
+        null,
+        "Vertical movement can only be queued for your current tile.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game.cpp",
+          "2998"
+        ]
+      ],
+      "plural": null,
+      "singular": "Vertical movement can only be queued for your current tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Unlock Your Fey Heritage'",
+      "flags": [],
+      "id": "df321a087d88ae4ac6eded67baa7ff3843098ace81ca1a00ee0705d2ae605107",
+      "identity": [
+        null,
+        "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'TCL Truck'",
+      "flags": [],
+      "id": "df36e3903bee49b6ffa1d669a48ffa7f2a476e5ffa99c85c6973256772390f17",
+      "identity": [
+        null,
+        "A crashed Trans-Coast Logistics truck.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mapgen/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A crashed Trans-Coast Logistics truck.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'cranial padding'",
+      "flags": [],
+      "id": "df44cf9aaa51ddfc499db9504db16938937e15a23a001e0f179947b655659a36",
+      "identity": [
+        null,
+        "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "df47ce31a36b80f290d3bc2612de90d7814003dcdfdffc4dfe828cb9516342b6",
+      "identity": [
+        null,
+        "They are all armed with firearms but they have very little ammo left, cannot aim well and have no consideration for friendly fire.  The best tactic would be to lure something hostile in range so they waste their ammo on it, like one of these pink crab-like creatures or a few walking plants.  If you can't, attacking them at night and making the most of their low night vision can give you an edge on them.  Just like their masters and the feral humans, they're too far gone to be targeted by zombies so don't bother luring zombies near them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are all armed with firearms but they have very little ammo left, cannot aim well and have no consideration for friendly fire.  The best tactic would be to lure something hostile in range so they waste their ammo on it, like one of these pink crab-like creatures or a few walking plants.  If you can't, attacking them at night and making the most of their low night vision can give you an edge on them.  Just like their masters and the feral humans, they're too far gone to be targeted by zombies so don't bother luring zombies near them.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

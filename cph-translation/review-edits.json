@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "description": "Reviewed translation edits: preserve Chinese menu text beside the existing shortcut markup, and restore an omitted deadpan disclaimer line.",
+  "edits": [
+    {
+      "id": "d241470c121874c85233a2bdc4a2491a3d900f84d4efd9b42583e98e252a9e28",
+      "expected": "加Lo<a|A>载",
+      "translation": "<a|A>读取",
+      "reason": "The original output left an English fragment in a menu command. The Chinese label follows the established upstream meaning, with the exact current shortcut token moved as a whole."
+    },
+    {
+      "id": "4d1d591ca023014c7ca84ce90e2487bb33068026150a12ead73b615961004ae0",
+      "expected": "帮助H<e|E|?>",
+      "translation": "<e|E|?>帮助",
+      "reason": "Removed an English fragment from the translated menu command while retaining the exact key hint."
+    },
+    {
+      "id": "ee81e740d49dab9dcbdb08dca5fc662b05372b67bea90cabd9ddac9741cad94e",
+      "expected": "快<n|N>照",
+      "translation": "<n|N>快照",
+      "reason": "Moved the complete key hint before the Chinese menu label."
+    },
+    {
+      "id": "54504825a8483a7c9442838c3718625b6269b5180f2de9bd7f5a46e353ff9535",
+      "expected": "设Se<t|T>置",
+      "translation": "<t|T>设置",
+      "reason": "Removed an untranslated English fragment and retained the exact key hint."
+    },
+    {
+      "id": "f072cd178c19aaf5d88973b50c5d8ba6f21ba80e50218189d951a9da6ff5ace6",
+      "expected": "“欢迎阅读《动力装甲驾驶和维护手册》。本手册将指导您进行动力装甲的基本操作。在继续操作之前，请确保您已完成 UICA 动力装甲驾驶课程。任何未持有有效的 UICA 动力装甲驾驶员执照的操作均被视为违反安全标准。”",
+      "translation": "“欢迎阅读《动力装甲驾驶和维护手册》。本手册将指导您进行动力装甲的基本操作。在继续操作之前，请确保您已完成 UICA 动力装甲驾驶课程。任何未持有有效的 UICA 动力装甲驾驶员执照的操作均被视为违反安全标准。<后面还附有二十页免责声明>”",
+      "reason": "Restores the final, intentionally dry aside present in the English source and missing from both upstream Chinese translations."
+    }
+  ]
+}

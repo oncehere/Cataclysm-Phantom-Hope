@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in false effect in EoC\n'EOC_WEREWOLVES_GAIN_MORE_POWERS'",
+      "flags": [],
+      "id": "496625c52f982b72a5f22e6a57ecd38873b51ff287626b55eb9d3acbd0ac9890",
+      "identity": [
+        null,
+        "Your mind can't focus on the Moon.  You can only think about blood and how it's the only thing worth having.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/werewolf_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your mind can't focus on the Moon.  You can only think about blood and how it's the only thing worth having.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'PAUSE_BODYPART_INFECTION'",
+      "flags": [],
+      "id": "49665f19d25361b4ae82b77beed22f4d65012826e3b92c0d92a6737a030c5a09",
+      "identity": [
+        null,
+        "Prevents infection on a bodypart with this flag from progressing to death, though does not relieve symptoms",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Prevents infection on a bodypart with this flag from progressing to death, though does not relieve symptoms",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "496f00e4e38ddd58e5a8c02e4da0524e679802898fa22e1bfeece34727411858",
+      "identity": [
+        null,
+        "Corporate Aspirant",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Corporate Aspirant",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "497bd4220f78cc8a8ec791f5017a4523a4c4e09f6a383ddb31c4e98aca676c64",
+      "identity": [
+        null,
+        "This mode was restored from the template but is not normally offered by this world.  If you switch away, only the world's allowed modes will remain available.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3349"
+        ],
+        [
+          "src/newcharacter.cpp",
+          "3655"
+        ]
+      ],
+      "plural": null,
+      "singular": "This mode was restored from the template but is not normally offered by this world.  If you switch away, only the world's allowed modes will remain available.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "4989cb2129c8fbc44eae0174192ccb8519260cd0b8e9008e92520df9b4093151",
+      "identity": [
+        null,
+        "Practical Ethics",
+        "copies of Practical Ethics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Practical Ethics",
+      "singular": "Practical Ethics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "49aa147f6f92648faebc5fe314ba23f002f010a2137c1e483bbdd9d7704bb9b9",
+      "identity": [
+        null,
+        "[$1000 in store credit] How about store credit instead?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$1000 in store credit] How about store credit instead?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Key binding name",
+      "flags": [],
+      "id": "49cf9e659e7646b16138206c305154412dd4ee588bd1e152c864a843f185f737",
+      "identity": [
+        null,
+        "Install the same part in a selected rectangle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/raw/keybindings.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Install the same part in a selected rectangle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "49dbbdf6a76da5e7b60d074b72ddc19e7f9a1ff82b56e7107c67e6262d71bf36",
+      "identity": [
+        null,
+        "I'll buy some cure.  [10$]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll buy some cure.  [10$]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor '2-by-arm guards (pair)'",
+      "flags": [],
+      "id": "49fa375e714cf223073e05eb06b63d7bfb54f9bcc70afbe91aa0535bcdbc3966",
+      "identity": [
+        null,
+        "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/arms_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'pool water'",
+      "flags": [],
+      "id": "4a095506e170291982c5844f58f1f5a35a4bc5229e7de36d49ad2b94c93f223a",
+      "identity": [
+        null,
+        "A deep swimming pool with a finite amount of water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A deep swimming pool with a finite amount of water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4a10da01a38ee9082f7c0acd4fc1c7182b46e265b2a3307c061f1374a6f18652",
+      "identity": [
+        null,
+        "You need to be adjacent to your partner.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10280"
+        ]
+      ],
+      "plural": null,
+      "singular": "You need to be adjacent to your partner.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "4a21bff413a57b3697108ba11f97ea991a6a3c9132105f328d9381b3ebdf73f0",
+      "identity": [
+        null,
+        "upper feet",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "upper feet",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

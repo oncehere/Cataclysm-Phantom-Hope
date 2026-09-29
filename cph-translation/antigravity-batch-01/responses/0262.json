@@ -1,0 +1,81 @@
+{
+  "request_sha256": "1ecaf36a2f30563a6bd960ca02f243cf6806b01993d789da474c45c7905ec95c",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "fc0bf83135bb6bf5074e095efd980454532ebd817b36a67424b12c6b2656155b",
+      "values": [
+        "一块晶体团块，坐落在九条锯齿状细腿之上。其周围的空气隐隐闪烁着微光，严霜在其岩石般的外表上凝结成霜花。"
+      ]
+    },
+    {
+      "id": "fc2c65265eb95b447c50a0ed50e70f253560f98cff027e545b0032e753983c2d",
+      "values": [
+        "我们对 L61 和 M81 进行的各种实验已经让他们精疲力竭，但扩大候选人群体的尝试大多以失败和头痛告终。我们需要一种更加系统的方法来增加数学家的数量，而不是单纯地把人推向水晶看能否奏效。"
+      ]
+    },
+    {
+      "id": "fc501bd4ae7ec147b973a16c21584536da3fb14f273aef3d980e66e81a55aa71",
+      "values": [
+        "去那儿有点棘手，但没把整座城堡跃迁过去那么费劲。可以说来回跑一趟代价和危险都小得多，我想这本身就挺奇妙的。\n\n在下面，你会找到一个金属圆环，配有咱们刚搭建好的终端。老鲁比克事先亲手设置了那些文字说明，所以你应该能看得明明白白。你算是个自愿去侦察那里的志愿者。这对你有利，对咱们也有利——你能拿到更多金属，多出来的还可以卖给咱们，对吧？你可以随意去使用它。记住，一旦你进行了跃迁，金属环需要彻底静置休息五天才能再次传送你。\n\n我本想给你提个警告，但我想你心里早就清楚了。"
+      ]
+    },
+    {
+      "id": "fc71232110e713d78e900d4cb5d2d829be0a28b9bcdf78bb0f94b9a480be2f66",
+      "values": [
+        "<color_light_green>激活维度重新校准协议"
+      ]
+    },
+    {
+      "id": "fc7416657bb884b53c8fc75bd9dc283fa351d3949fffc560eb8066b7a79145a0",
+      "values": [
+        "选择较小的矩形（至多 %d 个地块）。"
+      ]
+    },
+    {
+      "id": "fc79dc53a86328f61bebe30ef71c129498749c506677c768c6f30fca931e1f46",
+      "values": [
+        "殉职警察"
+      ]
+    },
+    {
+      "id": "fc7a5fe44d3299da43770e9109b4afc80428088bab6f7c41fd8b6e2b68043c0b",
+      "values": [
+        "&<color_light_green> AltarOS 地图节点已联机。\n<color_light_green> 连接至 AltarOS 远程失败。\n<color_light_green> @User > _"
+      ]
+    },
+    {
+      "id": "fc90b2587a96d8ffd1f00b44232f771657e46f6989675adb9ccf34ccd6baf192",
+      "values": [
+        "[激怒] 催促他们。“赶紧的！速战速决才是好买卖。你们到底想不想交易？”"
+      ]
+    },
+    {
+      "id": "fc98a858e5a29064b2ee66a3c6446bab3523ecd525279121d5c2e1d7f36e1810",
+      "values": [
+        "左触手尖"
+      ]
+    },
+    {
+      "id": "fc9a67f9283adc711cc202618ab30d873438c1be561c87fa330fadaaf419d1f1",
+      "values": [
+        "绿色外星人毛绒玩具"
+      ]
+    },
+    {
+      "id": "fca2fc720a81465aaaa3c76ba350cdc0b5bc245e8e15fff8ff2cc4b58efe7d0f",
+      "values": [
+        " 的双眼被<color_magenta>胆汁</color>所覆盖。"
+      ]
+    },
+    {
+      "id": "fcbc3fe53f99c829731ab9882e151220cdf6f40be5e6af89dcf7d193a64faa08",
+      "values": [
+        "&在没有 BURNT NOVEMBER 基质水晶的情况下，该机器固执地拒绝运转。在翻阅了几次菜单后，你最终放弃并返回了主菜单。"
+      ]
+    }
+  ]
+}

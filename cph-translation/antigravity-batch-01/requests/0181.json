@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'sauropod leg'",
+      "flags": [],
+      "id": "aab8b5c887bf36e8650e52218ea25da1918f7eda7edfd2ecb5a192cd8fe27b74",
+      "identity": [
+        null,
+        "A huge fleshy appendage holding up a much larger dinosaur.  Looks very heavy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/monsters/dinosaur.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A huge fleshy appendage holding up a much larger dinosaur.  Looks very heavy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "aabcdd80f592f7a0f82c89a54cb9acc7d6341d8f98fa74401b2a3423990defef",
+      "identity": [
+        null,
+        "Could you teach me something?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you teach me something?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_MATERIAL_EARTH'",
+      "flags": [],
+      "id": "aac63091bd1bb1c9fbc7ec18a10790b5c0bc2d5eb976672ad2bda27e18c73b6d",
+      "identity": [
+        null,
+        "assemble earth research materials",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "assemble earth research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'Bloodthorne druid' NPC class\n~ Hunts with her heartvines, so she's better at melee but poor at\ncrossbows.",
+      "flags": [],
+      "id": "aac7a345526dd1699e1bb1308b9fda4d15909457751db9b52341391126562800",
+      "identity": [
+        null,
+        "I hunt vampires with my inner plant.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I hunt vampires with my inner plant.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aad0549ca7c4aa120566907ce3b976ccbcc2c380eccf67c898e5a7d1485d60ed",
+      "identity": [
+        null,
+        "Ah, you found another node - another community of Exodii.  Tell me what you saw?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, you found another node - another community of Exodii.  Tell me what you saw?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ What are they, you ask?  If I knew, I'd be afraid to say.  They aren't\nlike other places.  They don't just exist.  Something put them there, piece\nby piece.  A workshop of unknown purpose.  But also, not like any of that.\nHonestly, not really sure if they exist before we pass by, or through them,\nanyway.  Anything we say about them is basically waxing religiously - maybe\nthey can't be explained.",
+      "flags": [],
+      "id": "ab003b4452b07f30a6a8aac725985a177fcb11f33a86f5ad4bcd311dbbb20fa7",
+      "identity": [
+        null,
+        "What are they, ye ask?  If ol' Rubil could name it clean, mayhaps I even wouldn'.  They ain't like other otherlands.  Not places what simply are.  Willed, these.  Set.  As if some vast mind laid'em out, piece by piece.  A labor-hall built for a purpose this'n don't ken.\"\n\nRubik pauses and scratches at their chin.\n\n\"But also… well, not like any o' that, neither.  Truth be, not rightly sure they're there before we pass by, or through 'em, any road.  By and by, what us'n says o' such places is waxin' religious, more than tellin'.  Mayhap they can't be known proper.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What are they, ye ask?  If ol' Rubil could name it clean, mayhaps I even wouldn'.  They ain't like other otherlands.  Not places what simply are.  Willed, these.  Set.  As if some vast mind laid'em out, piece by piece.  A labor-hall built for a purpose this'n don't ken.\"\n\nRubik pauses and scratches at their chin.\n\n\"But also… well, not like any o' that, neither.  Truth be, not rightly sure they're there before we pass by, or through 'em, any road.  By and by, what us'n says o' such places is waxin' religious, more than tellin'.  Mayhap they can't be known proper.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Revenant'",
+      "flags": [],
+      "id": "ab25d5ca4e5b7c4c20a0bf5167fbac12672593ab66b7ea1a5f2e324d021e9d1e",
+      "identity": [
+        null,
+        "You are a walking corpse, animated by a terrible thirst for vengeance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/revenant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are a walking corpse, animated by a terrible thirst for vengeance.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ab55e9619fc5010e2fb711f9763bf1e4bea0913542392ddb5fe66b40cc15e8bd",
+      "identity": [
+        null,
+        "Any advice for the strigoi?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Any advice for the strigoi?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ab618f772478946094bbf9d8ebf2517ad63dc7697f86f963c4a9091a758283a6",
+      "identity": [
+        null,
+        "Net cost: %d point(s)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3671"
+        ]
+      ],
+      "plural": null,
+      "singular": "Net cost: %d point(s)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Aikido Stance'",
+      "flags": [],
+      "id": "ab61931fba88e850792142a5159c5043badab977b163b7719f34e200af9caf6d",
+      "identity": [
+        null,
+        "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nYou have +2 blocking effectiveness and +1.0 Dodging skill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nYou have +2 blocking effectiveness and +1.0 Dodging skill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ab6b3276ec5287fee63c4341a6b9ed0c73bcaf4946a162e3420d21b86b516add",
+      "identity": [
+        null,
+        "[Neutral] Let them move at their own pace.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Neutral] Let them move at their own pace.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'contraband scanner'",
+      "flags": [],
+      "id": "ab7927f203c52399383a5a514b7285e8beac32d6e7a108ba947dafa8982e2bf1",
+      "identity": [
+        null,
+        "An advanced device capable of scanning objects passing through it for contraband, often compared to the metal detectors of old.  This one is still functioning and might trigger an alarm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/furniture_and_terrain/terrain/terrain_hunvre.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An advanced device capable of scanning objects passing through it for contraband, often compared to the metal detectors of old.  This one is still functioning and might trigger an alarm.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left front tentacle'",
+      "flags": [],
+      "id": "b916c6ac1e54df10a42f21f593c1da33555c61f3e1aaf1a8e3aee48379fbbdef",
+      "identity": [
+        null,
+        "l. f. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "l. f. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b94d7ee0fbf3705e6cd282973e9b69d78823d49ba5dc330f28cd77344653e01a",
+      "identity": [
+        null,
+        "I never really felt like I belonged but now I know the truth, I am one of the aristocracy of the Fae and I must find my way back home to our courts!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I never really felt like I belonged but now I know the truth, I am one of the aristocracy of the Fae and I must find my way back home to our courts!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Dulled senses'",
+      "flags": [],
+      "id": "b950ca474bcf2bc9e7f94bb1a35a27b859586bd86314e5da71179e5a7171f844",
+      "identity": [
+        null,
+        "The world feels muffled and far away.  Your perception is reduced.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The world feels muffled and far away.  Your perception is reduced.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b9c823aa2cd245da4fe53bdb38143df292c3739de4953368a000de760763baad",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵃˢˢʰᵒˡᵉ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵃˢˢʰᵒˡᵉ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '血煞炼尸功（残篇）'",
+      "flags": [],
+      "id": "b9cdba0067b4ae7a64426e7f1953a859228064d5af96bc83f0b82128df3cafa9",
+      "identity": [
+        null,
+        "一卷以暗红皮革装订的邪典，字迹似以血书成，翻动时隐有腥气。所载摄血息摄死气血煞养身，催修为暴进，却反噬经脉、有损根本。邪道之法，慎修。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一卷以暗红皮革装订的邪典，字迹似以血书成，翻动时隐有腥气。所载摄血息摄死气血煞养身，催修为暴进，却反噬经脉、有损根本。邪道之法，慎修。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Dragon Power'",
+      "flags": [],
+      "id": "b9effe2f142f0d90b023891cf9159a44f89ed8c84f87b2d83ab75fd070601a4a",
+      "identity": [
+        null,
+        "You take a moment to reflect on battles past and to come.  This insight will protect you from future harm.\n\n+2 blocking effectiveness, blocked damage reduced by 100% of Intelligence, +1.0 Dodging skill.\nLasts 2 turns.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You take a moment to reflect on battles past and to come.  This insight will protect you from future harm.\n\n+2 blocking effectiveness, blocked damage reduced by 100% of Intelligence, +1.0 Dodging skill.\nLasts 2 turns.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'IPAV patch kit'",
+      "flags": [],
+      "id": "ba1000d72ea8e028bec59a9ac6969ec4ac8b19841a61f1af8d75abca92c00289",
+      "identity": [
+        null,
+        "A small applicator used to mend IPAV armor.  Official UICA doctrine dictates that IPAV armor is rated to survive a single combat encounter, and this kit is only to be used in emergency situations where resupply is not possible.  It contains a single dose of high density polymer gel that can be applied to damaged plates for temporary repair.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/tools.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small applicator used to mend IPAV armor.  Official UICA doctrine dictates that IPAV armor is rated to survive a single combat encounter, and this kit is only to be used in emergency situations where resupply is not possible.  It contains a single dose of high density polymer gel that can be applied to damaged plates for temporary repair.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ba2d82912842f7e97d93bfa78ebedfbcc05f70921edcfcd357e9a771d533a38c",
+      "identity": [
+        null,
+        "Don't you think my new cyborg body might be a problem?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Don't you think my new cyborg body might be a problem?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'tanglevine root'",
+      "flags": [],
+      "id": "ba54762274ac7d266d45df199ad00007a269834395226df553820f171c84e2d8",
+      "identity": [
+        null,
+        "A thick, woody root from a tanglevine.  The end glistens as though sap were still flowing through it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/harvest_plant_items.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A thick, woody root from a tanglevine.  The end glistens as though sap were still flowing through it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ba60c4a5597f69a0a9bcc2378b4b169d75c620a448059d356b45b496a3011247",
+      "identity": [
+        null,
+        "[Favor Merchants] Whisper to Smokes and encourage him to ask for a bit more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Whisper to Smokes and encourage him to ask for a bit more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ba71748e767490fadda38aed2526b18084f0462d774ba5d6d585a48220e50717",
+      "identity": [
+        null,
+        "Unable to add mod",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2081"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unable to add mod",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in false effect in EoC\n'EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS'",
+      "flags": [],
+      "id": "ba78bb3e9626c27b1d9eb9b1134fceed56820a46a930d173d18f402f4e1f4829",
+      "identity": [
+        null,
+        "You try to draw on the dreamdross's power but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/playable_changeling_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You try to draw on the dreamdross's power but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

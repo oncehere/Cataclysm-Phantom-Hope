@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_pyrokinesis'\n~ Phavian designation for pyrokinetic study is COPPER PRIME.",
+      "flags": [],
+      "id": "9a3ce8e2fd670293dd30af64904d7d40372cd458b3be65a87eea7a9245208f82",
+      "identity": [
+        null,
+        "A common question is, why does JUNIPER GOLD have a specific combat-focused division and COPPER PRIME does not?  There are two main reasons.\n\nThe first is that fire spreads.  The use of JUNIPER GOLD poses little extra risk unless an incautious mathematician causes structural damage sufficient to induce a collapse.  Any use of COPPER PRIME can start a fire, and the ability to extinguish fires is far from universal among COPPER PRIME mathematicians.\n\nThe second is the short range.  This is a consistent problem with all mathematics, but the danger of uncontrolled COPPER PRIME usage provides an extra disadvantage.\n\nIn essence, COPPER PRIME has many of the same disadvantages of flamethrowers that led to them no longer being used in active service without few advantages to counteract this; primarily a lack of fuel requirements.  Unless the range problem is solved, military applications of COPPER PRIME will always take a secondary role behind JUNIPER GOLD.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A common question is, why does JUNIPER GOLD have a specific combat-focused division and COPPER PRIME does not?  There are two main reasons.\n\nThe first is that fire spreads.  The use of JUNIPER GOLD poses little extra risk unless an incautious mathematician causes structural damage sufficient to induce a collapse.  Any use of COPPER PRIME can start a fire, and the ability to extinguish fires is far from universal among COPPER PRIME mathematicians.\n\nThe second is the short range.  This is a consistent problem with all mathematics, but the danger of uncontrolled COPPER PRIME usage provides an extra disadvantage.\n\nIn essence, COPPER PRIME has many of the same disadvantages of flamethrowers that led to them no longer being used in active service without few advantages to counteract this; primarily a lack of fuel requirements.  Unless the range problem is solved, military applications of COPPER PRIME will always take a secondary role behind JUNIPER GOLD.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster attack message",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9a473ca44a19db19dcf8d6856a740d6026969dd1a6b874fa0bc8c04bbfd8473d",
+      "identity": [
+        null,
+        "%1$s winds around <npcname> and squeezes!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s winds around <npcname> and squeezes!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'black glass figure'",
+      "flags": [],
+      "id": "9a7d2b650a57506ba72e2ed16b2e1d54109bb8fe248be163383a1d37ac887799",
+      "identity": [
+        null,
+        "A black glass figure of someone crouched over as though trying to move steathily.  Both hands are braced against a surface that isn't there.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture_vitrified.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A black glass figure of someone crouched over as though trying to move steathily.  Both hands are braced against a surface that isn't there.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "9a8af0c3b6942e4ffcabec39f01cfd9d3073d09f43a480264b542d1d2f115bb4",
+      "identity": [
+        null,
+        "Input the SHADOW URGE access codes you have.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Input the SHADOW URGE access codes you have.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9a8d75de5e34e8d57cb80ec025f2866011d29e8d79120150f19005d24b2eebfa",
+      "identity": [
+        null,
+        "Safe travels, Exodii.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Safe travels, Exodii.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9a9966e405b8fcdf36dccaa2f1d2ca86c6e55dd72bc412b5b094b7d4a15c6b54",
+      "identity": [
+        null,
+        "Load order",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "590"
+        ]
+      ],
+      "plural": null,
+      "singular": "Load order",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9ab06777f674ee0baddb7e1362262b8ffa5cad620564abfbc664b3de9d067647",
+      "identity": [
+        null,
+        "Maybe you could bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Maybe you could bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9ac0677035b28cfc36ad1eb199d5b99a5d7ff9a1069eadc863eda3a46dee190c",
+      "identity": [
+        null,
+        "Lua Mod '%s' discarded %zu persistent task.  See debug.log for details.",
+        "Lua Mod '%s' discarded %zu persistent tasks.  See debug.log for details."
+      ],
+      "occurrences": [
+        [
+          "src/lua_platform_runtime_lifecycle.cpp",
+          "1732"
+        ]
+      ],
+      "plural": "Lua Mod '%s' discarded %zu persistent tasks.  See debug.log for details.",
+      "singular": "Lua Mod '%s' discarded %zu persistent task.  See debug.log for details.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "9acca9f0d96b0a6dbdef513b7e184c4727f8607aae9e43806708877485aef588",
+      "identity": [
+        null,
+        "The air crackles with static electricity, then stabilizes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/dialog_statue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The air crackles with static electricity, then stabilizes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9acf4f4d7721a312875f56db0c02f9be1d134b3d57e587b0bab9573ff843690e",
+      "identity": [
+        null,
+        "\nERROR: NETWORK DISCONNECT\nUNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\nSYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n  \n",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/computer_session.cpp",
+          "1058"
+        ]
+      ],
+      "plural": null,
+      "singular": "\nERROR: NETWORK DISCONNECT\nUNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\nSYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n  \n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "9b0ca7e95141579e85aaa44105c2c8b9f692e02d6f284fe0832498a172bd0574",
+      "identity": [
+        null,
+        "arsongirl.mp3\n\nIncredibly this is footage of the Cataclysm during the height of the portal storms.  It looks like Bar Harbor, Maine.  Some kind of godzilla sized squid lashes the docks with tentacles hundreds of feet long, while a Heritage class Coast Guard cutter fires its 57mm naval gun at the giant squid.\n\nThat is the background of the footage.  The foreground is at the top of the hill overlooking the road down to the docks.  Here people have taken shelter in stores on the main road down to the docks, but a young girl with bloodshot eyes giggles as she walks towards a storefront.  Her clothes are singed and the air around them shimmers like a summer heat haze.  Suddenly she squeals in delight as flames erupt from her arms and engulf the storefront.  She moves from one store to the next working her way down to the chaos of the docks, driving fleeing civilians from their shelter or melting the flesh from their bones when they move too slowly.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "arsongirl.mp3\n\nIncredibly this is footage of the Cataclysm during the height of the portal storms.  It looks like Bar Harbor, Maine.  Some kind of godzilla sized squid lashes the docks with tentacles hundreds of feet long, while a Heritage class Coast Guard cutter fires its 57mm naval gun at the giant squid.\n\nThat is the background of the footage.  The foreground is at the top of the hill overlooking the road down to the docks.  Here people have taken shelter in stores on the main road down to the docks, but a young girl with bloodshot eyes giggles as she walks towards a storefront.  Her clothes are singed and the air around them shimmers like a summer heat haze.  Suddenly she squeals in delight as flames erupt from her arms and engulf the storefront.  She moves from one store to the next working her way down to the chaos of the docks, driving fleeing civilians from their shelter or melting the flesh from their bones when they move too slowly.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9b22e01ad7a42d5c7305abc2fa213abde6cffcf06561bb135ee12bc5ff736063",
+      "identity": [
+        null,
+        "You're fuckin' right it's a proper setup, but damn, I could say the same about you!  Look at ya'!\"  The Doc walks over to the spider-like surgical robot, and pats the soft, cushioned examination table.  He wipes his brow with his sleeve and gulps.  \"Right.  Hop up here, and let's plug into your interface there, and see what we're working with.  I suspect we'll have to swap it out.\"  The Doc then starts to unclasp a set of wrist and ankle ties attached to the exam table.\n\n\"Hope this is alright.  We'll tie down your limbs.  Never worked on… well… someone like you, before.  Guess I haven't worked on that many people in any case.  No worries.  I can do it.  Just don't want you, uh, bugging out and hurting yourself, got it?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're fuckin' right it's a proper setup, but damn, I could say the same about you!  Look at ya'!\"  The Doc walks over to the spider-like surgical robot, and pats the soft, cushioned examination table.  He wipes his brow with his sleeve and gulps.  \"Right.  Hop up here, and let's plug into your interface there, and see what we're working with.  I suspect we'll have to swap it out.\"  The Doc then starts to unclasp a set of wrist and ankle ties attached to the exam table.\n\n\"Hope this is alright.  We'll tie down your limbs.  Never worked on… well… someone like you, before.  Guess I haven't worked on that many people in any case.  No worries.  I can do it.  Just don't want you, uh, bugging out and hurting yourself, got it?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

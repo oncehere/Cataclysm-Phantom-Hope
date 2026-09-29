@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fce9780c3dc44ec87171e9bf140509dc4415d2a785735bd596053dc935e361f4",
+      "identity": [
+        null,
+        "[Give them the cure]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Give them the cure]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fcff381025177b8a179001622b1e09b10739605a8a928f026ec4fee1b2cc39f0",
+      "identity": [
+        null,
+        "Fresh and salt water would mix here, so you can't dig a channel.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/construction.cpp",
+          "1586"
+        ]
+      ],
+      "plural": null,
+      "singular": "Fresh and salt water would mix here, so you can't dig a channel.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fd08eadee0420a46b0698ac3b9d5c1eb6f1d78d9d8e1a0a2227fd5b037c16f34",
+      "identity": [
+        null,
+        "Load as solo, or arm Host so your partner can Join?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6051"
+        ]
+      ],
+      "plural": null,
+      "singular": "Load as solo, or arm Host so your partner can Join?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "fd297a4a481fafa2826562048a37bfff3e9d0c9ef973075efd01771201edb5f5",
+      "identity": [
+        null,
+        "\"Criminal activity registered!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Criminal activity registered!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'Do borders even matter now?'",
+      "flags": [],
+      "id": "fd5884a8667ed13424405473413a7747e30f30a4b3b2934047cdb5f9a3d437d8",
+      "identity": [
+        null,
+        "Enter a Border Patrol Office",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Enter a Border Patrol Office",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (Imbuement of the Flames)'",
+      "flags": [],
+      "id": "fd6ae1f69bd334390f1b9d5ea5c785739a087cc8bfbf39018961e7f58e2a8e90",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of flames.  You hope those lines about \"the ashes of the dead\" are optional.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of flames.  You hope those lines about \"the ashes of the dead\" are optional.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Surreal Shield'",
+      "flags": [],
+      "id": "fd6eb79c7eb28190a03dbf77e0beb47a4b7b2cc2d7f919f83b127911daca2318",
+      "identity": [
+        null,
+        "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 2",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/stability.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 2",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "fd8d5c5049b05bb3d3197f68e79ed5890f87860a23c3b1d85a6b05ebeda81bbe",
+      "identity": [
+        null,
+        "09x-\"Anaximander\"",
+        "09x-\"Anaximander\""
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": "09x-\"Anaximander\"",
+      "singular": "09x-\"Anaximander\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fd9e2f61a9a7f2f1743aafccaa6961abdd90f227bfcb66b435ec1a6f53112978",
+      "identity": [
+        null,
+        "CO-OP: may break.  Inherits Xedra Evolved's scripted powers, which don't apply to the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "93"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Inherits Xedra Evolved's scripted powers, which don't apply to the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "fdad262d9e5e99922159bf63771694556268428dab9326f1808c5ca5003f2206",
+      "identity": [
+        null,
+        "high top minimal shoes (pair)",
+        "high top minimal shoes (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "high top minimal shoes (pair)",
+      "singular": "high top minimal shoes (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fdca386120c8d171dbbdc3756b91aac44686cfc0525e1516f73b29f6b7078693",
+      "identity": [
+        null,
+        "To be honest… I don't really remember.  I remember vague details of my life before the world was like this, but <the_cataclysm> itself?  It's all a blur.  I don't know how I got where I am now, or how any of this happened.  I think something pretty bad must have happened to me.  Or maybe I was just hit in the head really hard.  Or both.  Both seems likely.  First thing I remember is seeing a beautiful young woman with her face covered with blood, laughing and saying everything had fallen and it was all over.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/no_past_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To be honest… I don't really remember.  I remember vague details of my life before the world was like this, but <the_cataclysm> itself?  It's all a blur.  I don't know how I got where I am now, or how any of this happened.  I think something pretty bad must have happened to me.  Or maybe I was just hit in the head really hard.  Or both.  Both seems likely.  First thing I remember is seeing a beautiful young woman with her face covered with blood, laughing and saying everything had fallen and it was all over.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "fdccda90da8698abecf491740fc31c528e65d08b48cc8d411a979927e9c4ccf2",
+      "identity": [
+        null,
+        "earth magic research materials",
+        "sets of earth magic research materials"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of earth magic research materials",
+      "singular": "earth magic research materials",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

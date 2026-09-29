@@ -1,0 +1,79 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "start_name",
+      "developer_comments": "~ Starting location of scenario 'Challenge - The Fog'",
+      "flags": [],
+      "id": "5632dc100e217f5b7700bdf8a9ed048aad9c9a9593c9ee3bee697f988163d1e1",
+      "identity": [
+        "start_name",
+        "Somewhere",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Somewhere",
+      "translator_comments": ""
+    },
+    {
+      "context": "start_name",
+      "developer_comments": "~ Starting location of scenario 'Challenge - Undying Vengeance'",
+      "flags": [],
+      "id": "b3228a75678a9132f9b62475a77a590f0c8756ede32f0b5bd58703129457c0ef",
+      "identity": [
+        "start_name",
+        "Your grave",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your grave",
+      "translator_comments": ""
+    },
+    {
+      "context": "start_name",
+      "developer_comments": "~ Starting location of scenario 'Path of the Wise'",
+      "flags": [],
+      "id": "df4f9c2a387e4ae274eeb1a0e6ca73d7a8d52946095c9cd7df5e02fc18712737",
+      "identity": [
+        "start_name",
+        "Remote dwelling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Remote dwelling",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

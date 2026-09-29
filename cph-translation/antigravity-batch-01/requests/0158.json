@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "960867f24c4bd288c7f7543b1c99b30cc2455ff3cf0873c4fa1a818720a47612",
+      "identity": [
+        null,
+        "百炼成锋",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "百炼成锋",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "9621a8979fe8fe12fbfbf6ab1d8ad0b0b32bbc2597902c51ff7b5a938ba0f3ff",
+      "identity": [
+        null,
+        "rear tentacles",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "rear tentacles",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'friendly_msg' action message of item 'inactive surgical bonebot'\n~ 'hostile_msg' action message of item 'inactive surgical bonebot'",
+      "flags": [],
+      "id": "964b9cae1e33d2ac873f06ff40d24d5eaa05334967d6b3a52b8c494738eabfbe",
+      "identity": [
+        null,
+        "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_robots.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "964e80967569777515464e23585ac724de98badf044cc802930ae990b080353f",
+      "identity": [
+        null,
+        "You are not carrying that item.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/talker_npc.cpp",
+          "477"
+        ]
+      ],
+      "plural": null,
+      "singular": "You are not carrying that item.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "966ff5526cf7802999165d14f0d9d45bb499424009e0db98e751a2c1ba6d5354",
+      "identity": [
+        null,
+        "Later, Rubik.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Later, Rubik.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9674dc4d78cfc32a299bc388ded84b37e576c921e670cba8e9008a9a07dbda97",
+      "identity": [
+        null,
+        "Advanced raw widgets",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "709"
+        ]
+      ],
+      "plural": null,
+      "singular": "Advanced raw widgets",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'epilogue_factions'",
+      "flags": [],
+      "id": "967785ea02051aa5a607efb9d2ae990c32e197ce4995e9a8c5c95f8611a42bd1",
+      "identity": [
+        null,
+        "    The extensive knowledge and industrial might of the Exodii proved to be their saving grace in <the_cataclysm>.  They developed extensive connections to other groups of survivors, selling advanced machinery and educating numerous individuals on electronics, welding, and engineering.  Over the years, a town formed around the castle, becoming a thriving bastion among the dead…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/epilogue_factions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "    The extensive knowledge and industrial might of the Exodii proved to be their saving grace in <the_cataclysm>.  They developed extensive connections to other groups of survivors, selling advanced machinery and educating numerous individuals on electronics, welding, and engineering.  Over the years, a town formed around the castle, becoming a thriving bastion among the dead…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of vehicle part 'atomic lamp'",
+      "flags": [],
+      "id": "967c02082aa7168b4b7daa1edb40858cce37324c76bc792241972e503e20cb82",
+      "identity": [
+        null,
+        "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/vehicleparts/lights.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'old occult research notes'",
+      "flags": [],
+      "id": "96895ffb0e74b52deba3dfa23a922894c3747268cbf6269e52e1c1d639cc0f1a",
+      "identity": [
+        null,
+        "A set of your notes about the occult.  You've already gotten most of the value you can out of these, but you never know when it might be useful in the future.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of your notes about the occult.  You've already gotten most of the value you can out of these, but you never know when it might be useful in the future.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "9691e6fcd58081fd243d8fab0f6472a03c1f04b31e307dad043e8acc53a7d1e0",
+      "identity": [
+        null,
+        "I guess if I can find my way back, I could try.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat_HEW.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I guess if I can find my way back, I could try.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "969701f9084e179457f8f10df7b7f3cfa22ddb4d956886d6977700ce58b4b62b",
+      "identity": [
+        null,
+        "I see you brought some arvore samples.  Can I have them?  I'll tell Elsa and Blaine to reward you if you do.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I see you brought some arvore samples.  Can I have them?  I'll tell Elsa and Blaine to reward you if you do.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 2",
+      "flags": [],
+      "id": "96a4153d27a07ebbee6abb80fd6dda68f0dee36b833ab40c437b440a6dd93432",
+      "identity": [
+        null,
+        "Melting half of the lead alongside scrap dreamdross, moon's tear scrap, silver, and saltpeter powder in a forge",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Melting half of the lead alongside scrap dreamdross, moon's tear scrap, silver, and saltpeter powder in a forge",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系",
+    "mutation": "突变"
+  }
+}

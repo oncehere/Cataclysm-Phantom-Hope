@@ -1,0 +1,81 @@
+{
+  "request_sha256": "5a7c919b8450fe16e1a402ae407640fb2a4699bb189a2b093467cc9500eac529",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "96bad74ea810782925b8ec8714968e16f111e5f1540711942052cc18868a5515",
+      "values": [
+        "人群挤压"
+      ]
+    },
+    {
+      "id": "96bcdbbe2fc8db96f5365cf0970ad1547de7c14a3ddc93b3cc12af326e6bde2b",
+      "values": [
+        "HEW 打印件 MROTS-S"
+      ]
+    },
+    {
+      "id": "96c1b2136fbae23ca902f60edbd3abd14577ae73d7d23adcdd4c1d0489d1f6a9",
+      "values": [
+        "拥有此标志时，感染无法恶化至致命阶段。"
+      ]
+    },
+    {
+      "id": "96c3d45af2694fccda7c0e963f18d8df0c707991fec4725ad24fed35ece6b21b",
+      "values": [
+        "取消安装"
+      ]
+    },
+    {
+      "id": "96d4af5064f52bd9c46d319df894a1009134b1b552a7a51a1d0d897f1d56bebd",
+      "values": [
+        "单人加载"
+      ]
+    },
+    {
+      "id": "96d704fce0d20c32d8e354fc8781d64a6c685f5c8a0591d93956c652773bd89d",
+      "values": [
+        "外面简直是一片<freaking>混乱，伙计。但我早就习惯了混乱。活到我这个岁数，不可能不知道怎么避开赢不了的战斗。老实说，最大的担忧倒不是丧尸和怪物。而是某种更可怕的东西正在逼近。"
+      ]
+    },
+    {
+      "id": "96ebf940e88f8837f273f4c6a8e281379428bbb1a240ce546aadb5e32127a5f4",
+      "values": [
+        "[示意手术机器人] 你能帮我做生化插件手术吗？"
+      ]
+    },
+    {
+      "id": "97139b32c4221cb00ed4d7292888b38b311c0ce086dc1d85c4d9ac863c0c6a82",
+      "values": [
+        "一份手写笔记，详细记录了一种杀虫剂的炼金配方。配方底部写着“熬制时佩戴面具！！！！！”"
+      ]
+    },
+    {
+      "id": "971a93f97a5e79b34b742a50082134dff0239a455767d6cea910e3691cf2896a",
+      "values": [
+        "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>文件丢失或已删除。\n<color_light_green>一个全新的、更稳固的现实已取代先前现实。感谢使用 AltarOS。\n<color_light_green> @User > _"
+      ]
+    },
+    {
+      "id": "9724598c8aa1448776b45245dffe503767389c7fd91fb0101ac2015a1d541800",
+      "values": [
+        "你听到远处某处传来一阵持续的交火枪声。"
+      ]
+    },
+    {
+      "id": "972ea78ce48b85e902fcaf1fb27cab6bb02e73eeff95e589c6298fd034649b7a",
+      "values": [
+        "你想要的是自由，不是氯丙嗪。"
+      ]
+    },
+    {
+      "id": "973338f10196958f19e840e0fd06e01404799a3ccec46b59fc17af7f591b54ff",
+      "values": [
+        "一台接线适配电网使用的便携式电站。"
+      ]
+    }
+  ]
+}

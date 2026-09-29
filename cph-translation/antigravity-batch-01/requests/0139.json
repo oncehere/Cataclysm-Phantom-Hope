@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "80d6ca661c3d175d4f739d9bd2afa19573531e07c9cad9569756abcacb699989",
+      "identity": [
+        null,
+        "That action is no longer available at the selected tile.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game.cpp",
+          "2988"
+        ],
+        [
+          "src/handle_action.cpp",
+          "1161"
+        ]
+      ],
+      "plural": null,
+      "singular": "That action is no longer available at the selected tile.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "80ea1a31aa39338fe3cd7af2776cc92b2d1c1318e7cbf0cf163531555ec0ac43",
+      "identity": [
+        null,
+        "shallow black water",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/terrain_labyrinth_flooded.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "shallow black water",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'left tentacles'",
+      "flags": [],
+      "id": "80ffb724c9d57503003749c378c0d604d702750b6b2fdd3566152da8b353b83d",
+      "identity": [
+        null,
+        "L TENTS",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "L TENTS",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "8102a42c6d3774c87d171bbc8f78201572c7a3ee495e65c96ef38c69f546f537",
+      "identity": [
+        null,
+        "right front tentacle midsection",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right front tentacle midsection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "811557644328e251ff63414fe0c4fd1fc92d14462a9c591160a3042efd0877b8",
+      "identity": [
+        null,
+        "I'm not talking with you until you're fully cured.  It's not up to discussion.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm not talking with you until you're fully cured.  It's not up to discussion.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "81450c9090e84c9e45f7acd6c157611c87ad002f69a745ae66339da1aa8b7e86",
+      "identity": [
+        null,
+        "Your partner has died.  Waiting for them to respawn…",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6941"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner has died.  Waiting for them to respawn…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8155fdc80fc85ed89d4f61d47bacf0380e11980e873832e97a43ca871f613b8d",
+      "identity": [
+        null,
+        "<color_yellow>ERROR002: Cannot dimensionally recalibrate",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_yellow>ERROR002: Cannot dimensionally recalibrate",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "815bfba75a8f663be2aeab1e003c8af05ef775167870ff643c399fa699068f1e",
+      "identity": [
+        null,
+        "Enter new address…",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6223"
+        ]
+      ],
+      "plural": null,
+      "singular": "Enter new address…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8170cebed3d128a3f1dd7878f493fd9e78b5a3d0e51936672e58e63522179896",
+      "identity": [
+        null,
+        "SHADOW URGE: Improve Recovery.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SHADOW URGE: Improve Recovery.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8185efa560a0591d14c0419c338a9ab9b9a78b2b310fc9ff9959b32880286084",
+      "identity": [
+        null,
+        "[Blaine copies the recipe on a paper sheet]  If it is true, the only ingredient I lack is elder ginseng.  Could you please bring me some?  This would be a favor I won't forget soon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Blaine copies the recipe on a paper sheet]  If it is true, the only ingredient I lack is elder ginseng.  Could you please bring me some?  This would be a favor I won't forget soon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "818cff98298f90151e291489e138b39f616593f893d2f3a146826ce2a286f116",
+      "identity": [
+        null,
+        "Activity level",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "649"
+        ]
+      ],
+      "plural": null,
+      "singular": "Activity level",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "818fd7101f9bf418dbaa0e93c7b20f4fc04e99c4bea2cf8011285a587da331a1",
+      "identity": [
+        null,
+        "Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

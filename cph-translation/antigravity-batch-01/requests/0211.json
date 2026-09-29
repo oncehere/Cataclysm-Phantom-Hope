@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Gremlinize'",
+      "flags": [],
+      "id": "c90c69790c771b616271e0066b0689e6f62bc4bb443e1a0ce2dd9150ad40bafa",
+      "identity": [
+        null,
+        "You gesture at your target and eldritch lightning plays over it for a moment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You gesture at your target and eldritch lightning plays over it for a moment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'claw runner nest'",
+      "flags": [],
+      "id": "c90cf84d08acdc143e05f07ca85190080f2b00fbd9eb606c666569188e7b65e5",
+      "identity": [
+        null,
+        "A claw runner nest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A claw runner nest.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of vehicle part 'propeller_rotors'",
+      "flags": [],
+      "id": "c91d06a1c077914da50687dd9c4c0559e69aaa33b1370cbc44ed4650b5047b14",
+      "identity": [
+        null,
+        "A set of aerofoil propeller rotors, when spun at high speed, they generate thrust via horizontal momentum.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of aerofoil propeller rotors, when spun at high speed, they generate thrust via horizontal momentum.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible '葡萄苗'",
+      "flags": [],
+      "id": "c94ff8332abcc6a81809d4a229627e59db76be4d395cef38bbd745f485c4cbad",
+      "identity": [
+        null,
+        "一株已经长出少量根系的葡萄幼苗，种植后比普通种子更快进入采收期。必须种在种植架上。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一株已经长出少量根系的葡萄幼苗，种植后比普通种子更快进入采收期。必须种在种植架上。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'NOCOLLIDEBELOW'",
+      "flags": [],
+      "id": "c9537c84a392782d5367454f49044351522055e63c63a7186af51a86f2d1b172",
+      "identity": [
+        null,
+        "This part does not collide with terrain on the z-level below it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vp_flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This part does not collide with terrain on the z-level below it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c956d04b1857c40dfd8544173678272da104d90d5b2460a4dfa5518838bdcfbb",
+      "identity": [
+        null,
+        "Better sit down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Better sit down.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "c95cb04d63dbca2c3a5636397e775a28e0e337ab7064994d0fd123e718d2f559",
+      "identity": [
+        null,
+        "Eye of the Island",
+        "Eye of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/scouting.json",
+          ""
+        ]
+      ],
+      "plural": "Eye of the Island",
+      "singular": "Eye of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c964fcca70dc8ac031cb0daf7632a843076f534f2a2a2fc5065b4dcec169bcdf",
+      "identity": [
+        null,
+        "&This would almost look like an earthly water cooler, except the base is made up of cobbled together scrap metal, and the tank is a clouded fishbowl of green liquid.  Where the tap would be is a thin, sharp spike, feeding a dribble-tube that vanishes into the tank.  As you approach, some lights flicker, and a beam of light from some unseen projector casts an image upon the bulbous tank.\n\n\n  ▄▄▄       ██▓  ▄▄▄█████▓ ▄▄▄       ██▀███      ▒█████    ██████ \n▒████▄    ▓██▒  ▓  ██▒ ▓▒▒████▄    ▓██ ▒ ██▒   ▒██▒  ██▒▒██    ▒ \n▒██  ▀█▄  ▒██░  ▒ ▓██░ ▒░▒██  ▀█▄  ▓██ ░▄█ ▒   ▒██░  ██▒░ ▓██▄   \n░██▄▄▄▄██ ▒██░  ░ ▓██▓ ░ ░██▄▄▄▄██ ▒██▀▀█▄     ▒██   ██░  ▒   ██▒\n ▓█   ▓██▒░██████▒▒██▒ ░  ▓█   ▓██▒░██▓ ▒██▒   ░ ████▓▒░▒██████▒▒\n ▒▒   ▓▒█░░ ▒░▓  ░▒ ░░    ▒▒   ▓▒█░░ ▒▓ ░▒▓░   ░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░\n  ▒   ▒▒ ░░ ░ ▒  ░  ░      ▒   ▒▒ ░  ░▒ ░ ▒░     ░ ▒ ▒░ ░ ░▒  ░ ░\n  ░   ▒     ░ ░   ░        ░   ▒     ░░   ░    ░ ░ ░ ▒  ░  ░  ░  \n      ░  ░    ░  ░             ░  ░   ░            ░ ░        ░  \n\n @AltarOS > Bringing us here is a great service hᵤmₐn.  A blood tax is required to attune the object, and return it to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&This would almost look like an earthly water cooler, except the base is made up of cobbled together scrap metal, and the tank is a clouded fishbowl of green liquid.  Where the tap would be is a thin, sharp spike, feeding a dribble-tube that vanishes into the tank.  As you approach, some lights flicker, and a beam of light from some unseen projector casts an image upon the bulbous tank.\n\n\n  ▄▄▄       ██▓  ▄▄▄█████▓ ▄▄▄       ██▀███      ▒█████    ██████ \n▒████▄    ▓██▒  ▓  ██▒ ▓▒▒████▄    ▓██ ▒ ██▒   ▒██▒  ██▒▒██    ▒ \n▒██  ▀█▄  ▒██░  ▒ ▓██░ ▒░▒██  ▀█▄  ▓██ ░▄█ ▒   ▒██░  ██▒░ ▓██▄   \n░██▄▄▄▄██ ▒██░  ░ ▓██▓ ░ ░██▄▄▄▄██ ▒██▀▀█▄     ▒██   ██░  ▒   ██▒\n ▓█   ▓██▒░██████▒▒██▒ ░  ▓█   ▓██▒░██▓ ▒██▒   ░ ████▓▒░▒██████▒▒\n ▒▒   ▓▒█░░ ▒░▓  ░▒ ░░    ▒▒   ▓▒█░░ ▒▓ ░▒▓░   ░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░\n  ▒   ▒▒ ░░ ░ ▒  ░  ░      ▒   ▒▒ ░  ░▒ ░ ▒░     ░ ▒ ▒░ ░ ░▒  ░ ░\n  ░   ▒     ░ ░   ░        ░   ▒     ░░   ░    ░ ░ ░ ▒  ░  ░  ░  \n      ░  ░    ░  ░             ░  ░   ░            ░ ░        ░  \n\n @AltarOS > Bringing us here is a great service hᵤmₐn.  A blood tax is required to attune the object, and return it to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "c976e4b7c160e05cbc0abc3361d5357341a848992baa8e8d861d790ca39f33bd",
+      "identity": [
+        null,
+        "sea magic research materials",
+        "sets of sea magic research materials"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of sea magic research materials",
+      "singular": "sea magic research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Giant snakes'",
+      "flags": [],
+      "id": "c97999365a488015d1dc7f17fa2551696f7942f673bb20961ac85217f6c2e7c7",
+      "identity": [
+        null,
+        "This is the lair of a giant serpent.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is the lair of a giant serpent.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Blood analysis description of effect 'ælfadl'",
+      "flags": [],
+      "id": "c9939efbcb9ef96a36fd590b595d3d1211b650d70a585c2942182a0861140e10",
+      "identity": [
+        null,
+        "Anemia of the soul.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Anemia of the soul.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'penguin plushie' of item 'plush toy'",
+      "flags": [],
+      "id": "c99af431483d7454bcf6ce9918bc1295cbde90c0d2dd818b3c43df1a9b311437",
+      "identity": [
+        null,
+        "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/toy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

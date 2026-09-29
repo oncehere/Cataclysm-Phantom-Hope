@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "853267f25fa3c849460d7267fe83a023150c36aaa85b2ed8611c30d18e06013f",
+      "identity": [
+        null,
+        "Heatsight",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Heatsight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "853f864f082735e8ec409fc970472af348ed03f928f2cb8796d066d7dbe74b9e",
+      "identity": [
+        null,
+        "Society of the Spectacle",
+        "copies of Society of the Spectacle"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Society of the Spectacle",
+      "singular": "Society of the Spectacle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "857b3c5f7fdd2d796157b01333a6f6360a6ee84a16559eea546c371e8c82c82b",
+      "identity": [
+        null,
+        "Save compression",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2443"
+        ],
+        [
+          "src/main_menu.cpp",
+          "2448"
+        ]
+      ],
+      "plural": null,
+      "singular": "Save compression",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in EoC 'EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION'",
+      "flags": [],
+      "id": "85823636d827c96224061bdd238acb07a5557b3668f3a1b943017644f6dedcec",
+      "identity": [
+        null,
+        "You rolled a <context_val:roll_results> vs difficulty 15.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You rolled a <context_val:roll_results> vs difficulty 15.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "859a4e065bb88510e11832d91f475f9c9b58db3459af7896e6dfed8756f3fcce",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Built on Mind Over Matter, which is not co-op compatible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "79"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Built on Mind Over Matter, which is not co-op compatible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Invigorating Sunlight'",
+      "flags": [],
+      "id": "85b5787545dc2741dcd7218e1692dc0e36c06163c9acf7d9a152d57c7e6ebbc9",
+      "identity": [
+        null,
+        "You extend both hands upward and feel the warmth of the sun.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You extend both hands upward and feel the warmth of the sun.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "85c4bc126adad650fc16b13d1c5e3e0657a92aad3f45aa372ba16e52c9dcc8e2",
+      "identity": [
+        null,
+        "Co-op: connected to host — re-enter Join to pick character",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6297"
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op: connected to host — re-enter Join to pick character",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'tuxedo'",
+      "flags": [],
+      "id": "85ea58a002d747db5ee4ca83e3752bf265e1480457497b098f6a9b371238d633",
+      "identity": [
+        null,
+        "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/coats.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "862809387e63b9a4efa2b7da4ae2432aa60b1e2f22a1545dcf0832efabc498c0",
+      "identity": [
+        null,
+        "self-help book",
+        "self-help books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "self-help books",
+      "singular": "self-help book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "862bf7f5194a772fdd1c531fc57d6623292813486be02ccbdfe2d72f4a6acac6",
+      "identity": [
+        null,
+        "Vatgrown Strength",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vatgrown Strength",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "86336cd202a86cb5353626b2b0244bace32e73def6b22b2302d9e76cd980adbc",
+      "identity": [
+        null,
+        "wyrmhound",
+        "wyrmhounds"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/mutant_mammal.json",
+          ""
+        ]
+      ],
+      "plural": "wyrmhounds",
+      "singular": "wyrmhound",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'High Heat Tolerance'",
+      "flags": [],
+      "id": "8640896226d63fd55921a61eca707873e3a00ee309ba863fe04984140266eacb",
+      "identity": [
+        null,
+        "Used to the warmth of the swamps as you are, you are little bothered by heat.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Used to the warmth of the swamps as you are, you are little bothered by heat.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

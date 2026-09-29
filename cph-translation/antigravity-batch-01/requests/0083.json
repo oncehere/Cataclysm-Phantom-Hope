@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4898f7c90e142bd7858feb4492588bf0a79849b698c7f46988cbfc8ff0e5f47a",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'socks'",
+      "flags": [],
+      "id": "48b38c46e13c3958ab7b399e675253bfffd157d06024811c3b95be20e541f4af",
+      "identity": [
+        null,
+        "Thick socks reaching above the ankle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thick socks reaching above the ankle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "48d03dfb1d05c7426425b775675c39401e092feb285dfbe2a88ea213991d0eb0",
+      "identity": [
+        null,
+        "This is an archived text sent through a messaging app.\n\nL. C. Carlsen: Yo, I just got this pick sent over from my buddy in the Air Force.  Dude, check this shite out.n\nAn attached high-resolution photo shows an aerial view of several residential and commercial city blocks, with most of the buildings leveled and heavy bomb damage throughout.  A yawning chasm splits the ground where a main road had evidently lain; the concrete thoroughfare burst open as though from some tremendous subterranean pressure.  Mottled, gray mold cakes the surroundings, swamping debris, street fixtures, and entire vehicles in layers of fungal matter, giant, mushroom-like stems lifting heavy heads to the roofs of buildings.  A solitary soldier stands atop a half-collapsed roof, quivering mold reaching almost level with the structure's parapet.  The quality of the photo is such that you can almost distinguish the individual tears that dampen the soldier's cheeks and trace the bright outline of the flare that they hold above their head.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is an archived text sent through a messaging app.\n\nL. C. Carlsen: Yo, I just got this pick sent over from my buddy in the Air Force.  Dude, check this shite out.n\nAn attached high-resolution photo shows an aerial view of several residential and commercial city blocks, with most of the buildings leveled and heavy bomb damage throughout.  A yawning chasm splits the ground where a main road had evidently lain; the concrete thoroughfare burst open as though from some tremendous subterranean pressure.  Mottled, gray mold cakes the surroundings, swamping debris, street fixtures, and entire vehicles in layers of fungal matter, giant, mushroom-like stems lifting heavy heads to the roofs of buildings.  A solitary soldier stands atop a half-collapsed roof, quivering mold reaching almost level with the structure's parapet.  The quality of the photo is such that you can almost distinguish the individual tears that dampen the soldier's cheeks and trace the bright outline of the flare that they hold above their head.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "48d0a8ef6ad1c31498f5dbd5b372c81028a6cb242bffc78c4e317a227a1f2f00",
+      "identity": [
+        null,
+        "Clad in the remnants of an orange jumpsuit, this feral swings a pipe as they walk.  They hold it in one hand and move it like it's a stick, despite the  fittings on the end that must be increasing its weight.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Clad in the remnants of an orange jumpsuit, this feral swings a pipe as they walk.  They hold it in one hand and move it like it's a stick, despite the  fittings on the end that must be increasing its weight.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'protein_powder' step 1\n~ Recipe crafting 'sheet_metal_bronze' step 1",
+      "flags": [],
+      "id": "48da84fb7c7f4581bcc7537160310f44cd591f85ad7ac4525099620ea35b29ed",
+      "identity": [
+        null,
+        "Gather resources and start the process",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ],
+        [
+          "data/mods/XedraWood/recipes/materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gather resources and start the process",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'friendly_msg' action message of item 'inactive Pathfinder'",
+      "flags": [],
+      "id": "48f3a940fc6ed3c81dd6de9ffd8de28281e7b1705be182262997c06f5f398039",
+      "identity": [
+        null,
+        "The Pathfinder rolls out and begins acquiring targets.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Pathfinder rolls out and begins acquiring targets.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_MATERIAL_SEA'",
+      "flags": [],
+      "id": "48f42ac351f8a59682aec6c0b26d54b636f542a2431cc39be1930dc5d5f22b48",
+      "identity": [
+        null,
+        "assemble sea research materials",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "assemble sea research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "48f860f78dd7d8b76674fc47b55a6e842b55454d2b65aec82e72e8291c05faa9",
+      "identity": [
+        null,
+        "This is gonna sound strange, and I'm not an \"Exodii\", but I think I may be a bit like you.  [Tell Rubik about your experience with AltarOS]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is gonna sound strange, and I'm not an \"Exodii\", but I think I may be a bit like you.  [Tell Rubik about your experience with AltarOS]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'A perfect cabinet of oddities.'",
+      "flags": [],
+      "id": "4910777567d441d9ac2dddb0a4a1107ab701c77293231e8d8d304b685989c4b4",
+      "identity": [
+        null,
+        "You have joined the courts of your Sidhe kin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have joined the courts of your Sidhe kin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "492f1d96479dfbe4a11a3c0fddccc681cdded9865c447448912a215c8758dbf1",
+      "identity": [
+        null,
+        "Bionic Treads (Cyberframe 1a)",
+        "Bionic Treads (Cyberframe 1a)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Treads (Cyberframe 1a)",
+      "singular": "Bionic Treads (Cyberframe 1a)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "493f22afca5822737b8e942eac314ba941f1d1e775258924330e7c7d33e9336d",
+      "identity": [
+        null,
+        "I mean, just look at me!  They're cyborgs from another dimension, or dimensions, really.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I mean, just look at me!  They're cyborgs from another dimension, or dimensions, really.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "4945957baf573de5f0ada39ac42491f01194ce5988264658954c70e8bad45ca1",
+      "identity": [
+        null,
+        "chunk of uranium",
+        "chunks of uranium"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/chemicals_and_resources.json",
+          ""
+        ]
+      ],
+      "plural": "chunks of uranium",
+      "singular": "chunk of uranium",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

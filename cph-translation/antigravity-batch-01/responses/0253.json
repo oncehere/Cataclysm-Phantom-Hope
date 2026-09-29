@@ -1,0 +1,81 @@
+{
+  "request_sha256": "2da122c1f21ac08ea8ce1e86169cc385aa11e003df3993240a1acdbca32d02c2",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "f1f4958ea9823a1a1b607dfee7fa307cdbbf55b95d9be3712a43d8424aeee866",
+      "values": [
+        "曾经的我早已不复存在。那一切都在<the_cataclysm>中付之一炬了。明白吗？现在的我始于灾变发生的第二天。我当时正在逃离一只块头极大的地狱丧尸，像我以往那样拼命狂奔，直到我发现地上躺着一根木棍。我把它当成了一种征兆，将那个黏糊糊的混蛋砸成了肉泥……就在那一刻，我成为了真正的我。我现在仍然会跑，毕竟谁不跑呢，但我现在懂得坚守阵地了。"
+      ]
+    },
+    {
+      "id": "f1f77676068a51980aa98493a6c66a4ccdb2d3ae43b3b2351d4117324d3a922b",
+      "values": [
+        "你甩开了警棍。"
+      ]
+    },
+    {
+      "id": "f1fed5b5d2c90dc7b48bb23240188476970e773b87c166c7c321624a8df01d7b",
+      "values": [
+        "与搭档击掌"
+      ]
+    },
+    {
+      "id": "f215b91048bc7a4afe6ffe08fa998b5eadf4c261bda092698b4d842e8356ac66",
+      "values": [
+        "电网瘫痪"
+      ]
+    },
+    {
+      "id": "f2378c1b69984030862e63089d0c02eb6817149f734b958666be58b158d39176",
+      "values": [
+        "一片堆积至肩膀高处的污染土堆，不易穿行。"
+      ]
+    },
+    {
+      "id": "f27446fd2c851fee1b1cbe27251d0002cdb3e803f531eb60d342e6c375159628",
+      "values": [
+        "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n 来自 AltarOS 远程的更新可用。"
+      ]
+    },
+    {
+      "id": "f27fb8271215cc045ec2b085427ec5ed6c946a38860f142014acf733efc1a99a",
+      "values": [
+        "抽象内衣。如果你看到了这个，说明是个漏洞，请反馈。"
+      ]
+    },
+    {
+      "id": "f29873bd25c08894ce49a9fba874885c7089c4c59ae432072a2b369dc9457ae9",
+      "values": [
+        "凡人的梦境脆弱且转瞬即逝，不适合采撷。"
+      ]
+    },
+    {
+      "id": "f2be26aba271c02441081e1f1e5775db7a5268a24eaa3e54107e4f0d04b77dd7",
+      "values": [
+        "血煞炼尸功（残篇）"
+      ]
+    },
+    {
+      "id": "f2c0b1f7d52fc0f3c8f27909324861297cba07327fa27005267a65ecac96a358",
+      "values": [
+        "一款由处理过的皮革手工制成的半面防毒面具。它无法保护眼睛，使用前必须先激活。"
+      ]
+    },
+    {
+      "id": "f2e93deddc5ee4459f10a0738acca8226e3e058c06201dea235a41ceb22a6ce4",
+      "values": [
+        "丁字裤"
+      ]
+    },
+    {
+      "id": "f2ea1c3f701b0ab9a37ef1e22c15231eb66da0258c52c1ad6c0371a4428c19e7",
+      "values": [
+        "下一个"
+      ]
+    }
+  ]
+}

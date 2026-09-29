@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-06-gemini",
+  "model": "gemini-3.5-flash-lite",
+  "checks": {
+    "completed_entries": 68
+  },
+  "gemini_sources": {
+    "gemini-3.8-flash": 12,
+    "gemini-3.5-flash-lite": 56
+  },
+  "review_flags": [],
+  "remaining_gaps": 3326,
+  "provider_results": {
+    "completed": 20,
+    "unknown": 1,
+    "not_requested": 3325
+  }
+}

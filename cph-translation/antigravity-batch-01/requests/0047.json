@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Activation message of mutation 'Stimulant biosynthesis'",
+      "flags": [],
+      "id": "2340c8cf5ee4cec0fb63ce5b5c9f2130c55de81c5269c0d46428933eb128c756",
+      "identity": [
+        null,
+        "You release the flood of combat-enhancing substances into your bloodstream.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You release the flood of combat-enhancing substances into your bloodstream.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "2341db3097891637969cd813cad359ae7c744f2167753e5f77bc1aba2621ac8a",
+      "identity": [
+        null,
+        "&The food stall is a colorful array of various dishes, and the smell of spices and cooked meats cuts easily through the frozen air.  The vendor is busy preparing a meal when you approach.\n\"Oh steemd do you see anything you like?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/Salvor_Market/salvor_street_food.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The food stall is a colorful array of various dishes, and the smell of spices and cooked meats cuts easily through the frozen air.  The vendor is busy preparing a meal when you approach.\n\"Oh steemd do you see anything you like?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "23595194c552fc9262e6f7a4cb73916eb3940c46f3c316a9945ace7df2b39576",
+      "identity": [
+        null,
+        "Must have melee 5, dexterity 10, and fencing weapon proficiency",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Must have melee 5, dexterity 10, and fencing weapon proficiency",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'doctor' NPC class\n~ Worked as a doctor and performed medical research but little else.  Has a\ncrossbow mainly for self-defense.",
+      "flags": [],
+      "id": "2363ac19399553c6d3bf5355daf28729ce74934c8e5abd068881b79720f8a919",
+      "identity": [
+        null,
+        "I tend up wounded hunters.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I tend up wounded hunters.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "238e85d30cefd401a6abe0aea57a39ba983519f6be8aa64963333e740e011d54",
+      "identity": [
+        null,
+        "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<serum_testing_resilience>'",
+      "flags": [],
+      "id": "23e93335f1f0f45526569e4ac7ec670f1373d655eb2b5d8d7de1d4425a27db84",
+      "identity": [
+        null,
+        "Inject subject with 10 ml of 16x-\"Armus\" compound\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Inject subject with 10 ml of 16x-\"Armus\" compound\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'leggings'",
+      "flags": [],
+      "id": "24167b8788509766897048166161f91a772354554685c9b3cbb32424af366b29",
+      "identity": [
+        null,
+        "Stretchy, close-fitting pants, thin and breathable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stretchy, close-fitting pants, thin and breathable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in false effect in use action of item\n'Hub 01 BACK exoskeleton'",
+      "flags": [],
+      "id": "24336c5906c5a913ca3e9eaea72c5b9d8a43be3275871ffe6c43ac21963be4d6",
+      "identity": [
+        null,
+        "ERROR: NO XM-BACK INTERFACE DETECTED",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ERROR: NO XM-BACK INTERFACE DETECTED",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "243671a6dcbeb2a9fd9778bb57c2e6af2a6ea7f6ea913ee540f02dbfb6e7dd97",
+      "identity": [
+        null,
+        "Staff of the Wise",
+        "Staves of the Wise"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/melee.json",
+          ""
+        ]
+      ],
+      "plural": "Staves of the Wise",
+      "singular": "Staff of the Wise",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC 'EOC_XE_RandEnc'",
+      "flags": [],
+      "id": "245ef440853fd78951d474d79c7c1a4751a8aaf3e56f691e2d67460173858cf8",
+      "identity": [
+        null,
+        "Xedra Evolved random encounter has not met its conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/base_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Xedra Evolved random encounter has not met its conditions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "24680a2097c7e5db9f6007b421919ba08451e80104b6b55eee0eb8afb925cf1e",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "248fdee6205737b8e91878afd60502bbdd7a00f7c16b378e09cd62f4af327b92",
+      "identity": [
+        null,
+        "修为精进！炼气已至 <u_val:qi_refining_layer> 层。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "修为精进！炼气已至 <u_val:qi_refining_layer> 层。",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

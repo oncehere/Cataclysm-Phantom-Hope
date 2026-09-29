@@ -1,0 +1,59 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "veh_interact",
+      "developer_comments": "",
+      "flags": [],
+      "id": "c0f4471158a54084e50415367aec9275bf04c4d66d5f4d0cdc26fef367f4c448",
+      "identity": [
+        "veh_interact",
+        "batch install",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "3223"
+        ]
+      ],
+      "plural": null,
+      "singular": "batch install",
+      "translator_comments": ""
+    },
+    {
+      "context": "veh_interact",
+      "developer_comments": "",
+      "flags": [],
+      "id": "e08f0d3c0089b2003c68910cd9cef9a9f4674e6c1b3b538736346ec865ee03ec",
+      "identity": [
+        "veh_interact",
+        "select part",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "3213"
+        ]
+      ],
+      "plural": null,
+      "singular": "select part",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

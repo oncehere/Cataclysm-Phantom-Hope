@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "1110df5f901e420f455d721f4a4a81fe198981690fa847911f850b2b530a3d79",
+      "identity": [
+        null,
+        "Could not connect to %s:%d.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6263"
+        ]
+      ],
+      "plural": null,
+      "singular": "Could not connect to %s:%d.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "11228ec4c9896ef8d2ce0adcf667658e55828c3bde1a1d05ab6c35b249d4270c",
+      "identity": [
+        null,
+        "dry hot spring bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry hot spring bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name\n~ Name of a spell",
+      "flags": [],
+      "id": "112bcd52ca270a36bcebbf74ca64cc8b40faa99ebc0421953533d28b00cfc888",
+      "identity": [
+        null,
+        "Banquet of Dreams",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Banquet of Dreams",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "11315c992aa1ad53438e1dec215907ca68db8c8104c6da4ed684ed31a477c656",
+      "identity": [
+        null,
+        "The Female Eunuch",
+        "copies of The Female Eunuch"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Female Eunuch",
+      "singular": "The Female Eunuch",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "116ef984b5a8ea975c110e8972a55e915bd2755938ed36cefc1bf648441efea5",
+      "identity": [
+        null,
+        "%1$s begins removing the %2$s from the %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1079"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s begins removing the %2$s from the %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "117bf11c983d7c81bf3b073961efd371b19ac396d8d24b890df0f807e176f940",
+      "identity": [
+        null,
+        "Downloads/birthday_2026.mp4\n\nAs the video opens, your eyes are all but affronted by the medley of bright hues that range across the screen like a star's unfurling corona: vibrant orange tablecloths and emerald grass winking up at you from their position under the protective arm of an outdoor gazebo.  The structure's fabric apertures have been tied back, allowing volumes of light to spill in and gently touch upon the huddle of people that stand poised in the foreground, arrayed about a sizable table, and who are, to an attendee, livening the film's audio with the multi-voiced stanzas of \"HAPPY BIRTHDAY!\"  Crouched at the heart of this conflagration sits the delicious, if rather crude, depiction of a Sherman tank cast in chocolate and green icing, the vehicle's turret alight with six candles and its skittle armaments aimed at a small child held aloft at the table's head by a fondly grinning man.  With their tiny hand clutching a massive cake knife, the child's smiling happily, and, as the singing reaches its peak, they puff up their small chest and direct a valiant blow towards the candles (all be it still with the discreet assistance of a handful of the partygoers).  In a glint of silver, the blade's brought down upon the tank's hull, and the last few shots are of various plates of chocolate tank armor being distributed to the party's guests.\n\nThe fact that, in the post-Cataclysm, you might very well recognize the face of this same child you're watching lay into a section of chocolate tank tread as it tries to peel bare your own organs with the same voracity hasn't eluded you.  The notion will plague you for a long, long time to come.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Downloads/birthday_2026.mp4\n\nAs the video opens, your eyes are all but affronted by the medley of bright hues that range across the screen like a star's unfurling corona: vibrant orange tablecloths and emerald grass winking up at you from their position under the protective arm of an outdoor gazebo.  The structure's fabric apertures have been tied back, allowing volumes of light to spill in and gently touch upon the huddle of people that stand poised in the foreground, arrayed about a sizable table, and who are, to an attendee, livening the film's audio with the multi-voiced stanzas of \"HAPPY BIRTHDAY!\"  Crouched at the heart of this conflagration sits the delicious, if rather crude, depiction of a Sherman tank cast in chocolate and green icing, the vehicle's turret alight with six candles and its skittle armaments aimed at a small child held aloft at the table's head by a fondly grinning man.  With their tiny hand clutching a massive cake knife, the child's smiling happily, and, as the singing reaches its peak, they puff up their small chest and direct a valiant blow towards the candles (all be it still with the discreet assistance of a handful of the partygoers).  In a glint of silver, the blade's brought down upon the tank's hull, and the last few shots are of various plates of chocolate tank armor being distributed to the party's guests.\n\nThe fact that, in the post-Cataclysm, you might very well recognize the face of this same child you're watching lay into a section of chocolate tank tread as it tries to peel bare your own organs with the same voracity hasn't eluded you.  The notion will plague you for a long, long time to come.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'DISTRIBUTED_DAMAGE'",
+      "flags": [],
+      "id": "11813ae9b6533775221eb77f7002ce5d249ef02e0556a853871c0016fb6e341d",
+      "identity": [
+        null,
+        "Damage you take is split evenly between your limbs",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Damage you take is split evenly between your limbs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Morale text",
+      "flags": [],
+      "id": "11a20073ccd1bc83052d560077eb60e0f6e2a8a467a41bbba348e9311b5ca933",
+      "identity": [
+        null,
+        "Craving cannabis",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/morale_types.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Craving cannabis",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a fault",
+      "flags": [],
+      "id": "11a54888ceb67225431933500384d09db748fc4c297d6d0324cff5753ce584bf",
+      "identity": [
+        null,
+        "Shattered",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shattered",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "11b9bdf67b39129cb1e2a506f251960fb0d26c2ef1ce050a20b8ca0c0536947d",
+      "identity": [
+        null,
+        "Enter a trance and cast your spirit forth, seeking guidance in the Unseen World to unlock a secret of the lesser mysteries.  Doing so will debilitate you for a time afterward, rendering you unable to call on either the lesser or greater mysteries.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Enter a trance and cast your spirit forth, seeking guidance in the Unseen World to unlock a secret of the lesser mysteries.  Doing so will debilitate you for a time afterward, rendering you unable to call on either the lesser or greater mysteries.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "11c202f5fdc673816f72cd8d01dbca7052b2f502da0bd19d670d5ed2af2dd730",
+      "identity": [
+        null,
+        "Tell me more about Cyberframe 1b.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Tell me more about Cyberframe 1b.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "11c77290440f74e8e57fc1b491e3d22cf422369effe9a0d7df512005d9cf3563",
+      "identity": [
+        null,
+        "Bionic Left Leg (Cyberframe 1a)",
+        "Bionic Left Legs (Cyberframe 1a)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Left Legs (Cyberframe 1a)",
+      "singular": "Bionic Left Leg (Cyberframe 1a)",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

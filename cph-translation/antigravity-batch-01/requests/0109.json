@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '炼焰息'",
+      "flags": [],
+      "id": "6496d43463786ad1d506adcf8c5a13ffd2626d8965e3e10c7296b833e2323613",
+      "identity": [
+        null,
+        "炎阳真传的吐纳法门。纳火行炎气入丹田，烈烈如日，灼炼经脉。修炼之余，体魄渐染炎上之力。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "炎阳真传的吐纳法门。纳火行炎气入丹田，烈烈如日，灼炼经脉。修炼之余，体魄渐染炎上之力。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "64b837930b4a05d85b61306f69c7ac10baec551746fe2bc23d94033fd3c40abb",
+      "identity": [
+        null,
+        "smudged map",
+        "smudged maps"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/book_lore.json",
+          ""
+        ]
+      ],
+      "plural": "smudged maps",
+      "singular": "smudged map",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "64c0b4849228a8f3378061bed46aa372ff54cfa08e44495b4b71e1fe8d74963a",
+      "identity": [
+        null,
+        "%s warmth",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "692"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s warmth",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DEBUG_TELL_ME_TIME'",
+      "flags": [],
+      "id": "64d2d6dfd1e5fb4fcc4ae33903c97c4b4ffdede018118081ea162f819daf966e",
+      "identity": [
+        null,
+        "Minutes remaining until noon is <global_val:TIME_TILL_NOON>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/generalized_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minutes remaining until noon is <global_val:TIME_TILL_NOON>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'sneakers (pair)'",
+      "flags": [],
+      "id": "64dce5c9fd0726233cfb63a45543feebadb23a85033281d2efe7332c16f7466d",
+      "identity": [
+        null,
+        "Sporty, comfortable shoes with a low top leaving the ankles uncovered.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sporty, comfortable shoes with a low top leaving the ankles uncovered.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<serum_testing_super_soldier>'",
+      "flags": [],
+      "id": "64e40d21746dfa1bee276ce86650c0958e689408b0e7768e6a5ac8cd0977facb",
+      "identity": [
+        null,
+        "Inject subject with 10 ml of 29x-\"Noonien\" compound\nPhysical activity regimen: standard US Armed Forces Army Fitness Test\nResults: Subject, previously in the 60% percentile for AFT results, placed in the 99% percentile on three consecutive days of taking the test.  On the fourth day, subject complained of muscle soreness and was placed under observation and ordered to perform only light activity the following day.  On the fifth day, subject expressed eagerness to try again and once again scored in the 99% percentile.  However, a physical examination following the testing period revealed a sprained ankle; the subject repeatedly expressed a wish to continue trying and that there was no need for medical treatment.  Subject was placed on light activity for the remainder of the observation period.\nLong term effects: on the first day the subject did not eat at all.  Following a continued disinterest in eating they were placed on a standard diet on following days, modified to a high-calorie diet when they continually left meals unfinished.  Recipients of 29x-\"Noonien\" will require strict dietary instructions in order to obtain proper nutrition.  Seven days after initial application of 29x-\"Noonien\", subject complained of serious ankle pain and requested painkillers, which were provided.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Inject subject with 10 ml of 29x-\"Noonien\" compound\nPhysical activity regimen: standard US Armed Forces Army Fitness Test\nResults: Subject, previously in the 60% percentile for AFT results, placed in the 99% percentile on three consecutive days of taking the test.  On the fourth day, subject complained of muscle soreness and was placed under observation and ordered to perform only light activity the following day.  On the fifth day, subject expressed eagerness to try again and once again scored in the 99% percentile.  However, a physical examination following the testing period revealed a sprained ankle; the subject repeatedly expressed a wish to continue trying and that there was no need for medical treatment.  Subject was placed on light activity for the remainder of the observation period.\nLong term effects: on the first day the subject did not eat at all.  Following a continued disinterest in eating they were placed on a standard diet on following days, modified to a high-calorie diet when they continually left meals unfinished.  Recipients of 29x-\"Noonien\" will require strict dietary instructions in order to obtain proper nutrition.  Seven days after initial application of 29x-\"Noonien\", subject complained of serious ankle pain and requested painkillers, which were provided.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "64e4403c5c000ce77fc50c7aa094fe997f315ea55ce4710641ec4ed1602c5c09",
+      "identity": [
+        null,
+        "%s wetness",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "695"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s wetness",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Spear of Brambles'",
+      "flags": [],
+      "id": "64e89eb23095a758a1e4504bbb78c3234749901b3053676056a5a58f375211dd",
+      "identity": [
+        null,
+        "You grasp the stick tightly and feel the sap flowing within.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You grasp the stick tightly and feel the sap flowing within.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "64eb19ce8e790760aa5e0be0f7a71672d73b8f9502f482b4a57f147921a8fd5c",
+      "identity": [
+        null,
+        "default tail tips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default tail tips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "651016b8f7b21e20fe13b3d4a51b43819b27b2ab031ba79a960ddc7f90df656d",
+      "identity": [
+        null,
+        "I'm back and I killed the strigoi.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the strigoi.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation '阳炎附骨'",
+      "flags": [],
+      "id": "6515392a6c9dc6dcab14b4b81be3e13ec326c5039afc238f213884de22f81f90",
+      "identity": [
+        null,
+        "久修火行所成之体。阳炎潜入筋骨，体魄染炎上之力——近身搏杀更具威势，不畏寒冷，所御火行之力愈烈。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "久修火行所成之体。阳炎潜入筋骨，体魄染炎上之力——近身搏杀更具威势，不畏寒冷，所御火行之力愈烈。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "6524b32744aad0783445e7c26a1fa82bd51cbabe5332590d1db3c530eb2a6bf1",
+      "identity": [
+        null,
+        "寒泉迸",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_attack.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "寒泉迸",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

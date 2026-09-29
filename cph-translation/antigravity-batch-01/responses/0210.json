@@ -1,0 +1,81 @@
+{
+  "request_sha256": "873bd7445f8391fa7ac593b2569fa57b7427d197d5166de5351b44c3d408e8ba",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "c7f47b7977c353f6bb0233e1069c813132706843551f5be61cdefa4c03359424",
+      "values": [
+        "&斯莫克斯和鲁比克开始讨论外来者究竟能提供什么。鲁比克首先拿出了枪械，将他们的一把猎尸步枪举到了镜头前……"
+      ]
+    },
+    {
+      "id": "c80b4765715808927bdce882755c3366c0409175b62341f76dfe3158662145a6",
+      "values": [
+        "巨蛇"
+      ]
+    },
+    {
+      "id": "c8198f1b1c2bd8427ad0a0c396acc6a6fdba8c3ff44e92165a54fc2ecabe7bfc",
+      "values": [
+        "一座炎魔矿井。"
+      ]
+    },
+    {
+      "id": "c8253fb75589842da666b3d5702cfe09620afa1ef0f0c722991fe806009f094d",
+      "values": [
+        "虽然一些战士结社或智者团体可能掌握着秘密的符文字符，但大规模的文字尚未被发明出来。你无法阅读。"
+      ]
+    },
+    {
+      "id": "c829114f178b47ccd7d329ee34260aae7978f17d7d1e90f4864a5e1e768cc677",
+      "values": [
+        "损坏的泽尼特相机"
+      ]
+    },
+    {
+      "id": "c82c51cd6562b3964f13476df20103e22e93b48affead1b51f77b03c3ad4d298",
+      "values": [
+        "复仇必属于我"
+      ]
+    },
+    {
+      "id": "c83068b244b31e0e2b44ded01bd752d77572c50466da1adb92f910656abe0085",
+      "values": [
+        "单个地块可容纳多少升物品。"
+      ]
+    },
+    {
+      "id": "c85f6c3a2e4b26cf3d8d0ccdefe55dcb1b7c6172965e28a87ec579de2817b232",
+      "values": [
+        "光线刺痛着你的双眼，而阴影显得格外漆黑。谁知道里面会藏着什么？"
+      ]
+    },
+    {
+      "id": "c862db967194caccd294b74fdc83dba03c33be0d2bfca5d9c44a427a81fb2f43",
+      "values": [
+        "需求与负荷"
+      ]
+    },
+    {
+      "id": "c8a94d15b5fc4370448e7cd112194e74b573c8660347134ffa0a62f3f50c30ef",
+      "values": [
+        "<color_red>输入通行密码：KÁ"
+      ]
+    },
+    {
+      "id": "c8ae4ca30be03baee2fe615bae990d4dc8154f9724351db88b2e6d5bca53d94b",
+      "values": [
+        "干涸深盐盆"
+      ]
+    },
+    {
+      "id": "c8ddc72a731828b95ced6201e7c20f8f7e05933e8a862ce363e98b7567a2c579",
+      "values": [
+        "你的存在令人沉醉，凡人难以抗拒你的魅力。只要你的元气尚未耗尽，你的说服几率就能获得加成。"
+      ]
+    }
+  ]
+}

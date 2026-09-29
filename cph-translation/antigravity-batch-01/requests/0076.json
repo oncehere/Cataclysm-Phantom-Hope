@@ -1,0 +1,273 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "417c5f8ba36344e86409f806d90773ff3a9df0ae26f0c248f2934570fcb07d02",
+      "identity": [
+        null,
+        "阳炎附骨",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "阳炎附骨",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'metamaterial lens'",
+      "flags": [],
+      "id": "41c77c3dcf169cd91b2d0b434a2ac80d34e907b3e0910b7f53b95d07012b42da",
+      "identity": [
+        null,
+        "A diminute sphere of crystal and metal, magnetically affixed to the centroid of its containing chamber.  The magnetic casing alone would be almost impossible to replicate with modern technology, nevermind the complex atomic structure of the spherical lens itself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/crafting_scrap/optics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A diminute sphere of crystal and metal, magnetically affixed to the centroid of its containing chamber.  The magnetic casing alone would be almost impossible to replicate with modern technology, nevermind the complex atomic structure of the spherical lens itself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'brownie'",
+      "flags": [],
+      "id": "41dfff3ae920df9e4168ae4f5e4c8c347e0cd156590402d8b597f2ac17fd7040",
+      "identity": [
+        null,
+        "A rich chocolate brownie, just like how grandma used to bake them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/wheat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A rich chocolate brownie, just like how grandma used to bake them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'apprentice's grimoire'",
+      "flags": [],
+      "id": "41ed02fabec7383d2cb1e28703b9856d8ddca833e5ab4ee3897846780229cfbe",
+      "identity": [
+        null,
+        "Written using the runes of the wise, this contains the rituals and supplications necessary to unlock the secrets of the lesser mysteries.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/books.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Written using the runes of the wise, this contains the rituals and supplications necessary to unlock the secrets of the lesser mysteries.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "41f0ef254a6475a86eb51977dcdf8bece926af51fa6d0095ef6f58449b286a0b",
+      "identity": [
+        null,
+        "Bionic Left Leg (Cyberframe 1b)",
+        "Bionic Left Legs (Cyberframe 1b)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Left Legs (Cyberframe 1b)",
+      "singular": "Bionic Left Leg (Cyberframe 1b)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Ectothermia'",
+      "flags": [],
+      "id": "4228e3592c10485f5978d2888bd13bc55b942b2348e435f29d8be18ef30c8ca6",
+      "identity": [
+        null,
+        "Your body is permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body is permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "42313b5a3de9ea80305ad4b38c3f2e8355a4af43073e6c3ce2fcf073f7b97457",
+      "identity": [
+        null,
+        "short mound of nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "short mound of nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4255a4e167e1d5032bf535420e1ce23b36b067d6d4ebcada2e7d41a8d36b8018",
+      "identity": [
+        null,
+        "I have some.  Do you want them?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have some.  Do you want them?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "42695f71790fdea831535a2e88fa90645bc54f377f95531d1bb0a6c1ac493f94",
+      "identity": [
+        null,
+        "Obviously we've been running experiments with L61, as we've designated her, and her abilities aren't as strong as they seem to have been in those moments after the incident.  She can't knock full-grown humans off their feet anymore but she can pick up a pencil and hold it steady, in the air, in complete defiance of gravity and everything we thought we understood about physics and, frankly, how the universe works at all.  Portals at least have rules they follow, but what is this?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Obviously we've been running experiments with L61, as we've designated her, and her abilities aren't as strong as they seem to have been in those moments after the incident.  She can't knock full-grown humans off their feet anymore but she can pick up a pencil and hold it steady, in the air, in complete defiance of gravity and everything we thought we understood about physics and, frankly, how the universe works at all.  Portals at least have rules they follow, but what is this?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Survivor'",
+      "flags": [],
+      "id": "4275347a57410acbab761fa398ee76d19a080330841afcd706f4b27d12ea42f8",
+      "identity": [
+        null,
+        "You are well acquainted with the hardships of life on the frontier, and with the dangers and promises of the ancient ruins within.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are well acquainted with the hardships of life on the frontier, and with the dangers and promises of the ancient ruins within.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Intermediate Aikido'",
+      "flags": [],
+      "id": "427741cff569206eb9177fb1603711c5ce77453f82461ead9853cf548ff9cd00",
+      "identity": [
+        null,
+        "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practitioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practitioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'water_clean' step 1\n~ Recipe crafting 'boiled_egg' step 1\n~ Recipe crafting 'broth' step 1\n~ Recipe crafting 'broth_meat' step 1\n~ Recipe crafting 'broth_bone' step 1\n~ Recipe crafting 'salt' step 1\n~ Recipe crafting 'sugar' step 1",
+      "flags": [],
+      "id": "428223569f198d513009923d2d4bc42a3df5cfe58bdd5fa516775031c5d6ef5e",
+      "identity": [
+        null,
+        "Boiling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/drinks.json",
+          ""
+        ],
+        [
+          "data/json/recipes/food/egg.json",
+          ""
+        ],
+        [
+          "data/json/recipes/food/soup.json",
+          ""
+        ],
+        [
+          "data/json/recipes/food/spice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Boiling",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

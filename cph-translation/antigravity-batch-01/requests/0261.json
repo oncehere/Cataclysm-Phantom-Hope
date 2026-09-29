@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC\n'EOC_VAMPIRIC_STEALTH_BONUS_activated_2'",
+      "flags": [],
+      "id": "fa8a7ab6f56ee0e52736b9a4f0485b9a6d0fbdb29ad5072c73aa5f3d9e4098a7",
+      "identity": [
+        null,
+        "You don't have enough blood to activate your cloak of shadows.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/vampire_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't have enough blood to activate your cloak of shadows.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_clairsentience'\n~ Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian\ndesignation for use of clairsentience to find appropriate portal targets\nfor immersion dives is COLD BELOW",
+      "flags": [],
+      "id": "faceae42ffcfad6f9f712482545692b4b556bbd2629deedb1b2437e344e7b955",
+      "identity": [
+        null,
+        "O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  O21 was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being their's height (158 cm) making it harder to reach the shelf.  O21 was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  O21 was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  O21 was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being their's height (158 cm) making it harder to reach the shelf.  O21 was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  O21 was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'nomad utility belt'",
+      "flags": [],
+      "id": "faed918d46cdf543593972753854de5261159a50eb936fd34b2651ab52a912a1",
+      "identity": [
+        null,
+        "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches, each fit for a 26-round PA md. 68 box magazine (although anything that size or smaller will fit).  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/bespoke_armor/utility.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches, each fit for a 26-round PA md. 68 box magazine (although anything that size or smaller will fit).  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fb0f4fae961846b605f49d203edd5309807306611ba49d767ec35de8835729b9",
+      "identity": [
+        null,
+        "Something blocks your attack.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/melee.cpp",
+          "1085"
+        ]
+      ],
+      "plural": null,
+      "singular": "Something blocks your attack.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'TsKBEM Exoskeleton user manual'",
+      "flags": [],
+      "id": "fb3f1f58ab75f297fa7fc1e2cffc5f5b1bb45658fd7d41bb75231760ea1b940b",
+      "identity": [
+        null,
+        "A somewhat hefty manual in Russian with accompanying English text which goes in-depth into the proper usage and maintenance of TsKBEM brand Exoskeletons.\n\nWhile it mainly pertains to the old TsKBEM exoskeletons, the knowledge within could still help out with modular exoskeletons in general.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/books.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A somewhat hefty manual in Russian with accompanying English text which goes in-depth into the proper usage and maintenance of TsKBEM brand Exoskeletons.\n\nWhile it mainly pertains to the old TsKBEM exoskeletons, the knowledge within could still help out with modular exoskeletons in general.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "fb5057060b004417e9540235dba19afec04465acef7d18d82c3eb92949843f33",
+      "identity": [
+        null,
+        "Invalid port in '%s'.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6193"
+        ]
+      ],
+      "plural": null,
+      "singular": "Invalid port in '%s'.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fb6cc08447f36ef511dd8670b1f455e64c554c0f8e732971c6643a9d4ec80d8c",
+      "identity": [
+        null,
+        "Martial arts style",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "660"
+        ]
+      ],
+      "plural": null,
+      "singular": "Martial arts style",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'enzyme biofactory'",
+      "flags": [],
+      "id": "fb71a537e70ea777480ee84ecb7d5c1b1fbdfe1d74beb8a6ca7a86f8b48eda72",
+      "identity": [
+        null,
+        "A complex Mercurial manufactured bacterial biome that partially replicates human biochemistry.  Output volume is small, so this device is mostly used for medical research and tailor-made medical solutions.  Rarely seen in the frontier.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/items.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A complex Mercurial manufactured bacterial biome that partially replicates human biochemistry.  Output volume is small, so this device is mostly used for medical research and tailor-made medical solutions.  Rarely seen in the frontier.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'boots (pair)'",
+      "flags": [],
+      "id": "fb884b8a5ced17107564191a73c343d7900e5470817754d999b303b276accbd0",
+      "identity": [
+        null,
+        "Rugged boots with a thick sole, reaching above the ankles for support and protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rugged boots with a thick sole, reaching above the ankles for support and protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_mom_artifact_mind_sight'",
+      "flags": [],
+      "id": "fbb0b2522f2326b08025ab13805bf29aea3caa26e659d17bfc851e7c479ca6b4",
+      "identity": [
+        null,
+        "Mind Sight",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_artifact.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Mind Sight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message after transforming to 'f_cryo_storage_o'",
+      "flags": [],
+      "id": "fbcba620c30bceafc857ef6f51eed54d494c10ddb470143da2abe99d2475dd66",
+      "identity": [
+        null,
+        "Vapor hisses out from the cryogenic storage unit as its locking mechanism releases.  Whatever is inside should be recovered before it thaws out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/ter_fur_transform.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vapor hisses out from the cryogenic storage unit as its locking mechanism releases.  Whatever is inside should be recovered before it thaws out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fbea5e0644e3dd65863910930bbb6494dbfb8375d35d26ec1738157baacb32eb",
+      "identity": [
+        null,
+        "Host address  (e.g. 192.168.1.5  or  100.64.0.5:8080)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6238"
+        ]
+      ],
+      "plural": null,
+      "singular": "Host address  (e.g. 192.168.1.5  or  100.64.0.5:8080)",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

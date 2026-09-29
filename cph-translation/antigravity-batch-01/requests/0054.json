@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "29f87582d702216a080072c0d71f17443b5107ee94443be27152904701ffb0c3",
+      "identity": [
+        null,
+        "[Antagonize] Look knowingly at Smokes.  \"They have a LOT of guns.  And they know how to use them.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Look knowingly at Smokes.  \"They have a LOT of guns.  And they know how to use them.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2a744bc779670f6c11c3fa248274cd213ff15d6816ab5b81b052254821dd9820",
+      "identity": [
+        null,
+        "CO-OP: may break.  Pet ownership and control across two players is unresolved; the joining player's tamed pets may be uncontrollable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "141"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Pet ownership and control across two players is unresolved; the joining player's tamed pets may be uncontrollable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "2aa34ff8870868c9b5167b995b9d53bcdb1e90d8215b26bc8803bbd38c8e1f93",
+      "identity": [
+        null,
+        "safety boots (pair)",
+        "safety boots (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "safety boots (pair)",
+      "singular": "safety boots (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Hand of Lugh'",
+      "flags": [],
+      "id": "2aa68bc2379bcd6cdb31cb413fa75d6c4844e91cdfd94ab86a58a9fb48cadcb7",
+      "identity": [
+        null,
+        "Your strength is empowered by that of your enemies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your strength is empowered by that of your enemies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE'",
+      "flags": [],
+      "id": "2ac9a68cd3632eb7e56eb862e7779dc83c0baab33541fc625cb7be34cc387970",
+      "identity": [
+        null,
+        "You lack the excess blood needed, you must be engorged or even tick-like before you can attempt this.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/spell_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You lack the excess blood needed, you must be engorged or even tick-like before you can attempt this.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "2afdd145449f1c19c78d87e5aff2b5b24d51f796c2a4588951f097e99ce9fb24",
+      "identity": [
+        null,
+        "cathedral of flesh narthex",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "cathedral of flesh narthex",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in EoC 'eoc_hunvre_blackout'",
+      "flags": [],
+      "id": "2b1ad13c1f92ecd955c20cf871280b2a72c54de942fe049da62c56dcf8437991",
+      "identity": [
+        null,
+        "<color_light_blue>*ding* \"Attention, residents of the local sector: Power grid FAILURE imminent, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/effects_on_condition/ship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power grid FAILURE imminent, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "2b2a4bdeb510de2f47a4126edf4c236e27db1a59cfcc1713324021d1158e812c",
+      "identity": [
+        null,
+        "The island speaks in your head using words you cannot translate yet already understand.  Its wishes are your commands.\nIn every future expedition, you will now be given a randomly generated mission, from which you can earn valuable warp shards.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The island speaks in your head using words you cannot translate yet already understand.  Its wishes are your commands.\nIn every future expedition, you will now be given a randomly generated mission, from which you can earn valuable warp shards.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'right rear tentacle'",
+      "flags": [],
+      "id": "2b4309acd3877df921532df680c74c81e044d30654e19df9d1b0e877baa10e04",
+      "identity": [
+        null,
+        "R RTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "R RTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "2b57636d3d33d10c29495a4bdbbc19b147fba01ae9bf788a61f0a14e3b238b18",
+      "identity": [
+        null,
+        "Now that's a story.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by a novice Exodii, themselves.  That'd be the one you were trapped in, I believe.  So, I guess we're related, by circumstance, at least.  You're welcome here, and I'll remember and tell your story.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Now that's a story.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by a novice Exodii, themselves.  That'd be the one you were trapped in, I believe.  So, I guess we're related, by circumstance, at least.  You're welcome here, and I'll remember and tell your story.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of enchantment 'Active XM-ARM'",
+      "flags": [],
+      "id": "2b6ce4a3d08df4da08e3fbb9c0e2dccf22e589666e1d8257b50acbce0b15ca6a",
+      "identity": [
+        null,
+        "Your active wearable arm cybernetics are improving your weapon handling and throwing ability.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/enchantments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your active wearable arm cybernetics are improving your weapon handling and throwing ability.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2b70dec559299f01e604a11d6909a4a713c449848acb774e8b67126d3dfc3588",
+      "identity": [
+        null,
+        "No available part can be installed in the selected rectangle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1412"
+        ]
+      ],
+      "plural": null,
+      "singular": "No available part can be installed in the selected rectangle.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

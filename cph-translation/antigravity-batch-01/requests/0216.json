@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "cdee9f45d43c44e36a1ba4a451f3109b3ebe54ea69e90780913b9257eec1e970",
+      "identity": [
+        null,
+        "Why Thorazine?  It will dull your edge.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why Thorazine?  It will dull your edge.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cdf95aacfd5a3fe56521a9861ffa731a56ae4ca5f9f780a1a917b5e8d06d86a3",
+      "identity": [
+        null,
+        "Exactly.  This is some talking fit for my beloved jaryi.  What do you think?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exactly.  This is some talking fit for my beloved jaryi.  What do you think?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Pickling Cucumber Seedling'",
+      "flags": [],
+      "id": "ce034e9dda327a9ea8f8d991eb7d91dbfe5f246fe996f72137dc2fcdac879167",
+      "identity": [
+        null,
+        "A young pickling cucumber seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young pickling cucumber seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ce069575f40dc090e214a09c57bc461f7eed5021a0965d736e04abb4aa29f2b4",
+      "identity": [
+        null,
+        "&You input the access codes from the SHADOW URGE document you found and are greeted with a long text string that, from your quick skim, promises dire punishments as well as termination of employment for anyone who attempts to use the SHADOW URGE device without properly-approved experiment protocol beforehand.  Fortunately, all the HR departments are now shambling around on the surface, so you skip past it.  Following the instructions on the documents, you skip through a few menus, input at least two more access codes, and eventually arrive at what can only be the main menu.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You input the access codes from the SHADOW URGE document you found and are greeted with a long text string that, from your quick skim, promises dire punishments as well as termination of employment for anyone who attempts to use the SHADOW URGE device without properly-approved experiment protocol beforehand.  Fortunately, all the HR departments are now shambling around on the surface, so you skip past it.  Following the instructions on the documents, you skip through a few menus, input at least two more access codes, and eventually arrive at what can only be the main menu.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ce2adc2aae4aaaaf620601a960b6db2768ed3ae0c27892302a907d3c23449297",
+      "identity": [
+        null,
+        "Being a vampire is not great.  It's something you don't want to become.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Being a vampire is not great.  It's something you don't want to become.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "ce3dcddff3752835699100f86c0350300f89aa7bddacc8624d113e70d8ac1cd1",
+      "identity": [
+        null,
+        "Curry: Recipes From Indian Home Kitchens",
+        "copies of Curry: Recipes From Indian Home Kitchens"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Curry: Recipes From Indian Home Kitchens",
+      "singular": "Curry: Recipes From Indian Home Kitchens",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'switch' statement in 'then'\nstatement in EoC 'EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS'",
+      "flags": [],
+      "id": "ce776cfedd203e8cdf28cf11a65405c1eb202dd83741208f72c8fe5e0aa930f0",
+      "identity": [
+        null,
+        "Your legs twitch and you fall to the ground!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/speed_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your legs twitch and you fall to the ground!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'cheese_powder' step 3\n~ Recipe crafting 'protein_powder' step 2",
+      "flags": [],
+      "id": "cec7830bb687d288a9563d61400eb2bdd3af354cccd40582eb8dfd2891fd6eab",
+      "identity": [
+        null,
+        "Grind it",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Grind it",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "cec9de18765cd260db6816a70dc4529f511afe03ce5f4535187093940c82b8db",
+      "identity": [
+        null,
+        "default tail tip",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default tail tip",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Lizardfolk Hands'",
+      "flags": [],
+      "id": "cee7aad0a6f0402c266b458a7dcf12a8d92b5798fee3e0ce92c20a5c21a6549f",
+      "identity": [
+        null,
+        "Your hands are heavily webbed, causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your hands are heavily webbed, causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'electric jackhammer'",
+      "flags": [],
+      "id": "cf016e3efc40ef7959376f2325f54283510e92626bea2de719008d81715cbb57",
+      "identity": [
+        null,
+        "A construction or mining tool for breaking rock and other hard surfaces.  This model has a cord compatible with a UPS.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/workshop.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A construction or mining tool for breaking rock and other hard surfaces.  This model has a cord compatible with a UPS.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cf0406418eeb00daece9e0a62ebbaf4a3cd7900ce5094fe79660f1db3787e0a1",
+      "identity": [
+        null,
+        "Killing the renfield gang.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Killing the renfield gang.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

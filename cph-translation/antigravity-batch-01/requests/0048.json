@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '火弹术'",
+      "flags": [],
+      "id": "24a0cc5b021236fb50eed33f7ac5ac92145e464e65c916f0de7da48c5eb9a29c",
+      "identity": [
+        null,
+        "凝聚火行灵气于指端，催作一枚灼热火弹掷出，及地炸开一团烈焰，灼伤波及四周。最基础的火行攻击法术，凡引气入体者皆可习练。威力由灵气强度与火行极化决定，与境界、功法相关，而非苦练熟巧。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_attack.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "凝聚火行灵气于指端，催作一枚灼热火弹掷出，及地炸开一团烈焰，灼伤波及四周。最基础的火行攻击法术，凡引气入体者皆可习练。威力由灵气强度与火行极化决定，与境界、功法相关，而非苦练熟巧。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'six-bottle box'",
+      "flags": [],
+      "id": "24ba37c24fade7f2e8dc2d00434859e33d9126316d5e67d9ab86b575c9981106",
+      "identity": [
+        null,
+        "An open-top cardboard box, featuring a handle and six partitioned slots meant for small beverage bottles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/containers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An open-top cardboard box, featuring a handle and six partitioned slots meant for small beverage bottles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "24c4aeabe9ecdf63fed460037eaef70b7705bcbddb309bfca8ecb7cb6f0b3adb",
+      "identity": [
+        null,
+        "No vehicle here to control.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3654"
+        ]
+      ],
+      "plural": null,
+      "singular": "No vehicle here to control.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "24ce6419d7ba2681bcead41e821bc126b7549e1dcc6ec5964b67df2529f1e294",
+      "identity": [
+        null,
+        "Fancy Footwork",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fancy Footwork",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "24e40bc2f10a872719e2cf788054ae329d3f25f10dbb3c70e1b4db8a94e35583",
+      "identity": [
+        null,
+        "Edit",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/auto_pickup.cpp",
+          "294"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "319"
+        ]
+      ],
+      "plural": null,
+      "singular": "Edit",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "24f502a7550b3f4c493265201d32615e0135b6d5146e39dbbc572a51eb3d987f",
+      "identity": [
+        null,
+        "You high-five %s!",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10376"
+        ]
+      ],
+      "plural": null,
+      "singular": "You high-five %s!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Menu text for descent with 'veh_LADDER'",
+      "flags": [],
+      "id": "2505ee41074e907ed2a8a8fe2971d337ebf5b45daaaf789c83218bbe1b3ddee4",
+      "identity": [
+        null,
+        "Climb down the vehicle ladder.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/climbing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Climb down the vehicle ladder.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "251cb8f266c03bb81f4b89898030db59f5944accc6fb0560281728a50ebe436d",
+      "identity": [
+        null,
+        "low water in a deep salt basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "low water in a deep salt basin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "252717207863ba30b29771fafcfab36c2eb3f867a26c932ece7728fd0282da8f",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your ability to pick up and move beings without touching them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/esper/telekinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your ability to pick up and move beings without touching them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "2527c83b909b8c688a37acaff06db3c7ea06d916a325251103948de2e0165228",
+      "identity": [
+        null,
+        "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We finally have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We finally have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_hound_extended_speed_bonus'",
+      "flags": [],
+      "id": "25483ce889eaba8fc163efe9df0ec3c6207da718eb6621c90651c04dad8ce7ad",
+      "identity": [
+        null,
+        "Moving Oddly",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_monster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Moving Oddly",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "25566a3d362ecafed422d7be03c57b2e2825dab0c687ab60d3be9f31fe490c26",
+      "identity": [
+        null,
+        "Cyberbone Collar CBM",
+        "Cyberbone Collar CBMs"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Cyberbone Collar CBMs",
+      "singular": "Cyberbone Collar CBM",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

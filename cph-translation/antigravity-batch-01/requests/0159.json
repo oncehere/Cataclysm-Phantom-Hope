@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'crowd_crushed'",
+      "flags": [],
+      "id": "96bad74ea810782925b8ec8714968e16f111e5f1540711942052cc18868a5515",
+      "identity": [
+        null,
+        "Crowd crushed",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Crowd crushed",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "96bcdbbe2fc8db96f5365cf0970ad1547de7c14a3ddc93b3cc12af326e6bde2b",
+      "identity": [
+        null,
+        "HEW printout MROTS-S",
+        "HEW printout MROTS-Ss"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/weather_reports.json",
+          ""
+        ]
+      ],
+      "plural": "HEW printout MROTS-Ss",
+      "singular": "HEW printout MROTS-S",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'PAUSE_INFECTIONS'",
+      "flags": [],
+      "id": "96c1b2136fbae23ca902f60edbd3abd14577ae73d7d23adcdd4c1d0489d1f6a9",
+      "identity": [
+        null,
+        "Infections cannot progress to a fatal stage while you have this flag.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infections cannot progress to a fatal stage while you have this flag.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "96c3d45af2694fccda7c0e963f18d8df0c707991fec4725ad24fed35ece6b21b",
+      "identity": [
+        null,
+        "Cancel installation",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "863"
+        ],
+        [
+          "src/veh_interact.cpp",
+          "971"
+        ]
+      ],
+      "plural": null,
+      "singular": "Cancel installation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "96d4af5064f52bd9c46d319df894a1009134b1b552a7a51a1d0d897f1d56bebd",
+      "identity": [
+        null,
+        "Load solo",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6057"
+        ]
+      ],
+      "plural": null,
+      "singular": "Load solo",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "96d704fce0d20c32d8e354fc8781d64a6c685f5c8a0591d93956c652773bd89d",
+      "identity": [
+        null,
+        "It was just <freaking> chaos out there, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was that something even worse was coming.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/criminal_1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It was just <freaking> chaos out there, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was that something even worse was coming.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "96ebf940e88f8837f273f4c6a8e281379428bbb1a240ce546aadb5e32127a5f4",
+      "identity": [
+        null,
+        "[Motion to the surgical bot] Can you help me with CBM surgery?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Motion to the surgical bot] Can you help me with CBM surgery?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (sixdust)'",
+      "flags": [],
+      "id": "97139b32c4221cb00ed4d7292888b38b311c0ce086dc1d85c4d9ac863c0c6a82",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an insecticide.  \"WEAR MASK DURING BREWING!!!!!\" is written at the bottom of the recipe",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an insecticide.  \"WEAR MASK DURING BREWING!!!!!\" is written at the bottom of the recipe",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "971a93f97a5e79b34b742a50082134dff0239a455767d6cea910e3691cf2896a",
+      "identity": [
+        null,
+        "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using AltarOS.\n<color_light_green> @User > _",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using AltarOS.\n<color_light_green> @User > _",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in EoC 'EOC_RandEnc_Roadstop_Jotunn'",
+      "flags": [],
+      "id": "9724598c8aa1448776b45245dffe503767389c7fd91fb0101ac2015a1d541800",
+      "identity": [
+        null,
+        "You hear a sustained burst of gunfire somewhere in the distance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/jotunn_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You hear a sustained burst of gunfire somewhere in the distance.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "972ea78ce48b85e902fcaf1fb27cab6bb02e73eeff95e589c6298fd034649b7a",
+      "identity": [
+        null,
+        "You want freedom, not Thorazine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You want freedom, not Thorazine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of vehicle part 'portable power station'",
+      "flags": [],
+      "id": "973338f10196958f19e840e0fd06e01404799a3ccec46b59fc17af7f591b54ff",
+      "identity": [
+        null,
+        "A portable power station wired for grid use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/battery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A portable power station wired for grid use.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'radio_archive'",
+      "flags": [],
+      "id": "2d01ec11c502ea1aa9c48dfc726bf26575607a7c9aa75513b2e303055d46dde4",
+      "identity": [
+        null,
+        "Hey people, it's DJ Dustbowl again, back gon… on Dark Days Radio.  I'm sorry if I'm slurring my words today, but I've been hitting the boose real fucking hard.  It's all okay, I guess.  It's not like anyone's listenizng to this trash anyway.  Y'aulll are probably all dead.  God knnows, maybe ty'all are dead because of me as well.\n\nIn his calr.  He was sitdting in his car.  I'm so sorry.  Something had torn it open: hallf of it was missssing when I found it.  It was in better caondition than what used to be …kshssssssk.  He… it, had already reanimated, and …kshhhsk… so many tentacles.  Dear god.  Why cahn't you just let corpses rot in peace?  Why did you have to turn him into that?  It's all my fault.  I should havne never asked him to make it over.  DI burned and buried it.  I'm so focking sorry.  Stupid fucking make-believe DJ, pretending to run a radio show and getting people killled becauuse he's lonely.  I shold stay alone.  I should die alone.\n\nI unterstand now.  I understand why I heard you icn the… portal storm and why you told me to comme out.  Did you want revenge?  I'm so sorry.  I hate myself.  I fucking haatte myself.  I'm sorry, Anarchy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/radio.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hey people, it's DJ Dustbowl again, back gon… on Dark Days Radio.  I'm sorry if I'm slurring my words today, but I've been hitting the boose real fucking hard.  It's all okay, I guess.  It's not like anyone's listenizng to this trash anyway.  Y'aulll are probably all dead.  God knnows, maybe ty'all are dead because of me as well.\n\nIn his calr.  He was sitdting in his car.  I'm so sorry.  Something had torn it open: hallf of it was missssing when I found it.  It was in better caondition than what used to be …kshssssssk.  He… it, had already reanimated, and …kshhhsk… so many tentacles.  Dear god.  Why cahn't you just let corpses rot in peace?  Why did you have to turn him into that?  It's all my fault.  I should havne never asked him to make it over.  DI burned and buried it.  I'm so focking sorry.  Stupid fucking make-believe DJ, pretending to run a radio show and getting people killled becauuse he's lonely.  I shold stay alone.  I should die alone.\n\nI unterstand now.  I understand why I heard you icn the… portal storm and why you told me to comme out.  Did you want revenge?  I'm so sorry.  I hate myself.  I fucking haatte myself.  I'm sorry, Anarchy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_mild_asleep'",
+      "flags": [],
+      "id": "2d0b3f4a77e01e9fde597b827b0f06777ec2f3f1bc8d1bc493c8967863f060eb",
+      "identity": [
+        null,
+        "The skunky taste of herb lingers in your memory.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The skunky taste of herb lingers in your memory.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_winter'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "2d1f5df8fab0a1e5a0b941c67ad98e661d57d9eb97c25654bc037f12f66e1c69",
+      "identity": [
+        null,
+        "Snow forms around %1$s's hand as they gesture towards %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Snow forms around %1$s's hand as they gesture towards %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "2d33e15f79c3828d8a9d90d4f67d8edafff31756898d533d3f0a70aba18995b9",
+      "identity": [
+        null,
+        "left front tentacle base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left front tentacle base",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry black pool bottom'",
+      "flags": [],
+      "id": "2d399212af8f607ddd67165a79e52a60d3ed491161732879427b1c58d3d2a7ee",
+      "identity": [
+        null,
+        "The dark bottom of a drained black-water pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The dark bottom of a drained black-water pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "2d472e829aebe4d599cddaec6d51c8191422f22f6e460fb15259afbc49140f30",
+      "identity": [
+        null,
+        "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_reduction>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_reduction>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of proficiency 'Airship Piloting'",
+      "flags": [],
+      "id": "2d516e268a5e3dc8a39d70f52915c493433ac9e4d6d95d13b04b27ca33966f5f",
+      "identity": [
+        null,
+        "You understand how to manage the buoyancy of a lighter-than-air craft and steer it with propellers.  Slower and more forgiving than a helicopter, but the principles still take study to master.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/proficiencies/vehicles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You understand how to manage the buoyancy of a lighter-than-air craft and steer it with propellers.  Slower and more forgiving than a helicopter, but the principles still take study to master.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "2d5c5dc604eb13db8619ba18825c20c39b665af8aca164da57f8f4aff16368b4",
+      "identity": [
+        null,
+        "UICA Veteran",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "UICA Veteran",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'cargo pants'",
+      "flags": [],
+      "id": "2d613ce74d0cb01b44a0302ebdfb5aacb7da20d41ebf4c59e643a20ba087f118",
+      "identity": [
+        null,
+        "A pair of pants with additional pockets on the sides.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A pair of pants with additional pockets on the sides.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "2d63c55dc16a472ff889d0187c24af7b517cd71ee978d2fd23db5eef63640c35",
+      "identity": [
+        null,
+        "Copied %d personal zone.",
+        "Copied %d personal zones."
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2490"
+        ]
+      ],
+      "plural": "Copied %d personal zones.",
+      "singular": "Copied %d personal zone.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'swag bag'",
+      "flags": [],
+      "id": "2d887b91898681bba586879ee4a179e1a31a616522a1d7075ea59f42db656ee3",
+      "identity": [
+        null,
+        "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/storage.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Forgetful'",
+      "flags": [],
+      "id": "2d8c5f23464c2d031776281ac0d4652d5d10afbdbeec4cbed9d8581b71c40035",
+      "identity": [
+        null,
+        "You have a hard time remembering things.  Your skills will erode slightly faster than usual, it's harder for you to apply your book-learning to the real world, and you have trouble keeping your story straight when lying.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, it's harder for you to apply your book-learning to the real world, and you have trouble keeping your story straight when lying.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

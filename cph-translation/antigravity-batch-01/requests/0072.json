@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Fumbling'",
+      "flags": [],
+      "id": "3d8262bbd805fb43a86aa93283f1d4f323394bcc75f28abc3285dfdf1bccb2fd",
+      "identity": [
+        null,
+        "Your movements are unnaturally awkward.  -1 Dexterity.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your movements are unnaturally awkward.  -1 Dexterity.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_MAGICIANS_HAT'",
+      "flags": [],
+      "id": "3d91321e109e4255f591b39f02a791d8b6b33ca382334a0e50400df50ee641ac",
+      "identity": [
+        null,
+        "Got magic potential from Frosty's hat, magic_potential: <global_val:magic_potential>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/spell_learning_items/spell_learning_items_classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Got magic potential from Frosty's hat, magic_potential: <global_val:magic_potential>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message after transforming to 'xedra_chronomancer_memorized_terrain'",
+      "flags": [],
+      "id": "3d98cb0c369ae0a19d8b842943c562baacc6984ba2edc90aad17154309cce1ef",
+      "identity": [
+        null,
+        "You don't think you'll forget this spot.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/chronomancer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't think you'll forget this spot.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3db0b4e4943d59c3e1c84ba797d11a3590130f7263f428356854939293cfda76",
+      "identity": [
+        null,
+        "What difficulty modifier would you prefer?  Current modifier: <global_val:diffulty_modifier>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Defense_Mode/dialogue/menu_screen.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What difficulty modifier would you prefer?  Current modifier: <global_val:diffulty_modifier>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in false effect in EoC\n'EOC_LS_earth_jaunt_extraction'",
+      "flags": [],
+      "id": "3ddb86035d23a63650a08ba253ae6aaafe9f1421b2fa6f0591dea9670f908bde",
+      "identity": [
+        null,
+        "You suddenly feel a sharp pinch in the nape of your neck.  Your voice has returned and you once again feel at home.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/labyrinth_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You suddenly feel a sharp pinch in the nape of your neck.  Your voice has returned and you once again feel at home.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'peaches in syrup'",
+      "flags": [],
+      "id": "3e123bfecd03f86420ed2eda13b0cd708af279ff09935d2c7de7dafc2ddc8f7f",
+      "identity": [
+        null,
+        "Yellow cling peach slices packed in light syrup.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/fruit_dishes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yellow cling peach slices packed in light syrup.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected Serum Crash'",
+      "flags": [],
+      "id": "3e16a0538657e9448e6c1a7f567fdb958a98be8625665c1242c3de76b5b41921",
+      "identity": [
+        null,
+        "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/speed_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'missing_adult'\n~ Please replace the fictitious phone number with one of your local\nequivalent when translating",
+      "flags": [],
+      "id": "3e3f6f1f043ede4d70060689422dbcbd6994921ed079eedf0f02be1320e1bd6f",
+      "identity": [
+        null,
+        "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)555-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)555-4957",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/missing_posters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)555-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)555-4957",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "3e3fdfc0969c3018e44023ebe7ac88d3aeddb1261992b550b24a678499ecfef7",
+      "identity": [
+        null,
+        "EAS_apr_25,_15.57.mp3\n\nThe file begins with complete silence, but then, a tired voice breaks the stillness:\n\n\"My name is Clayton Gore, I am the head of [unintelligible].\n\nI'm sorry, I WAS the head of [unintelligible].\n\nI am speaking to you using the remains of the Emergency Alert System, with everything we have left here.\n\nThis is the final message.\n\n\nThe government has fallen.\n\nThere is nothing left.\n\n\nNo help is coming.  Use your weapons, clubs, fists and teeth to survive this hard time.\n\nNo one will arrest you.\n\nNo one will help you.\n\n\nYou're on your own.\n\n\n\nEnd of transmission.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "EAS_apr_25,_15.57.mp3\n\nThe file begins with complete silence, but then, a tired voice breaks the stillness:\n\n\"My name is Clayton Gore, I am the head of [unintelligible].\n\nI'm sorry, I WAS the head of [unintelligible].\n\nI am speaking to you using the remains of the Emergency Alert System, with everything we have left here.\n\nThis is the final message.\n\n\nThe government has fallen.\n\nThere is nothing left.\n\n\nNo help is coming.  Use your weapons, clubs, fists and teeth to survive this hard time.\n\nNo one will arrest you.\n\nNo one will help you.\n\n\nYou're on your own.\n\n\n\nEnd of transmission.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "3e82ed66cbac286ad07b971a7fc8a8630941af2f8bee9bf80ee63f2d3be2df85",
+      "identity": [
+        null,
+        "Steal This Book",
+        "copies of Steal This Book"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Steal This Book",
+      "singular": "Steal This Book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speed description of monsters",
+      "flags": [],
+      "id": "3e88b25ad8df1b2811572e0072815411166aef621f65f68b9c3f7ac22dc3a6ec",
+      "identity": [
+        null,
+        "<color_yellow>It is a bit faster than you.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/speed_descriptions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_yellow>It is a bit faster than you.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "3ea1f140c44b6c6b73dc9fdfbf5301d40b472342e03522a71a4719c93087c6b2",
+      "identity": [
+        null,
+        "Yes, of course.  I'll go back to the shop.  Find me if you reconsider.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yes, of course.  I'll go back to the shop.  Find me if you reconsider.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

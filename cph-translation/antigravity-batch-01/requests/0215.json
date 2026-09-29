@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'socks'",
+      "flags": [],
+      "id": "cce0bee2f63f23f4660e5dffdbe66bace9c17d6926b77018c1a978859225f66a",
+      "identity": [
+        null,
+        "Socks reaching above the ankle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Socks reaching above the ankle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cce8ccb6636a88d0700f51b7e33988801d305c166315f1192752861730214169",
+      "identity": [
+        null,
+        "&The garishly-dressed hunter greets you with a surprised glance, but ultimately, a sly smile and a haughty accent.  An Exodii rifle is resting against the table.  \"You, yes you.  I've heard of you.  I'm a collector, you see, and well, I am told we've developed a rather practical appetite for, let us say, mechanical delights.  So, I've taken the liberty of collecting and cleaning a few choice specimens.  Do have a look.  These are the finest cuts of alien machinery you're likely to find this side of oblivion.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/BAR_ENCOUNTER_MERCENARIES/BEM_exodii_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The garishly-dressed hunter greets you with a surprised glance, but ultimately, a sly smile and a haughty accent.  An Exodii rifle is resting against the table.  \"You, yes you.  I've heard of you.  I'm a collector, you see, and well, I am told we've developed a rather practical appetite for, let us say, mechanical delights.  So, I've taken the liberty of collecting and cleaning a few choice specimens.  Do have a look.  These are the finest cuts of alien machinery you're likely to find this side of oblivion.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Combat Tempo I'",
+      "flags": [],
+      "id": "cd03c9e5689f95f84e0ee1bfc10ffb140283a8a025d54d25d489c2f5182872cb",
+      "identity": [
+        null,
+        "Perfect.  Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Perk_melee/PERKS/tempo.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Perfect.  Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cd0503038ee7d270df3a8720da911054ef7877c6bdefb78c59b746920578ca2a",
+      "identity": [
+        null,
+        "Disconnect this appliance from its power grid before removing it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "484"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disconnect this appliance from its power grid before removing it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "cd3639650436ab7b06a3efd6531a9d0b824e1a0610c15b61fe4fe986824e06de",
+      "identity": [
+        null,
+        "left eyestalk",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left eyestalk",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cd834c3c0c0eb3628ab9b40388c444c64a0eec8c858895ecb1b65794e717eb8c",
+      "identity": [
+        null,
+        "If you survive, we can give you twenty-odd days to pay us back.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you survive, we can give you twenty-odd days to pay us back.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "cda58db0bb0bab347a1c7c838a2f5671e5bab299217c6946e533770fa5efe8de",
+      "identity": [
+        null,
+        "摄血息",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "摄血息",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'nomad utility belt'",
+      "flags": [],
+      "id": "cdc648a7d5c7c10b3abaa3073afc8fa6e8cf0ef8dc89e7393e83ed79e8fa4c6b",
+      "identity": [
+        null,
+        "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/bespoke_armor/utility.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Melon Seedling'",
+      "flags": [],
+      "id": "cdceb84c4f45b6255a85701b1021dae69c896e8849313ccccc62ed860909ea21",
+      "identity": [
+        null,
+        "A young melon seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young melon seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cdd5ede372b6d9fb15f15e62e7e25882029d18a3932ce7ab7e5be3e3c63f56e8",
+      "identity": [
+        null,
+        "I have plenty of leather and bone to sell and I can give you some jerky if you want.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have plenty of leather and bone to sell and I can give you some jerky if you want.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'On Fire'",
+      "flags": [],
+      "id": "cde2364bda86ed2ec102dc696feeb1880b4e2d15fac2c4e9879b88dc7bac1fd1",
+      "identity": [
+        null,
+        "YOU ARE ON FIRE!\n\n+5 fire damage.\nLasts 5 turns.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "YOU ARE ON FIRE!\n\n+5 fire damage.\nLasts 5 turns.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cdead65f8de494b52067e8c23b9b7747cded4a92edca8e2f7a0195da11ad79e6",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_artifact_resonance_exploitation>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_artifact_resonance_exploitation>]",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

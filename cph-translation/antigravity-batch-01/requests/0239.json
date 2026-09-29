@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'tall mound of degraded nurdle'",
+      "flags": [],
+      "id": "e3aa238e4f521332e89dd9429e3ac73a17246734d6ae2b3854d6219cfba5ae3d",
+      "identity": [
+        null,
+        "An area of degraded nurdle heaped well above your head, difficult to climb over.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of degraded nurdle heaped well above your head, difficult to climb over.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e3e29d37e4dc03d69952f60ec2af9f83612df3b887efb3082937ec7b631c0654",
+      "identity": [
+        null,
+        "Can you tell me a bit more about how Cyberframes work?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Can you tell me a bit more about how Cyberframes work?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "e40841d2f2e9ab208bdf6df1066abea29b08602d1543a9652bc49c6a3eff3d7e",
+      "identity": [
+        null,
+        "Bionic Right Leg (Cyberframe 1b)",
+        "Bionic Right Legs (Cyberframe 1b)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Right Legs (Cyberframe 1b)",
+      "singular": "Bionic Right Leg (Cyberframe 1b)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'crystallized_mana' step 1",
+      "flags": [],
+      "id": "e43f442481c34cda6d18500c2ca1015c582159265e402c4066329c8e67ee5be1",
+      "identity": [
+        null,
+        "Calcinate the mana",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Calcinate the mana",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "e458582877a2ab43f607834799999d1fd1a21097a60c5d8acd18395f145c271f",
+      "identity": [
+        null,
+        "Gazing into a canvas of darkness, this tape seems to have originated from a highway speed camera.  Utterly deserted, the thoroughfare stretches from one end of the choppy frame to the other, the audio devoid of any sound save for the death-rattle rasp of the wind.  Presently, footfalls and exhausted breathing join the soundscape as two men stagger upon the scene, one hunched and bearing the blood-soaked profile of the other.\n\nClad in the remains of riot gear, the starlight glistening over the red wells of bullet holes flowering across his back, the limply carried officer is clearly dead.  His bearer, a slighter man with bloodshot, vacant eyes, stumbles as he walks, his quivering lips moving as he maintains a hoarsely-whispered, one-sided dialogue.  \"Don't worry, Kev,\" he wheezes.  \"Carlhaven's just a couple miles up ahead.  I'm sure we'll find someone there who can help you, and after you're better, we can go to my place on the lake and wait for all this to die down.  I'll get us there, I promise.  You just need to talk to me.  Please.  Tell me something.\"\n\nCatching his foot in a pothole, the man staggers to the concrete, the corpse sprawling atop him as he lies face down.  \"I'm going to get us there.  I promise.  I promise.  I just want you to wake up.  Please, Kev.  I've got to get us there.\"\n\nAs the man wretchedly whimpers, various figures begin to shamble up from the same direction he came from.  Futilely trying to rise, the man only succeeds in rolling himself into a sitting position as his crying grows harder.  \"Please Kev… please.  I don't want to die alone,\" he bawls.  \"Please, wake up and don't let me die alone.\"\n\nAs the first zombie stumbles to within a few meters of the man, his sobs grow quiet as he makes eye contact with the inhuman monster ushering in his destruction.  Closing his eyes, he pulls the policeman's corpse into a tight hug and lowers his head, planting a tender kiss on the dead man's lips.  The embrace never breaks, even as the zombies descend upon him.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gazing into a canvas of darkness, this tape seems to have originated from a highway speed camera.  Utterly deserted, the thoroughfare stretches from one end of the choppy frame to the other, the audio devoid of any sound save for the death-rattle rasp of the wind.  Presently, footfalls and exhausted breathing join the soundscape as two men stagger upon the scene, one hunched and bearing the blood-soaked profile of the other.\n\nClad in the remains of riot gear, the starlight glistening over the red wells of bullet holes flowering across his back, the limply carried officer is clearly dead.  His bearer, a slighter man with bloodshot, vacant eyes, stumbles as he walks, his quivering lips moving as he maintains a hoarsely-whispered, one-sided dialogue.  \"Don't worry, Kev,\" he wheezes.  \"Carlhaven's just a couple miles up ahead.  I'm sure we'll find someone there who can help you, and after you're better, we can go to my place on the lake and wait for all this to die down.  I'll get us there, I promise.  You just need to talk to me.  Please.  Tell me something.\"\n\nCatching his foot in a pothole, the man staggers to the concrete, the corpse sprawling atop him as he lies face down.  \"I'm going to get us there.  I promise.  I promise.  I just want you to wake up.  Please, Kev.  I've got to get us there.\"\n\nAs the man wretchedly whimpers, various figures begin to shamble up from the same direction he came from.  Futilely trying to rise, the man only succeeds in rolling himself into a sitting position as his crying grows harder.  \"Please Kev… please.  I don't want to die alone,\" he bawls.  \"Please, wake up and don't let me die alone.\"\n\nAs the first zombie stumbles to within a few meters of the man, his sobs grow quiet as he makes eye contact with the inhuman monster ushering in his destruction.  Closing his eyes, he pulls the policeman's corpse into a tight hug and lowers his head, planting a tender kiss on the dead man's lips.  The embrace never breaks, even as the zombies descend upon him.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e45d5c9e58d9d99fef53116ada04581ba857858e5e42676dfb8e55a216e26d73",
+      "identity": [
+        null,
+        "All patched up.  Your current wounds will heal up nicely now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "All patched up.  Your current wounds will heal up nicely now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle part name",
+      "flags": [],
+      "id": "e46323024eae2f74ab96a46b90a0ff272708b72a36372659062690dd453efdfc",
+      "identity": [
+        null,
+        "mounted ballista",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/ballista_turret.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mounted ballista",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'long socks'",
+      "flags": [],
+      "id": "e47c112f40a4c7de843d601769d2dca1366bfa6376b0a6a779d360f9b02dc84e",
+      "identity": [
+        null,
+        "Socks reaching the middle of the calves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Socks reaching the middle of the calves.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'shallow black water'",
+      "flags": [],
+      "id": "e498e9aebf11bc75d3b04350b1a9f37f8fd006852c98ec9c4f72d6f436fd3407",
+      "identity": [
+        null,
+        "Only a shallow layer remains in this pool of salty black water.  Gentle ripples make vaguely musical sounds.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/terrain_labyrinth_flooded.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only a shallow layer remains in this pool of salty black water.  Gentle ripples make vaguely musical sounds.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of vehicle part location",
+      "flags": [],
+      "id": "e4a2f40fd66c65db7b7aec589428adb1418379f274339af2221fa1dde2ce7c6c",
+      "identity": [
+        null,
+        "Damping",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicle_part_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Damping",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e4aaaf8710943f2ac3411583fb9b0be42135c13e54f7bc19e627814dc85cfe0f",
+      "identity": [
+        null,
+        "These parts cannot all be installed together as one order.  Choose a smaller area or a different part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1126"
+        ]
+      ],
+      "plural": null,
+      "singular": "These parts cannot all be installed together as one order.  Choose a smaller area or a different part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e4ca8fa391191549b38bf794f136eaf32ed6cbab27c5c2785132ee59300556a2",
+      "identity": [
+        null,
+        "[30m] Could you patch me up?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[30m] Could you patch me up?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

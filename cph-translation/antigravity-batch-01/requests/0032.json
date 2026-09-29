@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ 'description' action message of item 'fragment of reality'",
+      "flags": [],
+      "id": "15af1e6c3bcaf901aad8e8c00831c35621e5028b5042b1ded85b4e05485ef040",
+      "identity": [
+        null,
+        "Return.  Return.  Return.  Return.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Return.  Return.  Return.  Return.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'ælfadl'",
+      "flags": [],
+      "id": "15b153cad569db3c70127b1eac648015aee81ba39e35bb78ef3961693f1ea7aa",
+      "identity": [
+        null,
+        "The world was much more beautiful when you were closer to the Underhill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The world was much more beautiful when you were closer to the Underhill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "15bacfba25cce67165df6b2a8ec0d5c3c56b282e20730af6bc78c2d800a33ea6",
+      "identity": [
+        null,
+        "rear tentacle tips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "rear tentacle tips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "15c4f18dfdd4e887ea22c4d9e0c58406534be977534628ef23f804c9bbc9428e",
+      "identity": [
+        null,
+        "Anti-Capitalist Mentality",
+        "copies of Anti-Capitalist Mentality"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Anti-Capitalist Mentality",
+      "singular": "Anti-Capitalist Mentality",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "15d55722520cf05d06587fb89353322e60b2c35779441f839ce35dd53a95c8d4",
+      "identity": [
+        null,
+        "&LOGIN FAILED\n\nLogin:\n\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_MSU14.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&LOGIN FAILED\n\nLogin:\n\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of enchantment 'Active XM-BACK'",
+      "flags": [],
+      "id": "15d9b7c5c3f68a81158bd4ce42c1aedbe4f6726739290d595c4608cf126ef399",
+      "identity": [
+        null,
+        "Your active wearable torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/enchantments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your active wearable torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "15ecf01057c25b2894e2977d9146d310e2026e3159e8cae927160133953720ba",
+      "identity": [
+        null,
+        "You need to dig next to a water source or a channel that is connected to one.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/construction.cpp",
+          "1590"
+        ]
+      ],
+      "plural": null,
+      "singular": "You need to dig next to a water source or a channel that is connected to one.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'INFECTION_RECOVERY'",
+      "flags": [],
+      "id": "15efcec761692d00b612004a594294aacce476ee1e6c2268e70b33c2cad1a294",
+      "identity": [
+        null,
+        "You have greater odds to recover from infections (equivalent to taking antibiotics)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have greater odds to recover from infections (equivalent to taking antibiotics)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "15f6ce193885e15f6edb7c2a1a960e7152cd6901947f65d682443921e808d6f4",
+      "identity": [
+        null,
+        "What's your role here?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What's your role here?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'missing_dog'\n~ Please replace the fictitious phone number with one of your local\nequivalent when translating",
+      "flags": [],
+      "id": "1650091052ed1a7dfb453609d44574fc443d0b8449602c5d56af36bd45d66ca3",
+      "identity": [
+        null,
+        "LOST PET:\nBruno the Bulldog\n\n[Photograph: an English bulldog in spiked collars and a camo vest.]\n\nDO NOT APPROACH OR TRY TO CAPTURE, BRUNO CAN BE AGGRESSIVE TO STRANGERS AND UNFAMILIAR DOGS\n\nIF YOU SEE HIM, CALL 413-555-8476 AT ANY TIME\nLAST SEEN IN NELSON ST, WARREN ON MAY 4\n\n$$$ SUBSTANTIAL REWARD $$$",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/missing_posters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "LOST PET:\nBruno the Bulldog\n\n[Photograph: an English bulldog in spiked collars and a camo vest.]\n\nDO NOT APPROACH OR TRY TO CAPTURE, BRUNO CAN BE AGGRESSIVE TO STRANGERS AND UNFAMILIAR DOGS\n\nIF YOU SEE HIM, CALL 413-555-8476 AT ANY TIME\nLAST SEEN IN NELSON ST, WARREN ON MAY 4\n\n$$$ SUBSTANTIAL REWARD $$$",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "16518231c9e731039cc9631837fcad6ac54e911c484d1be90096be3da70a4567",
+      "identity": [
+        null,
+        "auropacter",
+        "auropacters"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/aliens.json",
+          ""
+        ]
+      ],
+      "plural": "auropacters",
+      "singular": "auropacter",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "166ceb8b744044c6102b7d2aff0dd4d86d3163ba932cfcf030117d82b47bfa64",
+      "identity": [
+        null,
+        "ancient tomb depths",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ancient tomb depths",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Compound Eyes'",
+      "flags": [],
+      "id": "73940972867ef815f186c3b15fd9c2c95854829f821eb7414673c28eb479437a",
+      "identity": [
+        null,
+        "Your eyes are compound, like those of an insect.  This increases your reaction time, but your fine detailed vision isn't as acute.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your eyes are compound, like those of an insect.  This increases your reaction time, but your fine detailed vision isn't as acute.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Reason for a shopkeeper blacklist entry",
+      "flags": [],
+      "id": "73a82fa82d4bd514f56ac41531898ed4c0c31f4b847c8c71ed87968f489415a6",
+      "identity": [
+        null,
+        "Will not accept currency",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_definitions.json",
+          ""
+        ],
+        [
+          "data/json/npcs/exodii/exodii_weaponmaster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Will not accept currency",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of martial technique 'Punch'",
+      "flags": [],
+      "id": "73bbb150ee242b33160b1612fe38d37df400e7d61338de7b3a17f7a6b082bc8b",
+      "identity": [
+        null,
+        "A basic gooey punch",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutation_techs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A basic gooey punch",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "73e60092fdf6b2aa1e409caca83044b44d07bfde77e56305869c924966e5f6fe",
+      "identity": [
+        null,
+        "Tell me about the songs again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Tell me about the songs again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Shocker'",
+      "flags": [],
+      "id": "742e4709e10e68d58cf91a8679569eaa2083f369e87cf625b4d478e569d2eca7",
+      "identity": [
+        null,
+        "Your body emits enough energy to power some small city.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/XAEA.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body emits enough energy to power some small city.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7442102274503d571b5c1ce4b08aa350db996d4e7559561fd758188455a888fb",
+      "identity": [
+        null,
+        "They were close to our base, yet they did not attack it.  They were either on another mission or awaiting reinforcements before their attack.  I hope it's the former, for this base is why we did not had to risk our lives in the cities for food.  If they force us to choose between facing a raid or becoming nomads, we might never recover from it.  For now, we're alive and well thanks in no small part to you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They were close to our base, yet they did not attack it.  They were either on another mission or awaiting reinforcements before their attack.  I hope it's the former, for this base is why we did not had to risk our lives in the cities for food.  If they force us to choose between facing a raid or becoming nomads, we might never recover from it.  For now, we're alive and well thanks in no small part to you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'plug'",
+      "flags": [],
+      "id": "744a2c1c1ff8a1202fe56c79c38906ad04f1c605fa4d0f443a4076bfb2425531",
+      "identity": [
+        null,
+        "One of those round things people plug into their earlobes as earrings, also called an \"ear plug\" or \"ear spool.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/jewelry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "One of those round things people plug into their earlobes as earrings, also called an \"ear plug\" or \"ear spool.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "745535c5cd380181034273e25695ff2478d763698f37af8200d43962543057ca",
+      "identity": [
+        null,
+        "Trouble and strife?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Trouble and strife?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_REFINE_VAMPIRE_WALK_ON_WALLS_LOW_GRAVITY'",
+      "flags": [],
+      "id": "745d2163b41119ab3b440a4e5001cad522988a6dc77be764815cb5ee5cb0d89c",
+      "identity": [
+        null,
+        "You learned Light as a Spider's Thread, a new use for your Spider's Walk Blood Art.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You learned Light as a Spider's Thread, a new use for your Spider's Walk Blood Art.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'inactive surgical bonebot'",
+      "flags": [],
+      "id": "747be5ddd7e5f47d6c4ac1aebe17189197cb55d7f82374dd3c43b4b6c9476ccf",
+      "identity": [
+        null,
+        "An inactive surgical bonebot.  Using this item involves placing it on the ground and activating it.  If reprogrammed successfully, the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.  That is, if you can figure out how to reprogram this thing in the first place.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_robots.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An inactive surgical bonebot.  Using this item involves placing it on the ground and activating it.  If reprogrammed successfully, the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.  That is, if you can figure out how to reprogram this thing in the first place.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "74bd26d2ff8c86c3d8cb414de09c7127e38cf0ff423c66ae168471998c53d98a",
+      "identity": [
+        null,
+        "right middle tentacles (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right middle tentacles (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "74e121ac82868c5b1705862c35bbdb9835871fd89341086b419ba5741cb5d89e",
+      "identity": [
+        null,
+        "The restored advanced world rules are invalid. This world cannot be loaded until the configuration is corrected.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2578"
+        ]
+      ],
+      "plural": null,
+      "singular": "The restored advanced world rules are invalid. This world cannot be loaded until the configuration is corrected.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

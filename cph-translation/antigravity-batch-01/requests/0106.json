@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ A verb expressing an ongoing action",
+      "flags": [],
+      "id": "61c56d0bd3260154a2afdf7153fb80ce5963a5172b41dd7fd613766682dd0bd4",
+      "identity": [
+        null,
+        "installing a vehicle part",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/player_activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "installing a vehicle part",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC selection title in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL'\n~ Player inventory menu title in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL'\n~ EOC selection title in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL'\n~ Player inventory menu title in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL'",
+      "flags": [],
+      "id": "6219ff970d5a405453186615bab9ae90b860479dc808b86767c047e06078fef2",
+      "identity": [
+        null,
+        "Which crystal do you enter?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Which crystal do you enter?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "621ee820de7de886a6fa066932ccb78c582e981c7a56df65f33a09687d0a6dd0",
+      "identity": [
+        null,
+        "Next upgrade cost: %d point(s)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3819"
+        ]
+      ],
+      "plural": null,
+      "singular": "Next upgrade cost: %d point(s)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "6222f9f66f6f3ab528e11e10808d7431dc9a8909289d7bae30248ec3bea4e95f",
+      "identity": [
+        null,
+        "You place your hand on the stone.  There is a pinch, then a wet, mechanical hiss, as something draws a lot of blood.  The terminal immediately displays a topological map of the surrounding labyrinthian structures.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You place your hand on the stone.  There is a pinch, then a wet, mechanical hiss, as something draws a lot of blood.  The terminal immediately displays a topological map of the surrounding labyrinthian structures.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option description for 'Cancel'",
+      "flags": [],
+      "id": "62389c20ddbd55c64eb5e1a54c72fd472ad0832832edfc7125bbb986b6d46bc9",
+      "identity": [
+        null,
+        "Arrive in the boundless monotone yellow space of level 0.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/mod_interactions/backrooms/eocs/obelisk_selector.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Arrive in the boundless monotone yellow space of level 0.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "624c5c418abef489a861f221a53bb876d0aafce7b13878a8f24e651dad25b9ce",
+      "identity": [
+        null,
+        "Ignore incompatible tiles and install on the remaining tiles",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "973"
+        ]
+      ],
+      "plural": null,
+      "singular": "Ignore incompatible tiles and install on the remaining tiles",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6256ee1129b1e9f957bb6824342879c4630519f3c496338c4cc722ed0d598127",
+      "identity": [
+        null,
+        "I saw some much larger and more heavily armed and armored cyborgs .",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/rubik.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I saw some much larger and more heavily armed and armored cyborgs .",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "627a6b916aa1222a8aa909d8cd41497e98156bb3269dd6e4bc4b6b7eed41427e",
+      "identity": [
+        null,
+        "Sounds equitable to me.  Be back with that information in a jiff.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sounds equitable to me.  Be back with that information in a jiff.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of an NPC class\n~ Good social and deduction but hasn't fought for a long time.  Their\naptitude as a chief makes them not worth risking in battles.",
+      "flags": [],
+      "id": "6285d86011bd2c0ed3cc8e62563ce7d5c62b56c0950100cdb7c1cfa362b0c762",
+      "identity": [
+        null,
+        "hunters' leader",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "hunters' leader",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "628665ea388a0512a83e88c08f1dbb755d805f15ef17a12361b62e8187a7fb9f",
+      "identity": [
+        null,
+        "& User not permitted.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/exodii_labyrinth_computer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "& User not permitted.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "62b79035c528bff9a6750e0ac0dc11f871f8c7b4676b93701a3012024ff93fe6",
+      "identity": [
+        null,
+        "Bionic Left Arm (Cyberframe 1b)",
+        "Bionic Left Arms (Cyberframe 1b)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Left Arms (Cyberframe 1b)",
+      "singular": "Bionic Left Arm (Cyberframe 1b)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "62d155b3d21927c4f74796bd727a2c9a33834bbc9ff7d2075551f9883ca5a90f",
+      "identity": [
+        null,
+        "lower feet",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "lower feet",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

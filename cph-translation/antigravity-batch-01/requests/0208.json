@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_matrix_research'",
+      "flags": [],
+      "id": "c5d9b4ec1aa7f8b697676d5e83207c9f11a09f43f7cca470638d817254d2ac4c",
+      "identity": [
+        null,
+        "Dr. Richardson,\nI'm writing with some disturbing reports from recent testings.  While the increased capabilities mathematicians have been displaying are at this point well-known among staff, in the course of my research I've observed a number of previously-unseen side effects from performing mathematics.  The most common side effect seems to be headaches, though my staff have also observed several instances of spontaneous nosebleeds.  In at least one instance, a COPPER PRIME experiment with I33 involving heating metals to the melting point, a sudden temperature drop of 15°C was observed in the sealed experimental chamber.\n\nFar more disturbing, however, was an incident during ONYX LIGHTNING testing.  K92 seemingly lost control of her powers when attempting to damage a training dummy, causing severe--and under lockdown, irreplaceable--damage to several testing implements.  When asked to explain herself, she was only able to say that her powers seemed to take on a \"mind of their own.\"\n\nI am still a scientist, regardless of what is happening now.  Be assured that I will get to the bottom of this.\n\nTed Kelly\nSenior Researcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Richardson,\nI'm writing with some disturbing reports from recent testings.  While the increased capabilities mathematicians have been displaying are at this point well-known among staff, in the course of my research I've observed a number of previously-unseen side effects from performing mathematics.  The most common side effect seems to be headaches, though my staff have also observed several instances of spontaneous nosebleeds.  In at least one instance, a COPPER PRIME experiment with I33 involving heating metals to the melting point, a sudden temperature drop of 15°C was observed in the sealed experimental chamber.\n\nFar more disturbing, however, was an incident during ONYX LIGHTNING testing.  K92 seemingly lost control of her powers when attempting to damage a training dummy, causing severe--and under lockdown, irreplaceable--damage to several testing implements.  When asked to explain herself, she was only able to say that her powers seemed to take on a \"mind of their own.\"\n\nI am still a scientist, regardless of what is happening now.  Be assured that I will get to the bottom of this.\n\nTed Kelly\nSenior Researcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'corrupted data'",
+      "flags": [],
+      "id": "c5f640471a4b130489dd47a9d7d6b529db06d8b3c3abf93d07d4bd907e0feb7d",
+      "identity": [
+        null,
+        "Entropy has created a jumbled mess nearly impossible to distinguish from noise.  This is useless.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Entropy has created a jumbled mess nearly impossible to distinguish from noise.  This is useless.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c5f94cece50dc9d81be54a378befbb4cc917c27befb34b6d3be979d36be1993f",
+      "identity": [
+        null,
+        "I'm an alien robot!  But, I come in peace.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm an alien robot!  But, I come in peace.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'nomad utility belt'",
+      "flags": [],
+      "id": "c5fd0adcdcffd1cda7042ee227a9461919dcefab50e1353608f5a7a03c1cb1a3",
+      "identity": [
+        null,
+        "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/bespoke_armor/utility.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c5fd3954fd264c957a18666ee32fb9b9c3c5dd008d08dc515392240d8c7e2b55",
+      "identity": [
+        null,
+        "No eligible player vehicle is marked for service.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "948"
+        ]
+      ],
+      "plural": null,
+      "singular": "No eligible player vehicle is marked for service.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c60332a5f6dca335acecce78ae3e4fd429a424fe5969fd4e870943750cbdf42d",
+      "identity": [
+        null,
+        "What do you mean by \"essence\"?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What do you mean by \"essence\"?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant '8 60mm ammo can' of item 'heavy-duty ammo can'",
+      "flags": [],
+      "id": "c60efeeae065a1414cef164c0a7915ddf1beb68e500945b41cc0734687eefaf5",
+      "identity": [
+        null,
+        "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-418-4362 BA16\n8 CARTRIDGE, 60 MM, HE, M720A1 W/FUZE MO M734A1 FOR\nM224 MORTAR</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/military.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-418-4362 BA16\n8 CARTRIDGE, 60 MM, HE, M720A1 W/FUZE MO M734A1 FOR\nM224 MORTAR</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC 'EOC_XedraWood_RandEnc'",
+      "flags": [],
+      "id": "c61cca9f251b1165f76fcc3129deb2fd10edda21d814fc4196e66a14db37ec43",
+      "identity": [
+        null,
+        "XedraWood random encounter has not met its conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/encounters/base_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "XedraWood random encounter has not met its conditions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Find reference material about air rifles for\nJenny.'",
+      "flags": [],
+      "id": "c65a26078cf0dfce2b856c5b7ebd4f123aabb9106fa65b93782284a4754315fa",
+      "identity": [
+        null,
+        "Find reference material about air rifles.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.  She probably wants a physical copy, if I can find it. ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_refugees/NPC_Jenny_Forcette.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Find reference material about air rifles.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.  She probably wants a physical copy, if I can find it. ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Tanglevines'",
+      "flags": [],
+      "id": "c669df1109ee093d523384e859717c904a40a3fa13832aab32ecbd6e57af9910",
+      "identity": [
+        null,
+        "A patch of tanglevines is growing here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A patch of tanglevines is growing here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c6933916be66058c0c7ff9e36ae2a607d19d85e4f00ac8effd536f0c65f8fc6d",
+      "identity": [
+        null,
+        "Batch install: choose the opposite corner",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "924"
+        ]
+      ],
+      "plural": null,
+      "singular": "Batch install: choose the opposite corner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "c7108d1816305db3e05a3ed04b1c40317b1b0ee7ce4a1c97f8f8257856bc79ab",
+      "identity": [
+        null,
+        "safety mid-calf boots (pair)",
+        "safety mid-calf boots (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "safety mid-calf boots (pair)",
+      "singular": "safety mid-calf boots (pair)",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

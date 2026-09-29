@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'then' statement in EoC\n'EOC_MOM_TELEPORTING_IN_PORTAL_STORM_DUNGEON'",
+      "flags": [],
+      "id": "d32a4e74c83054ba3301973dea033d36ba5e4fa5d0b9eaa52333914d9c78eae0",
+      "identity": [
+        null,
+        "As you come out of a cold and the dark of the teleport the hair rises on the back of your neck.  You don't think that was such a good idea.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effectoncondition/eoc_nether_location_specific.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As you come out of a cold and the dark of the teleport the hair rises on the back of your neck.  You don't think that was such a good idea.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d366a6e2ea8ef17727a7f7e31f809927849e08c7fb2d24d047b4aa8e7346cd51",
+      "identity": [
+        null,
+        "Yeah, of course I'm looking at your ears, I'm pretty sure you never had pointy ears before now?  It doesn't change anything about our friendship but really did you hide this from me all these years?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yeah, of course I'm looking at your ears, I'm pretty sure you never had pointy ears before now?  It doesn't change anything about our friendship but really did you hide this from me all these years?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_THAUMATURGY_THE_WISE_STUDY'",
+      "flags": [],
+      "id": "d371c65f322ee6e0d124e645cc0816fa05f2e4c40629dcf12e03093b3f64bf1b",
+      "identity": [
+        null,
+        "spirit-quest to unlock the lesser mysteries",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "spirit-quest to unlock the lesser mysteries",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d38854d969c51df091a8e446b0b06813e4e23114139ef83357215eb994f70492",
+      "identity": [
+        null,
+        "Move down",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "732"
+        ]
+      ],
+      "plural": null,
+      "singular": "Move down",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "d38abf10967d809b9bc0da544e3167f4dfaffb1a816698ddf5fd9a01fc505b60",
+      "identity": [
+        null,
+        "Keep away from Thorazine, stay sharp.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Keep away from Thorazine, stay sharp.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d3b671efada5392bda99ae098ea34ec3d15f6bd39a1ff4fa053cc03380f5a7df",
+      "identity": [
+        null,
+        "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like an Exodii.  What's happened, exactly?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like an Exodii.  What's happened, exactly?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'dulled_senses'",
+      "flags": [],
+      "id": "d3c08dd8b4826d7ef2c6bc0a8794ce9713890960abcf97c50737e57be2233a0e",
+      "identity": [
+        null,
+        "Dulled senses",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dulled senses",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d3cac187b7e4c46501f0bc4295e5648ef08b6233f0434782f1ebbd341d7fe7be",
+      "identity": [
+        null,
+        "I'm not interested in doing that.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm not interested in doing that.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d3d4e04717e1dc62000c421754c07538757845f87a70efe339d91bed2b091e3b",
+      "identity": [
+        null,
+        "This statue offers a variety of services.  You can be instantly healed, dispel an ongoing portal storm, check your current statistics and progress, and tweak your expedition difficulty settings.\n\nHealing is free until you have survived 10 expeditions.  After this point, healing costs 4 warp shards per treatment.\n\nExpedition difficulty is set to default when you start a new game, but here you can change many finer details to suit your own playstyle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/dialog_statue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This statue offers a variety of services.  You can be instantly healed, dispel an ongoing portal storm, check your current statistics and progress, and tweak your expedition difficulty settings.\n\nHealing is free until you have survived 10 expeditions.  After this point, healing costs 4 warp shards per treatment.\n\nExpedition difficulty is set to default when you start a new game, but here you can change many finer details to suit your own playstyle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d3e4983d3eb1a6bae0bef809165d80a73fe791b28baf8a442f93831cf003b7c1",
+      "identity": [
+        null,
+        "The vehicle changed while refurbishment was underway.  %s credits you for the payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "647"
+        ]
+      ],
+      "plural": null,
+      "singular": "The vehicle changed while refurbishment was underway.  %s credits you for the payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Illiterate'",
+      "flags": [],
+      "id": "d3e57a9e78976b2386672c44b29a4aeeff32b0f999e21ebf46b8baa1219b9463",
+      "identity": [
+        null,
+        "You struggle to read and understand written language.  Books, complex instructions, and most computer interfaces are effectively off-limits without help.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You struggle to read and understand written language.  Books, complex instructions, and most computer interfaces are effectively off-limits without help.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d3e86cda8b01c5ae47fde9bccb57dd20debee32b59de49f82f48f2b406d2a457",
+      "identity": [
+        null,
+        "%s is busy and leaves you hanging.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10361"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s is busy and leaves you hanging.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

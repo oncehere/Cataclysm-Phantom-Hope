@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d872b02d53a1f21b1ddcbe454fad15b2787a9bd696733eb7430e17a2255205e6",
+      "identity": [
+        null,
+        "&The garishly-dressed hunter just stares at you, jaw slightly agape.  An Exodii rifle is resting against the table.  They quickly avoid eye contact, and seem to be ignoring you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/BAR_ENCOUNTER_MERCENARIES/BEM_exodii_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The garishly-dressed hunter just stares at you, jaw slightly agape.  An Exodii rifle is resting against the table.  They quickly avoid eye contact, and seem to be ignoring you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Miss message of effect 'Stoned, Baked, Blazed, Zooted'",
+      "flags": [],
+      "id": "d8af1f1ada189262d24fc01781fa637ecf286a9ee3b0fcb8322fa82cbadeb72f",
+      "identity": [
+        null,
+        "You're too stoned to keep up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're too stoned to keep up.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d8b7dbe1dba0867d66c27ccbe8e4c17a97149354614a786864d320ab377acca6",
+      "identity": [
+        null,
+        "Normally I would tend to the wounded and do medical research, but with our relative safety and limited free time I mostly sell medical supplies these days.  I'm also the cook because nobody else here is good at cooking.  I would be surprised if one of them prepared an edible lung confit, let alone one that tastes good.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Normally I would tend to the wounded and do medical research, but with our relative safety and limited free time I mostly sell medical supplies these days.  I'm also the cook because nobody else here is good at cooking.  I would be surprised if one of them prepared an edible lung confit, let alone one that tastes good.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d8c3b975f811cf0510325226d973c5621d59e00499e45cbfe666723cac961a04",
+      "identity": [
+        null,
+        "This one can't be saved, too much brain rotten.  But I can salvage bits from them or repurpose them into a walker, or just cut out the rot and neural interface so you can bury them proper.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one can't be saved, too much brain rotten.  But I can salvage bits from them or repurpose them into a walker, or just cut out the rot and neural interface so you can bury them proper.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d8c9439c8cf6a441bb57aba02c283266e51a18330f38b4365e9338ad4a9fcbaa",
+      "identity": [
+        null,
+        "Net cost: 0 points",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "3675"
+        ]
+      ],
+      "plural": null,
+      "singular": "Net cost: 0 points",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d8f5efe9954999b96e6a22175239b144c60508f0cd71185a16389ad8439c4ebc",
+      "identity": [
+        null,
+        "&Rubik stares at Venn, and after a long silence, they offer each other a stiff bow.  Rubik places a hand upon your shoulder.  It's a familiar, warm gesture.  A stark juxtaposition to the chill of their metal hand.  You lay back upon the table, and you hear a mechanical whirr as the spider-like surgical robot starts to greedily tap away at your extremities.  You barely have a moment to consider your actions before it all goes black…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik stares at Venn, and after a long silence, they offer each other a stiff bow.  Rubik places a hand upon your shoulder.  It's a familiar, warm gesture.  A stark juxtaposition to the chill of their metal hand.  You lay back upon the table, and you hear a mechanical whirr as the spider-like surgical robot starts to greedily tap away at your extremities.  You barely have a moment to consider your actions before it all goes black…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'then' statement in EoC\n'EOC_MOM_TELEPORTING_PHASING_IN_PORTAL_STORM_DUNGEON'",
+      "flags": [],
+      "id": "d91be62633a822b30e3aaba341a09cd432695d7c6acd69e28e080a4594ec325a",
+      "identity": [
+        null,
+        "As you appear on the other side of the barrier the hair rises on the back of your neck.  You don't think that was such a good idea.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effectoncondition/eoc_nether_location_specific.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As you appear on the other side of the barrier the hair rises on the back of your neck.  You don't think that was such a good idea.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "d982791aab6866e3bd20eab17f731157d8eb6a1b02ee31a8ea6ea83dfbcae975",
+      "identity": [
+        null,
+        "scarlet sea",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_reverberations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "scarlet sea",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Earthen Grave'",
+      "flags": [],
+      "id": "d986a764d8609f8d94c80ff698995f2e18969599ca4a332ec2dd1419b07b35c7",
+      "identity": [
+        null,
+        "Part the earth to create pits for your foes to fall into.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/vampire_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Part the earth to create pits for your foes to fall into.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d98b2564e59055cdf0609979880623e97619f0dd3c1dc9f0fe96693f72a09cae",
+      "identity": [
+        null,
+        "%zu saved character",
+        "%zu saved characters"
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1349"
+        ]
+      ],
+      "plural": "%zu saved characters",
+      "singular": "%zu saved character",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d9944bcb2171553ca3a58fd0fd0959d94a87496aa8fd0423fa68c0ba507a59d7",
+      "identity": [
+        null,
+        "Partner",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "730"
+        ]
+      ],
+      "plural": null,
+      "singular": "Partner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "d997769b0eb6a5245f8128a90d88aa1de41ed84261fb63fb12f7039d1bca455c",
+      "identity": [
+        null,
+        "Magic Trick",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Magic Trick",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

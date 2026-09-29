@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f527e39a0719051de34d80999351f4b88ca26d230d93c3a8e3e6eabbef5a1978",
+      "identity": [
+        null,
+        "&<color_light_green> @User > map get --update\n<color_light_green> Error: Insufficient confidence.  Blood tax requested.\n\n</color>A drawer on the side of the terminal slides open, revealing a a bloodstained stone with the outline of a human hand.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > map get --update\n<color_light_green> Error: Insufficient confidence.  Blood tax requested.\n\n</color>A drawer on the side of the terminal slides open, revealing a a bloodstained stone with the outline of a human hand.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC\n'EOC_quietfarm_nearby_popup_welcome_message'",
+      "flags": [],
+      "id": "f53cf75b6780b082572f8d751c6396a4b5368985380764d34e1d3eb254115524",
+      "identity": [
+        null,
+        "You arrive at the farmhouse, after what feels like an eternity.  Despite the peaceful surroundings, your sense of danger only grows.  Something is very wrong here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effectoncondition/eoc_premonition_instances.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You arrive at the farmhouse, after what feels like an eternity.  Despite the peaceful surroundings, your sense of danger only grows.  Something is very wrong here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "f55011fe25de90aed1e0097b4867d82e939235cf8af32075ffad6f835bcfdf3a",
+      "identity": [
+        null,
+        "A statue of a man sitting near the fire ring.  One hand is braced against the ground and the other is extended and curled, as though it held a stick or a rod of some kind.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a man sitting near the fire ring.  One hand is braced against the ground and the other is extended and curled, as though it held a stick or a rod of some kind.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "f564f6d4771940c59f22418e85a58df772a58bfe87db3a714ff1367355d28ab9",
+      "identity": [
+        null,
+        "broken Regulator",
+        "broken Regulators"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": "broken Regulators",
+      "singular": "broken Regulator",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in result of recipe crafting\n'EOC_STUDY_OCCULT_RESEARCH_NOTES'",
+      "flags": [],
+      "id": "f565a1126c519103e471043d083f8886d5645e6857d08b258a7882df7d181550",
+      "identity": [
+        null,
+        "You were right, there is something here!  If you compiled a reference for all your notes, you'd have the foundation for a greater exploration of the Unseen World.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/occult_knowledge.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You were right, there is something here!  If you compiled a reference for all your notes, you'd have the foundation for a greater exploration of the Unseen World.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Computer Gaming'",
+      "flags": [],
+      "id": "f596ef21a1a1f3c89541443e32d3ee08fe9cbb050a7a62e3594f39aa1a46173d",
+      "identity": [
+        null,
+        "Reviews of recently released computer games and previews of upcoming titles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Reviews of recently released computer games and previews of upcoming titles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f598fe3cccfcb8354ae4e619f847de0f02d3663895946895a054223d084fe6d4",
+      "identity": [
+        null,
+        "<swear!>  You're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Backgrounds/scavenger_merc_1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<swear!>  You're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f5a7389569070d4aa02f90bc3579a3c1a4b85e75c4286f89768cc04fd1bbbaa7",
+      "identity": [
+        null,
+        "Much better, thank you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Much better, thank you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'cigarette butt'",
+      "flags": [],
+      "id": "f5c2dec834114790c10000944a4cc1c8832e38d8717275ab0e218d4c215e8484",
+      "identity": [
+        null,
+        "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Bean Seedling'",
+      "flags": [],
+      "id": "f5cce444f5db76a556f88ee8854da1428cbab0f031208de22c234d5328af9cb9",
+      "identity": [
+        null,
+        "A young bean seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young bean seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f5d306286ef754801dce6717d88063cd2714e8b8014b7d502b231f5b308c217e",
+      "identity": [
+        null,
+        "Reload Lua Mod scripts",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/debug_menu.cpp",
+          "1039"
+        ],
+        [
+          "src/debug_menu.cpp",
+          "4998"
+        ]
+      ],
+      "plural": null,
+      "singular": "Reload Lua Mod scripts",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry water channel'",
+      "flags": [],
+      "id": "f5e9d325f0906705ddf3a4ad2756d4be3448575a2cb3cdd1653b3a0d2cf54f15",
+      "identity": [
+        null,
+        "A hand-dug channel with no water in it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hand-dug channel with no water in it.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

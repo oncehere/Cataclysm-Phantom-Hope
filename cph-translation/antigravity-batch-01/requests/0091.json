@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "5031594e2d6b77ba2a6196b38f788ba993a192cb2061392663cef5f2fe01cc48",
+      "identity": [
+        null,
+        "short mound of degraded nurdle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "short mound of degraded nurdle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "508219dd9aceefba1b4914c9098f3141dcf6261d5dc5f615527b85f54a324b2c",
+      "identity": [
+        null,
+        "+",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "516"
+        ]
+      ],
+      "plural": null,
+      "singular": "+",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "5091f01ea7eb467ca71814d1c62a3f3ac462d6663f9b0cf630f01d26ef973aab",
+      "identity": [
+        null,
+        "skunk tail",
+        "skunk tails"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": "skunk tails",
+      "singular": "skunk tail",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "50ba0b6d3f39342a7f1f1fc2ddf9fb343dcd033f615ee5ca1b7d96ced1ba55c7",
+      "identity": [
+        null,
+        "&Rubik explains they are primarily looking for plastics, metals, and media.  Rubik and Smokes start to talk about the nature of the trade.  Guaranteed shipments?  First right of refusal?  What about prices for bulk goods?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik explains they are primarily looking for plastics, metals, and media.  Rubik and Smokes start to talk about the nature of the trade.  Guaranteed shipments?  First right of refusal?  What about prices for bulk goods?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Field intensity level",
+      "flags": [],
+      "id": "50bac37cfbd88bd77e5b434d090c2449b4a00b685bf20c1f1a39ce1a021697e6",
+      "identity": [
+        null,
+        "breaking wave",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "breaking wave",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_psych'\n~ Long-form session logs and reports, uses EOC popup",
+      "flags": [],
+      "id": "50dfe0e4394cc4a27d65f04fddb205a50e6ae84f9273c8b2a5f4e27bed9f59b9",
+      "identity": [
+        null,
+        "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what you're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what you're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'bloodthorne_druid_vampire_report'",
+      "flags": [],
+      "id": "50e066aa1ac46f0a7edd8e4aecbbde14158f3d3df0a9eb08b22306381278f85b",
+      "identity": [
+        null,
+        "Summary (cont): In conclusion we appear to have stumbled upon some kind of factional war between the blood drinkers and the possessors of these symbiotic vines.  Is this a turf squabble between two local groups or is this something larger?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/xedra.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Summary (cont): In conclusion we appear to have stumbled upon some kind of factional war between the blood drinkers and the possessors of these symbiotic vines.  Is this a turf squabble between two local groups or is this something larger?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5112997be90511317207d7e5cb4c6d621e231d12949a7dc2abe2ae48846780ad",
+      "identity": [
+        null,
+        "Save default",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "733"
+        ]
+      ],
+      "plural": null,
+      "singular": "Save default",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of addiction effect as it appears in the player's status\n~ Name of effect 'elf-addled'",
+      "flags": [],
+      "id": "512e7cffa3395c52292fd1db8f113ec5f65fd3f7e14324b225c91ee0ea587571",
+      "identity": [
+        null,
+        "ælfadl",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/addictions.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ælfadl",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "5154329bdd9847dcc581e3a19c48bc32623d1a8db4d1d42017c3b98e37964961",
+      "identity": [
+        null,
+        "apps/myMail\n\nby:dnance@mymail.com\nto:All\nSubject: Tragic Loss of Rob Dixon\n\nDear Colleagues,\n\nIt is with a heavy heart that I have to inform you all of the passing of the head of the supply chain department, Rob Dixon.  He was at the office late last night trying to ensure that everything was under control when he was caught in one of the riots that have been happening all over the city.  Despite all the efforts, Rob did not make it.\nRob was more than just a boss to us, he was a friend and a mentor to many of us.  Rob always put the company and its employees first and he will be deeply missed.\nPlease keep Rob's family and loved ones in your thoughts and prayers during this difficult time.  The company is working closely with the authorities to ensure that Rob's death is fully investigated.\n\nIn the meantime, all of Rob's responsibilities will be temporarily handled by James Sullivan, his senior assistant.  If you have any urgent matters, please reach out to James.\nWe will provide updates as they become available and further details on arrangements to celebrate Rob's life.\n\nSincerely,\nDahila Nance\nHead of HR department.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "apps/myMail\n\nby:dnance@mymail.com\nto:All\nSubject: Tragic Loss of Rob Dixon\n\nDear Colleagues,\n\nIt is with a heavy heart that I have to inform you all of the passing of the head of the supply chain department, Rob Dixon.  He was at the office late last night trying to ensure that everything was under control when he was caught in one of the riots that have been happening all over the city.  Despite all the efforts, Rob did not make it.\nRob was more than just a boss to us, he was a friend and a mentor to many of us.  Rob always put the company and its employees first and he will be deeply missed.\nPlease keep Rob's family and loved ones in your thoughts and prayers during this difficult time.  The company is working closely with the authorities to ensure that Rob's death is fully investigated.\n\nIn the meantime, all of Rob's responsibilities will be temporarily handled by James Sullivan, his senior assistant.  If you have any urgent matters, please reach out to James.\nWe will provide updates as they become available and further details on arrangements to celebrate Rob's life.\n\nSincerely,\nDahila Nance\nHead of HR department.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (plant periapta)'",
+      "flags": [],
+      "id": "516628f91c4a5ebe0b0bf718076f1c4088604a876873bf208ba151d995f74f28",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate that it will cause you to grow bark and to \"take off your boots first\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate that it will cause you to grow bark and to \"take off your boots first\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "51784546116df7b3c1f4f9e8f1ab69c04308b26781961ae2026bbb3f7ed69ac9",
+      "identity": [
+        null,
+        "%1$s begins %2$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "773"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s begins %2$s.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系"
+  }
+}

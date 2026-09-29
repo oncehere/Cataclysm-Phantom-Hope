@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c17e7c35dc3d62a01eb6feb8f071ee298fd165622262a5e7bf277a9dda593312",
+      "identity": [
+        null,
+        "Clear normal",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1055"
+        ]
+      ],
+      "plural": null,
+      "singular": "Clear normal",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Intuitive Spell'",
+      "flags": [],
+      "id": "c1b77bb15717ded6b9137ed9a071b89ab4efa7f4c1da8ec2ed96c322b8dbc5d8",
+      "identity": [
+        null,
+        "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Conditional name for 'meat_fried' when 'COMPONENT_ID_SUBSTRING' matches\n'insect'\n~ Conditional name for 'meat_smoked' when 'COMPONENT_ID_SUBSTRING' matches\n'insect'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "c1bb4a878c8881e427d86d2f6ac17bef101aeb2ba73a331c0ce92bba284f7511",
+      "identity": [
+        null,
+        "%s, insect",
+        "%s, insect"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/comestibles/vanilla_overrides.json",
+          ""
+        ]
+      ],
+      "plural": "%s, insect",
+      "singular": "%s, insect",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'note'",
+      "flags": [],
+      "id": "c1d2d55ea6d57a4666acc8327bd89453e5105cd56975673654c621653ed96ad6",
+      "identity": [
+        null,
+        "\"Thank You Rivtech.  Thank You For Good Coffee.  Will Always Stay Awake For You Rivtech.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/survivor_notes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Thank You Rivtech.  Thank You For Good Coffee.  Will Always Stay Awake For You Rivtech.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Malediction of the Recalcitrant Wound'",
+      "flags": [],
+      "id": "c1e234f4469a5a35f4a41ba2036176a1f0fb9332501323b6e504e7597b9931b1",
+      "identity": [
+        null,
+        "Curse the target's body with supernatural frailty, reducing their healing time and blocking supernatural forms of regeneration from working at all.  The duration is <color_green>greatly increased</color> in autumn.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Curse the target's body with supernatural frailty, reducing their healing time and blocking supernatural forms of regeneration from working at all.  The duration is <color_green>greatly increased</color> in autumn.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC faction name",
+      "flags": [],
+      "id": "c2176176f65adf2c7370f53396ec8a4912c9edce1ed401e02dd74b7ef54e05a0",
+      "identity": [
+        null,
+        "Vampire Hunters",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/factions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vampire Hunters",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "c2211eba42e25e81881cb6e21e65e0ef04cb85c7211d8732a2515847b8d2a253",
+      "identity": [
+        null,
+        "You can't start the %s's engine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3644"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't start the %s's engine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "c24f3e7d75cddbc361385eef36a0b30000d0eed17cd1fdd4ef8c9fcdd27fdbc7",
+      "identity": [
+        null,
+        "南瓜苗",
+        "南瓜苗"
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": "南瓜苗",
+      "singular": "南瓜苗",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left middle tentacle'\n~ Heading of body part 'right middle tentacle'",
+      "flags": [],
+      "id": "c27a988d2914e56e9d4de3e529c54a086a366b1270e777e90b177520f85a63fa",
+      "identity": [
+        null,
+        "m. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "m. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "c2850c00bd329fe7a1286e14a0c3812041634b0a5a7ac379f9168d4f23c5d752",
+      "identity": [
+        null,
+        "right front tentacle base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right front tentacle base",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'capris'",
+      "flags": [],
+      "id": "c286086ccd210e1ba4a9600141955e11da86b42764fd0762c137c66a6c373ef2",
+      "identity": [
+        null,
+        "Pants going up to mid calf.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pants going up to mid calf.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c295a0df958da4491c627db52a6451d892c4fc7034dc1e10f4af3f9f113fe501",
+      "identity": [
+        null,
+        "Fine, fine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fine, fine.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系",
+    "mutation": "突变"
+  }
+}

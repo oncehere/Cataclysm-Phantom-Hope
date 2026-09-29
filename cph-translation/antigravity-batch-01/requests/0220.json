@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "d26c92b0003c1c09f0d98e43026565e7d04838ceacca2408e1bd975332e61f3e",
+      "identity": [
+        null,
+        "long socks",
+        "long socks"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": "long socks",
+      "singular": "long socks",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant '8 60mm ammo can' of item 'heavy-duty ammo can'",
+      "flags": [],
+      "id": "d27d7824ab199eccb27d4bc255f18cbfd06aa5c316cc64d0d56e0cc9ab59d0e5",
+      "identity": [
+        null,
+        "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-487-1944 BA17\n8 CARTRIDGE, 60 MM, HE, M768\nW/FUZE, PD/DLY, M783 FOR\nM224 MORTAR</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/containers/military.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-487-1944 BA17\n8 CARTRIDGE, 60 MM, HE, M768\nW/FUZE, PD/DLY, M783 FOR\nM224 MORTAR</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_summer'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "d2a0152a4dc9c93aec45fe496eb167e2fcc90382bc25541dfba4c7507cf0e9ec",
+      "identity": [
+        null,
+        "%1$s gestures and there is a brief burst of light.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s gestures and there is a brief burst of light.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Witch-Sight'",
+      "flags": [],
+      "id": "d2b072bfbb5581a1d2a98306a4f309b93536bdcd2b3d68e63ff18b279f7a165e",
+      "identity": [
+        null,
+        "Your senses are attuned to the unseen world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your senses are attuned to the unseen world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d2b72fc36cc11bd11dde768b011fbd355d8efaab7592a425d02915a03a113ec4",
+      "identity": [
+        null,
+        "Here's some jerky.  It's not something we sell, but you brought some badly-needed help so you can have it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Here's some jerky.  It's not something we sell, but you brought some badly-needed help so you can have it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_telepathy'\n~ Phavian designation for telepathic study is GRAY DAWN.  Phavian\ndesignating for use of telepathy for internal security is GLASS ANVIL",
+      "flags": [],
+      "id": "d2c755df2c73ad84e331084977dcf40ca7dfbbf206b21a7bd3c00f58623cfee7",
+      "identity": [
+        null,
+        "During a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about Netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "During a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about Netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Rune-Lore'",
+      "flags": [],
+      "id": "d2e9789d11d947e052e26911a6963b82d5ef3cd1d6c7468bc6bf8a0e62829d53",
+      "identity": [
+        null,
+        "You know the secret signs and runes used by the Wise to pass messages and record information.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You know the secret signs and runes used by the Wise to pass messages and record information.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'Curry cookbook'",
+      "flags": [],
+      "id": "d2e998baef397fadb1f42e046104eae308e95240f1690818b0e46e01f7a6613c",
+      "identity": [
+        null,
+        "Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide",
+        "copies of Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide",
+      "singular": "Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'dry_meat' step 1",
+      "flags": [],
+      "id": "d2eb3575569fa92d90501fde35f6c087705e8a16f2158a01d55e8a0880087013",
+      "identity": [
+        null,
+        "Slice the meat into thin strips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Slice the meat into thin strips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d2fed56ee4025faef028c2ad2c2547c775ded4e7a44d9e0fcfe86c2a3b61cc69",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d2ffbf0ca778196515eca0c68e578cdf43ad7763649bf9ec2693b5c95d61bf5d",
+      "identity": [
+        null,
+        "Have you seen our big stompy quads?  There's a lot of things we're good at, but sneaky and subtle we aren't.  If we want a meet cute, first we've got to lay out the hempen mats.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Have you seen our big stompy quads?  There's a lot of things we're good at, but sneaky and subtle we aren't.  If we want a meet cute, first we've got to lay out the hempen mats.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Intra-Cranial Padding'",
+      "flags": [],
+      "id": "d30320f171c813d3c26fb95cab68115fc873f0c0613308005b4ceaa56d0e6e6f",
+      "identity": [
+        null,
+        "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.  You cannot be stunned in melee, and your head is more resistant than normal.  The reduced brain volume has slightly deleterious effects on your intelligence and learning ability.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.  You cannot be stunned in melee, and your head is more resistant than normal.  The reduced brain volume has slightly deleterious effects on your intelligence and learning ability.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

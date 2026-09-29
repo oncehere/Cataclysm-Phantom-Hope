@@ -1,0 +1,15 @@
+.venv/
+.agents/
+.codex/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.env
+.env.*
+*.key
+*.lock.tmp
+examples/demo/.pokeeper/
+examples/demo/candidate*/
+examples/demo/output.po

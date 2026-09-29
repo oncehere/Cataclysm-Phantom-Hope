@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'gold_small'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "865bf0c7f528b271da5bf038cad5fa797fd6c1653be755fc09a5aa30bc864aea",
+      "identity": [
+        null,
+        "%s from lead",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%s from lead",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8665659de035a8e4e00743db00b5401229019a21b141ad25692b5e78a01b412e",
+      "identity": [
+        null,
+        "Weariness progress",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "653"
+        ]
+      ],
+      "plural": null,
+      "singular": "Weariness progress",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'sling bullet'",
+      "flags": [],
+      "id": "8675131efc82cce5b04c8182e8cb838430c4c7592dd43eccf1d4f4f529d92e56",
+      "identity": [
+        null,
+        "A ball of lead roughly the size of a baseball.  Traditionally thrown from a sling, and hits a lot harder than any old rock.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ranged/ballista.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A ball of lead roughly the size of a baseball.  Traditionally thrown from a sling, and hits a lot harder than any old rock.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 6",
+      "flags": [],
+      "id": "8678447caf795080291f6dfee2836fc7fe75891361f3b2d978668c4663ecfd15",
+      "identity": [
+        null,
+        "Dip the ingot into nitric acid",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dip the ingot into nitric acid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "86871042c602a66403602ee2d165411a93462950cc90df5850566b4a0d4f1bd4",
+      "identity": [
+        null,
+        "&There is a pinch, then a wet, mechanical hiss, as the needle draws a lot of blood.  Your vision blurs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&There is a pinch, then a wet, mechanical hiss, as the needle draws a lot of blood.  Your vision blurs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Undying Loyalty'",
+      "flags": [],
+      "id": "86a1b24e33617692f896bec603596d7efd191c554341d8a5bc9b3729c97a8614",
+      "identity": [
+        null,
+        "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "86c58d146a3bdecc70698571647987b473921d7e882f68d06eb2b276d46c0dd2",
+      "identity": [
+        null,
+        "chunk of improvised rocket fuel",
+        "chunks of improvised rocket fuel"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/chemicals_and_resources.json",
+          ""
+        ]
+      ],
+      "plural": "chunks of improvised rocket fuel",
+      "singular": "chunk of improvised rocket fuel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "86d3b5d952ea0836db3bfb31ad7ca8fefe6f3a9c18c313266b8d152ca33ee412",
+      "identity": [
+        null,
+        "[$3] Get me a cup of red wine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_BARKEEP.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$3] Get me a cup of red wine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "86d7f3d7e949b42adf7d51c34365de1e44548687a7ffba308464ad546911bdbb",
+      "identity": [
+        null,
+        "Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"Reading a footnote here… we're looking to gather data about these storms using a device developed specifically for the purpose.  I'll add that to your contracts list, if you want to know more about it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"Reading a footnote here… we're looking to gather data about these storms using a device developed specifically for the purpose.  I'll add that to your contracts list, if you want to know more about it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "86dbd4c21a6642b411e006cb09b7ce9973643389aa2895a271dfb5711bbfd0f4",
+      "identity": [
+        null,
+        "Your fail to antagonize them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your fail to antagonize them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "86fd8f9ff23ed7b67948819c94b4681fbf2c4d7f878ecdf79fc5987267a7a789",
+      "identity": [
+        null,
+        "To create a dream-drainer mosquito's heart, you'll need to gather some doses of lotus blossom, a handful of wyld candies, a small pile of dreamdross and a liter of Fae blood to create the dream-draining catalyst.\n\nOnce it is completed, find a mosquito and activate the catalyst while no farther than five meters away from it.  It must be a mosquito, anything else won't work.  The mosquito will then gorge itself on the catalyst and will suddenly transform into a dream-eating nightmare.\n\nOnce the dream-drainer mosquito appears, kill it and the heart will be yours.\n\nBe careful, as this mosquito wields powers akin to those of the Eaters of Dreams such as the ability to heal its wounds and throw piercing projectiles at you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/talk_read_vampire_mentor_book.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To create a dream-drainer mosquito's heart, you'll need to gather some doses of lotus blossom, a handful of wyld candies, a small pile of dreamdross and a liter of Fae blood to create the dream-draining catalyst.\n\nOnce it is completed, find a mosquito and activate the catalyst while no farther than five meters away from it.  It must be a mosquito, anything else won't work.  The mosquito will then gorge itself on the catalyst and will suddenly transform into a dream-eating nightmare.\n\nOnce the dream-drainer mosquito appears, kill it and the heart will be yours.\n\nBe careful, as this mosquito wields powers akin to those of the Eaters of Dreams such as the ability to heal its wounds and throw piercing projectiles at you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in use action of item 'smudged map'",
+      "flags": [],
+      "id": "8712edb621c71f0c5f47a83f6f92470a7d620fd7665d86a7b0ce2fafb1f2e016",
+      "identity": [
+        null,
+        "There's nothing more to be learned from that map.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/book_lore.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There's nothing more to be learned from that map.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "weariness": "疲劳"
+  }
+}

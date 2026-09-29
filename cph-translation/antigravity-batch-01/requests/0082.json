@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "477f52ab24834cbb41e231a2914d61d1244b05484c7c0c75bbed9aa2b518ca1c",
+      "identity": [
+        null,
+        "No, I don't think so.  Not today.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No, I don't think so.  Not today.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "4799c8d02cdc67151837cf8c6381d648990c1a44da57c6cabc2ca6a6ae42cab3",
+      "identity": [
+        null,
+        "%s is upset but stays loyal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npc.cpp",
+          "2035"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s is upset but stays loyal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "47a2526760ca1bbb7d63aee6cc6996763f708f458b4c1960431930e07780c274",
+      "identity": [
+        null,
+        "Blacken the soul of Arion",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/vampire_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blacken the soul of Arion",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry deep pool bottom'",
+      "flags": [],
+      "id": "47b268b789aa381a910b2b0743f25c900c9281476653a0a2ecb19a82b801747f",
+      "identity": [
+        null,
+        "The concrete bottom of a drained deep indoor swimming pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The concrete bottom of a drained deep indoor swimming pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name suffix of a female NPC\n~ The hunter that hunted regular animals as part of the cover-up.  She is\nnow responsible to hunt animals for food.\n~ Name of an NPC class\n~ Was recruited as part of the cover-up that hid the vampire-hunting group\nas a bunch of regular crossbow hunters.",
+      "flags": [],
+      "id": "47eca20c1a3a5bdd71038b05a7044d35bd42a02ca5d3e923ebebc9c091eaa5e0",
+      "identity": [
+        null,
+        "regular hunter",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "regular hunter",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "47fc1ef2be8db73ade3a401cfe1ba92c303267a4edade00b819c4830caf76df2",
+      "identity": [
+        null,
+        "upper foot",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "upper foot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "48369732791f978bf469c15ee984eb76e9a455bd4bc2632fb4791cda7195734a",
+      "identity": [
+        null,
+        "Could not reach %s:%d.\n\nCheck the address, the host is running, and the port (default 8080) isn't blocked.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6255"
+        ]
+      ],
+      "plural": null,
+      "singular": "Could not reach %s:%d.\n\nCheck the address, the host is running, and the port (default 8080) isn't blocked.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'UICA Veteran'",
+      "flags": [],
+      "id": "483cf8c05305419ee023ee2768ee3638091f45ccf68a4233d5f0b6fdc2ecf573",
+      "identity": [
+        null,
+        "You once fought within the ground assault forces of the United Interstellar Coordination Authority, the dominant government of the age.  Most of that was keeping watch over spaceports, but you do have some combat experience to your name.  Shared experiences with other veterans may help you find allies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You once fought within the ground assault forces of the United Interstellar Coordination Authority, the dominant government of the age.  Most of that was keeping watch over spaceports, but you do have some combat experience to your name.  Shared experiences with other veterans may help you find allies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Accelerated Hematopoiesis'",
+      "flags": [],
+      "id": "48528eade17ad447e2362e318d97006601c6f304d8f5186a2879ea0759968ef9",
+      "identity": [
+        null,
+        "Your body produces blood at a prodigious rate, allowing you to recover from injuries that would be fatal to any ordinary human.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body produces blood at a prodigious rate, allowing you to recover from injuries that would be fatal to any ordinary human.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "485efdc868e40bd1897ecbae77ebb06f998cccca3cdac9b2eb026438ea34adec",
+      "identity": [
+        null,
+        "Industrial Society and Its Future",
+        "copies of Industrial Society and Its Future"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Industrial Society and Its Future",
+      "singular": "Industrial Society and Its Future",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "4884d245edc2082a8674beaa5cb87005fe52f23ca0cf79e4c67074f93f1ac551",
+      "identity": [
+        null,
+        "%s can't drive from here — no controls.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3648"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s can't drive from here — no controls.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Iron Arm'",
+      "flags": [],
+      "id": "48874277422b845d5f59b517fc72aad22eaca858ea5b214262bda165f0a4e3cd",
+      "identity": [
+        null,
+        "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your right arm is.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your right arm is.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

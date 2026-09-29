@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "707e7fa83985c4f1f1ea4b4c5fad857f3b0b9e6513d37c953ee0633b391e69f2",
+      "identity": [
+        null,
+        "What about my existing bionics?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What about my existing bionics?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Malediction of the Recalcitrant Wound'",
+      "flags": [],
+      "id": "708ed95fbe3e08d01b701c4164651a2e492a73a0dfbe20ff8867f3871a3b67f4",
+      "identity": [
+        null,
+        "The itching of your skin fades.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The itching of your skin fades.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of faction mission 'Survey Field'",
+      "flags": [],
+      "id": "7090324a5e1b961aecc7bae8fd3efaa6567fe4e6cd85714e27b1bbc99ea36254",
+      "identity": [
+        null,
+        "Nearby terrain can be turned into fields if it is completely cleared of terrain that isn't grass or dirt.  Doing so makes that terrain eligible for usage for standard base camp expansion.  Note that log cutting does this conversion automatically when the trees are depleted, but not all terrain can be logged.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faction_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Nearby terrain can be turned into fields if it is completely cleared of terrain that isn't grass or dirt.  Doing so makes that terrain eligible for usage for standard base camp expansion.  Note that log cutting does this conversion automatically when the trees are depleted, but not all terrain can be logged.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "70a59617233d0dc6f478e1f6bf807e1b48317db939ab883da812c56878ec18f7",
+      "identity": [
+        null,
+        "Kill the monstrous renfield",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Kill the monstrous renfield",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Smash message of body part 'bionic treads'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "70a63f3dff2b603f1b67b4b7b1a7ca00babee8ac9776ac9adf3e017eb08c6a3f",
+      "identity": [
+        null,
+        "You ram the %s with your bionic treads.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_bionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You ram the %s with your bionic treads.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "70b47d8e034681f71e7f7f80cb458eaac2891bd52e1a3ebfb5e2b087e5cede04",
+      "identity": [
+        null,
+        "I32 was provided an air-gapped, recently-formatted desktop on which a series of text files containing a set of alphanumeric codes had been entered, as well as a notebook and a pen.  The desktop was not equipped with either a mouse, a keyboard, or a monitor.  Despite these limitations, I32 began writing after 23 seconds and within two minutes had transcribed the complete sequence of codes.\n\nFor the follow-up, I23 was provided with the same materials but had no physical access to the desktop.  Timing was similar to the first iteration of the experiment (22 seconds).\n\nFor a second follow-up, I32 also had no line of sight to the desktop due to it being placed in an adjacent room.  While I32 did eventually transcribe the sequence successfully, it took significantly longer (1 minute 15 seconds).  A further experiment to see if a Faraday cage or a shield of particular materials can block the effect is in the planning stage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I32 was provided an air-gapped, recently-formatted desktop on which a series of text files containing a set of alphanumeric codes had been entered, as well as a notebook and a pen.  The desktop was not equipped with either a mouse, a keyboard, or a monitor.  Despite these limitations, I32 began writing after 23 seconds and within two minutes had transcribed the complete sequence of codes.\n\nFor the follow-up, I23 was provided with the same materials but had no physical access to the desktop.  Timing was similar to the first iteration of the experiment (22 seconds).\n\nFor a second follow-up, I32 also had no line of sight to the desktop due to it being placed in an adjacent room.  While I32 did eventually transcribe the sequence successfully, it took significantly longer (1 minute 15 seconds).  A further experiment to see if a Faraday cage or a shield of particular materials can block the effect is in the planning stage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "70b9c2b01470998777824f13883d560c1c75a3e1736282920d6041b512e99da8",
+      "identity": [
+        null,
+        "Take all your observations and study them, trying to learn the deeper secrets of the world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Take all your observations and study them, trying to learn the deeper secrets of the world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "70be3ff49d68a1a61901e40ff4bd9d4ef1ebe6f3e3d967e0f104de107b8636b4",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "70d7065e700434b5d211d35a6c93c552e2c7d4317478f527f807ddcd4cb0f821",
+      "identity": [
+        null,
+        "bionic treads shell",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_bionic_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "bionic treads shell",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "70d91f8006a30cd6fa93c986bf0f08c177d5d16c39bcbb23c3694b4f5ebf3c3a",
+      "identity": [
+        null,
+        "Happy to help.  Just remember I'm a friend to the Center, yeah?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Happy to help.  Just remember I'm a friend to the Center, yeah?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "70ffa2109723a83762820ebf1035b65d13ffedd057a3d2dc012dcc72b493048d",
+      "identity": [
+        null,
+        "Joining \"%s\" — %s's game",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "1869"
+        ]
+      ],
+      "plural": null,
+      "singular": "Joining \"%s\" — %s's game",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7118a70dfeb5d55396beccebb1dc780e164067dd2e6e1d13695d038bccb5ff4c",
+      "identity": [
+        null,
+        "Your partner is leaving.  The session will end shortly.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6953"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner is leaving.  The session will end shortly.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系"
+  }
+}

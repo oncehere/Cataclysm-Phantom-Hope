@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "ac9f8c836255684d08711bb095cfa9e512257b7f7c0326c69ebe31e8ec957307",
+      "identity": [
+        null,
+        "humorous book",
+        "humorous books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "humorous books",
+      "singular": "humorous book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aca3d3df13d8ffae3f5b7db331a9ba24111acb943e5380f9ac2133401ee8cd70",
+      "identity": [
+        null,
+        "If that's the case, just bring back proof.  We know them well, so any part of their frame will do.  It's a deep red color.  Hard to miss.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If that's the case, just bring back proof.  We know them well, so any part of their frame will do.  It's a deep red color.  Hard to miss.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Value of variable 'message_fail' in EoC\n'EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST'",
+      "flags": [],
+      "id": "acd00b190099d28a5a16e10a65ceed4d02731970c282846988840632a2b91c30",
+      "identity": [
+        null,
+        "Your song has no effect!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkdata/soothing_the_savage_beast.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your song has no effect!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'witchwood grove'",
+      "flags": [],
+      "id": "ace1edfae25de699b8fb72169df52ef5960ba56e81ffc9bf9ee602ba7a523d16",
+      "identity": [
+        null,
+        "A grove of witchwood trees.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A grove of witchwood trees.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Light retrieval'",
+      "flags": [],
+      "id": "acec436583a5d0434477c7afd2ea430298d0aca400753a835cd5a3c3570f8fbf",
+      "identity": [
+        null,
+        "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.  They aren't sure if the safety gear they gave you is enough.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.  They aren't sure if the safety gear they gave you is enough.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ad052bae266e1cf342439398b9a4e8c2518900d3e4c8e1382cc61d584f21bde1",
+      "identity": [
+        null,
+        "Action Name",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1078"
+        ]
+      ],
+      "plural": null,
+      "singular": "Action Name",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Injected 16x-\"Armus\"'",
+      "flags": [],
+      "id": "ad1770592501c1e81b89e15944248c2cd207457609e0eab317063ee5042a00a6",
+      "identity": [
+        null,
+        "You feel increased resilience fade away with a sudden stab of pain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/resilience_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel increased resilience fade away with a sudden stab of pain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_safety_alpha_snippet'\n~ signage for research scientist levels (working lab areas).",
+      "flags": [],
+      "id": "ad2a830f3127a3399931f1531905652459fa950642c309cc6dc9c9b413ec2ad8",
+      "identity": [
+        null,
+        "PE150 is no longer to be administered to the following specimens <lt>scratched out text<gt>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "PE150 is no longer to be administered to the following specimens <lt>scratched out text<gt>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'dulled_senses'",
+      "flags": [],
+      "id": "ad2efe274f33d95f3fe901ca435b29d2897c85a7615348609be7c7f24a57a854",
+      "identity": [
+        null,
+        "Numbing world",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Numbing world",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To See Beyond the Barriers'",
+      "flags": [],
+      "id": "ad31b336b00e4f7a4c686b2da3c9cce171a857a937e07b09ac64174ea9958202",
+      "identity": [
+        null,
+        "Gain a brief vision of what lies beyond a barrier.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain a brief vision of what lies beyond a barrier.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "ad3304f2c85dd5493e3eefafadd00c702ec406a31216f5a4beb71882aa577ca1",
+      "identity": [
+        null,
+        "front tentacle tips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "front tentacle tips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of achievement 'Rerisen Revengeance.'",
+      "flags": [],
+      "id": "ad3e3b938128982201bdaf8e9385d0f0f99ae87ddd20599462d1e8fe6a0ba78c",
+      "identity": [
+        null,
+        "Kill your murderer as a revenant",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Kill your murderer as a revenant",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

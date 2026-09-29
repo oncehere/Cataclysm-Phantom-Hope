@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant '50 Great Curries of India' of book 'Curry\ncookbook'",
+      "flags": [],
+      "id": "8492b24d05d693f0832a66a6eb072f15750f262ac3b7257fe8dcbebc14b7e951",
+      "identity": [
+        null,
+        "This best-selling cookbook contains 50 curry recipes, ranging from classics like Goa lamb vindaloo or rogan josh to less well-known ones like mango and yogurt curry.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This best-selling cookbook contains 50 curry recipes, ranging from classics like Goa lamb vindaloo or rogan josh to less well-known ones like mango and yogurt curry.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Construct: East Room 1'",
+      "flags": [],
+      "id": "84a905c9298a190f43ac605a22f20a38acc70c1b3caae567b847426cc1f190b1",
+      "identity": [
+        null,
+        "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room 1.  A hollow chamber east of the island's center to serve as a multipurpose space, with tons of room to expand.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/east_rooms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room 1.  A hollow chamber east of the island's center to serve as a multipurpose space, with tons of room to expand.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "84b0f0381bf2aa6874db0c22de81fb981ada5cb71bcc42163f46b43d96fa3646",
+      "identity": [
+        null,
+        "business strategy book",
+        "business strategy books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "business strategy books",
+      "singular": "business strategy book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "84b15408440f3bca952484135b28ebdcb5c0bb5980f787e446dd6c100b21df92",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your ability to psychically hack nearby devices.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/esper/electrokinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your ability to psychically hack nearby devices.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_LESSON_HOLSTERS_WEAR'",
+      "flags": [],
+      "id": "84bed5fb8b337c6221f671aa7fbc8639557dc0b520cf13a6e8aaeba1818ec06e",
+      "identity": [
+        null,
+        "Always wielding a <color_light_cyan>steel spear</color> in your hands might be inconvenient.  Fortunately, there is a <color_light_cyan>spear strap</color> lying on the rack nearby.  You can wear it by pressing <keybind:wear>.\nTo take off any worn item, you can press <keybind:take_off>.\n\nTo continue the tutorial, please wear the spear strap.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/dda_tutorial/traps.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Always wielding a <color_light_cyan>steel spear</color> in your hands might be inconvenient.  Fortunately, there is a <color_light_cyan>spear strap</color> lying on the rack nearby.  You can wear it by pressing <keybind:wear>.\nTo take off any worn item, you can press <keybind:take_off>.\n\nTo continue the tutorial, please wear the spear strap.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'black glass figure'",
+      "flags": [],
+      "id": "84c7e86bdd2c72ea57c37245d9d4a207dd682ba823e7baa80dac60dcf9c5a5f3",
+      "identity": [
+        null,
+        "A black glass figure of someone falling forward.  When you look more closely, it's just the upper body that's falling forward, separated from the legs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture_vitrified.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A black glass figure of someone falling forward.  When you look more closely, it's just the upper body that's falling forward, separated from the legs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'compromised'",
+      "flags": [],
+      "id": "84cf0e7ca5049f49ca9ea64f201fe771196533fc6ba7f7301c079099426c7ab2",
+      "identity": [
+        null,
+        "Most of the steel panels of this armor piece have been torn away or completely destroyed.  It won't provide much protection at all, and could at best be recycled for scrap.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/faults/armor_fault.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Most of the steel panels of this armor piece have been torn away or completely destroyed.  It won't provide much protection at all, and could at best be recycled for scrap.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "84ed657c1696255dcad2bc93d9dc2ac227e61d2d312651f244d2e2ce19d83945",
+      "identity": [
+        null,
+        "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Make Thy Plagues Wonderful'",
+      "flags": [],
+      "id": "8500d6a00bbac52dbdda244d61cbbf873d4bc1b6b0e51c37f05a7ee6d5b8d0f2",
+      "identity": [
+        null,
+        "With your power over plague comes the ability to alleviate sickness as well.  You may touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "With your power over plague comes the ability to alleviate sickness as well.  You may touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "851c1d4f7f163529c4fcf75cba0016d45ba2c3e368a395d9427a363def4952b3",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "851d4b3d8f75b0fde20a14f01720a374b52446f76bdd0d092b64ef3282be6a12",
+      "identity": [
+        null,
+        "Neither side has a tradable vehicle part available for installation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "853"
+        ],
+        [
+          "src/veh_interact.cpp",
+          "845"
+        ],
+        [
+          "src/veh_interact.cpp",
+          "854"
+        ]
+      ],
+      "plural": null,
+      "singular": "Neither side has a tradable vehicle part available for installation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "851f988d5e32b5e57f3988b39d5342d684df293bdacf0af68f1dace5214e7d15",
+      "identity": [
+        null,
+        "Up-Wingers: A Futurist Manifesto",
+        "copies of Up-Wingers: A Futurist Manifesto"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Up-Wingers: A Futurist Manifesto",
+      "singular": "Up-Wingers: A Futurist Manifesto",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

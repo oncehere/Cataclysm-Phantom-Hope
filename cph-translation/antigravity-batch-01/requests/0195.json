@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b8064fa0d2a7304182e2805bda97817652b4595519539667e7810103321c0d22",
+      "identity": [
+        null,
+        "You pour some %s into the water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1118"
+        ]
+      ],
+      "plural": null,
+      "singular": "You pour some %s into the water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'crypt revenant'",
+      "flags": [],
+      "id": "b8224047c4718553ec52a310e2ed6bde11ea29e5b8dcc5d986317650bc1b1fef",
+      "identity": [
+        null,
+        "A burial shroud contours a humanoid form which frequently breaks when the shadows of its all too many limbs press against the garment.  What limbs you can see are unnervingly life-like, and heavily adorned with bracelets and golden chains.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/nether.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A burial shroud contours a humanoid form which frequently breaks when the shadows of its all too many limbs press against the garment.  What limbs you can see are unnervingly life-like, and heavily adorned with bracelets and golden chains.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "b83682dc95cbc7b6a41ff46116245ab201b6d1b4571d8a7a488cf76c67430f97",
+      "identity": [
+        null,
+        "Very Weak",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Very Weak",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'To Shield the Spirit from Assault'",
+      "flags": [],
+      "id": "b85d872edb910030bca2db7a7fe252f73fe61256f9932cf24d022e37ff87bc9b",
+      "identity": [
+        null,
+        "You settle down and begin ordering your spirit.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You settle down and begin ordering your spirit.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b8694d5eb4467721c70cb0a0971e4052afab0dfc1751fdcd0f010205aa48c8c9",
+      "identity": [
+        null,
+        "Transferred characters bypass character creation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "507"
+        ]
+      ],
+      "plural": null,
+      "singular": "Transferred characters bypass character creation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'M47A1 Techno-Medusa'",
+      "flags": [],
+      "id": "b878f68f9aba0300b602725df117e0f5837173d23fed12dd58fe20068b445ec6",
+      "identity": [
+        null,
+        "A magically-enhanced update to the Phillips & Rodgers' M47 Medusa, a multi-caliber revolver aimed at survivalists.  While Technomancy improves the reliability with smaller cartridges, it is not as accurate as dedicated caliber revolvers due to freebore.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_ranged.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A magically-enhanced update to the Phillips & Rodgers' M47 Medusa, a multi-caliber revolver aimed at survivalists.  While Technomancy improves the reliability with smaller cartridges, it is not as accurate as dedicated caliber revolvers due to freebore.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'many_years_old_newspaper'",
+      "flags": [],
+      "id": "b880420f5c0221ae44c4ae94e7f3c99c1b078f17dca2179466d804206e5cdcba",
+      "identity": [
+        null,
+        "LOCAL WIZARD DIES, INVESTIGATION CONTINUES\n\nInvestigations are continuing into the death of local wizard Sivi, daughter of Ḥalmet of Clan Redaxe, who was found dead in her home last month.  No foul play is suspected at this time.  An initial report by medical examiners at Massachusetts General Hospital indicated the cause of death as multiple organ failure following a sudden illness.  \"It's very strange\", said a source close to the matter, \"Her organs all looked like those of an elderly person, even though 96 is barely middle-age for a dwarf.  She could have expected to live another hundred years easily.  If you ask me, it's all that research she was doing into the effects of Haste magic.  Probably hasted herself right through to the end of her life.  We've seen side effects in Haste over-usage before but never to a fatal degree.\"  When asked for comment, Dr. Olivia Wright, a professor of control thaumaturgy at MIT&M, said, \"The idea of \"haste-death\" shows up in rumors repeatedly but there has never been a single confirmed case.  Haste places stress on the body, of course, but the stress is accounted for as part of the effects of the spell.  Ms. Sivi's death was tragic, but fearmongering about the effects of magic helps no one.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/snippets/newspapers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "LOCAL WIZARD DIES, INVESTIGATION CONTINUES\n\nInvestigations are continuing into the death of local wizard Sivi, daughter of Ḥalmet of Clan Redaxe, who was found dead in her home last month.  No foul play is suspected at this time.  An initial report by medical examiners at Massachusetts General Hospital indicated the cause of death as multiple organ failure following a sudden illness.  \"It's very strange\", said a source close to the matter, \"Her organs all looked like those of an elderly person, even though 96 is barely middle-age for a dwarf.  She could have expected to live another hundred years easily.  If you ask me, it's all that research she was doing into the effects of Haste magic.  Probably hasted herself right through to the end of her life.  We've seen side effects in Haste over-usage before but never to a fatal degree.\"  When asked for comment, Dr. Olivia Wright, a professor of control thaumaturgy at MIT&M, said, \"The idea of \"haste-death\" shows up in rumors repeatedly but there has never been a single confirmed case.  Haste places stress on the body, of course, but the stress is accounted for as part of the effects of the spell.  Ms. Sivi's death was tragic, but fearmongering about the effects of magic helps no one.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "b8a7dd7145bba4150c6589bac83fef66970523405c4cc91b534f434ab1515521",
+      "identity": [
+        null,
+        "tentacled daemon",
+        "tentacled daemons"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": "tentacled daemons",
+      "singular": "tentacled daemon",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b8ac54f33d4e9c3a2ab2b228c9707355911df9f764ffc68162299bf1178241b5",
+      "identity": [
+        null,
+        "Installing this part will make the vehicle no longer flightworthy.  Continue?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1147"
+        ]
+      ],
+      "plural": null,
+      "singular": "Installing this part will make the vehicle no longer flightworthy.  Continue?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b8d0ce0fe62a41ba381639652b223c1b374a5145256db8f03549eae0d8d36f00",
+      "identity": [
+        null,
+        "I volunteered for the Exodii to give me these implants.  Gotta do what you gotta do to survive, no?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I volunteered for the Exodii to give me these implants.  Gotta do what you gotta do to survive, no?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "b8d78c45990d4bcbb8411d0c4049863b192807cfd96e6ada2b086a19a089f66d",
+      "identity": [
+        null,
+        "Some disrupt the warpstream by their very existence, a problem you will solve through violence.\nIn every future expedition, you will now be given 4 random missions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Some disrupt the warpstream by their very existence, a problem you will solve through violence.\nIn every future expedition, you will now be given 4 random missions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_safety_snippet'\n~ signage for research scientist levels (working lab areas).\n~ Snippet in category 'lab_safety_maintenance_snippets'\n~ snippets of pithy safety messages that can be delvivered via sign or\ndrone.",
+      "flags": [],
+      "id": "b8e5f449f3e31dc47c5ea902208da50f5510b5b4223ce85dbea0b1422d0409e3",
+      "identity": [
+        null,
+        "There have been\n[4]\ndays without a life-threatening workplace accident",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There have been\n[4]\ndays without a life-threatening workplace accident",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

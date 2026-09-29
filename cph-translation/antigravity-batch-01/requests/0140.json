@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "81916f1b26d7c33a4a3409e5837438552a280bb78376544148aedcf56442a897",
+      "identity": [
+        null,
+        "Grace of the Island",
+        "Grace of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/landing.json",
+          ""
+        ]
+      ],
+      "plural": "Grace of the Island",
+      "singular": "Grace of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "819dd63dca1d5d6f54648512ee6b99dfbed98434897ac38a5d6000b0286994e4",
+      "identity": [
+        null,
+        "Prick your hand upon the metal spike.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Prick your hand upon the metal spike.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "81c0aef8ac86cc87045db2391a5e1d7ca81dd182f25c76e531eb80ed48dbb18a",
+      "identity": [
+        null,
+        "broken royal sarcophagus",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-graves.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "broken royal sarcophagus",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "81c5fd8db72cd138588727324da559a20d08aced8cca216728ce14ded92217f1",
+      "identity": [
+        null,
+        "I will see if they want to be cured.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I will see if they want to be cured.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "81d53d2e8da63b1a86ef591930e083fb7fe40808588f1441d6736557e0893d33",
+      "identity": [
+        null,
+        "%s status",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "682"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s status",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "81f14b80218a6297d3497eaad78d219d1dbbb1253028b364c6aa43dcba44189c",
+      "identity": [
+        null,
+        "Exodii?  What can you tell us about them?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exodii?  What can you tell us about them?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8201c70f189a85645af43d083985875320365d036d67a7cd588e6a1d7e7a47d2",
+      "identity": [
+        null,
+        "Hm.  See you around, I guess.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hm.  See you around, I guess.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Battlehammer 20k'",
+      "flags": [],
+      "id": "8213de9d9c001283beaf830599bad2c1c26ecb35a081a89fa730b79c088a7332",
+      "identity": [
+        null,
+        "A strategy game featuring a set of tiny figurines of space aliens and grotesque space marines.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/fluff.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A strategy game featuring a set of tiny figurines of space aliens and grotesque space marines.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "822472e4bd2f4e799653eaee1886c0c8d9a9ed83fa77bd687d8abe2efd9eb6c3",
+      "identity": [
+        null,
+        "&Without a SMOKE USHER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Without a SMOKE USHER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of species 'MARCH_LORD'",
+      "flags": [],
+      "id": "82b66321414cd2f4b3d4d27e37625563025e4bece233bc2d396700096777aadf",
+      "identity": [
+        null,
+        "one of the warlords from under the hill",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "one of the warlords from under the hill",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Practice name",
+      "flags": [],
+      "id": "82d02ce48387a1e90359f9bf86eaf2f0ccb0c8fb16694ff93410377911930685",
+      "identity": [
+        null,
+        "gramarye (beginner)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/changeling/general.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "gramarye (beginner)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8314b74ba65d6968f0cbdbd554cab234d007487a79bd3cd7d2c5dc8d1cea7d95",
+      "identity": [
+        null,
+        "&There is a lull in the discussion as Smokes and Rubik quietly consider everything on the table.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&There is a lull in the discussion as Smokes and Rubik quietly consider everything on the table.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7d87045f04593fd789e05a8acc81c5f5aadc60ba15d91a2f93d2ff81ccbffbad",
+      "identity": [
+        null,
+        "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n 1. DO NOT PANIC.\n 2. REMAIN INSIDE THE BUILDING.\n 3. SEEK SHELTER IN THE BASEMENT.\n 4. USE PROVIDED GAS MASKS.\n 5. AWAIT FURTHER INSTRUCTIONS.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_COMPUTER.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n 1. DO NOT PANIC.\n 2. REMAIN INSIDE THE BUILDING.\n 3. SEEK SHELTER IN THE BASEMENT.\n 4. USE PROVIDED GAS MASKS.\n 5. AWAIT FURTHER INSTRUCTIONS.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster attack message",
+      "flags": [
+        "c-format"
+      ],
+      "id": "7d883dedc2a9522c65429f634200004da078e7449272adb1797790246dc20c67",
+      "identity": [
+        null,
+        "%1$s hits your %2$s with an ethereal blade!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monster_special_attacks/monster_special_attacks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s hits your %2$s with an ethereal blade!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7dabdf7dc1f1e5398516a46314313348241914aa5a399d00bf6c526775a0570d",
+      "identity": [
+        null,
+        "The selected repair has no payable post-Cataclysm value.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "988"
+        ]
+      ],
+      "plural": null,
+      "singular": "The selected repair has no payable post-Cataclysm value.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_strong_asleep'",
+      "flags": [],
+      "id": "7db211d1e2c85fcdd9bda3252971e63230e5ad1f0d8ff762d8be9b97972633c7",
+      "identity": [
+        null,
+        "Imagine all the world leaders passing a blunt around and just talking things out.  This could have all been avoided.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Imagine all the world leaders passing a blunt around and just talking things out.  This could have all been avoided.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7dbc258e7f6dbfa39778ffdb8b1233334a8328f3e6efd78d9c3796b53ed2bd6e",
+      "identity": [
+        null,
+        "Body weight",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "621"
+        ]
+      ],
+      "plural": null,
+      "singular": "Body weight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Telepathic Shield Sight'",
+      "flags": [],
+      "id": "7dc9be424f2dbc8ef668974514d8ba40fd6a413dfee07fa64bdc18f5906bdbc2",
+      "identity": [
+        null,
+        "Your mind is a guarded fortress.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_artifact.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your mind is a guarded fortress.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7e5a33dcc1852a168850d0eef1201bd236b5368f409671a9605449b0337c5e59",
+      "identity": [
+        null,
+        "Thanks.  Can we talk about something else?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks.  Can we talk about something else?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Key binding name",
+      "flags": [],
+      "id": "7e61f5d25e581ae6267189741a50ef8aef359143fe8a3c08a94f0ad92a02d82d",
+      "identity": [
+        null,
+        "Control reactors",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/vehicle_use.cpp",
+          "351"
+        ],
+        [
+          "data/raw/keybindings/vehicle.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Control reactors",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "7e99605994adef6aa077ef1449d5de7381b21c9319a9e8dc93764c1fec2452ac",
+      "identity": [
+        null,
+        "Requires perk level 12, marksmanship 7, and handguns 7",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Requires perk level 12, marksmanship 7, and handguns 7",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Dialogue line 'advice' in mission 'Alonso must have his special pants'",
+      "flags": [],
+      "id": "7eab424296aecfacba7db30873228339997c180f8acd7a252c36f7eb0d6af346",
+      "identity": [
+        null,
+        "It may be crowded no?  A popular place before, maybe is better to visit at night.  Sounds like Alonso's apartment no?  Ah, and if something strange grabs you and another pair of leather pants comes to you, maybe Alonso is even happier?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_refugees/NPC_Alonso_Lautrec.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It may be crowded no?  A popular place before, maybe is better to visit at night.  Sounds like Alonso's apartment no?  Ah, and if something strange grabs you and another pair of leather pants comes to you, maybe Alonso is even happier?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "7ee21c64ddc86cade0f00d49d8940548e9fc4f8e5d7775fb9826bf09b9a90b23",
+      "identity": [
+        null,
+        "[Ψ]Augment Durability (C)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/vitakinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Ψ]Augment Durability (C)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "7ef0ee5112fa4f1c3ff469f402e765109e0adb69d1eee9815c66c439c534938d",
+      "identity": [
+        null,
+        "mysterious archway",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/terrain_labyrinth_cybernetic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mysterious archway",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

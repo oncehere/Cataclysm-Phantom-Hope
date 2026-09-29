@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "05b9944766ffc0af6237e38e4a43bb938a680d8c1fb4f8830cc75e741895c6b1",
+      "identity": [
+        null,
+        "twitchy medical robot",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/furniture_labyrinth_safehouse.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "twitchy medical robot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "05bc4466e6ae04b750f2a3de326029df129efff140c2120a61b44284c5b90ed1",
+      "identity": [
+        null,
+        "Unlock Your Fey Heritage",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Unlock Your Fey Heritage",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'lab_file_serum_testing_speed' of item 'production\ntests'",
+      "flags": [],
+      "id": "05cb050f3349ce587f69282d849849f2faa0fa5d9206966498de93503d9f770e",
+      "identity": [
+        null,
+        "\n\n<serum_testing_speed>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/newspaper.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\n\n<serum_testing_speed>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "05ccce6be3977ee753fb521b841ad19e2f2b8ef8a9e945a03ad05252b666664e",
+      "identity": [
+        null,
+        "Gunslinger",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gunslinger",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'No one swims only in the shallow water.'",
+      "flags": [],
+      "id": "05d35db2e7d5592c7a850243c23d4ca200d5c7069bb0eb10a22f8a4037698ce0",
+      "identity": [
+        null,
+        "Do you choose land or water?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Do you choose land or water?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "05e3da7bc4f15019b1063e7d1c8d6c8d366249000894514aa1d9eda9f9c5491c",
+      "identity": [
+        null,
+        "There's more you could learn from those notes you took.  You just need to go over them again and separate the truth from the lies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/occult_knowledge.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There's more you could learn from those notes you took.  You just need to go over them again and separate the truth from the lies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "05e914f41d97f0d982842ce2b7a1a8877f7f402195bb262444520669f2485c33",
+      "identity": [
+        null,
+        "Yes, please cure me!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yes, please cure me!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'Shattered'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "05ec5a6506659860f8474444adb626158ebf41466b94f87f61c573465881a24a",
+      "identity": [
+        null,
+        "The %1$s is cracked.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %1$s is cracked.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "0628787d139d0cc57475286bf4aeddb8c700a643bc443fbbe069c71304ee7ee4",
+      "identity": [
+        null,
+        "untitled2047-1803.mp4\n\nThe video shows a patio door and some happy meowing can be heard.\n\"Aww, Muffin, have you slain a leaf or grass hopper again?\" a feminine voice asks.  A cat appears in front of the door and drops a crow, dripping with black goo.  \"Eww, you shouldn't hunt birds!\", she turns around and is visibly nervous.  \"Honey, what the hell is that?  Was that poor bird caught in an oil spill?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "untitled2047-1803.mp4\n\nThe video shows a patio door and some happy meowing can be heard.\n\"Aww, Muffin, have you slain a leaf or grass hopper again?\" a feminine voice asks.  A cat appears in front of the door and drops a crow, dripping with black goo.  \"Eww, you shouldn't hunt birds!\", she turns around and is visibly nervous.  \"Honey, what the hell is that?  Was that poor bird caught in an oil spill?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'inactive tripod'",
+      "flags": [],
+      "id": "062b163dcec0114318020497ba81250c519d3009070a9193415ac327a6d62586",
+      "identity": [
+        null,
+        "This is an inactive Honda Crop King.  Using this item involves placing it on the ground, loading the unit with napalm in your inventory and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This is an inactive Honda Crop King.  Using this item involves placing it on the ground, loading the unit with napalm in your inventory and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'afs_personal_card'",
+      "flags": [],
+      "id": "0636fe921ba43f1574bca22c0368ef8520e5a40f1f3b57b40c28b74485e2a933",
+      "identity": [
+        null,
+        "There is a picture of a shuttle taking off with happy people waving from the viewports.  \"Salus is cold.\n\n Our love is true\n\n I hope to see you\n\n On Croatan 2\n\n My dearest, please join me.  I don't believe there are many shuttles left before people will be stuck here forever.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/snippets/personal_cards.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There is a picture of a shuttle taking off with happy people waving from the viewports.  \"Salus is cold.\n\n Our love is true\n\n I hope to see you\n\n On Croatan 2\n\n My dearest, please join me.  I don't believe there are many shuttles left before people will be stuck here forever.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'tutorial_messages'\n~ These use hardcoded calls",
+      "flags": [],
+      "id": "0642a0214699ab18761210aae4a67dcdc32ddfceb7b94a5f49bbba556a37868a",
+      "identity": [
+        null,
+        "Welcome to the Cataclysm: Dark Days Ahead tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nAt any time, you can press <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color> to view or modify the controls for the game or specific menu that you are in.\n\nPressing <keybind:POPUP_WAIT:QUIT> will close the pop-up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/dda_tutorial/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Welcome to the Cataclysm: Dark Days Ahead tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nAt any time, you can press <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color> to view or modify the controls for the game or specific menu that you are in.\n\nPressing <keybind:POPUP_WAIT:QUIT> will close the pop-up.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

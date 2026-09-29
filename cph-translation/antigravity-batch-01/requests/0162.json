@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "995716b803895261f05f7eac770e15c42a81ed315d1db4262a9d7fc4f5617c0d",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "9966c6bb10f7f3f770ca13957d320a6f1149644a45fe4c903c952d66b0b453db",
+      "identity": [
+        null,
+        "left middle tentacle tip",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacle tip",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9975b26642d47c6442e2ed67b5336a93f52f55ada93d132aa6376ea0d0cc7eaa",
+      "identity": [
+        null,
+        "You're back to finish the job, aren't you?  They sent you to kill me!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're back to finish the job, aren't you?  They sent you to kill me!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Help message in menu 'Mind Over Matter: Types of Psionics'",
+      "flags": [],
+      "id": "998705a59f356386513f9a8526039e35f33cef378ff7381758e953c3141e3e17",
+      "identity": [
+        null,
+        "9) Vitakinesis: Control of health and vitality, such as bloodflow, susceptibility to disease, healing speed, and need for sleep.  Master vitakinesists can slow or staunch bloodflow, increase the recovery rate of their whole body or a particular part of it, meditate instead of sleep, purge themselves of toxins or diseases, disrupt the bodily functions of their enemies, and heal grievous wounds in minutes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/help_files.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "9) Vitakinesis: Control of health and vitality, such as bloodflow, susceptibility to disease, healing speed, and need for sleep.  Master vitakinesists can slow or staunch bloodflow, increase the recovery rate of their whole body or a particular part of it, meditate instead of sleep, purge themselves of toxins or diseases, disrupt the bodily functions of their enemies, and heal grievous wounds in minutes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Calming the Heart of Chaos'",
+      "flags": [],
+      "id": "999c0571e575241692532e255f32b8b38784eb1793caaa67ebdf283b91bea42f",
+      "identity": [
+        null,
+        "Infuse the power of stasis and death into a tear in reality, closing it.  This glamour <color_red>does not function</color> in the summer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_winter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infuse the power of stasis and death into a tear in reality, closing it.  This glamour <color_red>does not function</color> in the summer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Whisper of the Leaves'",
+      "flags": [],
+      "id": "99be9f68a21f2b90409570c420ba4608c5745eabfde6a0e8dda9e7a77ea0fdc8",
+      "identity": [
+        null,
+        "You place a hand on the tree and close your eyes as you reach out to the spirits of the forest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You place a hand on the tree and close your eyes as you reach out to the spirits of the forest.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'non_kitten_items'\n~ Original items from 1997 DOS version of robotfindskitten",
+      "flags": [],
+      "id": "99c63020222aa1a536d5bebb7d7a31280654bda0460419b993bc3ec1a4dfc395",
+      "identity": [
+        null,
+        "It's a tape of '70s rock.  All original hits!  All original artists!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/robot_finds_kitten.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's a tape of '70s rock.  All original hits!  All original artists!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "99cae8c8adedad2904e40a8c0d2c241cc971da53921c66ef73d5e74dda2ab053",
+      "identity": [
+        null,
+        "Rules of Engagement",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rules of Engagement",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "99dcbeec49b6aba96ca476c5a9ff255d210efd4b9a5d6b9d81af53475389b801",
+      "identity": [
+        null,
+        "Hungry for your blood",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/vampire_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hungry for your blood",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell '[Ψ]Flashbang'",
+      "flags": [],
+      "id": "99fd55db12755d67d670651e94667bfa4b9f497d31b7325e3a4d36bdcd3f8224",
+      "identity": [
+        null,
+        "The air bursts into an eye-searing flash accompanied by a loud bang!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/photokinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The air bursts into an eye-searing flash accompanied by a loud bang!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9a0448c1c8e1da9a813aadf062d8935cff9f862c3b761779fb316995162510f6",
+      "identity": [
+        null,
+        "Sleep is not yet available in multiplayer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "3039"
+        ]
+      ],
+      "plural": null,
+      "singular": "Sleep is not yet available in multiplayer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9a21eab6223cfcd525dabc89c269b45f59d4d349ac57103c835cff8940cece39",
+      "identity": [
+        null,
+        "The service counter no longer has room for the complete removal order.  The vehicle was left unchanged and the order was fully credited.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "14778"
+        ]
+      ],
+      "plural": null,
+      "singular": "The service counter no longer has room for the complete removal order.  The vehicle was left unchanged and the order was fully credited.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Ammunition name",
+      "flags": [],
+      "id": "9b60350f6a6dfc0d9423503ae6b2299ccaaa3ea612d19602aa3b17871b9293f0",
+      "identity": [
+        null,
+        "ink abstract",
+        "ink abstract"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/chemicals.json",
+          ""
+        ]
+      ],
+      "plural": "ink abstract",
+      "singular": "ink abstract",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9b6cdf1b9050ae8a99924378e5f6c7a13b64de148f4ffc158e93f79938a64c90",
+      "identity": [
+        null,
+        "CO-OP: may break.  Perk bonuses are applied by scripting that doesn't reach the remote player, so the joining player's bonuses won't apply in shared combat.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "105"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Perk bonuses are applied by scripting that doesn't reach the remote player, so the joining player's bonuses won't apply in shared combat.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FEED_HORSE_FAMILIAR'",
+      "flags": [],
+      "id": "9b728f20c4df737d03adf6b61d84dec3e9c81b568f7535afb53470aad4b00292",
+      "identity": [
+        null,
+        "You feed your blood to this monstrous nightmare horse and it swallows the blood like an addict with their vice of choice after a forced avoidance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/spell_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feed your blood to this monstrous nightmare horse and it swallows the blood like an addict with their vice of choice after a forced avoidance.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Label of UI widget 'immortal_path_qi_desc'\n~ Label of UI widget 'immortal_path_qi_desc_layout'",
+      "flags": [],
+      "id": "9bacb99310e7ce709d1e5e4f19f5d01adf906ab67c54919a5a39268b71a49a4b",
+      "identity": [
+        null,
+        "境界",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/ui/sidebar.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "境界",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "9bb0166d3eb32cf6ebc138f96e1d6fbf12cbf8460159aa63da3f26282644c91b",
+      "identity": [
+        null,
+        "不动如山",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "不动如山",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "9bba639382bbf3d25aca88639951aa493c21fa309e344fbbe341b67f1edb538f",
+      "identity": [
+        null,
+        "I am here to cure you from your vampirism.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I am here to cure you from your vampirism.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "9bc63e03b641191dba50ceaddb245f7561ed46101a7f1be89cad6958242e45a8",
+      "identity": [
+        null,
+        "%s starts the engine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3828"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s starts the engine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "9bfb596435d673ff72fc7bca739d539ae55cb605a2a09a023585c3bae618143b",
+      "identity": [
+        null,
+        "threshed winter wheat",
+        "of threshed winter wheat"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/raw_grain.json",
+          ""
+        ]
+      ],
+      "plural": "of threshed winter wheat",
+      "singular": "threshed winter wheat",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'many_years_old_news'",
+      "flags": [],
+      "id": "9c42c9d340868fd7332e97726b742211ba29088e113168c7213b3cfcb54a46eb",
+      "identity": [
+        null,
+        "GOVERNMENT ANNOUNCES NEW RESEARCH DIVISION.  The US government has announced a new research push into esoteric and fringe sciences.  \"We've decided that based on the new medicines and treatments that have been coming out of Asia from leads in Traditional Chinese Medicine and other Asian cultural histories to institute some additional research into less recent avenues.  This research group is receiving its funding as part of the budget windfall brought on by rare mineral deposits near the Canadian border.\"  Many geologists are still asking for access to these mineral deposits as these formations fly in the face of previously known geology.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/newspapers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "GOVERNMENT ANNOUNCES NEW RESEARCH DIVISION.  The US government has announced a new research push into esoteric and fringe sciences.  \"We've decided that based on the new medicines and treatments that have been coming out of Asia from leads in Traditional Chinese Medicine and other Asian cultural histories to institute some additional research into less recent avenues.  This research group is receiving its funding as part of the budget windfall brought on by rare mineral deposits near the Canadian border.\"  Many geologists are still asking for access to these mineral deposits as these formations fly in the face of previously known geology.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "9c6ae2e338c712a861265d01c9c9051cd311839ee4036e51a44c9e4a8dfb3476",
+      "identity": [
+        null,
+        "How insulting.  You still think you hunters can do anything against me?  I'll prove you wrong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How insulting.  You still think you hunters can do anything against me?  I'll prove you wrong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'deep salt water basin'",
+      "flags": [],
+      "id": "9c79763466ef2680022be9fe48ef92d50d4db74967027601c425c9973ea5cc89",
+      "identity": [
+        null,
+        "The deep salt water of a closed basin.  It can be drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The deep salt water of a closed basin.  It can be drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'banana'",
+      "flags": [],
+      "id": "9c7d286dd0463980213f5bff19135f3d86a3070e8c82c8a18dc6328b477042d5",
+      "identity": [
+        null,
+        "A long, curved yellow fruit in a peel.  Some people like using them in desserts.  Those people are probably dead.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/raw_fruit.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A long, curved yellow fruit in a peel.  Some people like using them in desserts.  Those people are probably dead.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

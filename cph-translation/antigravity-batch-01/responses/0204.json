@@ -1,0 +1,81 @@
+{
+  "request_sha256": "cc7a80d139c346c7e021d1bfdb71081bc8773baee67b959e6b94035654b43057",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "c17e7c35dc3d62a01eb6feb8f071ee298fd165622262a5e7bf277a9dda593312",
+      "values": [
+        "清除常规"
+      ]
+    },
+    {
+      "id": "c1b77bb15717ded6b9137ed9a071b89ab4efa7f4c1da8ec2ed96c322b8dbc5d8",
+      "values": [
+        "施法对你来说更加自然。施法时你不必过多思考。专注度不再影响施法，+20% 施法消耗。可通过激活此特质来开启或关闭。仅影响受专注度影响的法术。对消耗符文的法术无效。"
+      ]
+    },
+    {
+      "id": "c1bb4a878c8881e427d86d2f6ac17bef101aeb2ba73a331c0ce92bba284f7511",
+      "values": [
+        "%s（昆虫）"
+      ]
+    },
+    {
+      "id": "c1d2d55ea6d57a4666acc8327bd89453e5105cd56975673654c621653ed96ad6",
+      "values": [
+        "“感谢棱镜科技。感谢你们的好咖啡。愿为棱镜科技永葆清醒。”"
+      ]
+    },
+    {
+      "id": "c1e234f4469a5a35f4a41ba2036176a1f0fb9332501323b6e504e7597b9931b1",
+      "values": [
+        "用超自然虚弱诅咒目标的身体，缩短其自愈时间，并完全阻止超自然形式的再生生效。在秋季，持续时间将<color_green>大幅延长</color>。"
+      ]
+    },
+    {
+      "id": "c2176176f65adf2c7370f53396ec8a4912c9edce1ed401e02dd74b7ef54e05a0",
+      "values": [
+        "吸血鬼猎人"
+      ]
+    },
+    {
+      "id": "c2211eba42e25e81881cb6e21e65e0ef04cb85c7211d8732a2515847b8d2a253",
+      "values": [
+        "你无法启动 %s 的引擎。"
+      ]
+    },
+    {
+      "id": "c24f3e7d75cddbc361385eef36a0b30000d0eed17cd1fdd4ef8c9fcdd27fdbc7",
+      "values": [
+        "南瓜苗"
+      ]
+    },
+    {
+      "id": "c27a988d2914e56e9d4de3e529c54a086a366b1270e777e90b177520f85a63fa",
+      "values": [
+        "中触手"
+      ]
+    },
+    {
+      "id": "c2850c00bd329fe7a1286e14a0c3812041634b0a5a7ac379f9168d4f23c5d752",
+      "values": [
+        "右前触手根部"
+      ]
+    },
+    {
+      "id": "c286086ccd210e1ba4a9600141955e11da86b42764fd0762c137c66a6c373ef2",
+      "values": [
+        "长及小腿中部的裤子。"
+      ]
+    },
+    {
+      "id": "c295a0df958da4491c627db52a6451d892c4fc7034dc1e10f4af3f9f113fe501",
+      "values": [
+        "行吧，行吧。"
+      ]
+    }
+  ]
+}

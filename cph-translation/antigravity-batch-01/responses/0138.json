@@ -1,0 +1,81 @@
+{
+  "request_sha256": "1e0d6855fa3a7ac2ae24b00b25239486c02b6b3de1e1bf05172be6732726c7bb",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "7fbe5a32bb1b1ce10eb85811cd131b8db31d664d99c8bdb973ffefe2ce255dbd",
+      "values": [
+        "太阳的温暖与能量冲刷掉了你的疲惫。"
+      ]
+    },
+    {
+      "id": "802931917bf55c05932705c30200698e80fbf862d4dad1b2307a405c914402ab",
+      "values": [
+        "寻找污损地图上的建筑。"
+      ]
+    },
+    {
+      "id": "8052a4ec6718170f9217c6738d3172a5af7b7ac6c31b1f3ce5b347d8f0c84c73",
+      "values": [
+        "让<u_name>感染初期感冒。"
+      ]
+    },
+    {
+      "id": "8077e61c5857b3c0ea05ef4bc5a78054e3eb18252241549f0f4324a6ca96e99b",
+      "values": [
+        "已在选定地块排队执行 %d 个动作。"
+      ]
+    },
+    {
+      "id": "807e60e2b794b09c766c27bf6a31d1032c250bdb0de82f3f40969334c2e023d2",
+      "values": [
+        "你正在为最后的毁灭性重击做准备。\n\n命中率提高力量值的 15%，护甲穿透提高力量值的 225%。\n持续 1 回合。"
+      ]
+    },
+    {
+      "id": "8085bc58ec6a6122ec364eca120ead20e4dc75630fd4a7e81b511a432b624477",
+      "values": [
+        "你可以增强身体的散热与保温能力，使你能在更宽的温度范围内活动。温度适应与密封系统<color_red>会相互抵消</color>。\n\n该异能<color_yellow>通过专注维持</color>，若<color_yellow>专注被打断</color>则<color_red>可能会失效</color>。"
+      ]
+    },
+    {
+      "id": "8087f1ebc413b54fbff3b53a50f7adabace6c514b0af29f0d3c4e8b9c6e5e6f1",
+      "values": [
+        "转念一想，还是让我再考虑考虑吧。"
+      ]
+    },
+    {
+      "id": "8096cd4bb8e81d1bccb1097e412637f42d7cb2e7204fc2e2e50b4211e0032b90",
+      "values": [
+        "你梦见自己卷出了一支完美的大麻烟卷。"
+      ]
+    },
+    {
+      "id": "80a19efe1a8cc73f15e21d1d34270fa08b9f1e6027777a4cd76de37910d2ae18",
+      "values": [
+        "一份手写笔记，详细记录了一道极强效致幻剂的炼金配方。最终产物据说能让你“看透时间”。"
+      ]
+    },
+    {
+      "id": "80bd1ade01ea8919e8913eaa9b01e4a576346754f1b9dd8eec7f961430a21e36",
+      "values": [
+        "精炼蛛行术：蛛丝轻身"
+      ]
+    },
+    {
+      "id": "80c62c2ea2860b6a2fa1b050d57983a12c6a0838914e0295a9cf9a1004e6ac0c",
+      "values": [
+        "在教学引导游戏中学习基础操作与生存系统。"
+      ]
+    },
+    {
+      "id": "80cab5d194d36e2570226e8aef175d81de3502421b9d195cea287a5f61ac36e2",
+      "values": [
+        "臃肿丧尸试图吐出更多秽物，但只喷出了些许水滴。"
+      ]
+    }
+  ]
+}

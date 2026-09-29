@@ -1,0 +1,81 @@
+{
+  "request_sha256": "43e6563c3e373db012fdd4df77b1667fbb91df699d00a27d4573be1fbf410dbd",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "f2ebffe56b70ecd4996f2b52cb37e6922836966514c1fd8efdcd6b803fec543a",
+      "values": [
+        "欢迎来到您的紧急生存避难所。我们希望您在此停留的时间短暂而舒适。避难所提供应急毯、高反光夹克、防毒面具，以及供一天食用的食品和饮用水配给，外加应急打火机和手电筒。如果本设施超过预定容纳人数，公共储物柜中还备有更多补给品。这些物资由联邦应急管理局（FEMA）定期检查并补充，但如果您发现有物品遗失，请尽快联系 FEMA 主管。\n\n请在避难所内耐心等候，直到官方疏散运输工具抵达，接您返回家中；或者在发生重大灾难时，接您前往最近的疏散集结点。\n\n如果您是在暴力环境下撤离至此，FEMA 建议您在避难所地下室躲避，直到救援赶来。请记住：如果您擅自离开避难所，我们将无法找到您并将您带至安全地带。"
+      ]
+    },
+    {
+      "id": "f30c30cb9b5ced798c23c7ef43de279262dc32ef9cc4cf02e0052359cf2f278a",
+      "values": [
+        "硼硅化物激光放大器"
+      ]
+    },
+    {
+      "id": "f315dffdc26c32fa5a7f6628b79dce12ef24155da3573749535ae597c58fa658",
+      "values": [
+        "一条由海水供水的人工挖掘水渠。"
+      ]
+    },
+    {
+      "id": "f3230a943afb53e1c56838eef474d4360f5b6b720e89ae2f3ed0cb5d74c9a1a5",
+      "values": [
+        "flashbang.mp3\n\n视频一开始是一名男子正在从三名警察面前逃跑。其中一人追上了他并把他推倒在地。另外两人赶上后开始用警棍对他拳打脚踢。突然，在受害者双手附近爆发出一道刺目的强光和巨响，警察们都被震晕了。该男子爬起来跑掉了。\n\n你看了好几遍，在爆炸发生前完全没有看到任何闪光弹。"
+      ]
+    },
+    {
+      "id": "f324498d0b584da234ddadb83c610d772f3ad5ad47cc2f2b306f89b14eda14b5",
+      "values": [
+        "将其脱水"
+      ]
+    },
+    {
+      "id": "f32a6e9b7d11848847d47ac56a355c92814e84dbc0c2a6afd17c50d8197a3c7b",
+      "values": [
+        "你的双手呈类人形状，但似乎是由翻滚的阴影构成的。你每只手上都长有一根额外的指头，提高了你在逼仄困境中的行动能力。"
+      ]
+    },
+    {
+      "id": "f33214b6b199d799b28366ee08da95f862f993e06b6e4cd3d2bb33b17c0ee6ef",
+      "values": [
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   在 ᴴᵁᴹᴬᴺ 未与其自身现实同调时可用。\n   需要血液来进行暂时的现实稳定。\n   用户将返回其现实，随后在预计时间 4 EARTH HOURS 过去后由 AltarOS 远程提取。\n   用户将返回异乡的家园。  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   反复造访将使用户与其自身现实重新同调。  ᵖᵣₒᵐᵢˢₑ\n   警告：维度不稳定性将使 ᴴᵁᴹᴬᴺ 无法进行通讯。"
+      ]
+    },
+    {
+      "id": "f33db98edff8c82f8b308ec49a70c1f6901f2296cbade6a8fbf29f67af149360",
+      "values": [
+        "古老的气象记录，无聊得就像一块石头。"
+      ]
+    },
+    {
+      "id": "f3717a81d8ad7afef2f87b2f0d8ec1e8ee3130af838aabd121eef4de2dc402bf",
+      "values": [
+        "习得 <trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>"
+      ]
+    },
+    {
+      "id": "f389e6c74efdb0acbb41254c99bc7695551b8ceea8e8cadf953c2eb78f201d20",
+      "values": [
+        "你的力量已被吸取。"
+      ]
+    },
+    {
+      "id": "f397941d2a46676f85dc4c11d5a9ec26bfe62bca98e1fce1aaa89c33eaf398c0",
+      "values": [
+        "唯有直接取自桶塞的最上乘威士忌。"
+      ]
+    },
+    {
+      "id": "f3e90442f97681a5c9b4ab2c28bef5530d9366ab0def97776b8357df62706d56",
+      "values": [
+        "干涸间隙池底"
+      ]
+    }
+  ]
+}

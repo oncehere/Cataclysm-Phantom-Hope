@@ -1,0 +1,50 @@
+{
+  "model": "gemini-3.8-flash",
+  "requests": [
+    {
+      "request": 1,
+      "entries": 8,
+      "status": "RetryableError",
+      "seconds": 11.214
+    },
+    {
+      "request": 2,
+      "entries": 8,
+      "status": "response_received",
+      "seconds": 9.428
+    },
+    {
+      "request": 3,
+      "entries": 1,
+      "status": "response_received",
+      "seconds": 8.157
+    },
+    {
+      "request": 4,
+      "entries": 3,
+      "status": "RetryableError",
+      "seconds": 3.329
+    },
+    {
+      "request": 5,
+      "entries": 3,
+      "status": "RetryableError",
+      "seconds": 5.477
+    },
+    {
+      "request": 6,
+      "entries": 3,
+      "status": "RetryableError",
+      "seconds": 5.209
+    }
+  ],
+  "status": "INCOMPLETE",
+  "remaining_gaps": 3389,
+  "entry_results": {
+    "completed": 9,
+    "retry_exhausted": 3,
+    "not_requested": 3386
+  },
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-02-gemini",
+  "seconds": 117.966
+}

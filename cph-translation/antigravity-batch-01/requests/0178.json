@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a885cabc91b3951c4c5c2dd935f4c539d7a8777f446f817028c4cb5a3bcb9616",
+      "identity": [
+        null,
+        "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a8a05ceee55f6b751a23a1c2469130ad0f9977956896056b8bc4b467e0e6a095",
+      "identity": [
+        null,
+        "World name is empty. A random name will be generated.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2806"
+        ]
+      ],
+      "plural": null,
+      "singular": "World name is empty. A random name will be generated.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'feral security guard, Ψ Division'\n~ Message of special attack of monster 'feral adept'\n~ Message of special attack of monster 'feral dervish'\n~ Message of special attack of monster 'human whirlwind'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a8b1dca455d4aaa30b00c71c7e85776de4dd70a9c9b5e5fe64bd844dd9c2157a",
+      "identity": [
+        null,
+        "%1$s clenches their fists and shakes open their hands.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/monsters/feral_lab_psychics.json",
+          ""
+        ],
+        [
+          "data/mods/MindOverMatter/monsters/feral_psychics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s clenches their fists and shakes open their hands.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'chloroform'",
+      "flags": [],
+      "id": "a8b9afd4f4e5f12ad38575e0c0472b4d57332a7da0e6cdf3157cb776ed34121f",
+      "identity": [
+        null,
+        "Famous for its properties as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/chemicals_and_resources.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Famous for its properties as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Display name of a crafting requirement",
+      "flags": [],
+      "id": "a8c15b24f5b67d1fdc7a63bbc32a52198533e87239c1aa7ed8292c091f9731fa",
+      "identity": [
+        null,
+        "Magical herbs",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/requirements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Magical herbs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Exodii Cyberframe 1a'",
+      "flags": [],
+      "id": "a8f6327beaa7830d5e605c35d237ff4036fe565e460a511e2b3d9eeeb2dd67a0",
+      "identity": [
+        null,
+        "A bulky Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, will be encased in a solid metal core.  While there is clearly a head and torso, it is difficult to tell where one starts and the other ends.  It will be difficult or impossible to squeeze through tight spaces, or to wear normal-sized clothing and armor.  The frame greatly increases your physical dexterity and strength, and is highly protective, but the internal parts of your head and torso will still be affected by temperature, you will still feel pain, and internal bleeding can occur with sufficient damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bulky Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, will be encased in a solid metal core.  While there is clearly a head and torso, it is difficult to tell where one starts and the other ends.  It will be difficult or impossible to squeeze through tight spaces, or to wear normal-sized clothing and armor.  The frame greatly increases your physical dexterity and strength, and is highly protective, but the internal parts of your head and torso will still be affected by temperature, you will still feel pain, and internal bleeding can occur with sufficient damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a8f71683e21f424cdb8da66400833a53414ad79b20d9746a9d98fe8cb4bc91e1",
+      "identity": [
+        null,
+        "Exported %zu messages to message_log_export.txt.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/messages.cpp",
+          "866"
+        ]
+      ],
+      "plural": null,
+      "singular": "Exported %zu messages to message_log_export.txt.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Find some elder ginseng for Blaine'",
+      "flags": [],
+      "id": "a8ff19126d74ac5d285cb4fa584c5867114c9823d00fc07be0e71737dcf5cc68",
+      "identity": [
+        null,
+        "Blaine needs elder ginseng for the life extension potion and has asked you to bring some to him.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blaine needs elder ginseng for the life extension potion and has asked you to bring some to him.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a92958229ee5377d6d711feaaac0e4b214eb735987f2d5408b549fe40c651533",
+      "identity": [
+        null,
+        "I don't have much to offer except for a few services.  Elsa can give you leather and crossbow lessons while Blaine can spare some medical supplies and offer medical care in exchange for your help.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I don't have much to offer except for a few services.  Elsa can give you leather and crossbow lessons while Blaine can spare some medical supplies and offer medical care in exchange for your help.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "a929f259dcd943b8792ee04fb47ebcfcb01c157709951b6cdc9712426e3ac742",
+      "identity": [
+        null,
+        "Construction complete.  There are two more rooms to the south, to be turned into greenhouses eventually.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/greenhouse.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Construction complete.  There are two more rooms to the south, to be turned into greenhouses eventually.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "a92d005a4ada563780e3a854798a4f4e0f45e81493de6eff624167c74f3b4a00",
+      "identity": [
+        null,
+        "I'm not sure I should be writing this down but I'm definitely not putting it on the network.  Ever since the quarantine I've been able to pick up the occasional radio signal, mostly music, some news, some hobbyists.\n\nThings are a lot worse than we're being told.  I keep hearing reports from preppers on the radio talking about rioters fighting police and the military with no regard for their safety, running screaming straight into gunfire.  And the reanimations are so widespread that they're happening basically everywhere.  Neither the police nor the military can keep up.\n\nThe brass have to know about this, so why aren't they telling us?  They're trying to maintain morale?  I have to keep practicing until I can send a signal to one of those preppers, tell them what I know.  Maybe something good can come from being stuck down here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm not sure I should be writing this down but I'm definitely not putting it on the network.  Ever since the quarantine I've been able to pick up the occasional radio signal, mostly music, some news, some hobbyists.\n\nThings are a lot worse than we're being told.  I keep hearing reports from preppers on the radio talking about rioters fighting police and the military with no regard for their safety, running screaming straight into gunfire.  And the reanimations are so widespread that they're happening basically everywhere.  Neither the police nor the military can keep up.\n\nThe brass have to know about this, so why aren't they telling us?  They're trying to maintain morale?  I have to keep practicing until I can send a signal to one of those preppers, tell them what I know.  Maybe something good can come from being stuck down here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a93adc6b6f0aad716203e4c3fac7de9d959fa25a1d60e71a916d88426983548c",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'Νυκτίππος'",
+      "flags": [],
+      "id": "c48cc87f8ce88de1908e162afafe21ab8346951cbfd38928720db3b7cd46c3c7",
+      "identity": [
+        null,
+        "Is this a horse?  Do horses exude menace and a predatory aura?  A massive absence of color in a form recognizably inspired by a horse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/bloodsuckers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Is this a horse?  Do horses exude menace and a predatory aura?  A massive absence of color in a form recognizably inspired by a horse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c4cdcbea7a72c86ce543d0e37772a30600ed6e6347a98856f130fd2dc70b72bb",
+      "identity": [
+        null,
+        "Available mods",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "590"
+        ]
+      ],
+      "plural": null,
+      "singular": "Available mods",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected Serum Crash'",
+      "flags": [],
+      "id": "c4d26314c7a32bbb7c018c3c6d52a2ce3dfa24c6bb3d2290679ff3e281de71b5",
+      "identity": [
+        null,
+        "Your enhanced focus has faded away, light seems too bright, and you're pretty tired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/learning_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your enhanced focus has faded away, light seems too bright, and you're pretty tired.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Artifact Telepathic Shield'",
+      "flags": [],
+      "id": "c51dfc338616ca7ed8f419cb1a1ad9c8159602dd852a7941d0c289d0663d6c38",
+      "identity": [
+        null,
+        "For just a moment you hear a low hum in your mind.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "For just a moment you hear a low hum in your mind.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction'",
+      "flags": [],
+      "id": "c520a1c4e0aaeb156b02195a7ddc03f82ea35f1af4c9b79aa21fb713e8f7a514",
+      "identity": [
+        null,
+        "If you take some faewild now, the world will be brighter, your focus sharper, your odds of survival… higher.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you take some faewild now, the world will be brighter, your focus sharper, your odds of survival… higher.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c52bf203bcf9082c0319eb02fce95eb3b9d37a8d616f80f8d36ca93ef9121389",
+      "identity": [
+        null,
+        "Kept outta their line of sight, is a big part of it.  Don't let those <freaking> flyin' eyeballs get you, you know?  I kept my head down until I got past the worst of it, but then one of the <freaking> flying eyeballs saw me and I had to book it.  I wound up on the edge of a river layin' low under a hollow tree for a few hours, then slipped away in the night.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/criminal_1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Kept outta their line of sight, is a big part of it.  Don't let those <freaking> flyin' eyeballs get you, you know?  I kept my head down until I got past the worst of it, but then one of the <freaking> flying eyeballs saw me and I had to book it.  I wound up on the edge of a river layin' low under a hollow tree for a few hours, then slipped away in the night.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "c536257a9cfb02216efcf0de0081435fab18d73a050205a20dc70f6f6b0ea78f",
+      "identity": [
+        null,
+        "The vehicle parts could not be installed.  The order was fully credited.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "14544"
+        ]
+      ],
+      "plural": null,
+      "singular": "The vehicle parts could not be installed.  The order was fully credited.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "c5577157c5da796380bdd9e98df6460dacfa5c0360e8e904f4b5baeb4dc6db15",
+      "identity": [
+        null,
+        "Strix's Wings",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/temporary.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Strix's Wings",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'encrypted data archive'",
+      "flags": [],
+      "id": "c56295abf0f946d49647d3287a083acc47d316eb088f6ff9af8fa8a5de8dd376",
+      "identity": [
+        null,
+        "An encrypted archive copied from pre-Discontinuity ruins, it's effectively impossible to access and thus worthless.  Eccentrics might claim an ability to gain useful knowledge from these files, but such methods are more related to augury than to computer science.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An encrypted archive copied from pre-Discontinuity ruins, it's effectively impossible to access and thus worthless.  Eccentrics might claim an ability to gain useful knowledge from these files, but such methods are more related to augury than to computer science.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Effect of faction mission 'Survey Field'",
+      "flags": [],
+      "id": "c596bbcb8632af1c23f345d9ba927a671f1b64714466c92ffced1b49a69a81cc",
+      "identity": [
+        null,
+        "If the expansion direction selected is eligible for conversion into a field this mission will perform that conversion.  If it is not eligible you are told as much, and would have to make it suitable for conversion by removing everything that isn't grass or soil.  Mining zones are useful to remove pavement, for instance.  Note that removal of buildings is dangerous, laborious, and may still fail to get rid of everything if e.g. a basement or an opening to underground areas (such as a manhole) remains.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faction_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If the expansion direction selected is eligible for conversion into a field this mission will perform that conversion.  If it is not eligible you are told as much, and would have to make it suitable for conversion by removing everything that isn't grass or soil.  Mining zones are useful to remove pavement, for instance.  Note that removal of buildings is dangerous, laborious, and may still fail to get rid of everything if e.g. a basement or an opening to underground areas (such as a manhole) remains.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_gain_dreamdross_from_dreams'",
+      "flags": [],
+      "id": "c5c1eb91de95990641b03b27c0f28bb649d6eab05af0680f11af662dfd11c373",
+      "identity": [
+        null,
+        "Harvested Dreams",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Harvested Dreams",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c5c4b0bf733709d626ac3f0b2a48235e1ce13115ccb0fcb5fb90ad5df33309c3",
+      "identity": [
+        null,
+        "Looking to buy the cure to your vampirism?  I would give it for free if I could, but its ingredients are so hard to find now.  Phyliss can help you if you're desperate.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Looking to buy the cure to your vampirism?  I would give it for free if I could, but its ingredients are so hard to find now.  Phyliss can help you if you're desperate.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系",
+    "mutation": "突变"
+  }
+}

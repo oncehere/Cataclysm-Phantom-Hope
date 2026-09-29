@@ -1,0 +1,24 @@
+{
+  "sample_id": "714aaeedf0d97e4999698956112c1ae7a6551ae301b9952d5ea256314cbf8bcc",
+  "automatic_retries": 0,
+  "results": [
+    {
+      "model": "gemini-3.8-flash",
+      "status": "PASS",
+      "translation": "一份手写笔记，详细记录了一种能提升敏捷的炼金魔药配方。看来不死生物免不了要尝尝这双拳头了。",
+      "seconds": 7.88
+    },
+    {
+      "model": "gemini-3.1-pro-preview",
+      "status": "FAIL",
+      "http_code": 429,
+      "seconds": 2.43
+    },
+    {
+      "model": "gemini-3.5-flash-lite",
+      "status": "PASS",
+      "translation": "一本手写的笔记，详细记录了一种能提高敏捷度的药水炼金配方。看来这帮行尸走肉有得好果子吃了。",
+      "seconds": 2.09
+    }
+  ]
+}

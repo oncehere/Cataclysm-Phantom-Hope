@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a29db6d4334444762496bbe5d8bc880d6eafd4eed5c92ffaa70d2af595dda7ec",
+      "identity": [
+        null,
+        "[Select \"Labyrinth AB02123.3-4a\"]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/exodii_labyrinth_computer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Select \"Labyrinth AB02123.3-4a\"]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a2a84ff1e20e3819a263e7bcf35fbb278ff089d5a593b46f2072e05618f390cc",
+      "identity": [
+        null,
+        "%s stops refurbishing the vehicle and credits you for the payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "670"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s stops refurbishing the vehicle and credits you for the payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'minimal shoes (pair)'",
+      "flags": [],
+      "id": "a2bff4e7a2cc9375c327adbf347f20c3999ed4660d959c5efe85b21af4f3e0b9",
+      "identity": [
+        null,
+        "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a low cut leaving the ankles uncovered.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a low cut leaving the ankles uncovered.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message on effect of field 'scarlet haze'\n~ Player message on effect of field 'scarlet smoke'\n~ Player message on effect of field 'scarlet smog'",
+      "flags": [],
+      "id": "a2dea22d2916c9d8bd0193ff47f30bd6672998e46361aea8c96c35ddad1862e8",
+      "identity": [
+        null,
+        "The air here irritates your lungs!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The air here irritates your lungs!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in EoC 'avatar_sees_sauropod_setup'",
+      "flags": [],
+      "id": "a2fdb95d2eb6047fa938017c6a50f82f88387c55932c3993afdda5c5d241002b",
+      "identity": [
+        null,
+        "You see the sauropod.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/monster_special_attacks/sauropod_special_attacks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You see the sauropod.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Rabbit Feet'",
+      "flags": [],
+      "id": "a31b25ee8b19112db794a868ac085e3eee41c9108471c018a74c73bdd688429f",
+      "identity": [
+        null,
+        "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth and allows you to move quickly across snow, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations_limbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth and allows you to move quickly across snow, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Fey Vision'",
+      "flags": [],
+      "id": "a3594409a75e4bba64610fa200737aa350d223aae84384e6372168e07daae6d3",
+      "identity": [
+        null,
+        "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  The shadows don't seem nearly as dark now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  The shadows don't seem nearly as dark now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "a35d38928d2182d2f7910f673421cc065fab2ac46b0c510b76119a127833b4f7",
+      "identity": [
+        null,
+        "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a36baf5812b893c0151968569de856876be309e07e2b7b4f4cb955decf2a5679",
+      "identity": [
+        null,
+        "Previous",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "585"
+        ],
+        [
+          "src/options.cpp",
+          "256"
+        ],
+        [
+          "src/worldfactory.cpp",
+          "798"
+        ]
+      ],
+      "plural": null,
+      "singular": "Previous",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "a37f7fcbc85f801efb186767d5fad5fc53fd73e45ef3a07b7ab09a255b0d49b5",
+      "identity": [
+        null,
+        "the walking murderous plants",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the walking murderous plants",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a384614a88a845339313c35e6bea69c8c94e8b0995dce11a98d37eb3ebaa638e",
+      "identity": [
+        null,
+        "Vampire hunters are great at killing vampires.  Do you want to be another name on their kill list?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vampire hunters are great at killing vampires.  Do you want to be another name on their kill list?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a38719d13ef27c71161cab86457414a4fda55faefbc88d713d128d56b603d038",
+      "identity": [
+        null,
+        " *psssht* Do you read me, brother?  The song cannot transmit over these waves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": " *psssht* Do you read me, brother?  The song cannot transmit over these waves.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

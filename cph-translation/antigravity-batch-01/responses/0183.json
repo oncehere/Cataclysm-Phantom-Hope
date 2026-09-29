@@ -1,0 +1,81 @@
+{
+  "request_sha256": "ef508565486d624ed510693dead477cfb2e78f9529d8a0e226f3fbf0636859d8",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ac9f8c836255684d08711bb095cfa9e512257b7f7c0326c69ebe31e8ec957307",
+      "values": [
+        "幽默书籍"
+      ]
+    },
+    {
+      "id": "aca3d3df13d8ffae3f5b7db331a9ba24111acb943e5380f9ac2133401ee8cd70",
+      "values": [
+        "既然如此，带回证据就行。我们对它们很熟悉，所以它们身上的任何骨架部件都可以。那是深红色的。很难认错。"
+      ]
+    },
+    {
+      "id": "acd00b190099d28a5a16e10a65ceed4d02731970c282846988840632a2b91c30",
+      "values": [
+        "你的歌声毫无效果！"
+      ]
+    },
+    {
+      "id": "ace1edfae25de699b8fb72169df52ef5960ba56e81ffc9bf9ee602ba7a523d16",
+      "values": [
+        "一片巫木树林。"
+      ]
+    },
+    {
+      "id": "acec436583a5d0434477c7afd2ea430298d0aca400753a835cd5a3c3570f8fbf",
+      "values": [
+        "到达倒塌塔楼的地下室，在废墟中搜寻光子电路模板。对讲机警告过你附近有大量敌人出没，并且存在危险环境。他们也不确定给你的防护装备是否足够安全。"
+      ]
+    },
+    {
+      "id": "ad052bae266e1cf342439398b9a4e8c2518900d3e4c8e1382cc61d584f21bde1",
+      "values": [
+        "动作名称"
+      ]
+    },
+    {
+      "id": "ad1770592501c1e81b89e15944248c2cd207457609e0eab317063ee5042a00a6",
+      "values": [
+        "伴随着一阵突如其来的刺痛，你感到增强的韧性消退了。"
+      ]
+    },
+    {
+      "id": "ad2a830f3127a3399931f1531905652459fa950642c309cc6dc9c9b413ec2ad8",
+      "values": [
+        "PE150 不得再施用于以下样本 <lt>被划掉的文字<gt>"
+      ]
+    },
+    {
+      "id": "ad2efe274f33d95f3fe901ca435b29d2897c85a7615348609be7c7f24a57a854",
+      "values": [
+        "麻木世界"
+      ]
+    },
+    {
+      "id": "ad31b336b00e4f7a4c686b2da3c9cce171a857a937e07b09ac64174ea9958202",
+      "values": [
+        "短暂窥见屏障另一侧的景象。"
+      ]
+    },
+    {
+      "id": "ad3304f2c85dd5493e3eefafadd00c702ec406a31216f5a4beb71882aa577ca1",
+      "values": [
+        "前触手尖端"
+      ]
+    },
+    {
+      "id": "ad3e3b938128982201bdaf8e9385d0f0f99ae87ddd20599462d1e8fe6a0ba78c",
+      "values": [
+        "作为亡魂击杀杀害你的凶手"
+      ]
+    }
+  ]
+}

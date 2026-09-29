@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "df54d1399413bdb6df486ef556ca032469c38339a520a44e457badb6310dbed5",
+      "identity": [
+        null,
+        "Well, maybe not now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, maybe not now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Leg Tentacles'",
+      "flags": [],
+      "id": "df554c846e0c75244a4a1f49b0ddc3038c1539dce5c0810d5162115fd946b4dc",
+      "identity": [
+        null,
+        "Your legs have transformed into six tentacles.  This decreases your speed on land by about 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.  Fortunately the lack of footwear does not reduce your speed, and your tentacles do not need splints to heal should they become critically damaged.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations_limbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your legs have transformed into six tentacles.  This decreases your speed on land by about 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.  Fortunately the lack of footwear does not reduce your speed, and your tentacles do not need splints to heal should they become critically damaged.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'european comic'",
+      "flags": [],
+      "id": "df5b80df5e1f8da8b05c0e125c6b0e3d50838710e56e1dc3e39e100d4ea8cce1",
+      "identity": [
+        null,
+        "A comic book in the franco-belgian format, large, fully colored with a hard cover.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A comic book in the franco-belgian format, large, fully colored with a hard cover.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "dfaed707978834aad4bc46ce9710910bab8d8bb215bc662524052a746a47d363",
+      "identity": [
+        null,
+        "No.  As you can probably see, we can't spare the parts.  Too much risk these days.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  As you can probably see, we can't spare the parts.  Too much risk these days.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled recipe (abyssal coffee)'",
+      "flags": [],
+      "id": "dfb43663b44e8ab08a5e1b3ebf63beb83d501adf01cefd52cf353494ab9d2ae4",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for…the perfect cup of coffee?  Whoever wrote this seems like they knew way more about coffee than you could learn even with a lifetime of research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for…the perfect cup of coffee?  Whoever wrote this seems like they knew way more about coffee than you could learn even with a lifetime of research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "dfbcf57a3f095eb22044410e168a15c7126e7c75b1f3f55413c49461c71f9d7c",
+      "identity": [
+        null,
+        "fey smith's hammer",
+        "fey smith's hammers"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/tools.json",
+          ""
+        ]
+      ],
+      "plural": "fey smith's hammers",
+      "singular": "fey smith's hammer",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'hunters' leader' NPC class\n~ Good social and deduction but hasn't fought for a long time.  Their\naptitude as a chief makes them not worth risking in battles.",
+      "flags": [],
+      "id": "dfc717adeaee5f91175bf789a802760ad5741ffba944476962263420fa0736d1",
+      "identity": [
+        null,
+        "I lead the hunt against vampires.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I lead the hunt against vampires.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle name",
+      "flags": [],
+      "id": "dfcc63683e8a031f3914011c5795f06c605376983ab2aa82712cae398f588c89",
+      "identity": [
+        null,
+        "Trans-Coast Logistics Armored Car",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/vehicles/xedra.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Trans-Coast Logistics Armored Car",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'vampire_infected_fae_wake_up'",
+      "flags": [],
+      "id": "dfcd3e14de2404b2089ab0987f0a9ede49f111c0dda5c2146fddaa25d5a3da8d",
+      "identity": [
+        null,
+        "You wake up from a dreamless sleep.  You must purge that illness if you wish to have your fae dreams back.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You wake up from a dreamless sleep.  You must purge that illness if you wish to have your fae dreams back.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "dfe1489c5474f70763ab5462d1fd7ed1880bca4153c56d688fb1ffb752fd8583",
+      "identity": [
+        null,
+        "Doc Stevens hesitate for an uncomfortable moment.  The saw slows down.  Then he nods and unclasps you.  You are free to go.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Doc Stevens hesitate for an uncomfortable moment.  The saw slows down.  Then he nods and unclasps you.  You are free to go.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ This one's for the nostalgic, I suppose, like Venn here.  You'll still\nhave a human shape, and can still do and wear all your human things.\nDownside is it can't be plated as well, so it's a bit more vulnerable by\nitself.",
+      "flags": [],
+      "id": "dfe9ae34d32664494419ecf6f104a9df931c2f91ab47e3bebf8e8d0366fe34fa",
+      "identity": [
+        null,
+        "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This'n for those'n can't help'a look back, like Venn, aye?  You'll still have the shape'o'yerself, and ye'd still wear yer human things.  But can't be plated like this'n's and keep'at shape, so it's more tattarrattat, less thunk, should somethin' come and smash ya' up.  That is to say, yer less tough.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This'n for those'n can't help'a look back, like Venn, aye?  You'll still have the shape'o'yerself, and ye'd still wear yer human things.  But can't be plated like this'n's and keep'at shape, so it's more tattarrattat, less thunk, should somethin' come and smash ya' up.  That is to say, yer less tough.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "e007dc32b58323fc047d5d201d6a6429f01d8e838a7be4736552b4bd31fe7f3f",
+      "identity": [
+        null,
+        "root",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "root",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

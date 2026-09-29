@@ -1,0 +1,59 @@
+{
+  "before_po_sha256": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+  "date": "2026-09-29",
+  "edited_po_sha256": "ea44f957f2188f6a954635b8bd292d85eb4f60a2b8661312164d66f205c12d9d",
+  "edits": [
+    {
+      "after": "“……请总结一下你的直观感受。”\nM33：“呃，好吧。这很难形容，你知道的，一个普通……对不起，对不起，一个标准的人身上都带着一种光芒。如果他们生病、疲惫或者在某种程度上受了伤，都会影响这种光芒。[数据删除]……噢，抱歉，我是说，呃，CE473 身上也有同样的光芒，但很微弱暗淡。”\n提问者：“微弱暗淡？”\nM33：“就像是，那层光芒……减弱了，你懂吧？就好像她生病了似的，但她并没有病。我完全找不出她身上有任何问题。我尽可能做了一次全面扫描，你知道的，她的健康状况十分完美。甚至比完美还要好。呃，CE473 应该四十五岁左右吧？”\n提问者：“没错。”\nM33：“如果不是别人告诉我，我绝不会相信。她不仅仅是看起来比实际年龄年轻，她在生理上也更年轻。”\n提问者：“你第二次检查时对受试者的印象如何？”M33：“噢，在一天快结束的时候？好吧，我不知道该怎么形容，她是……红色的。”\n提问者：“你这话是什么意思？”\nM33：“对，就好像她比平时更苍白，而且带着这些红色的条纹。感觉就像，呃……”\n*停顿十五秒*\n\n提问者：“请继续。你的直观印象对实验的成功至关重要。”\n*停顿六秒*\nM33：“饥饿。感觉很饥饿。”",
+      "before": "“……请总结一下你的直观感受。”\nM33：“呃，好吧。这很难形容，你知道的，一个普通……对不起，对不起，一个标准的人身上都带着一种光芒。如果他们生病、疲惫或者在某种程度上受了伤，都会影响这种光芒。[数据删除]……噢，抱歉，我是说，呃，CE473 身上也有同样的光芒，但很微弱暗淡。”\n提问者：“微弱暗淡？”\nM33：“就像是，那层光芒……减弱了，你懂吧？就好像她生病了似的，但她并没有病。我完全找不出她身上有任何问题。我尽可能做了一次全面扫描，你知道的，她的健康状况十分完美。甚至比完美还要好。呃，CE473 应该有四十岁出头吧？”\n提问者：“没错。”\nM33：“如果不是别人告诉我，我绝不会相信。她不仅仅是看起来比实际年龄年轻，她在生理上也更年轻。”\n提问者：“你第二次检查时对受试者的印象如何？”M33：“噢，在一天快结束的时候？好吧，我不知道该怎么形容，她是……红色的。”\n提问者：“你这话是什么意思？”\nM33：“对，就好像她比平时更苍白，而且带着这些红色的条纹。感觉就像，呃……”\n*停顿十五秒*\n\n提问者：“请继续。你的直观印象对实验的成功至关重要。”\n*停顿六秒*\nM33：“饥饿。感觉很饥饿。”",
+      "id": "37c5067147ba22bac207cf15b9dc612ab1a41c21fa197e9a8c1896f20f58019a",
+      "identity": [
+        null,
+        "\"…summary of your sensations, please.\"\nM33: \"Uh, okay.  Well, it's hard to describe this, you know, but a normal…sorry, sorry, a standard person has a kind of glow to them.  If they're sick, or tired, or injured in some way, it affects the glow.  [REDACTED]…oh, sorry, I mean, uh, the CE473 had that same glow but it was muted\"\nInterviewer: \"Muted?\"\nM33: \"Like, the glow was just…lower, you know?  Like she was sick or something, but she wasn't.  I couldn't find anything wrong with her at all.  I did a full scan, as much as I could, you know, and she was in perfect health.  Better, even.  The, uh, CE473 is in her mid-40s?\"\nInterviewer: \"That's correct.\"\nM33: \"I never would have believed that if I wasn't told it.  She doesn't just look good for her age, she's physically younger.\"\nInterviewer: \"What was your impression of the subject on your second examination?\"M33: \"Oh, at the end of the day?  Well, I'm not sure how to describe it, she was…red.\"\nInterviewer: \"What do you mean by that?\"\nM33: \"Yeah, like she was even paler than usual and there were these kind of red streaks.  And it felt, uh…\"\n*fifteen second pause*\n\nInterviewer: \"Please continue.  Your impressions are very important to the success of the experiment.\"\n*six second pause*\nM33: \"Hungry.  It felt hungry.\"",
+        null
+      ],
+      "replacements": [
+        {
+          "after": "CE473 应该四十五岁左右吧？",
+          "before": "CE473 应该有四十岁出头吧？",
+          "reason": "mid-40s denotes approximately forty-five, not early forties."
+        }
+      ]
+    },
+    {
+      "after": "Downloads/how_to_train_your_nightmares_trailer.mp4\n\n预告片以一段超现实的小提琴配乐开场：一名身穿白大褂、面色惨白的女子跪在地下室地板上。她低头注视着一组雕刻的银质符文，深红色的头发浸透着道道血迹，双眼紧闭，低声诵念着咒文，同时一个带着英式抑扬顿挫的配音（与她的声音相同）在画面上响起。“有些潜伏在深渊彼端的存在，会让清醒之人陷入癫狂。”隐藏在发丝下的伤口流出的鲜血滴落在符文上，随着物体开始咝咝作响，女子的呼吸变得急促，镜头推近到她那满是伤疤的脸上，她的双眼缓缓睁开，音乐随之推向高潮。“但当疯狂倾盆而下时，”女子完全睁开双眼，露出被灼烧成猩红色的虹膜，当旁白结束时，画面被其中一只眼睛的特写所填满：“唯一剩下的……唯有超越。”\n\n在短暂的紧张定格后，音乐转为强劲的低音鼓节奏，镜头拉远，展现出一个在购物广场空荡荡的中庭夹层中潜行的高大长袍身影。面孔隐没在兜帽的阴影中，当这个身影迈步向前时，四肢以令人不安的非人方式弯曲，就在片刻之后，一只利爪从下方猛然窜出，将它扫出了走廊。在被一群噩梦般、流着口水的怪物包围下，那个身影静止了片刻，随后长袍爆裂开来，露出一个由交织触手构成的类人实体。多条肢体的末端紧握着冲锋手枪，它钩在天花板上，在枪林弹雨中从地面荡向镜头视角。\n\n视角切换到女子跨骑在摩托车上的场景，手持一把装有刺刀的战斗步枪。穿行在挤满了蠕动诡异畸形怪物的街道上，她在摩托车上挥刀刺杀，一只蛇形生物在她身后展翅飞翔，两者在人群中杀出一条血路，随后画面切换。\n\n女子在谷仓内一辆篷车的车厢后部打盹小憩，谷仓的大门敞开着。一只由触手构成的蛛形生物从入口处爬了进来，镜头切换到它的视角，它缓缓爬向篷车。它把一条腿搭在车沿上，视角向上看去，却赫然发现那只蛇形凶兽正蹲伏在车顶。寂静的一秒过去后，长着翅膀的怪物俯冲而下，巨口吞噬了整个视野，随后血肉模糊的字迹在屏幕上渗出。\n\n“《驯魇高手》，4月 22 日影院上映！”",
+      "before": "Downloads/how_to_train_your_nightmares_trailer.mp4\n\n预告片以一段超现实的小提琴配乐开场：一名身穿白大褂、面色惨白的女子跪在地下室地板上。她低头注视着一组雕刻的银质符文，深红色的头发浸透着道道血迹，双眼紧闭，低声诵念着咒文，同时一个带着英式抑扬顿挫的配音（与她的声音相同）在画面上响起。“有些潜伏在深渊彼端的存在，会让清醒之人陷入癫狂。”隐藏在发丝下的伤口流出的鲜血滴落在符文上，随着物体开始咝咝作响，女子的呼吸变得急促，镜头推近到她那满是伤疤的脸上，她的双眼缓缓睁开，音乐随之推向高潮。“但当疯狂倾盆而下时，”女子完全睁开双眼，露出被灼烧成猩红色的虹膜，当旁白结束时，画面被其中一只眼睛的特写所填满：“唯一剩下的……唯有超越。”\n\n在短暂的紧张定格后，音乐转为强劲的低音鼓节奏，镜头拉远，展现出一个在购物广场空荡荡的中庭夹层中潜行的高大长袍身影。面孔隐没在兜帽的阴影中，当他们迈步向前时，四肢以令人不安的非人方式弯曲，就在片刻之后，一只利爪从下方猛然窜出，将他们扫出了走廊。在被一群噩梦般、流着口水的怪物包围下，那个身影静止了片刻，随后长袍爆裂开来，露出一个由交织触手构成的类人实体。多条肢体的末端紧握着冲锋手枪，他们钩在天花板上，在枪林弹雨中从地面荡向镜头视角。\n\n视角切换到女子跨骑在摩托车上的场景，手持一把装有刺刀的战斗步枪。穿行在挤满了蠕动诡异畸形怪物的街道上，她在摩托车上挥刀刺杀，一只蛇形生物在她身后展翅飞翔，两者在人群中杀出一条血路，随后画面切换。\n\n女子在谷仓内的一辆篷车后方打盹小憩，谷仓的大门敞开着。一只由触手构成的蛛形生物从入口处爬了进来，镜头切换到它的视角，它缓缓爬向篷车。它把一条腿搭在车沿上，视角向上看去，却赫然发现那只蛇形凶兽正蹲伏在车顶。寂静的一秒过去后，长着翅膀的怪物俯冲而下，巨口吞噬了整个视野，随后血肉模糊的字迹在屏幕上渗出。\n\n“《驯魇高手》，4月 22 日影院上映！”",
+      "id": "b253e7f831ed0cda2319f28467a100206209b9002148006a2c38bcd980622acd",
+      "identity": [
+        null,
+        "Downloads/how_to_train_your_nightmares_trailer.mp4\n\nThe trailer starts with a surreal violin score: a deathly pale woman in a lab coat kneeling on a basement floor.  Head bowed over a collection of engraved silver glyphs, her crimson hair drenched in rivulets of blood, and eyes closed, she chants under her breath as a British cadenced voice, the same as hers, speaks over the scene.  \"There are things stalking beyond the abysses that drive the sane to madness.\"  Letting blood spatter upon the glyphs from wounds hidden by her hair, the woman's breathing quickens as the objects begin to sizzle, the view zooming upon her heavily scarred face as her eyes slowly open and the music escalates.  \"But when insanity rains,\" fully opening her eyes, the woman's irises are revealed to be burned scarlet, the perspective filled by a view of one of them as the narration concludes, \"the only thing left… is to transcend.\"\n\nAfter a moment of tense freeze frame, the music grows to a dynamic bass-drum rhythm, the view zooming out and revealing the eyes of a tall, robed figure stalking through the deserted mezzanine level of a shopping plaza.  With their face lost in the shadow of a hood, their limbs bend in disturbingly inhuman ways as they stride, moments before a clawed hand bursts from beneath and whips them from the corridor.  Encircled by a throng of nightmarish, slavering monstrosities, the figure rests still for a moment before their robe bursts apart, revealing them to be an anthropoid composed of intertwining tentacles.  Machine pistols clutched at the ends of their many limbs, they latch to the ceiling and, in a hail of bullets, swing from the floor and towards the view.\n\nThe perspective shifts to a scene of the woman, wielding a bayonet-equipped battle rifle, riding astride a motorcycle.  Weaving through a street crowded with writhing eldritch abominations, she stabs from the bike as a viperine creature wings behind her, the pair cutting a bloody swath through the crowd before the view changes.\n\nDozing in the back of a covered wagon within a barn, the woman rests, the barn's doors wide open.  A spidery creature made from tentacles creeps in through the opening, the camera shifting to its perspective as it crawls towards the wagon.  Laying a leg upon the vehicle's lip, the view glances up, only to reveal the viperine beast crouching atop the cart.  A still second passes before the winged monstrosity dives, the view filled by its gaping maw, before fleshy words bleed across the screen.\n\n\"How to Train Your Nightmares, coming to cinemas April 22nd!\"",
+        null
+      ],
+      "replacements": [
+        {
+          "after": "女子在谷仓内一辆篷车的车厢后部打盹小憩",
+          "before": "女子在谷仓内的一辆篷车后方打盹小憩",
+          "reason": "The woman rests inside the rear of the wagon, not behind it."
+        },
+        {
+          "after": "当这个身影迈步向前时",
+          "before": "当他们迈步向前时",
+          "reason": "Singular they refers to the one robed figure."
+        },
+        {
+          "after": "将它扫出了走廊",
+          "before": "将他们扫出了走廊",
+          "reason": "The claw strikes the same single figure."
+        },
+        {
+          "after": "它钩在天花板上",
+          "before": "他们钩在天花板上",
+          "reason": "The tentacled anthropoid is one entity."
+        }
+      ]
+    }
+  ],
+  "protection": "Direct reviewed PO edits; the next plan must detect exactly two edits and protect them.",
+  "reviewer": "Codex; user-authorized corrections",
+  "version": 1
+}

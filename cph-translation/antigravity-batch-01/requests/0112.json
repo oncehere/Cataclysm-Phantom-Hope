@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'tainted tallow'",
+      "flags": [],
+      "id": "666cd0f734e133b8ad98b5a8ca5b16b256a450942226d9e2ec39174f476ebdea",
+      "identity": [
+        null,
+        "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/carnivore.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_b>'",
+      "flags": [],
+      "id": "667db57b6518ac5541eacab28505ef8c2d4278fa20321076bddf92b77b123e58",
+      "identity": [
+        null,
+        "food being much harder to find",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "food being much harder to find",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '炼气'",
+      "flags": [],
+      "id": "66807c73585dd14f52b1531993d8c4f59fc3eeec6e42b725ea6969e6a82e9a6d",
+      "identity": [
+        null,
+        "炼气境：引气入体，温养经脉。此「法术」不可主动施放，仅作修为进度的载体——其等级即炼气境的层数（一层至十三层）。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/realms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "炼气境：引气入体，温养经脉。此「法术」不可主动施放，仅作修为进度的载体——其等级即炼气境的层数（一层至十三层）。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of achievement 'Rules of Engagement'",
+      "flags": [],
+      "id": "66e7303ab3099f44a949c8309958a3d9c7843da3b8f75482d6bda0a1ac7ebab7",
+      "identity": [
+        null,
+        "Frei en lefdet.\n<color_c_dark_gray>  - common saying between mercenaries.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Frei en lefdet.\n<color_c_dark_gray>  - common saying between mercenaries.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "66f41ab247007f88ca0201d7b274d319103107e95ec67181419d7a777afc5846",
+      "identity": [
+        null,
+        "Peering down from what appears to be a security camera mount, this monochromatic segment of footage is focused on a section of airport taxiway.  A solitary, desert-drab plane rests upon the stretch of concrete, its boarding stairs lowered, and its twin engines whining as it idles, the drone of its motors almost eclipsing the distant screams and gunfire occasionally conveyed through the crackling audio.  Minutes into the tape, a small group of ragged people burst into view: assorted individuals in civilian garb flanked by a scattering of soldiers, all running headlong towards the aircraft.  A small child can be seen at the rear of the group, half carried by a serviceman and lagging behind the main body.  Suddenly, a violent flutter of gossamer wings fills the view as a dog-sized insectoid lunges past the camera, the colorful wasp alighting on the child's back and snapping large mandibles about them.  As a sickening, writhing carpet of wasps swarms into view and the group's front-runners begin to hurry up the aircraft's steps, a terrible game of tug of war ensues between the soldier and the ever-growing number of frenzied parasitoids, culminating in the man reeling back, showered in spurting blood, and clutching the child's chewed-off arm.  As the screaming child is subsumed beneath a twitching carapace of legs and pulsating ovipositors and the soldier is forced up the stairs, he pulls a pistol and fires wildly into the swarm, the ammunition depleting before he's dragged into the aircraft.  The last thing that the camera records is a spherical object being flung from the plane's closing door—the item pinging off the taxiing aircraft's wing and rolling into the frenzied crowd.  The plane powers out of sight, moments before the footage goes white.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Peering down from what appears to be a security camera mount, this monochromatic segment of footage is focused on a section of airport taxiway.  A solitary, desert-drab plane rests upon the stretch of concrete, its boarding stairs lowered, and its twin engines whining as it idles, the drone of its motors almost eclipsing the distant screams and gunfire occasionally conveyed through the crackling audio.  Minutes into the tape, a small group of ragged people burst into view: assorted individuals in civilian garb flanked by a scattering of soldiers, all running headlong towards the aircraft.  A small child can be seen at the rear of the group, half carried by a serviceman and lagging behind the main body.  Suddenly, a violent flutter of gossamer wings fills the view as a dog-sized insectoid lunges past the camera, the colorful wasp alighting on the child's back and snapping large mandibles about them.  As a sickening, writhing carpet of wasps swarms into view and the group's front-runners begin to hurry up the aircraft's steps, a terrible game of tug of war ensues between the soldier and the ever-growing number of frenzied parasitoids, culminating in the man reeling back, showered in spurting blood, and clutching the child's chewed-off arm.  As the screaming child is subsumed beneath a twitching carapace of legs and pulsating ovipositors and the soldier is forced up the stairs, he pulls a pistol and fires wildly into the swarm, the ammunition depleting before he's dragged into the aircraft.  The last thing that the camera records is a spherical object being flung from the plane's closing door—the item pinging off the taxiing aircraft's wing and rolling into the frenzied crowd.  The plane powers out of sight, moments before the footage goes white.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "66fcffb089349b5eaee76e40965ce83c041ecbf06cd60a8d73bcfc87f45fd204",
+      "identity": [
+        null,
+        "%s can't start the %s's engine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3642"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s can't start the %s's engine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6728ed2e4f240cc70d2c2100aea55a6819b9105abb4a18528c0d02554495bb45",
+      "identity": [
+        null,
+        "Movement mode",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "636"
+        ]
+      ],
+      "plural": null,
+      "singular": "Movement mode",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "672a47b97afcfd48a6ae8afe383ce0cb61ad3622dcc52ff02b86b02ee9db086a",
+      "identity": [
+        null,
+        "The channel is open, but the connected source is too low to reach it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1168"
+        ]
+      ],
+      "plural": null,
+      "singular": "The channel is open, but the connected source is too low to reach it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "6747b2854ec08313bca20f2c793c7c59be8d5bdf4d9b5813bf8e521fce3ad77c",
+      "identity": [
+        null,
+        "Find the Water Source",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_update_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Find the Water Source",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "6752447a0d301ea9324fa5794459c6bb33fd02244faf3e225acb0b37ed031708",
+      "identity": [
+        null,
+        "Other Eye of the Island",
+        "Other Eye of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/scouting.json",
+          ""
+        ]
+      ],
+      "plural": "Other Eye of the Island",
+      "singular": "Other Eye of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Exiled Insurgent'",
+      "flags": [],
+      "id": "676422fe4251ed443d52adf79377399a8ce5bb4b034cd7955202bf32d15b2827",
+      "identity": [
+        null,
+        "When Earth came to crush your dreams of freedom underfoot, you were one of the few wise enough to flee into the deep frontier.  You have lived as a fugitive and pariah ever since, wanted by the law and rejected by your own people.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When Earth came to crush your dreams of freedom underfoot, you were one of the few wise enough to flee into the deep frontier.  You have lived as a fugitive and pariah ever since, wanted by the law and rejected by your own people.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Without Blemish'",
+      "flags": [],
+      "id": "67644581c630e879f11d03528ac136667617c3a146020dae52c0ba7126b63271",
+      "identity": [
+        null,
+        "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.  You have grown so powerful that this illusion requires almost no effort and can be <color_green>maintained for weeks</color> at a time.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.  You have grown so powerful that this illusion requires almost no effort and can be <color_green>maintained for weeks</color> at a time.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

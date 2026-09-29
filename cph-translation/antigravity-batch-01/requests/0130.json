@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "78361c3e6924003dc76bc34b1c52afb671d4b544855c742d693b3aa71a3da67e",
+      "identity": [
+        null,
+        "\"Criminal activity detected!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Criminal activity detected!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ A verb expressing an ongoing action",
+      "flags": [],
+      "id": "785d6dceec17968899f9a8f7480c2fdcf4b88715402a2789b9950a576deef4d9",
+      "identity": [
+        null,
+        "undergoing the SHADOW URGE process",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/activity_types.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "undergoing the SHADOW URGE process",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'surgical bonebot'",
+      "flags": [],
+      "id": "78648092b1dbfa0f7bc1f6d208e00957e35ab34b3e2f89a78e887c7f6b8c6806",
+      "identity": [
+        null,
+        "A four-armed humanoid robot zipping around on bumpy, slow rollers.  At first glance it seems to be some sort of service or industrial machine, but closer inspect reveals it is entirely clad in a thick, bone-like material.  Although its \"head\" lacks any facial features, it bares a surgical mask and a plastic face shield.  Its limbs end in over-articulated hands, clicking, clacking, and rapidly rotating at the wrist.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/netherum/labyrinth_monsters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A four-armed humanoid robot zipping around on bumpy, slow rollers.  At first glance it seems to be some sort of service or industrial machine, but closer inspect reveals it is entirely clad in a thick, bone-like material.  Although its \"head\" lacks any facial features, it bares a surgical mask and a plastic face shield.  Its limbs end in over-articulated hands, clicking, clacking, and rapidly rotating at the wrist.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'shallow pool water'",
+      "flags": [],
+      "id": "789650be908ea8d6b69cefc3b945f225d719b60cce728abbd409fc0b3a4b8f70",
+      "identity": [
+        null,
+        "A shallow swimming pool with a finite amount of water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A shallow swimming pool with a finite amount of water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'colony collapse data'",
+      "flags": [],
+      "id": "78a0de245b89aa20531ccc66856f56dea0a439903ec10eff6099542f91e72b04",
+      "identity": [
+        null,
+        "Logs and reports that describe the gradual decline of Salus IV after the Discontinuity.  There was no hope of long-term survival here, and the colonists knew it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Logs and reports that describe the gradual decline of Salus IV after the Discontinuity.  There was no hope of long-term survival here, and the colonists knew it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "78a6bf7ff42b0f8a15e078664884577e7432f2cfb6177186b1401ed5e7440d89",
+      "identity": [
+        null,
+        "Sounds good",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sounds good",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Artifact Fear Aura'",
+      "flags": [],
+      "id": "78be68615d88723942f71f38d92f75077b31225952e0d3a3857e6c7eb4153e08",
+      "identity": [
+        null,
+        "A chill runs down your spine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A chill runs down your spine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_Xedra_Evolved_RandEnc_remove'",
+      "flags": [],
+      "id": "78cfcead9344ccacab0d7f4fd5c43492582fc8b74ecc7aa5e41905bb67ac813a",
+      "identity": [
+        null,
+        "Current random encounter is being removed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/base_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Current random encounter is being removed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "78fd426d08a505634defd49303463cdc48b6dde54ecd49ca7f0a318376a42579",
+      "identity": [
+        null,
+        "<npc_name> reluctantly takes the cure and departs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<npc_name> reluctantly takes the cure and departs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of species 'FORGE_LORD'",
+      "flags": [],
+      "id": "793f32e5736dcb0d54201c626e3914ffa63fef7581cac63cecd24b6b501e5572",
+      "identity": [
+        null,
+        "an entrepreneurial being",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "an entrepreneurial being",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7954f19ff452c8cf33fec0dd7e9321658d3027cda650404f4f755181118a998f",
+      "identity": [
+        null,
+        "Location and environment",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "576"
+        ]
+      ],
+      "plural": null,
+      "singular": "Location and environment",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "797f7e9b1c5e2dd0f94ae98f2a4d29d2c22b2c5747af8ef61134ce61de67690e",
+      "identity": [
+        null,
+        "No, I'm not calling you jaryi.  Jaryi is my mother's mother.  It's a King's Landing word for a grandmother, I'm making a little joke at you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No, I'm not calling you jaryi.  Jaryi is my mother's mother.  It's a King's Landing word for a grandmother, I'm making a little joke at you.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

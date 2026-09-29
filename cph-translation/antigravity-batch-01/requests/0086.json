@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_CANCEL'",
+      "flags": [],
+      "id": "4af1c659ee670414832b052d7eda55712b550317f07be5068c98b8bcc2f715ee",
+      "identity": [
+        null,
+        "You break off your quest into the spirit world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You break off your quest into the spirit world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "4af214d065afe1019eaa67e1d84800acbd6735fa9b59e5decef9890ccef53bda",
+      "identity": [
+        null,
+        "The Sickness Unto Death",
+        "copies of The Sickness Unto Death"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Sickness Unto Death",
+      "singular": "The Sickness Unto Death",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4b0159779143ae210ed7a56edfc6f427e7ec0839d3dfe10663d4f4465015c7cb",
+      "identity": [
+        null,
+        "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today, but that went well.  You were, uh, well, let's just say I think you should stick to scavenging, yeah?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today, but that went well.  You were, uh, well, let's just say I think you should stick to scavenging, yeah?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_maintenance_signage'\n~ signage for the maintenance areas (non-public).",
+      "flags": [],
+      "id": "4b67bc68dddb807cb5ac2dc7c224552310daa18488bd5732060841ec21e0e50c",
+      "identity": [
+        null,
+        "STOP\nFor Your\nSafety",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "STOP\nFor Your\nSafety",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Gun mod name",
+      "flags": [],
+      "id": "4b71df773a965c5e82ebd48c09ec76cd7fb763548edaef000547bc6a593f44b4",
+      "identity": [
+        null,
+        "pistol double tapper",
+        "pistol double tappers"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/inventor/gunmods.json",
+          ""
+        ]
+      ],
+      "plural": "pistol double tappers",
+      "singular": "pistol double tapper",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4b7c8e988277f00b79a5ef9382fcbf75491d829e088bdd39ac4e34d67bcdb4ba",
+      "identity": [
+        null,
+        "Default tile volume (L)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "3629"
+        ]
+      ],
+      "plural": null,
+      "singular": "Default tile volume (L)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "4b85661aa2494febfc99602a382a33bfb63fa174a0ed36562b6cc1f569708780",
+      "identity": [
+        null,
+        "crystalline spire",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mapgen/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "crystalline spire",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'inactive bee-bot'",
+      "flags": [],
+      "id": "4bcedbcce883c414560e21a4069974d7bf90e70dde6e931646cd9c4a351f989f",
+      "identity": [
+        null,
+        "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  Activate this item to deploy the robot.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  Activate this item to deploy the robot.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "4bd06eda0f1398b31716a360066a5eed809a47d908216bad126c29662a07f8ff",
+      "identity": [
+        null,
+        "A statue of a child sitting on their heels, one hand in the middle of drawing something in the dirt.  Whatever it was is long since gone to wind and rain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a child sitting on their heels, one hand in the middle of drawing something in the dirt.  Whatever it was is long since gone to wind and rain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4be171cc69f87705d25f9558d91004d26b8ea4edd3be90b5db43b11fe6963cdc",
+      "identity": [
+        null,
+        "If you want that, you'll have to pay for it.  I won't stop gathering food just to train a stranger.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you want that, you'll have to pay for it.  I won't stop gathering food just to train a stranger.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "4be39aa490da392673a57f3b8b125e84dae04870c7072046909c493740844d0e",
+      "identity": [
+        null,
+        "No to Thorazine, yes to freedom.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No to Thorazine, yes to freedom.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4c0c575901b31f1bf50c31e8d68fff3fdd154f304031a0446c07882a7717dd5e",
+      "identity": [
+        null,
+        "[Sell her 10 arvore samples]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Sell her 10 arvore samples]",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

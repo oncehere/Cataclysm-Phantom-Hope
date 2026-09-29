@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a4ba0cc6c6bd01b6fe305db122cbd372c61b8a26e68f2a5f6adcf15b754b109b",
+      "identity": [
+        null,
+        "This part cannot be uninstalled.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "455"
+        ]
+      ],
+      "plural": null,
+      "singular": "This part cannot be uninstalled.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FEED_HORSE_FAMILIAR_FAIL_MESSAGE'",
+      "flags": [],
+      "id": "a4c127dcd4fdc6716a4f18b27570f9f60ff825605c053be5ab8581ec3333f7b7",
+      "identity": [
+        null,
+        "You lack the excess blood needed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/spell_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You lack the excess blood needed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'apprentice's grimoire'",
+      "flags": [],
+      "id": "a4d0aba4dc3e6c492a154b7afd948047d1cf75cb189ae40158251cfedc1858ef",
+      "identity": [
+        null,
+        "A compilation of your elementary magical observations, a series of diagrams, maps, drawings of leaves and the sky and the moon, and ticks to mark times and numbers you've counted.  This would be extremely useful as a reference material.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/books.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A compilation of your elementary magical observations, a series of diagrams, maps, drawings of leaves and the sky and the moon, and ticks to mark times and numbers you've counted.  This would be extremely useful as a reference material.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a4df20485576303646b618edd7f4fa18fc48d853a5673d4995cb982e6bf1639b",
+      "identity": [
+        null,
+        "[Boot up the Exodii TV-radio] Maybe it's best if their representative does the talking.  We'll call them on this screen.  They sort of speak English, and I can try and translate back and forth.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Boot up the Exodii TV-radio] Maybe it's best if their representative does the talking.  We'll call them on this screen.  They sort of speak English, and I can try and translate back and forth.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA AoE Knockdown'",
+      "flags": [],
+      "id": "a4e37f265c6e92925aff5fcc574ce0bde79449c4b8b3448343ce3de59af4fb76",
+      "identity": [
+        null,
+        "A soundless explosion bursts out from you!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A soundless explosion bursts out from you!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'damaged'",
+      "flags": [],
+      "id": "a4ef7a6eb72ab8eb6a6e88cffb56b0bdd9bff70ce451a14ee0907275a7a6d40b",
+      "identity": [
+        null,
+        "Fractures and cracks have formed across the carbide panels of this armor piece, reducing its effectiveness.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/faults/armor_fault.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fractures and cracks have formed across the carbide panels of this armor piece, reducing its effectiveness.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster attack message",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a4f332fbfe23e6d9e87ca59f08bc57f0dd8124001082f966cb7e4daeaa019d56",
+      "identity": [
+        null,
+        "%1$s winds around your body and squeezes!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s winds around your body and squeezes!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "a4fd1ac2c5a288dfd96607d2016e8c18dfa0fd6496eca77133746ff21a201d81",
+      "identity": [
+        null,
+        "middle tentacle tips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "middle tentacle tips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "a4fe010e28b9a45472e7a37a6b4ea9831c8fa8a03c86826bc97c58bcf47cdaa3",
+      "identity": [
+        null,
+        "the encroaching fungus",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the encroaching fungus",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of enchantment 'Active XM-LEG'",
+      "flags": [],
+      "id": "a50af1f582a2e05d2efe3fce132e23dc7e039eb3bc1ecb56943208db5dbc9da4",
+      "identity": [
+        null,
+        "Your active wearable leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing the amount of weight you can carry.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/enchantments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your active wearable leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing the amount of weight you can carry.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'cargo capris'",
+      "flags": [],
+      "id": "a53a8b5c9b7c9015118af6a02c9fe224cb7cdb9596627cf2e817fd291dee3ce6",
+      "identity": [
+        null,
+        "Pants going up to mid calf with additional pockets on the sides.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pants going up to mid calf with additional pockets on the sides.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "a5af8af8eb48988f0b53fcbed5ed37eb8f5dba697557ebd9c7fbfd8e27ae5280",
+      "identity": [
+        null,
+        "left front tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left front tentacle",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

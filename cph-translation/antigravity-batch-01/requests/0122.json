@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "70189f38dc99134b7965b49584bec917695b67e171a2527bc048109bf14dfe84",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of creature revealed by special vision 'wizard_sense'",
+      "flags": [],
+      "id": "702a8b56652aa39badf14b4046cad71e2f59d69e3b08c5b016fdbc05bd4bed12",
+      "identity": [
+        null,
+        "You see a being of the Unseen World here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You see a being of the Unseen World here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Gunslinger'",
+      "flags": [],
+      "id": "702c5cc240771fddbb5b6a10488ec58174310ecd41ff232470e36784e3c93f75",
+      "identity": [
+        null,
+        "I do not aim with my hand.  He who aims with his hand has…uh, you forget what comes next.  When using pistols, you aim 75% faster and reload 45% faster.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I do not aim with my hand.  He who aims with his hand has…uh, you forget what comes next.  When using pistols, you aim 75% faster and reload 45% faster.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'nurdle'",
+      "flags": [],
+      "id": "70310f8600dccef3a2fe3a9d5a4f38d05a5185c7677afb487663c696738132a0",
+      "identity": [
+        null,
+        "Pre production plastic pellets, ready to be processed into all kinds of items.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/trash/resources.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pre production plastic pellets, ready to be processed into all kinds of items.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor/tool name",
+      "flags": [],
+      "id": "70442a9dee734d1f43e4dc772f408f34c69cb165a564d6de3576b3452bb9213b",
+      "identity": [
+        null,
+        "periapt of proof against poison",
+        "periapts of proof against poison"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": "periapts of proof against poison",
+      "singular": "periapt of proof against poison",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "70490065da2eab0e7a6e323013ac9e66fc934d82aaf3dc790b4fd1e2b2b628bd",
+      "identity": [
+        null,
+        "Dancers in the Endless Dark",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dancers in the Endless Dark",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "7054e3780d47f22c0395e148b61d210e1b50699a8fb4419608bfb4185ebd99cb",
+      "identity": [
+        null,
+        "An Ethic of Sexual Difference and This Sex Which Is Not One",
+        "copies of An Ethic of Sexual Difference and This Sex Which Is Not One"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of An Ethic of Sexual Difference and This Sex Which Is Not One",
+      "singular": "An Ethic of Sexual Difference and This Sex Which Is Not One",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Unity with Nature'",
+      "flags": [],
+      "id": "70565a6c199cb05f69b7b25e3910ba4b1a515f93330e99c7e864dd4273c8c486",
+      "identity": [
+        null,
+        "You close your eyes and listen to the leaves rustling in the wind as you solemnly intone the incantation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You close your eyes and listen to the leaves rustling in the wind as you solemnly intone the incantation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "706af476b3dec4125ebf20cf071c80dad5301c10eba95cdfad158a9b5fc2c9ed",
+      "identity": [
+        null,
+        "nowyouseeme.mp3\n\nFootage from what looks like a lab with a person trapped in a clear glass box.  The scientist drones on 'Experiment 65: Escape from a sealed enclosure'.  When the scientist says 'Begin' the subject inside the glass enclosure gets a very focused look on their face.  It gets more strenous for ten seconds and then the subject starts to take a step directly into the glass, vanishing before they bump into it.  Almost instantaneosly reappearing about six feet outside of the enclosure.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "nowyouseeme.mp3\n\nFootage from what looks like a lab with a person trapped in a clear glass box.  The scientist drones on 'Experiment 65: Escape from a sealed enclosure'.  When the scientist says 'Begin' the subject inside the glass enclosure gets a very focused look on their face.  It gets more strenous for ten seconds and then the subject starts to take a step directly into the glass, vanishing before they bump into it.  Almost instantaneosly reappearing about six feet outside of the enclosure.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'broken surgical bonebot'",
+      "flags": [],
+      "id": "706fd551f9de48cce285bb9e25d7777e3214a6354a2cd32d6eed925ae87223cc",
+      "identity": [
+        null,
+        "A broken surgical bonebot.  Could be gutted for parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_robots.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A broken surgical bonebot.  Could be gutted for parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "706fff26787b3a37b0fed23228b434ad0e72a0dab20ae13570b471333389d343",
+      "identity": [
+        null,
+        "Despite the myriad rips and tears in this feral's orange jumpsuit, they don't have a single scratch on them.  Only their bloodshot eyes and the way the zombies ignore them indicate something is wrong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Despite the myriad rips and tears in this feral's orange jumpsuit, they don't have a single scratch on them.  Only their bloodshot eyes and the way the zombies ignore them indicate something is wrong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To Shield the Spirit from Assault'",
+      "flags": [],
+      "id": "70744e2767a8ee11fa6162720b95de9e131f3fa58dcf1d1788a648562ae9ac44",
+      "identity": [
+        null,
+        "The first principle of defending your spirit is to make sure it is in proper order so there is no foothold an assault can take advantage of.  While in effect, your soul is protected against attack.  <color_red>Too much pain</color> will disrupt your concentration.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The first principle of defending your spirit is to make sure it is in proper order so there is no foothold an assault can take advantage of.  While in effect, your soul is protected against attack.  <color_red>Too much pain</color> will disrupt your concentration.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

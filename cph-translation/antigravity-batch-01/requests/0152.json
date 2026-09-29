@@ -1,0 +1,264 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Rediscovered Tribal'",
+      "flags": [],
+      "id": "90414129a392eb56fbfdc73dadf3a9448750cb248bbe62dd912d9f7c3286fc52",
+      "identity": [
+        null,
+        "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\" you were born in one such world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\" you were born in one such world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'dead grove'",
+      "flags": [],
+      "id": "906a66b9d00743a69e6e056291072216674d1a6ef0e7189ee3199cacf0337ac2",
+      "identity": [
+        null,
+        "A grove of strange trees, all dead.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A grove of strange trees, all dead.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "908061b508b156a923b94b0012a0901c9517e256f76292f6cea9848b4cbce74a",
+      "identity": [
+        null,
+        "Bionic Left Arm (Cyberframe 1a)",
+        "Bionic Left Arms (Cyberframe 1a)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Left Arms (Cyberframe 1a)",
+      "singular": "Bionic Left Arm (Cyberframe 1a)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Remember, you're introducting traders, not making threats.  If they start\nbacking away while taking, try smiling.  If that makes it work, stop\nsmiling.  You've clearly got some sense.  Follow it.  Try not to cause any\nincidents.",
+      "flags": [],
+      "id": "908cba890117ca11b67ac6fde04fc69cc4f0ec2aa0a55579ed73fce237322b0c",
+      "identity": [
+        null,
+        "Remember yer a trader not a threater.  If folk back away, try smilin'.  If they don't like that, stop.  Ye' got a pinch of sense.  Follow it.  Try not t'cause any incidents, aye?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Remember yer a trader not a threater.  If folk back away, try smilin'.  If they don't like that, stop.  Ye' got a pinch of sense.  Follow it.  Try not t'cause any incidents, aye?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "90955fbdca25906ebd954cefe9212338a8c4109735b31b5779a8277cfbc57b86",
+      "identity": [
+        null,
+        "water channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "water channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "90a078c15336a7d181c5f287270009a70a5fa02092bedcbb294c67bbaa612930",
+      "identity": [
+        null,
+        "front tentacle midsections",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "front tentacle midsections",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'msg' action message of item 'cryogenic flask'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "90a7358b2468dc513e4877396a536e2d9e07f4b3848e8ae7e2386182bb553f3f",
+      "identity": [
+        null,
+        "You activate your %s.  A faint humming noise can be heard as the Riemann barrier powers up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/containers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You activate your %s.  A faint humming noise can be heard as the Riemann barrier powers up.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '寒泉迸（残卷）'",
+      "flags": [],
+      "id": "90aa21efeb02177bda651f4163d44d3449bba665c987ee10237cce0a344f71f2",
+      "identity": [
+        null,
+        "一卷水渍晕染、字迹微皱的法术残卷，记载着凝聚水行至阴之气、催作寒泉迸敌的法门。但凡能引气入体，研读之后便能以灵气催发寒泉，激射来犯之敌。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一卷水渍晕染、字迹微皱的法术残卷，记载着凝聚水行至阴之气、催作寒泉迸敌的法门。但凡能引气入体，研读之后便能以灵气催发寒泉，激射来犯之敌。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "90abb450f378414c5d2fd43dc3b09b922e7dacbb8fa791d8ff21eb0d9563d789",
+      "identity": [
+        null,
+        "This part cannot be installed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "353"
+        ]
+      ],
+      "plural": null,
+      "singular": "This part cannot be installed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "90b206b8288cf25201237db062d92a38d05e9428d6565c2811e2c7d359c22624",
+      "identity": [
+        null,
+        "Light as a Spider's Thread",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/vampire_trait_refinements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Light as a Spider's Thread",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'language learning book'",
+      "flags": [],
+      "id": "90be25b0fe5833580a920d9e73dacdc72c2e80859a2c42233a2a3255376e38e8",
+      "identity": [
+        null,
+        "A hardcover book dedicated to learning a new language.  If only the zombies could talk.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hardcover book dedicated to learning a new language.  If only the zombies could talk.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_XE_CAUSE_OMINOUS_FOG_WEATHER_WARNING'",
+      "flags": [],
+      "id": "90dc7fd211a9470f8737db423f715f18562ec94579f2af9a2a9f17404c3add9e",
+      "identity": [
+        null,
+        "Out of nowhere, a thick fog begins to rise, blanketing the distance in an obscuring white shroud.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/weather_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Out of nowhere, a thick fog begins to rise, blanketing the distance in an obscuring white shroud.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

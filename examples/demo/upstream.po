@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: example-editor 1\n"
+"Language: pl\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgctxt "verb"
+msgid "Open"
+msgstr "Otwórz"
+
+msgctxt "adjective"
+msgid "Open"
+msgstr "Otwarte"
+
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d plik"
+msgstr[1] "%d pliki"
+msgstr[2] "%d plików"

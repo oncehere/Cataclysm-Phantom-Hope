@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC message on effect of field 'spore dust'\n~ NPC message on effect of field 'spore dust and grime'",
+      "flags": [],
+      "id": "a67d9cd6b797f3177fef164beb168a0ef9e261e641269830f978542176a8fb42",
+      "identity": [
+        null,
+        "<npcname> is covered in spores!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/fields/debris.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<npcname> is covered in spores!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'the adventures of tintin' of book 'european\ncomic'",
+      "flags": [],
+      "id": "a67ee9a87b726699f62229c7fc80ce7da64c33f2a4da440ab8158d6cdb0052c1",
+      "identity": [
+        null,
+        "This album is part of the Adventures of Tintin series, which is about a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This album is part of the Adventures of Tintin series, which is about a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_ATTEMPT_HORSE_FAMILIAR'",
+      "flags": [],
+      "id": "a6a143f1098f3dc772cbfd7267d68ecc2e744fa2599bb8ee9b6fe8be6cb48c09",
+      "identity": [
+        null,
+        "You feed your blood and will into this once docile horse, transforming it into a familiar worthy of a hunter of monsters and men.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/spell_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feed your blood and will into this once docile horse, transforming it into a familiar worthy of a hunter of monsters and men.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ A verb expressing an ongoing action",
+      "flags": [],
+      "id": "a6a64865752c0b105854435d103bcae636455295471ef4aa185a7b648b6bb633",
+      "identity": [
+        null,
+        "seeking knowledge from the Unseen World",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "seeking knowledge from the Unseen World",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Exodii Cyberframe 1b'",
+      "flags": [],
+      "id": "a6a97e92f1094726b4164f0f7f3f5e79eaf30008c6d4d4867a487e3c9de047f3",
+      "identity": [
+        null,
+        "A very human-like Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, will be encased in a frame that resembles a robotic human.  The frame increases your physical dexterity and strength, and is modestly protective, but the internal parts of your head and torso will still be affected by temperature and feel pain.  Internal bleeding can still occur with sufficient damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A very human-like Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, will be encased in a frame that resembles a robotic human.  The frame increases your physical dexterity and strength, and is modestly protective, but the internal parts of your head and torso will still be affected by temperature and feel pain.  Internal bleeding can still occur with sufficient damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'periapt of health'",
+      "flags": [],
+      "id": "a6aae84c88d830b2b92d7472318fd1dd36e314a46f529d37ab67fdaafc8e2a3a",
+      "identity": [
+        null,
+        "Previously a common means of displaying wealth through overpriced miscellany, these have now become invaluable after the Cataclysm, where even a single illness could severely endanger your life.  Does nothing against poison, and may not work on more esoteric diseases.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Previously a common means of displaying wealth through overpriced miscellany, these have now become invaluable after the Cataclysm, where even a single illness could severely endanger your life.  Does nothing against poison, and may not work on more esoteric diseases.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a6c244d1dd50262ff9a430394de2103bda7b6fa0b968d7f1272dbc22a0bec609",
+      "identity": [
+        null,
+        "I'm back and I killed the target.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the target.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_MAGICIANS_HAT'",
+      "flags": [],
+      "id": "a6c4d5c5eb1af3bb5a6195e923e312be45405f32467b1fbbdbc9d9b7a3f4b25d",
+      "identity": [
+        null,
+        "You do some extemperaneous magic tricks with the hat and somehow feel as though something inside of you has changed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/spell_learning_items/spell_learning_items_classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You do some extemperaneous magic tricks with the hat and somehow feel as though something inside of you has changed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a6c598843562c17f553813ca596133bd221a272e6b407c93b8178f0e1efb9f4c",
+      "identity": [
+        null,
+        "I'm back and I killed the big renfield.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the big renfield.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a6c82618e543ec6d33e754cc361829fa6c7bd1d2693ad169951195a21ec36e4b",
+      "identity": [
+        null,
+        "Anything I can do to help?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Anything I can do to help?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a6d17670fcba67260e6fce8e26b4de38ea46e312a53504444c4e534fbb41f339",
+      "identity": [
+        null,
+        "<color_light_green>ERROR001: No contact with KÁ gate",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_green>ERROR001: No contact with KÁ gate",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Give me a second, and I'll bring them here.",
+      "flags": [],
+      "id": "a6d47eac2f94568d96a0189168f27b9dde24b72ff7b618a7ffb28de0e4b8339b",
+      "identity": [
+        null,
+        "Gimme spek, 'n fetch 'em 'ere.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gimme spek, 'n fetch 'em 'ere.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

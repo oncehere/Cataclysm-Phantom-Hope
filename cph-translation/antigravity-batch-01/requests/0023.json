@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0ba7ec82d84e132b7584ee733e8e84fcb3ebc7e38a94e058109861fb146162fb",
+      "identity": [
+        null,
+        "Unfortunate, but necessary.  Some don't want to be cured.  Even if we could forcefully administer it, they would go and get infected again.  Thank you for killing a future monster.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Unfortunate, but necessary.  Some don't want to be cured.  Even if we could forcefully administer it, they would go and get infected again.  Thank you for killing a future monster.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Interactive menu name in computer 'Metro computer'",
+      "flags": [],
+      "id": "0ba83ccf98f2eb228a357a454cb660905ddc017f1bafa3b1ca1304f97f204000",
+      "identity": [
+        null,
+        "Check Subway Status",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mapgen/microlab/microlab_connector.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Check Subway Status",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "0bbb4b18ef37cb9c8047ea172f38578870b26ee1986f71c89916695cd756e992",
+      "identity": [
+        null,
+        "closed central elevator hatch",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/furniture_and_terrain/terrain/terrain_hunvre.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "closed central elevator hatch",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "0bd96a567e79879d3ae738f4c076b95917a02fe27bcbc2590132398a7f37f707",
+      "identity": [
+        null,
+        "dry underground water bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry underground water bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0bdad7d6c3d72bf9782f424fc7889a95fdf55eb71ec4c5bc773a22c4a92b2844",
+      "identity": [
+        null,
+        "Choose a facing direction for the new %s and confirm, or cancel the installation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "757"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose a facing direction for the new %s and confirm, or cancel the installation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Hub 01 XM-LEG Interface'",
+      "flags": [],
+      "id": "0bdbd9569e594ebc69405043ae5649e0eaeacd42c9feb2ad2d145f5cf5a7c70b",
+      "identity": [
+        null,
+        "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Lower Extremity Gaitframes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Lower Extremity Gaitframes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Banquet of Dreams'",
+      "flags": [],
+      "id": "0c32f6083629b94b1de31d5eb00060d9d1c5f603841c030032f99f745c27bd3f",
+      "identity": [
+        null,
+        "Draw on the dreams of a sleeping mortal, condensing them into dreamdross.  When so harnessed, the target requires a period of time after to recover before their dreams are once again suitable for harvesting.  A mortal whose dreams are harvested will also be depressed for a time afterwards.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Draw on the dreams of a sleeping mortal, condensing them into dreamdross.  When so harnessed, the target requires a period of time after to recover before their dreams are once again suitable for harvesting.  A mortal whose dreams are harvested will also be depressed for a time afterwards.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0c37b38ee809bc67f98405ce9bcd981ab6e20ea08709178d6b0d05cb58d4a9c2",
+      "identity": [
+        null,
+        "thanks.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "thanks.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0c50ca263e4cc6890ee2a93c081b93b7d29a2d598aa678357d36272050865de2",
+      "identity": [
+        null,
+        "The water is already full.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1108"
+        ]
+      ],
+      "plural": null,
+      "singular": "The water is already full.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0c5fc73780dbc31c9398ebdefb8a2b0a69d41b20b877b11d39912d43d07893f8",
+      "identity": [
+        null,
+        "This area needs %1$d parts, but only %2$d are available between you and the mechanic.  Installing these would leave %3$d compatible tiles unchanged.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "860"
+        ]
+      ],
+      "plural": null,
+      "singular": "This area needs %1$d parts, but only %2$d are available between you and the mechanic.  Installing these would leave %3$d compatible tiles unchanged.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_changeling_temporary_psychopath'",
+      "flags": [],
+      "id": "0c801ad14fae39b858445ca6fb305831f43079687f2f157ba7e6fe75f0c2fef5",
+      "identity": [
+        null,
+        "Arbiter Mundi",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Arbiter Mundi",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0c8e52f083dfe9121e97a040a1a01aca8bbe32f26f171440a07e723f550349f5",
+      "identity": [
+        null,
+        "Transfer",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "492"
+        ]
+      ],
+      "plural": null,
+      "singular": "Transfer",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

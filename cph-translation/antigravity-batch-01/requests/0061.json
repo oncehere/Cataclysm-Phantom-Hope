@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Advanced Aikido'",
+      "flags": [],
+      "id": "30b58e2ab82c7ed837447f044ee520b0c09c5f447c2b66340304b6ae55fc6559",
+      "identity": [
+        null,
+        "An advanced Aikido practitioner can protect themselves even against multiple opponents.\n\n+1 dodge attempt, and one dodge each turn will not consume stamina.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An advanced Aikido practitioner can protect themselves even against multiple opponents.\n\n+1 dodge attempt, and one dodge each turn will not consume stamina.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'thong'",
+      "flags": [],
+      "id": "30d3ab8a044d7dfc613549aab893fe9660c2a980c14f6462b3b5ded601e9d072",
+      "identity": [
+        null,
+        "Minimal underwear covering the groin and a little bit of the rear.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minimal underwear covering the groin and a little bit of the rear.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "30d9642500306993201ccec3eedbd4658e36a85687a22eaa0e3eded05a660f45",
+      "identity": [
+        null,
+        "Advanced inventory",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/advanced_inv.cpp",
+          "1298"
+        ]
+      ],
+      "plural": null,
+      "singular": "Advanced inventory",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'boxer briefs'",
+      "flags": [],
+      "id": "30fc94eee86e203b9605099c05e1ecd7b70c754d70557819f2c901d8ecb6720d",
+      "identity": [
+        null,
+        "Men underwear covering most of the thighs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Men underwear covering most of the thighs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of fault fix 'Patch Carbide Armor'",
+      "flags": [],
+      "id": "3131d62d87a35dca53d4955548bf0c1211ec1fb17f0cf7680a6cc8d673f13b99",
+      "identity": [
+        null,
+        "Patch Carbide Armor",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/fault_fixes_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Patch Carbide Armor",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "3138e4ce867dd64f67a3235c21169d1310351866157a5e2f72c5930a9876d5c5",
+      "identity": [
+        null,
+        "left front tentacle (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left front tentacle (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FIRE_BALL'",
+      "flags": [],
+      "id": "314c3d2c73f75afcfeeaabf8c3337ec8da701492fe6620f289a865bed43cca8f",
+      "identity": [
+        null,
+        "Got magic potential from the dragonball, magic_potential: <global_val:magic_potential>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/spell_learning_items/spell_learning_items_classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Got magic potential from the dragonball, magic_potential: <global_val:magic_potential>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'twitchy medical robot'",
+      "flags": [],
+      "id": "31694ba15d1b5049a30caa30fdcdbddd01d52b2866f733777488d9966f3f2c0c",
+      "identity": [
+        null,
+        "A lanky set of robotic limbs armed with surgical devices and construction tools.  The arms protrude from a barrel-like base, mounted upon small casters.  Even when idle, it moves like an insect grooming its antennae.  The scalpel is stropped against another arm.  The over-articulated grasper picks at the other tools.  The circular saw silently rotates, as if it were itself scanning the surroundings.  Embedded in the side of the device is a bulbous computer terminal, displaying several options, from standard medical services to advanced bionic surgery.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/netherum/furniture_labyrinth_safehouse.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A lanky set of robotic limbs armed with surgical devices and construction tools.  The arms protrude from a barrel-like base, mounted upon small casters.  Even when idle, it moves like an insect grooming its antennae.  The scalpel is stropped against another arm.  The over-articulated grasper picks at the other tools.  The circular saw silently rotates, as if it were itself scanning the surroundings.  Embedded in the side of the device is a bulbous computer terminal, displaying several options, from standard medical services to advanced bionic surgery.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'the smurfs' of book 'european comic'",
+      "flags": [],
+      "id": "31933a2f5854ab5025116ae89c988315ce933d942731a86a8b7aa2b4293cba7d",
+      "identity": [
+        null,
+        "This album is part of the Smurfs series, which is about a community of tiny blue creatures called Smurfs who live in a hidden village deep in the forest led by Papa Smurf",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This album is part of the Smurfs series, which is about a community of tiny blue creatures called Smurfs who live in a hidden village deep in the forest led by Papa Smurf",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Stoned, Baked, Blazed, Zooted'",
+      "flags": [],
+      "id": "31a3aae3c0d21cb40336e28ab05e8557b2a6ac586cef63fe9c747ce6b2f29caa",
+      "identity": [
+        null,
+        "You are under the effects of cannabis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are under the effects of cannabis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "31bcf85d5ee3b6a85f225019c7234fcb62d347572eea1fc210e6f000ab3aa09e",
+      "identity": [
+        null,
+        "The Trouble with Being Born",
+        "copies of The Trouble with Being Born"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Trouble with Being Born",
+      "singular": "The Trouble with Being Born",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'eoc_hunvre_blackout'",
+      "flags": [],
+      "id": "31eb022092e76bd031a270fbf2738f32a3809883e013f133e31e58e55d50be0b",
+      "identity": [
+        null,
+        "<color_light_blue>*ding* \"Attention, residents of the local sector: Power has been RESTORED, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/effects_on_condition/ship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power has been RESTORED, we apologize for any inconvenience, and thank you for your understanding.\"</color>",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "stamina": "耐力"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "request_sha256": "d57829fc09971d82b05931291e8c82124291c231000472ca643fa817182345f3",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "dc8e9e0027d8ab53dcaddde2e969da8e6ad63d1dce1242f6f0e1fe24bbf2e36f",
+      "values": [
+        "一份手写笔记，详细记录了一种制作特强阿司匹林的炼金配方。其有效成分显然具有致幻性，这确实不失为一种免受疼痛困扰的方法。"
+      ]
+    },
+    {
+      "id": "dca5a19d1d9540ab9bfb6f84b3248f07ecd964eb7cb65b7c822d99e6bef1d72e",
+      "values": [
+        "干涸浅池底"
+      ]
+    },
+    {
+      "id": "dd33812dc3315bfa4a507329766c487fd2caaa0bd8284ab216fe1f953fa3cda1",
+      "values": [
+        "无法添加 %1$s，因为受信任的 Lua 依赖项 %2$s 不可用：%3$s"
+      ]
+    },
+    {
+      "id": "dd34fcc934e0d4ec0b54192d5f590e186df92b13a0e2690a7a607603f0706cad",
+      "values": [
+        "你已准备好顺着铁轨踏上旅程。也被称作流浪汉行囊。"
+      ]
+    },
+    {
+      "id": "dd4dece695f90897bb9f5ccb912e72beaa4de6583f1e88fbaa37403a61e804a9",
+      "values": [
+        "加固生境窗（封锁）"
+      ]
+    },
+    {
+      "id": "dd5fc55d3dfe3c0613711942ba5951dfd88d2e7b5423545094189c53806079fd",
+      "values": [
+        "我想来点肉干。"
+      ]
+    },
+    {
+      "id": "dd743facec42f9fce1db0a4e7021bb36a7ceb3c9a3e99c8cfac06adf9f55812f",
+      "values": [
+        "仙灵依靠凡人的梦境获取力量，而这种魅惑法术正是他们采撷梦境的途径之一。当在一边熟睡的凡人身上编织此术时，其梦境的部分力量会凝聚成一种闪烁着金属光泽的物质，称为梦滓。激活可增加强度，抽取多得多的梦滓，但会对目标的梦境造成永久性损害。"
+      ]
+    },
+    {
+      "id": "dd7e1e1dbb1e0f9691d45db005238b30ac6bc7c148bba7b4edfe438d9b731b46",
+      "values": [
+        "警察被自己的闪光弹震晕了！"
+      ]
+    },
+    {
+      "id": "dd87f6d83a94e9390b3c7580555c7a6dd9d4cef7ce1b7fc46c8deb523822ec41",
+      "values": [
+        "一条体型和体重与人类相仿的死亡响尾蛇。它们极少主动猎食人类，但会伺机发起攻击，或在受到威胁时反击。"
+      ]
+    },
+    {
+      "id": "dd88668a512dbebbdf495d49c43c3711f5f2c23bd4207077a0f3a92d39b7c515",
+      "values": [
+        "你凝视着自己的图案设计，却看不出其中有任何艺术价值。至少你学到了一些东西。"
+      ]
+    },
+    {
+      "id": "dd92fa3c4c3bf172508e293ff589aac16f158838b3562d21fb5825b78460387f",
+      "values": [
+        "深池塘排干后留下的泥泞池底。"
+      ]
+    },
+    {
+      "id": "dddaa6626989dfd1fa445f5c6beedb0e21809ae3aa2fdce99704d7a7ce44d37d",
+      "values": [
+        "这件是<color_prefix>紫色。"
+      ]
+    }
+  ]
+}

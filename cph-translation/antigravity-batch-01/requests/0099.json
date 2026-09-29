@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'Ripped thong'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "59d1d289486cf37b10b5456888d9a610b9753e98b13e780b27b4ead1f2e6f993",
+      "identity": [
+        null,
+        "The thong of the %1$s has ripped in half due to repeated use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The thong of the %1$s has ripped in half due to repeated use.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of creature revealed by special vision 'vampire_sense'",
+      "flags": [],
+      "id": "5a27c0b189e906ac118cb71ded2f8a409b4b4cc217d74004325ba791c8737340",
+      "identity": [
+        null,
+        "You sense the target of your vengeance here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/revenant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You sense the target of your vengeance here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Physical Enhancement'",
+      "flags": [],
+      "id": "5a2b6437061a62b8323a470211d330dcf01e23eafd05ffb79342e6b8e04a8cd3",
+      "identity": [
+        null,
+        "You are enhancing your strength and agility.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_monster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are enhancing your strength and agility.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "5a5be1cda77a17b76b5722eb9718fa51de9518bb974462a1a0e0226e3dd69267",
+      "identity": [
+        null,
+        "front tentacles",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "front tentacles",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "5a6a7740375dbe2bb69402d52612880c98e072d5a224c12be24113bffe548316",
+      "identity": [
+        null,
+        "funeral crown",
+        "funeral crowns"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": "funeral crowns",
+      "singular": "funeral crown",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'Magnadrive 230K'",
+      "flags": [],
+      "id": "5ae31317ac8f49fb3989898d2649ec742de69f654b4e78f631c3817bfa1b9871",
+      "identity": [
+        null,
+        "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/gun/plasma.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in EoC 'EOC_RandEnc_March_Lord_Hunting_Party'",
+      "flags": [],
+      "id": "5af702edbde92735d5bd30eefd24d244a989392401bf20a114e44820ea00b859",
+      "identity": [
+        null,
+        "You hear a low horn-call somewhere out in the fog.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/march_lord_hunt_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You hear a low horn-call somewhere out in the fog.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5b3a0a113b32ec10ef4f4e921838869572d3b4a696adbbd20b96fc911beb56c1",
+      "identity": [
+        null,
+        "I'm still not remembering fully.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm still not remembering fully.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5b4b28c67d064eb4009b9e78253bac72e04708d51c6bf50ffdd0118b2a70f0c9",
+      "identity": [
+        null,
+        "Those crazed cyborgs did this against my will!  But I managed to escape, and it's still me, in here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Those crazed cyborgs did this against my will!  But I managed to escape, and it's still me, in here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "5b578c4fd2b2d0927d98d3504985a87b81b07a0edc7442581a5fcf7a68444ad2",
+      "identity": [
+        null,
+        "apprentice occult research results",
+        "sets of apprentice occult research results"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of apprentice occult research results",
+      "singular": "apprentice occult research results",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5b58f54cfd8329b66906d4c7927959be8451ae0d16d7a0d34046c4aaa9d781cb",
+      "identity": [
+        null,
+        "Can you repair damage to my bionic limbs?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Can you repair damage to my bionic limbs?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "5b8cc973ed0826014015884ff2bbbd896dfd287f03a00d745c62fb132e372d29",
+      "identity": [
+        null,
+        "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color> <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab <color_red>|</color> [<color_yellow>%s</color>] = keybindings",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "3226"
+        ]
+      ],
+      "plural": null,
+      "singular": "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color> <color_red>|</color> [<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab <color_red>|</color> [<color_yellow>%s</color>] = keybindings",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

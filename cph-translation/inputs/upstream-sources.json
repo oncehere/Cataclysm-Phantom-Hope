@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-09-29T00:57:03.425858+00:00",
+  "cph_head": "a43a8f2f270994dad716ab067c48aad7c2eeaee3",
+  "source_records": [
+    {
+      "path": "cdda-11003869087.source.json",
+      "sha256": "9f0d762376212f63315258c2a184ca768252694ef6cecf5aa07ffbb690db7661",
+      "kind": "official-build-po"
+    },
+    {
+      "path": "ccb-10715293685.source.json",
+      "sha256": "d6efcd770cb7eb8e7a1349cd4db5a44e73f7d98dc79892c9c0e63927434126dd",
+      "kind": "official-build-po"
+    },
+    {
+      "path": "ccb-recovered-source.json",
+      "sha256": "774a3f1b47e323f97a755aa113ea73df67402b6d64c5ef80031eb67891838685",
+      "kind": "recovered-from-MO"
+    }
+  ],
+  "recommended_priority": [
+    "protected CPH manual translations",
+    "cdda-11003869087.zh_CN.po",
+    "ccb-10715293685.zh_CN.po",
+    "existing valid project translations"
+  ],
+  "fallback_status": "Official CCB PO compiled catalog equals all existing locked runtime MO translations; recovered-from-MO PO retained only as audit evidence and is unnecessary as an additional active source.",
+  "notices": [
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-OFL-Terminus-Font.txt",
+      "bytes": 4539,
+      "sha256": "b7c06f3f0266bd71a344547d8a6deab90b4d0db06300196f54659ff1da4fe909"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-SDL.txt",
+      "bytes": 884,
+      "sha256": "fcb07e07ac6bc8b2fcf047b50431ef4ebe5b619d7ca7c82212018309a9067426"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-libbacktrace.txt",
+      "bytes": 1478,
+      "sha256": "ef8a9b3247488f8901ca60de9b17b745d7bd67e5ec1e622f80d62364572200d8"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE.txt",
+      "bytes": 10439,
+      "sha256": "48bd3d15e40bc00f2eb182105a64fc3b376a1a376172642fca5d6c82140d26d7"
+    },
+    {
+      "path": "notices/ccb-bcb85682/TRANSLATION_CREDITS.md",
+      "bytes": 1261,
+      "sha256": "efe621ef3b758ced63c500d296ac09836fffda65358fd14c86e95dfdba972481"
+    },
+    {
+      "path": "notices/ccb-bcb85682/build-translations.yml",
+      "bytes": 4336,
+      "sha256": "f7c6231c65e2648b020a35e9587522393e707d627480744b8c30874af61b2be2"
+    },
+    {
+      "path": "notices/ccb-bcb85682/config",
+      "bytes": 1099,
+      "sha256": "855c7bef43691235a6114c7249ca7c8e7c1f72da1a790218801451ba8849660a"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/cs.credits",
+      "bytes": 7264,
+      "sha256": "d3677fffb229aa1f1c92ff9f9720d6399f9a5ef6da4c8e27e4af6351db752f91"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/de.credits",
+      "bytes": 16932,
+      "sha256": "29ba82d9b06ac6c2ae0d02a73a177e8a53622475f3cf3336e075a41ce8a966e2"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/el.credits",
+      "bytes": 17722,
+      "sha256": "d501df3bbaf19eee0543663952a3dde8dcc768dd7e34804081660563884a6022"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/en.credits",
+      "bytes": 16300,
+      "sha256": "9b3029312bc56d67ca8802c5e4ff9e385f3c9394b9021a7a9508cbf573878586"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/es_AR.credits",
+      "bytes": 17180,
+      "sha256": "7c894f8228a80bac4e21e361b12dd5f4a865bcf942dac1957f5b513a47a21e56"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/es_ES.credits",
+      "bytes": 17420,
+      "sha256": "5d33cb758b54cfa00aef510261c1fc5c7aecc68a9e456251f42265e11416946b"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/fil_PH.credits",
+      "bytes": 9595,
+      "sha256": "c6cca89ebf98ce04ccdf414bfdff94577f0a25fb8b747f9b0cbbd1bd83e46e8f"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/fr.credits",
+      "bytes": 17291,
+      "sha256": "4df5bfa3e189ff43c637aff5441d34a38c9ccc8500ed46a933f6b7b72d50ef94"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/hu.credits",
+      "bytes": 17330,
+      "sha256": "59fb7fd408d944122badc0f263d37619c6b839128b1d087242a622695c448a78"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/it_IT.credits",
+      "bytes": 16595,
+      "sha256": "da881a8949e3453e74e922d20713d71db070d4afa607f3f0fea9c74f08def4a1"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ja.credits",
+      "bytes": 16400,
+      "sha256": "9cc069bcf6a256ed73fdcdb516d6d272b88002673a1232f7226ec9624874884a"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ko.credits",
+      "bytes": 16220,
+      "sha256": "a8dd919b6b8e03c8ebcb2b1611eda93e34fcfefa1f5fa8ae1e32e946876c561e"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/nb.credits",
+      "bytes": 12251,
+      "sha256": "8a02d034dab9ac8e43712c73c43c34ed68df4ebee0eb46702ff8860413bd3882"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/pl.credits",
+      "bytes": 16683,
+      "sha256": "1684f8b684ddf16bd4a4b682f48ff43b55998d9a70e33a29173bcf007985cabe"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/pt_BR.credits",
+      "bytes": 16618,
+      "sha256": "677aa6b84248f0328cfeab30d19773bb9d2fb40cc1d0af0e3d23bdb779868bc5"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ru.credits",
+      "bytes": 21789,
+      "sha256": "4bc6638cea4458f74675255070592fd651e213b87920f93e0426e56bac3e1f3d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/tr.credits",
+      "bytes": 16318,
+      "sha256": "6abfd05219ed9d9bebaf9ee46727720c6f8575dbaffc072c2689a7de3382ec8d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/uk_UA.credits",
+      "bytes": 18617,
+      "sha256": "4f380a7ad591cc7ca0cf40d863be879812a94769f1e443c13b9dd1f2757084cc"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/zh_CN.credits",
+      "bytes": 15770,
+      "sha256": "aaf82bf39f4a8404b8985636661a9d96d20d78424c41ae2c06d5e31a5d5d802d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/zh_TW.credits",
+      "bytes": 15345,
+      "sha256": "d7ec3a8d8755e9d2b4068add55d46f061810cb9e3700d06144d31349786dbf7c"
+    },
+    {
+      "path": "notices/cdda-325f6822/LICENSE.txt",
+      "bytes": 9144,
+      "sha256": "6e3d17bae7a8f0dee4b0d0c6af5bdf4396a0e685455efa8c2ad4ce52acdd99e2"
+    },
+    {
+      "path": "notices/cdda-325f6822/build-translations.yml",
+      "bytes": 2064,
+      "sha256": "86d8e77db464085cfbd1f96feb1495659467ff3558eb654540fbceb6a41001d5"
+    },
+    {
+      "path": "notices/cdda-325f6822/config",
+      "bytes": 625,
+      "sha256": "11bf952a8eb81096b6ac307568606a27142f2bb3096e3abea965df2ed7e3da4a"
+    },
+    {
+      "path": "notices/cdda-325f6822/zh_CN.credits",
+      "bytes": 15175,
+      "sha256": "0d92c3702fe65e6f5e6485537f4d09b8f1ecada84e6fb353849504a76f3ad3c7"
+    },
+    {
+      "path": "notices/cdda-325f6822/zh_CN.motd",
+      "bytes": 4505,
+      "sha256": "4475c260c6e4cac95b0fc725b71b603a1fb47422b4d75503a705a4920536fa1f"
+    }
+  ],
+  "verification": {
+    "artifact_archive_size_sha256": "PASS: both full ZIP downloads equal official GitHub API size and digest",
+    "official_po_gettext_checks": "PASS: both inputs checked with --check --check-format --statistics",
+    "ccb_runtime_preservation": "PASS: official artifact MO equals locked original bytes, and recompiled PO identity/translation catalog equals that MO",
+    "source_tree_writes": "NONE",
+    "gemini_requests": "NONE",
+    "installation_or_game_runtime": "NOT_RUN"
+  },
+  "commands": [
+    "gh api repos/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/actions/artifacts/10715293685/zip > /tmp/cph-po-ccb-10715293685.zip",
+    "gh api repos/CleverRaven/Cataclysm-DDA/actions/artifacts/11003869087/zip > /tmp/cph-po-cdda-11003869087.zip",
+    "msgfmt --check --check-format --statistics -o /tmp/cph-ccb-10715293685-check.mo cph-translation/inputs/ccb-10715293685.zh_CN.po",
+    "msgfmt --check --check-format --statistics -o /tmp/cph-cdda-11003869087-check.mo cph-translation/inputs/cdda-11003869087.zh_CN.po"
+  ],
+  "tool_versions": {
+    "gettext": "msgfmt (GNU gettext-tools) 1.0"
+  },
+  "cautions": [
+    "PO-Revision-Date headers are upstream values, not the artifact acquisition/build time.",
+    "Catalog equivalence proves preservation of compiled content, not linguistic accuracy or coverage against the new CPH POT.",
+    "Official build artifacts expire; extracted original PO, notice bytes, metadata and SHA256 stay in this project."
+  ]
+}

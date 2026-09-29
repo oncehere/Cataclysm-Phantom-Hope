@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7999dfe92f22e27940d5ecf9b8275629149c8817bf1f61a2c7710c0e998f5dd9",
+      "identity": [
+        null,
+        "Why would I want that?  Being a vampire is great!  If you try to cure me, you're good as dead.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why would I want that?  Being a vampire is great!  If you try to cure me, you're good as dead.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "79a60eb7cea60e4b68b6735df4b234553eaaa51dc71914f37b3aa4a0878ab74f",
+      "identity": [
+        null,
+        "scribbled notes (gold from lead)",
+        "scribbled notes (gold from lead)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": "scribbled notes (gold from lead)",
+      "singular": "scribbled notes (gold from lead)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Hub 01 XM-BACK Interface'",
+      "flags": [],
+      "id": "79cd9bc1008527fdf010b429c89f82346578cdbf1202a3dbfb3c750100ff3ed6",
+      "identity": [
+        null,
+        "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Biomechanical Assisted Carrying Kinetoframes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Biomechanical Assisted Carrying Kinetoframes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7a2017adb7eda6503a74041c3a00c53fba8071c30b8cc35d4c5bc60fd8520617",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Psionic powers are scripted and run only on your own client; teleportation powers break the shared map and self-heals desync from the host.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "73"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Psionic powers are scripted and run only on your own client; teleportation powers break the shared map and self-heals desync from the host.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7a2297b67f91a6f686583cf8e946465813df40739f4c63c8b21ee70430400c1e",
+      "identity": [
+        null,
+        "You need to be adjacent to your partner to high-five.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10353"
+        ]
+      ],
+      "plural": null,
+      "singular": "You need to be adjacent to your partner to high-five.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7a248fd1434828afc67bd7cc94c7c1df214708c42b4d539f67f5cdf430ffa1e5",
+      "identity": [
+        null,
+        "I'm just really eager to shed this fleshy prison.  You sure there's nothing we can do?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm just really eager to shed this fleshy prison.  You sure there's nothing we can do?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "7a282b16c9efd9078ae6260eda9f26ef6bf8ec0a2c11927a486b9fdfe8a64a6b",
+      "identity": [
+        null,
+        "surgical bonebot brain",
+        "surgical bonebot brains"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_tools.json",
+          ""
+        ]
+      ],
+      "plural": "surgical bonebot brains",
+      "singular": "surgical bonebot brain",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "7a3822099301c7586add1023aa3f688f6fa7f8263cf6ce279471d88f75ad8a38",
+      "identity": [
+        null,
+        "overrun village",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "overrun village",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "7a40c25b881419edbf67d28e389a5dd5ebfac019712713dec451848aba6e8721",
+      "identity": [
+        null,
+        "%s overview",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "685"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s overview",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'safety sneakers (pair)'",
+      "flags": [],
+      "id": "7a4b09354cfe75d8421db2df779c69fe702a91c868cac01afaf065daf52c90fb",
+      "identity": [
+        null,
+        "Sporty, comfortable shoes with a low top leaving the ankles uncovered.  Metal caps have been added to protect the toes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sporty, comfortable shoes with a low top leaving the ankles uncovered.  Metal caps have been added to protect the toes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected 09x-\"Anaximander\"'",
+      "flags": [],
+      "id": "7a4daa1e57e694aaf43929ac7f6b7707989234bf2b3eb0762dd9b8606848b189",
+      "identity": [
+        null,
+        "You just took a shot of that strange vial you found.  The shadows don't seem so dark anymore.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/night_operations_serum.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You just took a shot of that strange vial you found.  The shadows don't seem so dark anymore.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7a50143a412f72e693be0e4d5c00f7b4c47aa569b70b60a1ff627491968b4bdc",
+      "identity": [
+        null,
+        "Color templates",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1475"
+        ]
+      ],
+      "plural": null,
+      "singular": "Color templates",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

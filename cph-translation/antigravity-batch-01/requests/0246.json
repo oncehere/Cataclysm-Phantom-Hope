@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'right tentacles'",
+      "flags": [],
+      "id": "eb5c2a6da181e19316d95a6bae873f680529aa471e7294e929ce01ed87cc645e",
+      "identity": [
+        null,
+        "r. tents",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "r. tents",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "eb5c5a3c7e8140e80d6f93be8a2eb9f429591ac82543d630e02e7512f387cf5c",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -HUMANDESIRES\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN DESIRES: LIVING SPACE available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -HUMANDESIRES\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN DESIRES: LIVING SPACE available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'afs_personal_card'",
+      "flags": [],
+      "id": "eb6593dd84fb551cf9ad850adbaf89262d2c53b4f71a3c87833e169a91029955",
+      "identity": [
+        null,
+        "An old style movie theater.  \"Showing the vintage film Aelita!\n\n Tovarishch,\n\n Come with me to the movies.  My grandfather says that this movie is one of the classics.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/snippets/personal_cards.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An old style movie theater.  \"Showing the vintage film Aelita!\n\n Tovarishch,\n\n Come with me to the movies.  My grandfather says that this movie is one of the classics.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "eb67841f4d78be0ed09023ebc2c25710b2e7539b49137eb01a749aeb8b05fe97",
+      "identity": [
+        null,
+        "Exodii?  Tell me more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exodii?  Tell me more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "eb6e87d4a8e9c076da84fd6cd0436e52099045e56c794be2113a98c2a552117a",
+      "identity": [
+        null,
+        "You keep looking at my ears?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You keep looking at my ears?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'history book (ancient)'",
+      "flags": [],
+      "id": "eb792edbda1c14e34e10fe3e8a903318f8c2b0b02b03b48be435b08a195295cd",
+      "identity": [
+        null,
+        "A real and true accounting of actual historical events, or at least the common understanding of those events.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A real and true accounting of actual historical events, or at least the common understanding of those events.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_STUDY_OCCULT_RESEARCH_NOTES'",
+      "flags": [],
+      "id": "eb91befdb4ed95582d9af3604dbb955cf7e8accd83b43d8e59187ec26c4955f8",
+      "identity": [
+        null,
+        "study occult research notes",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/occult_knowledge.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "study occult research notes",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "eba3790673b0b0d574d0eb3eb9927f1a59f9c66818111ad2998a443b2b539f5a",
+      "identity": [
+        null,
+        "Press any key to continue.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager.cpp",
+          "269"
+        ]
+      ],
+      "plural": null,
+      "singular": "Press any key to continue.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "ebda63514c8f4cdbeef9698e5137cb85d503bab4ac12e09f6fa72421052c5666",
+      "identity": [
+        null,
+        "Swirling with a head-spinning meld of spurting reds and fleshy pinks, the sky looms over a windswept street, the jittering view seemingly recorded by a private property's security camera.  Bulging and receding, as though it were the face of a storm-ravaged ocean, a road-facing lawn fills the foreground.  A school bus rocks beyond the distorted greenery, the giggles of children clear over the squeals of the vehicle's suspension and the deformed whispers that tickle the edges of audibility.  The bus is coated in a carpet of writhing, flopping, and quivering torsos and limbs, all seemingly from children.  Rolling, through some indeterminate agency, along the vehicle's sides, wiggling across its roof, and at times merging straight through the metal, the bleeding body parts frolic across the bus.  Smiling and laughing, the heads attached to the torsos revolve in ways that would break regular necks, their jaws clamping about the faces of cohorts that they wriggle into, both parties gnawing at each other's skulls before they merge strait through one another.\n\nAs the road buckles and an abyssal vortex twists into being beyond the bus, all the flailing legs assemble beneath the chassis and lift the vehicle from the ground, the children's eyes bursting from their sockets and wriggling to the bus's front as the rest of the body parts assume positions upon the seats.  The red-splattered distortion of children on a field trip sprints into the portal, the children's heads still laughing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Swirling with a head-spinning meld of spurting reds and fleshy pinks, the sky looms over a windswept street, the jittering view seemingly recorded by a private property's security camera.  Bulging and receding, as though it were the face of a storm-ravaged ocean, a road-facing lawn fills the foreground.  A school bus rocks beyond the distorted greenery, the giggles of children clear over the squeals of the vehicle's suspension and the deformed whispers that tickle the edges of audibility.  The bus is coated in a carpet of writhing, flopping, and quivering torsos and limbs, all seemingly from children.  Rolling, through some indeterminate agency, along the vehicle's sides, wiggling across its roof, and at times merging straight through the metal, the bleeding body parts frolic across the bus.  Smiling and laughing, the heads attached to the torsos revolve in ways that would break regular necks, their jaws clamping about the faces of cohorts that they wriggle into, both parties gnawing at each other's skulls before they merge strait through one another.\n\nAs the road buckles and an abyssal vortex twists into being beyond the bus, all the flailing legs assemble beneath the chassis and lift the vehicle from the ground, the children's eyes bursting from their sockets and wriggling to the bus's front as the rest of the body parts assume positions upon the seats.  The red-splattered distortion of children on a field trip sprints into the portal, the children's heads still laughing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left front tentacle'\n~ Heading of body part 'right front tentacle'",
+      "flags": [],
+      "id": "ebf588dcb3b225305f19d4dbd9147f92987e312e90caa9f9010f1a31a58fd0c1",
+      "identity": [
+        null,
+        "f. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "f. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "ebf80c6ccdc61312d823eabe370c1d7c4f7c6e4b35d1a2f7350b06f383dd9157",
+      "identity": [
+        null,
+        "The Postmodern Condition: A Report on Knowledge",
+        "copies of The Postmodern Condition: A Report on Knowledge"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Postmodern Condition: A Report on Knowledge",
+      "singular": "The Postmodern Condition: A Report on Knowledge",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "ebfef31c1782e91a6a1e6982dbeed6381c3bd790e4676a3f5f69b20c369dfa90",
+      "identity": [
+        null,
+        "left rear tentacle midsection",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacle midsection",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

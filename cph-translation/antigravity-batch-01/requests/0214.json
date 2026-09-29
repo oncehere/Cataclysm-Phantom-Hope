@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Thick Clouds A Covering'",
+      "flags": [],
+      "id": "cbd9636bbe0a50fe3c73338214c62cf4d9de91a398d60e1e60395221efb33cfd",
+      "identity": [
+        null,
+        "Call up thick clouds of fog, allowing you to hide from your enemies.  This power <color_green>lasts longer</color> when closer to the new moon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Call up thick clouds of fog, allowing you to hide from your enemies.  This power <color_green>lasts longer</color> when closer to the new moon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "cbde3a018752395302cf9b8ec2b2a0a776eba3c37a311456cbe16588b6a55eac",
+      "identity": [
+        null,
+        "cathedral of flesh",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "cathedral of flesh",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'nether organs'",
+      "flags": [],
+      "id": "cbe9f443fd3d0286d544a60eef26f5387cd0a61deed42dba696616b3f74e0fea",
+      "identity": [
+        null,
+        "These organs came from a beast from the Underhill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/carnivore.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "These organs came from a beast from the Underhill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cbee25891d1c70c14de3992aa4f055ac7057d58ab8032aba9b1fea7144afb606",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for hᵤmₐn to access the update package.\n   Your system obelisk will provide instructions on site.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for hᵤmₐn to access the update package.\n   Your system obelisk will provide instructions on site.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "cc043931669bb99ad50e84076b614c852ac4b60ef54fdab1dee52423dda6789a",
+      "identity": [
+        null,
+        "femtosecond laser",
+        "femtosecond laser"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/crafting_scrap/optics.json",
+          ""
+        ]
+      ],
+      "plural": "femtosecond laser",
+      "singular": "femtosecond laser",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "cc18177d52a3e38aababfd52d919f71ae40b51be43f60e24698dbe6f5779498f",
+      "identity": [
+        null,
+        "Ditch the Thorazine, keep your wits.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ditch the Thorazine, keep your wits.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left rear tentacle'\n~ Heading of body part 'right rear tentacle'",
+      "flags": [],
+      "id": "cc2a3998d2cdd20d795417e71c2fb72a927050d9e8667733cb43037ba943ae6e",
+      "identity": [
+        null,
+        "r. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "r. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_GRACKEN_REPLACE_MUTATION'",
+      "flags": [],
+      "id": "cc2fadecab697dc4d074ab9da24580df299be7d7e5afe5e2a51a0fc69bfa1e97",
+      "identity": [
+        null,
+        "You exchanged your previous organ successfully.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/gracken_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You exchanged your previous organ successfully.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cc34fce96fa00b05d8e7072f097938a69e7bfc8cfa415a239e7d3715d5dc0ef8",
+      "identity": [
+        null,
+        "[Antagonize] Well, that went way worse than I expected!  Smoke, Rubik, I don't think we have a deal here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Well, that went way worse than I expected!  Smoke, Rubik, I don't think we have a deal here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (feline periapta)'",
+      "flags": [],
+      "id": "cc7e82bbd85a57c101c7564c3e00b532a24b72b179d9ec433b878bdf36e48241",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes have several parallel tears in them near the bottom.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes have several parallel tears in them near the bottom.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'qt_rapier' step 1",
+      "flags": [],
+      "id": "cc964441f88d831fd56a45a7645f05a3aaf128aef26681c0ae3180be0982e305",
+      "identity": [
+        null,
+        "Forge welding steel for the blade, tang, pommel and hilt",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/weapon/piercing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Forge welding steel for the blade, tang, pommel and hilt",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ccaf5c248178ce13acb4592c6a6a83b857dac5d7553ee455432d948df8cf0760",
+      "identity": [
+        null,
+        "Attempt to call the elevator.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/npcs/elevator_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Attempt to call the elevator.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

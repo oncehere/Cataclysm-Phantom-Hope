@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_SKY_ISLAND_SAFELY_LANDED'",
+      "flags": [],
+      "id": "25da932b9f9a45741b8dcca5ee19028d2e52a4645584951a093d28c17c6e3139",
+      "identity": [
+        null,
+        "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/effectoncondition/teleport.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "25e2f33b4bd89aeea2c18af3352d16581c11d37da45564c12e04bddff02e3bc4",
+      "identity": [
+        null,
+        "This was some kind of government experiment before everything happened.  I don't fully understand it myself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This was some kind of government experiment before everything happened.  I don't fully understand it myself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Encumbrance text of body part 'bionic treads'",
+      "flags": [],
+      "id": "25e972d4d8a7a5754eaa3f81c175a816835d08ea601f1c69e5d11eebd007f5b4",
+      "identity": [
+        null,
+        "Servomotors are operating at abnormal load, reducing movement speed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_bionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Servomotors are operating at abnormal load, reducing movement speed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "25f4a47f5b857322bc6b121d8f92779b7d556f1a3029fe3eb31caada626a4803",
+      "identity": [
+        null,
+        " *psssht* Do you read me, sister?  The song cannot transmit over these waves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": " *psssht* Do you read me, sister?  The song cannot transmit over these waves.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "25fb18286e7232b6a2ef80320fa4eddb944b7f299f4268d974c01076cf638907",
+      "identity": [
+        null,
+        "Rejected optional Platform entry; legacy content remains available",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager_ui.cpp",
+          "42"
+        ]
+      ],
+      "plural": null,
+      "singular": "Rejected optional Platform entry; legacy content remains available",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_MATERIAL_FOREST'",
+      "flags": [],
+      "id": "2602fd916ef9d251451344ae7c1a8d57657cdd54fa032c8611e43060d61d5826",
+      "identity": [
+        null,
+        "assemble forest research materials",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "assemble forest research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Easy Indian Curry Recipes for Beginners' of book\n'Curry cookbook'",
+      "flags": [],
+      "id": "263763ad07ce1e7ab2a7af19f8022b9289f28d7e3c3c8699b9f9d3d995407f08",
+      "identity": [
+        null,
+        "A curry cookbook designed for first-time curry makers, including ingredient substitutions and a guide to commonly-used spices.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A curry cookbook designed for first-time curry makers, including ingredient substitutions and a guide to commonly-used spices.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'walking cane'",
+      "flags": [],
+      "id": "26667d0fec4e24731345d39adaf4f8e84980fdf589f61b74f9fe8fcfb3c8bd76",
+      "identity": [
+        null,
+        "Handicapped or not, you always walk in style.  Consisting of a metal headpiece and a wooden body, this makes a great bashing weapon in a pinch.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/melee/bludgeons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Handicapped or not, you always walk in style.  Consisting of a metal headpiece and a wooden body, this makes a great bashing weapon in a pinch.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FOREST_TRAVERSE_THE_WILDS_REMOVER'",
+      "flags": [],
+      "id": "2672194c79774680c590a5fdfe7667791afa5be99d82d38c81ddde2413fcacd8",
+      "identity": [
+        null,
+        "As you exit the forest, your spell fades.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As you exit the forest, your spell fades.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option description for 'Nothing'",
+      "flags": [],
+      "id": "2672b59e50df4a6e059ed4fc332462c42735299f751275029fa8f6a12e11eee7",
+      "identity": [
+        null,
+        "Further lessen your gravity, increasing how much you can carry and allowing you to glide down from heights.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Further lessen your gravity, increasing how much you can carry and allowing you to glide down from heights.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'strange object' of item 'strange object'",
+      "flags": [],
+      "id": "2690f86d0e55a9bff229a8125f2e8424c002e63352c53267d87ce173302a18a6",
+      "identity": [
+        null,
+        "It seems to be a heavy chunk of light pink amber.  Suspended inside the amber are… fossils?  You're unsure what to call them.\n\nOne appears to be a small ball of hair with copper wires reaching out in one direction, reminiscent of an amoeba reaching for something.  Another appears to be a tiny fern, only made out of a highly iridescent metal, with blades quite literally as thin as a razor.  A third, particularly horrifying one appears to be the shrunken head of a human with a network of dark red nerves instead of hair.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Backrooms/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It seems to be a heavy chunk of light pink amber.  Suspended inside the amber are… fossils?  You're unsure what to call them.\n\nOne appears to be a small ball of hair with copper wires reaching out in one direction, reminiscent of an amoeba reaching for something.  Another appears to be a tiny fern, only made out of a highly iridescent metal, with blades quite literally as thin as a razor.  A third, particularly horrifying one appears to be the shrunken head of a human with a network of dark red nerves instead of hair.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "26964b29f5545427fac2e182e18b65fc8dbd053c6a623813312337ae18e78988",
+      "identity": [
+        null,
+        "A word of caution: I can't tell you what you'll find.  They're always different.  Don't trust them.  Don't linger.  Use your head, think like an Exodii:  take what you can, but don't get tempted by treasure.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A word of caution: I can't tell you what you'll find.  They're always different.  Don't trust them.  Don't linger.  Use your head, think like an Exodii:  take what you can, but don't get tempted by treasure.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

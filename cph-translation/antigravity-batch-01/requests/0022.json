@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0ab46a8300f060f76f14cd02698c6bca1a6ec29253dfce7d5cdecb4d3bfabce2",
+      "identity": [
+        null,
+        "You starved yourself of blood.  Good.  Now lie there on the dirt and stay perfectly still while the heartvines do their work.  It'll take half an hour, it'll hurt and you'll probably need a few days to recover, but you won't become another victim of this curse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You starved yourself of blood.  Good.  Now lie there on the dirt and stay perfectly still while the heartvines do their work.  It'll take half an hour, it'll hurt and you'll probably need a few days to recover, but you won't become another victim of this curse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'short mound of contaminated dirt'",
+      "flags": [],
+      "id": "0abb30edb84ca677506b8e312d97e866e8fcd7c8e5d0c229806f1c7e787f4f87",
+      "identity": [
+        null,
+        "An area of heaped contaminated dirt, not easily traversable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of heaped contaminated dirt, not easily traversable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'wallet_photos'\n~ These are meant to be small pictures that people would have kept in their\nwallets before the Cataclysm.  Nothing majorly anomalous should show up in\nthese pictures, unless they were taken shortly before the end of the world,\nin which case anything abnormal should be subtle enough to have plausibly\ngone unnoticed by the former owner.",
+      "flags": [],
+      "id": "0ac7a5cc16db0a792265a6046a35bb13ed8929fabd8d5b6383590105dc706f5d",
+      "identity": [
+        null,
+        "Sat on a low stool and lightly strumming an electric guitar, a girl in her late teens with tousled red hair draping to her trench coat-clad shoulders grins slyly in the middle of this aged photo, flanked by a similarly aged pair of nearly identical-looking young men: one playing on a mounted keyboard while the other beats a silent tune on a large drum set.  Behind the trio stands a taller woman with sharper features, her body clad in a crisp suit, her lips parted in mid-verse, and primly gloved hands cupping a microphone.  With the aid of a Sharpie, the photo's been captioned \"The Nightjars, Our NY Tour, 2011,\" while on its back, a crossed-off list is present.\n\n\"Rob: dead of stomach cancer in 2016\"\n\n\"Andi: took a bone spike to the guts when <city> was overrun\"\n\n\"Audrey: died when the air force leveled Boston\"\n\n\"Melony: sitting with a broken leg while something's bringing down the door\"\n\n\"I'm sorry we broke up, guys.  At least we would have died toget…\"\n\nThe rest of the text is illegible through the dried stains that surround the edge of a bullet hole that clipped the picture.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/photos.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sat on a low stool and lightly strumming an electric guitar, a girl in her late teens with tousled red hair draping to her trench coat-clad shoulders grins slyly in the middle of this aged photo, flanked by a similarly aged pair of nearly identical-looking young men: one playing on a mounted keyboard while the other beats a silent tune on a large drum set.  Behind the trio stands a taller woman with sharper features, her body clad in a crisp suit, her lips parted in mid-verse, and primly gloved hands cupping a microphone.  With the aid of a Sharpie, the photo's been captioned \"The Nightjars, Our NY Tour, 2011,\" while on its back, a crossed-off list is present.\n\n\"Rob: dead of stomach cancer in 2016\"\n\n\"Andi: took a bone spike to the guts when <city> was overrun\"\n\n\"Audrey: died when the air force leveled Boston\"\n\n\"Melony: sitting with a broken leg while something's bringing down the door\"\n\n\"I'm sorry we broke up, guys.  At least we would have died toget…\"\n\nThe rest of the text is illegible through the dried stains that surround the edge of a bullet hole that clipped the picture.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0b01612947cbeb9a7019b1a1663de288c554d5e0e73a0482730633b4ec8ab622",
+      "identity": [
+        null,
+        "Starting Location",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4448"
+        ]
+      ],
+      "plural": null,
+      "singular": "Starting Location",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (lupine periapta)'",
+      "flags": [],
+      "id": "0b1226c113ef14fd4b775e6206a318d006e6e27bc3ba5932e4191f75becee6ef",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes have \"take off before meals!!\" underlined at the bottom.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes have \"take off before meals!!\" underlined at the bottom.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_psych'\n~ Long-form session logs and reports, uses EOC popup",
+      "flags": [],
+      "id": "0b27e7f9d9d5b0dc18a811f3918aec3288f7ab6f00a050596ccf02e805422947",
+      "identity": [
+        null,
+        "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certainty, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certainty, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'guardian' of armor 'burial shroud'",
+      "flags": [],
+      "id": "0b41e614b68ce6c65988f01665fff2152be3d0050690155b19255bc27f1c1cea",
+      "identity": [
+        null,
+        "A cream colored shroud, embroidered with a single, large eye.  The iris is deep blue, and its pupil is a small, black gem.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A cream colored shroud, embroidered with a single, large eye.  The iris is deep blue, and its pupil is a small, black gem.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'NO_PAINT'",
+      "flags": [],
+      "id": "0b4ac06142318e87cf7c54a9a70d0da34e34c8fae427f99b86f6e95673b7405b",
+      "identity": [
+        null,
+        "This vehicle part keeps its own sprite colors and is never tinted by a vehicle color palette.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This vehicle part keeps its own sprite colors and is never tinted by a vehicle color palette.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0b5475cf3a6a966ff0c0ed853b1de65ffdba891e3be6faa6ffdd38c8f7ebb0de",
+      "identity": [
+        null,
+        "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a tool battery, a sheaf of papers in a binder, and a UPS.  \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, <color_yellow>please review the provided documentation</color>, and pay special attention to the procedures detailed in subsections IV and VII.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a tool battery, a sheaf of papers in a binder, and a UPS.  \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, <color_yellow>please review the provided documentation</color>, and pay special attention to the procedures detailed in subsections IV and VII.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0b6db63235598316cef8ba618a51185ecb4cf0ca624c1c81066501b263117179",
+      "identity": [
+        null,
+        "I'm back and I cured the target.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I cured the target.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "0b82cedd43cd8259dccd3a01975cbb5f9c175c20458a2da4e931d0f2506b97d6",
+      "identity": [
+        null,
+        "Spacer",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Spacer",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0ba202eb38cef1343284897ae808fdab45c2a7b9875f584b385ba42434910957",
+      "identity": [
+        null,
+        "This world already has a character.  Create a new world for a new character.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2078"
+        ],
+        [
+          "src/main_menu.cpp",
+          "2127"
+        ]
+      ],
+      "plural": null,
+      "singular": "This world already has a character.  Create a new world for a new character.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

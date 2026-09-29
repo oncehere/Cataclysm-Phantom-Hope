@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4c2d7ffa537ea466a551bc42c3a5f0d980961157afc9938be68c9b0a42023e88",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Paraclesian, vampire and dream powers are scripted and run only on your own client, and several mechanics teleport you to separate maps (dream realm, pocket dungeons).",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "85"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Paraclesian, vampire and dream powers are scripted and run only on your own client, and several mechanics teleport you to separate maps (dream realm, pocket dungeons).",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "4c5b35c88d280db4d5949c1550d2af399f4451303c349988e78eadf3c86fd31c",
+      "identity": [
+        null,
+        "On the Genealogy of Morality and The Gay Science",
+        "copies of On the Genealogy of Morality and The Gay Science"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of On the Genealogy of Morality and The Gay Science",
+      "singular": "On the Genealogy of Morality and The Gay Science",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Heightened senses'",
+      "flags": [],
+      "id": "4c5efe4b3374aaa99b5342cf80fb913bf13916916989ed62d71846a239eb51c9",
+      "identity": [
+        null,
+        "Every sensation feels crisp and clear.  Your perception is enhanced.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Every sensation feels crisp and clear.  Your perception is enhanced.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Reach Spell'",
+      "flags": [],
+      "id": "4c6ede3dced6d08e0fe0b0654d3c9ac41200c421058876b38f6e98c71afe2c2c",
+      "identity": [
+        null,
+        "You have learned to cast spells from a longer distance.  +100% reach, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have learned to cast spells from a longer distance.  +100% reach, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4c8bcd351fceb4a476dfe3af9900d3e57bf991fc6575ddd848066262e07c9a52",
+      "identity": [
+        null,
+        "Do you have something to trade?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Do you have something to trade?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Staff of the Wise'",
+      "flags": [],
+      "id": "4c91ea478837816fb4a5c40629f0f9a459d053656eb98df4b3671c2f9a131a10",
+      "identity": [
+        null,
+        "The traditional staff of the Wise, carved with curving runes and enchanted with secret rites passed down from ages beyoned memory.  While wielding the staff, the cost of your enchantments is reduced by 33% and their casting time is reduced by 50%.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The traditional staff of the Wise, carved with curving runes and enchanted with secret rites passed down from ages beyoned memory.  While wielding the staff, the cost of your enchantments is reduced by 33% and their casting time is reduced by 50%.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_teleportation'\n~ Phavian designation for teleportation study is LOST RAIN",
+      "flags": [],
+      "id": "4c974478483f3b297571c3ae57e9cfb40ae9e2495f8e8c2480ba3f1a1f791f88",
+      "identity": [
+        null,
+        "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the distortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by a defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the distortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by a defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "4caa58e76640b3ad88f155366df9b246bec06b130273ea9f46c5092790166c38",
+      "identity": [
+        null,
+        "left rear tentacle (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacle (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4cc4b5fdfda5c9bc513b381efbb19c9d96e11a423cead8c00883f975b35212ae",
+      "identity": [
+        null,
+        "You can't pour that there.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1059"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't pour that there.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item '48x-\"Locutus\"'",
+      "flags": [],
+      "id": "4d088f7404773bc103e8c603fcaf02cb0a1f68df7402f8f712178f8a072f6bc4",
+      "identity": [
+        null,
+        "A little, sealed ampule with some white, semi-transparent liquid of unknown origin.  The label on it says \"48x-\"Locutus\"\", whatever that means.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A little, sealed ampule with some white, semi-transparent liquid of unknown origin.  The label on it says \"48x-\"Locutus\"\", whatever that means.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "4d1cfd50c4d2c44b88643dc4e828785e0981dd36456f3022e5e80177e8081839",
+      "identity": [
+        null,
+        "claw runner hatchling",
+        "claw runner hatchlings"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": "claw runner hatchlings",
+      "singular": "claw runner hatchling",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'brown' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "4d2fb5abbcdced6ccc13264fed0958064f2f935c99ea835838c4124d5bab18d0",
+      "identity": [
+        null,
+        "This one is <color_prefix_brightness> brown.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix_brightness> brown.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

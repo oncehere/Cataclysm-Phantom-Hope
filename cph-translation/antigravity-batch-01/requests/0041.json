@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1db3a873c4ad47918957531a69cde5ae304abe31486355d91e60a5aaa5259914",
+      "identity": [
+        null,
+        "Exit.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exit.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Artifact Kill'",
+      "flags": [],
+      "id": "1dd1833963a3a70b6292aa47abe46daa21491567e8c9eb88b446ea9ff3298c5b",
+      "identity": [
+        null,
+        "Something living nearby just exploded in a fountain of gore.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/XAEA.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Something living nearby just exploded in a fountain of gore.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Merchants held up in some sort of large building.  They're proper traders\nas far as I can tell.  To have caravans so soon after the end times speaks\nsomething to their ingenuity, but maybe should also inspire caution.\nThey're smart, but maybe conniving.  Either way, they're not secretive like\nthat bunker, so that's good",
+      "flags": [],
+      "id": "1def1ae4c37faf0d6374394c0404606156d2a2a4a645b04558595e41d47f57ef",
+      "identity": [
+        null,
+        "Mongers holed up in some great clunk of a buildin'.  Proper traders, far as ol' Rubik can tell.  To run a caravan so soon past the dyin'o'the'world, that speaks a mite to their grit an' know-how, but mayhaps it'd be wise to keep one eye sharp, too.  Keen as a tack, but maybe slippery ta'boot.  Either way, they be ain't secret.  Not hidin' behind crete n' iron like the bunker-folk.  So that's a fair mercy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Mongers holed up in some great clunk of a buildin'.  Proper traders, far as ol' Rubik can tell.  To run a caravan so soon past the dyin'o'the'world, that speaks a mite to their grit an' know-how, but mayhaps it'd be wise to keep one eye sharp, too.  Keen as a tack, but maybe slippery ta'boot.  Either way, they be ain't secret.  Not hidin' behind crete n' iron like the bunker-folk.  So that's a fair mercy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'Vampire' NPC class\n~ Having the vampire be the same one every time is far easier to balance\nthan full-random vampires.",
+      "flags": [],
+      "id": "1e0b7ba2dba370ff23f2ce7d86b9a34945e744ef8606b51a22642509e719f566",
+      "identity": [
+        null,
+        "A vampire that may or may not want to be cured from their condition.  The only way to find out is to ask them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A vampire that may or may not want to be cured from their condition.  The only way to find out is to ask them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1e10a5381ed3594cbe0721bdef8ea0f37560a710fafeeede080e6c9f01637957",
+      "identity": [
+        null,
+        "That action cannot be queued.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "1203"
+        ]
+      ],
+      "plural": null,
+      "singular": "That action cannot be queued.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'autobiography'",
+      "flags": [],
+      "id": "1e1584a9a8e631cd21307f72ed892f0f8084d4f5f5d28e1f85941b67505ed168",
+      "identity": [
+        null,
+        "A biography of someone written by that very same someone.  Hopefully it's not too self-aggrandizing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A biography of someone written by that very same someone.  Hopefully it's not too self-aggrandizing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1e1fe72f575560113d03ad8a83ee333cc96c12347507c949fdd5ef3726e5706a",
+      "identity": [
+        null,
+        "CO-OP: untested third-party mod.  This mod is not bundled with the game and has not been vetted for co-op; it may desync or crash the joining player.  Both players must have the exact same mods installed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "28"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: untested third-party mod.  This mod is not bundled with the game and has not been vetted for co-op; it may desync or crash the joining player.  Both players must have the exact same mods installed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Decay message of effect 'Hypocalcemia, Weak bones, Brittle bones'",
+      "flags": [],
+      "id": "1e3cb37766ebea83575b5900c1a36dee174629cef4f8d6da29513c329a37e27d",
+      "identity": [
+        null,
+        "Your bones become stronger as your calcium deficiency improves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your bones become stronger as your calcium deficiency improves.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_xedra'\n~ Messages, logs and videos, that xedra agent may have on it's laptop",
+      "flags": [],
+      "id": "1e4507a3800dd2b92e8e42c6c982f0fb4980b86b984696106b9567952f4d021d",
+      "identity": [
+        null,
+        "SAATUIOW_3/6.mp4\n…The second branch utilizes, eh, \"the ethereal\" or \"extradimensional\" thingy, we like to name them \"dealers\".  Now I think it's a bad idea to split them like this, but anyway.  So yeah, it is easy to detect dealers, because some interdimensional creatures, usually hostile to humans, do not attack them.  We think they can kind of make a \"deal\" with sapient creatures, and yes, every creature they deal with is sapient, in one form or another, and I also don't understand how it works, that's what they told me.  Eeh, yeah, they \"deal\" with these creatures from the other side, they spend their life energy to merc them.  The one who was capable of talking said it was a pleasant dish, the same as our pancakes.  The ability to use such things is not cheap, and many dealers disappeared in unknown circumstances, but let's not talk about it…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SAATUIOW_3/6.mp4\n…The second branch utilizes, eh, \"the ethereal\" or \"extradimensional\" thingy, we like to name them \"dealers\".  Now I think it's a bad idea to split them like this, but anyway.  So yeah, it is easy to detect dealers, because some interdimensional creatures, usually hostile to humans, do not attack them.  We think they can kind of make a \"deal\" with sapient creatures, and yes, every creature they deal with is sapient, in one form or another, and I also don't understand how it works, that's what they told me.  Eeh, yeah, they \"deal\" with these creatures from the other side, they spend their life energy to merc them.  The one who was capable of talking said it was a pleasant dish, the same as our pancakes.  The ability to use such things is not cheap, and many dealers disappeared in unknown circumstances, but let's not talk about it…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1e79799bd4299f4cd0dbd710550be2d2438099fe5d8b6d8c5cb28cb25c9e2407",
+      "identity": [
+        null,
+        "Their very essence, torn from their corpses and transferred into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Their very essence, torn from their corpses and transferred into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "1e7e5314e3ef8dcccd3faac3ed7195f73e55c46bb9daf35e7ec4bb0ed637b5f2",
+      "identity": [
+        null,
+        "Either-Or",
+        "copies of Either-Or"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Either-Or",
+      "singular": "Either-Or",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FEEDING_THE_BLACK_HORSE'",
+      "flags": [],
+      "id": "1e80deef5753a2223ae0e0a7fb4bada109976b0896a7215a42e21e9f71b82b88",
+      "identity": [
+        null,
+        "It's time to feed the beast that was your horse before it goes feral with hunger.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/dhampir_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's time to feed the beast that was your horse before it goes feral with hunger.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

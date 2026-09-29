@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e00cd7bed7e5e52ad25a450428c2a4a1419bbab069ece03f5690f77644927c72",
+      "identity": [
+        null,
+        "Ah, it's you.  Good to see you.  What can I do for you?  Here to collect on the bounty?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NC_ROBOFAC_SCIENTIST_GARAGE.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, it's you.  Good to see you.  What can I do for you?  Here to collect on the bounty?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e02a3908bf5c17848745e98e1110416a54cc7f60fb1a0e43560d38cce49f919c",
+      "identity": [
+        null,
+        "Your partner marked an area as dangerous.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10571"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner marked an area as dangerous.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e03a5c3c6ec4018cab3d20585fbb768604cf77b6149aa93236ccc32c1556371f",
+      "identity": [
+        null,
+        "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'popular science book'",
+      "flags": [],
+      "id": "e054a950d50cab656ea2b907d401d75973f075c0cccb7fac1f4e8994101cceb0",
+      "identity": [
+        null,
+        "The entire history of the universe in a single book, or perhaps a book-length examination of an atom or the water cycle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The entire history of the universe in a single book, or perhaps a book-length examination of an atom or the water cycle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Blacken the soul of Arion'",
+      "flags": [],
+      "id": "e069d8af013fcd0a6ce8fdd62853b9fa2705c934a0ef6292bd271e8b8802f5ce",
+      "identity": [
+        null,
+        "Transform your horse into a steed worthy of the mightiest hunter.  Unfortunately it will require blood weekly or else it will either die or become a monster.  Theoretically a vampire could do this, but it never seems to be a priority for them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/vampire_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Transform your horse into a steed worthy of the mightiest hunter.  Unfortunately it will require blood weekly or else it will either die or become a monster.  Theoretically a vampire could do this, but it never seems to be a priority for them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e0843c43168ff2fcc83a4c5b61ff3a31e9a0308d74cc19fb7b5c6e25d0a5e032",
+      "identity": [
+        null,
+        "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e08af453ee064d653fb73a09f48b5983702d9824462c02df8ca12f3dd16d0afa",
+      "identity": [
+        null,
+        "Got any work for me?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Got any work for me?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "e0b41d23e208204258b3b86cff83a04d94367b07d8fbac37326b706c40b730cb",
+      "identity": [
+        null,
+        "default tail center",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default tail center",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e0bbb9bb5fd8dffe1a9cfce4517054f5522e14575896804a508169ed5d9a6809",
+      "identity": [
+        null,
+        "[Antagonize] Undermine the negotiation by bringing up Hub 01.  \"Actually, Smokes, those Hub 01 people you trade with have some pretty advanced tech, or at least it seems like they do.  Maybe this isn't worth being part of the deal.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Undermine the negotiation by bringing up Hub 01.  \"Actually, Smokes, those Hub 01 people you trade with have some pretty advanced tech, or at least it seems like they do.  Maybe this isn't worth being part of the deal.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e0c520d14d03a6e5f8f77f43ef16679ba17249c962b5aee9ef871948a10a6ba9",
+      "identity": [
+        null,
+        "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like some sort of cyborg.  What's happened, exactly?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like some sort of cyborg.  What's happened, exactly?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "e0c525f3798babb66a0bb22e6ecaff4d3d4c45af50e9df393773e78afb724c40",
+      "identity": [
+        null,
+        "Socialism",
+        "copies of Socialism"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Socialism",
+      "singular": "Socialism",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'Sentinel-lx cloak'",
+      "flags": [],
+      "id": "e0ceca31977204f5088b71ed57f266b05ed80402da0ef701a95f40e3bef081c9",
+      "identity": [
+        null,
+        "The vantablack cloak of Sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The vantablack cloak of Sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

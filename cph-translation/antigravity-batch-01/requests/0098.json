@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Spacer'",
+      "flags": [],
+      "id": "581161e46b5a2a3892c7cd3a954f9e8b4b8d1253934dcfd2dbc4c3c1705731e5",
+      "identity": [
+        null,
+        "You have lived most of your life aboard starships and stations.  Seeing the horizon still makes you uneasy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have lived most of your life aboard starships and stations.  Seeing the horizon still makes you uneasy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "5814959f17acb84361ec664af046c9aeaad72c65bcdfe5d454417853d0a91447",
+      "identity": [
+        null,
+        "Welcome.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Welcome.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Ammunition name",
+      "flags": [],
+      "id": "585290e8750efb29cedae2439bb29433696e9a8eb58609fa0e3769e5d0c1e802",
+      "identity": [
+        null,
+        "magical ink, apprentice",
+        "magical ink, apprentice"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/chemicals.json",
+          ""
+        ]
+      ],
+      "plural": "magical ink, apprentice",
+      "singular": "magical ink, apprentice",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'The Ultimate Curry Cookbook: Mouth-Watering and\nSoul Satisfying Curries' of book 'Curry cookbook'",
+      "flags": [],
+      "id": "586a4076c0d523b0f3dd719253e221452a0ea26e1f950c176e8acc3d9b6e9268",
+      "identity": [
+        null,
+        "This cookbook has 50 curry recipes from around the world, created using simple ingredients.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This cookbook has 50 curry recipes from around the world, created using simple ingredients.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5902a8afda5d28051f20a7381f961703f033d3372fed9c17ac38a2a399173777",
+      "identity": [
+        null,
+        "This world has co-op history",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6050"
+        ]
+      ],
+      "plural": null,
+      "singular": "This world has co-op history",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'abstract garment with advanced variants'",
+      "flags": [],
+      "id": "590b053cce3937c28a0deae08e3b6c12657dcf9f458e32e242682d037f6689c3",
+      "identity": [
+        null,
+        "Abstract garment with advanced variants on top of the basic ones.  If you see this it's a bug, please report.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Abstract garment with advanced variants on top of the basic ones.  If you see this it's a bug, please report.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Reaping the Whirlwind'",
+      "flags": [],
+      "id": "5925bae6aea11f1a6d1a18a78f762902f97d07a294ea1d0db52cdd57d330fa47",
+      "identity": [
+        null,
+        "With an expenditure of ruach you can drastically enhance your speed for a short period of time.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "With an expenditure of ruach you can drastically enhance your speed for a short period of time.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "59675f7dc7dfe98a9c6689e5004badaab8f2fc39991560dccbe58a0f12655272",
+      "identity": [
+        null,
+        "Assigned Key(s)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1079"
+        ]
+      ],
+      "plural": null,
+      "singular": "Assigned Key(s)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "597fc05caca65ec89259e2d42f3d895c4060970f96a418b159173935b0179361",
+      "identity": [
+        null,
+        "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.  And they're very interested in trade.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.  And they're very interested in trade.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'briefs'",
+      "flags": [],
+      "id": "598d1f206126bbc7ef6e963f72006d1f1045fce201513e700f4bec4c66101e01",
+      "identity": [
+        null,
+        "Men underwear covering the hips with a high leg cut.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Men underwear covering the hips with a high leg cut.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'claw runner'",
+      "flags": [],
+      "id": "59cb9aa6a0cb14834d36fd2a73295bd0fb2025e3f15cabde99fa1a7fbca5a515",
+      "identity": [
+        null,
+        "A small dragon-bird running on two hind legs and covered with soft feathers.  Small, hooked claws emerge from its feet and hands.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/dinosaurs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A small dragon-bird running on two hind legs and covered with soft feathers.  Small, hooked claws emerge from its feet and hands.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'infested MoxPhore'",
+      "flags": [],
+      "id": "59cbd3f86a6d7c45ea5ffe5f99751b170979fa9929dfc4cbacf33e2b64f60647",
+      "identity": [
+        null,
+        "Alien creatures burrow into the arms and upper torso of this walking corpse, constantly gnawing at the regenerating flesh.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/zombies.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Alien creatures burrow into the arms and upper torso of this walking corpse, constantly gnawing at the regenerating flesh.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

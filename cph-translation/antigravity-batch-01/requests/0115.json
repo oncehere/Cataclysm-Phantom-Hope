@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'funeral crown'",
+      "flags": [],
+      "id": "68decf1c147c5eed09f6c856534c7daec5b941fd93eb0deb8918d3f13dbf7d04",
+      "identity": [
+        null,
+        "A golden circlet adorned with filigree leaves and pearls.  The remnants of a white silk veil remain attached to the crown.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/relics/highland_artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A golden circlet adorned with filigree leaves and pearls.  The remnants of a white silk veil remain attached to the crown.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'scorched hypacrosaurus zombie'",
+      "flags": [],
+      "id": "68ec1c5e5c2491ee54389a8e4bffe6d88732c384f9299a19d5edc6502c0b12fd",
+      "identity": [
+        null,
+        "A heavily-burned zombie dinosaur with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/monsters/zinosaur_burned.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A heavily-burned zombie dinosaur with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "68ff24c1ea892b2b0d3a08f5e215956fda46b6c0a969b3b499bca8be2a7ee50e",
+      "identity": [
+        null,
+        "[Favor Exodii] Point out that the Exodii's needs are predictable and simple.  \"They need a lot of things other survivors may not buy.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Point out that the Exodii's needs are predictable and simple.  \"They need a lot of things other survivors may not buy.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "6901ce45bd26f5724647784bd023dc056fb05d141ffbc4a40e024f187ce070f0",
+      "identity": [
+        null,
+        "Resist Thorazine, it's a mental poison.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Resist Thorazine, it's a mental poison.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "6919781ae78143b3e231fba03d47deaa2fbca37c2062fa2ce4cdbda445c5d900",
+      "identity": [
+        null,
+        "Prankster at the end of the world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Prankster at the end of the world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "6935f94d1fc76493ac14b24fd5e11bf0acd8087f4b63bdd6fdc5d4e250bebd5b",
+      "identity": [
+        null,
+        "claw runner nest",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mapgen/map_extras/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "claw runner nest",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "693fd9ec4418c770d44d61cda623475bc272aa257b5850df30dae014f6367ed7",
+      "identity": [
+        null,
+        "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_exploitation>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_exploitation>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6960526335aa13eb5ab5d5a63a9e683ee03305e028be26f41a59387ec0531201",
+      "identity": [
+        null,
+        "Copy personal zones from which character?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2479"
+        ]
+      ],
+      "plural": null,
+      "singular": "Copy personal zones from which character?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_mild_awake'",
+      "flags": [],
+      "id": "6969bf29cf1bc99d54d4d6624e0b6bfb1e79ac831bfa4d588dd5f8045172fd7c",
+      "identity": [
+        null,
+        "A toke would level you out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A toke would level you out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "698042e78f07807647d0ffa5f7edff18eb2c6ecb5947353908ae0d5b9dd22a95",
+      "identity": [
+        null,
+        "Carried weight",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "631"
+        ]
+      ],
+      "plural": null,
+      "singular": "Carried weight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Requirement of achievement 'The last helpmeet.'",
+      "flags": [],
+      "id": "69ad359ae64908da6f1d5346c1c5b12d9877f056cb34063b4b667a4b9005796a",
+      "identity": [
+        null,
+        "Will you stay here easing the troubles and travails of mankind into its final dusk?  Or will you find hearths beyond this homeworld.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Will you stay here easing the troubles and travails of mankind into its final dusk?  Or will you find hearths beyond this homeworld.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "69cb834854684a273df3588f48b9a93e98945ffd52d970128aeb198ff94a98ad",
+      "identity": [
+        null,
+        "< Press %s to filter, %s to export, %s to reset >",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/messages.cpp",
+          "789"
+        ]
+      ],
+      "plural": null,
+      "singular": "< Press %s to filter, %s to export, %s to reset >",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

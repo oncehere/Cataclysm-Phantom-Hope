@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "8c3e401143d966797ac574ab420e6d95b6055e8e3b4928b208c659696e680e7a",
+      "identity": [
+        null,
+        "吐纳打坐",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "吐纳打坐",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Make Thy Plagues Wonderful'",
+      "flags": [],
+      "id": "8c5017b9b7fc73b57735cd8b2e274e2f3a66a3c2a89ba5e8f764905d8c2bd30f",
+      "identity": [
+        null,
+        "You are immune to minor diseases and any infections you have are recovering more easily.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are immune to minor diseases and any infections you have are recovering more easily.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8c5677c1387a95c1aa46cce6d17610ccfb254c2919d75b3c99ae4144e2517725",
+      "identity": [
+        null,
+        "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "8c5f43b378a1071676c9339f734f03718f0641c1961a9ef804c38fbbaed7992e",
+      "identity": [
+        null,
+        "Use your magick to turn treesung wood into a long spear crowned with a blade made of living wood.\n\nYou must know <color_yellow>7 Arvore spells</color> and have at least <color_yellow>500 mana</color> to create the item.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/paraclesians/arvore_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Use your magick to turn treesung wood into a long spear crowned with a blade made of living wood.\n\nYou must know <color_yellow>7 Arvore spells</color> and have at least <color_yellow>500 mana</color> to create the item.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "8c617fa898ce493613d022ed17654cad6ed177a332955d85dc8cbe62354cb1c7",
+      "identity": [
+        null,
+        "Repair the %1$s's %2$s to pristine condition for %3$s?  Estimated time: %4$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "992"
+        ]
+      ],
+      "plural": null,
+      "singular": "Repair the %1$s's %2$s to pristine condition for %3$s?  Estimated time: %4$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DEBUG_TELL_ME_TIME'",
+      "flags": [],
+      "id": "8c8c1650af857bf3f04605cf3865fd0ad9e29ab764cd62e67481f4203bdda182",
+      "identity": [
+        null,
+        "Minutes remaining until night time is <global_val:TIME_TILL_NIGHT>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/generalized_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minutes remaining until night time is <global_val:TIME_TILL_NIGHT>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_matrix_research'",
+      "flags": [],
+      "id": "8ca3ec356937c3a0566f75de0cb5321b0929126fec835e649797df393e7c300b",
+      "identity": [
+        null,
+        "We still don't have any method of nullifying Netherum mathematics that can be used by a mathematician, but the boys down in R&D came out with something they're calling the \"null grenade.\"  BD833-P produces a short-term disruption in anyone affected by it, preventing use of dimensional metaphysics for up to 25 seconds with no further ill effects.  I89 agreed to spend a significant length of time having BD833-P set off next to him repeatedly and a full medical examination showed no problems.  While I89 complained of a small headache, it faded within ten minutes of the last BD833-P detonation and a week later, I89 has shown no lasting ill effects.\n\nNow, the obvious problem: 25 seconds isn't much.  In-phase if a dive team is trying to neutralize a mathematician--so far a theoretical situation, but we cannot rule it out--it should be plenty, but it won't be enough to capture or restrain any target.  It would also be nice to have some way of focusing the effect, some kind of \"null ray\" or something similar.  Research, as they say, is ongoing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We still don't have any method of nullifying Netherum mathematics that can be used by a mathematician, but the boys down in R&D came out with something they're calling the \"null grenade.\"  BD833-P produces a short-term disruption in anyone affected by it, preventing use of dimensional metaphysics for up to 25 seconds with no further ill effects.  I89 agreed to spend a significant length of time having BD833-P set off next to him repeatedly and a full medical examination showed no problems.  While I89 complained of a small headache, it faded within ten minutes of the last BD833-P detonation and a week later, I89 has shown no lasting ill effects.\n\nNow, the obvious problem: 25 seconds isn't much.  In-phase if a dive team is trying to neutralize a mathematician--so far a theoretical situation, but we cannot rule it out--it should be plenty, but it won't be enough to capture or restrain any target.  It would also be nice to have some way of focusing the effect, some kind of \"null ray\" or something similar.  Research, as they say, is ongoing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Kill the lurking strigoi'",
+      "flags": [],
+      "id": "8cc94ce0e58b2fa553739f625651da30f29a52120e7795ea91beaead6b4c9694",
+      "identity": [
+        null,
+        "Kill the strigoi that was spotted in a nearby house.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Kill the strigoi that was spotted in a nearby house.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8ccec441e2dd6cd84dfb4e13b92058ff21ea77059040b6d4808f102c7c74b16b",
+      "identity": [
+        null,
+        "What's a heartvine?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What's a heartvine?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'heightened_senses'",
+      "flags": [],
+      "id": "8d2960e8c098268e8bcd74f43f42e199e0b3845d213d994b00cb6e3aaa74664c",
+      "identity": [
+        null,
+        "Vivid world",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vivid world",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "8d30fe7de822cb5c61ba47cd93f20aeb6bf1c61c6045ade645c7a1f86f2a2854",
+      "identity": [
+        null,
+        "Baldness and Wigs",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Baldness and Wigs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "8d44990165c409db5eb80a97626207dcf87e7581809cf44e6c40d93d9ae97cd3",
+      "identity": [
+        null,
+        "Why Thorazine?  It will only slow you down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why Thorazine?  It will only slow you down.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

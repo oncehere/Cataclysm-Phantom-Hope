@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction'",
+      "flags": [],
+      "id": "aeb59ceac80b58db0cae2ef5b00e6a3301bbb5d970b8b0bc48feafed3eb4f36e",
+      "identity": [
+        null,
+        "Once upon a time, there was a brave and stalwart knight, he partook of the dust of the faeries and knew peace everlong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Once upon a time, there was a brave and stalwart knight, he partook of the dust of the faeries and knew peace everlong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aecc10905e33040958f33cd7a5c6a0c626b453c3331e89dd7eaee285b117b947",
+      "identity": [
+        null,
+        "Go see Blaine or Phyliss about your infection, or else Leonard won't calm down about it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Go see Blaine or Phyliss about your infection, or else Leonard won't calm down about it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "aeedd05f674801265b3ede244c43470895c518e900ad674814721320215663ee",
+      "identity": [
+        null,
+        "The State and Revolution",
+        "copies of The State and Revolution"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The State and Revolution",
+      "singular": "The State and Revolution",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'sea magic research materials'",
+      "flags": [],
+      "id": "af097cba1a96f939cf76a306d948fa66cc13e9cfdd55b02ff94a2e10d3a5fb23",
+      "identity": [
+        null,
+        "A set of documents, scribbed notes, musings, tidal records, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the sea.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of documents, scribbed notes, musings, tidal records, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the sea.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_LS_earth_jaunt_extraction'",
+      "flags": [],
+      "id": "af0d8cb6d6e60df9ab03a9affd6282772ca464109d39c774d4e13997c3b7fcc7",
+      "identity": [
+        null,
+        "There is a tightening in your throat as the world folds in around you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/labyrinth_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There is a tightening in your throat as the world folds in around you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'The Dying of the Year'",
+      "flags": [],
+      "id": "af11e77c134c464810001cd2179a00fd928e4b0663f7c6b3aa4ca83a54e4a896",
+      "identity": [
+        null,
+        "No matter how much it might struggle, in the end, every leaf falls.  This glamour channels the raw power of autumn into an area around you, killing plants and causing rapid decay in anyone caught in the radius.  The damage is <color_red>greatly reduced</color> in spring.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_autumn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No matter how much it might struggle, in the end, every leaf falls.  This glamour channels the raw power of autumn into an area around you, killing plants and causing rapid decay in anyone caught in the radius.  The damage is <color_red>greatly reduced</color> in spring.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "af1c722a1fd923b17edc8d33fbf817aec1c6327993efff5e636b11e087ef5b5f",
+      "identity": [
+        null,
+        "Abort world generation",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2821"
+        ]
+      ],
+      "plural": null,
+      "singular": "Abort world generation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "af52531f9aea1aaaadb95cd67b4b981fc587a1c2527b2015c3393ba63f0cb438",
+      "identity": [
+        null,
+        "Failed to write zones data.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2520"
+        ]
+      ],
+      "plural": null,
+      "singular": "Failed to write zones data.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of addiction effect as it appears in the player's status",
+      "flags": [],
+      "id": "af58fb4af4509bd3fc0b5a533e7903b386281620af2ec6da4da9f389520e6531",
+      "identity": [
+        null,
+        "Craving Cannabis",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/addictions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Craving Cannabis",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ [DEPRECATED] Don't translate this line.\n~ This string is from an obsolete source and will no longer be used in the\ngame.",
+      "flags": [],
+      "id": "af5ecfcb57c838dbcd5aa932e4d57da2b8ec936bd1805c45e29f0dc20419e43f",
+      "identity": [
+        null,
+        "pallet of wet adobe bricks (obsolete)",
+        "pallets of wet adobe bricks (obsolete)"
+      ],
+      "occurrences": [
+        [
+          "data/json/obsoletion_and_migration_0.J/generic.json",
+          ""
+        ]
+      ],
+      "plural": "pallets of wet adobe bricks (obsolete)",
+      "singular": "pallet of wet adobe bricks (obsolete)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "af7912bc93a8cbdd239685bfce70907d45b9045578e9dd6f81dde35043f67b71",
+      "identity": [
+        null,
+        "[Favor Exodii] Whisper to Smokes: \"Listen, I know these guys.  Sweeten the deal as a gesture of good will, and things will go well for you.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Whisper to Smokes: \"Listen, I know these guys.  Sweeten the deal as a gesture of good will, and things will go well for you.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "af82657bc06252bb3245a25929d0cb070aec8197f93d7476da78aaa6a48b5623",
+      "identity": [
+        null,
+        "dwelling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dwelling",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

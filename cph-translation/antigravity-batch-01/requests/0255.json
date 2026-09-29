@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'Hub 01 ARM exoskeleton'",
+      "flags": [],
+      "id": "f41d7eebc702a101f81fce3dd57c8eafc5a7a5a13d12f8961f1c2a52c8b8a037",
+      "identity": [
+        null,
+        "The Hub 01 Arm Reinforcement Motionframe, or ARM, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your arms and hands, with several straps at critical joints, twisting at the wrist into a glove-like matrix of steel.  The frame has a battery compartment and the elbows and lower arms have clips custom-fit for Hub 01 vambraces.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Unpowered, they are a significant burden.  Activate them to toggle power.  Requires an XM-ARM Interface bionic to function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Hub 01 Arm Reinforcement Motionframe, or ARM, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your arms and hands, with several straps at critical joints, twisting at the wrist into a glove-like matrix of steel.  The frame has a battery compartment and the elbows and lower arms have clips custom-fit for Hub 01 vambraces.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Unpowered, they are a significant burden.  Activate them to toggle power.  Requires an XM-ARM Interface bionic to function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f434c9b1f12c97b37afaeb203ce056bf105f2bc54a89cdb43d144105df771b7c",
+      "identity": [
+        null,
+        "&You hear the elevator arrive.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/npcs/elevator_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You hear the elevator arrive.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f44d0bdbba59ad705a8f3b8293c780fe6bb19cf564c756043d38a146cde775b9",
+      "identity": [
+        null,
+        "Don't move a <freaking> muscle…",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/dialogue_chatbin.h",
+          "125"
+        ]
+      ],
+      "plural": null,
+      "singular": "Don't move a <freaking> muscle…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "f4545d3861e352536e86e150b970df473351d4b129c89df392ba4575110e8011",
+      "identity": [
+        null,
+        "An Introduction to Metaphysics",
+        "copies of An Introduction to Metaphysics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of An Introduction to Metaphysics",
+      "singular": "An Introduction to Metaphysics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f45731e1bc862d3a54307ad48b3ed7a7d6c0cbe0b2058dbc14bfe8e593334dff",
+      "identity": [
+        null,
+        "Well, an Exodii… and a U.S marshal.  That's not something you see every day.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, an Exodii… and a U.S marshal.  That's not something you see every day.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Apply message of effect 'ælfadl'",
+      "flags": [],
+      "id": "f466aaa4904c13926c9c4e3984028b667c43b7891d17b09493177b485a1132ff",
+      "identity": [
+        null,
+        "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'vampire_infected_fae_wake_up'",
+      "flags": [],
+      "id": "f47ffbba15045c00fbf8c79b506b43fa3fc9c76c56483c441df57f8d3bd84e89",
+      "identity": [
+        null,
+        "Your nascent vampirism is muddling your dreams, making them unfit to empower you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your nascent vampirism is muddling your dreams, making them unfit to empower you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'tall mound of contaminated dirt'",
+      "flags": [],
+      "id": "f48eff7886158c7e121013df418db837a57fa88dd0d0b90784ef1ddeed9ca0bb",
+      "identity": [
+        null,
+        "An area of contaminated dirt heaped well above your head, difficult to climb over.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of contaminated dirt heaped well above your head, difficult to climb over.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'active Granade'",
+      "flags": [],
+      "id": "f4a225029f4c616b4b0a7320d2277140233d5a53c954349ab99c415fe73efdfd",
+      "identity": [
+        null,
+        "Attached to this grenade is a name tag with the name Maya written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/CrazyCataclysm/crazy_items.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Attached to this grenade is a name tag with the name Maya written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f4d8d5854b940b03bea27413dd9015a2514057cf85f70c3d2010ca9ffa575d0f",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "f4dc6a962b12781f3d3fbc2251b3eac2c73337667b23e963f5df1f182ee62aa3",
+      "identity": [
+        null,
+        "the mutated animals",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the mutated animals",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Help message in menu 'List of item types and data'",
+      "flags": [],
+      "id": "f50b2c75e4055ebf35976d66aba986df08359ceb222eb83881c18cb6ff153372",
+      "identity": [
+        null,
+        "/       Large weapon\n;       Small weapon or tool\n,       Tiny item\nThese are all generic items, useful only to be wielded as a weapon.  However, some have special uses; they will show up under the TOOLS section in your inventory.  Press <press_apply> to use these.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/core/help.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "/       Large weapon\n;       Small weapon or tool\n,       Tiny item\nThese are all generic items, useful only to be wielded as a weapon.  However, some have special uses; they will show up under the TOOLS section in your inventory.  Press <press_apply> to use these.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

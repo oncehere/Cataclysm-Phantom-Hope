@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d16d1507fa9b15becea609425067d3816edf8631c622229cd6d1a80dd13161b5",
+      "identity": [
+        null,
+        "Aye, failed they did.  That's the way'o'things.  Mayhaps for the best.  Time'll tell.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Aye, failed they did.  That's the way'o'things.  Mayhaps for the best.  Time'll tell.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Weather type name",
+      "flags": [],
+      "id": "d19402432cdf71ead22ee2742e24dd3076a87edb692afb92915ddb1a33b1d13d",
+      "identity": [
+        null,
+        "Ominous Fog",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/weather_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ominous Fog",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d19eb3dc8f7f12583e981761d7fe222d0edd059ad1957a33cbba6c7bbbc4a718",
+      "identity": [
+        null,
+        "You are currently hauling nothing.\nAutohaul is disabled.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "1024"
+        ]
+      ],
+      "plural": null,
+      "singular": "You are currently hauling nothing.\nAutohaul is disabled.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_pyrokinesis'\n~ Phavian designation for pyrokinetic study is COPPER PRIME.",
+      "flags": [],
+      "id": "d1a31c35cef2f8f6951ee5ba7d6959171f899d5888847180a1b9c03039d200bf",
+      "identity": [
+        null,
+        "Z87 was instructed to kindle a flame above his palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Z87 was instructed to kindle a flame above his palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'heavy machine gun'",
+      "flags": [],
+      "id": "d1ace36e0c1853d7158c3edab6e9eb73927d976fa282ec26b94c1b4ed1d48a13",
+      "identity": [
+        null,
+        "This large, ungainly belt-fed machine gun fires huge projectiles, originally intended for turn of the century anti-vehicular use.  While no longer suitable for modern tanks or aircraft, thinner skinned vehicles or drones are just as susceptible, as are any other 'smaller' threats.  Slow to reload, incredibly loud, and must be mounted to be fired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/firearms/rifle_huge.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This large, ungainly belt-fed machine gun fires huge projectiles, originally intended for turn of the century anti-vehicular use.  While no longer suitable for modern tanks or aircraft, thinner skinned vehicles or drones are just as susceptible, as are any other 'smaller' threats.  Slow to reload, incredibly loud, and must be mounted to be fired.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Key binding name",
+      "flags": [],
+      "id": "d1c3ae82292923509205c5470728be7d53750c04d9b3035820505ba8f82cd304",
+      "identity": [
+        null,
+        "Co-op chat",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/raw/keybindings.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op chat",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d1ce68fb7d4103e5f760c0b35f7e8e1b97351845ca86c869eeab56fe210ec68c",
+      "identity": [
+        null,
+        "[Twisted images of the otherworldly, shifting tunnels] Ah, that place.  Duh.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat_HEW.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Twisted images of the otherworldly, shifting tunnels] Ah, that place.  Duh.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "d1cfd5ec8bef5d4254dd21a987f27281c16c6f3c81dd40a3a80346befe07ec4d",
+      "identity": [
+        null,
+        "An image of a big, matted man from some movie, with text \"You're a feral, Harry\".",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An image of a big, matted man from some movie, with text \"You're a feral, Harry\".",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d1da028370b7c7dba1f19a89d51b1ab3ae551f5eef67864b61ba5c3c1cc826b0",
+      "identity": [
+        null,
+        "Personal zones pasted successfully.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2518"
+        ]
+      ],
+      "plural": null,
+      "singular": "Personal zones pasted successfully.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d217bf950094ec255959c76b47b8b5604de7bbbd62a15cdffcd8fbd87ba940e2",
+      "identity": [
+        null,
+        "Your partner finished — you stop helping.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5430"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner finished — you stop helping.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d26329dc43de7626b63772e96d1209a24076dcf3cdea1bb3de8510bd9be336cf",
+      "identity": [
+        null,
+        "[$3] I'll take a shot of whiskey.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_BARKEEP.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$3] I'll take a shot of whiskey.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Decay message of effect 'Hypocalcemia, Weak bones, Brittle bones'",
+      "flags": [],
+      "id": "d2637b1e125b28e8f47b6786a596669a3a8106f14acada517b9ff49d96f1f170",
+      "identity": [
+        null,
+        "Your calcium deficiency is nearly resolved.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your calcium deficiency is nearly resolved.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Smash message of body part 'left front tentacle'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b3e3c0003c5a7f0a21ca6bfccdce8cdbdcc4d40d69fb4d0d23ff629fddc867fa",
+      "identity": [
+        null,
+        "You whip the %s with your tentacle, smashing it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You whip the %s with your tentacle, smashing it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'foreign rifle ammo, AP'",
+      "flags": [],
+      "id": "b3f0c8ae929e6191c80072ae681f636366d3bb31d5a24b435a3d2470130e1a00",
+      "identity": [
+        null,
+        "Foreign armour piercing rifle ammo brought by the Exodii, common amongst them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/ammo/rifle.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Foreign armour piercing rifle ammo brought by the Exodii, common amongst them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b3f16bd3ec0bf65475f139059a90d1c15b280796c59dd0f6ddf6303c618b9e6e",
+      "identity": [
+        null,
+        "Add local",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1116"
+        ]
+      ],
+      "plural": null,
+      "singular": "Add local",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Invigorating Sunlight'",
+      "flags": [],
+      "id": "b3f45ca95caaa4797fec908699856c343a7b2e82cfef689db96d73110f145896",
+      "identity": [
+        null,
+        "The sensation of the sun's warmth fades away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The sensation of the sun's warmth fades away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Right Leg (Cyberframe 1a)'",
+      "flags": [],
+      "id": "b3f5110a5062f1a39e928912113e311bc3fa254fe4ec92181912f46721e9bcec",
+      "identity": [
+        null,
+        "A bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Stand Before the Cold'",
+      "flags": [],
+      "id": "b3f86701a90176276a492aac4b56fa4c42da9944befb9c50b51f830225c239cb",
+      "identity": [
+        null,
+        "As a hunter in the night, you are well-conditioned to the cold after the sun goes down.  You are resistant to chill temperatures, and more so the more ruach you have.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As a hunter in the night, you are well-conditioned to the cold after the sun goes down.  You are resistant to chill temperatures, and more so the more ruach you have.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b3ff35b9e39f464f0b49dac559f3149e894b784725968dd9a7023b900f33bcd1",
+      "identity": [
+        null,
+        "[Update ELECTRIC POWER available]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Update ELECTRIC POWER available]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b43e5f21bc5aabe3715d9214730844915f46a6fd6988a919ee29dfac727a936e",
+      "identity": [
+        null,
+        "[Install Radiation Scrubber CBM] Nevermind.  I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Radiation Scrubber CBM] Nevermind.  I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vitamin name",
+      "flags": [],
+      "id": "b43fb0d123f539ecd51cab96d2d57c2956e55cee7d66315446945ad267db8848",
+      "identity": [
+        null,
+        "心神疲惫",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/vitamins/qi_fatigue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "心神疲惫",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "b4402303d78e5d264fd53aef4cf9ccba912d7335e0803a1a692954e3ba03be70",
+      "identity": [
+        null,
+        "temple of flesh",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "temple of flesh",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry shallow pool bottom'",
+      "flags": [],
+      "id": "b44846f5e0f61ecd363c3a5325ff1469ab846b3e7cd69535ea9feac2461b6e16",
+      "identity": [
+        null,
+        "The concrete bottom of a drained shallow indoor swimming pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The concrete bottom of a drained shallow indoor swimming pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Hub 01 XM-LENS Interface'",
+      "flags": [],
+      "id": "b45f0c3c831817416136eff0b83c593455b9a07bf097d57826bb36e4a8e191b8",
+      "identity": [
+        null,
+        "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Installing this cybernetic will remove all of the hair on your head, but you'll have the benefit of being able to directly couple your brain to Hub 01 Low-latency ExoNeural Sensory system headgear.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Installing this cybernetic will remove all of the hair on your head, but you'll have the benefit of being able to directly couple your brain to Hub 01 Low-latency ExoNeural Sensory system headgear.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle name",
+      "flags": [],
+      "id": "ca9d7982c58e076c73ff8d0d25b594e4e8b650e3807dceba5c02cb86433d7aef",
+      "identity": [
+        null,
+        "airboat",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicles/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "airboat",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "cab71649f25a6c03661507bcc23de2cade139c88e7a8b62b480435fdf3d3dcb6",
+      "identity": [
+        null,
+        "They are, or were, a defense contractor.  They are headquartered elsewhere, but maintained software engineering offices here, and we believe this one was testing the MVAS system.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are, or were, a defense contractor.  They are headquartered elsewhere, but maintained software engineering offices here, and we believe this one was testing the MVAS system.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cae66e8c53d1b14612758c88bb378dff154291845b0c3c5cf4109031b524f5c3",
+      "identity": [
+        null,
+        "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name suffix of a male NPC\n~ The leader of this bunch of vampire hunters.  He seeks nothing less than\nthe total extermination of all vampires.",
+      "flags": [],
+      "id": "caf4db47a1d8ed47783fbcf5c6cc88b22d505627701a451ab6672b92b5c4938c",
+      "identity": [
+        null,
+        "chief hunter",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "chief hunter",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_private'",
+      "flags": [],
+      "id": "cafdbc57a8fa78bce5e5c012369585cdfb2df14a873b6e1ffae2fe3d020592b0",
+      "identity": [
+        null,
+        "I can't believe magic is fucking real.  They seconded me to Offworld Acquisitions because despite months of trying they still hadn't managed to crack any of the encryption used by the Dahab on 089AA, so I went along with them on the latest dive.  They also sent along one of those Mobile Task Force people from, well, she said she was from \"Middle-Management\", whatever that means.  I didn't think too much of it until the local authorities found us out and jumped us in the middle of our exfiltration.  We were pinned down, banging our heads together trying to figure out a way out before the real firepower showed up when that lady just started chanting.  Chanting!  I thought she had lost it until these *things* just appeared out of nowhere and started ripping the cops apart.  Once the screams stopped, we ran for the dive point.\n\nI didn't have time to ask \"manager\" what the hell had happened, they all took us to separate rooms to gently inquire as to why everything had gone to shit.  When I asked them what had happened they just told me I'm not cleared for that information.  I'm cleared to visit alternate realities but not know what the hell my teammates can do?  Is this how OA is run?\n\nI know I'm a psychic and acting like Rodriguez was a witch summoning demons or whatever the hell those things are is hypocritical, but I swear that's what it was like.  She was chanting in something that wasn't English, wasn't Spanish, wasn't any language I know, and her demons weren't all there.  Every time I so much as moved my eyes they just kept shifting position, and it wasn't a trick because the Dahab cops couldn't land a shot on them.  Their teeth still bit, though.\n\nRed, if you get an offer to go with OA, don't do it.\n-Mhairi",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mod_interactions/xedra_evolved/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can't believe magic is fucking real.  They seconded me to Offworld Acquisitions because despite months of trying they still hadn't managed to crack any of the encryption used by the Dahab on 089AA, so I went along with them on the latest dive.  They also sent along one of those Mobile Task Force people from, well, she said she was from \"Middle-Management\", whatever that means.  I didn't think too much of it until the local authorities found us out and jumped us in the middle of our exfiltration.  We were pinned down, banging our heads together trying to figure out a way out before the real firepower showed up when that lady just started chanting.  Chanting!  I thought she had lost it until these *things* just appeared out of nowhere and started ripping the cops apart.  Once the screams stopped, we ran for the dive point.\n\nI didn't have time to ask \"manager\" what the hell had happened, they all took us to separate rooms to gently inquire as to why everything had gone to shit.  When I asked them what had happened they just told me I'm not cleared for that information.  I'm cleared to visit alternate realities but not know what the hell my teammates can do?  Is this how OA is run?\n\nI know I'm a psychic and acting like Rodriguez was a witch summoning demons or whatever the hell those things are is hypocritical, but I swear that's what it was like.  She was chanting in something that wasn't English, wasn't Spanish, wasn't any language I know, and her demons weren't all there.  Every time I so much as moved my eyes they just kept shifting position, and it wasn't a trick because the Dahab cops couldn't land a shot on them.  Their teeth still bit, though.\n\nRed, if you get an offer to go with OA, don't do it.\n-Mhairi",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Senseless and Without Knowledge'",
+      "flags": [],
+      "id": "cb124ae93278fbb0dd75682ee69df70b4aa6d2970df33eec28f2389745d812fd",
+      "identity": [
+        null,
+        "You can temporarily beguile a single human, fey, or avian target, causing them to stand senseless or wander in a daze.  Any damage will bring the target out of their trance.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can temporarily beguile a single human, fey, or avian target, causing them to stand senseless or wander in a daze.  Any damage will bring the target out of their trance.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "cb1845d35a6a4c5ce5df5bb439a30ade0338fecdcf227142abac6dad09f696f7",
+      "identity": [
+        null,
+        "The default is to search result names.  Some single-character prefixes can be used with a colon <color_red>:</color> to search in other ways.  Additional filters are separated by commas <color_red>,</color>.\nFiltering by difficulty can accept range; <color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n\n\n<color_white>Examples:</color>\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/crafting_gui_helpers.cpp",
+          "710"
+        ]
+      ],
+      "plural": null,
+      "singular": "The default is to search result names.  Some single-character prefixes can be used with a colon <color_red>:</color> to search in other ways.  Additional filters are separated by commas <color_red>,</color>.\nFiltering by difficulty can accept range; <color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n\n\n<color_white>Examples:</color>\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Wave of Force'",
+      "flags": [],
+      "id": "cb30a59e32357d9dbb30321a9376716653f6bfda0b43a6167f184272cd3a1158",
+      "identity": [
+        null,
+        "A wave of force burst out from you!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A wave of force burst out from you!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'gold_small' step 4",
+      "flags": [],
+      "id": "cb683a8ed0a1deb0a302c8bb6006876e300e11ab218fe8da7a6120120124f62a",
+      "identity": [
+        null,
+        "Cast the melted metal onto sandcasting mold and let it rest in dark place",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cast the melted metal onto sandcasting mold and let it rest in dark place",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC\n'EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_FEAST'",
+      "flags": [],
+      "id": "cb7d09ec77bf905b2088baff9c472f19bee45ac5b24a21507bea2eab54d88b6e",
+      "identity": [
+        null,
+        "You reach into the mortal's and rip them out whole, filling both hands with a cascade of shining dreamdross.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You reach into the mortal's and rip them out whole, filling both hands with a cascade of shining dreamdross.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "cbb86b0813ada13e632e09e4460bfe9b9a21306bd721ee23a4fdc5560eb63d9f",
+      "identity": [
+        null,
+        "Step away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Step away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'broken royal sarcophagus'",
+      "flags": [],
+      "id": "cbc95c88d224f69e6a8f7fb7f662b5119e2ad79baccda542c90f08b2234b1304",
+      "identity": [
+        null,
+        "Pieces of the stone reliefs are scattered across the floor, and the lid has been shattered to allow access to the interior.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-graves.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pieces of the stone reliefs are scattered across the floor, and the lid has been shattered to allow access to the interior.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

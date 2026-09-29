@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "40df762c2ef1edbc6e38c8682ceac42a8122f3fa86338c0130ce03ab9f5ad7df",
+      "identity": [
+        null,
+        "middle tentacle bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "middle tentacle bases",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "40e33b7ab3fca8b19899a675b0568dafcd9546959096149afc237776f7a5dba1",
+      "identity": [
+        null,
+        "Brilliant!!  Just brilliant.  Thank you very much.  Please contact us again in three days.  Thank you!\"\n\nThe voice abruptly disconnects.  When the intercom comes back on, it's the original voice again.  \"Was there anything else?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_prototypes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Brilliant!!  Just brilliant.  Thank you very much.  Please contact us again in three days.  Thank you!\"\n\nThe voice abruptly disconnects.  When the intercom comes back on, it's the original voice again.  \"Was there anything else?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "411ac58c6cf07a7e81b17172e5b84026a47da0d54ee6bb1369624d7d6353e164",
+      "identity": [
+        null,
+        "I'm in this for the long haul.  I don't want a reward - just know I can get the job done.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm in this for the long haul.  I don't want a reward - just know I can get the job done.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "411e407ed05dfc8672873ce21899260e3a4cdea33bb2ab9d5f48f6b27e07a736",
+      "identity": [
+        null,
+        "broken Pathfinder",
+        "broken Pathfinders"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": "broken Pathfinders",
+      "singular": "broken Pathfinder",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "41214ab23cd5eafa177cc601a06daf80be52dc97b9ace9d9b69625bbfeda79c1",
+      "identity": [
+        null,
+        "emery board",
+        "emery boards"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/toiletries.json",
+          ""
+        ]
+      ],
+      "plural": "emery boards",
+      "singular": "emery board",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4131a27ebc897da30044fb83c979e32e004e06e3cd32582f1f47a0aff0d893a8",
+      "identity": [
+        null,
+        "Your partner is not connected.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10274"
+        ],
+        [
+          "src/mp_gamestate.cpp",
+          "10348"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner is not connected.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_maintenance_signage'\n~ signage for the maintenance areas (non-public).",
+      "flags": [],
+      "id": "41423e749ce06abed885643722f304ee4007a0db0179f63cce0010d7f239b4ee",
+      "identity": [
+        null,
+        "DANGER\nKeep Hands Clear\nWhen Equipment\nIs Running",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "DANGER\nKeep Hands Clear\nWhen Equipment\nIs Running",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4142d568647516c422edb32a876e53cb0886240c8320f05845a1d84a4fc6d521",
+      "identity": [
+        null,
+        "You hear a short, muffled conversation from the other end.  There's a brief pause.  \"English it is.  We believe we could gain some mutual benefit by talking and trading.  We would like to extend you trading access.  But we need something in return.  We would like to know more about your nature.  And we have a task.  It is dangerous, but from the look of you, you'll know exactly how to handle it.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You hear a short, muffled conversation from the other end.  There's a brief pause.  \"English it is.  We believe we could gain some mutual benefit by talking and trading.  We would like to extend you trading access.  But we need something in return.  We would like to know more about your nature.  And we have a task.  It is dangerous, but from the look of you, you'll know exactly how to handle it.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "41548658ad1fc1f5de87eba2ecc571ab0dfd5a591de42a9ecaec4150bc732a2e",
+      "identity": [
+        null,
+        "Zombie Trap",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Zombie Trap",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'european comic'",
+      "flags": [],
+      "id": "4167e0ef4fd0d17222e6db1ac0fa615219fb368bd3d9b2eb2bc6151733b80e8d",
+      "identity": [
+        null,
+        "dungeon",
+        "dungeon comics"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": "dungeon comics",
+      "singular": "dungeon",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'magical ink, apprentice'",
+      "flags": [],
+      "id": "416ed903f72f9f70f00bd8f87bf824df735d0c6751b32a542781131c62a9f29b",
+      "identity": [
+        null,
+        "A simple ink made by boiling fruit and vinegar with herbs.  It won't hold anything more than a rudimentary enchantment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/chemicals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A simple ink made by boiling fruit and vinegar with herbs.  It won't hold anything more than a rudimentary enchantment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "417b32669c6431eadc416070c02691da5acbe2466c9099c828f4381430306135",
+      "identity": [
+        null,
+        "[Blaine copies the recipe on a paper sheet]  This concoction should result in cardiac arrest, but if it doesn't it will give a boost to our hunters when needed.  Thanks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Blaine copies the recipe on a paper sheet]  This concoction should result in cardiac arrest, but if it doesn't it will give a boost to our hunters when needed.  Thanks.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

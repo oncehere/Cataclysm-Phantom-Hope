@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "eeccacfab02bcc902d9130df6fb911be17a66d91f9fee752b0baa3c3aaf4fe26",
+      "identity": [
+        null,
+        "XEDRA-40 is planning to resume manned immersion dives in the next month and we've seconded L61 to the dive team.  We need to see what effects being in a subprime plane have on the mathematics.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "XEDRA-40 is planning to resume manned immersion dives in the next month and we've seconded L61 to the dive team.  We need to see what effects being in a subprime plane have on the mathematics.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "eee1bf6c65486ac866ba1acdc453629493b00d5d5e349b8c914e81c7ff72b05c",
+      "identity": [
+        null,
+        "Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster attack message",
+      "flags": [
+        "c-format"
+      ],
+      "id": "eef9f87ff70c2fcc12b893eb8bb8f42bd00eb3151c997bee868d3b82bf9ef4ba",
+      "identity": [
+        null,
+        "%1$s squeezes you, but your armor protects you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s squeezes you, but your armor protects you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ef0b273533598e4235fdfda4512717d61d135ed83acd80e06a50df1f7144bb6e",
+      "identity": [
+        null,
+        "Tap an option to change it.  Use the arrows to choose the previous or next value.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/options.cpp",
+          "221"
+        ]
+      ],
+      "plural": null,
+      "singular": "Tap an option to change it.  Use the arrows to choose the previous or next value.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'travelogue'",
+      "flags": [],
+      "id": "ef0dbf769d5c4101d85cf2f5271a5775ca93c319d648d1f4eab4786387b03aea",
+      "identity": [
+        null,
+        "Stories about traveling to a far-off place, meeting new people, and eating new foods.  The kind of things you'll never be able to do again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stories about traveling to a far-off place, meeting new people, and eating new foods.  The kind of things you'll never be able to do again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'dumpster'",
+      "flags": [],
+      "id": "ef11af6ddbee262d57832f795563477010dec4e1f5f7ffca5869b94ea85e0e0d",
+      "identity": [
+        null,
+        "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture-storage.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "ef23e9d96c2ef8d572acc4a9b98705a334312d8a94b829af3a01a9f91edee026",
+      "identity": [
+        null,
+        "left front tentacle midsection",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left front tentacle midsection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'epilogue_factions'",
+      "flags": [],
+      "id": "ef392effaddae5072a8cea0b21fb7c3864349b7a867e1e4956441a6d4592cfd9",
+      "identity": [
+        null,
+        "    The prisoners succeeded in their escape and sailed to the mainland.  They found <the_cataclysm> unforgiving and harsh, struggling to survive.  When two of them died in a shootout with a Hell's Raiders caravan, they packed all their possessions and sailed back to the prison, which they transformed into a fortress away from the world…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/epilogue_factions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "    The prisoners succeeded in their escape and sailed to the mainland.  They found <the_cataclysm> unforgiving and harsh, struggling to survive.  When two of them died in a shootout with a Hell's Raiders caravan, they packed all their possessions and sailed back to the prison, which they transformed into a fortress away from the world…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ef3cc9271eff00cbd7a9cde821b274fe98105213cd675c8ae2e04bc23ac37d39",
+      "identity": [
+        null,
+        "You may only take %d points of negative traits in a legacy point mode.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4211"
+        ],
+        [
+          "src/newcharacter.cpp",
+          "4771"
+        ]
+      ],
+      "plural": null,
+      "singular": "You may only take %d points of negative traits in a legacy point mode.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_THAUMATURGY_GAIN_SPELL'",
+      "flags": [],
+      "id": "ef53e68994d2d4cb358554aa58c27ca534df2b3c0bdba495b0c870ba5b95d32f",
+      "identity": [
+        null,
+        "study combined research materials",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "study combined research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "ef658108854f21a554c22e54f6f23008b4f645907c0f1f154c974f16175f935a",
+      "identity": [
+        null,
+        "safety sneakers (pair)",
+        "safety sneakers (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "safety sneakers (pair)",
+      "singular": "safety sneakers (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Dragon's Knowledge'",
+      "flags": [],
+      "id": "efa56ffc7dbeecceec4d2abba3db4c3fe49c941fcf612241867b908cd79622f0",
+      "identity": [
+        null,
+        "You plan your attacks far in advance, relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You plan your attacks far in advance, relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系"
+  }
+}

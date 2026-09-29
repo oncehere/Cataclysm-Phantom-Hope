@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b1dcef2bdbdf96138ac2349bcc448cf9a716b87398faca8bf5d0bec4f5b301c0",
+      "identity": [
+        null,
+        "Lua-first item handler result is outside the native range.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/lua_platform_runtime_services.cpp",
+          "510"
+        ]
+      ],
+      "plural": null,
+      "singular": "Lua-first item handler result is outside the native range.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b1e2428aa6730340be859887ca758b473af0760b554e661cbac70401c2e2f734",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option name",
+      "flags": [],
+      "id": "b1f9a76496d601432ddad0a98655914c46a2ea9f4d9d7becb03757de8964c01c",
+      "identity": [
+        null,
+        "Target: Level 0",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/mod_interactions/backrooms/eocs/obelisk_selector.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Target: Level 0",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "b253e7f831ed0cda2319f28467a100206209b9002148006a2c38bcd980622acd",
+      "identity": [
+        null,
+        "Downloads/how_to_train_your_nightmares_trailer.mp4\n\nThe trailer starts with a surreal violin score: a deathly pale woman in a lab coat kneeling on a basement floor.  Head bowed over a collection of engraved silver glyphs, her crimson hair drenched in rivulets of blood, and eyes closed, she chants under her breath as a British cadenced voice, the same as hers, speaks over the scene.  \"There are things stalking beyond the abysses that drive the sane to madness.\"  Letting blood spatter upon the glyphs from wounds hidden by her hair, the woman's breathing quickens as the objects begin to sizzle, the view zooming upon her heavily scarred face as her eyes slowly open and the music escalates.  \"But when insanity rains,\" fully opening her eyes, the woman's irises are revealed to be burned scarlet, the perspective filled by a view of one of them as the narration concludes, \"the only thing left… is to transcend.\"\n\nAfter a moment of tense freeze frame, the music grows to a dynamic bass-drum rhythm, the view zooming out and revealing the eyes of a tall, robed figure stalking through the deserted mezzanine level of a shopping plaza.  With their face lost in the shadow of a hood, their limbs bend in disturbingly inhuman ways as they stride, moments before a clawed hand bursts from beneath and whips them from the corridor.  Encircled by a throng of nightmarish, slavering monstrosities, the figure rests still for a moment before their robe bursts apart, revealing them to be an anthropoid composed of intertwining tentacles.  Machine pistols clutched at the ends of their many limbs, they latch to the ceiling and, in a hail of bullets, swing from the floor and towards the view.\n\nThe perspective shifts to a scene of the woman, wielding a bayonet-equipped battle rifle, riding astride a motorcycle.  Weaving through a street crowded with writhing eldritch abominations, she stabs from the bike as a viperine creature wings behind her, the pair cutting a bloody swath through the crowd before the view changes.\n\nDozing in the back of a covered wagon within a barn, the woman rests, the barn's doors wide open.  A spidery creature made from tentacles creeps in through the opening, the camera shifting to its perspective as it crawls towards the wagon.  Laying a leg upon the vehicle's lip, the view glances up, only to reveal the viperine beast crouching atop the cart.  A still second passes before the winged monstrosity dives, the view filled by its gaping maw, before fleshy words bleed across the screen.\n\n\"How to Train Your Nightmares, coming to cinemas April 22nd!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Downloads/how_to_train_your_nightmares_trailer.mp4\n\nThe trailer starts with a surreal violin score: a deathly pale woman in a lab coat kneeling on a basement floor.  Head bowed over a collection of engraved silver glyphs, her crimson hair drenched in rivulets of blood, and eyes closed, she chants under her breath as a British cadenced voice, the same as hers, speaks over the scene.  \"There are things stalking beyond the abysses that drive the sane to madness.\"  Letting blood spatter upon the glyphs from wounds hidden by her hair, the woman's breathing quickens as the objects begin to sizzle, the view zooming upon her heavily scarred face as her eyes slowly open and the music escalates.  \"But when insanity rains,\" fully opening her eyes, the woman's irises are revealed to be burned scarlet, the perspective filled by a view of one of them as the narration concludes, \"the only thing left… is to transcend.\"\n\nAfter a moment of tense freeze frame, the music grows to a dynamic bass-drum rhythm, the view zooming out and revealing the eyes of a tall, robed figure stalking through the deserted mezzanine level of a shopping plaza.  With their face lost in the shadow of a hood, their limbs bend in disturbingly inhuman ways as they stride, moments before a clawed hand bursts from beneath and whips them from the corridor.  Encircled by a throng of nightmarish, slavering monstrosities, the figure rests still for a moment before their robe bursts apart, revealing them to be an anthropoid composed of intertwining tentacles.  Machine pistols clutched at the ends of their many limbs, they latch to the ceiling and, in a hail of bullets, swing from the floor and towards the view.\n\nThe perspective shifts to a scene of the woman, wielding a bayonet-equipped battle rifle, riding astride a motorcycle.  Weaving through a street crowded with writhing eldritch abominations, she stabs from the bike as a viperine creature wings behind her, the pair cutting a bloody swath through the crowd before the view changes.\n\nDozing in the back of a covered wagon within a barn, the woman rests, the barn's doors wide open.  A spidery creature made from tentacles creeps in through the opening, the camera shifting to its perspective as it crawls towards the wagon.  Laying a leg upon the vehicle's lip, the view glances up, only to reveal the viperine beast crouching atop the cart.  A still second passes before the winged monstrosity dives, the view filled by its gaping maw, before fleshy words bleed across the screen.\n\n\"How to Train Your Nightmares, coming to cinemas April 22nd!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD'",
+      "flags": [],
+      "id": "b27c18fb754a1b91d5446f3cd95dcdad4400e40f96e6a525fb2757c39052fc35",
+      "identity": [
+        null,
+        "You are gaining <context_val:temp_val> calories from the blood you drank.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/vampire_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are gaining <context_val:temp_val> calories from the blood you drank.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b2a71bd4b6414d88ea6e60672150987204f6b014cddfd7bac04cbe9b30e3d97d",
+      "identity": [
+        null,
+        "You don't have the components to cast %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "2245"
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't have the components to cast %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "b2b58092635d4e37dfdcc3aaa29328b1274093c778c7239514d7b265a2d8f82b",
+      "identity": [
+        null,
+        "default bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default bases",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 1 is approx. time, 2 is a list of items and tools with qualities, 3 is a\nlist of items.\n~ Bold text in the middle makes it easier to see where the second list\nstarts.",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b2ba7c0459fd90539cba1ebdfc1292feca8a2f539505bb768072cf13ed99087f",
+      "identity": [
+        null,
+        "<bold>Disassembly</bold> takes %1$s, requires %2$s and <bold>might yield</bold>: %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/item_info.cpp",
+          "3369"
+        ]
+      ],
+      "plural": null,
+      "singular": "<bold>Disassembly</bold> takes %1$s, requires %2$s and <bold>might yield</bold>: %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Remember, we picked you because you speak this Earth's English.  But I\nknow you're no negotiator.  Beyond that, well, our expectations are low.\nNo offense.  Take it slow.  Five minutes of polite conversation will exceed\nmy expectations.  Try not to cause any sort of real problems, please?",
+      "flags": [],
+      "id": "b2c430cb2af07cc30ba25d52d1a33e3a399223ec2c8fef2ae19e2e7a7fb98876",
+      "identity": [
+        null,
+        "Keep keen.  We chose ye' cause ye' speak their Anglic.  But ol' Rubik knows yer' no parley barley.  Beyond that, well… let's call this an experiment in optimism.  Go easy, aye?  Five minutes'o polite conversation an ye'll exceed expectation.  Try not t'cause any real problems, aye?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Keep keen.  We chose ye' cause ye' speak their Anglic.  But ol' Rubik knows yer' no parley barley.  Beyond that, well… let's call this an experiment in optimism.  Go easy, aye?  Five minutes'o polite conversation an ye'll exceed expectation.  Try not t'cause any real problems, aye?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b2e68b4066d56ece1790fe6868e6e314f16e7327d96569a6b08afaaf45f54705",
+      "identity": [
+        null,
+        "Ah, it's you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, it's you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b2f0d02f13b6f8e138701c5a70e89f1dac398e81f653f251247e59884d9bf195",
+      "identity": [
+        null,
+        "%1$s begins installing %2$d × %3$s into the %4$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1228"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s begins installing %2$d × %3$s into the %4$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'crystalline wall'",
+      "flags": [],
+      "id": "b30c256c1fee9bffce0d4e50e7353f0ed3c21bbeebc2c0c4d6ee8ff0c02eb4b5",
+      "identity": [
+        null,
+        "A wall of jagged, slightly translucent crystal, dimly reflecting your broken image back in shards.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/furniture_and_terrain/terrain_crystalline.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A wall of jagged, slightly translucent crystal, dimly reflecting your broken image back in shards.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

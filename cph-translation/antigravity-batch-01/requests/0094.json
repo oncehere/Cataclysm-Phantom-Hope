@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "5421a4aa366614a906b834e986502f5366f90bab08b6007e5cfad0c86f9a173f",
+      "identity": [
+        null,
+        "deathrattle elder serpent",
+        "deathrattle elder serpents"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": "deathrattle elder serpents",
+      "singular": "deathrattle elder serpent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'shotshell, junk'",
+      "flags": [],
+      "id": "5422444e80e07f984dcd392923aa6393abde06568be3103f0cdf06ceaf7d57ee",
+      "identity": [
+        null,
+        "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/ammo/shot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "5448729e5d380178d20a4882fa1bba91944022b3f51a6fdbebf7b14b69b3ae0c",
+      "identity": [
+        null,
+        "right rear tentacle",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right rear tentacle",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "545b675bc871d6a6499f1edd5c7d1b8a6160699e5b35158adb9cc97f01e5fe40",
+      "identity": [
+        null,
+        "Ah, that' fahkin' place ya' got ripped inta' during the portal storm.  I'd fahkin' say so.  Real mind fahk.  Think the ground'll even hold the station?  I dunno.  Seems fahkin' nuts to try, but that's on you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat_HEW.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, that' fahkin' place ya' got ripped inta' during the portal storm.  I'd fahkin' say so.  Real mind fahk.  Think the ground'll even hold the station?  I dunno.  Seems fahkin' nuts to try, but that's on you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "546b72231946efe9a552ea4f883fc7665c01f06a31d5affae8c9d6ff33ef8ac9",
+      "identity": [
+        null,
+        "rotten fungal horse",
+        "rotten fungal horses"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/fungus_zombie.json",
+          ""
+        ]
+      ],
+      "plural": "rotten fungal horses",
+      "singular": "rotten fungal horse",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5470684db5374a6a46d1b599608052e5c2ef37930179821bcd8c48fe7397301f",
+      "identity": [
+        null,
+        "* This clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/item_info.cpp",
+          "2523"
+        ]
+      ],
+      "plural": null,
+      "singular": "* This clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'mon_zombie_rot'",
+      "flags": [],
+      "id": "54c7c4d0ae73f3d9e1076e776694d7a2a6fdfc7caa808db8ecd9bcf21e3d21b6",
+      "identity": [
+        null,
+        "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.  Even at a distance, the smell nearly makes you gag.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/zombies.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.  Even at a distance, the smell nearly makes you gag.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'vampire_infected_fae_wake_up'",
+      "flags": [],
+      "id": "54cd31560c33282ad138025b7e94253e4897ab7ab3c7e118b4015a85b75f201e",
+      "identity": [
+        null,
+        "Nothing in this dream but blood and darkness.  Only curing this illness can restore your ability to grow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Nothing in this dream but blood and darkness.  Only curing this illness can restore your ability to grow.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Unique name of a male NPC\n~ He sells cure & some medical supplies.  Very interested by alchemical\nrecipes and magical/high-science medical treatments.",
+      "flags": [],
+      "id": "54db3e4328925d3f8b79a7d50431346829795a7258eb05f9a8012c3154b70df8",
+      "identity": [
+        null,
+        "Blaine Weiss",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blaine Weiss",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "54e22b3cf943cbc64338316291f99f27c31a33f067c78437f9cbcb1b7528196c",
+      "identity": [
+        null,
+        "Heh, just trying to be funny, when I shouldn't be.  A bad joke.  Nothing funny about it.  I meant only this: it isn't the Enemy the one that raises the dead here.  But, they're maybe similar in some way.  Not family, not part of the Enemy, but maybe an equal to it.  So don't take the joke for more than a joke.  It's not its partner, its wife, or its friend, because I doubt these things have such things.  Maybe just an illusion - a trick in the head.  But that's just my thinking - it's all unknown.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Heh, just trying to be funny, when I shouldn't be.  A bad joke.  Nothing funny about it.  I meant only this: it isn't the Enemy the one that raises the dead here.  But, they're maybe similar in some way.  Not family, not part of the Enemy, but maybe an equal to it.  So don't take the joke for more than a joke.  It's not its partner, its wife, or its friend, because I doubt these things have such things.  Maybe just an illusion - a trick in the head.  But that's just my thinking - it's all unknown.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "54e4135a9a3d5bbde80ac5e65f1562422768d6fca9e56a6428d25c0207f82a36",
+      "identity": [
+        null,
+        "[Pop-an-Work: Free Merchants]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Pop-an-Work: Free Merchants]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "5516dc3d4964bba9f7d3723e179324796b41b3937e3e9383f73ac392d3bfed32",
+      "identity": [
+        null,
+        "Pre-Literate",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pre-Literate",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

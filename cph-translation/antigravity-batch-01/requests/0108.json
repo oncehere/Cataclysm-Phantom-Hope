@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "63d621a14f07e799c672e6ab18938b1d39bc583f604e05fe7df3accf2a8c8473",
+      "identity": [
+        null,
+        "Sentinel-lx cloak",
+        "Sentinel-lx cloaks"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor.json",
+          ""
+        ]
+      ],
+      "plural": "Sentinel-lx cloaks",
+      "singular": "Sentinel-lx cloak",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "63f291599fd8bbe3523f3f51de949e872206236ec62feeacf0aca160cccce19a",
+      "identity": [
+        null,
+        "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Summer Court'",
+      "flags": [],
+      "id": "641ca2db8666eab0320ed262de2daa16b4ae6306adc08725e6e9192f7775bbd3",
+      "identity": [
+        null,
+        "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy generational curses on those who wrong them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy generational curses on those who wrong them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To Spin the Coin of Gad'",
+      "flags": [],
+      "id": "64304ede3d1007b82673ff2362d2d7044ce7a774be5a2ed15dd7d6d071c30ab3",
+      "identity": [
+        null,
+        "With a candle, a bit of copper, and paper, this will create a short lived luck charm upon oneself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "With a candle, a bit of copper, and paper, this will create a short lived luck charm upon oneself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "64591fa9754a4487a837878d29227403ab83aeb29d05b912570fcb327e2ccaed",
+      "identity": [
+        null,
+        "[$3] I'll take a shot of rum.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_BARKEEP.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$3] I'll take a shot of rum.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "645bd30b7c1ca9e5e5d37c0efc472c0b5213d79d1af7c49f1b477ebd80d25e5c",
+      "identity": [
+        null,
+        "Alas.  You're a mercenary, so you'll act like a mercenary.  But you better remember that the Exodii also remember.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Alas.  You're a mercenary, so you'll act like a mercenary.  But you better remember that the Exodii also remember.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Whisper of the Leaves'",
+      "flags": [],
+      "id": "6464bc58f155a3ff17a5f6c0b8a5578c3815463d2d647e0cf6a9319a878f25d8",
+      "identity": [
+        null,
+        "Reach out to the forest spirits and ask them to teach you the lay of the land.  The longer you remain in the trance, the more you will learn.  You must be standing near a tree in a forest or the ritual will fail.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/forest_magic/forest_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Reach out to the forest spirits and ask them to teach you the lay of the land.  The longer you remain in the trance, the more you will learn.  You must be standing near a tree in a forest or the ritual will fail.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'tutorial_messages'\n~ These use hardcoded calls",
+      "flags": [],
+      "id": "6476c9eca11047c8bfa2c715557375f4ad5f505016f9cd3fc37bd730d4a5560c",
+      "identity": [
+        null,
+        "Bashing things is hard work that will deplete your stamina.  You can see how much stamina you have on the sidebar.  The less stamina you have, the slower your movement and most actions will be.  To restore stamina, you need only to wait.  You can press <keybind:wait> to open the <color_light_cyan>Wait for how long</color> menu and select the amount of time you want to wait.  Select option <color_light_cyan>Wait until you catch your breath</color> to fully restore all lost stamina.\n\nBe careful about doing too many strenuous activities as you will build up your weariness over time, which will stack movement and action penalties on top of your stamina cost.  You can watch your <color_light_cyan>Weary Transition</color> in the sidebar as you are performing longer activities to see their effect on your weariness.  To reduce your weariness, you just need to rest or do less strenuous activities for a while.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/dda_tutorial/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bashing things is hard work that will deplete your stamina.  You can see how much stamina you have on the sidebar.  The less stamina you have, the slower your movement and most actions will be.  To restore stamina, you need only to wait.  You can press <keybind:wait> to open the <color_light_cyan>Wait for how long</color> menu and select the amount of time you want to wait.  Select option <color_light_cyan>Wait until you catch your breath</color> to fully restore all lost stamina.\n\nBe careful about doing too many strenuous activities as you will build up your weariness over time, which will stack movement and action penalties on top of your stamina cost.  You can watch your <color_light_cyan>Weary Transition</color> in the sidebar as you are performing longer activities to see their effect on your weariness.  To reduce your weariness, you just need to rest or do less strenuous activities for a while.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "64778d1b20c105a3451484451ba90cd1c22468cb2a24649938a825da7cc47bdc",
+      "identity": [
+        null,
+        "I won't take the cure.  There's nothing you can do about it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I won't take the cure.  There's nothing you can do about it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC 'EOC_MAGICIANS_HAT2'\n~ Player message in false effect in EoC 'EOC_FIRE_BALL2'",
+      "flags": [],
+      "id": "647a3e58cdda8210417fdd1e9fac3f1c7672711c211b1e5919e3482e9f5e45bd",
+      "identity": [
+        null,
+        "You've learned as much as you can from this item.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/spell_learning_items/spell_learning_items_classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've learned as much as you can from this item.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_matrix_research'",
+      "flags": [],
+      "id": "6487f9c950a360cd74e3eb3af6845c537bf3c2eeea11be6829bdb26903c8b90c",
+      "identity": [
+        null,
+        "As my initial report indicated, COBALT THORN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT THORN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it.  I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT THORN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "As my initial report indicated, COBALT THORN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT THORN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it.  I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT THORN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "648f9fa8e4166d386a7df64f3ce740eee48cb6059ec5c1be946c2cccc5a31a7c",
+      "identity": [
+        null,
+        "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-knacks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-knacks.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "stamina": "耐力",
+    "weariness": "疲劳"
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ 'friendly_msg' action message of item 'inactive Regulator'",
+      "flags": [],
+      "id": "8978c06c204c10d1b7cacc8aa6353b582b654e2aa60da129e30fc5c8c2d6307b",
+      "identity": [
+        null,
+        "The Regulator rolls out and begins acquiring targets.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Regulator rolls out and begins acquiring targets.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "89a5c0ab34dc2f7bc2d3249fcef5cd690c46af727e19e1dcdca60b7595388324",
+      "identity": [
+        null,
+        "dry shallow pool bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry shallow pool bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "89ac4bb10b60b083fa1904d503b4511c4a2adb44a3725a21f33a81a4fc1a7d8e",
+      "identity": [
+        null,
+        "Despite their bloodshot eyes, this feral exhibits a level of awareness not seen among most of their fellows.  Their eyes purposefully scan their surroundings for danger, they carry a homemade spear, and they wear a set of armor they've cobbled together from bits of riot armor and lab supplies.  The remnants of an orange jumpsuit are visible under their improvised armor.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Despite their bloodshot eyes, this feral exhibits a level of awareness not seen among most of their fellows.  Their eyes purposefully scan their surroundings for danger, they carry a homemade spear, and they wear a set of armor they've cobbled together from bits of riot armor and lab supplies.  The remnants of an orange jumpsuit are visible under their improvised armor.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'deathrattle elder serpent'",
+      "flags": [],
+      "id": "89b868d432be30a419a7b5c015a03ad3fa7811a6676cb2d8863a3345d7d5327c",
+      "identity": [
+        null,
+        "An enormous serpent of the deep swamps, bigger around than a man and at least four times as long.  Vicious fangs dripping with venom gleam in its mouth and its eyes are alive with malign intent.  Its rattle is large enough to be worked into a mace.  This one definitely hunts humans.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An enormous serpent of the deep swamps, bigger around than a man and at least four times as long.  Vicious fangs dripping with venom gleam in its mouth and its eyes are alive with malign intent.  Its rattle is large enough to be worked into a mace.  This one definitely hunts humans.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible '南瓜苗'",
+      "flags": [],
+      "id": "89c9af5a0243a9d60b2c42c8923c3c6575096f19c506e8e3ae798c245c57ed5c",
+      "identity": [
+        null,
+        "一株已经长出少量根系的南瓜幼苗，种植后比普通种子更快进入采收期。必须种在种植架上。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一株已经长出少量根系的南瓜幼苗，种植后比普通种子更快进入采收期。必须种在种植架上。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'baked potato'",
+      "flags": [],
+      "id": "89dd725c850bf05a0bdf69912b2ebd7f684f2c7a5449368454d687c5814e6c88",
+      "identity": [
+        null,
+        "A delicious baked potato or other tuber.  Got any sour cream?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/veggy_dishes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A delicious baked potato or other tuber.  Got any sour cream?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "89e8ff3121a8ce803f5bca4c3e5ee6ff768fa4281eb93d4c7278163a378f86ed",
+      "identity": [
+        null,
+        "CO-OP: NOT COMPATIBLE.  Moves between the island and the mainland as separate dimensions; co-op shares one world and cannot place the two players in different dimensions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "55"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: NOT COMPATIBLE.  Moves between the island and the mainland as separate dimensions; co-op shares one world and cannot place the two players in different dimensions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "89f7cb10e664a463c1ebeca626c24c4911cad7ea1fcb33519000a168db5dcb2b",
+      "identity": [
+        null,
+        "history book (ancient)",
+        "history books (ancient)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "history books (ancient)",
+      "singular": "history book (ancient)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Distributed Physiology'",
+      "flags": [],
+      "id": "89fc31699fd8d945bbd70bdddb085e1d90967062ddad272351581b18f06cfa20",
+      "identity": [
+        null,
+        "Your vital organs have been restructured, split and distributed all across your body.  Anyone lucky enough to hit you is unlikely to deal a fatal blow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your vital organs have been restructured, split and distributed all across your body.  Anyone lucky enough to hit you is unlikely to deal a fatal blow.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "8a1b00b20c82338829b5b3a8ce09e88979c5ec3d074110493b0fdaa195364846",
+      "identity": [
+        null,
+        "A statue of a woman lying curled up near the fire ring.  Her features are mostly obscured by the stone animal-skin cloak thrown over her body.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a woman lying curled up near the fire ring.  Her features are mostly obscured by the stone animal-skin cloak thrown over her body.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "8a27cdddc9a7fff7bdeac86e9561a28190882f0abfc3b3bb4a1873c2a4e02e3a",
+      "identity": [
+        null,
+        "Use your parts first",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "897"
+        ]
+      ],
+      "plural": null,
+      "singular": "Use your parts first",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8a709d9082b55659b15e02d10a7747942e40a5c393dae59ef438a066f3dbacb2",
+      "identity": [
+        null,
+        "Let me see…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Let me see…",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

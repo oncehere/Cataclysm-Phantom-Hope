@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7cb9762bc7e5fd215c72881e2c400944b832a11ca25c6651f171fec845678d0d",
+      "identity": [
+        null,
+        "Yes we are.  We still have some of our original collection, but far too much of it was stolen or destroyed, and of course it was far from complete even before.  Some of us go out to try and rebuild the collection from towns nearby, but mostly we rely on people passing through like you.  We especially want anything rare and hard to find.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/campus/great_library_librarian_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yes we are.  We still have some of our original collection, but far too much of it was stolen or destroyed, and of course it was far from complete even before.  Some of us go out to try and rebuild the collection from towns nearby, but mostly we rely on people passing through like you.  We especially want anything rare and hard to find.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'powder fusion bed'",
+      "flags": [],
+      "id": "7cbb23e753935d76eeb464ea3cf1579359933effd4592e36ecee8bbf647af281",
+      "identity": [
+        null,
+        "An automated manufacturing bed that employs high-energy lasers to manufacture parts out of powdered metal.  Most commonly used for maintenance rather than large scale manufacturing.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture_and_terrain/funiture_heavy_industry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An automated manufacturing bed that employs high-energy lasers to manufacture parts out of powdered metal.  Most commonly used for maintenance rather than large scale manufacturing.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Grabbed'",
+      "flags": [],
+      "id": "7cca56853a4a6f376298ae4b21ab0e2573493a8ac4d4841c419937d0be4b9cd3",
+      "identity": [
+        null,
+        "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "7cd9be1b4eed45c02a36d19d266b15a7fea91e7cf7ed4f510fd8b2371adce68d",
+      "identity": [
+        null,
+        "\"Double double toil and trouble\n\"little Jenny wants to play\n\"flash of lightning very frightening\n\"Thunder drive our fears away\n\"Shadows waiting not abating\n\"Hope to all who fear the dark\n\"Shines a light in dark of night\n\"Ever glowing one bright spark\"\nA smear of blood and scorch marks hide any further words that may have been written.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Double double toil and trouble\n\"little Jenny wants to play\n\"flash of lightning very frightening\n\"Thunder drive our fears away\n\"Shadows waiting not abating\n\"Hope to all who fear the dark\n\"Shines a light in dark of night\n\"Ever glowing one bright spark\"\nA smear of blood and scorch marks hide any further words that may have been written.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "7cdbd72daee7b4f2e45fa458372383b612deef4f8d60666676039b126c3b2bf2",
+      "identity": [
+        null,
+        "Template",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1057"
+        ]
+      ],
+      "plural": null,
+      "singular": "Template",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "7cf1596bfc770aa573da57b6941e7842a8bcd843262f6b8763636adbb0c95395",
+      "identity": [
+        null,
+        "spined daemon",
+        "spined daemons"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": "spined daemons",
+      "singular": "spined daemon",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "7cf9b7bc14825dd42b949faf47b5ed3275fa9034c54ae9d953242d4a022ff4bd",
+      "identity": [
+        null,
+        "Principles of Philosophy",
+        "copies of Principles of Philosophy"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Principles of Philosophy",
+      "singular": "Principles of Philosophy",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_XE_CAUSE_OMINOUS_FOG_WEATHER'",
+      "flags": [],
+      "id": "7d0eed0f3801ed5b869bb7c5a0aac86a12a4ced251ff8f6ae5f0d5a4a31601d5",
+      "identity": [
+        null,
+        "The fog shrouds everything, muffling sounds and making it almost impossible to distinguish anything in the distance.  You have a bad feeling about this.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/weather_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The fog shrouds everything, muffling sounds and making it almost impossible to distinguish anything in the distance.  You have a bad feeling about this.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Feed Arion'",
+      "flags": [],
+      "id": "7d1112b7c79d50464638c8a6ec43b9184cfef5b45e7ee412ce634204f47fc7b9",
+      "identity": [
+        null,
+        "It's time to feed Arion.  If you do not there will be consequences.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's time to feed Arion.  If you do not there will be consequences.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speech from monsters: mon_eyebot",
+      "flags": [],
+      "id": "7d299066d9b10ea7ca595094de6544956918c673903866d820a95e116a7a577e",
+      "identity": [
+        null,
+        "\"Probable 10-70.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/speech.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Probable 10-70.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_WEREWOLVES_GAIN_XP_FROM_OUTSIDER_KILLS'",
+      "flags": [],
+      "id": "7d2c913ad62523a22d0bbab7bdb47d08e5fabd4f073192befa4f8c2fb0ff2ec2",
+      "identity": [
+        null,
+        "You feel the Moon's favor stir within you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/werewolf_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel the Moon's favor stir within you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Joint Torsion Ratchet CBM'",
+      "flags": [],
+      "id": "7d7ccf432de03a3e85e1d752cd0dbbbd8269bceef37522326e5d33852bd53004",
+      "identity": [
+        null,
+        "A set of torsion ratchets that replace the user's joints to slowly generate power when they move.  These can be toggled to generate more power, but movement will require more effort.  This system is actively detrimental to fully mechanical limbs; the additional joint resistance it relies on causes a net loss of bionic power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of torsion ratchets that replace the user's joints to slowly generate power when they move.  These can be toggled to generate more power, but movement will require more effort.  This system is actively detrimental to fully mechanical limbs; the additional joint resistance it relies on causes a net loss of bionic power.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

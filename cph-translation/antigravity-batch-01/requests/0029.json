@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "12e7b14a3615cf525f1e1568bcc92dfffadd9e5988ad84c91c554b2e00faefa8",
+      "identity": [
+        null,
+        "[Install Air Filtration CBM] Okay, I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Air Filtration CBM] Okay, I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'right front tentacle'",
+      "flags": [],
+      "id": "130106a08516d0288d604cfc95403de941b747c67e6524d30ddf5a2f6cec2527",
+      "identity": [
+        null,
+        "r. f. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "r. f. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1319f3a1f33f411c6110bc6becc8ea293fe07c4fca5b52b1de4d156b4c65f628",
+      "identity": [
+        null,
+        "You could produce some dreamdross?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You could produce some dreamdross?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DEBUG_TELL_ME_TIME'",
+      "flags": [],
+      "id": "131bfe6c87d1245e9ced1cd508621daebe8951161c2aa2e5b3588af2315ab9d5",
+      "identity": [
+        null,
+        "Minutes remaining until daylight is <global_val:TIME_TILL_DAYTIME>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/generalized_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minutes remaining until daylight is <global_val:TIME_TILL_DAYTIME>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1321fa636a1f129f349382ef5ff5b806e0029a2f8692ba6ccbd3c2e33839a896",
+      "identity": [
+        null,
+        "&Rubik broaches the topic of recruitment & CBM interfaces…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik broaches the topic of recruitment & CBM interfaces…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "132879f1d10df100dcbc10b3e925bca3dcb84f485eca8afabfa8df49564fdd93",
+      "identity": [
+        null,
+        "Why dull your edge with Thorazine?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Why dull your edge with Thorazine?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'drained flooded floor'",
+      "flags": [],
+      "id": "132e0c70201ef1a7d156287eadf9b5d0c2635d231c746483d3781b11c440b46a",
+      "identity": [
+        null,
+        "A damp floor left after pooled flood water was drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A damp floor left after pooled flood water was drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'quilt'",
+      "flags": [],
+      "id": "132f827c82ff4596fc75921893b668e6db8b30464e9cd226d3819a97ff0c9e5e",
+      "identity": [
+        null,
+        "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic/bedding.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "134d5d8b112a3fc7b70286695101f33890f4652d6fd3dc5cbcf0ffe078939602",
+      "identity": [
+        null,
+        "labor %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "816"
+        ]
+      ],
+      "plural": null,
+      "singular": "labor %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "134e42e6505894c8cd9dd713d8fd5dcecd462a905c04d0680c67c886cb5d71a0",
+      "identity": [
+        null,
+        "Unable to add %s. It conflicts with %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2070"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unable to add %s. It conflicts with %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Ammunition name",
+      "flags": [],
+      "id": "13887db0506b8758648251353e89f2ca806db0d593b4d137db9db13fb1da0b74",
+      "identity": [
+        null,
+        "foreign rifle ammo, AP (reloaded)",
+        "foreign rifle ammo, AP (reloaded)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/ammo/rifle.json",
+          ""
+        ]
+      ],
+      "plural": "foreign rifle ammo, AP (reloaded)",
+      "singular": "foreign rifle ammo, AP (reloaded)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "138c16a0ca8c13c87a9dfdb1fcffb5621876f5c70b5402901f18699ea093bb3d",
+      "identity": [
+        null,
+        "frozen daemon",
+        "frozen daemons"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": "frozen daemons",
+      "singular": "frozen daemon",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

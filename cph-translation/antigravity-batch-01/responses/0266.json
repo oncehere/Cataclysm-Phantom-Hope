@@ -1,0 +1,75 @@
+{
+  "request_sha256": "a5092cad52103197cf49e990c2789cef244901fcef175d223d2813e6aee8cbb6",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ff3eff8970f1b6c354b34ae3619dbf16606bd79cdcf5f84ab65629201ccf1e90",
+      "values": [
+        "低温瓶"
+      ]
+    },
+    {
+      "id": "ff4e33aba70b1be1685e079a49ba57f7629e9cb786b7ee339e2eefd11bf25557",
+      "values": [
+        "无论是在中世纪用来抵御传统毒素，还是在现代用来应对过敏反应，它都十分有用。对疾病没有任何效果，且可能对更为奇异深奥的毒素不起作用。"
+      ]
+    },
+    {
+      "id": "ff5b9d9be5be874775795c218e758a4a9f594ad66347c3feb03cca08c7a59594",
+      "values": [
+        "你经受了荒林试炼并将你的灵魂与森林相连，森林精魂准许你汲取它们的一部分力量。"
+      ]
+    },
+    {
+      "id": "ff820b811787504d4bc61eeccaca98ab74be16a8bf99992e208c203c1a50a037",
+      "values": [
+        "你闭上双眼，在汹涌紊乱的跃迁流中，一座无形的迷宫浮现出来。数以千计潜在的通道如平滑的石壁般拂过你的意识，而这一现实的真谛隐约闪烁，如远方舞动的微光碎屑。你曾来过这里，你现在在这里，而且你还会再次来到这里。\n当你睁开眼睛时，你回到了起点。你并未挪动脚步，但感觉世界却似已悄然变迁。\n\n在未来的每次探险中，你现在都能找到两个不同的出口位置。"
+      ]
+    },
+    {
+      "id": "ff8aea29dec79955a9b3bb0fb24c5fcc25a1e2ead0ff7158711894f87c6794c0",
+      "values": [
+        "你的骨骼恢复了往常的强度。"
+      ]
+    },
+    {
+      "id": "ff969bd6ef2fc209780bf6b711b8952c247d2098f69885ae3edd9f6a3b14a7b7",
+      "values": [
+        "嘿，老鲁比克的商品你永远买不够是吧？那是当然，<restock_time_point>之后再回来看看！"
+      ]
+    },
+    {
+      "id": "ff9842b91b1125eacd56688b90e9f32033836680c5d2b2c8f5cab1c207617553",
+      "values": [
+        "飞艇驾驶"
+      ]
+    },
+    {
+      "id": "ffba7564bcdd2fd17b85208bb4b49ae39732219adbc378ec505427af60a7f427",
+      "values": [
+        "<color_light_green>它的速度比你要慢得多。</color>"
+      ]
+    },
+    {
+      "id": "ffc4fa43350421ff9da355e416a8f1ffe2f2b1e6d5d90a3b50dd265656996f84",
+      "values": [
+        "[$2500 店内赊账额度] 换成店内赊账额度怎么样？"
+      ]
+    },
+    {
+      "id": "fffad305130477c21ed5227c256c52ad27f8e0c1f59be59f69375520af9b52e5",
+      "values": [
+        "游戏地图"
+      ]
+    },
+    {
+      "id": "fffe1ff22b5ab1f8d7830e2174e5d8a264d1fdfc219eccb4e1bd73c4f00034c6",
+      "values": [
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   当前 ᴴᵁᴹᴬᴺ 无法离开 ʰᵒᵐᵉ 并返回大门。\n   你和你异乡的家园已经远离太久。\n   你当前正通过 AltarOS 远程操作。\n   如果你返回 AltarOS 本地终端，\n   在类似你最初进入的地方，\n   便可重新建立联系。  ᵖˡᵉᵃˢᵉ DON'T ᵍᵒ"
+      ]
+    }
+  ]
+}

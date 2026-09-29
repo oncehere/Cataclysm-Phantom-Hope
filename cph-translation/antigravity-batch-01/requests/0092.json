@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of an NPC class\n~ Worked as a doctor and performed medical research but little else.  Has a\ncrossbow mainly for self-defense.",
+      "flags": [],
+      "id": "51c20181d541a0362241d1f1ca67f8b1172213594b5ba0efff24b1824df65a78",
+      "identity": [
+        null,
+        "doctor",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "doctor",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'steel sling bullet (250g)'\n~ Description of ammunition 'steel sling bullet (500g)'\n~ Description of ammunition 'steel sling bullet (750g)'",
+      "flags": [],
+      "id": "51da3c450a860eac89c0eb95dedac0a8c5166e72e70ce78ec8cf28b602ca82ba",
+      "identity": [
+        null,
+        "A solid steel ball, perfectly round and polished, ideal for sling use.  Heavy for its size.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ranged/throwing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A solid steel ball, perfectly round and polished, ideal for sling use.  Heavy for its size.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "51e02570dd8098d3a894ed092edf25a41b5206eeee1c82e2686c5efd25f306fe",
+      "identity": [
+        null,
+        "Mod \"%s\" is not co-op compatible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5928"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod \"%s\" is not co-op compatible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "520d0d48e63eac522cd72186bb34050b962386bfeaaa94a8f4eb0d7efc97a15e",
+      "identity": [
+        null,
+        "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  Go get them tᵢgₑᵣ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  Go get them tᵢgₑᵣ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'boy's backpack' of armor 'small backpack'",
+      "flags": [],
+      "id": "521b8a4d55baca9f69e881c05706de37e19e2efad31d7630a4f8034b2f2172d0",
+      "identity": [
+        null,
+        "A boy's backpack.  <boy_brand>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/storage_packs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A boy's backpack.  <boy_brand>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'wyrmhound'",
+      "flags": [],
+      "id": "524b7b6d5ee20c6d3dc5d4fd2d9f0fa326db67c46d31ff54d7c789d44b725f05",
+      "identity": [
+        null,
+        "This dog is so heavily mutated you weren't entirely sure of the original animal for a moment.  It has no fur at all, being covered entirely by scales instead, and its serpentine head has yellow eyes and a pair of vicious fangs near the front of its muzzle.  It is not looking at you like it wants you to pet it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/mutant_mammal.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This dog is so heavily mutated you weren't entirely sure of the original animal for a moment.  It has no fur at all, being covered entirely by scales instead, and its serpentine head has yellow eyes and a pair of vicious fangs near the front of its muzzle.  It is not looking at you like it wants you to pet it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "524c53efd3670d2894883469dd2da532822dc36d2d2b17787e6dec80b76e8865",
+      "identity": [
+        null,
+        "Killing the lurking strigoi.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Killing the lurking strigoi.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5255e78b065306a3212e0f7a8b730ac56f3dd81d2e86de3d9ca951834262cda4",
+      "identity": [
+        null,
+        "I need my cybernetics repaired…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I need my cybernetics repaired…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "526233024072c9671a4254403988df8dd73f748228000fc3a52f06998ceea354",
+      "identity": [
+        null,
+        "contaminated dirt",
+        "contaminated dirt"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/trash/resources.json",
+          ""
+        ]
+      ],
+      "plural": "contaminated dirt",
+      "singular": "contaminated dirt",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of vehicle part location",
+      "flags": [],
+      "id": "529f81ba4afa189e2d7e0401d9c494794deb1c6ac070840a754b9053851ac929",
+      "identity": [
+        null,
+        "On Door",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicle_part_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "On Door",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "52aeffee7a6bcad7a59d7bd34d60efb236cc759aefb329a5549695f2887c6f3c",
+      "identity": [
+        null,
+        "&You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"We imagine what you experienced was harrowing, but we think this may be a localized effect of the portal storm, rather than a new world.  It's difficult to tell from the recordings.  But they are nevertheless valuable, and we have turned them over to Research for further investigation.  Thank you for your contributions to science, as always.  If you return, please note any, let us say, passageways, that you may see, which could, well, lead to other places.  Yes?  Clear?  Thank you.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_trades.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"We imagine what you experienced was harrowing, but we think this may be a localized effect of the portal storm, rather than a new world.  It's difficult to tell from the recordings.  But they are nevertheless valuable, and we have turned them over to Research for further investigation.  Thank you for your contributions to science, as always.  If you return, please note any, let us say, passageways, that you may see, which could, well, lead to other places.  Yes?  Clear?  Thank you.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'bra'",
+      "flags": [],
+      "id": "52d98229c5d5089ce699d67cd6a77d4b26cba7fed87d32bf0313957673114487",
+      "identity": [
+        null,
+        "Women underwear providing support for the breasts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Women underwear providing support for the breasts.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

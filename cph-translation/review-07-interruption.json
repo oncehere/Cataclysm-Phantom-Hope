@@ -1,0 +1,24 @@
+{
+  "candidate": "review-07-gemini",
+  "status": "INTERRUPTED",
+  "candidate_published": false,
+  "runner_log_published": false,
+  "observation": "The active execution session was interrupted after its terminal showed request 16 with 16 entries as started. No final response for that request is available in the runner transcript.",
+  "current_applied_baseline": {
+    "candidate": "review-06-gemini",
+    "gemini_entries": 68,
+    "remaining_gaps": 3326
+  },
+  "cache_snapshot": {
+    "status_counts_by_fingerprint": {
+      "complete": 320,
+      "failed": 28,
+      "unknown": 9
+    },
+    "distinct_completed_entry_ids": 320,
+    "completed_entry_ids_not_in_applied_baseline": 252,
+    "active_unknown_entry_ids": 4,
+    "inflight_fingerprints": 0
+  },
+  "calculation": "3,326 baseline gaps minus 252 distinct completed cache entries equals an estimated 3,074 gaps once those cache results are carried into the next candidate. Recompute from the next candidate report; do not treat this estimate as published output."
+}

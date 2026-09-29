@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Playboy'",
+      "flags": [],
+      "id": "c099c18ae12c28c420a07084122f383be4962ca99ab54770ef037ad1280fb9da",
+      "identity": [
+        null,
+        "You can read it for the articles.  Or not.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can read it for the articles.  Or not.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'low water in a deep salt basin'",
+      "flags": [],
+      "id": "c09a60c1fa0a6341296e0c084d9c3311bba44809a38da360faa14cf886753003",
+      "identity": [
+        null,
+        "Only shallow salt water remains over the deep bottom of this basin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only shallow salt water remains over the deep bottom of this basin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "c0aec9a1eb2f67c2446cf5e65752e6581c770a4d5f61661e220172b06778196c",
+      "identity": [
+        null,
+        "[Ask them to produce dreamdross]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Ask them to produce dreamdross]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'astrocartographic data'",
+      "flags": [],
+      "id": "c0c4b0726ef7707f2f830e803ab1cd06516f328d5338711ef48b724f358389fb",
+      "identity": [
+        null,
+        "Detailed measurements of gravitational distortion around the Salus system.  Although the data is outdated by several centuries, it remains a useful basis for the extrapolation of current conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Detailed measurements of gravitational distortion around the Salus system.  Although the data is outdated by several centuries, it remains a useful basis for the extrapolation of current conditions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Bedtime Stories'",
+      "flags": [],
+      "id": "c0c971e399715af601e9592ec4236e9ebe475b6243011ab59cc0d2eb9e7fb130",
+      "identity": [
+        null,
+        "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "c0f703ea1424ca044570d7971bb8fec8a55dde813c6f80b7abd8c1ac58b199f2",
+      "identity": [
+        null,
+        "left middle tentacles (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacles (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'golf club'",
+      "flags": [],
+      "id": "c0fa9927a54f6e17bb6d7e723bd8536ca00e275ed6acf489b4c9b0314151753c",
+      "identity": [
+        null,
+        "A long handle with a big metal head, flat on one side, for driving golf balls.  Fore!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/melee/bludgeons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A long handle with a big metal head, flat on one side, for driving golf balls.  Fore!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'sprayable insecticide'",
+      "flags": [],
+      "id": "c10c8048620c326afd59d434adc060e6b11071476a85e564e8d4ddc0ab47302a",
+      "identity": [
+        null,
+        "Strong sprayable insecticide ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ammo/chemical_spray.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Strong sprayable insecticide ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in EoC\n'EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION'",
+      "flags": [],
+      "id": "c110f290c4c6e613b4144c91dfaca7c14c02d2dc24df675cc9e4d44d59e71d28",
+      "identity": [
+        null,
+        "Your spirit returns in failure.  You have gained no new knowledge from your quest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your spirit returns in failure.  You have gained no new knowledge from your quest.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_clairsentience'\n~ Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian\ndesignation for use of clairsentience to find appropriate portal targets\nfor immersion dives is COLD BELOW",
+      "flags": [],
+      "id": "c127ffbb17a0874ec04d0ff99133075a615142d2f61d3f7cfc621be3858d6c20",
+      "identity": [
+        null,
+        "Dr Richardson,\nLast night, both J99 and V27 approached me with a concern.  As is consistent with NOBLE HORIZON protocol, they have been keeping a dream journal and noticed during the weekly meeting that a few nights ago they had exactly the same dream, down to the smallest details.  You can find the exact details in the weekly report but the gist of it was a giant hand reaching out of the sky and covering the entire Earth and squeezing the Earth until it cracked.  Looking back through previous journals, I found that W88 and P61 had similar dreams within the last week.  I'm still trying to track down if there was a \"patient zero\", so to speak, and if this is some kind of contagious imagery or there is some other obvious explanation, but in the meantime, I'm baffled.  NOBLE HORIZON visions are usually filtered through the individual psyche of the mathematician, and I have no explanation for why in this case multiple mathematicians would exhibit the exact same manifestation.\n\nI'm going to get to the bottom of this.  We already have bad morale after 947188 and this is not going to help.\nJohn Goldberg\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr Richardson,\nLast night, both J99 and V27 approached me with a concern.  As is consistent with NOBLE HORIZON protocol, they have been keeping a dream journal and noticed during the weekly meeting that a few nights ago they had exactly the same dream, down to the smallest details.  You can find the exact details in the weekly report but the gist of it was a giant hand reaching out of the sky and covering the entire Earth and squeezing the Earth until it cracked.  Looking back through previous journals, I found that W88 and P61 had similar dreams within the last week.  I'm still trying to track down if there was a \"patient zero\", so to speak, and if this is some kind of contagious imagery or there is some other obvious explanation, but in the meantime, I'm baffled.  NOBLE HORIZON visions are usually filtered through the individual psyche of the mathematician, and I have no explanation for why in this case multiple mathematicians would exhibit the exact same manifestation.\n\nI'm going to get to the bottom of this.  We already have bad morale after 947188 and this is not going to help.\nJohn Goldberg\nResearcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "c13dd3d65be770cf3b689b937106b6eed617a78f5124161577d61cfcc013ffcb",
+      "identity": [
+        null,
+        "Forest-Wise",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Forest-Wise",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'marijuana'",
+      "flags": [],
+      "id": "c165ef20170b5818acfa023bf2dc11cce2b87d6c59760ad4406039fa7253a691",
+      "identity": [
+        null,
+        "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, relieve pain, sleep easier, and elevate mood.  It can be habit-forming.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, relieve pain, sleep easier, and elevate mood.  It can be habit-forming.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

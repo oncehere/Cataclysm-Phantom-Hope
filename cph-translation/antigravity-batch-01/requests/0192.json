@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Dialogue line 'success' in mission 'Find batteries for the meteorologist'",
+      "flags": [],
+      "id": "b545ece55bf2649ec0aab2651a1da300d87038c0d8ed27b360aaecfa63d2be97",
+      "identity": [
+        null,
+        "Great, I'll continue to work on it…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/other/meteorologist.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Great, I'll continue to work on it…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b5488ee92e28482bbe8422977a4ee0507aa41981d847b9d9edd7fac6acfe1ed3",
+      "identity": [
+        null,
+        "Your partner",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "7182"
+        ],
+        [
+          "src/mp_gamestate.cpp",
+          "7199"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'yellow' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "b548cf6b9a7b95e85676605ac1e59511ddbb8f40ec6ff18cef01e0e6b67ddf41",
+      "identity": [
+        null,
+        "This one is <color_prefix> yellow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix> yellow.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_clairsentience'\n~ Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian\ndesignation for use of clairsentience to find appropriate portal targets\nfor immersion dives is COLD BELOW",
+      "flags": [],
+      "id": "b5550efb014a0822d7de74ee59db7536ec996664bc92c64a011d6725602dc76a",
+      "identity": [
+        null,
+        "testing report N5-5519",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "testing report N5-5519",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Strix's Wings'",
+      "flags": [],
+      "id": "b56c9c991004b1718174c5f9d82f14fa0905a82fb98447475acb177bdf1840bc",
+      "identity": [
+        null,
+        "An enormous pair of dark-feathered wings have erupted from your back.  You can't fly, but you can glide or break your falls and make prodigious leaps with them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/temporary.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An enormous pair of dark-feathered wings have erupted from your back.  You can't fly, but you can glide or break your falls and make prodigious leaps with them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b5729fe47c38cc96ddec5f259806c11b3d96402f9d021a562a53f7bdcf6ae69c",
+      "identity": [
+        null,
+        "You pick up: %s [%c]",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/pickup.cpp",
+          "63"
+        ]
+      ],
+      "plural": null,
+      "singular": "You pick up: %s [%c]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [
+        "c-format"
+      ],
+      "id": "b5984d7bfb42e46013151a100b1962746acc5e819135fc684f9ae9d62d1e6e40",
+      "identity": [
+        null,
+        "&<color_light_green> @User > gatestatus -update -pass KÁ\n\n .  .  .  .  .  .  %100\n\n Passcode accepted.  Route path to node?  Y/N",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > gatestatus -update -pass KÁ\n\n .  .  .  .  .  .  %100\n\n Passcode accepted.  Route path to node?  Y/N",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Augmented Durability'",
+      "flags": [],
+      "id": "b5a7a4e3d174b77435daf2b165f7c3ce7471302e24336642e5db633ae0aa3b7b",
+      "identity": [
+        null,
+        "The feeling of resilience fades away.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_psionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The feeling of resilience fades away.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "b5d17940404b17375745d9f6c4077d8c044cb8ac414f80259c07b0a5815fcc11",
+      "identity": [
+        null,
+        "deep salt water basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "deep salt water basin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option name",
+      "flags": [],
+      "id": "b5d97a1e02f1968529d7082616cd9c3ff37d30586b3257d8d7f22db7e29eb5f3",
+      "identity": [
+        null,
+        "Augment Durability",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effectoncondition/eoc_power_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Augment Durability",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "b5df173d661558c74d290782a195a5884ab0fafc81f3b6a3b0518c5197e8c803",
+      "identity": [
+        null,
+        "pond water",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "pond water",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b5ebef150ae44cd53a1a00cd7b632294a7cff3b2efbe81208b7bb74e7b3d479e",
+      "identity": [
+        null,
+        "Too many points allocated, change some features and try again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4219"
+        ]
+      ],
+      "plural": null,
+      "singular": "Too many points allocated, change some features and try again.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

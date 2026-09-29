@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-08-offline-cache",
+  "checks": {
+    "completed_entries": 316
+  },
+  "proposal_sources": {
+    "gemini: gemini-3.5-flash-lite": 304,
+    "gemini: gemini-3.8-flash": 12
+  },
+  "review_flags": [],
+  "remaining_gaps": 3078,
+  "provider_results": {
+    "cached": 248,
+    "unknown": 4,
+    "not_requested": 3074
+  },
+  "external_batches": {},
+  "limitation": "Review flags require contextual judgment. This is not full semantic or human acceptance."
+}

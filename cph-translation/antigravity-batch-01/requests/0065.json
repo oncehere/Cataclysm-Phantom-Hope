@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in EoC 'EOC_RandEnc_XE_Wraiths_On_Dark_Nights'",
+      "flags": [],
+      "id": "3552ba0d7e692db3debaad258dfe320258fcb205ac8a5fdcd113470cfcafd940",
+      "identity": [
+        null,
+        "A shadow seems to pass over the remnants of the moon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/wraiths_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A shadow seems to pass over the remnants of the moon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "35961c826b1e24cd8fa6a21c5665a927c78d39e44289977b2d975b2ec4a28ff1",
+      "identity": [
+        null,
+        "I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "35accc30cf744486021fc0577fa2674b4a0b72c189b1773c2c249c09d65571c1",
+      "identity": [
+        null,
+        "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Strike the Inner Outsider'",
+      "flags": [],
+      "id": "35ef5c94c0cb14a6eb6d83b48437b2ee6fa5a8e8a22407e0a7084d98eebe910a",
+      "identity": [
+        null,
+        "The People is meant to fight the things from Outside, but sometimes they must fight what is inside their own bodies.  You can focus your mana to try and cure most ailments caused by beings from the Nether, from Under the Hill and from wherever vampires come from.  The amount of mana this requires increases with the amount and severity of your afflictions, and will fail if your mana is insufficient.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/werewolf_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The People is meant to fight the things from Outside, but sometimes they must fight what is inside their own bodies.  You can focus your mana to try and cure most ailments caused by beings from the Nether, from Under the Hill and from wherever vampires come from.  The amount of mana this requires increases with the amount and severity of your afflictions, and will fail if your mana is insufficient.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_VITAKIN_INCREASED_HP_INITIATE'",
+      "flags": [],
+      "id": "35f6ef1b6b3a719c2997389f988cf71f8291e9064e694a2731e2c23ef6d417b4",
+      "identity": [
+        null,
+        "You feel more resilient.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/vitakinesis_concentration_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel more resilient.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "360b404d07b9393f4ec6168f560b8165f3e799b780442db0c41823b5b3d7a590",
+      "identity": [
+        null,
+        "This appears to be a segment of bodycam footage, with the perspective shaking as the wearer jogs through a dimly lit corridor, a drawn pistol's muzzle leading the way.  Rounding a bend, any forward progress is promptly arrested as a formally dressed woman comes into the shot.  Hefting a large sledgehammer and crushing the skulls of zombie after zombie clambering through a shattered window, an expression of childish glee is plastered across her face.\n\nGlancing towards the camera, her maniacal grin grows wider as she abandons her post and, stumbling on high heels, rushes towards the view.  Heedless of the bullets that plunge into her gore-caked body, the enraptured look upon the woman's face as she swings the mallet and blood spurts across the lens is going to haunt you in your sleep.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This appears to be a segment of bodycam footage, with the perspective shaking as the wearer jogs through a dimly lit corridor, a drawn pistol's muzzle leading the way.  Rounding a bend, any forward progress is promptly arrested as a formally dressed woman comes into the shot.  Hefting a large sledgehammer and crushing the skulls of zombie after zombie clambering through a shattered window, an expression of childish glee is plastered across her face.\n\nGlancing towards the camera, her maniacal grin grows wider as she abandons her post and, stumbling on high heels, rushes towards the view.  Heedless of the bullets that plunge into her gore-caked body, the enraptured look upon the woman's face as she swings the mallet and blood spurts across the lens is going to haunt you in your sleep.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "362036ac7a69c100f928e783c47fa614fd3bee9d6e2c5097c90f4bc352df905d",
+      "identity": [
+        null,
+        "No active mods.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "684"
+        ]
+      ],
+      "plural": null,
+      "singular": "No active mods.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "362b8faba6e0ef47eb9c0b09b38f447b719d23b5d9455da62d356bd4739cf172",
+      "identity": [
+        null,
+        "*<npc_name> sings a few scraps of a half-familiar melody and a cool breeze blows past you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "*<npc_name> sings a few scraps of a half-familiar melody and a cool breeze blows past you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'protoplasmic ooze'",
+      "flags": [],
+      "id": "363de8f604f2eb2f40ec4887a364590fc2cfa307b5b48c737381cb2f1ad5bf86",
+      "identity": [
+        null,
+        "A deeply disturbing ooze that seems to attempt to take on form over and over again, never quite succeeding.  The only thing it seems to manage are eyes that look around madly for a few seconds before dissolving back into the steaming gunk.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/nether_monster_drops.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A deeply disturbing ooze that seems to attempt to take on form over and over again, never quite succeeding.  The only thing it seems to manage are eyes that look around madly for a few seconds before dissolving back into the steaming gunk.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (Imbuement of the Trees)'",
+      "flags": [],
+      "id": "364536981f8d68cf908d662d2f8895f053800d7f245e7ff2bc7a646f11e64a57",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of nature.  The ingredients list tells you that nature is definitely not going to appreciate that.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a method to obtain the power of nature.  The ingredients list tells you that nature is definitely not going to appreciate that.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "364e67bd1a673a8a234ed30bbff1405c8cc164bdedd0aafd89ade868250ad915",
+      "identity": [
+        null,
+        "cranial padding",
+        "cranial padding"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor/integrated.json",
+          ""
+        ]
+      ],
+      "plural": "cranial padding",
+      "singular": "cranial padding",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "3653710d5e8b4160237a3e0650f0e750a198012f606c580087c53f945af5cb12",
+      "identity": [
+        null,
+        "[Install Blood Analysis CBM] Nevermind.  I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Install Blood Analysis CBM] Nevermind.  I've always wondered what's in my veins.  Let's try that blood analysis module.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

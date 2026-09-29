@@ -1,0 +1,47 @@
+{
+  "python": "3.13.15",
+  "platform": "Linux-7.2.7-x86_64-with-glibc2.42",
+  "dependencies": {
+    "polib": "1.2.0",
+    "google-genai": "1.43.0",
+    "pytest": "8.4.2"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0,
+      "stdout": "........................................................................ [ 74%]\n.........................                                                [100%]\n=============================== warnings summary ===============================\ntests/test_gemini.py::test_google_sdk_retry_disabled_and_error_redacted\n  /home/oncehere/文档/ChatGPT/CPH翻译/.venv/lib/python3.13/site-packages/google/genai/types.py:9408: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.13/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.\n    @model_validator(mode='after')  # type: ignore[arg-type]\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n97 passed, 1 warning in 10.53s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH翻译/.venv/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "dist"
+      ],
+      "exit_code": 0,
+      "stdout": "* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - hatchling==1.27.0\n* Getting build dependencies for sdist...\n* Building sdist...\n* Building wheel from sdist\n* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - hatchling==1.27.0\n* Getting build dependencies for wheel...\n* Building wheel...\nSuccessfully built po_keeper-0.1.0rc1.tar.gz and po_keeper-0.1.0rc1-py3-none-any.whl\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "src/pokeeper/__init__.py": "d386738720dec717cd96d45b7e5faf1ec2fff1e320f772ec9d714a9a662f662d",
+    "src/pokeeper/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/pokeeper/catalog.py": "5d12227d6c8e2c7cd4383be25e89e98ff7b22eb8442471b255f141049535c967",
+    "src/pokeeper/cli.py": "63d2a5b982740bc54a7fab6a44bdba6b0b68657a392d75452adff188408eb0bd",
+    "src/pokeeper/config.py": "6269e831efc1c8d7ea87d86586063a437d358b7eb1de06fe8d3109de867c7e04",
+    "src/pokeeper/core.py": "37773a2c3f722654f0013cbca9d62862f0ff6940712a134df91fba45d790fdb8",
+    "src/pokeeper/gemini.py": "a509ec00e77bad3040ab094223977c8883193b2351367cdd77897a2976417c7c",
+    "src/pokeeper/transaction.py": "d0d53ab3be315e0e8ea12aad402c80ae7721b174bbdc6fa15cd57a27535d0687",
+    "src/pokeeper/validation.py": "2919b8b3155fe51b3e4f1f1fb29c4783a68b13f01348ac1bc172cb917d3598af"
+  },
+  "status": "PASS"
+}

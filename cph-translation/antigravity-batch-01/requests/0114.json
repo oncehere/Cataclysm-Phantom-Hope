@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "680781094a80846b39a2fe7227c722903f57c3b6f868c6f817ec3e6d4105c9ac",
+      "identity": [
+        null,
+        "Since we're stripping you down to flesh and bone you need to survive, we can take the time to salvage your CBMs, and keep it all intact, reinstalled in your new Cyberframe.  But your limbs and other parts will be exchangeable, like bionics.  In the future, if you take off a limb, you'll have to remove your CBMs, fix them, clean them, and reinstall them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Since we're stripping you down to flesh and bone you need to survive, we can take the time to salvage your CBMs, and keep it all intact, reinstalled in your new Cyberframe.  But your limbs and other parts will be exchangeable, like bionics.  In the future, if you take off a limb, you'll have to remove your CBMs, fix them, clean them, and reinstall them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in EoC 'EOC_GRACKEN_REPLACE_MUTATION'",
+      "flags": [],
+      "id": "682bb85593e4ab091c87ec9a74d385d48d7cf0f145122e6c438128f6967a8672",
+      "identity": [
+        null,
+        "You destroyed the organ trying to merge it into your body.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/gracken_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You destroyed the organ trying to merge it into your body.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "68323f19b316952d8832a3988eb04ed2a73c933f41ed22344b777ddbbc7d291c",
+      "identity": [
+        null,
+        "Actually, hold on, Doc.  Can you take these things off me?  I'm not ready.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually, hold on, Doc.  Can you take these things off me?  I'm not ready.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'labrys lesbian flag' of armor 'pride flag'",
+      "flags": [],
+      "id": "6835eb468054e7547b1feabb44816893fc2dfe127a750224c009b1a97619d016",
+      "identity": [
+        null,
+        "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/obsoletion_and_migration_0.J/pride_flag.json",
+          ""
+        ],
+        [
+          "data/mods/pride_items/variants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in result of recipe crafting\n'EOC_PREPARE_LEARN_THAUMATURGY_NOTES'\n~ Player message in false effect in result of recipe crafting\n'EOC_STUDY_OCCULT_RESEARCH_NOTES'",
+      "flags": [],
+      "id": "684359a1ab73dad23a209f0d13266fdc8d47a7b4bf15db67617819c8bab189f5",
+      "identity": [
+        null,
+        "You really thought you had something here, but it's just a dead end.  You'll have to try again with a new approach.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ],
+        [
+          "data/mods/XedraWood/recipes/occult_knowledge.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You really thought you had something here, but it's just a dead end.  You'll have to try again with a new approach.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Cattail Seedling'",
+      "flags": [],
+      "id": "68670d1581fb27c2fa28ccec8f6774887829116bca65b1b5676b341a3a84e4b0",
+      "identity": [
+        null,
+        "A young cattail seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young cattail seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'deep pond water'",
+      "flags": [],
+      "id": "6895a0341e0c73373ff0375bfc6d7b7e494433dc1795fe543c7a62efb3ebfe7b",
+      "identity": [
+        null,
+        "The deep water of a small pond.  This closed body of water can be drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The deep water of a small pond.  This closed body of water can be drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "68a1aabbf765fe0c48b3ec88aff1e15533f8f9129be44e0a8318a56267ceaa17",
+      "identity": [
+        null,
+        "[1h] Could you to patch my friends up?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[1h] Could you to patch my friends up?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'grey' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "68a6ded5083d50cca590a9474eee3728924632c06ec73d011343ae2bcc69ae6b",
+      "identity": [
+        null,
+        "This one is <color_prefix_brightness> grey.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix_brightness> grey.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation '草木同春'",
+      "flags": [],
+      "id": "68aa120424ffbb980562d2043354b1eefe015c8d6312b77aab1f9a242fb37428",
+      "identity": [
+        null,
+        "久修木行所成之体。生机内蕴，与草木同其荣枯——伤势愈合稍快，气力恢复略增，所御木行之力愈纯。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "久修木行所成之体。生机内蕴，与草木同其荣枯——伤势愈合稍快，气力恢复略增，所御木行之力愈纯。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "68b2a899d9940281f9e00f5089ecff85ebc7a1d07f360a152c3a89d9686e6d2c",
+      "identity": [
+        null,
+        "This floating island is your base of operations, isolated and safe.  When you are ready, use the Warp Obelisk to teleport down to the surface and begin an expedition.  Scavenge, kill, explore, and reach the exit to return here.\n\nShould you die, you will be saved from death and returned to the island, though you will lose EVERYTHING that you were carrying.\n\nGo on expeditions, clear missions, stockpile supplies, upgrade this island, and prepare yourself for your next outing with the equipment you have retrieved.  Repeat until you are an unstoppable force!\nGood luck.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/dialog_statue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This floating island is your base of operations, isolated and safe.  When you are ready, use the Warp Obelisk to teleport down to the surface and begin an expedition.  Scavenge, kill, explore, and reach the exit to return here.\n\nShould you die, you will be saved from death and returned to the island, though you will lose EVERYTHING that you were carrying.\n\nGo on expeditions, clear missions, stockpile supplies, upgrade this island, and prepare yourself for your next outing with the equipment you have retrieved.  Repeat until you are an unstoppable force!\nGood luck.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Underwent Spirit-Quest'",
+      "flags": [],
+      "id": "68c8720ebc0f4968bb8ea31909f2aa051268c6b70f025e67c86ba6c90e93f462",
+      "identity": [
+        null,
+        "Your spirit has recovered from your quest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/recipe_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your spirit has recovered from your quest.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

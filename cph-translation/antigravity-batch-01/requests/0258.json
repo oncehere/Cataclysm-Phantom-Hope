@@ -1,0 +1,271 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f72ae06dc3c40488d28cc843bcb2c0a2e9705d16e77226d74294038bc3d4c384",
+      "identity": [
+        null,
+        "How would I get to these \"labyrinths\"?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How would I get to these \"labyrinths\"?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION'\n~ Player message in 'else' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION'\n~ Player message in 'then' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_AGILITY_FINALIZATION'\n~ Player message in 'else' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_AGILITY_FINALIZATION'\n~ Player message in 'then' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RESILIENCE_FINALIZATION'\n~ Player message in 'else' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RESILIENCE_FINALIZATION'\n~ Player message in 'then' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RECOVERY_FINALIZATION'\n~ Player message in 'else' statement in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RECOVERY_FINALIZATION'",
+      "flags": [],
+      "id": "f7563c78969888a3fb44f11d6b5ead87d04666cbc3c5cc26130d9f468de248fe",
+      "identity": [
+        null,
+        "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f76b9a49785a0914322b87c475f9bf4e0533472ad2132e3c1d1fe4f4f306dfb6",
+      "identity": [
+        null,
+        "Your partner saved — the shared world was saved too.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "2659"
+        ]
+      ],
+      "plural": null,
+      "singular": "Your partner saved — the shared world was saved too.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_a>'\n~ They're all about why hunters can't do much against vampires currently,\nexplaining why they're enlisting the player and sending them alone for the\nnon-hardest missions.",
+      "flags": [],
+      "id": "f79d3110752b9951d03714aaf89ac0bdb146a3627f19e8e0013d04a8e1de1fc5",
+      "identity": [
+        null,
+        "the creatures from the holes in existence",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the creatures from the holes in existence",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "f7a6f144dcab01734fe6cae90cd60015afbf9e634f032aaa2fd5d220bd169439",
+      "identity": [
+        null,
+        "photography collection",
+        "photography collections"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "photography collections",
+      "singular": "photography collection",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'lab_file_serum_testing_learning' of item\n'production tests'",
+      "flags": [],
+      "id": "f7b8aaf38f1575deffc03bd50331371d2cc2b7d17f0fc3c4e8ac093f6bc18b57",
+      "identity": [
+        null,
+        "\n\n<serum_testing_learning>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/newspaper.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\n\n<serum_testing_learning>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Hm.  That's a really big ask.  You seem to be the sort of person who\nwould ask for this kind of thing, but are you certain you want to be\npermanently attached to this suitcase?  You sure you're thinking clearly?\nThis isn't like the CBMs I sell.  There's no going back.  And you better be\nable to produce enough power.  These need constant power.  Without it,\nyou're as good as dead.  For a Cyberframe like mine, one power storage unit\nwill last less than an hour of walking.  Less if you're fighting or\nrunning.  It's not an easy life.",
+      "flags": [],
+      "id": "f7bc029db3b653c217c749d77e4d4c345e5600dda7a34212562be10abc092808",
+      "identity": [
+        null,
+        "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "f7c6b823a34de943a2d14a656e18f25c1f7fd8dc18b94f661e5fdaa268077e31",
+      "identity": [
+        null,
+        "How does CRYPTIC FORGE control darkness?  Darkness is not a thing, there are no \"skotons\" that they could emit to cancel out existing light, but that seems to the casual observer what is happening.\n\nB81 was instructed to cancel the light within a one-meter area in the center of the testing chamber.  The lights were extinguished and blackout curtains hung over all observation windows.  The area was first exposed to candlelight (12 lumens), showing a distinct border of the area.  A flashlight (350 lumens) was trained on the area as well, with a similar effect, though the directional light from the flashlight was sufficient to demonstrate that light did not penetrate the area.  A high-powered flashlight (6000 lumens) shown from the corner illuminated most of the testing area and clearly delineated the borders of the area, as well as casting a shadow on the wall opposite of the light source.  Finally, the blackout curtains were removed and, after instructing B81 to close their eyes, a floodlight (118K lumens) was shone on the area, again to no effect.\n\nThe initial hypothesis, that CRYPTIC FORGE is somehow suppressing or allowing photons to \"jump\" through the area, is incorrect.  Assuming that conservation of energy is still in effect (since, without assuming that we have no basis to determine anything), it is instead possible that the photons are somehow absorbed by the affected area in a way that does not inhibit movement, in the same way that space seems mostly empty but large amounts of radiation are absorbed by cosmic dust.  Unfortunate that we don't have access to a particle accelerator to test various particles' interactions with the effect.\n\nI have already submitted a proposal to test CRYPTIC FORGE's ability to block microwaves, radio waves, X-rays, and other elements of the electromagnetic spectrum, and am waiting on successful procurement of the necessary equipment.\nAdam Brenner\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How does CRYPTIC FORGE control darkness?  Darkness is not a thing, there are no \"skotons\" that they could emit to cancel out existing light, but that seems to the casual observer what is happening.\n\nB81 was instructed to cancel the light within a one-meter area in the center of the testing chamber.  The lights were extinguished and blackout curtains hung over all observation windows.  The area was first exposed to candlelight (12 lumens), showing a distinct border of the area.  A flashlight (350 lumens) was trained on the area as well, with a similar effect, though the directional light from the flashlight was sufficient to demonstrate that light did not penetrate the area.  A high-powered flashlight (6000 lumens) shown from the corner illuminated most of the testing area and clearly delineated the borders of the area, as well as casting a shadow on the wall opposite of the light source.  Finally, the blackout curtains were removed and, after instructing B81 to close their eyes, a floodlight (118K lumens) was shone on the area, again to no effect.\n\nThe initial hypothesis, that CRYPTIC FORGE is somehow suppressing or allowing photons to \"jump\" through the area, is incorrect.  Assuming that conservation of energy is still in effect (since, without assuming that we have no basis to determine anything), it is instead possible that the photons are somehow absorbed by the affected area in a way that does not inhibit movement, in the same way that space seems mostly empty but large amounts of radiation are absorbed by cosmic dust.  Unfortunate that we don't have access to a particle accelerator to test various particles' interactions with the effect.\n\nI have already submitted a proposal to test CRYPTIC FORGE's ability to block microwaves, radio waves, X-rays, and other elements of the electromagnetic spectrum, and am waiting on successful procurement of the necessary equipment.\nAdam Brenner\nResearcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Query: really descend with 'veh_LADDER'?",
+      "flags": [],
+      "id": "f7d9773debc077d477fbbfe20a24739d7b25388f7b5b2b713b8a3c09eca56926",
+      "identity": [
+        null,
+        "Climb down the vehicle ladder?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/climbing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Climb down the vehicle ladder?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f7fb4d064f47f1e440300ae8fcefa7653d83c5fb4261700c6663e65c9ebf00f4",
+      "identity": [
+        null,
+        "Who are the Free Merchants?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Who are the Free Merchants?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f80a7d7074e0e01421831429193ad852e44f0f02a9150c1792fa4c732532e261",
+      "identity": [
+        null,
+        "I don't know where it came from but during the Cataclysm it was like the veil was lifted from my eyes and I suddenly realized I'd never been from here.  But I don't really know where I'm from just yet.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I don't know where it came from but during the Cataclysm it was like the veil was lifted from my eyes and I suddenly realized I'd never been from here.  But I don't really know where I'm from just yet.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f82146e7ce2b548484f2286dfaf3724959232acf6c5713e3024c2d965dfba2ad",
+      "identity": [
+        null,
+        "SHADOW URGE: Improve Agility.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SHADOW URGE: Improve Agility.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

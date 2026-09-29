@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "ed033bee891e7d607e1c4b1608f2fde6028340de71cb6cc97a82d7ba0951d28d",
+      "identity": [
+        null,
+        "Notes:\nRecruiting additional followers is very dangerous and expensive.  The outcome is heavily dependent on the skill of the companion you send and the appeal of your base.\n\nSkill used: social\nDifficulty: 2\nBase Score:                   +%3d%%\n> Expansion Bonus:            +%3d%%\n> Faction Bonus:              +%3d%%\n> Special Bonus:              +%3d%%\n\nTotal: Skill                  +%3d%%\n\nRisk: High\nTime: 4 Days\nPositions: %d/1\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/faction_camp.cpp",
+          "5424"
+        ]
+      ],
+      "plural": null,
+      "singular": "Notes:\nRecruiting additional followers is very dangerous and expensive.  The outcome is heavily dependent on the skill of the companion you send and the appeal of your base.\n\nSkill used: social\nDifficulty: 2\nBase Score:                   +%3d%%\n> Expansion Bonus:            +%3d%%\n> Faction Bonus:              +%3d%%\n> Special Bonus:              +%3d%%\n\nTotal: Skill                  +%3d%%\n\nRisk: High\nTime: 4 Days\nPositions: %d/1\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ed0b2a16295c782f0cefdf1420abcbff2d1c1ff4cb4300c39c4bdab682609bff",
+      "identity": [
+        null,
+        "So about those services…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So about those services…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'ROBOFAC_BACK'",
+      "flags": [],
+      "id": "ed0d4aa1b835df25e69dd2685983821ae1f66fd857b546d80be59574d6a90fd9",
+      "identity": [
+        null,
+        "This item is a Hub 01 BACK exoskeleton.  It requires an implanted XM-LEG interface and it must be worn with ARM and LEG exoskeletons to function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This item is a Hub 01 BACK exoskeleton.  It requires an implanted XM-LEG interface and it must be worn with ARM and LEG exoskeletons to function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ed1dd0706a373ba441f4623ba0ab5d95e455f84fe4cd98a79ba7949a40eb8549",
+      "identity": [
+        null,
+        "You can't drive from here — no controls.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3649"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't drive from here — no controls.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ed20b65dfe9f660e7d09baba984ed5e3dc13851069f08a01d6389bcb0168cf20",
+      "identity": [
+        null,
+        "Potentially.  We recently came into possession of a video taken during the first days of <the_cataclysm> using a home camcorder.  We have ruled out possible tampering, and conclude that the recording is legitimate.  It depicts an entity that appeared to rapidly change shape, but responded especially strongly to human presence.  Eventually, the entity reshaped itself into a small object, which the author of the recording claimed had anomalous properties.\"\n\n\"Subsequent entities of this type have failed to manifest during remote observation of the phenomenon.  We hypothesize that, if they do exist at all, they may only appear in response to human presence.  While we consider the hypothesis too dangerous and too uncertain to test using our own resources, we would be eager to hear the results if you attempted to do so yourself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Potentially.  We recently came into possession of a video taken during the first days of <the_cataclysm> using a home camcorder.  We have ruled out possible tampering, and conclude that the recording is legitimate.  It depicts an entity that appeared to rapidly change shape, but responded especially strongly to human presence.  Eventually, the entity reshaped itself into a small object, which the author of the recording claimed had anomalous properties.\"\n\n\"Subsequent entities of this type have failed to manifest during remote observation of the phenomenon.  We hypothesize that, if they do exist at all, they may only appear in response to human presence.  While we consider the hypothesis too dangerous and too uncertain to test using our own resources, we would be eager to hear the results if you attempted to do so yourself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Scroll of Reactive Armor'",
+      "flags": [],
+      "id": "ed2fc1ba9610a8b2697392780e5639f73720c064d2dd019b28e86617b6ed240e",
+      "identity": [
+        null,
+        "Explode your stone skin to deal massive damage to all enemies around.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/spell_scrolls.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Explode your stone skin to deal massive damage to all enemies around.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ed66a7a83cd7306144f9705c107f60ac0e3afb5ec1dd3276a738fea8e088800c",
+      "identity": [
+        null,
+        "The total price is too high.  Choose a smaller area.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "899"
+        ],
+        [
+          "src/npctalk_funcs.cpp",
+          "1121"
+        ]
+      ],
+      "plural": null,
+      "singular": "The total price is too high.  Choose a smaller area.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "ed9148c4512fda2b5e439b0dc4bb97b740b0f7c2e514c819f8434e4a25ad1cb6",
+      "identity": [
+        null,
+        "CO-OP: may break.  The scripted intro and the sleep-death mechanic run only on the host and are skipped for the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "157"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  The scripted intro and the sleep-death mechanic run only on the host and are skipped for the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'low pool water'",
+      "flags": [],
+      "id": "eda95e1626007154628dfb0597679b7c867ad86c3372a8c2fd72f1b89873e2de",
+      "identity": [
+        null,
+        "Only shallow water remains over the deep bottom of this indoor pool.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only shallow water remains over the deep bottom of this indoor pool.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (gold from lead)'",
+      "flags": [],
+      "id": "edea0690a190f01e06b5be2bf10420d9c1d564ae975e5288077f8cfab54dfbab",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for making pure gold out of lead as its main base metal.  You've read about the futile attempts from alchemists at the middle ages, but this recipe requires some metal you've never known existed.  Surely this one will fail like the other recipes, right?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for making pure gold out of lead as its main base metal.  You've read about the futile attempts from alchemists at the middle ages, but this recipe requires some metal you've never known existed.  Surely this one will fail like the other recipes, right?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "edf2f6023baa29302acae7526850f9b59b697f45559feee3f4f619d7204e7816",
+      "identity": [
+        null,
+        "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasant.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasant.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'miner bot'",
+      "flags": [],
+      "id": "edfe7dc86e62f63dbbc18a80b5a3684ac3785cfb763569f3981dce15013c53d9",
+      "identity": [
+        null,
+        "A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/monsters/utility_bot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系"
+  }
+}

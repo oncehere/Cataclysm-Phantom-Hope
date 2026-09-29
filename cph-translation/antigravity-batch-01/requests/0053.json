@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Battlehammer'",
+      "flags": [],
+      "id": "2827be7c36d69b40d89d7f0515052615d1920af1d2ac798cdfb8cc39eb1c84b0",
+      "identity": [
+        null,
+        "A strategy game featuring a set of tiny figurines of fantasy creatures.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/fluff.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A strategy game featuring a set of tiny figurines of fantasy creatures.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'black glass figure'",
+      "flags": [],
+      "id": "28282ec11c9bc435c86f7ce15d4c1d06ad7da45af0166bb66e2218bbe9966153",
+      "identity": [
+        null,
+        "A black glass figure of a…person?  One arm is visibly longer than the other and the eyes are offset from a horizontal line.  They are frozen hunched over, with their longer arm trailing on the ground.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture_vitrified.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A black glass figure of a…person?  One arm is visibly longer than the other and the eyes are offset from a horizontal line.  They are frozen hunched over, with their longer arm trailing on the ground.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "28afa122e87f2b02c0a466519f18f96f8bc5bb8d23eb7fd3620959b2da154ab0",
+      "identity": [
+        null,
+        "Sensitivity: ",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/item_info.cpp",
+          "519"
+        ],
+        [
+          "src/item_info.cpp",
+          "617"
+        ]
+      ],
+      "plural": null,
+      "singular": "Sensitivity: ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'abstract socks'",
+      "flags": [],
+      "id": "28dc8111a3abb18268f9322408a449aaceaa354c45034de61a4eb5e0c1d6d04c",
+      "identity": [
+        null,
+        "Abstract socks.  If you see this it's a bug, please report.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Abstract socks.  If you see this it's a bug, please report.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Watermelon Seedling'",
+      "flags": [],
+      "id": "28eb357dcb9842e1d18f1eab35f7ef36792779e337b24ac8668b7d52e772d175",
+      "identity": [
+        null,
+        "A young watermelon seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young watermelon seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "290234c8130874505e3c0857745bfa8e4fd80fc2dc91cf49327703566bcd4082",
+      "identity": [
+        null,
+        "We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  Your bionics.  You didn't get them from around here.  You've got two minutes to get out of here.  You are not welcome here.  Got it?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  Your bionics.  You didn't get them from around here.  You've got two minutes to get out of here.  You are not welcome here.  Got it?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "2904f437aff7a750890890e7b6736bdc18de39ec39479ed320be2e48e2d83248",
+      "identity": [
+        null,
+        "Rune-Lore",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rune-Lore",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in EoC 'EOC_LS_earth_jaunt_extraction'",
+      "flags": [],
+      "id": "2949fa8fd2dffa1f7be96c8d1a660a669a76cdccfa71449f3f04daf21ff5f162",
+      "identity": [
+        null,
+        "Your body tenses in expectation of the tightening in your throat, but it doesn't come.  Your voice has returned, and you feel a bit lighter.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/labyrinth_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body tenses in expectation of the tightening in your throat, but it doesn't come.  Your voice has returned, and you feel a bit lighter.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '葳蕤经'",
+      "flags": [],
+      "id": "294d7390c7cb4cd6da1958b8800fdd43e943a0e04cb3f87c7bcc996cdf8bebdc",
+      "identity": [
+        null,
+        "一部完整的木行修炼功法，封皮以青藤缠绕，纸页似有草木清气。所载养荣导引引木行生气入体，使经脉常青、生机不绝。乃练气期之法。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一部完整的木行修炼功法，封皮以青藤缠绕，纸页似有草木清气。所载养荣导引引木行生气入体，使经脉常青、生机不绝。乃练气期之法。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'blue' of armor 'abstract garment with basic\nvariants'",
+      "flags": [],
+      "id": "2961b896d597bed14463708db4a4eb49748b69e597c432229efd1d1d585ea5da",
+      "identity": [
+        null,
+        "This one is <color_prefix> blue.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/asbtract_garments.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This one is <color_prefix> blue.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Hub 01 XM-ARM Interface'",
+      "flags": [],
+      "id": "2966ff102631e0fab989f432e25ab73fca6b0169c11f8865d94818f6ed71679b",
+      "identity": [
+        null,
+        "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Arm Reinforcement Motionframes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into cybernetic implants that allow a neurobionic interface to communicate with external devices.  These implants will allow your neurobionic interface to communicate with Hub 01 Arm Reinforcement Motionframes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of loot zone",
+      "flags": [],
+      "id": "29f746da2c4491adc850bd497a5a0db554bc5babe3dbfa34d3232d3aca6a6db7",
+      "identity": [
+        null,
+        "Vehicle Service Output",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/zones.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vehicle Service Output",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Success message of fault fix 'Patch Carbide Armor'",
+      "flags": [],
+      "id": "19aa93d41f1249db2b5f8bd832a5b5036a28f6e003daafb3a6b13d6cb985d4ac",
+      "identity": [
+        null,
+        "You use the patch kit to repair the worst of the damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/recipes/fault_fixes_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You use the patch kit to repair the worst of the damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '寒泉迸'",
+      "flags": [],
+      "id": "19c2d6b358057306160eaee3ad07e2cca3c59a822a65c58b4c679719a469c90d",
+      "identity": [
+        null,
+        "引水行至阴之气凝于掌心，催作一道激射的寒泉掷出，及地迸裂四溅，刺骨寒涛冲击周遭。基础水行攻击法术，凡引气入体者皆可习练。威力由灵气强度与水行极化决定，与境界、功法相关，而非苦练熟巧。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_attack.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "引水行至阴之气凝于掌心，催作一道激射的寒泉掷出，及地迸裂四溅，刺骨寒涛冲击周遭。基础水行攻击法术，凡引气入体者皆可习练。威力由灵气强度与水行极化决定，与境界、功法相关，而非苦练熟巧。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Simple, really.  You'll still be human on the inside.  Most of your meat\nwill be there.  Even a lot of your muscle and bone.  But your arms and legs\nwill mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but\nthey'll be part of the armored interface.  They'll all need power to work\nproperly.  It'll all still work a bit without it, but it's not pleasant.\nYour torso and head, and everything in them, will be integrated into the\nshell itself.  Your body will keep everything going as it is now, so no\nneed for power there.  You'll be more sturdy, and the machines will do most\nof the hard work for you, so no more worrying about getting out of breath\nwhile running from the dead.  But that's only if you keep it powered and in\ngood repair.",
+      "flags": [],
+      "id": "19ca9e5b38ab472fe375700b3cddce925059ef475321b61f3237baabc68b82db",
+      "identity": [
+        null,
+        "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'message' action message of item 'portable cassette player (off)'",
+      "flags": [],
+      "id": "19ecf6630e4623a09819b2ab7b847601245be06197369877bbc85a45f957c3e8",
+      "identity": [
+        null,
+        "You slip in a cassette, put on headphones, and start listening to music.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/classic_zombies/items/tools.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You slip in a cassette, put on headphones, and start listening to music.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'dragonfly head'",
+      "flags": [],
+      "id": "19eda432e859a6c31d8c59347695f1988bd65dc9c68f719abc01bb62af06934a",
+      "identity": [
+        null,
+        "d. head",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "d. head",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "19fc60cfb932ddd7e8173431c02a82df90ac961fff323d1271584f7367f0d26b",
+      "identity": [
+        null,
+        "The passenger must leave this part before it can be removed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "458"
+        ]
+      ],
+      "plural": null,
+      "singular": "The passenger must leave this part before it can be removed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'gray alien plushie' of item 'plush toy'",
+      "flags": [],
+      "id": "1a06368396f3352faec2320a2c1047fce87bb0fd3570681131bc1dc5a916de65",
+      "identity": [
+        null,
+        "A gray alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/toy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A gray alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'Shia LaBeouf'",
+      "flags": [],
+      "id": "1a40e45e97420ab19a3d4d4e8a5f49e69b1154cd1441b7bc102da103a1b76e69",
+      "identity": [
+        null,
+        "Living in the woods,\nkilling for sport,\neating all the bodies--\nactual cannibal Shia LaBeouf.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/CrazyCataclysm/crazy_monsters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Living in the woods,\nkilling for sport,\neating all the bodies--\nactual cannibal Shia LaBeouf.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1a4506329c287f1bd8508971e6039ed9a1eb611fcf887f6cc58f36d83bb173c5",
+      "identity": [
+        null,
+        "How fortunate that some of them are only regular people with an illness they want cured.  This is why we first try to cure: as long as they do not cross the point of no return with the horrible actions it requires, they are innocent until proven otherwise.  Thank you for saving an innocent from this plague.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How fortunate that some of them are only regular people with an illness they want cured.  This is why we first try to cure: as long as they do not cross the point of no return with the horrible actions it requires, they are innocent until proven otherwise.  Thank you for saving an innocent from this plague.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'ash' step 1",
+      "flags": [],
+      "id": "1a6f869c1a00211c79231a7ca9040de41790b1e47dbf467d064123b73fcb2876",
+      "identity": [
+        null,
+        "Let it burn",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/other/materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Let it burn",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC message in false effect in EoC 'EOC_TELEKINETIC_THROW_WEIGHT_HANDLER'",
+      "flags": [],
+      "id": "1a734ec3ccdeac42864fe789bd332fe9cf4863fb0cdd3070172afa5b04944491",
+      "identity": [
+        null,
+        "You can't get a hold of the target!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/telekinesis_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't get a hold of the target!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'spaghetti_cooked' step 1",
+      "flags": [],
+      "id": "1a7859abe414c01badef925fa241f50a97b47021e1e4b21d5ed2dee258a1738f",
+      "identity": [
+        null,
+        "Stir While Boiling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/pasta.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stir While Boiling",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

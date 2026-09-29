@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "efb6b8f3c899bcfa2a35cb956404fc18802b58a8b484c6023bfc8f5af060adec",
+      "identity": [
+        null,
+        "Existentialism and Humanism",
+        "copies of Existentialism and Humanism"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Existentialism and Humanism",
+      "singular": "Existentialism and Humanism",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "eff8a4e6d8218ae82c99137ddc945b5a6d788628a3c1e248b58cbd9f135dd251",
+      "identity": [
+        null,
+        "You don't need Thorazine, it's limiting you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't need Thorazine, it's limiting you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Level description of skill 'spellcraft'",
+      "flags": [],
+      "id": "f01aeb5357e5474a8ecf628b26d3950d25133a05e67fbe667cd90eb2caa460ae",
+      "identity": [
+        null,
+        "You grasp the underlying logic of the arcane and have worked in some thaumaturgy research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/skills.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You grasp the underlying logic of the arcane and have worked in some thaumaturgy research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'smudged map'",
+      "flags": [],
+      "id": "f0256a268c0463e2f54074728a5f1b3d665fa180b65d5f1b139b7eb74f9c5d6c",
+      "identity": [
+        null,
+        "A scrap of paper bearing crude lines all over it.  The only noteworthy location is a small building with a few arrows pointing at it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/book_lore.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A scrap of paper bearing crude lines all over it.  The only noteworthy location is a small building with a few arrows pointing at it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f03967e9427323aff55abe4bb238141ac658901f3fc3317a2b8fcbcac2dc92b2",
+      "identity": [
+        null,
+        "Use the Warp Obelisk to reach the surface and begin an expedition to a random place on the surface.  Find the exit marked on your map and get there in time with all the loot you can carry and to bring it back to the island!\nDying on expedition will return you home safely, but you will lose EVERYTHING you had with you.  Keep spare gear at home so you can quickly resupply!\n\nThe time limit is enforced by warp pulses, which hit you at regular intervals.  After 8 pulses, you suffer warpsickness, which rapidly reduces your stats with each pulse.  After 12 pulses, your body begins to disintegrate, taking damage until you die.  Get home safely to reset the pulses!\n\nCertain upgrades can unlock new varieties of expeditions, or improve your survivability.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/dialog_statue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Use the Warp Obelisk to reach the surface and begin an expedition to a random place on the surface.  Find the exit marked on your map and get there in time with all the loot you can carry and to bring it back to the island!\nDying on expedition will return you home safely, but you will lose EVERYTHING you had with you.  Keep spare gear at home so you can quickly resupply!\n\nThe time limit is enforced by warp pulses, which hit you at regular intervals.  After 8 pulses, you suffer warpsickness, which rapidly reduces your stats with each pulse.  After 12 pulses, your body begins to disintegrate, taking damage until you die.  Get home safely to reset the pulses!\n\nCertain upgrades can unlock new varieties of expeditions, or improve your survivability.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'satire novel'",
+      "flags": [],
+      "id": "f0491969bf91cf63d14b2a773f41abdb784874129b9b282a8cad957dab93f952",
+      "identity": [
+        null,
+        "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'faewild_addiction_dream'",
+      "flags": [],
+      "id": "f04f5d351bdd56de23dd9c69a874a07d2fe3182f3758d5784882b43f8af0a888",
+      "identity": [
+        null,
+        "Hope is dead, it rode alone up to the gates of Hell.  It was crushed in a mass of people.  You were pushed away to the edges of the crowd.  The last you saw was hope pulled down screaming.  Nothing will ever have meaning again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/addiction_snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Hope is dead, it rode alone up to the gates of Hell.  It was crushed in a mass of people.  You were pushed away to the edges of the crowd.  The last you saw was hope pulled down screaming.  Nothing will ever have meaning again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f05736383b017a1af0dfe43dd66907c0f3c9b17b79d97fa492deb1267daf86c9",
+      "identity": [
+        null,
+        "[Integrate your body into an Exodii Cyberframe 1a] Okay, I'll take 1a, the bulky, armored frame.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Integrate your body into an Exodii Cyberframe 1a] Okay, I'll take 1a, the bulky, armored frame.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Bound in Ebon Bands'\n~ Message of spell 'The Baying of Hounds'\n~ Message of spell 'The Withering'",
+      "flags": [],
+      "id": "f0605719eee90c7a12ceaa2b64a00b052bbd8a3d05f9adf170e7b15297a8e75a",
+      "identity": [
+        null,
+        "You intone the words of the spell.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/nether_sorcery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You intone the words of the spell.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'MoM AEA Artifact Psychic Scream'",
+      "flags": [],
+      "id": "f0885dcff6699506abff4f5f292d39b7de9e876a57547f52dc88f3e9d09650c3",
+      "identity": [
+        null,
+        "You hear loud static in the back of your mind.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You hear loud static in the back of your mind.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "f08c3b5fc6cc94fe97b872b5da0484527708ee7af1699e9119314c4e6b4e6b7f",
+      "identity": [
+        null,
+        "Must have athletics 4",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Must have athletics 4",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f0a23e6104d61c2fff7152720e20e9835e202b14a97348bade85412f5f59fe3d",
+      "identity": [
+        null,
+        "During the Cataclysm a boulder spoke to me and told me that I was descended from the folk of stone and mountains.  Afterwards I noticed my ears had changed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "During the Cataclysm a boulder spoke to me and told me that I was descended from the folk of stone and mountains.  Afterwards I noticed my ears had changed.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

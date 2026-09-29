@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5c0938501c6597805f35db001a41040599cf4c6674b04a81547c0533613db8c8",
+      "identity": [
+        null,
+        "What do I get in exchange?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What do I get in exchange?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'right middle tentacle'",
+      "flags": [],
+      "id": "5c28db397eb245d34bd81f5aca02a27539c2561dbf0babbefb51ba7cd31444a1",
+      "identity": [
+        null,
+        "r. m. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "r. m. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'dragon-bird skull helmet'",
+      "flags": [],
+      "id": "5c39b7ae40da428c0252e7fd90253573861c5cab37e9a0966cdcab4fc713f416",
+      "identity": [
+        null,
+        "The top part of a dragon-bird skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/armor/head.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The top part of a dragon-bird skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5c4ccd5e9281a458ac0a5e57a39e8ac00edc6a16567ada7d4f15cc4d98e92b6b",
+      "identity": [
+        null,
+        "Probably fine then.  <end_talking_leave>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Luliya.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Probably fine then.  <end_talking_leave>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'green alien plushie' of item 'plush toy'",
+      "flags": [],
+      "id": "5c518be9fd81c823e5654c580973bb4da41b36eb8605211075f5f38edb760198",
+      "identity": [
+        null,
+        "A green alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/toy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A green alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'All-Star Pitch'",
+      "flags": [],
+      "id": "5c5580c1a9141de9d61332c9d160d6b4d8acbcd78e21653f6ae07bf1dcbbbff9",
+      "identity": [
+        null,
+        "If you throw a grenade at someone, it will first cave their skull in.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you throw a grenade at someone, it will first cave their skull in.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_mutagen_animal'\n~ Long-form, low-level mutagen test logs - no human studies",
+      "flags": [],
+      "id": "5c6cb9db2957ff64544c629a776f0eebc5031bd31bd6c6b185a77f12eded0f08",
+      "identity": [
+        null,
+        "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 mL oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 mL oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'foon'",
+      "flags": [],
+      "id": "5c9b060b07b552753627f670645545baaef7b2d5a0e67c364b728f7467bafb9e",
+      "identity": [
+        null,
+        "Clearly the superior instrument.  Sporks are just imitators.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic/dining_kitchen.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Clearly the superior instrument.  Sporks are just imitators.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "5cbc1dad58d1292c9685761309316ad302cc99a986493422ad48d3b25344af20",
+      "identity": [
+        null,
+        "Insufficiently servile.  No matter, there are more servants elsewhere.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Insufficiently servile.  No matter, there are more servants elsewhere.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Hops Seedling'",
+      "flags": [],
+      "id": "5cbff0e62a3e7d8d51c3ddff9d72e3dca4c22dbe1a7530fdb6fa95f245842ef4",
+      "identity": [
+        null,
+        "A young hops seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young hops seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '摄血息'",
+      "flags": [],
+      "id": "5cea65e2af619375949c3f84d4deee1396519123621fbc5df6deac60a8b28a25",
+      "identity": [
+        null,
+        "血煞炼尸功的吐纳法门。摄死气血煞入体，炼尸为养，催修为暴进——然反噬经脉、有损根本。此乃邪道捷径，慎之。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "血煞炼尸功的吐纳法门。摄死气血煞入体，炼尸为养，催修为暴进——然反噬经脉、有损根本。此乃邪道捷径，慎之。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "5cf13cd645d0c780f56969472de05ff36e2dcd78699b7334de46ad921c6e4d26",
+      "identity": [
+        null,
+        "socks",
+        "socks"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/socks.json",
+          ""
+        ]
+      ],
+      "plural": "socks",
+      "singular": "socks",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'dry_meat' step 2",
+      "flags": [],
+      "id": "5d8fa7da177b87f5f443da8503f375faf206e65ba45188545d5bcc14810921bb",
+      "identity": [
+        null,
+        "Dehydrate the strips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dehydrate the strips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Construction group name",
+      "flags": [],
+      "id": "5d987421db8f11dc03ba2aa48cbafd6ef31898a74a53a22fb144a5d486e33325",
+      "identity": [
+        null,
+        "Fill a Water Channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/construction_group.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fill a Water Channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "5da24aaf9df045ad6e17c2695192cbc715bf1ab818dc778a2a14859f90e68ce6",
+      "identity": [
+        null,
+        "Remove the %1$s from the %2$s for %3$s?  All recovered items will be placed on the front counter.  Estimated time: %4$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1052"
+        ]
+      ],
+      "plural": null,
+      "singular": "Remove the %1$s from the %2$s for %3$s?  All recovered items will be placed on the front counter.  Estimated time: %4$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_sec'\n~ Long-form interrogation transcripts, surveillance logs",
+      "flags": [],
+      "id": "5dd1fcfcd00e61c1370dd71660083cb7cf4ea10c8683005f2568845aa6a47221",
+      "identity": [
+        null,
+        "\"Please state your name and ID for the record.\"\n\n\"Dr. Maria Catarina Gonzales, S-7531.\"\n\n\"Thank you, Doctor.  You know why we're here, don't you?  Please tell us about your previous project supervisor.\"\n\n\"Ruslan was…\"\n\n\"Ruslan?\"\n\n\"I'm sorry, Dr. Lavochkin was extremely enthusiastic about our research when I arrived in the facility.  That enthusiasm had a way of dragging people with him, you know?  We wanted to see our subjects as he did, full of wonder and untapped potential.\"\n\n\"Did he ever tell you what it was that you were working on?\"\n\n\"Not really, no.  We were to \"characterize the effects of need-to-knowium on a wide range of living subjects\" was his little joke, back when he made jokes.\"\n\n\"When did that change?\"\n\n\"He became a lot more distant when we began testing PE050 and PE150, the intravenous formulation.  He sent us back to the pods way before he left the lab, and he started muttering about \"preparing the world\" for something under his breath.  That coincided with him requisitioning more… exotic test subjects.\"\n\n\"How did he rationalize those?\"\n\n\"He could be very convincing, and we were happy to see that spark again.  You want to hear about the centipedes, right?  L.coeculus are parthenogenetic and completely lack social behavior, making them a reasonable long-term subjects for PE050's \"societal predisposition\" effects, as we liked to call it.\"\n\n\"Do you still consider that decision \"reasonable\"?\"\n\n\"Not in the light of what happened, I suppose.  But your people kicking in the observation room's door and starting shooting wasn't the most reasonable course of action either, if we're being honest.\"\n\n\"We're not here to review the actions of Security on that day.  Did he ever mention anywhere he could be hiding?\"\n\n\"We weren't close, so no he didn't share the location of his secret treehouse.  With those things in tow he shouldn't be too hard to find though -- just follow the song of the centipedes.\"\n\n\"Thank you for the advice, Doctor.  I am to inform you that you are restricted to your residential pod until the review of your involvement in the incident is concluded.  You are expected to finish any remaining reports in the meantime, but your workstation will be isolated from the facility network otherwise.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Please state your name and ID for the record.\"\n\n\"Dr. Maria Catarina Gonzales, S-7531.\"\n\n\"Thank you, Doctor.  You know why we're here, don't you?  Please tell us about your previous project supervisor.\"\n\n\"Ruslan was…\"\n\n\"Ruslan?\"\n\n\"I'm sorry, Dr. Lavochkin was extremely enthusiastic about our research when I arrived in the facility.  That enthusiasm had a way of dragging people with him, you know?  We wanted to see our subjects as he did, full of wonder and untapped potential.\"\n\n\"Did he ever tell you what it was that you were working on?\"\n\n\"Not really, no.  We were to \"characterize the effects of need-to-knowium on a wide range of living subjects\" was his little joke, back when he made jokes.\"\n\n\"When did that change?\"\n\n\"He became a lot more distant when we began testing PE050 and PE150, the intravenous formulation.  He sent us back to the pods way before he left the lab, and he started muttering about \"preparing the world\" for something under his breath.  That coincided with him requisitioning more… exotic test subjects.\"\n\n\"How did he rationalize those?\"\n\n\"He could be very convincing, and we were happy to see that spark again.  You want to hear about the centipedes, right?  L.coeculus are parthenogenetic and completely lack social behavior, making them a reasonable long-term subjects for PE050's \"societal predisposition\" effects, as we liked to call it.\"\n\n\"Do you still consider that decision \"reasonable\"?\"\n\n\"Not in the light of what happened, I suppose.  But your people kicking in the observation room's door and starting shooting wasn't the most reasonable course of action either, if we're being honest.\"\n\n\"We're not here to review the actions of Security on that day.  Did he ever mention anywhere he could be hiding?\"\n\n\"We weren't close, so no he didn't share the location of his secret treehouse.  With those things in tow he shouldn't be too hard to find though -- just follow the song of the centipedes.\"\n\n\"Thank you for the advice, Doctor.  I am to inform you that you are restricted to your residential pod until the review of your involvement in the incident is concluded.  You are expected to finish any remaining reports in the meantime, but your workstation will be isolated from the facility network otherwise.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5de5d0b252d06e6ca8f4d2d84e3501a50d2c0c142d5e5cd0c3a89b1abd75018d",
+      "identity": [
+        null,
+        "Well, I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Spring Cleansing'",
+      "flags": [],
+      "id": "5df32bba7eaf9b6053a3ab6a9e25a3a3aa586f45e636b2092779274ba5ca5aec",
+      "identity": [
+        null,
+        "You mutter a few words backwards and as you gesture, a soft green glow surrounds your target.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_spring.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You mutter a few words backwards and as you gesture, a soft green glow surrounds your target.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_xedra'\n~ Messages, logs and videos, that xedra agent may have on it's laptop",
+      "flags": [],
+      "id": "5e0238cce337ec7c181301e8ffcc9a1e4270d9725898fccb703e050d4d5701b2",
+      "identity": [
+        null,
+        "SAATUIOW_5/6.mp4\nAnd the last branch we separate is a branch of eaters.  There is nothing really special about them; compared to any other branch, they do not have some really odd abilities like summoning creatures or throwing fireballs.  Instead, all magic that happens with them is limited to their own bodies, and oh god, how good they are at this.  They are meat tanks.  Not in the sense that they transform their bodies or something like this, no.  Totally not.  They just can do the same stuff as tank - break asphalt while running at 60 miles per second and throw fifty kilo balls with sniper precision.\nA simple example for you: do you see our friend here?  How strong do you think he is?  I mean, right now, when there is an army of soldiers, SWAT, and people from the police department, if you have your weapon with you, how many of you may a single Jamey kill?\n- *illegible*\n- Two?\n - *illegible*\n- Five?\n- *illegible*\n- Dozen?\n- *illegible*\nOkay.  Believe me, even without his right hand, Jamey can kill all of you.  Then he can move to the office room next to us and kill all the people there, and then next, and then next, and then he can just demolish this whole building.  Yes, it is reinforced, can survive the 155-millimeter shot.  Yes, Jamey still has only one hand.  Yes, nothing will be left behind.  Am I right, Jamey?\n-*illegible*\nOh, you are not an operative, so you won't do it.  Yeah, you also know it's bullshit and they won't kick you off because of one failure, do you?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SAATUIOW_5/6.mp4\nAnd the last branch we separate is a branch of eaters.  There is nothing really special about them; compared to any other branch, they do not have some really odd abilities like summoning creatures or throwing fireballs.  Instead, all magic that happens with them is limited to their own bodies, and oh god, how good they are at this.  They are meat tanks.  Not in the sense that they transform their bodies or something like this, no.  Totally not.  They just can do the same stuff as tank - break asphalt while running at 60 miles per second and throw fifty kilo balls with sniper precision.\nA simple example for you: do you see our friend here?  How strong do you think he is?  I mean, right now, when there is an army of soldiers, SWAT, and people from the police department, if you have your weapon with you, how many of you may a single Jamey kill?\n- *illegible*\n- Two?\n - *illegible*\n- Five?\n- *illegible*\n- Dozen?\n- *illegible*\nOkay.  Believe me, even without his right hand, Jamey can kill all of you.  Then he can move to the office room next to us and kill all the people there, and then next, and then next, and then he can just demolish this whole building.  Yes, it is reinforced, can survive the 155-millimeter shot.  Yes, Jamey still has only one hand.  Yes, nothing will be left behind.  Am I right, Jamey?\n-*illegible*\nOh, you are not an operative, so you won't do it.  Yeah, you also know it's bullshit and they won't kick you off because of one failure, do you?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'girl's backpack' of armor 'small backpack'",
+      "flags": [],
+      "id": "5e50e209fdf2b0e0f84a6b7d98a88dd752e997253521be16a72013654bb72d89",
+      "identity": [
+        null,
+        "A girl's backpack.  <girl_brand>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/storage_packs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A girl's backpack.  <girl_brand>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "5ec2ec93d34b5aa353cf1ecb9b8b276d113713a8e7d0ee82890fc50d6abe9933",
+      "identity": [
+        null,
+        "聚气丹",
+        "聚气丹"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/recipes/qi_gathering.json",
+          ""
+        ]
+      ],
+      "plural": "聚气丹",
+      "singular": "聚气丹",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "5ed1eeb04ef1f3aa237b51ab113c01ddb2232041979239e4bbea5a3dad5a3e16",
+      "identity": [
+        null,
+        "flattened landscape",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "flattened landscape",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "5ed586ce9cd853c646170c65f57b10439655fa9edfb2ed5440d2e0ff2ed924ef",
+      "identity": [
+        null,
+        "You feel that the deal favors the Exodii a bit more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel that the deal favors the Exodii a bit more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "5f212c96cac606a3ff56d764b1ca44b1b3b9844e7d47f74ea3e9a6926967a2e7",
+      "identity": [
+        null,
+        "No matching mods.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "684"
+        ]
+      ],
+      "plural": null,
+      "singular": "No matching mods.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

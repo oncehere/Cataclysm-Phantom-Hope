@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry deep salt basin'",
+      "flags": [],
+      "id": "2d92615e9ce07aa99b82ad076caf68ae166a2fd05927aba1e7e6856f8a0385af",
+      "identity": [
+        null,
+        "The muddy, salty bottom of a drained deep basin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy, salty bottom of a drained deep basin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'addict_cannabis_strong_awake'",
+      "flags": [],
+      "id": "2d93c68e66267e628f5285fc58214c8812778b75335d77756f46db73857a7ff6",
+      "identity": [
+        null,
+        "You're starting to think weed might actually be habit-forming.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/addiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You're starting to think weed might actually be habit-forming.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2db027de91268f3ce4b9a2c1a2501e252e3b7b6f5c78b5536dcd2a85768b5ab3",
+      "identity": [
+        null,
+        "So, I'm ready for the next step.  How do I get a full bionic body like yours?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So, I'm ready for the next step.  How do I get a full bionic body like yours?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "2db3099f5ecd98618e583acb9efd871235154cc3310cdfab05d4108c5698170f",
+      "identity": [
+        null,
+        "No personal zones in clipboard.  Copy personal zones first.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2499"
+        ]
+      ],
+      "plural": null,
+      "singular": "No personal zones in clipboard.  Copy personal zones first.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Silent in Darkness'",
+      "flags": [],
+      "id": "2db3623a6cd7dd81903314dc7c2edeb5514e50262b1a68e1510a9d351636d554",
+      "identity": [
+        null,
+        "When shrouded in shadows, you make as little noise as one.  Your movement is fully silent at night unless you're out of ruach.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When shrouded in shadows, you make as little noise as one.  Your movement is fully silent at night unless you're out of ruach.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'menu_text' action message of item 'Gracken Shade Legs'\n~ 'menu_text' action message of item 'Gracken Short Legs'\n~ 'menu_text' action message of item 'Gracken Long Legs'",
+      "flags": [],
+      "id": "2dc42fe585a9dfeba425acd4b86fbbf78e089c5bb109181cd00043afed1b8a5c",
+      "identity": [
+        null,
+        "Replace legs",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/gracken_trait_improvements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Replace legs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "2de76c7dcdb622fd6c4013d030e9db5fab000cce8f86673beb277033a0882e3b",
+      "identity": [
+        null,
+        "Mute (Dimensional Jaunt)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Mute (Dimensional Jaunt)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible '葳蕤木灵丹'",
+      "flags": [],
+      "id": "2defaba13dcb1e0c8168861da0dbfe4bab0491bf28b11e9f3f731055659ea705",
+      "identity": [
+        null,
+        "一枚青碧色的丹丸，透着草木清香。以木行生气温养炼成，服之可加速愈合外伤。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/recipes/evergreen.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一枚青碧色的丹丸，透着草木清香。以木行生气温养炼成，服之可加速愈合外伤。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "2df9da2d451c1d630fb3ecf44335446f97b3d912a92334b9058f64f10136589f",
+      "identity": [
+        null,
+        "We have a second mathematician, this time as a result of deliberate experimentation.  We went through two dozen possible volunteers with no results other than severe headaches and time in the infirmary (apparently that first anomaly was very lucky) before we found someone who could make the matrix crystal work.  Now M81 demonstrates control over heat and fire; under controlled lab conditions he was able to increase the heat of a fire by 27.3° C simply by looking at it.  What else can these crystals do?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We have a second mathematician, this time as a result of deliberate experimentation.  We went through two dozen possible volunteers with no results other than severe headaches and time in the infirmary (apparently that first anomaly was very lucky) before we found someone who could make the matrix crystal work.  Now M81 demonstrates control over heat and fire; under controlled lab conditions he was able to increase the heat of a fire by 27.3° C simply by looking at it.  What else can these crystals do?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "2e02ad8c5e0a4b02e24f2fb21ee39a7784a6f247f905e8793b135d78f8cfa547",
+      "identity": [
+        null,
+        "diseased coral sample",
+        "diseased coral sample"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/cryostorage_loot.json",
+          ""
+        ]
+      ],
+      "plural": "diseased coral sample",
+      "singular": "diseased coral sample",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2e5198ea179ed8b5ce9b844c66786ae228dd75b37d8bd195f48757962b9ac3f5",
+      "identity": [
+        null,
+        "[Favor Exodii] Explain to Smokes the unique nature of the firearms you have seen.  \"They're really well tuned for taking down a <zombie>.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Explain to Smokes the unique nature of the firearms you have seen.  \"They're really well tuned for taking down a <zombie>.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speed description of monsters",
+      "flags": [],
+      "id": "2e62b3fa863ce29ba300eeffc2d6b9baa55c0438c87004e51973564a4bce2fdd",
+      "identity": [
+        null,
+        "<color_light_cyan>It is a bit slower than you.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/speed_descriptions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_cyan>It is a bit slower than you.</color>",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

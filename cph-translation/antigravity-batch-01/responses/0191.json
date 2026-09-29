@@ -1,0 +1,81 @@
+{
+  "request_sha256": "c9a4c3de4e8039f6ee4af08d3779d551c39db4ad2fb0901fa4b248bfb4e9e74a",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "b47b8d76c0b1433145a8ab9ac4fa33ff5dc8a7b8a3af7e073a7b3ab6906ee359",
+      "values": [
+        "<color_red>[违背自己的理智判断，任由史蒂文斯医生将你束缚在枢纽 01 自动手术台上]</color>"
+      ]
+    },
+    {
+      "id": "b490b8cada0b4c7f91f7bc50e5e470d6e52b0e74b727019cecc1650859714197",
+      "values": [
+        "缺失模组"
+      ]
+    },
+    {
+      "id": "b492405900b26697234b7e1bfb19755788cb5e8a91f731c9167338039c54d671",
+      "values": [
+        "大麻素"
+      ]
+    },
+    {
+      "id": "b496db3d41bcb99de282d1d3ce3e2b08931a732be7e31a5e2c9e789caaea16e3",
+      "values": [
+        "我有几个任务要交给你。你想接哪一个？"
+      ]
+    },
+    {
+      "id": "b49f531e6d36e51a0c177ad82406e421d69b8a778fd8e76894e293d93f0f49e2",
+      "values": [
+        "将剩余的铅与混合粉末加入熔化的金属中，并继续进行熔化。"
+      ]
+    },
+    {
+      "id": "b4ae124e0195d7442210b364b0ce56c73031de2d7add69c397b5f2fcba2bfff2",
+      "values": [
+        "你是智者之一，历经磨砺使灵魂与大地、森林、月亮、海洋或天空等伟大的自然伟力之一相联结，从而能够施展更为深奥的玄秘。"
+      ]
+    },
+    {
+      "id": "b4e1af264f27cf865ebccd5227640a3203aeeb80863f097ea69a4033f067d67a",
+      "values": [
+        "稀松平常到甚至没有任何谚语提及。身处深水区时，你的耐力回复速度翻倍，且游泳速度加快 25%。"
+      ]
+    },
+    {
+      "id": "b4ed0c08541cd81eb82df1e1498819c88dcff712dd644a28f21538272e67d7ad",
+      "values": [
+        "选择"
+      ]
+    },
+    {
+      "id": "b50ca52cfd553b2c8701e24bf780edc728236468c07d2212b63e9c334af4ea0f",
+      "values": [
+        "&<color_light_green> @User > bridge --update=retract\n<color_light_green>错误：置信度不足。\n<color_light_green>覆水难收。\n\n<color_light_green> @User > _</color>"
+      ]
+    },
+    {
+      "id": "b51f4d582ae07682e96f321cd1295f8da0130f2c07c9f1b979d2beccc006f06d",
+      "values": [
+        "从外科骨质机器人的头部外壳中挖掘出来的核心。其形状酷似人类大脑，但似乎是由坚硬的暗色玻璃制成的。它看起来有点像一件别致而又令人毛骨悚然的装饰品。"
+      ]
+    },
+    {
+      "id": "b5335768a034e894e57163916895cdbcf10ef93032094547444b8e4c4b6afc25",
+      "values": [
+        "一个讲述在纳粹分子——不，共产党人——不，伊拉克人之间的阴谋与谍战故事！"
+      ]
+    },
+    {
+      "id": "b533742e6f3180fced3bbd16b4ce38f02642ab590e0ee2fe6873f4b7be346694",
+      "values": [
+        "一层用于颅骨的显微级非牛顿流体薄层。它可以防护某些类型的电磁场。有用吗？也许吧。"
+      ]
+    }
+  ]
+}

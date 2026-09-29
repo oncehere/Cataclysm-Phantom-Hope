@@ -1,0 +1,81 @@
+{
+  "request_sha256": "b44f961076193f79f8fe4097a911fd27233b13b6ba8be9cdf837051dbacbc8bb",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "ad6199741b4b52e5abd24c5b4c7d1dda51f7be178385c86e9d7b86637d13c52f",
+      "values": [
+        "你微笑着靠向椅背。大功告成。"
+      ]
+    },
+    {
+      "id": "ad6d4ebe8e0ddc56801eed1dda3012f1f77bb18ac44b97da3965a077b17f42f1",
+      "values": [
+        "一款定制加固型头灯，由核衰变的神奇力量提供电力，经过聚光处理以提供更实用的亮度。可调节绑带允许将其舒适地戴在头上或固定在头盔上。使用它可以打开遮光盖并露出光线。"
+      ]
+    },
+    {
+      "id": "ad8edb1de4f020f32069dd24f53d922d23a097a5c5cc7dc48261be71f73d42bb",
+      "values": [
+        "&你选择提升敏捷，片刻之后，屏幕弹出一则消息：“需要催化剂。请插入 SMOKE USHER 基质晶体。”"
+      ]
+    },
+    {
+      "id": "adb16d7902d30c6b5c21672415a93b9e2d1d3aac05f72d699a9243d2e3b617a9",
+      "values": [
+        "一个室外浅水泳池，池水量有限。"
+      ]
+    },
+    {
+      "id": "add9d71ae858a6e09872bc64e7d213ced7677158d684beaabd89910cf3de1b5b",
+      "values": [
+        "拆除此部件将导致该载具失去飞行能力。是否继续？"
+      ]
+    },
+    {
+      "id": "ade2af63b89c95d951473c9a57943f4959ed14f5de11cf1896c467968b2abc17",
+      "values": [
+        "一罐压缩氮气。氮气因其化学惰性而非常有用。可别尝试去吸入它。"
+      ]
+    },
+    {
+      "id": "ae175b2ae1b874fb2c42a2f8976b6ba430ae30a467e43e5421859e57e9cbed3b",
+      "values": [
+        "刀鞘（外骨骼服）"
+      ]
+    },
+    {
+      "id": "ae58e5adbbaf10914dac27b6bfd7ed97a879c57a0ed1103a021498aef8c9bb68",
+      "values": [
+        "再跟我多说说。"
+      ]
+    },
+    {
+      "id": "ae74b68fbef1d8e90309120b38d9aba9591ca28ad55b457b654630fe784be77f",
+      "values": [
+        "心灵护盾视觉"
+      ]
+    },
+    {
+      "id": "ae998cee744fb70f14322825261602da0cf34283d35ecddf61ac121ab6b13e51",
+      "values": [
+        "养荣导引"
+      ]
+    },
+    {
+      "id": "aea2d974f4f00c3d786a428a967ad8717b2c2fab63ca06e16c58e92e4db48204",
+      "values": [
+        "[偏向商人] 提醒鲁比克与烟鬼，这些枪械使用的弹药并非来自这个世界。“枪确实是好枪，但务必在交易中把弹药也算进去。”"
+      ]
+    },
+    {
+      "id": "aea6ae05638dc4f33d5baee41cff03b64a0f34c4d7953a4d2ff52aeb51472e44",
+      "values": [
+        "&<mypronoun>上下打量着你，评估着你的能耐。"
+      ]
+    }
+  ]
+}

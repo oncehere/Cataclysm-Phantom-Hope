@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Effect of hitting 'the upper body' weakpoint",
+      "flags": [],
+      "id": "0c939fb8e71fd03c328a41ff8191d31ab3f98c7d2371a2c5f44912295cb91410",
+      "identity": [
+        null,
+        "One of the parasites is dislodged by the blow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/monster_weakpoints/moxie_weakpoints.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "One of the parasites is dislodged by the blow.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "0cd774962d407c963a6781874331c187b7ddf2da780e75c98fd8ee8a6a4b5755",
+      "identity": [
+        null,
+        "ancient tomb roof",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ancient tomb roof",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Weather type name",
+      "flags": [],
+      "id": "0d0ac4d524f71cfa1fe10b099b1ed63eb7c7b7fb2be8c426ccb48dc16b230e18",
+      "identity": [
+        null,
+        "Mild",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/mod_settings/region_settings/weather_types.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Mild",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "0d1c2f6a0737a9be82f8152c4972d5c1a4c1ba5308506fafa446a76193714a42",
+      "identity": [
+        null,
+        "Will of the Island",
+        "Will of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": "Will of the Island",
+      "singular": "Will of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0d2c49358deaea5054c22e1eae7de4f611aa5078276210753c4542f943276873",
+      "identity": [
+        null,
+        "%1$s: %2$s — %3$s; %4$s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "818"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s: %2$s — %3$s; %4$s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'black glass sink'",
+      "flags": [],
+      "id": "0d2f33485c866cff147b9be259c86a6781152917462f4c5e46010f421a7c5175",
+      "identity": [
+        null,
+        "A glass basin and tap.  The inside stops halfway down in sheet of concentric ripples, with the tiny spire of a splashing droplet at the center.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/furniture_vitrified.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A glass basin and tap.  The inside stops halfway down in sheet of concentric ripples, with the tiny spire of a splashing droplet at the center.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0da6f8ca28a46f510f553d962460f73d1fa8199ed787c14c7a99632b304c1811",
+      "identity": [
+        null,
+        "[Show him your notes on the elixir of life]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Show him your notes on the elixir of life]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Vengeance Shall Be Mine'",
+      "flags": [],
+      "id": "0dbf62c32bbe0494ddc770b7a3e255fea93e7585edee8b1ec432ae4de4ed08de",
+      "identity": [
+        null,
+        "Your murderer is out there, and you will find them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your murderer is out there, and you will find them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "0dc53482716d88c5b99ec0d42a115a9e61d9ae238ec0a7a1076cadd62ac2cb6d",
+      "identity": [
+        null,
+        "Revenant",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/revenant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Revenant",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'menu_text' action message of item 'Gracken Shade Arms'\n~ 'menu_text' action message of item 'Gracken Strong Arms'\n~ 'menu_text' action message of item 'Gracken Long Arms'",
+      "flags": [],
+      "id": "0e1bf6e1c6701f60d5e4f6f583421545e1a7212ac58320e3992bee7051d40bff",
+      "identity": [
+        null,
+        "Replace arms",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/gracken_trait_improvements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Replace arms",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Cranberry Seedling'",
+      "flags": [],
+      "id": "0e74946d52bdbd1e0964eb52f508c6fd5af600f715af0c6574ae3a472538af7c",
+      "identity": [
+        null,
+        "A young cranberry seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young cranberry seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Mutagen Gland - Lagomorph'",
+      "flags": [],
+      "id": "0e8aa5ed8bda09c267e74f3f10124b3db4a5e7ff0cd5044776c8b354e2de6b2d",
+      "identity": [
+        null,
+        "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with lagomorph traits.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/extra_mut_scen/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with lagomorph traits.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

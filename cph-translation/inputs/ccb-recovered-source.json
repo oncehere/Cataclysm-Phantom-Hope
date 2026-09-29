@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "kind": "recovered-from-MO",
+  "role": "historical runtime fallback; superseded for current-source priority by verified official PO if obtained",
+  "source": {
+    "repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+    "commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+    "release_tag": "2026-09-23-0407",
+    "release_id": 394086152,
+    "asset_id": 582281303,
+    "name": "ccb-linux-terminal-only-x64-2026-09-23-0407.tar.gz",
+    "url": "https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/releases/download/2026-09-23-0407/ccb-linux-terminal-only-x64-2026-09-23-0407.tar.gz",
+    "bytes": 223961956,
+    "sha256": "60f1fbf1b47fd330ca9b999b83319749dae5f8fee7d4aaf784b515a2e2b4af1a"
+  },
+  "original": {
+    "path": "ccb-20260923.original.zh_CN.mo",
+    "sha256": "879103d10f691e0db783a08be76b6b331224cd6656e68430cb218d269e5b67c1",
+    "bytes": 19746454
+  },
+  "recovered": {
+    "path": "ccb-20260923.recovered.zh_CN.po",
+    "sha256": "ea83328b70e0885d8573576e98164c398a57aea22ad373f639ca9e1d0312f182",
+    "bytes": 19830842
+  },
+  "command": "GNU gettext 1.0 msgunfmt --no-wrap",
+  "validation": {
+    "msgfmt_check_exit": 0,
+    "stderr": "",
+    "entries": 113917,
+    "plural_entries": 17732,
+    "context_entries": 6225,
+    "plural_forms": "nplurals=1; plural=0;",
+    "revision_date": "2026-06-25 16:49+0000",
+    "original_mo_entries_equal": true,
+    "metadata_equal": true
+  },
+  "limitations": [
+    "This is reconstructed compiled content, not an official source PO.",
+    "MO does not retain developer/translator comments, source locations, fuzzy or obsolete records.",
+    "Retained credits accompany original runtime archive; no claim that lost per-entry metadata was recovered."
+  ],
+  "notices": [
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-OFL-Terminus-Font.txt",
+      "sha256": "b7c06f3f0266bd71a344547d8a6deab90b4d0db06300196f54659ff1da4fe909"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-SDL.txt",
+      "sha256": "fcb07e07ac6bc8b2fcf047b50431ef4ebe5b619d7ca7c82212018309a9067426"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE-libbacktrace.txt",
+      "sha256": "ef8a9b3247488f8901ca60de9b17b745d7bd67e5ec1e622f80d62364572200d8"
+    },
+    {
+      "path": "notices/ccb-bcb85682/LICENSE.txt",
+      "sha256": "48bd3d15e40bc00f2eb182105a64fc3b376a1a376172642fca5d6c82140d26d7"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/cs.credits",
+      "sha256": "d3677fffb229aa1f1c92ff9f9720d6399f9a5ef6da4c8e27e4af6351db752f91"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/de.credits",
+      "sha256": "29ba82d9b06ac6c2ae0d02a73a177e8a53622475f3cf3336e075a41ce8a966e2"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/el.credits",
+      "sha256": "d501df3bbaf19eee0543663952a3dde8dcc768dd7e34804081660563884a6022"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/en.credits",
+      "sha256": "9b3029312bc56d67ca8802c5e4ff9e385f3c9394b9021a7a9508cbf573878586"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/es_AR.credits",
+      "sha256": "7c894f8228a80bac4e21e361b12dd5f4a865bcf942dac1957f5b513a47a21e56"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/es_ES.credits",
+      "sha256": "5d33cb758b54cfa00aef510261c1fc5c7aecc68a9e456251f42265e11416946b"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/fil_PH.credits",
+      "sha256": "c6cca89ebf98ce04ccdf414bfdff94577f0a25fb8b747f9b0cbbd1bd83e46e8f"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/fr.credits",
+      "sha256": "4df5bfa3e189ff43c637aff5441d34a38c9ccc8500ed46a933f6b7b72d50ef94"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/hu.credits",
+      "sha256": "59fb7fd408d944122badc0f263d37619c6b839128b1d087242a622695c448a78"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/it_IT.credits",
+      "sha256": "da881a8949e3453e74e922d20713d71db070d4afa607f3f0fea9c74f08def4a1"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ja.credits",
+      "sha256": "9cc069bcf6a256ed73fdcdb516d6d272b88002673a1232f7226ec9624874884a"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ko.credits",
+      "sha256": "a8dd919b6b8e03c8ebcb2b1611eda93e34fcfefa1f5fa8ae1e32e946876c561e"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/nb.credits",
+      "sha256": "8a02d034dab9ac8e43712c73c43c34ed68df4ebee0eb46702ff8860413bd3882"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/pl.credits",
+      "sha256": "1684f8b684ddf16bd4a4b682f48ff43b55998d9a70e33a29173bcf007985cabe"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/pt_BR.credits",
+      "sha256": "677aa6b84248f0328cfeab30d19773bb9d2fb40cc1d0af0e3d23bdb779868bc5"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/ru.credits",
+      "sha256": "4bc6638cea4458f74675255070592fd651e213b87920f93e0426e56bac3e1f3d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/tr.credits",
+      "sha256": "6abfd05219ed9d9bebaf9ee46727720c6f8575dbaffc072c2689a7de3382ec8d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/uk_UA.credits",
+      "sha256": "4f380a7ad591cc7ca0cf40d863be879812a94769f1e443c13b9dd1f2757084cc"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/zh_CN.credits",
+      "sha256": "aaf82bf39f4a8404b8985636661a9d96d20d78424c41ae2c06d5e31a5d5d802d"
+    },
+    {
+      "path": "notices/ccb-bcb85682/data/credits/zh_TW.credits",
+      "sha256": "d7ec3a8d8755e9d2b4068add55d46f061810cb9e3700d06144d31349786dbf7c"
+    }
+  ]
+}

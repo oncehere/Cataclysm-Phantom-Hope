@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'FEMA evacuation pamphlet'",
+      "flags": [],
+      "id": "f2ebffe56b70ecd4996f2b52cb37e6922836966514c1fd8efdcd6b803fec543a",
+      "identity": [
+        null,
+        "Welcome to your Emergency Survival Shelter.  We hope your stay here will be short and comfortable.  Provided are an emergency blanket, high-visibility jacket, gas mask, and food and water rations for one day, as well as an emergency lighter and flashlight.  There are further supplies in the communal cabinets should the facility be over its intended capacity.  These resources are checked and updated by FEMA on a regular basis, but if you find some items missing, please contact a FEMA supervisor at your earliest convenience.\n\nPlease wait in the shelter until an official evacuation transport arrives to take you to your homes or, in the event of a major disaster, to the nearest evacuation gathering point.\n\nIn the event that you have been evacuated under violent circumstances, FEMA recommends taking cover in the shelter's basement until help arrives.  Remember: if you leave the shelter, we cannot find you to take you to safety.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/newspaper.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Welcome to your Emergency Survival Shelter.  We hope your stay here will be short and comfortable.  Provided are an emergency blanket, high-visibility jacket, gas mask, and food and water rations for one day, as well as an emergency lighter and flashlight.  There are further supplies in the communal cabinets should the facility be over its intended capacity.  These resources are checked and updated by FEMA on a regular basis, but if you find some items missing, please contact a FEMA supervisor at your earliest convenience.\n\nPlease wait in the shelter until an official evacuation transport arrives to take you to your homes or, in the event of a major disaster, to the nearest evacuation gathering point.\n\nIn the event that you have been evacuated under violent circumstances, FEMA recommends taking cover in the shelter's basement until help arrives.  Remember: if you leave the shelter, we cannot find you to take you to safety.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "f30c30cb9b5ced798c23c7ef43de279262dc32ef9cc4cf02e0052359cf2f278a",
+      "identity": [
+        null,
+        "borosilicide lasing magnifier",
+        "borosilicide lasing magnifier"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/crafting_scrap/optics.json",
+          ""
+        ]
+      ],
+      "plural": "borosilicide lasing magnifier",
+      "singular": "borosilicide lasing magnifier",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'flowing salt water channel'",
+      "flags": [],
+      "id": "f315dffdc26c32fa5a7f6628b79dce12ef24155da3573749535ae597c58fa658",
+      "identity": [
+        null,
+        "A hand-dug channel supplied by the sea.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A hand-dug channel supplied by the sea.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "f3230a943afb53e1c56838eef474d4360f5b6b720e89ae2f3ed0cb5d74c9a1a5",
+      "identity": [
+        null,
+        "flashbang.mp3\n\nThe video starts with a man running away from three police.  One of them catches up to him and pushes him to the ground.  As the other two catch up they begin kicking and beating him with batons.  Suddenly a blinding flash of light and sound erupt right near the victims hands and the police are stunned.  The man gets up and runs away.\n\nYou watch it a couple of times and can't see any flashbang grenade before the explosion.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "flashbang.mp3\n\nThe video starts with a man running away from three police.  One of them catches up to him and pushes him to the ground.  As the other two catch up they begin kicking and beating him with batons.  Suddenly a blinding flash of light and sound erupt right near the victims hands and the police are stunned.  The man gets up and runs away.\n\nYou watch it a couple of times and can't see any flashbang grenade before the explosion.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'cheese_powder' step 2",
+      "flags": [],
+      "id": "f324498d0b584da234ddadb83c610d772f3ad5ad47cc2f2b306f89b14eda14b5",
+      "identity": [
+        null,
+        "Dehydrate it",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/food/dry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dehydrate it",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Shade Dextrous Hands'",
+      "flags": [],
+      "id": "f32a6e9b7d11848847d47ac56a355c92814e84dbc0c2a6afd17c50d8197a3c7b",
+      "identity": [
+        null,
+        "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on each hand that improves your ability to get into tight situations.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_playable_gracken.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on each hand that improves your ability to get into tight situations.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f33214b6b199d799b28366ee08da95f862f993e06b6e4cd3d2bb33b17c0ee6ef",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'national weather transcripts'",
+      "flags": [],
+      "id": "f33db98edff8c82f8b308ec49a70c1f6901f2296cbade6a8fbf29f67af149360",
+      "identity": [
+        null,
+        "Old weather records that are about as interesting as a rock.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Old weather records that are about as interesting as a rock.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option name",
+      "flags": [],
+      "id": "f3717a81d8ad7afef2f87b2f0d8ec1e8ee3130af838aabd121eef4de2dc402bf",
+      "identity": [
+        null,
+        "Learn <trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/werewolf_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Learn <trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Hand of Lugh'",
+      "flags": [],
+      "id": "f389e6c74efdb0acbb41254c99bc7695551b8ceea8e8cadf953c2eb78f201d20",
+      "identity": [
+        null,
+        "Your strength has been absorbed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your strength has been absorbed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'single malt whiskey'",
+      "flags": [],
+      "id": "f397941d2a46676f85dc4c11d5a9ec26bfe62bca98e1fce1aaa89c33eaf398c0",
+      "identity": [
+        null,
+        "Only the finest whiskey straight from the bung.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/alcohol.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Only the finest whiskey straight from the bung.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "f3e90442f97681a5c9b4ab2c28bef5530d9366ab0def97776b8357df62706d56",
+      "identity": [
+        null,
+        "dry interstice pool bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry interstice pool bottom",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

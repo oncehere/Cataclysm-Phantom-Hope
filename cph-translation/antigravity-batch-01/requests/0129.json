@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "772afd495b9d0770be9bccdf259958709d5fd5995424945642343a196dae242d",
+      "identity": [
+        null,
+        "All dead.  That's a shame.  Could I interest you in a mercenary contract to get me some more information on this place?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "All dead.  That's a shame.  Could I interest you in a mercenary contract to get me some more information on this place?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'mound of degraded nurdle'",
+      "flags": [],
+      "id": "773702585cf6d241a06fa40ae94a9aa85462eff2f779fd66f9a85f923afa151d",
+      "identity": [
+        null,
+        "An area of degraded nurdle heaped up to your shoulders, not easily traversable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of degraded nurdle heaped up to your shoulders, not easily traversable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "77468251f76cda7bdb1138f5628af3e45999edb5da3b1183485ddd3b382788b4",
+      "identity": [
+        null,
+        "Abort",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2823"
+        ]
+      ],
+      "plural": null,
+      "singular": "Abort",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "776360c76c0933889b9e4ec6ac98c8e6dc9097d311340b2b24bf4a11bce86a9d",
+      "identity": [
+        null,
+        "No Thorazine, it's a mental prison.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No Thorazine, it's a mental prison.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Circuit Safari'",
+      "flags": [],
+      "id": "778b1aa1897b44d5dccde629727d828016facfbc725ceeb6a3ad5757e2a566b4",
+      "identity": [
+        null,
+        "The intercom has asked me to bring them the remains of an <color_yellow>Exodii worker</color>.  They said I can use any violent means necessary to take it down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The intercom has asked me to bring them the remains of an <color_yellow>Exodii worker</color>.  They said I can use any violent means necessary to take it down.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Compact bionic module name",
+      "flags": [],
+      "id": "779439a3def2c9b9662429fed3afdd2c309c2672d20ce94bbf86a47e9921e84b",
+      "identity": [
+        null,
+        "Bionic Right Arm (Cyberframe 1a)",
+        "Bionic Right Arms (Cyberframe 1a)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": "Bionic Right Arms (Cyberframe 1a)",
+      "singular": "Bionic Right Arm (Cyberframe 1a)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Key binding name",
+      "flags": [],
+      "id": "77cda81908bbf4a9b8c792857700266321732eec873f19946153541dec906324",
+      "identity": [
+        null,
+        "Pass item to partner",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/raw/keybindings.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Pass item to partner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_vita_increase_hp'",
+      "flags": [],
+      "id": "77f084263f193b2a21849242b34d13d443a9cd1e96afbd1ae4260d0065c8f682",
+      "identity": [
+        null,
+        "Augmented Durability",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_psionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Augmented Durability",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "77fff82cefc22925cda6c7e79846aaa9cf71db7f66397b397f46860998886360",
+      "identity": [
+        null,
+        "enzyme biofactory",
+        "enzyme biofactory"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/items.json",
+          ""
+        ]
+      ],
+      "plural": "enzyme biofactory",
+      "singular": "enzyme biofactory",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7807eeef133cc29259c014111b873e03d7366716d2a14aa5870593b2ee574258",
+      "identity": [
+        null,
+        "[Favor Exodii] Explain to Smokes the miraculous nature of their medical technology, and how it's definitely worth the price for access to it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Explain to Smokes the miraculous nature of their medical technology, and how it's definitely worth the price for access to it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "781eda0beb8c34050c0521bbd3db5e6f7761a6f8a37e485c869a77faceb1ff62",
+      "identity": [
+        null,
+        "<f>lag",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iuse_software_minesweeper.cpp",
+          "179"
+        ]
+      ],
+      "plural": null,
+      "singular": "<f>lag",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "78206430525c65a660b44954682d35cdd93a5f38516d34b028c4659970cf3c77",
+      "identity": [
+        null,
+        "I'm back and I killed the star-crowned hound.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/boann.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the star-crowned hound.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

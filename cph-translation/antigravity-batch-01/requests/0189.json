@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "b30f65deafe66327fcfa31799eb42b3631ecfcdc2588de91894355484be5993b",
+      "identity": [
+        null,
+        "Can you help me with my bionic implants?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/NPC_old_guard_doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Can you help me with my bionic implants?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "b31cd919da893f3b434f8ca56cfa2a3a06fac4186781dfe0d1644cfb22d96c6b",
+      "identity": [
+        null,
+        "Walden: Or Life In The Woods",
+        "copies of Walden: Or Life In The Woods"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Walden: Or Life In The Woods",
+      "singular": "Walden: Or Life In The Woods",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Cucumber Seedling'",
+      "flags": [],
+      "id": "b3212ccf5898d41ac75f92c77df71a1d2125eb360327e5818d80d1b00fe56019",
+      "identity": [
+        null,
+        "A young cucumber seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young cucumber seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted on a trellis.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (nether snare)'",
+      "flags": [],
+      "id": "b32ade49e55b780fd7e9b51c11eb63451b65ccb691bf7d178b513209751571a1",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a mystical trap that will allow you imprison beings from \"the Outside.\"  Based on some scribbled sketches of things it's supposed to contain, you hope it holds if you try to use it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a mystical trap that will allow you imprison beings from \"the Outside.\"  Based on some scribbled sketches of things it's supposed to contain, you hope it holds if you try to use it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<zombie_humanoid_harvest_general_deeper>'\n~ Snippet in category '<zombie_humanoid_harvest_headless_deeper>'",
+      "flags": [],
+      "id": "b349e80cad001d45e60ee7bba3b7fc45eee57a2b9bb2963829a83b65a8ea34cb",
+      "identity": [
+        null,
+        "The thing's feet are entirely calloused and the smaller toes are completely vestigial, simply a bump with a dead nail on them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/zombie_anatomy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The thing's feet are entirely calloused and the smaller toes are completely vestigial, simply a bump with a dead nail on them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "b3678049a39b8f1cefcd10cdece7af993f3e4ba1ead76c5453ee5e88b574f3c6",
+      "identity": [
+        null,
+        "Requires social 9.  Must not have <trait_name:perk_soothing_the_savage_beast>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Requires social 9.  Must not have <trait_name:perk_soothing_the_savage_beast>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "b38055a7c0298c240322c13a2033667005b27684b112eb1e477689cace606525",
+      "identity": [
+        null,
+        "Carved from the Mountain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Carved from the Mountain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "b3a30c9bedc22e3e5251453dda0541e9e4e35d532f5c01ad9904b0bd97aa6318",
+      "identity": [
+        null,
+        "TCL Truck",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mapgen/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "TCL Truck",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Disjunction'",
+      "flags": [],
+      "id": "b3abbb6b3b929afb0a5b6cca0b448804b01772e55bdb3052c788e3330acb7551",
+      "identity": [
+        null,
+        "The ultimate anti-magic spell, Disjunction will strip even attunement-related or powerful enchantments from the target.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/Spells/classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The ultimate anti-magic spell, Disjunction will strip even attunement-related or powerful enchantments from the target.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of MOD '灾变仙路'",
+      "flags": [],
+      "id": "b3b0e6b63f389461d6d1d824e9adf156e5809d5db894e234b07adf3d94b579ac",
+      "identity": [
+        null,
+        "在灾变废土上踏上修仙之路。引气入体、炼气化神，于末世中求长生大道。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/modinfo.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "在灾变废土上踏上修仙之路。引气入体、炼气化神，于末世中求长生大道。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b3b8c472cb7e4924d41642c7086e1dd608f5ef50c9b400b5b612702f49e2a303",
+      "identity": [
+        null,
+        "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military, the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are, at our planned escape location, with not even a fraction of our manpower or supplies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/militia/GM_Militia_Merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military, the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are, at our planned escape location, with not even a fraction of our manpower or supplies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "b3dc4be2a7dd78367b2ecfc954913f3cd5ffdee7e7be42dfe5838a44c0047acd",
+      "identity": [
+        null,
+        "middle tentacle midsections",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "middle tentacle midsections",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

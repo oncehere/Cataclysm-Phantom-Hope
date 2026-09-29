@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "5ff62003cac2315e21d0fb282451d0517501a653e2d8ff9cc401322d1b9287cd",
+      "identity": [
+        null,
+        "You slow down to let %s catch up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "3469"
+        ]
+      ],
+      "plural": null,
+      "singular": "You slow down to let %s catch up.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "5ff85cb2f2bda8fd3b49b4746c20a5588c7972e46a51c37fe5841451fb8d8366",
+      "identity": [
+        null,
+        "left tentacle bases",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left tentacle bases",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "603d75a6fd2689c7c083975e54b12be40622aad8be7c0638b122aaec12748788",
+      "identity": [
+        null,
+        "&Rubik offers you a shallow bow, then lumbers down the dusty hallway, leaving you alone in the surgical suite with Venn and your new bionic body.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik offers you a shallow bow, then lumbers down the dusty hallway, leaving you alone in the surgical suite with Venn and your new bionic body.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "604ee46f11bd82a9be3e4d763f4d34161a0dd0b467dbe9c9791a4b76d29f78e6",
+      "identity": [
+        null,
+        "Now, with that out of the way…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Now, with that out of the way…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'Scroll of Petrifying Touch'",
+      "flags": [],
+      "id": "6055ca8440573e458ebde94feb2a472130f93d84d43fd04a950cbe9408ad02a1",
+      "identity": [
+        null,
+        "Your hands try to transform the body of your enemy into pure stone.  The effect is temporary, but it can deal significant damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/spell_scrolls.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your hands try to transform the body of your enemy into pure stone.  The effect is temporary, but it can deal significant damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "60971010d6322f376b6afad14f9353b84cf16ecfea2d2ab280dd20d56ad62287",
+      "identity": [
+        null,
+        "During the storm, something…  spoke to me…  and took me there.  It's hard to explain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "During the storm, something…  spoke to me…  and took me there.  It's hard to explain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'To Wrap Yourself in the Names'",
+      "flags": [],
+      "id": "60b07fcca5899340c33e0bfb635523ca7e8d090c81908db22ce624467a3fabd3",
+      "identity": [
+        null,
+        "You recite the names of seven spirits over the alcohol, you engrave the sigil on the fruit and eat it, and you write the secret phrases on the egg before you set down and begin carving names on the copper necklace.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You recite the names of seven spirits over the alcohol, you engrave the sigil on the fruit and eat it, and you write the secret phrases on the egg before you set down and begin carving names on the copper necklace.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "60b168f6ad8375584f87f7754e530b4620c092f1c616eb20c7c1827a5933159f",
+      "identity": [
+        null,
+        "Local threat grid",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "706"
+        ]
+      ],
+      "plural": null,
+      "singular": "Local threat grid",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "60b4a2b74b71cabb42fa51769125421f1eeee78ef33c353f9b619702068c6c64",
+      "identity": [
+        null,
+        "Conduct observation of the trees and grass and study herbs to develop a corpus of research for the lesser mysteries.  You must be in a forest to conduct your research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Conduct observation of the trees and grass and study herbs to develop a corpus of research for the lesser mysteries.  You must be in a forest to conduct your research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'lost holo'",
+      "flags": [],
+      "id": "60bf69f8a62aac7c5ee0ace25af21cac262243c0d609345b7e21374ff3e83634",
+      "identity": [
+        null,
+        "The archive contains a preserved copy of a full-immersion holofilm thought to be lost.  It feels unremarkable, but a bounty exists for its recovery.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The archive contains a preserved copy of a full-immersion holofilm thought to be lost.  It feels unremarkable, but a bounty exists for its recovery.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "60c72fc186777443a917623e4e0b606e8a203c245434d2054c4f49bd136056aa",
+      "identity": [
+        null,
+        "The repair order changed during checkout.  %s credits the full payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1010"
+        ]
+      ],
+      "plural": null,
+      "singular": "The repair order changed during checkout.  %s credits the full payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "60d43fcb77308a0b31eac949af39bf319edd9f88ccc406a22afe19da071f633d",
+      "identity": [
+        null,
+        "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  I'd give you a word of caution, but you probably know the place well enough.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  I'd give you a word of caution, but you probably know the place well enough.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

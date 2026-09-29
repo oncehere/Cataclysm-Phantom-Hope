@@ -1,0 +1,253 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "453368e672bd2e94961e93d51b1dba947316100835494942f67288bccbf82672",
+      "identity": [
+        null,
+        "No vehicle here for %s to control.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3653"
+        ]
+      ],
+      "plural": null,
+      "singular": "No vehicle here for %s to control.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Injected 29x-\"Noonien\"'",
+      "flags": [],
+      "id": "453aaa5ee9d07f35b4f4367ff993ec6195b5a956b3c5b1b18a31d4e007e02b23",
+      "identity": [
+        null,
+        "You feel your enhanced strength fade away, but your stomach still feels odd.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/super_soldier_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel your enhanced strength fade away, but your stomach still feels odd.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'advanced fleshborg'",
+      "flags": [],
+      "id": "45404fe2f8d87a6bf750b9fe90cf00bfcd132d7732b54407630746883b771782",
+      "identity": [
+        null,
+        "Compared to the cyborgs you've seen elsewhere, this one looks almost inverted.  Its body is made of smooth, segmented, paper-thin metallic plates; fleshy protrusions and bits of bone jut from components growing off this base frame.  In place of one hand is a wired airgun.  It moves with dire purpose, like a trained combat machine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/netherum/labyrinth_monsters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Compared to the cyborgs you've seen elsewhere, this one looks almost inverted.  Its body is made of smooth, segmented, paper-thin metallic plates; fleshy protrusions and bits of bone jut from components growing off this base frame.  In place of one hand is a wired airgun.  It moves with dire purpose, like a trained combat machine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh\nout of the look on your face sometimes.  What I'm saying is, if my body\nwere flesh and bone, the device we use to travel around dimensions would\nrip up the meat and leave me quite a mess.  We can take a bit, but too\nmuch… one time, I felt a bit of that, and I'm not in any rush to try it\nagain.",
+      "flags": [],
+      "id": "454f502d99a3a3cc05636b03d01996c209261a692dd1fa7e46f4d5575e571347",
+      "identity": [
+        null,
+        "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.*  You're pretty sure you hear a faint chuckle in the metallic voice.  *What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.*  You're pretty sure you hear a faint chuckle in the metallic voice.  *What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "45a6122d8ace3ded15875dff7ae768dcc788b183e68c1b2ef800479b490db834",
+      "identity": [
+        null,
+        "could not prepare transactional map update: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mapgen.cpp",
+          "8206"
+        ],
+        [
+          "src/mapgen.cpp",
+          "8214"
+        ]
+      ],
+      "plural": null,
+      "singular": "could not prepare transactional map update: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "45b8c49d813c67c050283fde105621bb73c5510fc16a5ae8a1b7564784a79175",
+      "identity": [
+        null,
+        "[Favor Exodii] Talk about the benefits of CBMs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Exodii] Talk about the benefits of CBMs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "45c883ef8edee085fae095e1b0a57526a635342251701853812846bcca140634",
+      "identity": [
+        null,
+        "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "678"
+        ]
+      ],
+      "plural": null,
+      "singular": "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_xedra'\n~ Messages, logs and videos, that xedra agent may have on it's laptop",
+      "flags": [],
+      "id": "45d550f108a53188cfae74978464744d5488181da09a1525fc7c66298120f918",
+      "identity": [
+        null,
+        "SAATUIOW_4/6.mp4\n…Another one is our hard workers - our smiths.  They are not as dreadful as technicians in their abilities, they can not create a nuke out of a microwave, but they can create something that even technicians can't understand.  At least the best of them, most of our smiths produce common tools and armor we use in our work.  You may think they are \"worse\", or \"weaker\" than other branches, or you may think they are some dumb blue collars.  And that's mostly right.  Mostly.  But… But…\nDid you ever see an anti-tank bow?  The bow that can throw arrows at a rifle distance, penetrate the armored vehicle, and kill a whole squad inside, while being completely silent?  I saw one, and it was a damn great experience.\n- *illegible*\nAre you a smith?\n- *illegible*\nYou are pretty smart, then.  Yes, that's their biggest advancement - their products do not fade as fast as technicians' work.  The second most beneficial part of their work is the material they use.  It has a complicated, unpronounceable name, but we simply call it \"dross\".  There is a group of people that like to call it \"dreamdross\" and overall have some \"dream\" fetish with this arcane stuff, but hell we are serious organizations if our researchers are inspired by some \"dreams can come true\" bullshit.  Anyway, dross is the main part of two branches: for smiths and for eaters.  The substance-producing process is pretty tricky, because you need to find a person with a magic inclination - usually it's a person touched by altered objects, creatures, or altered event victims, but there are exceptions: our consultant Jamey has had no contact with portals before yet happened to be a talented eater…  *illegible* *cough cough*…  So yes, you need to find such a person and teach them how to produce it.\n- *illegible*\n- Yes, there is situations, where common people produce some amount of dross after death, why do you ask?\n- *illegible*\n- [Lector stares at the questioner for a good ten seconds.]\n…How useful… may be the strategy… where we… kill… innocent people… just to find some dross?\n…\n…\n…I think I'll be fired… If I do not say \"we will never kill an innocent to get some resources\", but okay, theorizing, it's not viable still - the amount of dross we can obtain in such a way is negligible.  But again, don't even ask about it again.\nTurning back to dross, the exact characteristics of the material…  are not great.  It's pretty fragile, loose, and light - totally not a thing you can use to make a weapon - strong and sturdy.  But of course, it's not the main property of metal.  The main feature of the metal is its ability to accept and process magic.  Any magic, I'd say, but it's not true, some stuff we can't do at all, and some stuff can only be done by high level smiths.  It's not a big surprise, but even the senior smiths are able to make a huge variety of stuff with improved effects.  The most popular option is hardening, of course.  So, most items that are made fully from dross or use dross inserts are usually not that much stronger than steel stuff but lighter - sometimes so much lighter it has no weight at all - if I recall correctly, our DSAPI has a weight of like 500 grams or so?  You get the idea…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SAATUIOW_4/6.mp4\n…Another one is our hard workers - our smiths.  They are not as dreadful as technicians in their abilities, they can not create a nuke out of a microwave, but they can create something that even technicians can't understand.  At least the best of them, most of our smiths produce common tools and armor we use in our work.  You may think they are \"worse\", or \"weaker\" than other branches, or you may think they are some dumb blue collars.  And that's mostly right.  Mostly.  But… But…\nDid you ever see an anti-tank bow?  The bow that can throw arrows at a rifle distance, penetrate the armored vehicle, and kill a whole squad inside, while being completely silent?  I saw one, and it was a damn great experience.\n- *illegible*\nAre you a smith?\n- *illegible*\nYou are pretty smart, then.  Yes, that's their biggest advancement - their products do not fade as fast as technicians' work.  The second most beneficial part of their work is the material they use.  It has a complicated, unpronounceable name, but we simply call it \"dross\".  There is a group of people that like to call it \"dreamdross\" and overall have some \"dream\" fetish with this arcane stuff, but hell we are serious organizations if our researchers are inspired by some \"dreams can come true\" bullshit.  Anyway, dross is the main part of two branches: for smiths and for eaters.  The substance-producing process is pretty tricky, because you need to find a person with a magic inclination - usually it's a person touched by altered objects, creatures, or altered event victims, but there are exceptions: our consultant Jamey has had no contact with portals before yet happened to be a talented eater…  *illegible* *cough cough*…  So yes, you need to find such a person and teach them how to produce it.\n- *illegible*\n- Yes, there is situations, where common people produce some amount of dross after death, why do you ask?\n- *illegible*\n- [Lector stares at the questioner for a good ten seconds.]\n…How useful… may be the strategy… where we… kill… innocent people… just to find some dross?\n…\n…\n…I think I'll be fired… If I do not say \"we will never kill an innocent to get some resources\", but okay, theorizing, it's not viable still - the amount of dross we can obtain in such a way is negligible.  But again, don't even ask about it again.\nTurning back to dross, the exact characteristics of the material…  are not great.  It's pretty fragile, loose, and light - totally not a thing you can use to make a weapon - strong and sturdy.  But of course, it's not the main property of metal.  The main feature of the metal is its ability to accept and process magic.  Any magic, I'd say, but it's not true, some stuff we can't do at all, and some stuff can only be done by high level smiths.  It's not a big surprise, but even the senior smiths are able to make a huge variety of stuff with improved effects.  The most popular option is hardening, of course.  So, most items that are made fully from dross or use dross inserts are usually not that much stronger than steel stuff but lighter - sometimes so much lighter it has no weight at all - if I recall correctly, our DSAPI has a weight of like 500 grams or so?  You get the idea…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'activation_message' action message of item 'cannabis distillate'",
+      "flags": [],
+      "id": "45debf16fc44344feefeb3caba537972b622102d36202c17b09b1cd2fdef80ee",
+      "identity": [
+        null,
+        "You take a dab of distillate.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You take a dab of distillate.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "45e7ebd1f1814c9dcdfb8c1b4c5941a0e5fb31ad5261e68d8f1f9d1e4bb94f65",
+      "identity": [
+        null,
+        "parenting book",
+        "parenting books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "parenting books",
+      "singular": "parenting book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '镇岳吐纳'",
+      "flags": [],
+      "id": "45f6b3ea3e2ec6c8085be832dc84d3066b2e8f93203587480f92410555d80131",
+      "identity": [
+        null,
+        "磐石篇的吐纳法门。沉气入地，纳土行厚重之元，稳如山岳。修炼使体魄坚凝，不易撼动。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "磐石篇的吐纳法门。沉气入地，纳土行厚重之元，稳如山岳。修炼使体魄坚凝，不易撼动。",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

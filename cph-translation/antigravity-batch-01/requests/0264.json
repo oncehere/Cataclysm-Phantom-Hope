@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fde784520c3e4cfedbe06c9329c119bbcbd1687ed5b7a7d3b3c595d1b3cfe534",
+      "identity": [
+        null,
+        "I'm just passing.  Bye.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm just passing.  Bye.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'log_sec'\n~ Long-form interrogation transcripts, surveillance logs",
+      "flags": [],
+      "id": "fe01f80df739f297c3e37b5634ce4bc3e9b717704dd435e3fd95a43084408f98",
+      "identity": [
+        null,
+        "\"Please state your name for the record.\"\n\n\"Fuck off.\"\n\n\"You are in possession of a fake driver's license issued to one Jonathan Smith, which is the alias you applied for employment with in our facility.  We will find out your real name in time, but I'll refer to you as Mr. Smith for this interview.  Is that acceptable, Mr. Smith?\"\n\n\"Fuck off.  I want to talk to my lawyer.\"\n\n\"You don't have a lawyer.\"\n\n\"I know my rights, shithead.  You won't get a word out of me before I talk to my lawyer.\"\n\n\"You seem to be confused about your situation, Mr. Smith.  As far as the world is concerned you stopped existing the moment you entered this facility, and as far as we are concerned you stopped having rights as soon as you tried to access areas above your provisional clearance.  Let me present your options going forward:  You continue withholding information from us and you will suffer a meticulously-documented accident leaving no doubt to your demise even though no body will ever be found.  Or you cooperate fully and without hesitation, in which case you will get to see the sky again and act like nothing has happened.  Am I understood?\"\n\n\"…yes.\"\n\n\"Please state your name for the record.\"\n\n\"M-my name is Thomas Wright.  I'm a, uh, a freelance journalist.\"\n\n\"What were you trying to accomplish in this facility, Mr. Wright?\"\n\n\"There was th-this guy offering good money for some pictures from the inside of this place.\"\n\n\"I don't suppose this man told you his name?\"\n\n\"No, no… He just handed me the application forms and the license, paid quarter up front, and said to bring the pictures to the same spot in a week's time.\"\n\n\"What did he say to expect here?\"\n\n\"This place is… look, you can't expect people not to talk about it, right?  You can't just put up a warehouse of a shipping company nobody's heard of practically overnight and act like it was always here.  He said you guys were a, uh, top secret prison for political prisoners.\"\n\n\"That explains your attempts to clumsily pick the first closed door you came across.  How did your employer contact you?\"\n\n\"A friend of a friend gave him my number, at least according to him.  If you haven't noticed in here times are tough, so I couldn't really afford to be picky about work even before he started throwing cash around.\"\n\n\"Very well.  While we verify that account my colleagues here will take you through a tour of our facility:  You will take photographs with your \"hidden\" camera when and where they instruct you to.  You will submit these pictures for review and remain in our custody until we can be certain of your compliance.  You will be released and at the appointed time you will hand over the pictures to your employer.  You will not mention this conversation to them, or to anybody outside of this room.  You will enjoy your well-earned payment, far away from this facility.  Am I understood?\"\n\n\"Yes, sir, I can do that.\"\n\n\"Excellent, Mr. Wright.  I look forward to never seeing you again.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"Please state your name for the record.\"\n\n\"Fuck off.\"\n\n\"You are in possession of a fake driver's license issued to one Jonathan Smith, which is the alias you applied for employment with in our facility.  We will find out your real name in time, but I'll refer to you as Mr. Smith for this interview.  Is that acceptable, Mr. Smith?\"\n\n\"Fuck off.  I want to talk to my lawyer.\"\n\n\"You don't have a lawyer.\"\n\n\"I know my rights, shithead.  You won't get a word out of me before I talk to my lawyer.\"\n\n\"You seem to be confused about your situation, Mr. Smith.  As far as the world is concerned you stopped existing the moment you entered this facility, and as far as we are concerned you stopped having rights as soon as you tried to access areas above your provisional clearance.  Let me present your options going forward:  You continue withholding information from us and you will suffer a meticulously-documented accident leaving no doubt to your demise even though no body will ever be found.  Or you cooperate fully and without hesitation, in which case you will get to see the sky again and act like nothing has happened.  Am I understood?\"\n\n\"…yes.\"\n\n\"Please state your name for the record.\"\n\n\"M-my name is Thomas Wright.  I'm a, uh, a freelance journalist.\"\n\n\"What were you trying to accomplish in this facility, Mr. Wright?\"\n\n\"There was th-this guy offering good money for some pictures from the inside of this place.\"\n\n\"I don't suppose this man told you his name?\"\n\n\"No, no… He just handed me the application forms and the license, paid quarter up front, and said to bring the pictures to the same spot in a week's time.\"\n\n\"What did he say to expect here?\"\n\n\"This place is… look, you can't expect people not to talk about it, right?  You can't just put up a warehouse of a shipping company nobody's heard of practically overnight and act like it was always here.  He said you guys were a, uh, top secret prison for political prisoners.\"\n\n\"That explains your attempts to clumsily pick the first closed door you came across.  How did your employer contact you?\"\n\n\"A friend of a friend gave him my number, at least according to him.  If you haven't noticed in here times are tough, so I couldn't really afford to be picky about work even before he started throwing cash around.\"\n\n\"Very well.  While we verify that account my colleagues here will take you through a tour of our facility:  You will take photographs with your \"hidden\" camera when and where they instruct you to.  You will submit these pictures for review and remain in our custody until we can be certain of your compliance.  You will be released and at the appointed time you will hand over the pictures to your employer.  You will not mention this conversation to them, or to anybody outside of this room.  You will enjoy your well-earned payment, far away from this facility.  Am I understood?\"\n\n\"Yes, sir, I can do that.\"\n\n\"Excellent, Mr. Wright.  I look forward to never seeing you again.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'dog fursuit' of armor 'fursuit'",
+      "flags": [],
+      "id": "fe063a1916dfc1b74c6552254cb2a4f60995d5bfaabb4a86d03eb8d6d1a4f555",
+      "identity": [
+        null,
+        "A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/suits_clothes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '[Ψ]Healthy Glow (C)'",
+      "flags": [],
+      "id": "fe2ceea63b84396c40e728ae393584462760c1f4973009297b99fee570fd2b27",
+      "identity": [
+        null,
+        "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Healthy Glow <color_red>cannot be active</color> with Leucocyte Acculumation",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/vitakinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Healthy Glow <color_red>cannot be active</color> with Leucocyte Acculumation",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fe40e486a790fee8b193b29a57d82ada51aabb96d0116c85cd8ba1391f9cf5a7",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -@User\n\n<color_light_green> Blood required for reality stabilization.\n\n @User > _</color>\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -@User\n\n<color_light_green> Blood required for reality stabilization.\n\n @User > _</color>\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'activation_message' action message of item 'marijuana'",
+      "flags": [],
+      "id": "fe417c3b86ded5310712551515df484047b2475e0f53a45628df594295288d0b",
+      "identity": [
+        null,
+        "You smoke some weed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You smoke some weed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fe464b56fa53a1ebd532548824d208618fc3442b9206ad43306e693462db697f",
+      "identity": [
+        null,
+        "Excuse me for a moment.\"  The intercom turns off abruptly.  It comes back on after roughly a minute, and when it speaks again, another voice is on the other side, speaking carefully.\n\n\"Yes… the Exodii.  We have yet to make contact, but we are keenly interested in their capabilities and technology.  If you were to provide us with, say, five rounds, in addition to the rifle itself and a magazine suitable for it, we believe we would be able to replicate the parts.  We expect it to take three days of research.\"\n\n\"Please note that the requested materials will not be returned, as they are likely to be damaged during research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_prototypes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Excuse me for a moment.\"  The intercom turns off abruptly.  It comes back on after roughly a minute, and when it speaks again, another voice is on the other side, speaking carefully.\n\n\"Yes… the Exodii.  We have yet to make contact, but we are keenly interested in their capabilities and technology.  If you were to provide us with, say, five rounds, in addition to the rifle itself and a magazine suitable for it, we believe we would be able to replicate the parts.  We expect it to take three days of research.\"\n\n\"Please note that the requested materials will not be returned, as they are likely to be damaged during research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "fe553ce64e25fc97b368efe345ee5508096ac80e9cd5ad45b4009eceacbb4fdf",
+      "identity": [
+        null,
+        "Intra-Cranial Padding",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Intra-Cranial Padding",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fe68146a70e59c6c62852a2aa33eefc3f9c9cf79ac3a2b5ef11fce162683a990",
+      "identity": [
+        null,
+        "I'll have to offer less help per sample, as I can't keep giving favors away for so little.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'll have to offer less help per sample, as I can't keep giving favors away for so little.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fe6c0dabf45cb33414be05c52f02ce886f96945df312d591b2baf9e10f416bfd",
+      "identity": [
+        null,
+        "Could you cast a spell for me?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you cast a spell for me?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'Key of Vampiric Knowledge'",
+      "flags": [],
+      "id": "fe6d0b4b9c127ab508317fe2c1c601e7d20bce7a7f39ece9ded6d1e287dd5d4d",
+      "identity": [
+        null,
+        "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts and reshuffle your weaknesses.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/mod_interactions/xedra_evolved/recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts and reshuffle your weaknesses.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fe7febf66af8d8ee387af35e2d9a56d6440d2f1c77f30885efa19e87ec3ca7b6",
+      "identity": [
+        null,
+        "Unavailable: Lua-first Platform is not enabled in this build.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager_ui.cpp",
+          "36"
+        ]
+      ],
+      "plural": null,
+      "singular": "Unavailable: Lua-first Platform is not enabled in this build.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

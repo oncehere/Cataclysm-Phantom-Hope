@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d62b640583924a8923ce086af2feb9842dc736024ebdc059d99d4bd940853ead",
+      "identity": [
+        null,
+        "[Show him your notes on overcharged energy drinks]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Show him your notes on overcharged energy drinks]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d67edef878d8fe46ea938fb252cd633a803327f689b82170c40aceb610baf27f",
+      "identity": [
+        null,
+        "That's right, I did.  My mother's mother was a woman of the old kind, and so was my father's father.  My father's mother, she was a grandma, a little piece of old London-Town, but I had a jaryi and a taita and a tamoi (these are words for grandparents in a guarani dialect).  They were all there, right to the end.  Standing by, we were, one and all.  No time for stories, though.  Back to the here and now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "That's right, I did.  My mother's mother was a woman of the old kind, and so was my father's father.  My father's mother, she was a grandma, a little piece of old London-Town, but I had a jaryi and a taita and a tamoi (these are words for grandparents in a guarani dialect).  They were all there, right to the end.  Standing by, we were, one and all.  No time for stories, though.  Back to the here and now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d69b71cf9ab0454a63b147b6bb26d22b611d1734c9da212971cf9edb00c21f07",
+      "identity": [
+        null,
+        "I was especially good at enforcing the law, had a special yellow pistol I called ole blue that showed how far I'd come from when I started with a blue pistol I called ole yellow.  By all rights I should be dead.  We were called to control \"riots\", which we all know were the first <zombie> hordes.  Fat lot of good we were.  Pretty sure we killed more civilians.  Even among my crew, morale was piss poor and we were shooting wild.  Then something hit us, something big.  Might have been a bomb, I really don't remember.  I woke up pinned underneath a lot of bodies.  I couldn't see anything… but I could hear it.  <swear!>.  I could hear everything.  I spent hours, maybe days under those bodies, not even trying to get out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/cop_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I was especially good at enforcing the law, had a special yellow pistol I called ole blue that showed how far I'd come from when I started with a blue pistol I called ole yellow.  By all rights I should be dead.  We were called to control \"riots\", which we all know were the first <zombie> hordes.  Fat lot of good we were.  Pretty sure we killed more civilians.  Even among my crew, morale was piss poor and we were shooting wild.  Then something hit us, something big.  Might have been a bomb, I really don't remember.  I woke up pinned underneath a lot of bodies.  I couldn't see anything… but I could hear it.  <swear!>.  I could hear everything.  I spent hours, maybe days under those bodies, not even trying to get out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Fey Nightsight'",
+      "flags": [],
+      "id": "d6a54b59cb875170cc770a1acb58f149c6775778e7111997edf210b6e1b04630",
+      "identity": [
+        null,
+        "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_b>'",
+      "flags": [],
+      "id": "d6b7aaebe061747e0da98edd96091330d004b5f8c411ce835bce1ed75775d0f0",
+      "identity": [
+        null,
+        "supplies being much harder to obtain",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "supplies being much harder to obtain",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "d6c06c21a27f880c1b5b32cf0fe14cb35a32cc5e1f1d3659d943a27f16e79f9d",
+      "identity": [
+        null,
+        "Rubik agrees to selling the Free Merchants a medical robot.  You feel that the deal favors the Free Merchants a bit more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rubik agrees to selling the Free Merchants a medical robot.  You feel that the deal favors the Free Merchants a bit more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of vehicle part 'atomic nightlight'",
+      "flags": [],
+      "id": "d6c16cb88f92bedb0dd68b6c047df0a8b9244fc5ed08d2a639aa3007144d24c3",
+      "identity": [
+        null,
+        "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/vehicleparts/lights.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'hunting hand cannon'",
+      "flags": [],
+      "id": "d6d983d0d7725d900ae96ce901416f5bd21434865aadd5bc72c55e9d6d57685e",
+      "identity": [
+        null,
+        "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/gun/4570.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d7081cdc953150b1e02cbcb03569fd5ab6c5fd9a4134db0dbf384d8b14800a81",
+      "identity": [
+        null,
+        "Vehicle status",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "664"
+        ]
+      ],
+      "plural": null,
+      "singular": "Vehicle status",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "d749aaf0357d943d750470d67e138fc93e799cb5588544b8cf7df613bcf09bcf",
+      "identity": [
+        null,
+        "Well, that's a lot to take in.  What do they want?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well, that's a lot to take in.  What do they want?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "d74b2bec578360c9cf055605d000f794f5379f57e9d7963310c89de550a29570",
+      "identity": [
+        null,
+        "giant solar beetle corpse",
+        "giant solar beetle corpses"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/corpses/nether.json",
+          ""
+        ]
+      ],
+      "plural": "giant solar beetle corpses",
+      "singular": "giant solar beetle corpse",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "d75186c8c897c1efcd1ec805f71ecc0db9d11b6ec201d0a127e4e4db49d0ca81",
+      "identity": [
+        null,
+        "Taking Thorazine is a mistake.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Taking Thorazine is a mistake.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "ff3eff8970f1b6c354b34ae3619dbf16606bd79cdcf5f84ab65629201ccf1e90",
+      "identity": [
+        null,
+        "cryogenic flask",
+        "cryogenic flasks"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/containers.json",
+          ""
+        ]
+      ],
+      "plural": "cryogenic flasks",
+      "singular": "cryogenic flask",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'periapt of proof against poison'",
+      "flags": [],
+      "id": "ff4e33aba70b1be1685e079a49ba57f7629e9cb786b7ee339e2eefd11bf25557",
+      "identity": [
+        null,
+        "Useful in both the medieval era for traditional poisons and the modern day for allergies.  Does nothing against disease, and may not work on more esoteric poisons.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Useful in both the medieval era for traditional poisons and the modern day for allergies.  Does nothing against disease, and may not work on more esoteric poisons.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Forest-Wise'",
+      "flags": [],
+      "id": "ff5b9d9be5be874775795c218e758a4a9f594ad66347c3feb03cca08c7a59594",
+      "identity": [
+        null,
+        "You underwent the Ordeal of the Weald and bonded your soul to the Forest, and the forest spirits allow to draw on a portion of their power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You underwent the Ordeal of the Weald and bonded your soul to the Forest, and the forest spirits allow to draw on a portion of their power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "ff820b811787504d4bc61eeccaca98ab74be16a8bf99992e208c203c1a50a037",
+      "identity": [
+        null,
+        "You close your eyes and through the flow of turbulent warpstream, an invisible maze manifests.  A thousand potential passages brush smooth stone across your consciousness, and the meaning of this reality glimmers faintly, a dancing splinter of light in the distance.  You've been here before, you are here now, and you will be here again.\nWhen you open your eyes, you're back where you began.  You haven't moved, but it feels as though the world has.\n\nIn every future expedition, you will now be able to find two different locations you can exit from.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/exits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You close your eyes and through the flow of turbulent warpstream, an invisible maze manifests.  A thousand potential passages brush smooth stone across your consciousness, and the meaning of this reality glimmers faintly, a dancing splinter of light in the distance.  You've been here before, you are here now, and you will be here again.\nWhen you open your eyes, you're back where you began.  You haven't moved, but it feels as though the world has.\n\nIn every future expedition, you will now be able to find two different locations you can exit from.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'Hypocalcemia, Weak bones, Brittle bones'",
+      "flags": [],
+      "id": "ff8aea29dec79955a9b3bb0fb24c5fcc25a1e2ead0ff7158711894f87c6794c0",
+      "identity": [
+        null,
+        "Your bones regain their usual strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your bones regain their usual strength.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ff969bd6ef2fc209780bf6b711b8952c247d2098f69885ae3edd9f6a3b14a7b7",
+      "identity": [
+        null,
+        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back after <restock_time_point>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back after <restock_time_point>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Proficiency name",
+      "flags": [],
+      "id": "ff9842b91b1125eacd56688b90e9f32033836680c5d2b2c8f5cab1c207617553",
+      "identity": [
+        null,
+        "Airship Piloting",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/proficiencies/vehicles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Airship Piloting",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speed description of monsters",
+      "flags": [],
+      "id": "ffba7564bcdd2fd17b85208bb4b49ae39732219adbc378ec505427af60a7f427",
+      "identity": [
+        null,
+        "<color_light_green>It is much slower than you.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/speed_descriptions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_green>It is much slower than you.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ffc4fa43350421ff9da355e416a8f1ffe2f2b1e6d5d90a3b50dd265656996f84",
+      "identity": [
+        null,
+        "[$2500 in store credit] How about store credit instead?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[$2500 in store credit] How about store credit instead?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fffad305130477c21ed5227c256c52ad27f8e0c1f59be59f69375520af9b52e5",
+      "identity": [
+        null,
+        "Game map",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game.cpp",
+          "2736"
+        ]
+      ],
+      "plural": null,
+      "singular": "Game map",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fffe1ff22b5ab1f8d7830e2174e5d8a264d1fdfc219eccb4e1bd73c4f00034c6",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵖˡᵉᵃˢᵉ DON'T ᵍᵒ",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵖˡᵉᵃˢᵉ DON'T ᵍᵒ",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

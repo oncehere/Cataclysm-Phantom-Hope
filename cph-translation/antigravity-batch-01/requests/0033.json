@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "16978798539b3b5d2e717037445ea861ee931f84a6757a2702b5ebba9d1600d2",
+      "identity": [
+        null,
+        "Okay, so whatever lives there is some sort of interdimensional horror.  Or maybe not.  Great.  How would I get to these \"labyrinths\"?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Okay, so whatever lives there is some sort of interdimensional horror.  Or maybe not.  Great.  How would I get to these \"labyrinths\"?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'missing_dog'\n~ Please replace the fictitious phone number with one of your local\nequivalent when translating",
+      "flags": [],
+      "id": "16ae658176a509fcb67e18b9bc5fedcc9607159421c5f876c4bde31fa700a8ee",
+      "identity": [
+        null,
+        "LOST DOG\n\n[Photograph: a selfie of a boxer mastiff and its owner.  The dog has a goofy grin.]\n\nNAME: BOOMER THE BOXER\nSEX: MALE, NEUTERED\nBREED: BOXER MASTIFF MIX\nCOLOR: BROWN BODY, WHITE STOMACH, BLACK SNOUT\nPERSONALITY: LOVES OTHER DOGS, AFRAID OF LOUD NOISES, KNOWS SIT, STAY, PLAY, ETC.\n\nLast seen on Dalton Avenue near Brown Street in Pittsfield, wearing a yellow reflective collar on Oct 11.\n\nIF YOU SAW HIM, PLEASE DON'T HESITATE TO CALL 617-555-1745.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/missing_posters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "LOST DOG\n\n[Photograph: a selfie of a boxer mastiff and its owner.  The dog has a goofy grin.]\n\nNAME: BOOMER THE BOXER\nSEX: MALE, NEUTERED\nBREED: BOXER MASTIFF MIX\nCOLOR: BROWN BODY, WHITE STOMACH, BLACK SNOUT\nPERSONALITY: LOVES OTHER DOGS, AFRAID OF LOUD NOISES, KNOWS SIT, STAY, PLAY, ETC.\n\nLast seen on Dalton Avenue near Brown Street in Pittsfield, wearing a yellow reflective collar on Oct 11.\n\nIF YOU SAW HIM, PLEASE DON'T HESITATE TO CALL 617-555-1745.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'radiant amalgamation'",
+      "flags": [],
+      "id": "16b1310d228677a99be7ffeb70334b5d78a08d6c30cbc83c65468d9c2869fb94",
+      "identity": [
+        null,
+        "A four-legged creature with a bulbous body and a small head with a fanged maw, with three multi-jointed limbs waving above it in the air.  The limbs emit a soft glow, occasionally brightening into an eye-searing flare.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/monsters/amalgamations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A four-legged creature with a bulbous body and a small head with a fanged maw, with three multi-jointed limbs waving above it in the air.  The limbs emit a soft glow, occasionally brightening into an eye-searing flare.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_c>'",
+      "flags": [],
+      "id": "16b1e5947ea242b6872fa49624495b194bab7e76e5db4aa924b78c1f29c0bb4b",
+      "identity": [
+        null,
+        "most vampires being ignored by the zombies",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "most vampires being ignored by the zombies",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "16e5dbd157087c94f5a36acd6155d66871b465a9e10ab2904a3cb526fb133032",
+      "identity": [
+        null,
+        "Gain [<trait_name:perk_hive_queen>]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gain [<trait_name:perk_hive_queen>]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "16f9047a496edcf07258bea1be58fe190c0a7711ca26caeca245cef21a8c4410",
+      "identity": [
+        null,
+        "A perfect cabinet of oddities.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A perfect cabinet of oddities.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1706915911d5d72911cccc620ccce334d80e19f902088523d987572bc2d3cb20",
+      "identity": [
+        null,
+        "No.  That's too much to ask, and we can't spare the materials.  I'll give you some advice.  Keep up the good work, and maybe I'll change my mind one day.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  That's too much to ask, and we can't spare the materials.  I'll give you some advice.  Keep up the good work, and maybe I'll change my mind one day.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1737c5ec02400e6fb2fef4b8768b0924dc7b4b165cd26c5abec34e46ebfead3c",
+      "identity": [
+        null,
+        "I know all kinds of weird useless stuff.  I've seen things at churches, I've seen things on farms, I've seen whole exhibits way out, a whole zoo even.  And there's someone pretending to be me, but it's not me, because I would know.  Or you would know.  One of us would be us.  Those Swampers, they know what's happening.  They're creatures of light come back to save us all.  Or eat us, I forget.  Oh and that Old Guard Repo Man hates them and Red is out there somewhere in the great red yonder.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/DinoMod/NPC/BEGGAR_2_Dino_Dave.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I know all kinds of weird useless stuff.  I've seen things at churches, I've seen things on farms, I've seen whole exhibits way out, a whole zoo even.  And there's someone pretending to be me, but it's not me, because I would know.  Or you would know.  One of us would be us.  Those Swampers, they know what's happening.  They're creatures of light come back to save us all.  Or eat us, I forget.  Oh and that Old Guard Repo Man hates them and Red is out there somewhere in the great red yonder.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of creature revealed by special vision 'wizard_sense'",
+      "flags": [],
+      "id": "17458fdc8eaf92d436f21ea1978abdd3012bd51eaa1aa9b3bbd4bfdcaa8a1127",
+      "identity": [
+        null,
+        "You sense a being of the Unseen World here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You sense a being of the Unseen World here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "17557676232f29468ad4b6dad12d3f99fd5cd7fc4ad9d708f0e36734d835f621",
+      "identity": [
+        null,
+        "寒泉迸（残卷）",
+        "寒泉迸（残卷）"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "寒泉迸（残卷）",
+      "singular": "寒泉迸（残卷）",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "179bfe362a2327e6785a87037c965bdfeac4522671ef2a44aedeeeff4349bc05",
+      "identity": [
+        null,
+        "The ABC of Communism",
+        "copies of The ABC of Communism"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The ABC of Communism",
+      "singular": "The ABC of Communism",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "17a4bf470d4eb501291ef9225a9216478242f7771f8133ef32c5808a18a799c7",
+      "identity": [
+        null,
+        "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  Your first time will leave you dizzy, but it'll pass if you're tough.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  Your first time will leave you dizzy, but it'll pass if you're tough.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

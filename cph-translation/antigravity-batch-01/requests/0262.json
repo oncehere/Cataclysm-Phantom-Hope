@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'frozen daemon'",
+      "flags": [],
+      "id": "fc0bf83135bb6bf5074e095efd980454532ebd817b36a67424b12c6b2656155b",
+      "identity": [
+        null,
+        "A crystalline lump, set atop nine jagged legs.  The air around it sparkles faintly and frost rimes their rocky exterior.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A crystalline lump, set atop nine jagged legs.  The air around it sparkles faintly and frost rimes their rocky exterior.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_notes'",
+      "flags": [],
+      "id": "fc2c65265eb95b447c50a0ed50e70f253560f98cff027e545b0032e753983c2d",
+      "identity": [
+        null,
+        "We're running L61 and M81 ragged with all the experiments we've been doing with them but attempts to increase the pool of candidates mostly end in failure and head pain.  We need some more systematic way of growing our number of mathematicians that's not just throwing people at the crystals and seeing if it works.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "We're running L61 and M81 ragged with all the experiments we've been doing with them but attempts to increase the pool of candidates mostly end in failure and head pain.  We need some more systematic way of growing our number of mathematicians that's not just throwing people at the crystals and seeing if it works.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Getting there is tricky, but easier than moving a castle.  They're less\nexpensive and dangerous than a whole jump, which itself is curious.\nDownstairs is a metal ring with a terminal - I wrote the messages, so\nyou'll understand it.  We'll consider you a volunteer who wants to scout\nthe place out.  It's good for both of us.  You're free to use it.  Keep in\nmind that the teleporter needs to recharge for 5 days between jumps.  I'd\ngive you a word of caution, but you probably know the place well enough.",
+      "flags": [],
+      "id": "fc501bd4ae7ec147b973a16c21584536da3fb14f273aef3d980e66e81a55aa71",
+      "identity": [
+        null,
+        "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nI'd give ye a word o' threat, but I think ye'ken it already.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nI'd give ye a word o' threat, but I think ye'ken it already.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fc71232110e713d78e900d4cb5d2d829be0a28b9bcdf78bb0f94b9a480be2f66",
+      "identity": [
+        null,
+        "<color_light_green>Activate dimensional recalibration protocol",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_light_green>Activate dimensional recalibration protocol",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "fc7416657bb884b53c8fc75bd9dc283fa351d3949fffc560eb8066b7a79145a0",
+      "identity": [
+        null,
+        "Select a smaller rectangle (at most %d tiles).",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "945"
+        ]
+      ],
+      "plural": null,
+      "singular": "Select a smaller rectangle (at most %d tiles).",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of event statistic",
+      "flags": [],
+      "id": "fc79dc53a86328f61bebe30ef71c129498749c506677c768c6f30fca931e1f46",
+      "identity": [
+        null,
+        "dead cop",
+        "dead cops"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/statistics.json",
+          ""
+        ]
+      ],
+      "plural": "dead cops",
+      "singular": "dead cop",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fc7a5fe44d3299da43770e9109b4afc80428088bab6f7c41fd8b6e2b68043c0b",
+      "identity": [
+        null,
+        "&<color_light_green> AltarOS map-node ONLINE.\n<color_light_green> Connection to AltarOS remote FAILED.\n<color_light_green> @User > _",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> AltarOS map-node ONLINE.\n<color_light_green> Connection to AltarOS remote FAILED.\n<color_light_green> @User > _",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "fc90b2587a96d8ffd1f00b44232f771657e46f6989675adb9ccf34ccd6baf192",
+      "identity": [
+        null,
+        "[Antagonize] Rush them.  \"Let's get to it!  A quick deal is a good deal.  Do you want to trade, or not?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Rush them.  \"Let's get to it!  A quick deal is a good deal.  Do you want to trade, or not?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "fc98a858e5a29064b2ee66a3c6446bab3523ecd525279121d5c2e1d7f36e1810",
+      "identity": [
+        null,
+        "left tentacle tips",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left tentacle tips",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of item 'plush toy'",
+      "flags": [],
+      "id": "fc9a67f9283adc711cc202618ab30d873438c1be561c87fa330fadaaf419d1f1",
+      "identity": [
+        null,
+        "green alien plushie",
+        "green alien plushies"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/toy.json",
+          ""
+        ]
+      ],
+      "plural": "green alien plushies",
+      "singular": "green alien plushie",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "fca2fc720a81465aaaa3c76ba350cdc0b5bc245e8e15fff8ff2cc4b58efe7d0f",
+      "identity": [
+        null,
+        " has <color_magenta>bile</color> covering their eyes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iuse.cpp",
+          "5990"
+        ]
+      ],
+      "plural": null,
+      "singular": " has <color_magenta>bile</color> covering their eyes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "fcbc3fe53f99c829731ab9882e151220cdf6f40be5e6af89dcf7d193a64faa08",
+      "identity": [
+        null,
+        "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

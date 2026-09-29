@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'giant solar beetle'",
+      "flags": [],
+      "id": "4611a0f93b88ecd324208b3e7378c7d71678760bba6db1c1b4691656a0696500",
+      "identity": [
+        null,
+        "Giant beetle-like robot with a glistening blue plastic shell, its open elytra is covered with curved solar panels.  Despite it's robotic appearance, it motions like an organic creature.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/reverberation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Giant beetle-like robot with a glistening blue plastic shell, its open elytra is covered with curved solar panels.  Despite it's robotic appearance, it motions like an organic creature.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "46355eadf65f50e98cdc32f87dee332f5e4d26c8b44a135d0f1e5746ba657bc0",
+      "identity": [
+        null,
+        "I can't do that right now.  I need time to recover my mana.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/follower_ask_for_dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can't do that right now.  I need time to recover my mana.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "464d4eff5d86f65d00c27513c011cc74dc7003efe68147e20e3f8df0fb10cd7a",
+      "identity": [
+        null,
+        "[Blaine copies the recipe on a paper sheet]  These painkillers will surely prove useful when someone will get injured.  Thanks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Blaine copies the recipe on a paper sheet]  These painkillers will surely prove useful when someone will get injured.  Thanks.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'leather kilt'",
+      "flags": [],
+      "id": "46635010d0d3b8e9124581271397ca9bbcf54870bbbf2879b5ba91378e20dcda",
+      "identity": [
+        null,
+        "No true Scotsman would leave home without his kilt.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/legs_clothes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No true Scotsman would leave home without his kilt.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of the nested group",
+      "flags": [],
+      "id": "467de72e765370af20976d71a960a77ebd1796337e4d6bd7d6afbeca53108f12",
+      "identity": [
+        null,
+        "chunks of steel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/nested.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "chunks of steel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "46882e398f53900493d8c8a72ca8f7ec566470159ac5a0e395e25b0afdb13abb",
+      "identity": [
+        null,
+        "Permanently delete this template.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2005"
+        ]
+      ],
+      "plural": null,
+      "singular": "Permanently delete this template.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Mind Sight'",
+      "flags": [],
+      "id": "469a059190bfbe35bb44273b168f645ce76370796d523f969295ef1f766d6d77",
+      "identity": [
+        null,
+        "You can sense nearby minds.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_artifact.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can sense nearby minds.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of achievement",
+      "flags": [],
+      "id": "46d8f69efb635d46c18116aa0d38decde4f55e3e180b7adc366c9c4d53bb19c2",
+      "identity": [
+        null,
+        "Do borders even matter now?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Do borders even matter now?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC\n'EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION'",
+      "flags": [],
+      "id": "46ef1c1cfee3786b9858217dd4702a979bf746e4d92fae57f0aba3410641e44a",
+      "identity": [
+        null,
+        "Success chance is is <context_val:success_chance>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Success chance is is <context_val:success_chance>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Slowed Time'",
+      "flags": [],
+      "id": "471de3a2cd238017cd14df533216f9d04d01e1f8b0431c15251271150b6376c1",
+      "identity": [
+        null,
+        "Everything around you seems to be moving slower.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/learning_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Everything around you seems to be moving slower.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'military PAPR blower (off)'",
+      "flags": [],
+      "id": "471efbcfb83c0a7eb4d6f582e1623123e220b51146b100d2ac9eac556affc223",
+      "identity": [
+        null,
+        "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and loaded with a charged battery and a filter canister, it can be paired with a prepared PAPR mask to provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and loaded with a charged battery and a filter canister, it can be paired with a prepared PAPR mask to provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'crystallized_mana' step 2",
+      "flags": [],
+      "id": "4722100d253473924b4f3daa7ed87f8187870f27c9d7b256e7a5c3864698ef02",
+      "identity": [
+        null,
+        "Alchemical purification",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/recipes/alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Alchemical purification",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

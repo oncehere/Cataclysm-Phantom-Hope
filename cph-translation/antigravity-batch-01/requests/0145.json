@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "871bf0d64826e2dbc74fa170fe610ce2574d75159971b70f2502e65dd466bc69",
+      "identity": [
+        null,
+        "Project Sobek Genetech",
+        "Project Sobek Genetechs"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/genetech.json",
+          ""
+        ]
+      ],
+      "plural": "Project Sobek Genetechs",
+      "singular": "Project Sobek Genetech",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'tentacled daemon'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "873cf01d753abb17f6e76b8c1fda99a6df9784692f830c8132e1bf9eaae7053b",
+      "identity": [
+        null,
+        "The %s collapses into a pile of slime!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %s collapses into a pile of slime!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "874104f192cd9f2993ea19b9b63b01498bfaa4869e26c1576e7b42b02e038149",
+      "identity": [
+        null,
+        "Brilliant white sands unfold under the view of this particular video, grains of grit lightly swirling in the breeze and the rhythmic voice of ocean waves murmuring in the background.  Pattering across the sand, with its wet fur rendered yellowish white by the gravel that coats it, a large dog bounds ahead of the camera with its snoot all but excavating a trench in the beach.  As the view pursues the Labrador's progress, the perspective bouncing with each of the unseen cameraman's steps, you can distinctly hear furtive, child-like giggles escorting each of the canine's obsessive sniffs.  The mirth swiftly perishes as the footage's forward momentum is arrested, the dog having abruptly paused in its tracks with its muzzle raised in the air and nostrils agitatedly flaring.  A series of puzzled murmurings accompany the film as the quadruped slowly edges away from some unseen entity; its hackles raised and chest vibrating with an escalating growl that culminates in an outburst of furious howls.  As a small hand reaches from off-screen to calm the maddened hound, the view gradually pans upwards.  The shift in elevation reveals a deep trench scored horizontally down the width of the beach, terminating at the lapping waterline.  It almost resembles the type of gouge that a sizable, flat-bottomed boat would have left in the sand had such a craft been dragged into the sea.  Almost.  The viscous pool of crusty, greenish-yellow cytoplasm that cakes the trough places that particular assessment into question.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Brilliant white sands unfold under the view of this particular video, grains of grit lightly swirling in the breeze and the rhythmic voice of ocean waves murmuring in the background.  Pattering across the sand, with its wet fur rendered yellowish white by the gravel that coats it, a large dog bounds ahead of the camera with its snoot all but excavating a trench in the beach.  As the view pursues the Labrador's progress, the perspective bouncing with each of the unseen cameraman's steps, you can distinctly hear furtive, child-like giggles escorting each of the canine's obsessive sniffs.  The mirth swiftly perishes as the footage's forward momentum is arrested, the dog having abruptly paused in its tracks with its muzzle raised in the air and nostrils agitatedly flaring.  A series of puzzled murmurings accompany the film as the quadruped slowly edges away from some unseen entity; its hackles raised and chest vibrating with an escalating growl that culminates in an outburst of furious howls.  As a small hand reaches from off-screen to calm the maddened hound, the view gradually pans upwards.  The shift in elevation reveals a deep trench scored horizontally down the width of the beach, terminating at the lapping waterline.  It almost resembles the type of gouge that a sizable, flat-bottomed boat would have left in the sand had such a craft been dragged into the sea.  Almost.  The viscous pool of crusty, greenish-yellow cytoplasm that cakes the trough places that particular assessment into question.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of vehicle part location",
+      "flags": [],
+      "id": "874d58dacd95f9c5b83fc4f35ecda79eb279b21146b7d3a746eda2176eb55eff",
+      "identity": [
+        null,
+        "Anywhere",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicle_part_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Anywhere",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'mealgrubs'",
+      "flags": [],
+      "id": "8756066f7f3d279e36a8a117eae1255609b23b69be105e028f8083beddc15e88",
+      "identity": [
+        null,
+        "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are a sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/comestibles/bug_brew.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are a sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun mod 'pistol double tapper'",
+      "flags": [],
+      "id": "878d3442801ef0a83fe62424b0402aac6fbe32b9301e6c44099740d6fbd92a31",
+      "identity": [
+        null,
+        "A set of mechanisms that allow the blocky pistol to shoot two rounds simultaneously.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/inventor/gunmods.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of mechanisms that allow the blocky pistol to shoot two rounds simultaneously.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "87a7116db134dc063eafb6bb0418e2def2967db2b5df73ba6d1854d5122abf20",
+      "identity": [
+        null,
+        "Stay away from Thorazine, it'll make you weak.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stay away from Thorazine, it'll make you weak.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor/tool name",
+      "flags": [],
+      "id": "87ea7dd9a51319ee4e867c72949033048831884221b88391bc6c05a17811f82f",
+      "identity": [
+        null,
+        "periapt of wound closure",
+        "periapts of wound closure"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": "periapts of wound closure",
+      "singular": "periapt of wound closure",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Eating Meat at Twilight'",
+      "flags": [],
+      "id": "8813428e986e0d103341634109cbdc04ea7b98769717db6cd4a4cad022379398",
+      "identity": [
+        null,
+        "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "883d11da54f7a7b10f588fee0a82aa009ba5fca1f3667fb999c3f48092777fbc",
+      "identity": [
+        null,
+        "This error may originate from a third-party mod.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mod_manager.cpp",
+          "130"
+        ]
+      ],
+      "plural": null,
+      "singular": "This error may originate from a third-party mod.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "8840475a50dbda902108c44cb342437060f37e32d84b504dff21068c5a8c28c9",
+      "identity": [
+        null,
+        "default tail base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "default tail base",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "88506c1a5107852ed88d492f58f843991d918fddd3f73ff3bea9b9d515681f0b",
+      "identity": [
+        null,
+        "ITEM %s DETECTED, CONTENTS OF ITEM WILL BE DESTROYED BY FABRICATOR PLEASE EMPTY ITEM AND RETURN",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "669"
+        ]
+      ],
+      "plural": null,
+      "singular": "ITEM %s DETECTED, CONTENTS OF ITEM WILL BE DESTROYED BY FABRICATOR PLEASE EMPTY ITEM AND RETURN",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

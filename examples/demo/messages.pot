@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: example-editor 1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#. Button action
+#: src/editor.c:10
+msgctxt "verb"
+msgid "Open"
+msgstr ""
+
+#. Status text
+#: src/editor.c:20
+msgctxt "adjective"
+msgid "Open"
+msgstr ""
+
+#. Number of open files
+#: src/editor.c:30
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#. This deliberate gap can be filled only by an explicit fill command.
+#: src/editor.c:40
+msgid "Save document"
+msgstr ""

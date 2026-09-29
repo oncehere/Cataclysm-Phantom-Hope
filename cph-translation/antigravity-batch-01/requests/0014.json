@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "01ebad368f6666de3df2afbcb45c26f7432bcad442473eeebdd5b23669bc4885",
+      "identity": [
+        null,
+        "[Prick yourself with the needle]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Prick yourself with the needle]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "021ac14ee25453b3ea97aacc8889d2cc3c5cb41bba285e61647bc9530ac623b5",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "02297c31a44a66effe7acec6888e0fb6d5378d272cdbe39a8d8d388ad0f8be05",
+      "identity": [
+        null,
+        "Keep your mind free, avoid Thorazine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Keep your mind free, avoid Thorazine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "024125aa38996bebc2313cc8e26a11576451148d9e8d1bca6aafbb05efc29806",
+      "identity": [
+        null,
+        "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'safety boots (pair)'",
+      "flags": [],
+      "id": "024dc5c53c5cb20334c2a41eb3c111c8589336f5d6f35fc6b7d5e0dc907ac38f",
+      "identity": [
+        null,
+        "Rugged boots with a thick sole, reaching above the ankles for support and protection.  Metal caps have been added to protect the toes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rugged boots with a thick sole, reaching above the ankles for support and protection.  Metal caps have been added to protect the toes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'bone skewer'",
+      "flags": [],
+      "id": "028c4aa340b643dbb9b1a763c489e9b42a6508aa9d24b82cd592a40d33e42a2d",
+      "identity": [
+        null,
+        "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/resources/bone.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'then' statement in false effect in\nEoC 'EOC_LS_earth_jaunt_extraction'",
+      "flags": [],
+      "id": "029006185cc0eaf1fa79ca8f98dd845bb3fe6ef4f0a8649af78a68d051131128",
+      "identity": [
+        null,
+        "You feel a tickle at the edge of your senses.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/nether_eocs/labyrinth_effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel a tickle at the edge of your senses.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0298209613684aa8b11ebf1e8af84cc66844af6ab34f72e5c73d128110b8a888",
+      "identity": [
+        null,
+        "%s can't damage the %s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3500"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s can't damage the %s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (butterfly periapta)'",
+      "flags": [],
+      "id": "029d654548d1a1fa82f1d24203584ccf858507af34d723c23c77fc5034cd6b15",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate that you \"still can't fly\" even with it on.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The notes indicate that you \"still can't fly\" even with it on.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "03434f99f625d2c9bab09e3c0a33488733591a0e73a18bf52f7c1b03e5ee6e3b",
+      "identity": [
+        null,
+        "Use nanoforge",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "8312"
+        ]
+      ],
+      "plural": null,
+      "singular": "Use nanoforge",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Stillness of the Tomb'",
+      "flags": [],
+      "id": "03500373a10105410c9bba7b921202a4f545366fd617c634004980f821c4c24e",
+      "identity": [
+        null,
+        "Infuse yourself the power of death and take on the mien of a corpse.  You will not breathe or move while it is in effect and enemies will assume you are dead.  You cannot weave this glamour twice in quick succession and expect the same enemies to be fooled again.  The glamour is <color_red>more expensive</color> in summer.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_winter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infuse yourself the power of death and take on the mien of a corpse.  You will not breathe or move while it is in effect and enemies will assume you are dead.  You cannot weave this glamour twice in quick succession and expect the same enemies to be fooled again.  The glamour is <color_red>more expensive</color> in summer.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "035f3ad6b5d05a4659f9f48171e546ccc8000f8ca4ec6a69149c8c2e4b7cda7c",
+      "identity": [
+        null,
+        "[Blaine copies the recipe on a paper sheet]  What a complex ingredient list.  This would be hard to produce before <the_cataclysm>, but now it's beyond reasonable with the resources I got here.  Thanks anyway for sharing the recipe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Blaine copies the recipe on a paper sheet]  What a complex ingredient list.  This would be hard to produce before <the_cataclysm>, but now it's beyond reasonable with the resources I got here.  Thanks anyway for sharing the recipe.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

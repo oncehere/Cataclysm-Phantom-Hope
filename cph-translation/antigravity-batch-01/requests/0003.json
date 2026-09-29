@@ -1,0 +1,79 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "scenario_female",
+      "developer_comments": "~ Scenario name for female",
+      "flags": [],
+      "id": "487cb126c43126c5aed4cddd7e30b9a1e6d56ccc4b933621d8a1f31527598e35",
+      "identity": [
+        "scenario_female",
+        "Challenge - The Fog",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Challenge - The Fog",
+      "translator_comments": ""
+    },
+    {
+      "context": "scenario_female",
+      "developer_comments": "~ Scenario name for female",
+      "flags": [],
+      "id": "a57119dc2246872d25e07f8e4e2029e02d8c432449194b0278d83a1ef3afc4da",
+      "identity": [
+        "scenario_female",
+        "Challenge - Undying Vengeance",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Challenge - Undying Vengeance",
+      "translator_comments": ""
+    },
+    {
+      "context": "scenario_female",
+      "developer_comments": "~ Scenario name for female",
+      "flags": [],
+      "id": "c2ad54798b832095bf25cb52637557742845cab06cf016fce7fb0524c6db23bb",
+      "identity": [
+        "scenario_female",
+        "Path of the Wise",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/player/scenario.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Path of the Wise",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

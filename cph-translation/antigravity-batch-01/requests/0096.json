@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (cephalopod periapta)'",
+      "flags": [],
+      "id": "55f78380f89b05f5d7fd7a2ab2294507ef4fb328dee9bd02385215592dc75632",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The writing gets increasingly shaky, dissolving into a series of ink blots just under the final steps of the recipe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for an enchanted amulet.  The writing gets increasingly shaky, dissolving into a series of ink blots just under the final steps of the recipe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "55f8017c158436d3d65fc4a12b1d1b75126ba08287fa8538047a66bd06a06469",
+      "identity": [
+        null,
+        "cathedral of flesh sanctuary",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "cathedral of flesh sanctuary",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "55f9f0de01911ce9f2e0c18d2c8a38437276fc06699c229b827eb30091485912",
+      "identity": [
+        null,
+        "%s pushes you out of the way.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3295"
+        ],
+        [
+          "src/mp_gamestate.cpp",
+          "7211"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s pushes you out of the way.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'wooden ballista bolt'",
+      "flags": [],
+      "id": "5601f8625431ad8a849754ca25442baa75aac628225bc153f15519d05396c610",
+      "identity": [
+        null,
+        "A thick wooden projectile sharpened at one end, not much longer than an arrow but much heavier.  Stands a low chance of remaining intact once fired.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/ranged/ballista.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A thick wooden projectile sharpened at one end, not much longer than an arrow but much heavier.  Stands a low chance of remaining intact once fired.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "56020f6f509a3e6ef7e8cbf44cb3418fbe628e72a07b6e5ada3c656c892ad381",
+      "identity": [
+        null,
+        "−",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/adaptive_character_creator.cpp",
+          "510"
+        ]
+      ],
+      "plural": null,
+      "singular": "−",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "560eb505823dc66f6b61e6864b134b53a2eb69c543034ff673e6a605c615f860",
+      "identity": [
+        null,
+        "You helped us, so I'll give you a good discount for your training.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You helped us, so I'll give you a good discount for your training.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of proficiency 'Bear Anatomy'",
+      "flags": [],
+      "id": "563513902e19934acbc19863c8b1d8acfae1e562df416a46120d8a39d8af0899",
+      "identity": [
+        null,
+        "You are familiar with the anatomy of bears and ways of putting them down easier.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/proficiencies/weakpoints.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are familiar with the anatomy of bears and ways of putting them down easier.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5637824b5424fc7fcacb5dbd2501df5937875b9db91f36dcb8510d20e632172b",
+      "identity": [
+        null,
+        "I'm back and I killed the renfields.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm back and I killed the renfields.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'hostile_msg' action message of item 'inactive Pathfinder'",
+      "flags": [],
+      "id": "565213e4a0e56876e0d4f64a0fa5e702afaf36a8b3fd20e48a7fe565e43280a2",
+      "identity": [
+        null,
+        "The Pathfinder swivels its turret and aims directly at you.  Don't brown your pants!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Pathfinder swivels its turret and aims directly at you.  Don't brown your pants!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC message in 'else' statement in EoC\n'EOC_CHANGELING_SUMMER_ABSORB_STRENGTH_INITIATE'",
+      "flags": [],
+      "id": "565a743e4ce1ee176697a4e455f1d698d6baf62c96f89fad5503798155cdfb3e",
+      "identity": [
+        null,
+        "You touch the machine but nothing happens.  What strength it possesses is not amenable to removal.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_summer_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You touch the machine but nothing happens.  What strength it possesses is not amenable to removal.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'Ripped tip'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "567cd9831e44578798cf70416416c23d1efe32d6f3893ac9830faf2ab99af3c1",
+      "identity": [
+        null,
+        "The tip of the %1$s has ripped off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The tip of the %1$s has ripped off.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'A Year of Living Without Magic'",
+      "flags": [],
+      "id": "5686876a41d790f55374e7e5799daa9caa8edf0bd25b189ec0ed1f35e9ec5003",
+      "identity": [
+        null,
+        "A guide to living without any magic at all, including ways to perform tasks that were traditionally performed with magic, such as starting fires, tending minor wounds, cooking and preserving food, doing laundry, and so on.  Somewhat hypocritically, it does include a dispelling spell in the back of the book.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/spellbooks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A guide to living without any magic at all, including ways to perform tasks that were traditionally performed with magic, such as starting fires, tending minor wounds, cooking and preserving food, doing laundry, and so on.  Somewhat hypocritically, it does include a dispelling spell in the back of the book.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

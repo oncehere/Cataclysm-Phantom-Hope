@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_PRACTICE_VITAKIN_INCREASED_HP'",
+      "flags": [],
+      "id": "a5b3cb12a4ecbc1d0a42e5874cf389e9bae8acf47f54aa9f5cbaca99177b7002",
+      "identity": [
+        null,
+        "contemplation: durability",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/recipes/practice/vitakinesis_practice.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "contemplation: durability",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor/tool name",
+      "flags": [],
+      "id": "a5b59994ee35975c463842b6b84d4039536e2544efed3b106d4edebb56be7ad6",
+      "identity": [
+        null,
+        "quick draw holster (exosuit)",
+        "quick draw holsters (exosuit)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor/exosuit/exosuit_storage.json",
+          ""
+        ]
+      ],
+      "plural": "quick draw holsters (exosuit)",
+      "singular": "quick draw holster (exosuit)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'history book (modern)'",
+      "flags": [],
+      "id": "a5b6d886ce6dcfa719898b14f78e989ee72dc9000cdac46645128c1d34e32f58",
+      "identity": [
+        null,
+        "A history book about events that living people can still remember.  You might think this would make it easier to write about, but you would be wrong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A history book about events that living people can still remember.  You might think this would make it easier to write about, but you would be wrong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a5bce619f25b4e58f1855d09fea56ab6b3ce2182bcdc953a7c65ccc512db89af",
+      "identity": [
+        null,
+        "Down",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/auto_pickup.cpp",
+          "298"
+        ],
+        [
+          "src/safemode_ui.cpp",
+          "323"
+        ]
+      ],
+      "plural": null,
+      "singular": "Down",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Vivid world'",
+      "flags": [],
+      "id": "a5f7311ef81208b1e1271bad2f970a054c50fca97ef20aaf15176ee7fe46f1ad",
+      "identity": [
+        null,
+        "Every sensation burns vivid and sharp, almost overwhelming.  Your perception is greatly enhanced.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Every sensation burns vivid and sharp, almost overwhelming.  Your perception is greatly enhanced.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a60466fdb7277973a01311a5c455234396c058c68309014e211abddf63461a7e",
+      "identity": [
+        null,
+        "Create a character from this template.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2004"
+        ]
+      ],
+      "plural": null,
+      "singular": "Create a character from this template.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a6081ee2e242ecd9e4d2ad902242b377ab532f595ddf9c93f7d7e7c9f0584a9a",
+      "identity": [
+        null,
+        "Keybindings",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1029"
+        ]
+      ],
+      "plural": null,
+      "singular": "Keybindings",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'artifact_scp'",
+      "flags": [],
+      "id": "a61afc2014bc08793f2f1f11e133d2bb3540e38d2463657525a6fbe5c0d8934e",
+      "identity": [
+        null,
+        "\nDESIGNATION AI-017-PA\n\"Golden Comb\"\n\nCONTAINMENT PROCEDURE:\nThe object should be kept within a sealed chamber, procedure AI-G-12 should be followed while handling the object.\n\nDESCRIPTION/PARATRONICS:\nHandle-less comb.  Dimensions: 9 by 4 cm.  Weight: 650g.  Surface lustre indicates a covering of 18-22 karat gold.  The comb's shaft is engraved with faded-rectangular patterns.  The possibility of such engravings representing an unknown language has been explored to inconclusive results.\n\nResonant frequencies produced by stroking the █████ █████ can leak into ███ █████████ which might then produce time-spatial alterations within prime.\n\nBACKGROUND:\nFound during immersion ███ by Agent Id.  ███ who kept a plastic comb of similar dimensions within their lab locker.  Original manifestation of the object might have been a synchronistic phenomenon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/dimensional_exploration.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\nDESIGNATION AI-017-PA\n\"Golden Comb\"\n\nCONTAINMENT PROCEDURE:\nThe object should be kept within a sealed chamber, procedure AI-G-12 should be followed while handling the object.\n\nDESCRIPTION/PARATRONICS:\nHandle-less comb.  Dimensions: 9 by 4 cm.  Weight: 650g.  Surface lustre indicates a covering of 18-22 karat gold.  The comb's shaft is engraved with faded-rectangular patterns.  The possibility of such engravings representing an unknown language has been explored to inconclusive results.\n\nResonant frequencies produced by stroking the █████ █████ can leak into ███ █████████ which might then produce time-spatial alterations within prime.\n\nBACKGROUND:\nFound during immersion ███ by Agent Id.  ███ who kept a plastic comb of similar dimensions within their lab locker.  Original manifestation of the object might have been a synchronistic phenomenon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "a62b5e699053a1c2f8c0edb0f96db5e2935ca0b37c48b61e25af0369a54a4050",
+      "identity": [
+        null,
+        "right middle tentacle tip",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right middle tentacle tip",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "a6357996f64588c52ee691b25042e930c98e361b9280bbd9e6824a86319e8866",
+      "identity": [
+        null,
+        "left front tentacles (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left front tentacles (draped)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'large sail'",
+      "flags": [],
+      "id": "a66d092d2587e55432ae2696728a4d29d682e5c4ae25106f89d6cfb86852c3c6",
+      "identity": [
+        null,
+        "A wooden mast with sails fit for a yacht or sloop, and about as much rigging as a single sailor can handle.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/vehicle/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A wooden mast with sails fit for a yacht or sloop, and about as much rigging as a single sailor can handle.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a67795834d6b881d93f409748aa44540c8c6d2c1b6f41d9c1f4d1a0440a006a9",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ],
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

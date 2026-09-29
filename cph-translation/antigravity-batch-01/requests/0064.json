@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Custom name for recipe crafting 'EOC_RESEARCH_MATERIAL_SKY'",
+      "flags": [],
+      "id": "344857b7d51943869ab6136969f167e526432c8003c84c1cb6250291fd23a768",
+      "identity": [
+        null,
+        "assemble sky research materials",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "assemble sky research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<hunter_reason_c>'",
+      "flags": [],
+      "id": "344b1b1d5b4371d6c8f973b56f3ec342c1be2de2b7e55a35b480899db636642d",
+      "identity": [
+        null,
+        "the remaining survivors being more open to collaborating with vampires",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/hunter_reasons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "the remaining survivors being more open to collaborating with vampires",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ A verb expressing an ongoing action",
+      "flags": [],
+      "id": "3462d11df6b21157fb3813efb81cecbd7129818827da66a171e0a1139b6581ad",
+      "identity": [
+        null,
+        "removing a vehicle part",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/player_activities.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "removing a vehicle part",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Fancy Footwork'\n~ The beginning of this description is a reference to the Looney Tunes\nshort 'Robin Hood Daffy'",
+      "flags": [],
+      "id": "3467de73ed5582a2d328c28de076b078993f5f58fd70edfd990b62c751834d2b",
+      "identity": [
+        null,
+        "Ho!  Ha-Ha!  Guard!  Turn!  Parry!  Dodge!  Spin!  Ha!  Thrust!  When wielding a fencing weapon, you gain +1 bonus dodge and slightly reduced move cost on flat terrain.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ho!  Ha-Ha!  Guard!  Turn!  Parry!  Dodge!  Spin!  Ha!  Thrust!  When wielding a fencing weapon, you gain +1 bonus dodge and slightly reduced move cost on flat terrain.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "3494bd8f0e7d4c22c3dd2c6e153a0011088ab3ece8c76324fba8e4558f52897e",
+      "identity": [
+        null,
+        "You cannot cast %s right now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "2248"
+        ]
+      ],
+      "plural": null,
+      "singular": "You cannot cast %s right now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_RandEnc_XE_Wraiths_On_Dark_Nights'",
+      "flags": [],
+      "id": "34fe6f24b56bcc6cfc13cd9996129e3efeb93977d7a59b477a26780f6d50f164",
+      "identity": [
+        null,
+        "Xedra Evolved wraiths encounter has triggered!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/wraiths_encounters.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Xedra Evolved wraiths encounter has triggered!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'sports bra'",
+      "flags": [],
+      "id": "352c571042ca63df81891a65426c3e360bcbf68b5986c21567fd794fa5353007",
+      "identity": [
+        null,
+        "Women underwear intended for physical activity, providing additional support for the breasts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Women underwear intended for physical activity, providing additional support for the breasts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "35330ab84bcc7190a666029b0099e94edb82643bcf4284c47a1abceef9c12ffb",
+      "identity": [
+        null,
+        "exposed sandbar",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/overmap_terrain/overmap_terrain_reverberations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "exposed sandbar",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'frozen daemon'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "35386e625c0485d4af83895e0489468cc4599252566960adaf414a00412239b2",
+      "identity": [
+        null,
+        "The %s shatters into frozen shards!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/daemons.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %s shatters into frozen shards!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Heatsight'",
+      "flags": [],
+      "id": "353d824d8379a10f870bc68e59d8467f867136392f755d206eaf690b99d46061",
+      "identity": [
+        null,
+        "Your eyes are capable of sensing the heat of your prey.  And anyone else, if necessary.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/mutations/nonhuman_species.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your eyes are capable of sensing the heat of your prey.  And anyone else, if necessary.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "353dbec2d90cc74ae6493682d693647eb2a200a15a44a8e2581f62200e7a54fe",
+      "identity": [
+        null,
+        "This all looks vaguely familiar to me.  Who are you?  What is this place?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This all looks vaguely familiar to me.  Who are you?  What is this place?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "354908c80dd2a4c2480b667714abe2f88f2d58c585006d39975a2b4246192d01",
+      "identity": [
+        null,
+        "left middle tentacle (draped)",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left middle tentacle (draped)",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

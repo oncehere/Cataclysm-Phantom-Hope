@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f83cb10a35b7dc83b089eccbfaeb897579eaa53bb09ee95e77722e3f89245286",
+      "identity": [
+        null,
+        "Game saved, but Lua-first Platform state could not be saved: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game_io.cpp",
+          "873"
+        ]
+      ],
+      "plural": null,
+      "singular": "Game saved, but Lua-first Platform state could not be saved: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Arbiter Mundi'",
+      "flags": [],
+      "id": "f862f458228e9137296813f8f27ff80f4076dd67b1970bbe6cba8d9d0703bea0",
+      "identity": [
+        null,
+        "Yours is the right to rule.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yours is the right to rule.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f8672ee7cd585ae435da41cde4ab2d3fd85d3bc14246439f005deee002905c2c",
+      "identity": [
+        null,
+        "Water flows through the open channels.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1166"
+        ]
+      ],
+      "plural": null,
+      "singular": "Water flows through the open channels.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f86c906b03d36deb26097d25d2c9b0b50a1f994ba6d251bd68a28a256185ba17",
+      "identity": [
+        null,
+        "%1$d tiles in the selected rectangle cannot accept %2$s.  %3$d tiles can accept it.  How would you like to proceed?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "968"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$d tiles in the selected rectangle cannot accept %2$s.  %3$d tiles can accept it.  How would you like to proceed?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (small blessing of Brigit)'",
+      "flags": [],
+      "id": "f87be00e5ae1d33117b001063dcaa1d5895d25bb47d35319106adc64b5bdc422",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a pill to cure minor illnesses.  You're not looking forward to getting that royal jelly now that you've seen what the bees are like lately.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a pill to cure minor illnesses.  You're not looking forward to getting that royal jelly now that you've seen what the bees are like lately.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster attack message",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f88cc376c1df9fcd4bbd7491551024b19438eafd17e1a9ac5083488c5a993f3d",
+      "identity": [
+        null,
+        "%1$s screams words of magic and <npcname> narrowly avoids a sickly-glowing eldritch bolt!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/monsters/feral_wizards.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s screams words of magic and <npcname> narrowly avoids a sickly-glowing eldritch bolt!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f8c057a3a37e07cff5641183f17f2163a26d86f97ebd2b0bd0ebb66021eb3ea2",
+      "identity": [
+        null,
+        "Disconnect the item linked at this position before removing the part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "476"
+        ]
+      ],
+      "plural": null,
+      "singular": "Disconnect the item linked at this position before removing the part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f8f7df27d261598990eb2da153931967a0102edee266f360ab5c68a6d9ef9d9b",
+      "identity": [
+        null,
+        "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.  Except I seem to have forgotten the radio I was supposed to bring.  I'll come back later.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.  Except I seem to have forgotten the radio I was supposed to bring.  I'll come back later.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Encumbrance text of body part 'left tentacles'\n~ Encumbrance text of body part 'right tentacles'\n~ Encumbrance text of body part 'left front tentacle'",
+      "flags": [],
+      "id": "f903806b9b9a350914758048f4d690a8464948ad4ef23c6f1b39f9bb6119bc81",
+      "identity": [
+        null,
+        "Slithering is slowed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Slithering is slowed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "f9202410fcd37290335b55fd712014fa8c59cfb7736e1e9633dc2a3c994ba2cd",
+      "identity": [
+        null,
+        "Contemplate your powers and improve your ability to hide your presence from distant observers.\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage_knack>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/recipes/practice/psychic_knacks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Contemplate your powers and improve your ability to hide your presence from distant observers.\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage_knack>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f944928b4e224f51711020c3bbfbf9d440e570818f1941300c44bae957a71860",
+      "identity": [
+        null,
+        "\"And done\" Phyliss says.  \"You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\"And done\" Phyliss says.  \"You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f94f2141a5efc11238d459d6ee1111878c5a1d5ef8f07a62ca7b28ae1d80b573",
+      "identity": [
+        null,
+        "Removing this final part will completely dismantle the vehicle.  Continue?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1049"
+        ]
+      ],
+      "plural": null,
+      "singular": "Removing this final part will completely dismantle the vehicle.  Continue?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

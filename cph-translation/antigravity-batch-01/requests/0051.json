@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "26a6ea58d2145c86017076061b7adac503ddbacc47ce37877229d9fca4c2897e",
+      "identity": [
+        null,
+        "Choose a part here:",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "1034"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose a part here:",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "26a8af2017b7fe8f019ce51d59d220598c3b6afe82862da680876419f48968a6",
+      "identity": [
+        null,
+        "Perception",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "610"
+        ]
+      ],
+      "plural": null,
+      "singular": "Perception",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_xedra'\n~ Messages, logs and videos, that xedra agent may have on it's laptop",
+      "flags": [],
+      "id": "26ad9b16986a68f6b23240b18a5c0108eadf32272b98652fba5b3a537b5b0011",
+      "identity": [
+        null,
+        "SAATUIOW_2/6.mp4\n…The first branch utilizes \"the knowledge\", people of this type \"know\" how to make tools, that seem impossible without decades of development or that violate a huge part of the physical laws we all know.  They are our most valuable resource: engineers that can build a railgun using M16 parts, assemble an EMP bomb using only a PlayStation and a few tools, a phone camera that sees through the walls, a Humvee engine that can use whiskey as fuel *cough cough*… yeah, the list of their abilities is pretty huge, and they can provide these tools to other users.  Sadly, they do not last long outside of their hands, breaking apart in a few weeks.\n- *illegible*\nNo, there is no correlation between the user's IQ and the time it stopped working, we thought about it already.\n- *illegible*\nYes, I know about Worm, and yes, it is surprisingly accurate in this part…\n…\n…\nOverall, their abilities are really wide, but it is really hard to differentiate them from their usefulness - currently we have only a few prototypes, useful for field agents like you, and a dozen of toothbrushes, modified to clean teeth better.  Two of them expect to be lethal.  Currently, most of them are busy with the \"Legion\" project in an attempt to turn the table, you may check about it later…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "SAATUIOW_2/6.mp4\n…The first branch utilizes \"the knowledge\", people of this type \"know\" how to make tools, that seem impossible without decades of development or that violate a huge part of the physical laws we all know.  They are our most valuable resource: engineers that can build a railgun using M16 parts, assemble an EMP bomb using only a PlayStation and a few tools, a phone camera that sees through the walls, a Humvee engine that can use whiskey as fuel *cough cough*… yeah, the list of their abilities is pretty huge, and they can provide these tools to other users.  Sadly, they do not last long outside of their hands, breaking apart in a few weeks.\n- *illegible*\nNo, there is no correlation between the user's IQ and the time it stopped working, we thought about it already.\n- *illegible*\nYes, I know about Worm, and yes, it is surprisingly accurate in this part…\n…\n…\nOverall, their abilities are really wide, but it is really hard to differentiate them from their usefulness - currently we have only a few prototypes, useful for field agents like you, and a dozen of toothbrushes, modified to clean teeth better.  Two of them expect to be lethal.  Currently, most of them are busy with the \"Legion\" project in an attempt to turn the table, you may check about it later…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "26db8ae78fde003430ef9535d482eba2ae08b37305ea185ea6ba39c5cba1b35d",
+      "identity": [
+        null,
+        "You can't pour %s into this water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1092"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't pour %s into this water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "26fb9ed7014689e0aa4a5477a922087075840936c57655509580d0fb60a64e51",
+      "identity": [
+        null,
+        "You don't want the cure?  I'll kill you then.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't want the cure?  I'll kill you then.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'A W A K E'",
+      "flags": [],
+      "id": "26fc11cfbe4719dea4512ff4f0871ac9a2ab7856fac8492ea72f23a980d88466",
+      "identity": [
+        null,
+        "Wow, that coffee was strong.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_alchemy.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Wow, that coffee was strong.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "270c94db474ee065d2451086957654938e1781adc893d987aab441eb05ea5f82",
+      "identity": [
+        null,
+        "dry deep pool bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry deep pool bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "27136a8dfdfbae0ea0553ed1054ca9a1084a3b5316cddcfdc5ec48b15be3c5a3",
+      "identity": [
+        null,
+        "flowing salt water channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "flowing salt water channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "271674f7715ad700fb9119d8c847656102104e12089a4a812221a782ea4dd0b9",
+      "identity": [
+        null,
+        "[Motion to your belongings] Can we trade?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_Venn.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Motion to your belongings] Can we trade?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'Improved Knock'",
+      "flags": [],
+      "id": "271c127976b7dc618c9573a7b4b51dcaf4d3df25bbecfc28b55f7965ed199375",
+      "identity": [
+        null,
+        "You channel magic into a force capable of opening doors.  This variant can open any locked door.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/Spells/technomancer.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You channel magic into a force capable of opening doors.  This variant can open any locked door.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "2733828e4d839bb7815d14bdd8716bde4bd67bab28813451287a4e33b99886f3",
+      "identity": [
+        null,
+        "Oh, okay.  I'll go look for him.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/NPC_free_merchant_guard1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Oh, okay.  I'll go look for him.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "2774d32174680f576ef916c752d6ac3b3c1e873f12234f609db6eab30e9ba8c2",
+      "identity": [
+        null,
+        "Peering over the crumbling lip of a building's parapet and capturing the sight of a heavily cratered cul-de-sac lit in the pale light of dawn, the video's opening shots tilt hither and dither as the camera's carefully adjusted and a low voice murmurs in the background.\n\n\"Well, it's day 4 of the apocalypse; the internet's still running somehow, and that's my cue to post another video, so welcome back, y'all.  I never thought that I'd be using YouTube as a way to try reaching out to people during a fucking zombie cataclysm, but here we are, so… yeah.  If you're watching, I guess, sound off in the comments that you're still around and, I don't know, like and subscribe to your daily coverage of hell.\"\n\nThe video's frame settles on the view of a modestly sized storefront, or, more precisely, half of a storefront.  The establishment's been supplemented by the addition of a semi-truck resting nose first through the shop's merchandise window, and, as you watch, you can make out a faint staring of movement from within the building.\n\n\"It's 9 in the morning.  I figured that y'all may as well join me as I see who around here wants a sample of Grampa's cure-all, and it looks like, folks, we have a taker.\"\n\nThe barrel of a large-caliber rifle edges into the frame, escorted by the rattle of a bolt being cycled and the slightly more unsettling tempo of the cameraman softly humming, \"Another one bites the dust.\"  Thankfully for your musical sensibilities, the humming dissolves into a surprised breath as the rifle's sharply retreated from the parapet, the camera's jostled rearwards, and, from the ruins of the store, a ragged woman clambers over the debris and slides down upon the hood of the equally battered semi.  With her eyes bloodshot and misted over with an unblinking glaze, the woman staggers to her feet, an inflamed and seeping, purplish-red mass evident in her leg that speaks to unhealed fractures.  Hoisting the concrete-dusted bundle of a blanket and plushie to her chest as she all but collapses off the vehicle, the footage zooms in on the survivor as she limps about the truck's trailer and fumbles with the rear gate's locking latch, haltingly swinging the barrier down with a rusted shriek.  Disappearing within the container, a faint rattling announces the woman's eventual reemergence as she teeters behind the push-bar of a baby stroller.  A wan smile touches the corner of her slack lips as she parks the carriage by the truck, crumples to her knees, and fusses over the basket, tucking the plush toy within before enveloping the contents within the coverlet.\n\nAs the woman drags herself to the steering position and unsteadily sets off down the street, the film focuses on the stroller's interior.  The plastic toy of a baby is swaddled within.  Only its staring eyes and jagged sneer are visible across the shattered wreckage of the doll's face, and it's dressed in a set of baby clothes.  You've never seen a garment so completely crusted with dried blood.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Peering over the crumbling lip of a building's parapet and capturing the sight of a heavily cratered cul-de-sac lit in the pale light of dawn, the video's opening shots tilt hither and dither as the camera's carefully adjusted and a low voice murmurs in the background.\n\n\"Well, it's day 4 of the apocalypse; the internet's still running somehow, and that's my cue to post another video, so welcome back, y'all.  I never thought that I'd be using YouTube as a way to try reaching out to people during a fucking zombie cataclysm, but here we are, so… yeah.  If you're watching, I guess, sound off in the comments that you're still around and, I don't know, like and subscribe to your daily coverage of hell.\"\n\nThe video's frame settles on the view of a modestly sized storefront, or, more precisely, half of a storefront.  The establishment's been supplemented by the addition of a semi-truck resting nose first through the shop's merchandise window, and, as you watch, you can make out a faint staring of movement from within the building.\n\n\"It's 9 in the morning.  I figured that y'all may as well join me as I see who around here wants a sample of Grampa's cure-all, and it looks like, folks, we have a taker.\"\n\nThe barrel of a large-caliber rifle edges into the frame, escorted by the rattle of a bolt being cycled and the slightly more unsettling tempo of the cameraman softly humming, \"Another one bites the dust.\"  Thankfully for your musical sensibilities, the humming dissolves into a surprised breath as the rifle's sharply retreated from the parapet, the camera's jostled rearwards, and, from the ruins of the store, a ragged woman clambers over the debris and slides down upon the hood of the equally battered semi.  With her eyes bloodshot and misted over with an unblinking glaze, the woman staggers to her feet, an inflamed and seeping, purplish-red mass evident in her leg that speaks to unhealed fractures.  Hoisting the concrete-dusted bundle of a blanket and plushie to her chest as she all but collapses off the vehicle, the footage zooms in on the survivor as she limps about the truck's trailer and fumbles with the rear gate's locking latch, haltingly swinging the barrier down with a rusted shriek.  Disappearing within the container, a faint rattling announces the woman's eventual reemergence as she teeters behind the push-bar of a baby stroller.  A wan smile touches the corner of her slack lips as she parks the carriage by the truck, crumples to her knees, and fusses over the basket, tucking the plush toy within before enveloping the contents within the coverlet.\n\nAs the woman drags herself to the steering position and unsteadily sets off down the street, the film focuses on the stroller's interior.  The plastic toy of a baby is swaddled within.  Only its staring eyes and jagged sneer are visible across the shattered wreckage of the doll's face, and it's dressed in a set of baby clothes.  You've never seen a garment so completely crusted with dried blood.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

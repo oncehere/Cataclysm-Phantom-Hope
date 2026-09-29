@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "6e3beeab018f862da3b085b64f56ca43d4cc54b95047357010ce6a041913a7a1",
+      "identity": [
+        null,
+        "素锋录",
+        "素锋录"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": "素锋录",
+      "singular": "素锋录",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6e5b2909806246ec800493003cbe34170b9de4833531f77c311ce1214dc6c45c",
+      "identity": [
+        null,
+        "Enable",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2449"
+        ]
+      ],
+      "plural": null,
+      "singular": "Enable",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'The Rite of the First Circle: Mana Sense'",
+      "flags": [],
+      "id": "6e5dee4b69865b336cf85ef2ad354419bde4aa285c231e603674b0cd5f53697f",
+      "identity": [
+        null,
+        "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to mana.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/spellbooks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to mana.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "6e6caf9ae367ff5547700335fdcc89222310f242673807dda2ea7d3aed115e27",
+      "identity": [
+        null,
+        "left rear tentacle base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacle base",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "6e882fe85bae4c7087f4505f85bad248cb069e85fc611478151a52c00b4556e1",
+      "identity": [
+        null,
+        "The Unique and Its Property",
+        "copies of The Unique and Its Property"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of The Unique and Its Property",
+      "singular": "The Unique and Its Property",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'The Greatest Indian Curries Ever Created!: A\nCookbook of 50 Delicious Curry Recipes Direct from India' of book 'Curry\ncookbook'",
+      "flags": [],
+      "id": "6e979bdeafeffa474b180b888b2de02a2a3c9caa6784f2832c2204f48dc58ff2",
+      "identity": [
+        null,
+        "This cookbook contains a variety of recipes to suit any taste.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This cookbook contains a variety of recipes to suit any taste.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6eae97de1a3d39577d328683fd8946a9ab1b5ba1fd2ad3627658c3cd55d67232",
+      "identity": [
+        null,
+        "What are you here for?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What are you here for?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'deathrattle youth'",
+      "flags": [],
+      "id": "6ef6a15b1672b38c3b668a0417e70d64b2ee7c6bd9b8244cf6d04167e10bf0b0",
+      "identity": [
+        null,
+        "A young deathrattle serpent, having learned to hunt and seeking prey.  It won't hunt humans yet, but it's only a matter of time.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young deathrattle serpent, having learned to hunt and seeking prey.  It won't hunt humans yet, but it's only a matter of time.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of proficiency 'Helicopter Piloting'",
+      "flags": [],
+      "id": "6f160347563685f9545184e86ae895e416cafe9e93205765b4532ea4fdc10140",
+      "identity": [
+        null,
+        "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.  With enough study and practice, the controls of a rotorcraft can be mastered from scratch.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/proficiencies/vehicles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.  With enough study and practice, the controls of a rotorcraft can be mastered from scratch.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6f30fd6895065e71b4e95519cfb3401ac6ead4643c0847547d1f69e0c318cd92",
+      "identity": [
+        null,
+        "[Show him your notes on precognition-inducing hallucinogens]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Show him your notes on precognition-inducing hallucinogens]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6f3512f62d08a899110c4318eb9df67a5fea28d5e9bc4dd4c2e61d5174f0634a",
+      "identity": [
+        null,
+        "[Antagonize] Rush them along - don't give them time to think.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Antagonize] Rush them along - don't give them time to think.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6f37cc560872716079fb240ba17c518555b7133e058d61c33f61bb7962e2d23f",
+      "identity": [
+        null,
+        "Set invert",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1054"
+        ]
+      ],
+      "plural": null,
+      "singular": "Set invert",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

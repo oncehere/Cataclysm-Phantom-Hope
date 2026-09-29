@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "c3e161c39cfe05d85a6612e0647d4b51cf323a0b7f6bc62e7553f4a6712c0af8",
+      "identity": [
+        null,
+        "Search: %s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/input_context.cpp",
+          "1035"
+        ]
+      ],
+      "plural": null,
+      "singular": "Search: %s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'COSPLAY_PROPS'",
+      "flags": [],
+      "id": "c3e4de2e8bae2ba92c34dc5a76ff4be6f9fdf3d9dacb875a1c2c630110d65e93",
+      "identity": [
+        null,
+        "This item is <info>cosplay prop</info>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This item is <info>cosplay prop</info>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'Easy Curry Cookbook: Cook Delicious Curries with\nthis Simple Guide' of book 'Curry cookbook'",
+      "flags": [],
+      "id": "c3e5582348926dfbfd3241ba5efa6d9350b264ce94e6679fa1176e4210afbdcf",
+      "identity": [
+        null,
+        "A simple cookbook designed for curry beginners.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/cooking.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A simple cookbook designed for curry beginners.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '吐纳打坐（基底）'",
+      "flags": [],
+      "id": "c3eaa22f5dff1d8c7bf13b2c7146c2fa491856d94057a2d524fd1fbc83e50d72",
+      "identity": [
+        null,
+        "吐纳基底（抽象，不直接使用）。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "吐纳基底（抽象，不直接使用）。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "c401c4b7d9de9b2a96c3b54b1aa4b498501583c7cb50cf6ede69115cc08570cb",
+      "identity": [
+        null,
+        "protoplasmic ooze",
+        "protoplasmic oozes"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/nether_monster_drops.json",
+          ""
+        ]
+      ],
+      "plural": "protoplasmic oozes",
+      "singular": "protoplasmic ooze",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of ammunition 'ink abstract'",
+      "flags": [],
+      "id": "c407dcf3301bba4ad679e5e16a2ae276ac012bf45fcdc13124f13e88a0eeda0b",
+      "identity": [
+        null,
+        "The Platonic essence of ink.  You probably shouldn't have access to this.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/chemicals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Platonic essence of ink.  You probably shouldn't have access to this.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "c4366f297a58e52b928b67413804e73b38d84bb7ee87445028f5ed41d610b8d6",
+      "identity": [
+        null,
+        "Dancing in the Endless Dark",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_spells.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dancing in the Endless Dark",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "c438fbf28cef852a4bfe74d25b69219f0fa695e61f8ef3935728ac6ed7b9ecc4",
+      "identity": [
+        null,
+        "Exiled Insurgent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/origins.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Exiled Insurgent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'newest_news'\n~ Around April 15/16",
+      "flags": [],
+      "id": "c44581351b5c16cc5e97d9010dffb11c199d5a8ad537853e38ec116cfc38d253",
+      "identity": [
+        null,
+        "EVACUATION ALERT.  The Federal government has announced a formal evacuation of all major centers, to pre-designated FEMA emergency shelters.  Spokesperson Linda Garrison stated, \"This is not expected to be a permanent issue.  By evacuating to the shelters and camps FEMA set up for just such a situation, we can clamp down on riots without hurting uninvolved people.\"  Garrison declined to comment on widespread allegations that the rioters are under the influence of psychosis-inducing biological agents.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/newspapers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "EVACUATION ALERT.  The Federal government has announced a formal evacuation of all major centers, to pre-designated FEMA emergency shelters.  Spokesperson Linda Garrison stated, \"This is not expected to be a permanent issue.  By evacuating to the shelters and camps FEMA set up for just such a situation, we can clamp down on riots without hurting uninvolved people.\"  Garrison declined to comment on widespread allegations that the rioters are under the influence of psychosis-inducing biological agents.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '[Ψ]Perfected Motion (C)'",
+      "flags": [],
+      "id": "c44bd4c18ae684cfe2eada8d6b9c3c54764e2887e1c9caa9792a3682dd848f8d",
+      "identity": [
+        null,
+        "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/powers/biokinesis.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'a statue surrounded by emerald poppies'",
+      "flags": [],
+      "id": "c46a65a4d12a90beb6b06f34eaff6bd5d5ef0a37780862f67d7ce0c396022dc6",
+      "identity": [
+        null,
+        "A ruined statue surrounded by emerald poppies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mapgen/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A ruined statue surrounded by emerald poppies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "c486dde3e85f70aba1b21450d25255c32c31b00f320eda92c4b0e6f4740ac5f6",
+      "identity": [
+        null,
+        "Well that's a real mind-fahk.  Think ya' go can go back?  Doesn't seem too fahkin' wise, but I guess it wasn't so wise in the first place, anyhow.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/PAT/NPC_Pat_POIs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well that's a real mind-fahk.  Think ya' go can go back?  Doesn't seem too fahkin' wise, but I guess it wasn't so wise in the first place, anyhow.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

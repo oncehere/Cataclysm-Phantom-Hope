@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Getting Angry'",
+      "flags": [],
+      "id": "6781c80b51d2e0d4f7c99a4540cdd13287bddbbae199bb98677e9f1cc26b9a1a",
+      "identity": [
+        null,
+        "When I get my hands on you…\n\n+2 bash damage.\nLasts 2 turns.  Stacks 5 times.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When I get my hands on you…\n\n+2 bash damage.\nLasts 2 turns.  Stacks 5 times.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "6788efc10771ef5e8722855f372e1d5031db66df4f9859d409fc06151f535b67",
+      "identity": [
+        null,
+        "refinery wing",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/overmap_terrain/overmap_terrain_habitats.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "refinery wing",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Blood analysis description of effect 'Stoned, Baked, Blazed, Zooted'",
+      "flags": [],
+      "id": "679ca2363c9368ef63249453f7dcb269976af55fca4b0a5b4d4f9dbe102fbd28",
+      "identity": [
+        null,
+        "Tetrahydrocannabinol",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Tetrahydrocannabinol",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'periapt of wound closure'",
+      "flags": [],
+      "id": "679ebde85841ef47175c0d13dabf1d5267fdec0114b543f5ff9a90b45923f7fc",
+      "identity": [
+        null,
+        "Standard issue at emergency rooms across the country, this is an item that grants preternatural skill at bandaging and disinfecting wounds.  Still takes some basic skill to use with maximum efficacy.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Magiclysm/items/enchanted_necklaces.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Standard issue at emergency rooms across the country, this is an item that grants preternatural skill at bandaging and disinfecting wounds.  Still takes some basic skill to use with maximum efficacy.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "67af0a46f9cab67464bed81b3db9dcc00dd24f1eaa2607c0f8ce314195a3c872",
+      "identity": [
+        null,
+        "I am here to kill you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I am here to kill you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "67b2ce73a8e912bb57551a5b1269f11b18bd89b327f3b658d4b9efc0064d82e3",
+      "identity": [
+        null,
+        "broken surgical bonebot",
+        "broken surgical bonebots"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/netherum/labyrinth_robots.json",
+          ""
+        ]
+      ],
+      "plural": "broken surgical bonebots",
+      "singular": "broken surgical bonebot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Injected 16x-\"Armus\"'",
+      "flags": [],
+      "id": "67b6d067918371912fd5bc532d437b85c0cd3ef73efaa7bf60738122a1c69bda",
+      "identity": [
+        null,
+        "You just took a shot of that strange vial you found.  You feel invincible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/resilience_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You just took a shot of that strange vial you found.  You feel invincible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "67c6fd578fb0f81177b9e0ec9559bf21478338c5674152c57d71edc3fc1ce1fd",
+      "identity": [
+        null,
+        "Right, let's see what we can do for you.  Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Right, let's see what we can do for you.  Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Spirit-Questing'",
+      "flags": [],
+      "id": "67cbc2fb4bd2eef093bc935a9d33729877e9ffd4a70b1b94a32b98dd649cdefb",
+      "identity": [
+        null,
+        "You are questing in the spirit world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/effects/recipe_effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are questing in the spirit world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'rudimentary occult research results'",
+      "flags": [],
+      "id": "67ddf3878661e873a54a584819b8628f32b266e92dfd626ea3e23a90dc45bb59",
+      "identity": [
+        null,
+        "Jotted down thoughts about the hidden things of the world.  Nothing here is particularly profound, and you'll probably not need to consult this again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Jotted down thoughts about the hidden things of the world.  Nothing here is particularly profound, and you'll probably not need to consult this again.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "67f77e4d3b44671df37bc66f22f1845fae9a1108f2a09537f9003dd108c41e6d",
+      "identity": [
+        null,
+        "Renfields like that are rare and usually stay close to their masters to protect them.  If they're being sent to attack enemies, their masters are desperate or have many of them at their service.  It doesn't bode well, but at least you're able to kill them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Renfields like that are rare and usually stay close to their masters to protect them.  If they're being sent to attack enemies, their masters are desperate or have many of them at their service.  It doesn't bode well, but at least you're able to kill them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_memo'",
+      "flags": [],
+      "id": "67fe8e020b9bec250e84cc6b36cf04190c2a84419049ef733ed38db617a72066",
+      "identity": [
+        null,
+        "Dr. Liu,\nSorry for the inflammatory title but, well, something is seriously wrong.  The LOST RAIN mathematicians are universally reporting that something strange is happening to space itself.  You've seen the testing data about them being able to change effective distance between two points and they're reporting that ALL distances are being affected to a very small degree.  I don't know if this has anything to do with the erratic behavior from the staff or XE037 contamination but coupled with all the NOBLE HORIZON reports of impending doom, plus all the news filtering from the outside, I think we need to prepare for the worst.\n\nJohn Goldberg\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Dr. Liu,\nSorry for the inflammatory title but, well, something is seriously wrong.  The LOST RAIN mathematicians are universally reporting that something strange is happening to space itself.  You've seen the testing data about them being able to change effective distance between two points and they're reporting that ALL distances are being affected to a very small degree.  I don't know if this has anything to do with the erratic behavior from the staff or XE037 contamination but coupled with all the NOBLE HORIZON reports of impending doom, plus all the news filtering from the outside, I think we need to prepare for the worst.\n\nJohn Goldberg\nResearcher",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Message of special attack of monster 'mon_march_lord_spring'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "17f358809b13bc8505b34876403842ad5cf53e9c58e57d57216d475d489a8b57",
+      "identity": [
+        null,
+        "%1$s idly waves a hand at %3$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s idly waves a hand at %3$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of achievement 'Disposition Matrix'",
+      "flags": [],
+      "id": "180e7dacb1874f4f0f354a57f98ea8dcb0b6d82d901573560f1c59a0652fc83e",
+      "identity": [
+        null,
+        "It is a necessary part of what we do.  We won't wake up in 10 years time and magically find a galaxy full of friends and 'welcome back' signs.\n<color_c_dark_gray> - unknown member of Chancellor's Haaland administration, recorded c2392.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It is a necessary part of what we do.  We won't wake up in 10 years time and magically find a galaxy full of friends and 'welcome back' signs.\n<color_c_dark_gray> - unknown member of Chancellor's Haaland administration, recorded c2392.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_telepathy'\n~ Phavian designation for telepathic study is GRAY DAWN.  Phavian\ndesignating for use of telepathy for internal security is GLASS ANVIL",
+      "flags": [],
+      "id": "18103f993eee67fa16a21587d6c1e83718aafbd63b769b1ba39cdad07d663d27",
+      "identity": [
+        null,
+        "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, mathematician unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, mathematician unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of vehicle part location 'Structural'",
+      "flags": [],
+      "id": "182ff2fbd8563f75fd729de3c3a790f2306073c6fce2ae7b77c79723c0c13cce",
+      "identity": [
+        null,
+        "An overhead structural element such as an external balloon",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicle_part_locations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An overhead structural element such as an external balloon",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "183af21681aa02316c761b6c67395fd4fd0b74f6fe24f20331acac9c3907c740",
+      "identity": [
+        null,
+        "A statue of a woman sitting, facing away from the fire ring.  Both hands are raised to the sides of her face, narrowing her field of vision.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a woman sitting, facing away from the fire ring.  Both hands are raised to the sides of her face, narrowing her field of vision.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'sky magic research materials'",
+      "flags": [],
+      "id": "183db69ad8f6c42e7a8098cc82fa6784a06241837766b1b85c191a2889928a52",
+      "identity": [
+        null,
+        "A set of documents, scribbed notes, musings, weather observations, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the sky.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A set of documents, scribbed notes, musings, weather observations, and other esoterica for research into magic.  Using this, you might be able to discover a magical formula related to the sky.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1840c8b2ffece24ac0d605cd3b163e0a3f36a3a3098134bf68708155615dfb15",
+      "identity": [
+        null,
+        "That is not a real installed vehicle part.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "447"
+        ]
+      ],
+      "plural": null,
+      "singular": "That is not a real installed vehicle part.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1844c933664881402e8706f5ffaa38e7e4e336adf5596a221f1648f5f70d331b",
+      "identity": [
+        null,
+        "[Deposit datasheet MROTS-S.]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_trades.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Deposit datasheet MROTS-S.]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell 'To Wrap Yourself in the Names'",
+      "flags": [],
+      "id": "18461717d17a17da99edef7c3bebba3934fa4be1908a1ce79ff17f2fa055ed1e",
+      "identity": [
+        null,
+        "Over alcohol and an egg and an apple or citrus fruit, inscribe a copper amulet with the names of spirits and the hidden names of God to create a talisman that will protect you from harm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Over alcohol and an egg and an apple or citrus fruit, inscribe a copper amulet with the names of spirits and the hidden names of God to create a talisman that will protect you from harm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mission name",
+      "flags": [],
+      "id": "1854ae6da39804f9bf1581bb9bf81e615f052babae1beeabb84e498b985108b5",
+      "identity": [
+        null,
+        "Kill the renfield gang",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Kill the renfield gang",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "188ff088755e49dc32260879e6b7ab58d93729c9c2efc78a47f73755594bbb25",
+      "identity": [
+        null,
+        "Cracked Mirror",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras_dimensions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Cracked Mirror",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in result of recipe crafting\n'EOC_RESEARCH_THAUMATURGY_THE_WISE_STUDY'",
+      "flags": [],
+      "id": "18c9897b24b691d7d3fb1af4d162fb7126fe2db5914b188aff5cd35c5d182cdf",
+      "identity": [
+        null,
+        "Your spirit has still not recovered.  You must wait before attempting another spirit-quest.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your spirit has still not recovered.  You must wait before attempting another spirit-quest.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE'",
+      "flags": [],
+      "id": "ad6199741b4b52e5abd24c5b4c7d1dda51f7be178385c86e9d7b86637d13c52f",
+      "identity": [
+        null,
+        "You sit back with a smile.  It is done.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/playable_changeling_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You sit back with a smile.  It is done.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'atomic headlamp (covered)'",
+      "flags": [],
+      "id": "ad6d4ebe8e0ddc56801eed1dda3012f1f77bb18ac44b97da3965a077b17f42f1",
+      "identity": [
+        null,
+        "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to open the cover and show the light.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to open the cover and show the light.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "ad8edb1de4f020f32069dd24f53d922d23a097a5c5cc7dc48261be71f73d42bb",
+      "identity": [
+        null,
+        "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert SMOKE USHER matrix crystal.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert SMOKE USHER matrix crystal.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'shallow pool water'",
+      "flags": [],
+      "id": "adb16d7902d30c6b5c21672415a93b9e2d1d3aac05f72d699a9243d2e3b617a9",
+      "identity": [
+        null,
+        "A shallow outdoor swimming pool with a finite amount of water.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A shallow outdoor swimming pool with a finite amount of water.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "add9d71ae858a6e09872bc64e7d213ced7677158d684beaabd89910cf3de1b5b",
+      "identity": [
+        null,
+        "Removing this part will make the vehicle no longer flightworthy.  Continue?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1045"
+        ]
+      ],
+      "plural": null,
+      "singular": "Removing this part will make the vehicle no longer flightworthy.  Continue?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'nitrogen tank'",
+      "flags": [],
+      "id": "ade2af63b89c95d951473c9a57943f4959ed14f5de11cf1896c467968b2abc17",
+      "identity": [
+        null,
+        "A tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/science.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor/tool name",
+      "flags": [],
+      "id": "ae175b2ae1b874fb2c42a2f8976b6ba430ae30a467e43e5421859e57e9cbed3b",
+      "identity": [
+        null,
+        "blade sheath (exosuit)",
+        "blade sheaths (exosuit)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor/exosuit/exosuit_storage.json",
+          ""
+        ]
+      ],
+      "plural": "blade sheaths (exosuit)",
+      "singular": "blade sheath (exosuit)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "ae58e5adbbaf10914dac27b6bfd7ed97a879c57a0ed1103a021498aef8c9bb68",
+      "identity": [
+        null,
+        "Tell me more.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Tell me more.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_mom_artifact_telepathic_shield'",
+      "flags": [],
+      "id": "ae74b68fbef1d8e90309120b38d9aba9591ca28ad55b457b654630fe784be77f",
+      "identity": [
+        null,
+        "Telepathic Shield Sight",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_artifact.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Telepathic Shield Sight",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "ae998cee744fb70f14322825261602da0cf34283d35ecddf61ac121ab6b13e51",
+      "identity": [
+        null,
+        "养荣导引",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "养荣导引",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "aea2d974f4f00c3d786a428a967ad8717b2c2fab63ca06e16c58e92e4db48204",
+      "identity": [
+        null,
+        "[Favor Merchants] Remind Rubik & Smokes that these firearms use ammunition not from this world.  \"They're great guns, but be sure to work ammunition into the deal.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Favor Merchants] Remind Rubik & Smokes that these firearms use ammunition not from this world.  \"They're great guns, but be sure to work ammunition into the deal.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "aea6ae05638dc4f33d5baee41cff03b64a0f34c4d7953a4d2ff52aeb51472e44",
+      "identity": [
+        null,
+        "&<mypronoun> looks you up and down, sizing you up.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/npcs/Independents/salvor_camp_solo.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<mypronoun> looks you up and down, sizing you up.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

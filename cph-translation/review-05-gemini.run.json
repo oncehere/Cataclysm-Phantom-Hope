@@ -1,0 +1,19 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "requests": [
+    {
+      "request": 1,
+      "entries": 3,
+      "status": "UnknownOutcome",
+      "seconds": 5.655
+    }
+  ],
+  "status": "INCOMPLETE",
+  "remaining_gaps": 3346,
+  "entry_results": {
+    "unknown": 3,
+    "not_requested": 3343
+  },
+  "candidate": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/review-05-gemini",
+  "seconds": 97.767
+}

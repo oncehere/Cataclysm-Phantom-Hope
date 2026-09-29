@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of item '51x-\"Landru\"'",
+      "flags": [],
+      "id": "9fd25736495ab90699001a5d13cfd3ba54cabadb9283c97f30a98599197d6f96",
+      "identity": [
+        null,
+        "A little, sealed ampule with some yellow, semi-transparent liquid of unknown origin.  The label on it says \"51x-\"Landru\"\", whatever that means.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A little, sealed ampule with some yellow, semi-transparent liquid of unknown origin.  The label on it says \"51x-\"Landru\"\", whatever that means.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option name",
+      "flags": [],
+      "id": "9fe9b2dd86c27cb28278c17d388fe717da2c089677de46408d098128329d389b",
+      "identity": [
+        null,
+        "Refine Earthen Slumber: Earthen Grave",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Refine Earthen Slumber: Earthen Grave",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "a0094266a42b84e3645784280751cea8baa6dd4effbfba3feeddcf65f0db1e85",
+      "identity": [
+        null,
+        "I get it.  Who wants to search for a needle of a plant in a state-wide haystack for little personal gain?  However, If you somehow find this elder ginseng I'll gladly buy it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I get it.  Who wants to search for a needle of a plant in a state-wide haystack for little personal gain?  However, If you somehow find this elder ginseng I'll gladly buy it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a054866cd4f00ae2d65ab8ba56602440d7a9ee54504f945f4254c6a36fe63771",
+      "identity": [
+        null,
+        "World name is empty. Randomize the name?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1059"
+        ]
+      ],
+      "plural": null,
+      "singular": "World name is empty. Randomize the name?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in false effect in use action of item\n'Hub 01 BACK exoskeleton'",
+      "flags": [],
+      "id": "a05abe51d9c2f58d8784364795bb7ddb10ec23f56293d01ee8a88198fb3d1dc0",
+      "identity": [
+        null,
+        "ERROR: NO ARM EXOSKELETON EQUIPPED",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ERROR: NO ARM EXOSKELETON EQUIPPED",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "a0a52612e5a12957be15b741c69c5e459935bf49ee2e3a79fefd6ebd334f5c50",
+      "identity": [
+        null,
+        "forest magic research materials",
+        "sets of forest magic research materials"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of forest magic research materials",
+      "singular": "forest magic research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of magazine 'portable power station'",
+      "flags": [],
+      "id": "a0c40c2b1369c271b6b28b33577c0e5d03e6cec1d65a6901513fd73193e8094d",
+      "identity": [
+        null,
+        "A ready-to-deploy portable rechargeable battery unit that comes with an inverter for powering home appliances and outlet ports for your electronic devices.  Useful for camping, power outage, and surviving the apocalypse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/vehicle/battery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A ready-to-deploy portable rechargeable battery unit that comes with an inverter for powering home appliances and outlet ports for your electronic devices.  Useful for camping, power outage, and surviving the apocalypse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation '血煞侵髓'",
+      "flags": [],
+      "id": "a0cf99c695bcc97cb85b3314fd04bf8fc01c9b4cbeabf6b60fee83d3c7634fba",
+      "identity": [
+        null,
+        "久修血煞炼尸功所成之体。死气血煞侵入骨髓，凶威渐长——然邪气反噬，根本受损，气血不宁。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "久修血煞炼尸功所成之体。死气血煞侵入骨髓，凶威渐长——然邪气反噬，根本受损，气血不宁。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a0dc6ed45471bc82bf018ccb9ab72e58c1cde9b82af4dfbf693006bb4051edfa",
+      "identity": [
+        null,
+        "I am.  Free me from this curse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I am.  Free me from this curse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'RAILGUN_THROW_MULTIPLIER'",
+      "flags": [],
+      "id": "a0ef020d35c793ee5c24d9fa794bac6a8195e7f2fe13b2653dc6c38164e6f84a",
+      "identity": [
+        null,
+        "Its throwing multipliers apply only to throws powered by an active Railgun CBM.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Its throwing multipliers apply only to throws powered by an active Railgun CBM.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "a0f846ae9a2c94bca0a8dae4954c532cc65b0ab366220fa86f9d5a2e6ca263aa",
+      "identity": [
+        null,
+        "biography (living person)",
+        "biographies (living person)"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "biographies (living person)",
+      "singular": "biography (living person)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_sicknesscheck'",
+      "flags": [],
+      "id": "a0fc7b8b0b696eb2e1f5822bd8db73f3db0871086c9c7c142c9c207f6f848324",
+      "identity": [
+        null,
+        "Your body shivers slightly as a warp pulse passes through it.  Another pulse will hit in <global_val:readablesicknessintervals> minutes.  Warp sickness won't set in for another <global_val:readablepulsesleft> pulses.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/effectoncondition/sickness_checks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body shivers slightly as a warp pulse passes through it.  Another pulse will hit in <global_val:readablesicknessintervals> minutes.  Warp sickness won't set in for another <global_val:readablepulsesleft> pulses.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

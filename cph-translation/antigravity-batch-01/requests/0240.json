@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e4e1b0b0b434d63ad5d97d68f0f2f6a526a2828fed96347ce1f0f693c13ec499",
+      "identity": [
+        null,
+        "Thanks!  Let's start the training.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Thanks!  Let's start the training.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'purity ring'",
+      "flags": [],
+      "id": "e4f73c979e341cb33033587706c25401da00d87b43b7d88182ee74cf274e506b",
+      "identity": [
+        null,
+        "Also known as a promise ring, this ring is worn as a sign of chastity.  This one bears the inscription, \"Love is patient.\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/jewelry.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Also known as a promise ring, this ring is worn as a sign of chastity.  This one bears the inscription, \"Love is patient.\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name suffix of a male NPC\n~ He sells cure & some medical supplies.  Very interested by alchemical\nrecipes and magical/high-science medical treatments.\n~ Name suffix of an NPC\n~ Generic class for the guards watching the base.  Another variant will be\nadded for those participating in raid missions.",
+      "flags": [],
+      "id": "e50525899babc65ea745b146e9bfbecc5a78084aa04ee4c7d275d65eb46f86c3",
+      "identity": [
+        null,
+        "hunter",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ],
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/generic_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "hunter",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e52bffaf2effcf18d6fbe75fb9279325c3fcd2a8d397692e92de91b95e59d979",
+      "identity": [
+        null,
+        "Saved character template",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "1975"
+        ]
+      ],
+      "plural": null,
+      "singular": "Saved character template",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e5319ad7af90ee142f855ef99d91a3e572bc9241ab20ac5fedb4e0927059f883",
+      "identity": [
+        null,
+        "<n>ew level",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iuse_software_minesweeper.cpp",
+          "178"
+        ]
+      ],
+      "plural": null,
+      "singular": "<n>ew level",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "e5359fbc89d89d1f97a95e54ca2394f0d897852de65f2b6619d8c68b097bd971",
+      "identity": [
+        null,
+        "infested MoxPhore",
+        "infested MoxPhores"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/monsters/zombies.json",
+          ""
+        ]
+      ],
+      "plural": "infested MoxPhores",
+      "singular": "infested MoxPhore",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "e537e081c1106293373b92b9ca757bf6688931efc0bace81f1e3b37aa4669d3a",
+      "identity": [
+        null,
+        "dry black pool bottom",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "dry black pool bottom",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e553c0d398952e2edd756dabbd9a7af3d645af1a0beb470f64406c75e8f4d7a7",
+      "identity": [
+        null,
+        "Glad to help.  I need no payment.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/common_chat/TALK_COMMON_MISSION.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Glad to help.  I need no payment.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'ruin data archive'",
+      "flags": [],
+      "id": "e556960c96d59c396e41e89ea4cccd719fa84605358eaf4d57a91df91f2ab95d",
+      "identity": [
+        null,
+        "A compressed archive of data salvaged from non-particularly remarkable ruins.  Most of the files seem to be personal documents, media, and work-related correspondence.  Nothing of great value, but perhaps useful to a historian or archivist.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A compressed archive of data salvaged from non-particularly remarkable ruins.  Most of the files seem to be personal documents, media, and work-related correspondence.  Nothing of great value, but perhaps useful to a historian or archivist.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e561f4315d7facee68ad6144fcd8e7a8c61337d6964b7ba899f89d9842015dc8",
+      "identity": [
+        null,
+        "World name",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "1058"
+        ]
+      ],
+      "plural": null,
+      "singular": "World name",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e5a6b2562b29990503c323a3668e1b1a6d969930b62fe7cd23038c919562f025",
+      "identity": [
+        null,
+        "CO-OP: may break.  The mutagen-gland system runs only on your own client and won't sync to the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "117"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  The mutagen-gland system runs only on your own client and won't sync to the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "e5b91f7bd7f18ccab7ed5e28c05a169955ba62e6ae5fa12c4f01135a0e896355",
+      "identity": [
+        null,
+        "wyrmhound puppy",
+        "wyrmhound puppies"
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/mutant_mammal.json",
+          ""
+        ]
+      ],
+      "plural": "wyrmhound puppies",
+      "singular": "wyrmhound puppy",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

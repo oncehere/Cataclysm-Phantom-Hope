@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "42b01a6b08ce8d5c8d1f359283844cac0aa7fe6c4108c14ce6adf7e0ff19afd7",
+      "identity": [
+        null,
+        "&Project SHADOW URGE.  Insert catalyst and select treatment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/shadow_urge_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Project SHADOW URGE.  Insert catalyst and select treatment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'parenting book'",
+      "flags": [],
+      "id": "42b4be318c4537b3e0aaf84bf21932382f1a3c7fc4607ff9d9700fd029ecc319",
+      "identity": [
+        null,
+        "A book about raising children, including proper ways to punish them for breaking boundaries, making sure they're well-adjusted and happy, and equipping them with the skills they need to survive in the world.  That last part is a little outdated now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A book about raising children, including proper ways to punish them for breaking boundaries, making sure they're well-adjusted and happy, and equipping them with the skills they need to survive in the world.  That last part is a little outdated now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '玄渊心法'",
+      "flags": [],
+      "id": "42ec2e4626d2671fa88f45b3f7df3165456fadabf930016898fb2b93480e8729",
+      "identity": [
+        null,
+        "一部水行修炼功法，纸页清润如得水汽。所载纳川息心静如止水，丹田如渊纳百川，灵气蓄养更深。乃练气期之法。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一部水行修炼功法，纸页清润如得水汽。所载纳川息心静如止水，丹田如渊纳百川，灵气蓄养更深。乃练气期之法。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "42f1202cc1f7f2bb51fa63c32443d2dc413506989a99fc8fbd4d0fb760f28e68",
+      "identity": [
+        null,
+        "research notes abstract",
+        "research notes abstracts"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "research notes abstracts",
+      "singular": "research notes abstract",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Unique name of a female NPC\n~ A bloodthorne druid helping the hunters, mainly by proposing a cure to\nvampirism that's not dependent on current supplies.",
+      "flags": [],
+      "id": "430f1288a5986dbab39a834fc14c0020e5e3848b6ddfca430b5def5f34745118",
+      "identity": [
+        null,
+        "Phyliss Thomason",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Phyliss Thomason",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'regular hunter' NPC class\n~ Was recruited as part of the cover-up that hid the vampire-hunting group\nas a bunch of regular crossbow hunters.",
+      "flags": [],
+      "id": "430f33230e38e0d78805a01da2ce837052c1cd43f3e40b3384d9a093f5216926",
+      "identity": [
+        null,
+        "I hunt, but I don't hunt vampires.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I hunt, but I don't hunt vampires.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'shallow salt water basin'",
+      "flags": [],
+      "id": "4316e061b3f18847c604e3caab94ee7809f206e413419fff2cada74e6e649207",
+      "identity": [
+        null,
+        "The shallow salt water of a closed basin.  It can be drained.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The shallow salt water of a closed basin.  It can be drained.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Mute (Dimensional Jaunt)'",
+      "flags": [],
+      "id": "431fc84dda089d89dc08f39a376ec2766ee9a269f2ec8cecd6ca360c1838d805",
+      "identity": [
+        null,
+        "Something is rendering you incapable of speech.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/mutations.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Something is rendering you incapable of speech.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of NPC faction 'Vampire Hunters'",
+      "flags": [],
+      "id": "43381e8ae5143facf5cdebc5b31af8d5824fd055e81bf205e94ea90fbfd397f4",
+      "identity": [
+        null,
+        "What remains of a group of vampire hunters.  They have many more concerns now, but they still want the end of all vampires.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/factions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What remains of a group of vampire hunters.  They have many more concerns now, but they still want the end of all vampires.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4339569169e45afb798995d3f695cd0b791a1cad7281c5ba3cd3fce6518162e9",
+      "identity": [
+        null,
+        "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_safety_alpha_snippet'\n~ signage for research scientist levels (working lab areas).",
+      "flags": [],
+      "id": "4352e38fe828806842f7c3c7af4c3f8e129f50251bd398007428ec3467a4d76b",
+      "identity": [
+        null,
+        "There have been\n[21]\ndays without a breach incident",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "There have been\n[21]\ndays without a breach incident",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "4360e5e62dca8d362313a8167b49e0c2d0169050042caab79fc2e91163670dd9",
+      "identity": [
+        null,
+        "淬锋诀",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "淬锋诀",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "faction": "派系",
+    "mutation": "突变"
+  }
+}

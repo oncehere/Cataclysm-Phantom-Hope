@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Judo Stance'",
+      "flags": [],
+      "id": "4a2adffe2b9cecab7d3d6e8a2fca267b878976fa2e9f416c77c28b2361376074",
+      "identity": [
+        null,
+        "Your knowledge of grappling allows you to recover from knockdown effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your knowledge of grappling allows you to recover from knockdown effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'cargo bermuda shorts'",
+      "flags": [],
+      "id": "4a300e58fe8c8f6b442e0b4d913d0d2f9f12611c54c4b9877136782f078c41e7",
+      "identity": [
+        null,
+        "Shorts reaching just above the knees with additional pockets on the sides.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Shorts reaching just above the knees with additional pockets on the sides.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "4a42aeb98cb7d65a38d995637a00127932faf5c921e72b13dab4cadf3aac19d3",
+      "identity": [
+        null,
+        "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_talk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_volunteer_snippet'\n~ propaganda signage for the volunteer mutant level.",
+      "flags": [],
+      "id": "4a43eb3cd8c57ae794a0eb2df8cef2e961003d4b5582bbea3bed4f94f27e8b62",
+      "identity": [
+        null,
+        "  Thank You\n    For\nYour Service",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab_signs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "  Thank You\n    For\nYour Service",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'grapeade drink mix'",
+      "flags": [],
+      "id": "4a50649b9205515f58550aafc467a50716f66068d231c96e116bb9c614bd5b4f",
+      "identity": [
+        null,
+        "Can be mixed with water to make grape juice.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/fruit_dishes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Can be mixed with water to make grape juice.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "4a7af19f18016b907fc5dd6f3840c69fe2f7282ef06148404c17600cbcf5e633",
+      "identity": [
+        null,
+        "shallow salt water basin",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "shallow salt water basin",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4a80263053195107da3c703016bb1e7a9c9e3d2aeb8cf8614cf6bedba17d21b8",
+      "identity": [
+        null,
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  STAY STAY STAY STAY",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  STAY STAY STAY STAY",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'left front tentacle'",
+      "flags": [],
+      "id": "4ab56bf239e286b7d516af0ba813cc74b5745ad21a79c4c565c51061000e90c2",
+      "identity": [
+        null,
+        "L FTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "L FTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "4ac09bdc3c5cd152f4aa92106854cd1110b518f9fee5489864edbd52e1780052",
+      "identity": [
+        null,
+        "Logs",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "700"
+        ]
+      ],
+      "plural": null,
+      "singular": "Logs",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'battery powered utility exoskeleton (on)'",
+      "flags": [],
+      "id": "4ac724c711aa36213009ee097826953c800174ed67a22bd9111d35b95cd59355",
+      "identity": [
+        null,
+        "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.  It is turned on and continually drawing power.  Use it to turn it off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.  It is turned on and continually drawing power.  Use it to turn it off.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message of spell 'Artifact Earthquake'",
+      "flags": [],
+      "id": "4ad85ed484f0ea2ccea32e4b3612b275db336ed1a50708c682e1c46ba3e63e5e",
+      "identity": [
+        null,
+        "The earth around you rumbles, and in an instant everything seems to be upside down.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/XAEA.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The earth around you rumbles, and in an instant everything seems to be upside down.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'ozmas_peace'",
+      "flags": [],
+      "id": "4aec9f03759d7f1c2b4193a09df0d622a2578623e18eedd0a4e01eb6b4f9f380",
+      "identity": [
+        null,
+        "A desolation called Peace",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A desolation called Peace",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

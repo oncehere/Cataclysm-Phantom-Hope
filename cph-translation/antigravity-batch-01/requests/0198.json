@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Weak'",
+      "flags": [],
+      "id": "bbd2be81a4af932ce1763a785dc05b0fe67fbf0736b0f5f8af2fd09b2a6010de",
+      "identity": [
+        null,
+        "Your body is unnaturally weak.  -1 Strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body is unnaturally weak.  -1 Strength.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "bbde933598e0828b69f31fb932e91bc2d55b541d10f5c0e4d70401753c0e3fe7",
+      "identity": [
+        null,
+        "Calming the Heart of Chaos",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/spells/changeling_seasonal_magic_winter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Calming the Heart of Chaos",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "bbf5d5364d276e9d2f09a55f7f558c11806949e1de249a896a346de4578047ce",
+      "identity": [
+        null,
+        "I don't need anything.  Just keep in mind that I'm always on your side, yeah?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I don't need anything.  Just keep in mind that I'm always on your side, yeah?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bbff2d3f51535a31d8404c4501aee4dfdf27ae4c2af8d28f863136d9c116d78b",
+      "identity": [
+        null,
+        "This mod or one of its dependencies is unavailable. See the description for details.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "2082"
+        ]
+      ],
+      "plural": null,
+      "singular": "This mod or one of its dependencies is unavailable. See the description for details.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "bc080858109b87e866c3260d1400ac4a1bb92972a0721285e18da4cd7d18db22",
+      "identity": [
+        null,
+        "deep pond water",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "deep pond water",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Touch of Contagion'",
+      "flags": [],
+      "id": "bc136d41f09b4a2344a7333d2d584922b3c50a37ad44a7f91052377deaf6dde3",
+      "identity": [
+        null,
+        "When you wish it, your very touch bears the contamination of plague.  Your unarmed attacks have a chance to infect your targets, scaling with the amount of ruach you have.  However, mortals who spend too long in your presence have a chance of falling ill.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "When you wish it, your very touch bears the contamination of plague.  Your unarmed attacks have a chance to infect your targets, scaling with the amount of ruach you have.  However, mortals who spend too long in your presence have a chance of falling ill.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bc25b53e842b4dfcdbe60c421b0349e58a7a31e50a885ede40eb1b03127425e8",
+      "identity": [
+        null,
+        "Yeah.  Giant dragonflies.  A bunch of them, some of them I'm pretty sure were fuckin', I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss and that was that.  I took a few shots at them but they didn't stop, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can grab ever since, until I fell in with you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/criminal_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Yeah.  Giant dragonflies.  A bunch of them, some of them I'm pretty sure were fuckin', I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss and that was that.  I took a few shots at them but they didn't stop, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can grab ever since, until I fell in with you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Text variable value in an effect",
+      "flags": [],
+      "id": "bc6fae52e02df41707789fa3d7b9ef3e373607b84828791c41c4ec05a1bce974",
+      "identity": [
+        null,
+        "Requires social 4 and survival 8.  Must not have <trait_name:perk_hive_queen>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Requires social 4 and survival 8.  Must not have <trait_name:perk_hive_queen>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "bc7b87be1d56af3b43654ac9e5543a5545a8fdb7fde24b00c137275fc5e1d952",
+      "identity": [
+        null,
+        "This appears to be a promo video for Food Place brand food, depicting a nondescript drive-through with an idling open-topped convertible containing a family of four.  As the driver is handed a paper bag of generic fast food, a sudden bolt of lightning arcs from the night sky, striking the bag and reducing it to ashes.  With the family left exchanging wide-eyed glances, the growl of an engine becomes audible over a steadily rising crescendo of music.  The soundtrack eventually resolves into a rock iteration of the American anthem as a purple motorcycle bursts onto the scene, the Food Place logo stamped upon the side, and its caped rider bearing the noble visage… of Food Person!  Swiftly mounting the car's hood, the motorcycle soars in a slow-motion arc across the convertible, its rider depositing a giant bag of Food Place food into the arms of the cheering family.  Large, metallic text stamps boldly across the view as the bike lands and roars into the distance.\n\n\"Food Place: The hero your stomach doesn't deserve… but needs!\"\n\nThe text dissolves, replaced by three figures holding appropriately massive hamburgers: Abraham Lincoln, Martin Luther King, and, in between them… Jesus?\n\n\"Food Place: food made by great Americans… for great Americans!\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This appears to be a promo video for Food Place brand food, depicting a nondescript drive-through with an idling open-topped convertible containing a family of four.  As the driver is handed a paper bag of generic fast food, a sudden bolt of lightning arcs from the night sky, striking the bag and reducing it to ashes.  With the family left exchanging wide-eyed glances, the growl of an engine becomes audible over a steadily rising crescendo of music.  The soundtrack eventually resolves into a rock iteration of the American anthem as a purple motorcycle bursts onto the scene, the Food Place logo stamped upon the side, and its caped rider bearing the noble visage… of Food Person!  Swiftly mounting the car's hood, the motorcycle soars in a slow-motion arc across the convertible, its rider depositing a giant bag of Food Place food into the arms of the cheering family.  Large, metallic text stamps boldly across the view as the bike lands and roars into the distance.\n\n\"Food Place: The hero your stomach doesn't deserve… but needs!\"\n\nThe text dissolves, replaced by three figures holding appropriately massive hamburgers: Abraham Lincoln, Martin Luther King, and, in between them… Jesus?\n\n\"Food Place: food made by great Americans… for great Americans!\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'royal robe'",
+      "flags": [],
+      "id": "bc9814f41eac6536823f7ea4b81b4b913b072d528c7d85e9edb23382899a1a38",
+      "identity": [
+        null,
+        "An once-ornately decorated robe with an unfamiliar royal symbol on it, now made threadbare by time.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/artifacts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An once-ornately decorated robe with an unfamiliar royal symbol on it, now made threadbare by time.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bc993cbfe1bab028e47d93242ee0a9d188e4fcf7793c5fc62b28dceb31aa69ea",
+      "identity": [
+        null,
+        "Movement and stamina",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "579"
+        ]
+      ],
+      "plural": null,
+      "singular": "Movement and stamina",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message on effect of field 'pollen cloud'",
+      "flags": [],
+      "id": "bcc607248c3641e757106f1d83ce256c47328bdd33e73d8b26f495439f49d8e6",
+      "identity": [
+        null,
+        "You feel peace from inhaling the pollen cloud.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/field_type.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You feel peace from inhaling the pollen cloud.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "stamina": "耐力"
+  }
+}

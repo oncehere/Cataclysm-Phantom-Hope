@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'soft hazard suit'",
+      "flags": [],
+      "id": "d754b40117a5446e92ac2d4789f9742c0923c3f3a889fc4bf9699f0199d8ae15",
+      "identity": [
+        null,
+        "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gas mask or sealed helmet for full protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/armor/civilian_blue_collar.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gas mask or sealed helmet for full protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d759737775da8e2d99dcb17240251de14d0c2b6ef13259550a32ffcce9372e91",
+      "identity": [
+        null,
+        "Co-op: hosting on port 8080 — waiting for partner",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6294"
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op: hosting on port 8080 — waiting for partner",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'safety mid-calf boots (pair)'",
+      "flags": [],
+      "id": "d7665ec5d192b812cae5ec0118f6e4a7913242a1b67e01f2f392ca9fd7a17e4d",
+      "identity": [
+        null,
+        "Rugged boots with a thick sole, reaching the calf for more support and protection.  Metal caps have been added to protect the toes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rugged boots with a thick sole, reaching the calf for more support and protection.  Metal caps have been added to protect the toes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'decryption keys'",
+      "flags": [],
+      "id": "d789c91e1535078be6ff57f7ebe55f725b4aaec2ff392b43a8dc0c55aff241ce",
+      "identity": [
+        null,
+        "A large set of orphaned decryption keys from before the Discontinuity.  A data salvager might buy these in hopes of recovering something of value, but the odds of that are very low.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/software/salvaged_data.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large set of orphaned decryption keys from before the Discontinuity.  A data salvager might buy these in hopes of recovering something of value, but the odds of that are very low.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "d7901c56bb758747c0a97739d9301c134f119fa37f8d1083adbc618f8bd90207",
+      "identity": [
+        null,
+        "Overmap coordinates",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "587"
+        ]
+      ],
+      "plural": null,
+      "singular": "Overmap coordinates",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "d7b583b58493303c7bd0cca8887591142b23b72855790e1f4d34cc0088fbf423",
+      "identity": [
+        null,
+        "16x-\"Armus\"",
+        "16x-\"Armus\""
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": "16x-\"Armus\"",
+      "singular": "16x-\"Armus\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "d7dc2ced1d0fd02765ab5951e71d127ebf0d745e86abbcf449d6d3eae34f40dc",
+      "identity": [
+        null,
+        "Glad to help.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/common_chat/TALK_COMMON_MISSION.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Glad to help.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Crowd crushed'",
+      "flags": [],
+      "id": "d7f9a15a1941c85e040ce44a6de4fb2ca166f162f68e8c9b94aee96b7e9a365b",
+      "identity": [
+        null,
+        "You are being crushed by a crowd.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are being crushed by a crowd.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "d807713e6c76c6ac94634faee80354688c1d0cadafeae3b7b6508bed0d129dbc",
+      "identity": [
+        null,
+        "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there were no visible light sources anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so the team almost immediately came under attack by multiple XE338 entities.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attacks were effective, the light itself seemed to function as a deterrent and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present and backed up by several high-powered light sources.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there were no visible light sources anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so the team almost immediately came under attack by multiple XE338 entities.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attacks were effective, the light itself seemed to function as a deterrent and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present and backed up by several high-powered light sources.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Of Beautiful Form'",
+      "flags": [],
+      "id": "d82bda246faed54ccab86fd8cfe54856a4a9db7286f8e80b72e5c01d0b7ec9bd",
+      "identity": [
+        null,
+        "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "d84b4dfa8ec4bd3928235b424bd2bd7b16692371c2f97f228e8506dc3a11bf16",
+      "identity": [
+        null,
+        "Fumbling",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fumbling",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Message in 'then' statement in EoC\n'EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC'",
+      "flags": [],
+      "id": "d866b17254e072dace6d5d3ce4389fa4e3303867439fd0ac1467bb8b68f655f2",
+      "identity": [
+        null,
+        "Infecting <u_name> with the flu.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Infecting <u_name> with the flu.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

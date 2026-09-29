@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Well, as it were, things are going well.  In fact, we've started doing\nsome good deals, and not just with you.  And we've become aware of a group\nthat calls themselves the Free Merchants.  We need a human from this earth\nto talk to them, so that maybe we can set up some more organized trade,\nwith the time we have left on this rock.  We're willing to pay you to make\nintroductions.  Interested?",
+      "flags": [],
+      "id": "6f3e1f6aa7e24838a269c668ede3ba265bb5908c085a919cc5ca43ef49758f1e",
+      "identity": [
+        null,
+        "&Rubik lets out a rather comfortable chuckle from their speakers, and slaps their robotic belly.  \"Well, well, things are goin' swell.  Us'n've started right an' proper jelly, and not wi' just you neither.  By the by we've come ken of some monicks themselves the \"Free Merchants,\" as it were.  Lots'o'scrap.  Stuff we like and need.  Need us a person'o'this'land t'parlay with'em, see if mayhap we can set up finer trade betwixt, for the good hours in the sun we've left here, 'least.  Us'nlll stand ye a mighty tidy reward for introductions.  What say, fruit gum?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Rubik lets out a rather comfortable chuckle from their speakers, and slaps their robotic belly.  \"Well, well, things are goin' swell.  Us'n've started right an' proper jelly, and not wi' just you neither.  By the by we've come ken of some monicks themselves the \"Free Merchants,\" as it were.  Lots'o'scrap.  Stuff we like and need.  Need us a person'o'this'land t'parlay with'em, see if mayhap we can set up finer trade betwixt, for the good hours in the sun we've left here, 'least.  Us'nlll stand ye a mighty tidy reward for introductions.  What say, fruit gum?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "6f5f4288e1eefe5e0083370d61ec04c394beab1b61e44b66b0bfee2032c71cd7",
+      "identity": [
+        null,
+        "%1$s completely refurbishes the %2$s, restoring %3$d parts.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "662"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s completely refurbishes the %2$s, restoring %3$d parts.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "6f730ee8f5a356710cdf8ef200e08967c2f68ccd7e68e378a73a8c500c909499",
+      "identity": [
+        null,
+        "Power balance",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "614"
+        ]
+      ],
+      "plural": null,
+      "singular": "Power balance",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "6f78e0e709806c11285c630bf1f5383d7ec4410ee79a3063a1319753dbb82290",
+      "identity": [
+        null,
+        "[Show him your notes on aspirin improvement]",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Show him your notes on aspirin improvement]",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'battery powered utility exoskeleton'",
+      "flags": [],
+      "id": "6f90dac2e8fe13fb009c0c5c6a4257b0cfaf629f45f10962cd2051a158630ae2",
+      "identity": [
+        null,
+        "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "6f966b6567a63ab42212feba2577c15d4e9ff1c04360a76ce69af7e6fbff0441",
+      "identity": [
+        null,
+        "How do you want your artificial beard to look?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/EOC_talkers/artificial_hair.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "How do you want your artificial beard to look?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "6f9a9f928d6578df50098e365ae7a0cf78afe666c010f197df4b5f08096f4ead",
+      "identity": [
+        null,
+        "abstract weather report",
+        "abstract weather report"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/weather_reports.json",
+          ""
+        ]
+      ],
+      "plural": "abstract weather report",
+      "singular": "abstract weather report",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_REMOVE_NON_VAMPIRE_SUPERNATURAL'",
+      "flags": [],
+      "id": "6f9d7537d510780a3294e4844b4915827bcd82b4f4407589afa490b0c365500c",
+      "identity": [
+        null,
+        "Your empowered blood consumes your nature and anything it granted you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/give_a_class_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your empowered blood consumes your nature and anything it granted you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_FIRE_BALL'",
+      "flags": [],
+      "id": "6fb328fc4400f8b12aff8430ad1eea0bcecb6bbd3fd2846638583b95d843944c",
+      "identity": [
+        null,
+        "Did you know how to do contact juggling before the cataclysm or only just now this moment?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/spell_learning_items/spell_learning_items_classless.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Did you know how to do contact juggling before the cataclysm or only just now this moment?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle part name",
+      "flags": [],
+      "id": "6fc50feaeff25a957a7cad0aef48422d71aba2f4fd85e1fa4f175e91717232aa",
+      "identity": [
+        null,
+        "mounted huge crossbow",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/ballista_turret.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mounted huge crossbow",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'nomad utility belt (on)'",
+      "flags": [],
+      "id": "6fec0b97604c6335079ae6510005020cf0c8851b1d412ffe2c505a91abbdac6e",
+      "identity": [
+        null,
+        "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/bespoke_armor/utility.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of event statistic",
+      "flags": [],
+      "id": "7011523f01f07709cea759b037ef43315b983bf78194467853177b327720d955",
+      "identity": [
+        null,
+        "independent contractor killed",
+        "independent contractors killed"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/achievements/statistics.json",
+          ""
+        ]
+      ],
+      "plural": "independent contractors killed",
+      "singular": "independent contractor killed",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

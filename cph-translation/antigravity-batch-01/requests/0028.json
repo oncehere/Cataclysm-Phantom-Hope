@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1216eae9c0a8fa6b21ff46e7ed2ac6014278cb79a7b69ffdbbc1e3973614c295",
+      "identity": [
+        null,
+        "I have plenty of leather and bone to sell but nothing edible to spare.  We must maintain our food stockpile for when it will be scarce.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/mundane_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have plenty of leather and bone to sell but nothing edible to spare.  We must maintain our food stockpile for when it will be scarce.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_teleportation'\n~ Phavian designation for teleportation study is LOST RAIN",
+      "flags": [],
+      "id": "122e29dcae7d7ee29590c75fa0ebd571f74ca25fb384d686820d55c96a00d9d1",
+      "identity": [
+        null,
+        "The basic question is, are we better than the boys over in VERDANT HAND, and the answer is yes.  They're faster but we don't even need to cross the distance.  They hit harder but we build up twice the momentum in half the time.\n\nOkay, I admit, we can't actual replicate the theoretical avoidance strategy due to the obvious downsides of a failed experiment--and anyway, I really don't think anyone has the reaction time unless they're NOBLE HORIZON and thus aren't actually reacting to anything--but we put K52 up against some of the biggest meatheads (if you'll excuse the phrase) from security we had.  K52 is maybe 95 pounds soaking wet and absolutely could not hold up in a fight against even one of our fine volunteers in an actual combat situation.  Well, this wasn't an actual combat situation, but I instructed the security personnel to incapacitate K52 as quickly as possible.  Fifteen seconds later, she had disarmed and disabled all three attackers and we had to slow-mo the footage to even see what had happened.  The most impressive feat was when she blinked behind Jorgenson to avoid a grapple attempt and kicked him in the back of the knee.  You could tell from his expression he really thought he had her.\n\nI think we're ready to roll this out to any other LOST RAIN mathematicians who want the training.  This isn't going to help any in-phase situations but looking at what's going on we'll probably need it here at home too.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The basic question is, are we better than the boys over in VERDANT HAND, and the answer is yes.  They're faster but we don't even need to cross the distance.  They hit harder but we build up twice the momentum in half the time.\n\nOkay, I admit, we can't actual replicate the theoretical avoidance strategy due to the obvious downsides of a failed experiment--and anyway, I really don't think anyone has the reaction time unless they're NOBLE HORIZON and thus aren't actually reacting to anything--but we put K52 up against some of the biggest meatheads (if you'll excuse the phrase) from security we had.  K52 is maybe 95 pounds soaking wet and absolutely could not hold up in a fight against even one of our fine volunteers in an actual combat situation.  Well, this wasn't an actual combat situation, but I instructed the security personnel to incapacitate K52 as quickly as possible.  Fifteen seconds later, she had disarmed and disabled all three attackers and we had to slow-mo the footage to even see what had happened.  The most impressive feat was when she blinked behind Jorgenson to avoid a grapple attempt and kicked him in the back of the knee.  You could tell from his expression he really thought he had her.\n\nI think we're ready to roll this out to any other LOST RAIN mathematicians who want the training.  This isn't going to help any in-phase situations but looking at what's going on we'll probably need it here at home too.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "127ab246bd8f1860fc0c9a0d26190179523807078fbe131dc5cae693f00a1ba8",
+      "identity": [
+        null,
+        "You can't climb down any farther from here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/handle_action.cpp",
+          "3561"
+        ]
+      ],
+      "plural": null,
+      "singular": "You can't climb down any farther from here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "127fca9ad8075edb68553ae4b7aed74884e5a61abdd8bd383505695f7df140d0",
+      "identity": [
+        null,
+        "Could you give me some supplies?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you give me some supplies?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_DEBUG_TELL_ME_TIME'",
+      "flags": [],
+      "id": "12897b25d0f2c00c0b22be56d23d5c5cb839dddfa93b70bef34da4f34f31f1a0",
+      "identity": [
+        null,
+        "Minutes remaining until sunrise is <global_val:TIME_TILL_SUNRISE>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/generalized_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Minutes remaining until sunrise is <global_val:TIME_TILL_SUNRISE>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'Hub 01 BACK exoskeleton'",
+      "flags": [],
+      "id": "129e9e57f99ddd1663522bd18b6f14bbc01b1978f08d451aabc391349d7aff4e",
+      "identity": [
+        null,
+        "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK.  This powered exoskeleton anchors the Hub 01 ARM and LEG systems to each other, improving their function.  The metal frame crosses the shoulders, spine, and upper waist, with specialized clips for attaching it to compatible ARM and LEG exoskeletons.  When powered, the frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absorb recoil.  If left unpowered, or if equipped without an ARM and a LEG, it is a significant burden.  Activate it to toggle power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK.  This powered exoskeleton anchors the Hub 01 ARM and LEG systems to each other, improving their function.  The metal frame crosses the shoulders, spine, and upper waist, with specialized clips for attaching it to compatible ARM and LEG exoskeletons.  When powered, the frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absorb recoil.  If left unpowered, or if equipped without an ARM and a LEG, it is a significant burden.  Activate it to toggle power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Apply message of effect 'Gifts of the Moon'",
+      "flags": [],
+      "id": "12a5e9200d17d0167f16102244519dfaf0719659754128ced789967672fafb10",
+      "identity": [
+        null,
+        "You are ready for a new gift of the moon.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are ready for a new gift of the moon.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Mutation name",
+      "flags": [],
+      "id": "12a736486e87df0ba5125f6f526c7462ac0fb15f174355cb5cab1b3d5882275b",
+      "identity": [
+        null,
+        "渊渟",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/mutations/cultivation_traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "渊渟",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "12a9dcec9fdea866dacae505bcd3069b9958f00127b3489d80e47849a96b11f7",
+      "identity": [
+        null,
+        "Co-op chat: ",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "1257"
+        ]
+      ],
+      "plural": null,
+      "singular": "Co-op chat: ",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'lab_file_serum_testing_resilience' of item\n'production tests'",
+      "flags": [],
+      "id": "12c3e341260335dad8e9ab3b009a0858c8052c674ba147213a4bfc9025ede02f",
+      "identity": [
+        null,
+        "\n\n<serum_testing_resilience>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/newspaper.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "\n\n<serum_testing_resilience>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'hostile_msg' action message of item 'inactive eyebot'",
+      "flags": [],
+      "id": "12dd41611bdac8f8d0e58ff702da1794588b18e9f83c2bafcbd3931610b0e7a8",
+      "identity": [
+        null,
+        "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/items/corpses/inactive_bots.json",
+          ""
+        ],
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vitamin name",
+      "flags": [],
+      "id": "12e4c1165d8277303144bc574cfac43fb2afdcef85cbf0d67869bdaa0bae013c",
+      "identity": [
+        null,
+        "Slow-release Nicotine",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vitamin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Slow-release Nicotine",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

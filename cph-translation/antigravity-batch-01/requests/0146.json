@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "8852d4bffb38602d04305b93106b4fd46d348cb5566b976882c3aad9762f473f",
+      "identity": [
+        null,
+        "a statue surrounded by emerald poppies",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mapgen/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "a statue surrounded by emerald poppies",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'short shorts'",
+      "flags": [],
+      "id": "8877816b36ac2c6e5dc61849422733d1517874286b58711da7b77643248ee6d0",
+      "identity": [
+        null,
+        "Short shorts barely covering the thighs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/pants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Short shorts barely covering the thighs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "88c2276323d5a56450c06ba85203b9f28dfe779514363c21e902bcbf63f426ad",
+      "identity": [
+        null,
+        "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do weed, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <freaking> hellhole now, but if I've seen the last power-trippin' asshole pistol man, it might all be worth it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/criminal_1.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do weed, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <freaking> hellhole now, but if I've seen the last power-trippin' asshole pistol man, it might all be worth it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'atomic headlamp'",
+      "flags": [],
+      "id": "88cad94be2fc553231d0c327b0abaa08b51785ba02ed630bc66b8af2ce63ba6c",
+      "identity": [
+        null,
+        "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to close the cover and hide the light.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/FuturismCataclysmLegacy/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to close the cover and hide the light.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of map extra 'Cracked Mirror'\n~ Description of map extra 'Ingress'",
+      "flags": [],
+      "id": "88ce6fe049157e6e3d586402a30eb12caed636ee9911d72a4649b846763f84ca",
+      "identity": [
+        null,
+        "Nether creatures have found there way in here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras_dimensions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Nether creatures have found there way in here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8908d8bc953fb9f3ecd415e8451377a73512e2944adecfbd559a1f5dc310180d",
+      "identity": [
+        null,
+        "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Heading of body part 'left rear tentacle'",
+      "flags": [],
+      "id": "892e2705db0edaebca45d418946b0f5787bef00a31bb3541bd05764321900f80",
+      "identity": [
+        null,
+        "l. r. tent",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "l. r. tent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "8937237ba63ac6285331f79f66b867c29a1566d72a9230a9eb3b13153c9a0a45",
+      "identity": [
+        null,
+        "I'm an animal aspected prankster fae!  Doesn't this make so much sense from our childhood?  I never knew before but it feels so true!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/xe_liam_chat.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I'm an animal aspected prankster fae!  Doesn't this make so much sense from our childhood?  I never knew before but it feels so true!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "894dc4d8781a7a797e9f215ea7c698ebeaeadce62f7c7624f61e5aff6e91b60d",
+      "identity": [
+        null,
+        "inactive Pathfinder",
+        "inactive Pathfinders"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": "inactive Pathfinders",
+      "singular": "inactive Pathfinder",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry interstice pool bottom'\n~ Description of terrain 'dry interstice swimming pool'",
+      "flags": [],
+      "id": "895165e485ef3c33720af75dadcd8d61fd9380b28dffb48d9fb32dba283eca55",
+      "identity": [
+        null,
+        "The bare bottom of a drained pool of unnaturally clear liquid.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The bare bottom of a drained pool of unnaturally clear liquid.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "8964be9697156ac189c799d2cf62ca54ce71f8e22809bbec26ec7b2498135992",
+      "identity": [
+        null,
+        "left rear tentacle tip",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "left rear tentacle tip",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (potion of hare's leap)'",
+      "flags": [],
+      "id": "8966d258d69111ea50816b5c417e7f50fc6fe7899be9b2c7ab8493a955cd0c69",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a potion to allow you to leap a great distance.  Hopefully it also allows you land safely after those great leaps.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a potion to allow you to leap a great distance.  Hopefully it also allows you land safely after those great leaps.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

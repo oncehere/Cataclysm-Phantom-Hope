@@ -1,0 +1,275 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f0b2d23268ea851ba178b2a5d7cc2aacde7af40f39151f56cdb7ad477d10114f",
+      "identity": [
+        null,
+        "It's an acronym that stands for Laser Interferometer eXodimensional resonance Array.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It's an acronym that stands for Laser Interferometer eXodimensional resonance Array.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f13128c79c256e0a89c29e71099444a1f14e7f62b751944df66a3a2227f3eaa9",
+      "identity": [
+        null,
+        "Choose custom normal color",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/color.cpp",
+          "1469"
+        ]
+      ],
+      "plural": null,
+      "singular": "Choose custom normal color",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in false effect in use action of item 'Hub 01 ARM\nexoskeleton'",
+      "flags": [],
+      "id": "f153c6ef28e187074c717bf3d3f9e5df80d6ba5d090c553dfd466a2fe9faa555",
+      "identity": [
+        null,
+        "ERROR: NO XM-ARM INTERFACE DETECTED",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/robofac_bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "ERROR: NO XM-ARM INTERFACE DETECTED",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'speed_serum_main'",
+      "flags": [],
+      "id": "f173e83ef7d366eb30c56fcb79e00a6db7f6b05366a0aeea77f39091d84c4d7f",
+      "identity": [
+        null,
+        "Injected 51x-\"Landru\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects_on_condition/medicine_eocs/speed_serum_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Injected 51x-\"Landru\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "f176485e4e10572d2c2fbda738b7557594c3d7e504b07bf2d1f2dfdc3d55f0dc",
+      "identity": [
+        null,
+        "[Telepathy] *Read <npc_name>'s mind*",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/Rubik.json",
+          ""
+        ],
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/follower_dialogue.json",
+          ""
+        ],
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/refugee_guards_generic.json",
+          ""
+        ],
+        [
+          "data/mods/MindOverMatter/npcs/dialogue/refugee_guards_traitor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Telepathy] *Read <npc_name>'s mind*",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "f179700e604b4bb80ad268259cc93506bc3969ad63ed015b95a8e3cc38b2cb07",
+      "identity": [
+        null,
+        "yours",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "810"
+        ]
+      ],
+      "plural": null,
+      "singular": "yours",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'weed_high'",
+      "flags": [],
+      "id": "f1a6cdf03a53085476861015f5df6f4fbd9fb282dc08e53ec69414c6eafa9f3e",
+      "identity": [
+        null,
+        "Blazed",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Blazed",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "f1ad734e4ba3455bf133cfe0a83fcf05a547cde802ca75b4731cffe512f906c4",
+      "identity": [
+        null,
+        "To Don the Mantle of the Sun",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/magic/hedge_magic/hedge_magic_overrides.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "To Don the Mantle of the Sun",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'mid-calf boots'",
+      "flags": [],
+      "id": "f1af8b5be9193d5c7f7a724ad3699070092a2bb6d594d064c1ed33621200eb77",
+      "identity": [
+        null,
+        "Rugged boots with a thick sole, reaching the calf for more support and protection.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Rugged boots with a thick sole, reaching the calf for more support and protection.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f1b7f38eea2499479cf6ce21c1cda176b68d27bec58558c5f83fc22c82223248",
+      "identity": [
+        null,
+        "%1$s: %2$d yours, %3$d from mechanic; total %4$s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "896"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s: %2$d yours, %3$d from mechanic; total %4$s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "f1ce7b0f521c176c4f696c6e006bf400ccfcdc97e6a4ddb7c76a768ee036e918",
+      "identity": [
+        null,
+        "The vehicle changed before refurbishment could begin.  %s credits you for the payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "628"
+        ]
+      ],
+      "plural": null,
+      "singular": "The vehicle changed before refurbishment could begin.  %s credits you for the payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "f1e3583d013180cb001085cdc3036cfa606c57caf127081a45e7f76366d82a78",
+      "identity": [
+        null,
+        "I was fricking lucky for <the_cataclysm>.  I was squatting in a little canoe by the river.  I was in a real shitty place, and my crew had mostly just been arrested for trespassing, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/innawood/npcs/Backgrounds/criminal_2.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I was fricking lucky for <the_cataclysm>.  I was squatting in a little canoe by the river.  I was in a real shitty place, and my crew had mostly just been arrested for trespassing, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

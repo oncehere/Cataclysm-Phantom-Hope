@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "7a5ddbd7dc210b52fb8c70e6e58466d15e47122f11892526eedf118ab3511cef",
+      "identity": [
+        null,
+        "You don't want to be a zombie, do you?  No Thorazine!",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't want to be a zombie, do you?  No Thorazine!",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "7a619a3a35b3ac096280364186cd5aa3650468c020951b599e894b13bee64744",
+      "identity": [
+        null,
+        "mid-calf boots",
+        "mid-calf boots"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "mid-calf boots",
+      "singular": "mid-calf boots",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "7a8a9be00f72df174c565f613fd2b01b57d2c5bd58324133ee0b02af67250bf4",
+      "identity": [
+        null,
+        "The removal order changed during checkout.  %s credits the full payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1070"
+        ]
+      ],
+      "plural": null,
+      "singular": "The removal order changed during checkout.  %s credits the full payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'reinforced habitat window (lockdown)'",
+      "flags": [],
+      "id": "7a8b68568daa2f391aa0df3c3ae6323505d5460b5e018f527aa8cdd83dfe8521",
+      "identity": [
+        null,
+        "Security shutters have been deployed over this reinforced window.  Access will require either breaking through or bypassing the locking mechanism from somewhere else.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/maps/furniture_and_terrain/terrain_habitat_wall.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Security shutters have been deployed over this reinforced window.  Access will require either breaking through or bypassing the locking mechanism from somewhere else.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in result of recipe crafting\n'EOC_RESEARCH_THAUMATURGY_GAIN_SPELL'",
+      "flags": [],
+      "id": "7a90e90ed7c6f8b5e7bb2585e73b12b04c329860a3ab95d488c5ce8c88f9c4b2",
+      "identity": [
+        null,
+        "You learn a secret of the lesser mysteries.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You learn a secret of the lesser mysteries.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_vitakinesis'\n~ Phavian designation for vitakinetic study is SMOKE USHER",
+      "flags": [],
+      "id": "7aa8b8d30384b307f92f53858b2b0eb651945fa00d7214592fbbd8319c13da16",
+      "identity": [
+        null,
+        "Common cold: 34 hours\n\nInfluenza: 27 hours\n\nMononucleosis: 85 hours\n\nNorovirus: 26 hours\n\nGonorrhea: 43 hours\n\nHepatitis C: 71 hours\n\nHIV: 148 hours\n\nMalaria: 112 hours\n\nSmallpox: 76 hours\n\nEbola: 93 hours",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Common cold: 34 hours\n\nInfluenza: 27 hours\n\nMononucleosis: 85 hours\n\nNorovirus: 26 hours\n\nGonorrhea: 43 hours\n\nHepatitis C: 71 hours\n\nHIV: 148 hours\n\nMalaria: 112 hours\n\nSmallpox: 76 hours\n\nEbola: 93 hours",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'else' statement in 'else' statement in EoC\n'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "7ab15999ce3246b76a23aec4cbb75a9476967bad4d1b7272f49d61a63ffb4d95",
+      "identity": [
+        null,
+        "你吐纳一周天（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>），灵气温养经脉。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "你吐纳一周天（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>），灵气温养经脉。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Drank blood'",
+      "flags": [],
+      "id": "7abad59a5b23d878a42b239006b38064f11f231e028d4eabef58601184c1188c",
+      "identity": [
+        null,
+        "The hungry Arion has drunk blood and is now visibly regenerating.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The hungry Arion has drunk blood and is now visibly regenerating.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "7ade163867d949d4d439e11bd7c5ca513058d309f10ffdc3c623f4c11192bb55",
+      "identity": [
+        null,
+        "Actually, I don't want a reward - just know I can get the job done.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually, I don't want a reward - just know I can get the job done.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "7af6414f8d7e1fd2ce7b261e90ee98100e93059be892dfa78ce9c8245c0695eb",
+      "identity": [
+        null,
+        "&You fail to make the elevator move.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/npcs/elevator_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You fail to make the elevator move.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option description for 'Go Back.'",
+      "flags": [],
+      "id": "7b3e3565460709c0b8b6fbb0a9e6b30efc9be77218ff61fa7c67929bd27044e7",
+      "identity": [
+        null,
+        "<trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>\n<trait_description:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/werewolf_advancement_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>\n<trait_description:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Death message of monster 'tanglevine'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "7b493da78ea28b4139c82a7f886e5c0d307ade2e2db67998a3c1f6a2ed04aec5",
+      "identity": [
+        null,
+        "The %s collapses into a heap of wood and leaves.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/plants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %s collapses into a heap of wood and leaves.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "zombie": "丧尸"
+  }
+}

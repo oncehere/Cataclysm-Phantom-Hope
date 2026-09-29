@@ -1,0 +1,269 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "06747185abeb3261d7ce2c8eb3696e794c257d24fc6aa88b81c46e37dfe79c59",
+      "identity": [
+        null,
+        "Ingress",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras_dimensions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ingress",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'ROBOFAC_LEG'",
+      "flags": [],
+      "id": "069a2a832fac9ba3889d28ade1ba207935175ba10b1a5dc435d71fa848b5e662",
+      "identity": [
+        null,
+        "This item is a Hub 01 LEG exoskeleton.  It requires an implanted XM-LEG interface to function.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This item is a Hub 01 LEG exoskeleton.  It requires an implanted XM-LEG interface to function.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "06a53e08720dbde9596d3063219db09ca5afe017c42019c849bc80602aaa74c8",
+      "identity": [
+        null,
+        "Aye, they did indeed.  And aye, ye clearly tried.  That's the way'o'things.  Have a look about, tell me what ye like.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Aye, they did indeed.  And aye, ye clearly tried.  That's the way'o'things.  Have a look about, tell me what ye like.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "06a7380bd2083ddca0778def4948c92b90c9dd0dfe7179ea724b79666f5fc685",
+      "identity": [
+        null,
+        "Fortitude of the Island",
+        "Fortitude of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/stability.json",
+          ""
+        ]
+      ],
+      "plural": "Fortitude of the Island",
+      "singular": "Fortitude of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "06ac7428962bbeb34f7ee0c660d80cd4c9476fd7b86d22238f8f993c36e3408e",
+      "identity": [
+        null,
+        "Any advice for the renfields?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Any advice for the renfields?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'downspout'",
+      "flags": [],
+      "id": "06cb845a433896dbb45a7a8a9c075a6051b1a4f8bf1e4a7d1d232b4b0ae630d7",
+      "identity": [
+        null,
+        "A length of gutter running from the roof to the ground, you could place a container underneath it to collect rainwater.  It looks flimsy.  You may be able to climb up here.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-roofs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A length of gutter running from the roof to the ground, you could place a container underneath it to collect rainwater.  It looks flimsy.  You may be able to climb up here.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "06d396a81a81d79a08a8103df367e347a92e8f84c19449e7829097c5d7359808",
+      "identity": [
+        null,
+        "No co-op partner connected.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "1253"
+        ]
+      ],
+      "plural": null,
+      "singular": "No co-op partner connected.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "06d880b1db948693ccafcf25a14c76ce31bc49de00806739b10764290bee5238",
+      "identity": [
+        null,
+        "broken x-ray laser turret",
+        "broken x-ray laser turrets"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": "broken x-ray laser turrets",
+      "singular": "broken x-ray laser turret",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name\n~ Overmap terrain name",
+      "flags": [],
+      "id": "06fca4b5c8ffaa66a199a870e381853f3131d8688bcbe17e4e45000d4e885616",
+      "identity": [
+        null,
+        "central elevator",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/furniture_and_terrain/terrain/terrain_hunvre.json",
+          ""
+        ],
+        [
+          "data/mods/hunvre/json/mapgen/infrastructure/central_elevator.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "central elevator",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "07014984136d2388afb3ada2d63cd80b5d5ef0c638e451c5848daae90313ee86",
+      "identity": [
+        null,
+        "&You boot up the strange TV-radio device.  There is a sharp squeal from the device as the screen, first covered in only static, blips into life.  After a moment, the image on the screen wobbles and Rubik appears, offering a stiff bow.  You hold the screen up so Smokes can see it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&You boot up the strange TV-radio device.  There is a sharp squeal from the device as the screen, first covered in only static, blips into life.  After a moment, the image on the screen wobbles and Rubik appears, offering a stiff bow.  You hold the screen up so Smokes can see it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "072eadc32058d64e8dade5aeb8e5a1b245ea1e518fca66c8e32e328ee3f422e1",
+      "identity": [
+        null,
+        "%s swaps places with you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3269"
+        ],
+        [
+          "src/mp_gamestate.cpp",
+          "7208"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s swaps places with you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Cure or kill the vampire'",
+      "flags": [],
+      "id": "0737c2e582b110ec459ca8adc86a648e77fdef9abe0892c0d00be496b5f50fc2",
+      "identity": [
+        null,
+        "A recently-made vampire has been spotted nearby.  The better move is to cure them, but if they refuse you have to kill them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A recently-made vampire has been spotted nearby.  The better move is to cure them, but if they refuse you have to kill them.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

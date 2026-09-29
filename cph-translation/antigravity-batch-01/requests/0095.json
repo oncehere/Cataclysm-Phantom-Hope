@@ -1,0 +1,262 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "552998c2456c90bc9f6aa305c425fed49f964faec58d92b54519665c216dcbe2",
+      "identity": [
+        null,
+        "CO-OP: may break.  Bionics aren't synced, so a joining player's passive bonuses and active bionic powers won't apply on the host.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "111"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Bionics aren't synced, so a joining player's passive bonuses and active bionic powers won't apply on the host.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item 'broken Zenit'",
+      "flags": [],
+      "id": "5545abe80f85ca8c83e03e4c55234177590f5806b8d0d7c646b8c27663a0b2e1",
+      "identity": [
+        null,
+        "A broken Zenit security drone.  Could be disassembled for robotic components and heavy armor.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/corpses.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A broken Zenit security drone.  Could be disassembled for robotic components and heavy armor.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of item '09x-\"Anaximander\"'",
+      "flags": [],
+      "id": "5562ed44c58368b0185a7e64c3393a44b81f60e2eedac48e2df184c7c6122a81",
+      "identity": [
+        null,
+        "A little, sealed ampule with some black, semi-transparent liquid of unknown origin.  The label on it says \"09x-\"Anaximander\"\", whatever that means.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A little, sealed ampule with some black, semi-transparent liquid of unknown origin.  The label on it says \"09x-\"Anaximander\"\", whatever that means.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'scribbled notes (alchemically altered trucker pill)'",
+      "flags": [],
+      "id": "5575370e53951592bb6cd12420e1a08c3ec352b9578bba2d96c19c2125a20031",
+      "identity": [
+        null,
+        "A handwritten set of notes detailing an alchemical recipe for a \"stamina enhancement\".  The ingredients make you raise your eyebrows, but the notes in the margins indicate that you won't need to sleep for quite some time after taking them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/alchemy_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handwritten set of notes detailing an alchemical recipe for a \"stamina enhancement\".  The ingredients make you raise your eyebrows, but the notes in the margins indicate that you won't need to sleep for quite some time after taking them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Job description of 'guard' NPC class\n~ Basic guard guarding the base.  Can't risk the important non-combattants\nbeing killed within the base.",
+      "flags": [],
+      "id": "558858b4b2d6754865e6ca6d7c713d794421be5b04baa867f880bdc0762c67ec",
+      "identity": [
+        null,
+        "I keep the place safe.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/generic_hunter.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I keep the place safe.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "5588597ade9748d9d9ed2b98e42bac620214d96d84f2e247a0d6f31310d240a6",
+      "identity": [
+        null,
+        "&Processing 1 of 1 - Installing Sys3_rnp_4b12\n[====================] 100%\nThe operation completed successfully.\n\nRestart to apply changes.\nDo you want to restart now?  (Y/N)\n\n",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/computers/TALK_MSU14.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&Processing 1 of 1 - Installing Sys3_rnp_4b12\n[====================] 100%\nThe operation completed successfully.\n\nRestart to apply changes.\nDo you want to restart now?  (Y/N)\n\n",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5594f1d7b0009dc36d26f2e7a375b8f5ca0ee4d3e7e81b57a1b90ec1a89a39cf",
+      "identity": [
+        null,
+        "[Neutral] Let them finish, and offer occasional help translating.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "[Neutral] Let them finish, and offer occasional help translating.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "55bb5f557d4d0e19f471eca056853f8ab4a64c38dd44dc14100e4a91de0c3225",
+      "identity": [
+        null,
+        "Mod load order",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "609"
+        ]
+      ],
+      "plural": null,
+      "singular": "Mod load order",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'Wild Rice Seedling'",
+      "flags": [],
+      "id": "55bd3e73ef8faf15b408bab95441974331022bf532aef74d1cd10963c6c58bfe",
+      "identity": [
+        null,
+        "A young wild rice seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A young wild rice seedling with a small root system.  It reaches harvest sooner than ordinary seeds when planted.  Must be planted in a paddy field.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Superhuman Physique'",
+      "flags": [],
+      "id": "55c26d992be005e672b577f7974dce77ff2f09e54cedc06c49032badddbb1930",
+      "identity": [
+        null,
+        "Your augmented body dwarfs anything ordinary humans can achieve.  You are stronger, faster, and more durable than any unaugmented human could ever hope to be.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/mutations/combat_brute.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your augmented body dwarfs anything ordinary humans can achieve.  You are stronger, faster, and more durable than any unaugmented human could ever hope to be.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'handmade firemask'",
+      "flags": [],
+      "id": "55d87b600da5c3f2f2fe63f77cbf1a071fa677684d163838c02ef9d3f920dc6f",
+      "identity": [
+        null,
+        "A custom-made leather gas mask faced with Nomex.  It must be prepared before use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A custom-made leather gas mask faced with Nomex.  It must be prepared before use.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "55d8c4b652f88ca20e259a33084798f9c8fc9b0d04c0e70bb33d0f2b7103f205",
+      "identity": [
+        null,
+        "inactive Regulator",
+        "inactive Regulators"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/inactiverobot.json",
+          ""
+        ]
+      ],
+      "plural": "inactive Regulators",
+      "singular": "inactive Regulator",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "stamina": "耐力"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "generated_at_utc": "2026-09-29T04:50:12.413553+00:00",
+  "commands": [
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/python -m pytest -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests": 161,
+      "seconds": 8.37,
+      "warnings": [
+        "Existing google-genai/Pydantic deprecation warning"
+      ]
+    },
+    {
+      "command": ".venv/bin/python cph-translation/audit_translations.py --self-test",
+      "status": "PASS",
+      "exit_code": 0,
+      "checks": 13
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper fill --config cph-translation/project.toml --cache cph-translation/.pokeeper/gemini-cache.json --cache-only --candidate cph-translation/review-08-offline-cache",
+      "status": "PASS",
+      "exit_code": 0,
+      "new_cached_translations": 248,
+      "model_requests": 0
+    },
+    {
+      "command": "PATH=/nix/store/518bcx82g8m9cyji47sprx9ajmadjk8s-gettext-1.0/bin:$PATH .venv/bin/pokeeper export cph-translation/review-08-offline-cache --output cph-translation/antigravity-batch-01 --batch-size 12 --max-chars 16000",
+      "status": "PASS",
+      "exit_code": 0,
+      "batches": 266,
+      "entries": 3078,
+      "oversized_single_entry_batches": []
+    },
+    {
+      "command": "PYTHONPATH=src .venv/bin/python cph-translation/audit_candidate.py cph-translation/review-08-offline-cache --output cph-translation/review-08-offline-audit.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "checked": 316,
+      "flags": 0,
+      "scope": "Deterministic checks, not full semantic review"
+    },
+    {
+      "command": ".venv/bin/pokeeper responses cph-translation/antigravity-batch-01",
+      "status": "PASS",
+      "exit_code": 0,
+      "operation_result": "INCOMPLETE",
+      "completed_batches": 0,
+      "missing_batches": 266,
+      "scope": "Valid export/empty response directory; no Antigravity translations generated"
+    },
+    {
+      "command": "UV_CACHE_DIR=/tmp/pokeeper-offline-build-cache .venv/bin/python -m build --installer uv --outdir dist/offline-exchange",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "command": "Python zipfile/tarfile archive inspection and CPH input/ID/hash assertions",
+      "status": "PASS",
+      "exit_code": 0,
+      "scope": "exchange.py included; CPH data and virtualenv excluded; all input hashes unchanged; unique unprotected gaps match export"
+    }
+  ],
+  "sources": {
+    "src/pokeeper/__init__.py": "d386738720dec717cd96d45b7e5faf1ec2fff1e320f772ec9d714a9a662f662d",
+    "src/pokeeper/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/pokeeper/catalog.py": "1d625d4a5e0d052a169b192f3e62e353a969b4c65285ffef2c4f6dedda2ed97e",
+    "src/pokeeper/cli.py": "68c859e5f6c4bd3d566bf27fa81e7d08d6f68861ed7d4e829ad67727db05bdb2",
+    "src/pokeeper/config.py": "6269e831efc1c8d7ea87d86586063a437d358b7eb1de06fe8d3109de867c7e04",
+    "src/pokeeper/core.py": "37773a2c3f722654f0013cbca9d62862f0ff6940712a134df91fba45d790fdb8",
+    "src/pokeeper/exchange.py": "f6d26f2e98abd6a95e66a04d8cbeaa1a977c07d5268f01da5690d82c2624c19f",
+    "src/pokeeper/gemini.py": "67a611428513be340ac0e2a0cdb4f4e52ecd83c0f461dd1cbf44e7a87bf43713",
+    "src/pokeeper/transaction.py": "d0d53ab3be315e0e8ea12aad402c80ae7721b174bbdc6fa15cd57a27535d0687",
+    "src/pokeeper/validation.py": "8a0961a8d2f1574ea2040345965ce55de769252f813c313b8f7323b95564ef56",
+    "tests/test_candidate.py": "7dc3fb93c84a5f165e909d268977fa5d0cb299f41fe821780b306fc78c02841b",
+    "tests/test_cli.py": "12c948a855cd36669120d9a1a5c7e7ba93a8b6db836ae4370485894dc3ef18f7",
+    "tests/test_core.py": "20e1dfd39f9286602bb73a87dbc3af24f96fc8c51a9d6873eab851613efa70c4",
+    "tests/test_exchange.py": "3fdacfb659afb8e54ae83a39346c077e5b1e234df96627b6caa03f8421c464ab",
+    "tests/test_gemini.py": "98fabf7452ca8543434e53147ed32e09229b63f8bbda6706ca25247645522037",
+    "tests/test_parser_limits.py": "2bb45925f8598608b304f026bb65b9208b4fa37e3d638180e718ac6a7eb9a9ba",
+    "tests/test_transaction.py": "f7df9a371c3aca60dd7edc2b590eca29269f01187f29786873f30b963ce05af7"
+  },
+  "archives": [
+    {
+      "path": "dist/offline-exchange/po_keeper-0.1.0rc1-py3-none-any.whl",
+      "sha256": "9a0100a3d735e80b13767d03c2ff1051210a27c8a769589b7db658ba8ca702fc",
+      "bytes": 40182
+    },
+    {
+      "path": "dist/offline-exchange/po_keeper-0.1.0rc1.tar.gz",
+      "sha256": "d87861257a154d216cb6e1a8abd619904329667c1d8c106f1d4326e2f0e73c40",
+      "bytes": 149837
+    }
+  ],
+  "cph": {
+    "official_po_modified": false,
+    "state_modified": false,
+    "game_repository_modified": false,
+    "candidate_applied": false,
+    "candidate_entries": 117224,
+    "remaining_gaps": 3078,
+    "candidate_sources": {
+      "upstream": 113574,
+      "human": 256,
+      "gemini": 316
+    },
+    "historical_cache_statuses": {
+      "complete": 320,
+      "failed": 28,
+      "unknown": 9
+    },
+    "historical_active_unknown_ids": 4
+  },
+  "resolved_failures": [
+    {
+      "status": "FAIL_THEN_RESOLVED",
+      "command": ".venv/bin/python -m build --no-isolation --outdir dist/offline-exchange",
+      "exit_code": 1,
+      "reason": "hatchling missing from runtime venv; used isolated build with pinned hatchling"
+    },
+    {
+      "status": "FAIL_THEN_RESOLVED",
+      "command": ".venv/bin/python -m build --installer uv --outdir dist/offline-exchange",
+      "exit_code": 1,
+      "reason": "default uv cache read-only; used dedicated writable /tmp cache"
+    },
+    {
+      "status": "FAIL_THEN_RESOLVED",
+      "command": "Initial archive scope assertion",
+      "exit_code": 1,
+      "reason": "Unanchored sdist include matched two CPH documentation files; anchored all include paths and rebuilt; corrected archives checked"
+    }
+  ],
+  "not_run": [
+    "Gemini API calls in this turn",
+    "Antigravity real host-model execution and quota sufficiency",
+    "Full translation semantic acceptance",
+    "Updated container offline exchange entry points",
+    "Fresh isolated wheel installation for this revision",
+    "CPH candidate application, game MO installation/loading and CI resources",
+    "Remote publication"
+  ],
+  "limitations": [
+    "Local validators do not judge all semantic or stylistic errors.",
+    "Old API unknown outcomes remain historical; no request was retried.",
+    "Antigravity responses use its own account/model quota; no free or unlimited claim.",
+    "Previous container/real-project evidence remains historical, not proof of new exchange commands."
+  ]
+}

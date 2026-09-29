@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "e1a264f354d174744bcddf3b8f5915a7df867f5c4882c7e1d0108feda5c846d6",
+      "identity": [
+        null,
+        "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network.\n\nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network.\n\nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Conditional name for 'Valencian paella' when 'COMPONENT_ID_SUBSTRING'\nmatches 'mutant'",
+      "flags": [],
+      "id": "e1c24b511969205ecfe682a3d84b191a0b5939cd7a3095c620b4b152293c206a",
+      "identity": [
+        null,
+        "vulgar paella",
+        "vulgar paella"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/meat_dishes.json",
+          ""
+        ]
+      ],
+      "plural": "vulgar paella",
+      "singular": "vulgar paella",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "e1c5ce919886d0b1999c295ae85f803252a55c37147ea389de9e15e568060be1",
+      "identity": [
+        null,
+        "Regulator schematics",
+        "Regulator schematics"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/books.json",
+          ""
+        ]
+      ],
+      "plural": "Regulator schematics",
+      "singular": "Regulator schematics",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'apprentice occult research results'",
+      "flags": [],
+      "id": "e1e8aad5e3e6c6b41f1f024061d43707e71318043ab609ada889057e0a92d3dd",
+      "identity": [
+        null,
+        "Musings and tangents mixed with a few real insights.  You know there's power to be grasped out there, if you can just find out how to do it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Musings and tangents mixed with a few real insights.  You know there's power to be grasped out there, if you can just find out how to do it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "e218c93b023e462dd16701eece707cf3177dda119932c086cd6821139524f8a7",
+      "identity": [
+        null,
+        "Lua static content changed.  Restart the game to reload its definitions.  The previous script registrations remain active.\n\n%s",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/debug_menu.cpp",
+          "5013"
+        ]
+      ],
+      "plural": null,
+      "singular": "Lua static content changed.  Restart the game to reload its definitions.  The previous script registrations remain active.\n\n%s",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'infinity ore'",
+      "flags": [],
+      "id": "e21bf64dadcdf5b197026b7cf89726e9ea4decdc2d3653a710dbcb867af6355b",
+      "identity": [
+        null,
+        "A roiling, rattling mass of ever-churning metal.  Flares of purple energy arc around the formless pile like electricity, and in their wake, thin metal rods and struts jut out, before disappearing into the half-molten heap which never seems to grow or diminish.  Its strange nature allows you to shift it around like furniture.\n\nThe power of this ore allows you to produce raw and basic metal items from material tokens via the crafting menu.\nJust one of these could last forever.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/furniture_and_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A roiling, rattling mass of ever-churning metal.  Flares of purple energy arc around the formless pile like electricity, and in their wake, thin metal rods and struts jut out, before disappearing into the half-molten heap which never seems to grow or diminish.  Its strange nature allows you to shift it around like furniture.\n\nThe power of this ore allows you to produce raw and basic metal items from material tokens via the crafting menu.\nJust one of these could last forever.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "e236c825c7e2a87934f33a41a476e309543c38cb78cd8dc6fab040a4c5a352f2",
+      "identity": [
+        null,
+        "76x-\"Lore\"",
+        "76x-\"Lore\""
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/serums.json",
+          ""
+        ]
+      ],
+      "plural": "76x-\"Lore\"",
+      "singular": "76x-\"Lore\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'short mound of nurdle'",
+      "flags": [],
+      "id": "e23c08bdf87f0036cc2f6c826978c08edef858203105b204309b0e01c2b5d8f6",
+      "identity": [
+        null,
+        "An area of heaped nurdle, not easily traversable.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "An area of heaped nurdle, not easily traversable.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "e252b441f0b454718d701ef648da60c5a6dea5aebf6885ce35b5628088e41f42",
+      "identity": [
+        null,
+        "Any advice for the big renfield?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Any advice for the big renfield?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "e282416ac169eea1bd0dbe571f4284a156e541e98192e3772b60bce9d6aa9b24",
+      "identity": [
+        null,
+        "IPAV patch kit",
+        "IPAV patch kits"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/tools.json",
+          ""
+        ]
+      ],
+      "plural": "IPAV patch kits",
+      "singular": "IPAV patch kit",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "e29da1b76e9f15b9e29ac7f3738e4e09efacce96750aec9529b60c7513eb3f8a",
+      "identity": [
+        null,
+        "I can give you some cure for your vampirism.  You helped us, so I'll help you in turn.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I can give you some cure for your vampirism.  You helped us, so I'll help you in turn.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "e2a31682c72feb2bede08606ab4fc4f5da92e05b7d1ad40713a229e13646a208",
+      "identity": [
+        null,
+        "No characters in this world!",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "2475"
+        ],
+        [
+          "src/main_menu.cpp",
+          "2505"
+        ]
+      ],
+      "plural": null,
+      "singular": "No characters in this world!",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

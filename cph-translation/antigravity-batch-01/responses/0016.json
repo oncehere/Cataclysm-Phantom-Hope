@@ -1,0 +1,81 @@
+{
+  "request_sha256": "4575885821fe2bd12b78be70d688a0ecf74bae5eb3f478d58bc56ed1d1d86bde",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "04a49677cb9bb7f9290b1cf966e4c06a5368605a10bcfeb22190f35daf7b6879",
+      "values": [
+        "冥想你的能力，提升你抵御致残性伤害的耐受力。\n\n能力难度：5\n\n当前能力等级：<u_spell_level:vita_stop_infection>"
+      ]
+    },
+    {
+      "id": "04ac314ab570c525474648f52e8b142d9eb85af9e9764f72ba48fa64e78fd4f8",
+      "values": [
+        "高塑料颗粒堆"
+      ]
+    },
+    {
+      "id": "04b14a6cdea299ebf1b72daaddcd758e1a1fa81092732327c21d29439ddc30ce",
+      "values": [
+        "《废除工作与其他文章》"
+      ]
+    },
+    {
+      "id": "04c5b0b915aa11204fb802edd447fcb211526fef24d37a731f0926afc834e0fd",
+      "values": [
+        "《蓝精灵》"
+      ]
+    },
+    {
+      "id": "04e943817ddbdefcb0e1bb776182da9e7fd1397570377ec2fa55c3c97c58943f",
+      "values": [
+        "自然界中蕴含着力量。你现在能看出来了。借助整理出的笔记并研读先前的观察记录，你确信自己能找到引导这种力量的方法。"
+      ]
+    },
+    {
+      "id": "050638c7637407ac56c8d24f78864eb1f29930956da0faad1e2ddb054a0b7302",
+      "values": [
+        "下载地图数据。"
+      ]
+    },
+    {
+      "id": "0555d793ff5d85843908e1ee621bd312e0a2c9e548e90581897a734e0b314022",
+      "values": [
+        "获得 [<trait_name:perk_fish_in_water>]"
+      ]
+    },
+    {
+      "id": "055d55d3728d4c67c3be07776d16acfe3a869f9955fe14ead9239e1c67cebfa2",
+      "values": [
+        "这是一台处于非激活状态的“调节者”。使用该物品需要将其放置在地面上，装填你物品栏中的 7.50mm 子弹和 40x46mm 榴弹并开机。如果重新编程并接线成功，该无人机将识别你为友方，在周围漫游或跟随你，并使用内置的枪械与榴弹发射器攻击所有敌人。"
+      ]
+    },
+    {
+      "id": "058452b91ac46188be5b976de07e78ac72c28133ddb99a754b807dd514a4b344",
+      "values": [
+        "一块来自突变动物的肾脏。副肾如同一串串红色、微颤的葡萄般从输尿管上生出。主要器官延续了同样的分形结构，磨损分散成无数颗仍然连在茎上的细小浆果。"
+      ]
+    },
+    {
+      "id": "0597084ee6d94ee1bb9a2ae630ecbbff8bbe966c21e91db6e9fde226d298dcbf",
+      "values": [
+        "载具维护产出区"
+      ]
+    },
+    {
+      "id": "05a83238e661871482281cc3a9b9c2e68f77f6cd0245599479c882454e8bd1b7",
+      "values": [
+        "将钢锻造成不同品质块料的相关配方。"
+      ]
+    },
+    {
+      "id": "05af5c8a9be6380efeec9828dafc92e319774527f6e8554252fba269bb61fcd5",
+      "values": [
+        "左中触手根部"
+      ]
+    }
+  ]
+}

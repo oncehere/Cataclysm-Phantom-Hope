@@ -1,0 +1,34 @@
+{
+  "config": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/project.toml",
+  "files": {
+    "candidate.po": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+    "report.json": "fa8f44a428d397ae4110d0ea68b9202fd3d34872ae111c4bcf7f904397c3c63c",
+    "snapshots/72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e.po": "72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e",
+    "snapshots/97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510.po": "97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510",
+    "snapshots/f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451.po": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+    "state.json": "d712a354033592d3605e97773a0938ceec2def17f3b919ad448e20d19ae34fde"
+  },
+  "inputs": {
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/01f608117db52f720dcdb911dd22eac98a9c05bdcfc7adf16aab8c8f6a929914.po": "01f608117db52f720dcdb911dd22eac98a9c05bdcfc7adf16aab8c8f6a929914",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e.po": "72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510.po": "97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/b7b7e9b714d4706d34ff47cb409df3082d86da82f995f40551b65c655218f37e.po": "b7b7e9b714d4706d34ff47cb409df3082d86da82f995f40551b65c655218f37e",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/da434e5fd8e940e0abcb13c1f806d32db2ce4cff6a6f4f35b47795e691569325.po": "da434e5fd8e940e0abcb13c1f806d32db2ce4cff6a6f4f35b47795e691569325",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/ded3890420719f5feaf9a92fddd8ba66f39ecd9b15aca8b0a48fd8d378e5582e.po": "ded3890420719f5feaf9a92fddd8ba66f39ecd9b15aca8b0a48fd8d378e5582e",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/e40b69fc52ffc8e284aaf040e79e5ecd0093a85fbfdceed05d53f2566cfcebac.po": "e40b69fc52ffc8e284aaf040e79e5ecd0093a85fbfdceed05d53f2566cfcebac",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451.po": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots/f56d3f3fa7202b3436dec082ab1b0f09fdfd1e58ef1755b94e761f71ebaf4365.po": "f56d3f3fa7202b3436dec082ab1b0f09fdfd1e58ef1755b94e761f71ebaf4365",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/zh_CN.state.json": "d712a354033592d3605e97773a0938ceec2def17f3b919ad448e20d19ae34fde",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/inputs/ccb-10715293685.zh_CN.po": "72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/inputs/cdda-11003869087.zh_CN.po": "97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/inputs/cph.pot": "45daf8012d1506fea29ba6c57a6ee8f3263f6547aead05de990002b9a3286fd2",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/po/zh_CN.po": "f10ecda33855f435cad5e0d143dd45274ea682e503f396fb60c8608bea4b2451",
+    "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/project.toml": "d250721f160c526735d8883a3b96eba19eff6a911678058763e8484f19b03660"
+  },
+  "targets": {
+    "po": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/po/zh_CN.po",
+    "snapshots": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/snapshots",
+    "state": "/home/oncehere/文档/ChatGPT/CPH翻译/cph-translation/.pokeeper/zh_CN.state.json"
+  },
+  "version": 1
+}

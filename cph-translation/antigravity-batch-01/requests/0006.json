@@ -1,0 +1,39 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": "sub_bodypart_name",
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "ad052cce76c6ddd7980bb4911bfb44445e530fb8f59b8cc6c41393a67ebf24c7",
+      "identity": [
+        "sub_bodypart_name",
+        "base",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "base",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

@@ -1,0 +1,7 @@
+{
+  "model": "gemini-3.7-flash",
+  "requests": 1,
+  "automatic_retries": 0,
+  "status": "FAIL",
+  "http_code": 503
+}

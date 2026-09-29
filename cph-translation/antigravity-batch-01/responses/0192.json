@@ -1,0 +1,81 @@
+{
+  "request_sha256": "8c4bdc6fd755f1b6e91bbf46ec64cdc057f142b6802094638992767a9adbab76",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "b545ece55bf2649ec0aab2651a1da300d87038c0d8ed27b360aaecfa63d2be97",
+      "values": [
+        "太棒了，我会继续推进这事的……"
+      ]
+    },
+    {
+      "id": "b5488ee92e28482bbe8422977a4ee0507aa41981d847b9d9edd7fac6acfe1ed3",
+      "values": [
+        "你的搭档"
+      ]
+    },
+    {
+      "id": "b548cf6b9a7b95e85676605ac1e59511ddbb8f40ec6ff18cef01e0e6b67ddf41",
+      "values": [
+        "这件是<color_prefix>黄色的。"
+      ]
+    },
+    {
+      "id": "b5550efb014a0822d7de74ee59db7536ec996664bc92c64a011d6725602dc76a",
+      "values": [
+        "测试报告 N5-5519"
+      ]
+    },
+    {
+      "id": "b56c9c991004b1718174c5f9d82f14fa0905a82fb98447475acb177bdf1840bc",
+      "values": [
+        "一双硕大的黑羽翅膀从你的背部破体而出。你无法飞行，但你可以借助它们滑翔或缓冲坠落，并能完成惊人的大跳。"
+      ]
+    },
+    {
+      "id": "b5729fe47c38cc96ddec5f259806c11b3d96402f9d021a562a53f7bdcf6ae69c",
+      "values": [
+        "你捡起了：%s [%c]"
+      ]
+    },
+    {
+      "id": "b5984d7bfb42e46013151a100b1962746acc5e819135fc684f9ae9d62d1e6e40",
+      "values": [
+        "&<color_light_green> @User > gatestatus -update -pass KÁ\n\n .  .  .  .  .  .  %100\n\n 通行码已接受。是否建立通往节点的路由路径？  Y/N"
+      ]
+    },
+    {
+      "id": "b5a7a4e3d174b77435daf2b165f7c3ce7471302e24336642e5db633ae0aa3b7b",
+      "values": [
+        "韧性的感觉消退了。"
+      ]
+    },
+    {
+      "id": "b5d17940404b17375745d9f6c4077d8c044cb8ac414f80259c07b0a5815fcc11",
+      "values": [
+        "深咸水盆地"
+      ]
+    },
+    {
+      "id": "b5d97a1e02f1968529d7082616cd9c3ff37d30586b3257d8d7f22db7e29eb5f3",
+      "values": [
+        "强化耐久"
+      ]
+    },
+    {
+      "id": "b5df173d661558c74d290782a195a5884ab0fafc81f3b6a3b0518c5197e8c803",
+      "values": [
+        "池塘水"
+      ]
+    },
+    {
+      "id": "b5ebef150ae44cd53a1a00cd7b632294a7cff3b2efbe81208b7bb74e7b3d479e",
+      "values": [
+        "分配的点数过多，请修改部分特征后重试。"
+      ]
+    }
+  ]
+}

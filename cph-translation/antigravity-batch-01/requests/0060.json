@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_phavian_memo'",
+      "flags": [],
+      "id": "2fe39e702ef9d8ffdd5313251e481be7592206a802ff431af489fb37260911ac",
+      "identity": [
+        null,
+        "It is important to remember that we are scientists and this is a scientific endeavor.  Regardless of the phenomena we are studying, we must maintain a proper skeptical mindset in the spirit of scientific inquiry.  Dimensional metaphysics has its own laws that we are slowly discovering.  This is not \"witchcraft\", these are not \"wizards,\" they are people capable of tapping in to a previously-unknown source of energy.  There are many previous fields of science which once carried their own stigma.  Continental drift was not accepted for decades after its initial proposal, Dr. Semmelweis died in an asylum, and quantum mechanics to this day requires accepting behaviors that are counter to our natural understanding of how the world works.  That does not make any of those fields supernatural either.  By definition, if it is studiable and reproducible, it is scientific.\nAnna Richardson\nDirector of Research",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It is important to remember that we are scientists and this is a scientific endeavor.  Regardless of the phenomena we are studying, we must maintain a proper skeptical mindset in the spirit of scientific inquiry.  Dimensional metaphysics has its own laws that we are slowly discovering.  This is not \"witchcraft\", these are not \"wizards,\" they are people capable of tapping in to a previously-unknown source of energy.  There are many previous fields of science which once carried their own stigma.  Continental drift was not accepted for decades after its initial proposal, Dr. Semmelweis died in an asylum, and quantum mechanics to this day requires accepting behaviors that are counter to our natural understanding of how the world works.  That does not make any of those fields supernatural either.  By definition, if it is studiable and reproducible, it is scientific.\nAnna Richardson\nDirector of Research",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "300922777ea95d1183aab20fccaa12ac8637e01c2b2152dbe27baf29d0b8bf61",
+      "identity": [
+        null,
+        "Could you help me deal with these hot temperatures?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you help me deal with these hot temperatures?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "300fb9cc12e3a02f9f425dc94111228b1a07da8bd27bba4a9754fa378c8ec699",
+      "identity": [
+        null,
+        "On second thought, how about store credit instead?  [adds $1500 in store credit].",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "On second thought, how about store credit instead?  [adds $1500 in store credit].",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Monster name",
+      "flags": [],
+      "id": "30271a817b9f91273ce5158200f26b818a9afa92efe9e581db788ee519e3681d",
+      "identity": [
+        null,
+        "deathrattle youth",
+        "deathrattle youths"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/reptiles.json",
+          ""
+        ]
+      ],
+      "plural": "deathrattle youths",
+      "singular": "deathrattle youth",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ [DEPRECATED] Don't translate this line.\n~ This string is from an obsolete source and will no longer be used in the\ngame.",
+      "flags": [],
+      "id": "303b76ce8f11c97732ca5617b546199bc2daae5621d1530f40f2437cd49be42c",
+      "identity": [
+        null,
+        "soft adobe brick (obsolete)",
+        "soft adobe bricks (obsolete)"
+      ],
+      "occurrences": [
+        [
+          "data/json/obsoletion_and_migration_0.J/generic.json",
+          ""
+        ]
+      ],
+      "plural": "soft adobe bricks (obsolete)",
+      "singular": "soft adobe brick (obsolete)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Tool name",
+      "flags": [],
+      "id": "305e7067704496c7f7a1b09ee3d310370ca4180c2cd4b7b74f2be137615d8990",
+      "identity": [
+        null,
+        "arbor press",
+        "arbor presses"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/handloading.json",
+          ""
+        ]
+      ],
+      "plural": "arbor presses",
+      "singular": "arbor press",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Quick Recovery'",
+      "flags": [],
+      "id": "306324079fd67b9190852ce8d2a89980f629ef0baeb7d32ba0243ea2ef7c89a7",
+      "identity": [
+        null,
+        "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of crafting recipe",
+      "flags": [],
+      "id": "308ba2421ca163ae01da6872928f1e4f9ebf60be09cf1b54bccbb498b50bb2c8",
+      "identity": [
+        null,
+        "Conduct observation of the waves and study tidal records to develop a corpus of research for lesser mysteries.  You must be near a large body of water to conduct your research.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/recipes/hedge_recipes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Conduct observation of the waves and study tidal records to develop a corpus of research for lesser mysteries.  You must be near a large body of water to conduct your research.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of map extra",
+      "flags": [],
+      "id": "30953c96a185cc05a57fc1ca0c8e4dbeac9e65d64bd7f361519e24308d9a2201",
+      "identity": [
+        null,
+        "Vanguard Truck",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/overmap/map_extras.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vanguard Truck",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "309ce10e0adfffbd011e08c50950f9f241c6e9c836182c33c4e108bfe1524027",
+      "identity": [
+        null,
+        "&After a quiet moment, the discussion moves on to the nature of the caravans.  The Free Merchants will want to set up an encampment near the Exodii's butte…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/Smokes/free_merchant_shopkeep_exodii_negotiation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&After a quiet moment, the discussion moves on to the nature of the caravans.  The Free Merchants will want to set up an encampment near the Exodii's butte…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of body part",
+      "flags": [],
+      "id": "30a1464e66f6f4c3e0a45c46af6a98c189244229d0f4912fbbdec84434747fbf",
+      "identity": [
+        null,
+        "right tentacles",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "right tentacles",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "30a8d02e21966d7ba5959a6e8df4ae9d28d82bf8472e6b8254f5aad80db4b6ad",
+      "identity": [
+        null,
+        "What exactly did he do again?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/Kindred/Brigitte_LaCroix_main.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "What exactly did he do again?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

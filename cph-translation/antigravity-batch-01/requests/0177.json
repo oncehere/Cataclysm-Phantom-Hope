@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a7a23041db61cfe87d77e71b3dd7be47373b776d35993324c1d8457effc1c269",
+      "identity": [
+        null,
+        "Would you be able to help me install a bionic implant?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/refugee_center/surface_staff/NPC_old_guard_doctor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Would you be able to help me install a bionic implant?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Furniture name",
+      "flags": [],
+      "id": "a7b9085ce7e76f34252e514b4741cf8753e81f0d70f20d06beff8730ab0ee2b4",
+      "identity": [
+        null,
+        "mound of contaminated dirt",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/piles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "mound of contaminated dirt",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a7d36d9dfe24cf72eb84f0aec3ce49dc149ff32cbbf1c4c8ed9553b8276865bd",
+      "identity": [
+        null,
+        "You don't have a suitable item to coat with diamond",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/iexamine.cpp",
+          "392"
+        ]
+      ],
+      "plural": null,
+      "singular": "You don't have a suitable item to coat with diamond",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "a7f401e14b358e7bcca96d60d1faef72144771ec0c6e60cfccc9c96cf835feef",
+      "identity": [
+        null,
+        "Avoid Thorazine, keep your freedom.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Avoid Thorazine, keep your freedom.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Kill the renfield gang'",
+      "flags": [],
+      "id": "a80a877c4e98fb76515cbcac9c8aac7c9df5e3464890b73da324f704d3b45701",
+      "identity": [
+        null,
+        "A handful of armed renfields are roaming near the base.  Better kill them before they attack it.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A handful of armed renfields are roaming near the base.  Better kill them before they attack it.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "a81045f1c335ef6db7cb62c1209fd0fa92c83e79d7c7ef0c2a5d70c62ca3fed1",
+      "identity": [
+        null,
+        "The installation order changed during checkout.  %s credits the full payment.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/npctalk_funcs.cpp",
+          "1210"
+        ]
+      ],
+      "plural": null,
+      "singular": "The installation order changed during checkout.  %s credits the full payment.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "a8264fbab83cb265e9bb3a16bbc584be957f2d14b46b5d03ff5e94b71866b59b",
+      "identity": [
+        null,
+        "The channel isn't connected to any water source and stays dry.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/finite_water.cpp",
+          "1175"
+        ]
+      ],
+      "plural": null,
+      "singular": "The channel isn't connected to any water source and stays dry.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'donut hole'",
+      "flags": [],
+      "id": "a82e5221cfb8db768530311fcf22c330ffbeabf7bfce7157a931702f6c936a74",
+      "identity": [
+        null,
+        "These balls of dough have been cut into shape, covered with sugar, and cooked to a crisp.  A staple of fairgrounds everywhere.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/bread.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "These balls of dough have been cut into shape, covered with sugar, and cooked to a crisp.  A staple of fairgrounds everywhere.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a84617a51aeccac763b0cdc3669761b7c43f499c5526f695c382b686854e5597",
+      "identity": [
+        null,
+        "Actually, I'm familiar with these cybernetics.  I already have one.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually, I'm familiar with these cybernetics.  I already have one.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Talons'",
+      "flags": [],
+      "id": "a846f81f6ebf28ffe34a3a8edec2c44b928bbe9fdd7fba2e9d3ede44a4c1bd7c",
+      "identity": [
+        null,
+        "Huge talons have erupted from your fingers, ready to rend your enemies.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/temporary.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Huge talons have erupted from your fingers, ready to rend your enemies.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ HP bar UI text of body part 'left middle tentacle'",
+      "flags": [],
+      "id": "a855cea5b01c7dd9a6106f13b30806b5a0ed77c453ef5e8eaf8d88316cb8194a",
+      "identity": [
+        null,
+        "L MTENT",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_body_parts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "L MTENT",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "a880b89decb3cb19ed70353de7b94b0ff497029b3786d45d7557d12c1dddec4e",
+      "identity": [
+        null,
+        "So, why can't an Exodii do this?  Why me?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "So, why can't an Exodii do this?  Why me?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

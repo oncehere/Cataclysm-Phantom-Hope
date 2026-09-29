@@ -1,0 +1,81 @@
+{
+  "request_sha256": "b3518211b5ac6a701e4cb38faf48d3f803e5ed44e9d4ae884d8a14d0fb65cb32",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "7a5ddbd7dc210b52fb8c70e6e58466d15e47122f11892526eedf118ab3511cef",
+      "values": [
+        "你不想变成丧尸，对吧？别用氯丙嗪！"
+      ]
+    },
+    {
+      "id": "7a619a3a35b3ac096280364186cd5aa3650468c020951b599e894b13bee64744",
+      "values": [
+        "中筒靴"
+      ]
+    },
+    {
+      "id": "7a8a9be00f72df174c565f613fd2b01b57d2c5bd58324133ee0b02af67250bf4",
+      "values": [
+        "结账期间拆卸订单发生了变动。%s退回了全额付款。"
+      ]
+    },
+    {
+      "id": "7a8b68568daa2f391aa0df3c3ae6323505d5460b5e018f527aa8cdd83dfe8521",
+      "values": [
+        "这扇加固窗户上已部署了防暴卷帘门。若要进入，要么强行破拆，要么从别处绕开锁定机制。"
+      ]
+    },
+    {
+      "id": "7a90e90ed7c6f8b5e7bb2585e73b12b04c329860a3ab95d488c5ce8c88f9c4b2",
+      "values": [
+        "你领悟了一项小秘仪的奥秘。"
+      ]
+    },
+    {
+      "id": "7aa8b8d30384b307f92f53858b2b0eb651945fa00d7214592fbbd8319c13da16",
+      "values": [
+        "普通感冒：34 小时\n\n流行性感冒：27 小时\n\n单核细胞增多症：85 小时\n\n诺如病毒：26 小时\n\n淋病：43 小时\n\n丙型肝炎：71 小时\n\nHIV：148 小时\n\n疟疾：112 小时\n\n天花：76 小时\n\n埃博拉：93 小时"
+      ]
+    },
+    {
+      "id": "7ab15999ce3246b76a23aec4cbb75a9476967bad4d1b7272f49d61a63ffb4d95",
+      "values": [
+        "你吐纳一周天（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>），灵气温养经脉。"
+      ]
+    },
+    {
+      "id": "7abad59a5b23d878a42b239006b38064f11f231e028d4eabef58601184c1188c",
+      "values": [
+        "饥饿的阿里翁饮下了鲜血，目前肉眼可见地正在再生。"
+      ]
+    },
+    {
+      "id": "7ade163867d949d4d439e11bd7c5ca513058d309f10ffdc3c623f4c11192bb55",
+      "values": [
+        "其实我不要报酬——只要知道我能办成这事就行。"
+      ]
+    },
+    {
+      "id": "7af6414f8d7e1fd2ce7b261e90ee98100e93059be892dfa78ce9c8245c0695eb",
+      "values": [
+        "&你没能让电梯动起来。"
+      ]
+    },
+    {
+      "id": "7b3e3565460709c0b8b6fbb0a9e6b30efc9be77218ff61fa7c67929bd27044e7",
+      "values": [
+        "<trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>\n<trait_description:WEREWOLF_CURE_OUTSIDE_EFFECTS>"
+      ]
+    },
+    {
+      "id": "7b493da78ea28b4139c82a7f886e5c0d307ade2e2db67998a3c1f6a2ed04aec5",
+      "values": [
+        "%s倒塌成了一堆朽木与枯叶。"
+      ]
+    }
+  ]
+}

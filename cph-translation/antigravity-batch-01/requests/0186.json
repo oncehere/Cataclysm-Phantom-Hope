@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_electrokinesis'\n~ Phavian designation for electrokinetic study is RUBY LOOP",
+      "flags": [],
+      "id": "af830548f29add9b541ddb549d3936539c80233a4585dc8dbe0650036a7a9253",
+      "identity": [
+        null,
+        "testing report R5-3317",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "testing report R5-3317",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<serum_testing_speed>'",
+      "flags": [],
+      "id": "afb035cd3603e94e1e0fad3e677f8cc88acf5a10f24670900aa7397e9f22a933",
+      "identity": [
+        null,
+        "Inject subject with 10 ml of 51x-\"Landru\" compound\nSubject was first asked to run distances of 100m, 400m, and 1 km; times were compared to previously-set reference times taken the previous day.  While the subject measureably improved their performance, finishing an average of 7% faster, the difference was still within normative athletic performance for subject's age and sex.\nFollowing period of rest, subject was asked to perform a target-shooting demonstration using a standard-issue sidearm at 50m and completed it less than ten seconds.  Observers at the time stated the that the subject barely appeared to aim at all; playback of recorded video shows subject making extremely-rapid small adjustments to aim at a greatly-increased speed.\nFollowing demonstration, subject was leaving the room when they accidentally struck the table with their knee.  They collapsed on the ground, grabbing their knee, but a subsequent examination showed no serious or lasting injury.  Subject would only say that it, \"hurt like absolute hell\" and refused further treatment.\nOver the course of the observation period, subject ate approximately 25% more food than normal without an appreciable gain in body mass (measured at the beginning and end of the week-long period).  Recipients of 51x-\"Landru\" should be sure to follow proper dietary protocols.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/lab.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Inject subject with 10 ml of 51x-\"Landru\" compound\nSubject was first asked to run distances of 100m, 400m, and 1 km; times were compared to previously-set reference times taken the previous day.  While the subject measureably improved their performance, finishing an average of 7% faster, the difference was still within normative athletic performance for subject's age and sex.\nFollowing period of rest, subject was asked to perform a target-shooting demonstration using a standard-issue sidearm at 50m and completed it less than ten seconds.  Observers at the time stated the that the subject barely appeared to aim at all; playback of recorded video shows subject making extremely-rapid small adjustments to aim at a greatly-increased speed.\nFollowing demonstration, subject was leaving the room when they accidentally struck the table with their knee.  They collapsed on the ground, grabbing their knee, but a subsequent examination showed no serious or lasting injury.  Subject would only say that it, \"hurt like absolute hell\" and refused further treatment.\nOver the course of the observation period, subject ate approximately 25% more food than normal without an appreciable gain in body mass (measured at the beginning and end of the week-long period).  Recipients of 51x-\"Landru\" should be sure to follow proper dietary protocols.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "afc710a11450ab3ff7e98d78be082486f10a5e36c997c351b4fefadb239edf02",
+      "identity": [
+        null,
+        "religion book",
+        "religion books"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": "religion books",
+      "singular": "religion book",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC 'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "afcae62f0a9cbd3231812a375b25bb907831565cade6edd10a44647b6b246267",
+      "identity": [
+        null,
+        "心神已疲，强行吐纳事倍功半（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>）。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "心神已疲，强行吐纳事倍功半（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>）。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "affc0230c5548268152f7aeaafb7fdd4e67103aae48de41fc3467ddab915cb7a",
+      "identity": [
+        null,
+        "Pass what?",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "10285"
+        ]
+      ],
+      "plural": null,
+      "singular": "Pass what?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Terrain name",
+      "flags": [],
+      "id": "b0249f40d4d73ed7fcbd456710fa5dece41d6913be38511545d43dd01d000389",
+      "identity": [
+        null,
+        "salt water channel",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "salt water channel",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b04f5cbb03b0399f5cddf918c81751424fdf5ad9cc705383caf4c0980f7c4edb",
+      "identity": [
+        null,
+        "You find all manner of things.  But, you walk in and there are things where you might not expect them to be.  Tools ready to use.  Bionics ready to take, like bait on a snare, too tempting.  Listen carefully: you won't find gifts there.  You are a thief in the night, stealing what you want.  You're a fish, and the treasures are hooks.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You find all manner of things.  But, you walk in and there are things where you might not expect them to be.  Tools ready to use.  Bionics ready to take, like bait on a snare, too tempting.  Listen carefully: you won't find gifts there.  You are a thief in the night, stealing what you want.  You're a fish, and the treasures are hooks.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Very Weak'",
+      "flags": [],
+      "id": "b0521de7a0293540cda84d737f864ad2d0fc5c8dbf2e4a39f337d2b9c0f982dc",
+      "identity": [
+        null,
+        "Your body is unnaturally very weak.  -2 Strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your body is unnaturally very weak.  -2 Strength.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b052feef9ea72d83797aa205ddbccca3d88f0cf08f05ad2ad4e6abf682ecbd28",
+      "identity": [
+        null,
+        "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp>\nEXP to next level: <u_val:exp_to_perk>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perkmenu.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp>\nEXP to next level: <u_val:exp_to_perk>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "b088b9840e2d72841cceda8d9f97a3a6a6d17e8b1d9abb363675dc6d88d25443",
+      "identity": [
+        null,
+        "Saved your character locally.  Asking the host to save the shared world so you stay in sync…",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "5541"
+        ]
+      ],
+      "plural": null,
+      "singular": "Saved your character locally.  Asking the host to save the shared world so you stay in sync…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ You find all manner of things.  But, you walk in and there are things\nwhere you might not expect them to be.  Tools ready to use.  Bionics ready\nto take, like bait on a snare, too tempting.  Listen carefully: you won't\nfind gifts there.  You are a thief in the night, stealing what you want.\nYou're a fish, and the treasures are hooks.",
+      "flags": [],
+      "id": "b092c41377998d0ce3d700b26a7f4d7b2358d20cf793541bafd23639d8c26323",
+      "identity": [
+        null,
+        "Ye find all manner of things - treasures in troves.  But, ye trapse in, an' things where they oughtn't.  Tools laid ready.  Bright an' steelies waitin' like a snare, too fair.  Mark ol' Rubik well:  what ye find there ain't gifts.  Yer a tea leaf in the night, nickin' what you want and can.  Yer a fish, and the treasure's a hook.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_netherum_labyrinth.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ye find all manner of things - treasures in troves.  But, ye trapse in, an' things where they oughtn't.  Tools laid ready.  Bright an' steelies waitin' like a snare, too fair.  Mark ol' Rubik well:  what ye find there ain't gifts.  Yer a tea leaf in the night, nickin' what you want and can.  Yer a fish, and the treasure's a hook.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Overmap terrain name",
+      "flags": [],
+      "id": "b0ae1c213c4dc62f708e3fb8bf5cd5a635f3c3839060c8afb4621c7f97dfa0c8",
+      "identity": [
+        null,
+        "cathedral of flesh transept",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/overmap/overmap_terrain.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "cathedral of flesh transept",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

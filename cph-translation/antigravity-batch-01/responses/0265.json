@@ -1,0 +1,81 @@
+{
+  "request_sha256": "c7549fb7dedebbdfe7af1b6c61a1c36c7ede13b501790179937519279b2e91d1",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "fea65d839de5da81f2594d118fc5772fca61133b6a704a141883847d046d9fd9",
+      "values": [
+        "选择确切的部件和供应商："
+      ]
+    },
+    {
+      "id": "fec96d3777c95cd9ee041c546c7b3e40245b6b9fbb37de8e06538ba967c50127",
+      "values": [
+        "%1$s做了一个手势，周身环绕起旋舞的彩叶。"
+      ]
+    },
+    {
+      "id": "fed116fc6872d8b4e59517eaa472dff2a0db6eb4e639e1e70396b96b5dc67255",
+      "values": [
+        "塑料颗粒堆"
+      ]
+    },
+    {
+      "id": "fee4e2a8911f6bb11165b3df0c431de0bb7163a75b43a60040f60a35ad57900c",
+      "values": [
+        "无政府、国家和乌托邦"
+      ]
+    },
+    {
+      "id": "fee8df53f7df5de8d46eafa8d5de29a866c446465cf7425f7a17045a57187197",
+      "values": [
+        "%s拉下了手刹。"
+      ]
+    },
+    {
+      "id": "ff0e4d75ec906c5fd219198d40e93aaea09cc5c4fb0de5c5ec2a78c5de634e16",
+      "values": [
+        "葳蕤经的吐纳法门。引木行生气入体，经脉如春木抽枝，温养之余更添生机。打坐推进炼气修为，兼能滋养气血。"
+      ]
+    },
+    {
+      "id": "ff1d3c4312100d791b7f20f9963dc9aa033e64954eab169df4cbc6724ff054fd",
+      "values": [
+        "TYNN 15 尼古丁口含烟 警告：本产品含有成瘾性化学物质尼古丁。"
+      ]
+    },
+    {
+      "id": "ff1fd1a8b3c4a352d686767d9927630a535a4257f645d39cbd7a8c22f2c6108f",
+      "values": [
+        "动力空气净化呼吸系统的送风机组件。它被固定在一条基础的橡胶与塑料腰带上。当处于启动状态并装有充好电的电池和滤毒罐时，它可以与准备好的 PAPR 面罩配合使用，提供卓越的防护以抵御化学、生物、放射性和核威胁。"
+      ]
+    },
+    {
+      "id": "ff2560b8057307927b4f7e34ed6eb2691aca139de85e27d8e14f295e5fe43077",
+      "values": [
+        "你有那种接口？没问题。我去把机器人启动起来。"
+      ]
+    },
+    {
+      "id": "ff2d9231064cf2552cbf8861760655e2be983d778356af340c30fd60e7f83d99",
+      "values": [
+        "[支持自由商人] 鼓励斯莫克斯协商在难民中心安装一台医疗机器人。"
+      ]
+    },
+    {
+      "id": "ff3679d6d579ecbf2b32bc13dc32e2a00a81032bbb1b64f3534bfa9ddb1cc2bb",
+      "values": [
+        "你静静等待连心藤发挥作用。完成后它们缩了回去，留给你剧烈的疼痛……但也解除了你的诅咒。"
+      ]
+    },
+    {
+      "id": "ff3a20512755e152856be74e575b27799b1932d9a47908c14a563d755ed92cc0",
+      "values": [
+        "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   当前 ᴴᵁᴹᴬᴺ 无法离开 ʰᵒᵐᵉ 并返回大门。\n   你和你异乡的家园已经远离太久。\n   你当前正通过 AltarOS 远程操作。\n   如果你返回 AltarOS 本地终端，\n   在类似你最初进入的地方，\n   便可重新建立联系。"
+      ]
+    }
+  ]
+}

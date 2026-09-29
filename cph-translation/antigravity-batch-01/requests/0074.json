@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'lab_file_matrix_research'",
+      "flags": [],
+      "id": "402fc113ac3e3566d888f100c36483f8fbed37da988d88b115c1c374a8f58bbb",
+      "identity": [
+        null,
+        "Initial testing shows that the rate of awakening from matrix crystal exposure is just over 10%, generally with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig 4).  In approximately 15% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports ID39483 and IC49378).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the mathematicians other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nIn-phase awakenings show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is in general consistent within each plane, though some planes show variable efficacy.  Plane 398RG shows 99% efficacy; however, side effects rise to 85% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficacy.  Further testing and sampling are required.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Initial testing shows that the rate of awakening from matrix crystal exposure is just over 10%, generally with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig 4).  In approximately 15% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports ID39483 and IC49378).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the mathematicians other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nIn-phase awakenings show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is in general consistent within each plane, though some planes show variable efficacy.  Plane 398RG shows 99% efficacy; however, side effects rise to 85% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficacy.  Further testing and sampling are required.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'high top sneakers (pair)'",
+      "flags": [],
+      "id": "4036bbed897905dab37c8098438c768ba4159194a30159ceed5bab87ff18671d",
+      "identity": [
+        null,
+        "Sporty, comfortable shoes with a high top covering the ankles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sporty, comfortable shoes with a high top covering the ankles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'lizardfolk hunter'",
+      "flags": [],
+      "id": "403ef9f53985b5bd7187cb61ea15825c7c34b7ed6bd2975d7e0aa2027ead3323",
+      "identity": [
+        null,
+        "The hunter is smaller than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/monsters/lizardfolk.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The hunter is smaller than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Armor name",
+      "flags": [],
+      "id": "404474919eb7e1d1b7ffcd6dfdcd3c1f53e3a9d3285589173986450a5d7bd2ad",
+      "identity": [
+        null,
+        "mid calf minimal shoes (pair)",
+        "mid calf minimal shoes (pair)"
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/shoes.json",
+          ""
+        ]
+      ],
+      "plural": "mid calf minimal shoes (pair)",
+      "singular": "mid calf minimal shoes (pair)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Corrupted Stride'",
+      "flags": [],
+      "id": "40622ab3fbb43848a804b289b54be22e69764f42911b1dd9a87f21b4cc2e1480",
+      "identity": [
+        null,
+        "Your Extended Stride isn't working nearly as well as it should.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_monster.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your Extended Stride isn't working nearly as well as it should.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "4063176dee3583e0257a716a58dbd9c6ca0c0f2244466bc2c33a6c3d21310abf",
+      "identity": [
+        null,
+        "I have no task to give you right now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I have no task to give you right now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'ICE utility exoskeleton'",
+      "flags": [],
+      "id": "40675ded38c565dee452d68264083a3c9f6c85adb20b271d059ebbd2c2ab9728",
+      "identity": [
+        null,
+        "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool_armor.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A skeletal frame of sturdy metal with attached motors to allow the user to lift and move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "406c2f3bc413924f4678222323ff49209cd72302e8cfd03c296ef7f68cccb89a",
+      "identity": [
+        null,
+        "Actually… maybe some other time.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_ancilla_npcs/NPC_ANCILLA_DOCTOR.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Actually… maybe some other time.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "408c6f59787df2049dd6150912179d60978ab955a777230ec44c1f597d94bf35",
+      "identity": [
+        null,
+        "%s; transactional map update rollback failed",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mapgen.cpp",
+          "8290"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s; transactional map update rollback failed",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "40a204c2ce88f987040ed83d16e4689d31ae47a71c2eeb33733170ad23fd2fa2",
+      "identity": [
+        null,
+        "%1$s installs %2$d × %3$s into the %4$s.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/activity_actor.cpp",
+          "14562"
+        ]
+      ],
+      "plural": null,
+      "singular": "%1$s installs %2$d × %3$s into the %4$s.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Ammunition name",
+      "flags": [],
+      "id": "40b376d37f15d0292e9e91d09bcbf3e5a9d27826ff3a7e222a0fcd9df77e29b6",
+      "identity": [
+        null,
+        "electrical doping agent",
+        "electrical doping agents"
+      ],
+      "occurrences": [
+        [
+          "data/mods/aftershock_exoplanet/items/items.json",
+          ""
+        ]
+      ],
+      "plural": "electrical doping agents",
+      "singular": "electrical doping agent",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "40dd71a617b092f505803a8d2154deaf8c23a6e5dece7da2aeab0a076d0b6dd7",
+      "identity": [
+        null,
+        "Safe mode",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "645"
+        ]
+      ],
+      "plural": null,
+      "singular": "Safe mode",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

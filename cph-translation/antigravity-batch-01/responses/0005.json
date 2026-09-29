@@ -1,0 +1,27 @@
+{
+  "request_sha256": "42b22feb25f40125ffd0324f42565a5ad2109e6bcd22fb42308d0320692ba2fa",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "5632dc100e217f5b7700bdf8a9ed048aad9c9a9593c9ee3bee697f988163d1e1",
+      "values": [
+        "某个地方"
+      ]
+    },
+    {
+      "id": "b3228a75678a9132f9b62475a77a590f0c8756ede32f0b5bd58703129457c0ef",
+      "values": [
+        "你的坟墓"
+      ]
+    },
+    {
+      "id": "df4f9c2a387e4ae274eeb1a0e6ca73d7a8d52946095c9cd7df5e02fc18712737",
+      "values": [
+        "偏远居所"
+      ]
+    }
+  ]
+}

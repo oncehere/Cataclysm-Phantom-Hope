@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Weak'",
+      "flags": [],
+      "id": "0e91d0e46b9173cefea0e39c13eaf32ce22c08888ce6b08c8f21f49bdb67279b",
+      "identity": [
+        null,
+        "Your movements are unnaturally very awkward.  -2 Dexterity.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/mutations/traits.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your movements are unnaturally very awkward.  -2 Dexterity.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mission 'Construct: Bunker Entrance'",
+      "flags": [],
+      "id": "0e92c24c90cb3e92123ac34df2a6ae33dd198c9735b82ae9a7aae71177e2cc6a",
+      "identity": [
+        null,
+        "Completing this mission will instantly build a new structure on your home island.\n\nCraft the Mouth of the Island from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Bunker Entrance.  A simple concrete entrance leading down into the lower levels of the island, including a small subterranean chamber.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/center_rooms.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Completing this mission will instantly build a new structure on your home island.\n\nCraft the Mouth of the Island from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Bunker Entrance.  A simple concrete entrance leading down into the lower levels of the island, including a small subterranean chamber.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "0ecd96ce68cf55d3c560b97ac52e4ad2c5dddd84f228a98e9591f394f2ffc1bf",
+      "identity": [
+        null,
+        "Maybe some other time.  See you later, Rubik.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Maybe some other time.  See you later, Rubik.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0ee2895f2edb5f1aad53c93fdcfd977e8ba3e3089ff31920e64a6c200f7fd502",
+      "identity": [
+        null,
+        "It has happened so many times.  A new recruit thinks they can beat fire with fire and goes past the point of no return.  When it happens, they either become another vampire or a killer of hunters.\n\nFor everyone's sake, I won't let you go down that path no matter what I must do.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It has happened so many times.  A new recruit thinks they can beat fire with fire and goes past the point of no return.  When it happens, they either become another vampire or a killer of hunters.\n\nFor everyone's sake, I won't let you go down that path no matter what I must do.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'feral test subject'",
+      "flags": [],
+      "id": "0ef1fba6f615daf1a14a1139b57549388da8676d3545065c0bda94afb51a4742",
+      "identity": [
+        null,
+        "In light, this feral is clearly visible but they blend into the darkness like a ghost, despite the orange jumpsuit they still wear.  They don't seem to have any problems seeing in the dark either.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/monsters/feral_humans.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "In light, this feral is clearly visible but they blend into the darkness like a ghost, despite the orange jumpsuit they still wear.  They don't seem to have any problems seeing in the dark either.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0ef2bf87161877424fab247ae230d0ab936ef3d08902fdb7bea84a4306ebc338",
+      "identity": [
+        null,
+        "Threat compass",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/android_hud.cpp",
+          "662"
+        ]
+      ],
+      "plural": null,
+      "singular": "Threat compass",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "0efd6f9b6966d4c157d13bd47d35a306054c5a46e4c8626a58462f40404db238",
+      "identity": [
+        null,
+        "CO-OP: may break.  Spell effects run only on your own client; only direct damage reaches the shared world.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "123"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Spell effects run only on your own client; only direct damage reaches the shared world.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of spell '吐纳打坐'",
+      "flags": [],
+      "id": "0f2e9e8248b65d89bb63033fa85e250f4cffdca998879da787789e2481bb1def",
+      "identity": [
+        null,
+        "盘膝静坐，吐纳天地灵气，温养经脉。耗费时间，补充灵气，并累积炼气境修为。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "盘膝静坐，吐纳天地灵气，温养经脉。耗费时间，补充灵气，并累积炼气境修为。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_pyrokinesis'\n~ Phavian designation for pyrokinetic study is COPPER PRIME.",
+      "flags": [],
+      "id": "0f4d1187ca87f0db3922dbff3e98150bb9f458105955ac7ad2428fe999b0cab3",
+      "identity": [
+        null,
+        "COPPER PRIME combat implications",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "COPPER PRIME combat implications",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0f586b7bfcff96217bdb639d54806ec0d1ad3e732096618f48482e05a788ee55",
+      "identity": [
+        null,
+        "Ah, an Exodii?  Welcome…",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, an Exodii?  Welcome…",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "0f59ba242153fc043e02d5b182a03566dcfd91d0fba01be9412de72e0d4bd375",
+      "identity": [
+        null,
+        "This vampire was a lesser one, as seen by their resistance to the sun and lack of proper lair.  One day you will attack the lairs of true vampires alongside some of our hunters, but first we must find where they truly hide.  For now, we can enjoy some peace of mind and you can ask Elsa and Blaine for spare things to help you like you helped us.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This vampire was a lesser one, as seen by their resistance to the sun and lack of proper lair.  One day you will attack the lairs of true vampires alongside some of our hunters, but first we must find where they truly hide.  For now, we can enjoy some peace of mind and you can ask Elsa and Blaine for spare things to help you like you helped us.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "0f669e309428cd7b98ce22d41628be87c8f9ea2c21249e877709e2afc610cde6",
+      "identity": [
+        null,
+        "%s tries to push you but you have nowhere to go.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3297"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s tries to push you but you have nowhere to go.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

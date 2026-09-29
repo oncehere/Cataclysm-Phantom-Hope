@@ -1,0 +1,81 @@
+{
+  "request_sha256": "33bc05921fde188f937b3b2d701765ae8a7fde14304f5d3bf7099c7e27d039ea",
+  "producer": {
+    "tool": "Antigravity",
+    "model": "Gemini 3.8 Flash"
+  },
+  "translations": [
+    {
+      "id": "a7a23041db61cfe87d77e71b3dd7be47373b776d35993324c1d8457effc1c269",
+      "values": [
+        "你能帮我安装生化植入物吗？"
+      ]
+    },
+    {
+      "id": "a7b9085ce7e76f34252e514b4741cf8753e81f0d70f20d06beff8730ab0ee2b4",
+      "values": [
+        "受污染的土堆"
+      ]
+    },
+    {
+      "id": "a7d36d9dfe24cf72eb84f0aec3ce49dc149ff32cbbf1c4c8ed9553b8276865bd",
+      "values": [
+        "你没有可用于镀金刚石的合适物品"
+      ]
+    },
+    {
+      "id": "a7f401e14b358e7bcca96d60d1faef72144771ec0c6e60cfccc9c96cf835feef",
+      "values": [
+        "远离氯丙嗪，保留你的自由。"
+      ]
+    },
+    {
+      "id": "a80a877c4e98fb76515cbcac9c8aac7c9df5e3464890b73da324f704d3b45701",
+      "values": [
+        "少数武装雷恩菲尔德正在基地附近游荡。最好在它们发动袭击之前把它们全部消灭。"
+      ]
+    },
+    {
+      "id": "a81045f1c335ef6db7cb62c1209fd0fa92c83e79d7c7ef0c2a5d70c62ca3fed1",
+      "values": [
+        "结账时安装订单发生了变动。%s全额退还了款项。"
+      ]
+    },
+    {
+      "id": "a8264fbab83cb265e9bb3a16bbc584be957f2d14b46b5d03ff5e94b71866b59b",
+      "values": [
+        "水渠未与任何水源相连，保持干涸状态。"
+      ]
+    },
+    {
+      "id": "a82e5221cfb8db768530311fcf22c330ffbeabf7bfce7157a931702f6c936a74",
+      "values": [
+        "这些面团丸子被切成特定形状，裹上糖粉，炸至酥脆。各地游乐场的招牌经典小吃。"
+      ]
+    },
+    {
+      "id": "a84617a51aeccac763b0cdc3669761b7c43f499c5526f695c382b686854e5597",
+      "values": [
+        "实际上，我对这些生化机械很熟悉。我自己身上就已经装有一个了。"
+      ]
+    },
+    {
+      "id": "a846f81f6ebf28ffe34a3a8edec2c44b928bbe9fdd7fba2e9d3ede44a4c1bd7c",
+      "values": [
+        "巨大的利爪从你的指尖破皮而出，随时准备撕碎敌人。"
+      ]
+    },
+    {
+      "id": "a855cea5b01c7dd9a6106f13b30806b5a0ed77c453ef5e8eaf8d88316cb8194a",
+      "values": [
+        "左中触手"
+      ]
+    },
+    {
+      "id": "a880b89decb3cb19ed70353de7b94b0ff497029b3786d45d7557d12c1dddec4e",
+      "values": [
+        "那么，为什么外来者不能做这件事？为什么是我？"
+      ]
+    }
+  ]
+}

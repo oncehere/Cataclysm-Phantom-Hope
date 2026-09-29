@@ -1,0 +1,28 @@
+Pinned lokit: a28493ba832ffc5506d4e45f4ddfdc5623931aa9
+go version go1.26.7 linux/amd64
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading github.com/leonelquinteros/gotext v1.7.2
+go: downloading github.com/yuin/goldmark v1.7.13
+=== RUN   TestAuditSharedFixturesGoogleAndPromptWrapper
+    po_maintain_audit_test.go:88: OBSERVED: Google native HTTP, shared valid fixtures accepted; context and both comment types omitted; references present
+    po_maintain_audit_test.go:95: OBSERVED: custom prompt can supply context and comments without patching lokit
+--- PASS: TestAuditSharedFixturesGoogleAndPromptWrapper (0.00s)
+=== RUN   TestAuditExplicitEmptyContextLoss
+    po_maintain_audit_test.go:107: OBSERVED: explicit msgctxt empty is omitted on parse/write; external identity sidecar required
+--- PASS: TestAuditExplicitEmptyContextLoss (0.00s)
+=== RUN   TestAuditPluralNormalization
+=== RUN   TestAuditPluralNormalization/scalar
+    po_maintain_audit_test.go:123: OBSERVED: malformed scalar plural response silently accepted after normalization
+=== RUN   TestAuditPluralNormalization/short
+    po_maintain_audit_test.go:123: OBSERVED: malformed short plural response silently accepted after normalization
+=== RUN   TestAuditPluralNormalization/long
+    po_maintain_audit_test.go:123: OBSERVED: malformed long plural response silently accepted after normalization
+--- PASS: TestAuditPluralNormalization (0.00s)
+    --- PASS: TestAuditPluralNormalization/scalar (0.00s)
+    --- PASS: TestAuditPluralNormalization/short (0.00s)
+    --- PASS: TestAuditPluralNormalization/long (0.00s)
+=== RUN   TestAuditRetriesZeroAndIDs
+    po_maintain_audit_test.go:133: OBSERVED: wrong response count rejected; MaxRetries=0 performs 4 requests (initial + 3 retries)
+--- PASS: TestAuditRetriesZeroAndIDs (6.01s)
+PASS
+ok  	github.com/minios-linux/lokit/translate	6.018s

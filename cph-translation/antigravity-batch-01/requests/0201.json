@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'business strategy book'",
+      "flags": [],
+      "id": "bf1b57e08b5f53cb7f33c32bd417d8dc0cfef469ee14fe6a5d0252040ee244d6",
+      "identity": [
+        null,
+        "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall strategic framework.  Basically useless now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/nonfiction.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall strategic framework.  Basically useless now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bf2443f5910dc2d238d05d686cd51f745a48860e3ce102f79cbd88463ad50582",
+      "identity": [
+        null,
+        "CO-OP: may break.  Infection applies correctly, but its status and death-warning UI may not show for the remote player.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_mod_compat.cpp",
+          "135"
+        ]
+      ],
+      "plural": null,
+      "singular": "CO-OP: may break.  Infection applies correctly, but its status and death-warning UI may not show for the remote player.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of effect 'effect_fed_the_black_horse'",
+      "flags": [],
+      "id": "bf330f7467c5fa65f974e472ed5a4ce7557cd372d3be84ce6215830d57393479",
+      "identity": [
+        null,
+        "Fed Arion",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Fed Arion",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "bf718d624ce02ffb2374639d17a4cad67be8ceb547f0afba18d0ddb9f6b002d8",
+      "identity": [
+        null,
+        "These are a series of five recent voice recordings, all taken on the same day.\n\n18:31: A throaty, young woman's voice speaks into the microphone, restless footfalls audible in the background.  \"Okay, can we all—that is, me—just admit how fucked up it is that I've resorted to speaking to my phone to keep my nerves from blowing up?  I heard that pretending like someone is listening helps chill you out, but, Jesus, fuck, this ain't working.  Guess it's better to pretend to talk to someone than to stay quiet, though.  Christ.  <city> looked like God had decided to wack out the middle finger: bodies everywhere and massive crowds of folks losing their collective shit.  Thank heaven, I'd been out hiking and was able to turn tail and mosey back where I came from.  I don't know how long I'd been walking before I found this cabin.  The place looked deserted, and the door was unlocked, so I let myself in.  I guess I'll hang out here until something happens.  Definitely better than slogging it outside or trying to go back.\"\n\n19:55: \"You know, whoever owned this shack, you sure had one sick taste in art.  Some of the walls have these largeish, glass-cased portraits that are, honestly, really well painted.  Damn if ain't most of them skinless faces, though.  Oh, and tentacles.  Lots of tentacles.\"  The speaker falls silent as an unearthly squeal echoes in the distance.\n\n23:05: \"Windows.  The portraits were windows.  The faces aren't there anymore.  God, help me.\"\n\n0:21: Amidst what sounds like distant, monstrous whispers and crashing reverberations of unknown origin, the woman's hysterical, shrieking voice sobs.  \"I blacked out a few minutes ago and found myself about to open the front door.  I've tied myself to the stovetop.  They're out there!  They want me to come out!  I don't want to go!  I don't want to!  I don't want…\"\n\n0:44: Interspersed by whining shrieks and heavy pants, the woman's voice struggles to be heard within the distorted recording.  \"Snakes.  I see them!  They're everywhere!  They're inside of me; I know it!  slithering!  Crawling!  Writhing!  I need to get them out.  Dear God, get them out of me!  Get them out!\"  The sound of a drawer being wrenched open can be heard, followed by the characteristic clatter of a metallic implement being drawn.  The sickening sound of sawing meat and cracking bones can be heard, all but lost beneath the woman's agonized screams.  For the last 15 minutes of the recording, only the dripping sound of coils of wet, viscous material dribbling to the ground can be heard.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "These are a series of five recent voice recordings, all taken on the same day.\n\n18:31: A throaty, young woman's voice speaks into the microphone, restless footfalls audible in the background.  \"Okay, can we all—that is, me—just admit how fucked up it is that I've resorted to speaking to my phone to keep my nerves from blowing up?  I heard that pretending like someone is listening helps chill you out, but, Jesus, fuck, this ain't working.  Guess it's better to pretend to talk to someone than to stay quiet, though.  Christ.  <city> looked like God had decided to wack out the middle finger: bodies everywhere and massive crowds of folks losing their collective shit.  Thank heaven, I'd been out hiking and was able to turn tail and mosey back where I came from.  I don't know how long I'd been walking before I found this cabin.  The place looked deserted, and the door was unlocked, so I let myself in.  I guess I'll hang out here until something happens.  Definitely better than slogging it outside or trying to go back.\"\n\n19:55: \"You know, whoever owned this shack, you sure had one sick taste in art.  Some of the walls have these largeish, glass-cased portraits that are, honestly, really well painted.  Damn if ain't most of them skinless faces, though.  Oh, and tentacles.  Lots of tentacles.\"  The speaker falls silent as an unearthly squeal echoes in the distance.\n\n23:05: \"Windows.  The portraits were windows.  The faces aren't there anymore.  God, help me.\"\n\n0:21: Amidst what sounds like distant, monstrous whispers and crashing reverberations of unknown origin, the woman's hysterical, shrieking voice sobs.  \"I blacked out a few minutes ago and found myself about to open the front door.  I've tied myself to the stovetop.  They're out there!  They want me to come out!  I don't want to go!  I don't want to!  I don't want…\"\n\n0:44: Interspersed by whining shrieks and heavy pants, the woman's voice struggles to be heard within the distorted recording.  \"Snakes.  I see them!  They're everywhere!  They're inside of me; I know it!  slithering!  Crawling!  Writhing!  I need to get them out.  Dear God, get them out of me!  Get them out!\"  The sound of a drawer being wrenched open can be heard, followed by the characteristic clatter of a metallic implement being drawn.  The sickening sound of sawing meat and cracking bones can be heard, all but lost beneath the woman's agonized screams.  For the last 15 minutes of the recording, only the dripping sound of coils of wet, viscous material dribbling to the ground can be heard.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a spell",
+      "flags": [],
+      "id": "bf851bfbd6adbdacfdab9e0ef142ac7a44b128be359df16acc80c20b9a1390b8",
+      "identity": [
+        null,
+        "纳川息",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/arts_breathing.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "纳川息",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bf89f15b7c0424ce85b2c4aea40d00f0eb73858a1e62aec5636e0ae5041ee2e3",
+      "identity": [
+        null,
+        "Partner not connected",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "929"
+        ]
+      ],
+      "plural": null,
+      "singular": "Partner not connected",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'MANUAL'",
+      "flags": [],
+      "id": "bfb6aec4d89e8c96089e62e81ac5cd74e629a18b65b9bd14ae4a85c813c763ff",
+      "identity": [
+        null,
+        "This part lacks the electronics for remote operation and must be operated by hand.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicleparts/vp_flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "This part lacks the electronics for remote operation and must be operated by hand.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "bfc70047b64a0fcdbfdfc0b314b519074ce51f36e00c5369b20537f9dd356eac",
+      "identity": [
+        null,
+        "You do not need my help right now, so I'll return to my work.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/bloodthorne.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You do not need my help right now, so I'll return to my work.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "bfd270d9565441f7aa189d5390dcabdac6e70aee303766fa6c359f273e38e391",
+      "identity": [
+        null,
+        "<color_yellow>%s</color> Wield  <color_yellow>%s</color> Wear  Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/game_inventory.cpp",
+          "280"
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_yellow>%s</color> Wield  <color_yellow>%s</color> Wear  Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'boxers'",
+      "flags": [],
+      "id": "bfdb0cedfcb9fdf5d2f6e1be904a1148a726d393c3ccf0e38c68033bc9506b89",
+      "identity": [
+        null,
+        "Loose men underwear covering most of the thighs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Loose men underwear covering most of the thighs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "bff33186a0661b9cea3f50f4be5f55a9c4f1f11f13b88fc348427ca12a7dd067",
+      "identity": [
+        null,
+        "A statue of a man sitting with a stone axe on his lap.  The other stone hand holds a whetstone, frozen in the act of sharpening.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a man sitting with a stone axe on his lap.  The other stone hand holds a whetstone, frozen in the act of sharpening.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "bffbfb2af7b8e902fc3c564154db31554419048dc19568c05ae5e7cc4e619906",
+      "identity": [
+        null,
+        "Too many stat points allocated, lower some stats and try again.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4225"
+        ]
+      ],
+      "plural": null,
+      "singular": "Too many stat points allocated, lower some stats and try again.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

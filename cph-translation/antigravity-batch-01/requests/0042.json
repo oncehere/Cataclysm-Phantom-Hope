@@ -1,0 +1,265 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "1e81457fc3b63e32d89e216150f6b722257262ad53cd12694804f103c0024eb9",
+      "identity": [
+        null,
+        "Move the cursor and use %1$s to select a corner.  %2$s cancels the selection and returns to vehicle services.\nThe selected rectangle may contain at most %3$d tiles.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/veh_interact.cpp",
+          "926"
+        ]
+      ],
+      "plural": null,
+      "singular": "Move the cursor and use %1$s to select a corner.  %2$s cancels the selection and returns to vehicle services.\nThe selected rectangle may contain at most %3$d tiles.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of achievement 'Baldness and Wigs'",
+      "flags": [],
+      "id": "1e84e56203e5ca5dd5cffd091e6f81d891d27e63c649d0ce8095c894b76ef39e",
+      "identity": [
+        null,
+        "No stereotype!  So are you from the Neumann school or the Turing school?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/achievements.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No stereotype!  So are you from the Neumann school or the Turing school?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1e8704bb709f622068fc29c3dfbba3dc309e5052d1e2b5968d1b5bdef16f35d5",
+      "identity": [
+        null,
+        "I volunteered for this.  A group of cyborgs called the Exodii sold me everything I needed to get these cool mechanical bits.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/robofac/robofac_intercom/robofac_intercom.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I volunteered for this.  A group of cyborgs called the Exodii sold me everything I needed to get these cool mechanical bits.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "1e912537f9f81b83726147759827be24d42819bbd7322be5edfbaac25f9e4631",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ 'activation_message' action message of item '聚气丹'",
+      "flags": [],
+      "id": "1eaf940c4ec3cdebd2421baaa8e274f808691b726900952771c655fcea397ec0",
+      "identity": [
+        null,
+        "你服下一枚聚气丹，温润灵息汇入丹田。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/recipes/qi_gathering.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "你服下一枚聚气丹，温润灵息汇入丹田。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book 'SHADOW URGE access codes'",
+      "flags": [],
+      "id": "1ec625557158150be660cbac1d05cc03253c968494fcdf270a845223dbca60ab",
+      "identity": [
+        null,
+        "A series of scribbled-down alphanumeric codes, each of them at least sixteen characters long, as well as some notes about the usage of something referred to as the \"SHADOW URGE process.\"  There's no way you'd be able to memorize all of these without having this as a reference, which is presumably why it exists.  Someone would have gotten in a lot of trouble for writing this down and then leaving it lying around, but they're probably dead by now anyway.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/items/files_and_post_it.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A series of scribbled-down alphanumeric codes, each of them at least sixteen characters long, as well as some notes about the usage of something referred to as the \"SHADOW URGE process.\"  There's no way you'd be able to memorize all of these without having this as a reference, which is presumably why it exists.  Someone would have gotten in a lot of trouble for writing this down and then leaving it lying around, but they're probably dead by now anyway.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "1ec8b14e36958f0988ab58210c8bb3b6fef60f9a382f9867e0b1dd01da49fad3",
+      "identity": [
+        null,
+        "Let the game choose a starting city.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/newcharacter.cpp",
+          "4385"
+        ]
+      ],
+      "plural": null,
+      "singular": "Let the game choose a starting city.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "1eca4288d2a2fe7e15c6348689f5055b30b48d2e00a9856e10d13d4b2a26a3df",
+      "identity": [
+        null,
+        "moon magic research materials",
+        "sets of moon magic research materials"
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/items/research_materials.json",
+          ""
+        ]
+      ],
+      "plural": "sets of moon magic research materials",
+      "singular": "moon magic research materials",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'genderfluid flag' of armor 'pride flag'",
+      "flags": [],
+      "id": "1ed3a849e12bdd9cb574c52e1b916f4513275a886d723905de28e27aaa224442",
+      "identity": [
+        null,
+        "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/obsoletion_and_migration_0.J/pride_flag.json",
+          ""
+        ],
+        [
+          "data/mods/pride_items/variants.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "1ed8a7192df72fe596156d0c1040ad8afb81c842752250310ba73d23da615052",
+      "identity": [
+        null,
+        "Vengeance of the Island",
+        "Vengeance of the Island"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/raid_upgrades/missions.json",
+          ""
+        ]
+      ],
+      "plural": "Vengeance of the Island",
+      "singular": "Vengeance of the Island",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in 'else' statement in EoC\n'EOC_immortal_path_meditate'",
+      "flags": [],
+      "id": "1eddb075e4fa30968c0e29f7a2fac64e0fb7bceb36aff4272a2e1ea220aa5f5d",
+      "identity": [
+        null,
+        "炼气将满，每层所需修为剧增，纯吐纳精进缓慢（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>）。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/magic/meditation.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "炼气将满，每层所需修为剧增，纯吐纳精进缓慢（修为 +<u_val:qi_exp_gain>，炼气 <u_val:qi_refining_layer> 层 <u_val:qi_exp_into_layer>/<u_val:qi_layer_need>）。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "1ee63fe4cf9c48d4ca76f73eaa30dc78663d266d08f338c2086313019eafd0b1",
+      "identity": [
+        null,
+        "Could you cure my illnesses?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Could you cure my illnesses?",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

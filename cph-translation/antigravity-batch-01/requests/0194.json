@@ -1,0 +1,259 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b6fcfe0ccfa7962092c0edbac26a37b3dc443cb86dc0a98d966484466c396794",
+      "identity": [
+        null,
+        "Ah, would you be willing to tell me about it?",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Ah, would you be willing to tell me about it?",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b705ef153483edbd5e16e33ce42f5fd5ff91dc55f425d200229c6014ed4f50d5",
+      "identity": [
+        null,
+        "No.  You'll be wearing an Exodii-suit, but nobody is Exodii until they jump with the Exodii, and that remains to be seen.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  You'll be wearing an Exodii-suit, but nobody is Exodii until they jump with the Exodii, and that remains to be seen.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b727ac384209cbc3c1396d5df11478dca433958d5b6afcf2be3267fad68e4f14",
+      "identity": [
+        null,
+        "Our scouts have seen people who look like you wandering in the area safely.  If the scavengers can make it in and out, you should be fine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/translate-dialogue/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Our scouts have seen people who look like you wandering in the area safely.  If the scavengers can make it in and out, you should be fine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in 'then' statement in EoC\n'EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER'",
+      "flags": [],
+      "id": "b731751cb7a64b6207f429379efb85eac2b253fe1231421cf2679e616eb11d3a",
+      "identity": [
+        null,
+        "You wait as the heartvines do their work.  Once they're done they retract, leaving you with deep lacerations and terrible pain…but without your curse.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/bloodthorne_druid_trait_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You wait as the heartvines do their work.  Once they're done they retract, leaving you with deep lacerations and terrible pain…but without your curse.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of 'ælfadl' addiction's source",
+      "flags": [],
+      "id": "b735a558f9e3ba965981d2412e7b3a6ef22596c7090f9010d68c2a43f1ea8bea",
+      "identity": [
+        null,
+        "faewild",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/addictions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "faewild",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle name",
+      "flags": [],
+      "id": "b742d6f5d969469b1f1b55b0777a963f09f6284fcbfc26268a96b5a5253e474b",
+      "identity": [
+        null,
+        "Vanguard Pharmaceuticals Armored Car",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicles/custom_vehicles.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Vanguard Pharmaceuticals Armored Car",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of comestible 'eXtra strength aspirin'",
+      "flags": [],
+      "id": "b76a9e509d4bd0c6fe32fab0cfac32bd6d6eda0cbf24f26c55029d95cf2e10da",
+      "identity": [
+        null,
+        "Alchemically altered aspirin.  Take to relieve pain and injury.  Will only reduce injuries to body core, will not extend to limbs.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/comestibles/med.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Alchemically altered aspirin.  Take to relieve pain and injury.  Will only reduce injuries to body core, will not extend to limbs.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "b772cc836978e31b29c01da942b4f071597bcb4965c27fba89f16216d57612eb",
+      "identity": [
+        null,
+        "葡萄苗",
+        "葡萄苗"
+      ],
+      "occurrences": [
+        [
+          "data/mods/cata_Delight/re-plant/seed_varient.json",
+          ""
+        ]
+      ],
+      "plural": "葡萄苗",
+      "singular": "葡萄苗",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "b78786f6af8b40b8234751e4d67519c18ea110c601ca1892172ddc16a8b87dc4",
+      "identity": [
+        null,
+        "Okay, I'll take the cure.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_mission_target.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Okay, I'll take the cure.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Item name",
+      "flags": [],
+      "id": "b79c5de8befc0ede9ed65624d701b54b3ef726b91685d76958dc993b9e81b284",
+      "identity": [
+        null,
+        "heathaze estoc",
+        "heathaze estocs"
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/items/melee.json",
+          ""
+        ]
+      ],
+      "plural": "heathaze estocs",
+      "singular": "heathaze estoc",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'demolition hammer'",
+      "flags": [],
+      "id": "b7d8110f140c2197015388d889e17eee13761d799bea9af8189629ede4781bf0",
+      "identity": [
+        null,
+        "A power tool made for mining rock and demolishing constructed surfaces by hand, somewhat similar to a handheld jackhammer.  It must be plugged in for use.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/workshop.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A power tool made for mining rock and demolishing constructed surfaces by hand, somewhat similar to a handheld jackhammer.  It must be plugged in for use.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of tool 'emery board'",
+      "flags": [],
+      "id": "b7fb7608865cd7d33a3e57377e98b2a6fd2159acd70eaafb2f65c6f0f96a449d",
+      "identity": [
+        null,
+        "A slim cardboard stick coated with abrasive grit, meant for shaping fingernails.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/tool/toiletries.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A slim cardboard stick coated with abrasive grit, meant for shaping fingernails.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

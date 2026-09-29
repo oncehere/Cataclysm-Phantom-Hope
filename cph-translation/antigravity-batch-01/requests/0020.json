@@ -1,0 +1,263 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category '<no_to_thorazine>'\n~ Hallucinatory NPCs say these things to discourage the avatar from taking\nthorazine and ending the hallucination.",
+      "flags": [],
+      "id": "08be5b909f74099d6c2fd4b4c0a5aa97be8475eadf52411f675b32f819fb4db1",
+      "identity": [
+        null,
+        "No to Thorazine, yes to clarity.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/snippets/talk_tags_line.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No to Thorazine, yes to clarity.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Speed description of monsters",
+      "flags": [],
+      "id": "08c088394553d578cdf95fd080d978092206470af3450ee4c9e476db182232b5",
+      "identity": [
+        null,
+        "<color_cyan>It is slower than you.</color>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/speed_descriptions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "<color_cyan>It is slower than you.</color>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ EOC option description for 'Nothing'",
+      "flags": [],
+      "id": "08cc8fb085345f38efbc239187313a61f10625d10afecbeb1a936fe60be99950",
+      "identity": [
+        null,
+        "Learn to use your Earthen Slumber to instead create large holes for your enemies to fall in them.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/recipes/vampire.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Learn to use your Earthen Slumber to instead create large holes for your enemies to fall in them.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of a snippet in category 'lab_file_photokinesis'\n~ Phavian designation for photokinetic study is CRYPTIC FORGE",
+      "flags": [],
+      "id": "08cd7fdb2c18a774bb02aa515163011305326392a12a79932f0beb5e5e040907",
+      "identity": [
+        null,
+        "Note scribbled on the back of an HR memo",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/snippets/snippets_new.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Note scribbled on the back of an HR memo",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of buff 'Snake's Sight'",
+      "flags": [],
+      "id": "0909f908040e201a05f1fc736a07028ec2f0012d9ca3d88c3d417a5e8cbc0e7f",
+      "identity": [
+        null,
+        "You are patient and know where to hit your opponent for best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, bash damage increased by 75% of Perception but decreased by 75% of Strength.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/martialarts.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are patient and know where to hit your opponent for best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, bash damage increased by 75% of Perception but decreased by 75% of Strength.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in an effect",
+      "flags": [],
+      "id": "091b5f3a65146c0b893f66275a7842857fbebf84761a421023772a8ce57abf3d",
+      "identity": [
+        null,
+        "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Sky_Island/missions/island_upgrades/misc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "091e9ef61d97834a62cac379ee149a04872c9e7b08b7bca7fc1206f1ef16f22f",
+      "identity": [
+        null,
+        "Okay, I'll get cured.  <end_talking_bye>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/vampire_hunters/leader.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Okay, I'll get cured.  <end_talking_bye>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of terrain 'dry shallow salt basin'",
+      "flags": [],
+      "id": "0926539da2db4de158a30e58d9f6f315f363a31fcf64f2cdccd4e30216e49982",
+      "identity": [
+        null,
+        "The muddy, salty bottom of a drained shallow basin.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/furniture_and_terrain/terrain-finite-water.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The muddy, salty bottom of a drained shallow basin.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Book name",
+      "flags": [],
+      "id": "094bb72ead68bc0790831eda763902e43e348cf18f83c0532892f19cce6f40cf",
+      "identity": [
+        null,
+        "SHADOW URGE access codes",
+        "copies of SHADOW URGE access codes"
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/items/files_and_post_it.json",
+          ""
+        ]
+      ],
+      "plural": "copies of SHADOW URGE access codes",
+      "singular": "SHADOW URGE access codes",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_CHECKING_THE_BLACK_HORSE'",
+      "flags": [],
+      "id": "096865da582be08a5b764d99126b154e135c32e9b01cee5da577058abb8c07ff",
+      "identity": [
+        null,
+        "You didn't feed your horse and now the world with pay the price.  And maybe you will as well.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/eocs/dhampir_eocs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You didn't feed your horse and now the world with pay the price.  And maybe you will as well.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'high briefs'",
+      "flags": [],
+      "id": "096f046d32dd0cd3ccefb680a132040cb57ff35f603fb3b2d1183d8d08b571e1",
+      "identity": [
+        null,
+        "Women underwear that leaves the thighs exposed while reaching the waist.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/hunvre/json/items/clothing/underwear.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Women underwear that leaves the thighs exposed while reaching the waist.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ No.  You'll be wearing an Exodii-suit, but nobody is Exodii until they\njump with the Exodii, and that remains to be seen.",
+      "flags": [],
+      "id": "0990cb13af74beb9667be3c34d54993b6aa6a7d279378870e4c51820b5c5df34",
+      "identity": [
+        null,
+        "No.  Ye'll have the Exodii-suit, but nobody Exodii until there's a scrabble and jump to otherlands or otherworlds.  Who'at'll be remains to be.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_talk_exodization.json",
+          ""
+        ],
+        [
+          "data/mods/translate-dialogue/exodii_merchant_talk_exodization.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "No.  Ye'll have the Exodii-suit, but nobody Exodii until there's a scrabble and jump to otherlands or otherworlds.  Who'at'll be remains to be.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {}
+}

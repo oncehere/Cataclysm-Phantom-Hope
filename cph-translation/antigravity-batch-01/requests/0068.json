@@ -1,0 +1,266 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'local_files_simple'\n~ mostly work of random people: chat logs, SMSes, popular photos and videos\nthat people share, or something they can film by themselves.",
+      "flags": [],
+      "id": "388f40833b1a9f944435e276abcd918c552cc01f3dfb60ed2abc8db3722c653d",
+      "identity": [
+        null,
+        "Peeking down from a pole mount, this segment of security camera footage films the apex of a bridge overpass's boarding ramp.  A number of large police and military vehicles loom at the concrete incline's foot, with a low line of sandbags forming a makeshift checkpoint behind which several armed national guardsmen and police officers stand at attention.  The view, however, is mainly taken up by a veritable metal wall of civilian vehicles crawling in a haphazard line across the bridge, disheveled groups of exhausted men, women, and children flitting alongside the slow procession of evacuating vehicles.  The footage proceeds in this fashion for several minutes, with new groups of refugees being waved through by the soldiers, before a distant sonic boom resounds through the audio.  Gradually coming to a halt, with the heads of civilians and personnel alike inclined skyward and tense expressions adorning unkempt faces, the stream stands in collective puzzlement as the sound of powerful jet engines can be heard in the background, steadily rising in volume.  The collective apathy dissolves into utter, terrified pandemonium as a large shadow rapidly darkens the overpass and an officer suddenly screams, \"CLEAR THE BRIDGE!\"\n\nWith a number of fresh whistling sounds dominating the newly overwhelmed soundscape, soldiers grab those they can and race clear of the checkpoint as panicked civilians fling themselves off the overpass, rapidly joined by the occupants of those vehicles on the edges of the stagnated convoy.  In the last few shots, you can see the drivers of cars at the procession's heart struggle to abandon their vehicles before a sleek form streaks from the sky, the start of an ear-splitting explosion rips through the muddled audio, and the view goes white.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/snippets/e_logs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Peeking down from a pole mount, this segment of security camera footage films the apex of a bridge overpass's boarding ramp.  A number of large police and military vehicles loom at the concrete incline's foot, with a low line of sandbags forming a makeshift checkpoint behind which several armed national guardsmen and police officers stand at attention.  The view, however, is mainly taken up by a veritable metal wall of civilian vehicles crawling in a haphazard line across the bridge, disheveled groups of exhausted men, women, and children flitting alongside the slow procession of evacuating vehicles.  The footage proceeds in this fashion for several minutes, with new groups of refugees being waved through by the soldiers, before a distant sonic boom resounds through the audio.  Gradually coming to a halt, with the heads of civilians and personnel alike inclined skyward and tense expressions adorning unkempt faces, the stream stands in collective puzzlement as the sound of powerful jet engines can be heard in the background, steadily rising in volume.  The collective apathy dissolves into utter, terrified pandemonium as a large shadow rapidly darkens the overpass and an officer suddenly screams, \"CLEAR THE BRIDGE!\"\n\nWith a number of fresh whistling sounds dominating the newly overwhelmed soundscape, soldiers grab those they can and race clear of the checkpoint as panicked civilians fling themselves off the overpass, rapidly joined by the occupants of those vehicles on the edges of the stagnated convoy.  In the last few shots, you can see the drivers of cars at the procession's heart struggle to abandon their vehicles before a sleek form streaks from the sky, the start of an ear-splitting explosion rips through the muddled audio, and the view goes white.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "389cfea2e086db4507acfbd63ba9d7fdc8369f94c37b5a937d829706af6e6373",
+      "identity": [
+        null,
+        "Details",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/worldfactory.cpp",
+          "625"
+        ]
+      ],
+      "plural": null,
+      "singular": "Details",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "38b0c7a87b4a306f706c48258bea69a8bdc83dfbdfb2a457da97bd3e6c0ad15c",
+      "identity": [
+        null,
+        "Joining \"%s\"",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/main_menu.cpp",
+          "1867"
+        ]
+      ],
+      "plural": null,
+      "singular": "Joining \"%s\"",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Name of sub body part",
+      "flags": [],
+      "id": "390a76fa805960db35f44445738931876d05521f9fda93a5b79bbe7e897ab4d5",
+      "identity": [
+        null,
+        "lower foot",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/mutations/limbs_sublimbs.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "lower foot",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [
+        "c-format"
+      ],
+      "id": "390ba414a54a65ce3af3a83d5f00bf5eae6606dcd3d987c5c5b6bbf9dc634822",
+      "identity": [
+        null,
+        "%s turns off the engine.",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "3824"
+        ]
+      ],
+      "plural": null,
+      "singular": "%s turns off the engine.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Recipe crafting 'firewood' step 1",
+      "flags": [],
+      "id": "391b82a01d84cde705d0f60ca9f32e5205298dd4aab092ec8e90c3ef7c9291d4",
+      "identity": [
+        null,
+        "Chopping the wood",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/recipes/other/other.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Chopping the wood",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Player message in EoC 'EOC_XE_RandEnc'",
+      "flags": [],
+      "id": "39666ed198a91cbc8f7073e252eeb9b5d5b62246a1eaf3dc61c0ba5328e564e6",
+      "identity": [
+        null,
+        "Xedra Evolved random encounter has met its conditions.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/encounters/base_eoc.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Xedra Evolved random encounter has met its conditions.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Vehicle name",
+      "flags": [],
+      "id": "39a35da1ad665ef1119bc12d591a504da2673833c7c087aae89235c15a481f52",
+      "identity": [
+        null,
+        "aircanoe",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/vehicles/airship.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "aircanoe",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Alukah's Daughter'",
+      "flags": [],
+      "id": "39d90cbd2825390fa15a38c274f0029dc7459a5ccb7f08d0687d5a2ca7ff3083",
+      "identity": [
+        null,
+        "You can drain essence from your targets with your unarmed attacks.  Not well enough to absorb their ruach, should they have any, but enough to cause additional damage at night.  This damage is strongest during the half to full moon and weakest during the new moon.  It functions only slightly during the day.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You can drain essence from your targets with your unarmed attacks.  Not well enough to absorb their ruach, should they have any, but enough to cause additional damage at night.  This damage is strongest during the half to full moon and weakest during the new moon.  It functions only slightly during the day.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'Augmented Durability'",
+      "flags": [],
+      "id": "39ecb42e1eaa2b640488f3bf3c188d48d2a194a268e12943fa2853e537727d10",
+      "identity": [
+        null,
+        "You are more resilient against damage.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/MindOverMatter/effects/effects_psionic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are more resilient against damage.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of gun 'survivor subgun'",
+      "flags": [],
+      "id": "39f4531719fd0bb1b0b21d2ae4f11173ccaf4691a78a8fcee043797f4a341a26",
+      "identity": [
+        null,
+        "A crudely constructed fully automatic submachine gun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Generic_Guns/firearms/pistol.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A crudely constructed fully automatic submachine gun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of furniture 'statue'",
+      "flags": [],
+      "id": "39f4a203cff2d1d0623f90254ecd995c73076da89c164eeda65c210cfca5025c",
+      "identity": [
+        null,
+        "A statue of a child, wrapped in a stone blanket to the point where any individual features are barely distinguishable.  Two stone hands peek out from the blanket, extended toward the fire ring.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/XedraWood/furniture_and_terrain/furniture_statues.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A statue of a child, wrapped in a stone blanket to the point where any individual features are barely distinguishable.  Two stone hands peek out from the blanket, extended toward the fire ring.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变",
+    "zombie": "丧尸"
+  }
+}

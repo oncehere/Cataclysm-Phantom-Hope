@@ -1,0 +1,267 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'The Night Shines Like the Day'",
+      "flags": [],
+      "id": "8eea4d6b382fb7a8dfce1616faaf0525ef6bcd4a814a2c1a363396b33fa3dbe1",
+      "identity": [
+        null,
+        "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.  However, the light of the sun is dazzling now.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.  However, the light of the sun is dazzling now.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'vampire_infected_fae_wake_up'",
+      "flags": [],
+      "id": "8f3a3c39818f1e635a7ebe7e9fef636300da12471885ca6b0737b90e93fc6b7c",
+      "identity": [
+        null,
+        "Your dreams are filled with nothing but blood and drinking it.  As long as you are a vampire, your growth as a fae will be blocked.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/dreams.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Your dreams are filled with nothing but blood and drinking it.  As long as you are a vampire, your growth as a fae will be blocked.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of variant 'sour cream & cheddar-flavored chips' of\ncomestible 'chips'\n~ Snippet in category '<mixed_chips_flavor>'",
+      "flags": [],
+      "id": "8f846c7f8494354eb4ceb734275ef7d38f3d3f43c9dd0eef3b4810e1faeee6f8",
+      "identity": [
+        null,
+        "Sour cream and cheddar-flavored <shaped_chips>, sour and tangy, the cheddar comes through surprisingly well.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/comestibles/junkfood.json",
+          ""
+        ],
+        [
+          "data/json/snippets/food.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Sour cream and cheddar-flavored <shaped_chips>, sour and tangy, the cheddar comes through surprisingly well.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of fault 'Shattered'",
+      "flags": [
+        "c-format"
+      ],
+      "id": "8f8b25bb02e39039a9242233d6bb7d0a088d44113a48d36e7fa2c4a0eb08c8c3",
+      "identity": [
+        null,
+        "The %1$s has shattered.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/faults/faults_melee.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The %1$s has shattered.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8fa60c11d461f9f45f6f009e00b07528c9b2ff899a6b29b35de02d75d6eecefb",
+      "identity": [
+        null,
+        "If you say so.  Can't say I can really tell the difference.  No offense.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_free_merchant.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "If you say so.  Can't say I can really tell the difference.  No offense.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Snippet in category 'XE_NIGHT_MESSAGES_CLOUDY_1'",
+      "flags": [],
+      "id": "8fd736368acb6d2707ba7b569bbee0e2ede2f4997f108fedd436718c2a041971",
+      "identity": [
+        null,
+        "Something above the clouds glows, creating a hazy patch of light.  It stays in place for a few moments before speeding away to the <random_direction>.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/snippets/effect_on_condition.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Something above the clouds glows, creating a hazy patch of light.  It stays in place for a few moments before speeding away to the <random_direction>.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "8fe0635929b1bf4284dbdcaec28c95ced0e956f2597a5b8970580e70b6d69a2b",
+      "identity": [
+        null,
+        "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/netherum/labyrinth_safehouse_computers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "",
+      "flags": [],
+      "id": "9009da45f2c425dc20ceece84602e8813db6ee81346d13fcb6a9e3832541443f",
+      "identity": [
+        null,
+        "The host saved the shared world — your progress is in sync.  (Your inventory isn't fully mirrored to the host yet — known limitation.)",
+        null
+      ],
+      "occurrences": [
+        [
+          "src/mp_gamestate.cpp",
+          "6961"
+        ]
+      ],
+      "plural": null,
+      "singular": "The host saved the shared world — your progress is in sync.  (Your inventory isn't fully mirrored to the host yet — known limitation.)",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of effect 'The Withering'",
+      "flags": [],
+      "id": "900c782cb42effb090138e4f15d3bb4be95ce9da1833b148b28b697a38fe8243",
+      "identity": [
+        null,
+        "You are slowed.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_nether_sorcery.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You are slowed.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Variant name of book 'book of philosophy'",
+      "flags": [],
+      "id": "901e4ac9a86b8cc279ae750301f37b895dc795030c26b961e43aeee8b96322f3",
+      "identity": [
+        null,
+        "Critique Of Pure Reason",
+        "copies of Critique Of Pure Reason"
+      ],
+      "occurrences": [
+        [
+          "data/json/items/book/misc_philosophy.json",
+          ""
+        ]
+      ],
+      "plural": "copies of Critique Of Pure Reason",
+      "singular": "Critique Of Pure Reason",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Enduring Through All Generations'",
+      "flags": [],
+      "id": "9028458db122ce5f425d2546eed935ff8b94b671a8795116a45828e4a3719712",
+      "identity": [
+        null,
+        "With eternal youth comes the strength to endure past anything one could face.  Your speed won't be lower than its default as long as you have some ruach in you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/xe_lilin.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "With eternal youth comes the strength to endure past anything one could face.  Your speed won't be lower than its default as long as you have some ruach in you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of compact bionic module 'Bionic Left Leg (Cyberframe 1a)'",
+      "flags": [],
+      "id": "9037fcd239c50f70f3ef39326988fa60e72a4de37cadaad156fc8504dad22349",
+      "identity": [
+        null,
+        "A bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/bionics.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}

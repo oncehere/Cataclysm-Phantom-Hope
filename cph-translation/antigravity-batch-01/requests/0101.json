@@ -1,0 +1,261 @@
+{
+  "confirmed_examples": [
+    {
+      "source": "Famous last words:  Let's poke this electric zombie with a metal stick.",
+      "translation": "著名遗言：让我们用金属棍子戳一戳这个放电丧尸。"
+    },
+    {
+      "source": "That's exactly what we need: more dead bodies.",
+      "translation": "这正是我们需要的：更多的尸体。"
+    },
+    {
+      "source": "It needs a coffin, not a knife.",
+      "translation": "它需要的是一副棺材，而不是一把刀。"
+    }
+  ],
+  "entries": [
+    {
+      "context": null,
+      "developer_comments": "~ Response to NPC dialogue",
+      "flags": [],
+      "id": "5d054607766838789a2d3705fab4b5047ad11927ec64036838cef4a360ac6435",
+      "identity": [
+        null,
+        "I found it, but I'm keeping it, and I'll find you another one.  <done_conversation_section>",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/common_chat/TALK_COMMON_MISSION.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "I found it, but I'm keeping it, and I'll find you another one.  <done_conversation_section>",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of book '吐纳引气诀（残卷）'",
+      "flags": [],
+      "id": "5d1fa2a31d7590fe7a988f818d96888e7e655672ecad7ed203a9ab6c0c0f48d7",
+      "identity": [
+        null,
+        "一卷残破的修炼功法，记载着引气入体、吐纳温养的入门法门。研读之后，便可盘膝打坐、纳天地灵气入体。",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/items/manuals.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "一卷残破的修炼功法，记载着引气入体、吐纳温养的入门法门。研读之后，便可盘膝打坐、纳天地灵气入体。",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Please leave anything in <angle_brackets> unchanged.\n~ Description of JSON flag 'INDOOR_GROWTH'",
+      "flags": [],
+      "id": "5d2595ff9691d8eef4e23f2f4406494ac0ec6e6c63ab6bb871b07dc91442977d",
+      "identity": [
+        null,
+        "It allows planting indoors without sunlight.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/flags.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "It allows planting indoors without sunlight.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor/tool 'nomad utility belt (on)'",
+      "flags": [],
+      "id": "5d27f03557332c92d3ed6fb81ed01e077eea587d58d6926d429f769a2fc4455a",
+      "identity": [
+        null,
+        "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches made to snugly and securely hold 26-round PA md. 68 box magazines, although anything that size or smaller will fit.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/armor/bespoke_armor/utility.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches made to snugly and securely hold 26-round PA md. 68 box magazines, although anything that size or smaller will fit.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of monster 'δαίμων ἵππος'",
+      "flags": [],
+      "id": "5d375d34ceee763d1ad04a617f25797771cf10a39413dbd47d25e9a44df9755a",
+      "identity": [
+        null,
+        "You didn't feed your responsibility and now it will feed itself.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/monsters/bloodsuckers.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You didn't feed your responsibility and now it will feed itself.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line\n~ Well, correct, these days we look a lot alike, being cyborgs and all.\nBut you speak normal English for this Earth, not Anglic like me.  Lower\nchance they mistake us for the Enemy, or something like that.",
+      "flags": [],
+      "id": "5d40d4368c3cec97a80c68c9fdab12325b84fb070f1dcdf4cc31e49d28512cb0",
+      "identity": [
+        null,
+        "Well an' surely, these days ye an' ol' Rubik look near alike, what with the whole cyborgin' an' all.  But ye parley THEIR, or rather YOUR Anglic, not mine.  Less chance they wrongly ken us for mates o' the Enemy or summit.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/npcs/exodii/exodii_merchant_missions.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "Well an' surely, these days ye an' ol' Rubik look near alike, what with the whole cyborgin' an' all.  But ye parley THEIR, or rather YOUR Anglic, not mine.  Less chance they wrongly ken us for mates o' the Enemy or summit.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ NPC dialogue line",
+      "flags": [],
+      "id": "5d486b31b2d5f9e97aaf6d6577d9a8584bf25a19548d28ed5fe8d4abf5203fd8",
+      "identity": [
+        null,
+        "*<npc_name> mutters something under <mypronoun> breath and a green glow surrounds you.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/npc/dialogue/follower_dialogue.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "*<npc_name> mutters something under <mypronoun> breath and a green glow surrounds you.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Metamagic: Quicken Spell'",
+      "flags": [],
+      "id": "5d4bdbb2cbf728cd04e86a2bc3a9a96bdb70035412a189e5770051bc7fec5cef",
+      "identity": [
+        null,
+        "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/BombasticPerks/perks.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of mutation 'Dancers in the Endless Dark'",
+      "flags": [],
+      "id": "5d527f01d501a3ef53513cc4ab9f90366198a25bd93bfcba354be6f25e88e911",
+      "identity": [
+        null,
+        "The Fair Folk dance across realities, avoiding the notice of the vast and timeless forces that overshadow existence.  This glamour will protect you from a variety of deleterious otherworldly afflictions.  It must be applied before exposure.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/mutations/playable_changeling.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The Fair Folk dance across realities, avoiding the notice of the vast and timeless forces that overshadow existence.  This glamour will protect you from a variety of deleterious otherworldly afflictions.  It must be applied before exposure.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Description of armor 'patchwork quilt'",
+      "flags": [],
+      "id": "5d669b045ef384b369df44a05fb577021bcd4ba0d4faa3644badd93c9b701305",
+      "identity": [
+        null,
+        "A huge, patchwork wool quilt.  Very, very warm.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/json/items/generic/bedding.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "A huge, patchwork wool quilt.  Very, very warm.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Remove message of effect 'The Soul of Iron'",
+      "flags": [],
+      "id": "5d6ee4bbd8913a9480cfd5752f8dc5a32f8390d8a6ba618ba1adb71701959c79",
+      "identity": [
+        null,
+        "The glass wall cutting off your fey powers shatters into glittering shards.",
+        null
+      ],
+      "occurrences": [
+        [
+          "data/mods/Xedra_Evolved/effects/effects_changeling_seasonal_magic.json",
+          ""
+        ]
+      ],
+      "plural": null,
+      "singular": "The glass wall cutting off your fey powers shatters into glittering shards.",
+      "translator_comments": ""
+    },
+    {
+      "context": null,
+      "developer_comments": "~ Comestible name",
+      "flags": [],
+      "id": "5d815750ff8aaf62695c4038cc31520736fac2a0be5f769bb5cbe1043e84eb66",
+      "identity": [
+        null,
+        "葳蕤木灵丹",
+        "葳蕤木灵丹"
+      ],
+      "occurrences": [
+        [
+          "data/mods/immortal_path/recipes/evergreen.json",
+          ""
+        ]
+      ],
+      "plural": "葳蕤木灵丹",
+      "singular": "葳蕤木灵丹",
+      "translator_comments": ""
+    }
+  ],
+  "terms": {
+    "mutation": "突变"
+  }
+}
