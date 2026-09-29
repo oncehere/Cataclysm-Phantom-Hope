@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_effects",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:fd16b027baf4eef6c94b2be284dd1a89958eb661e6d4e5decdedf1a9719ad2ca",
+    "source_fingerprint": "sha256:77858c72df234b7c2cb7d83935fcc926b284f997d22bda7d793bf3eaf06b172f",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "object_parser": "src/npctalk.cpp#talk_effect_t::parse_sub_effect",

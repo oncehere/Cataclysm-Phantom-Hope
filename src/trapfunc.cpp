@@ -100,6 +100,7 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_corpsed( "t_pit_corpsed" );
 static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
 static const ter_str_id ter_t_rock_green( "t_rock_green" );
 static const ter_str_id ter_t_rock_red( "t_rock_red" );
@@ -121,10 +122,22 @@ static float pit_effectiveness( const tripoint_bub_ms &p )
         }
     }
 
-    // 10 zombies; see item::volume
-    const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
+    // About five ordinary zombie corpses; see item::volume.
+    const units::volume filled_volume = 300_liter;
 
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
+}
+
+// Resolve death first so a creature killed by the fall can fill the pit.
+// Keep the corpse-filled terrain unsealed: its contents remain directly accessible.
+static bool cleanup_after_pit( map &here, const tripoint_bub_ms &p, Creature *c )
+{
+    c->check_dead_state( &here );
+    if( pit_effectiveness( p ) <= 0.0f ) {
+        here.ter_set( p, ter_t_pit_corpsed );
+        return true;
+    }
+    return false;
 }
 
 static void pit_dismount_player( monster *z )
@@ -1090,7 +1103,7 @@ bool trapfunc::pit( const tripoint_bub_ms &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, eff * rng( 10,
                         20 ) ) );
     }
-    c->check_dead_state( &here );
+    cleanup_after_pit( here, p, c );
     return true;
 }
 
@@ -1162,8 +1175,8 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
         pit_dismount_player( z );
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20, 50 ) ) );
     }
-    c->check_dead_state( &here );
-    if( one_in( 4 ) ) {
+    const bool filled_up = cleanup_after_pit( here, p, c );
+    if( !filled_up && one_in( 4 ) ) {
         add_msg_if_player_sees( p, _( "The spears break!" ) );
         map &here = get_map();
         here.ter_set( p, ter_t_pit );
@@ -1250,8 +1263,8 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20,
                         50 ) ) );
     }
-    c->check_dead_state( &here );
-    if( one_in( 5 ) ) {
+    const bool filled_up = cleanup_after_pit( here, p, c );
+    if( !filled_up && one_in( 5 ) ) {
         add_msg_if_player_sees( p, _( "The shards shatter!" ) );
         map &here = get_map();
         here.ter_set( p, ter_t_pit );

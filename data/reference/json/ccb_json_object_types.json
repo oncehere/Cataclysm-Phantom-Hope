@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:fd16b027baf4eef6c94b2be284dd1a89958eb661e6d4e5decdedf1a9719ad2ca",
+    "source_fingerprint": "sha256:77858c72df234b7c2cb7d83935fcc926b284f997d22bda7d793bf3eaf06b172f",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "registrations": "src/init.cpp#DynamicDataLoader::initialize"
@@ -17,7 +17,7 @@
     "registered_not_observed": [ "TRAIT_BLACKLIST", "WORLD_OPTION", "colordef", "sound_effect_preload", "spell_migration", "wound", "wound_fix" ],
     "observed_not_registered": [  ],
     "tracked_json_files": 6770,
-    "top_level_objects": 94754,
+    "top_level_objects": 94755,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -1498,7 +1498,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 909,
+        "occurrences": 910,
         "examples": [ { "path": "data/json/construction/appliances.json", "pointer": "/0" } ],
         "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ]
       },
