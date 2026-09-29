@@ -13,7 +13,7 @@ The checked condition and effect inventories in `data/reference/json/` are
 generated from the current source and data tree with
 `python3 tools/json_api/generate_contracts.py`. A content or documentation
 change can refresh fingerprints and source locations without changing the
-available EOC operations.
+available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
 
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
@@ -5975,6 +5975,10 @@ Combination of values work as `and`, no matter how they are arranged. This two n
 ```jsonc
 "search_data": [ { "category": "weapons", "wielded_only": true } ]
 ```
+
+Material unit changes, such as the mass and volume of one charge of ash, do not
+add EOC operations.  Validate any dependent item quantities using loaded game
+data; the inventory fingerprint alone does not establish their physical totals.
 
 For example, changing inherited spear damage or crafting tool requirements
 refreshes these inventories' input fingerprints without adding EOC selectors.
