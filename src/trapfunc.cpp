@@ -125,7 +125,10 @@ static float pit_effectiveness( const tripoint_bub_ms &p )
     // About five ordinary zombie corpses; see item::volume.
     const units::volume filled_volume = 300_liter;
 
-    return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
+    // Dividing two volume values directly truncates the ratio to an integer.
+    const float filled_fraction = static_cast<float>( units::to_milliliter( corpse_volume ) ) /
+                                  units::to_milliliter( filled_volume );
+    return std::max( 0.0f, 1.0f - filled_fraction );
 }
 
 // Resolve death first so a creature killed by the fall can fill the pit.
