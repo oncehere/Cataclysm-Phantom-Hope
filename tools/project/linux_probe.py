@@ -13,6 +13,7 @@ import time
 import xml.etree.ElementTree as ET
 
 from check_merge_evidence import check_junit as check_junit_bytes
+from preflight import rejected_git_environment
 
 
 # Use this script's checkout, independent of the source being built or cwd.
@@ -35,10 +36,6 @@ BUILD_SETTINGS = {
 }
 BINARIES = TARGET["binaries"]
 BUILD_MANIFEST = "cph-probe-build.json"
-SAFE_GIT_ENV = {
-    "GIT_OPTIONAL_LOCKS", "GIT_NO_LAZY_FETCH",
-    "GIT_TERMINAL_PROMPT", "GIT_PAGER",
-}
 
 
 def digest(path):
@@ -61,10 +58,7 @@ def environment(evidence):
             "HOME is required; preserve the existing value with "
             "nix develop --keep HOME (do not replace HOME)"
         )
-    unexpected = sorted(
-        key for key in os.environ
-        if key.startswith("GIT_") and key not in SAFE_GIT_ENV
-    )
+    unexpected = rejected_git_environment(os.environ)
     if unexpected:
         raise ValueError(
             "refusing Git environment overrides: " + ", ".join(unexpected)

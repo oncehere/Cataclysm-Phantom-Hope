@@ -105,7 +105,8 @@ class ReportValidation(unittest.TestCase):
             root = Path(directory)
             scripts = root / "tools/project"
             scripts.mkdir(parents=True)
-            for name in ("linux_probe.py", "check_merge_evidence.py"):
+            for name in ("linux_probe.py", "check_merge_evidence.py",
+                         "preflight.py"):
                 (scripts / name).write_bytes(
                     (MODULE_PATH.parent / name).read_bytes()
                 )
@@ -442,6 +443,45 @@ class SyntheticProbe(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("GIT_DIR", result["error"])
         self.assertNotIn("private-secret-path", json.dumps(result))
+
+    def test_fixed_git_isolation_is_retained(self):
+        expected_head = self.git("rev-parse", "HEAD")
+        with tempfile.TemporaryDirectory() as directory:
+            for index, isolation in enumerate((
+                {"GIT_CONFIG_GLOBAL": os.devnull},
+                {"GIT_CONFIG_NOSYSTEM": "1"},
+                {"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"},
+            )):
+                evidence = Path(directory) / str(index)
+                evidence.mkdir()
+                with self.subTest(isolation=isolation), mock.patch.dict(
+                    os.environ, isolation
+                ):
+                    env = probe.environment(evidence)
+                    self.assertEqual(env["GIT_CONFIG_GLOBAL"], os.devnull)
+                    self.assertEqual(env["GIT_CONFIG_NOSYSTEM"], "1")
+                    self.assertEqual(
+                        probe.git(self.source, env, "rev-parse", "HEAD"),
+                        expected_head,
+                    )
+
+    def test_unsafe_git_configuration_fails_before_creating_xdg_paths(self):
+        for name, value in (
+            ("GIT_CONFIG_GLOBAL", "private-fixture-config"),
+            ("GIT_CONFIG_GLOBAL", ""),
+            ("GIT_CONFIG_NOSYSTEM", "0"),
+            ("GIT_CONFIG_NOSYSTEM", ""),
+            ("GIT_CONFIG_COUNT", "0"),
+        ):
+            with self.subTest(name=name, value=value), mock.patch.dict(
+                os.environ, {"GIT_CONFIG_GLOBAL": os.devnull,
+                             "GIT_CONFIG_NOSYSTEM": "1", name: value}
+            ):
+                with self.assertRaisesRegex(ValueError, "environment") as ctx:
+                    probe.environment(self.evidence)
+                self.assertIn(name, str(ctx.exception))
+                self.assertNotIn("private-fixture-config", str(ctx.exception))
+                self.assertFalse(self.evidence.exists())
 
     def test_git_failure_still_writes_failed_result(self):
         self.script(self.tool_dir / "git", "import sys\nsys.exit(19)\n")

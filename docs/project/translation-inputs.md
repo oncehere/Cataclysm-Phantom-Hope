@@ -1,16 +1,58 @@
-# Baseline translation input
+# Translation inputs and maintained Chinese catalog
+
+## Maintained Simplified Chinese
+
+`lang/cph/zh_CN.po` contains the complete 117,224-message catalog extracted from
+CPH `a43a8f2f270994dad716ab067c48aad7c2eeaee3`. It includes all 251 previously
+maintained world-generation translations unchanged. Exact reuse follows
+protected project edits, CDDA, CCB, then existing translations; reviewed model
+proposals fill the remaining gaps. Coverage refers to that extracted template,
+not every dynamically constructed string or a full linguistic review.
+
+[The import record](../../lang/cph/zh_CN.sources.json) pins the template, original
+PO, upstream commits and artifacts, and the separate maintenance project's
+immutable Git commit. That commit retains per-entry sources, protected baselines,
+original PO files, licenses, and review evidence. Translator headers are also
+preserved in the shipped PO; see [translation credits](../../TRANSLATION_CREDITS.md).
+The translations retain the game's CC BY-SA 3.0 license, independently of the
+maintenance tool's MIT license.
+
+The existing Make, shell, and CMake targets compile this source to
+`lang/mo/cph/zh_CN/LC_MESSAGES/cataclysm-dda.mo`. Runtime lookup uses user Mod
+catalogs first, then the CPH maintained directory, then the remaining core
+catalogs. A missing maintained entry falls back to the locked base catalog;
+the original base MO files stay byte-identical to `project/assets.lock.json`.
+Other languages continue using their existing catalogs.
+
+```sh
+make -C lang LANGUAGES=zh_CN
+# Alternative entry point used by existing workflows:
+bash lang/compile_mo.sh zh_CN
+```
+
+Contributors can edit this PO directly in a normal PR. Before the next upstream
+import, maintainers copy the current game PO into the maintenance project's
+catalog while retaining its corresponding state and snapshots, so intervening
+PO-only edits are detected and protected. Review the new candidate, retain the
+updated PO/state together in that maintenance branch, and copy the accepted PO
+back here with its attribution and an updated import record. Do not regenerate
+from an old maintenance PO and overwrite newer game edits. This workflow needs
+no model service for ordinary checks, merging, or compilation.
+
+## Locked base catalogs
 
 This is the locked E1 input and its 2026-09-26 validation record. The compiled
-MO set remains a temporary resource source, not a completed PO maintenance
-policy or four-platform release input. Local `inputs/` lives outside the source
+MO set remains the fallback and other-language resource source, not evidence of
+maintained PO coverage for those languages or a four-platform release input.
+Local `inputs/` lives outside the source
 repository; see [workspace-layout.md](workspace-layout.md).
 
 E1 temporarily uses the **actual compiled MO resources** from the CCB release
 `2026-09-23-0407`. Both the release's `target_commitish` and its tag resolve to
 the locked baseline `bcb85682f3d28ab0f0123b05e45651bb9888b61b`. This is not a
-maintainable PO source pipeline. The historical PO formatting errors and the
-long-term translation maintenance path remain deferred; no empty replacements
-are generated and no language files are rewritten.
+maintainable PO source pipeline for those base resources. The maintained Chinese
+source described above is built separately; no empty replacement catalogs are
+generated and the locked base files are not rewritten.
 
 ## Input and attribution
 
