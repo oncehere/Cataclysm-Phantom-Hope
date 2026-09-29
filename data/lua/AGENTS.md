@@ -1,59 +1,38 @@
 # `data/lua/` agent instructions
 
-This subtree contains the sole CPH Lua Platform runtime, examples, inventories,
-and LuaLS declarations.  `LUA_FIRST_PLATFORM.md` is the architecture
-specification for pure-Lua core and Mod authoring; implementation status is
-tracked in `ai/lua-first-roadmap.yml`.
+Read `LUA_FIRST_EOC_WORKFLOW.md` for the current goal and progress. Source,
+registrations, LuaLS declarations, and relevant tests define current behavior;
+`LUA_FIRST_PLATFORM.md` records architecture inherited from CCB and maintained
+by CPH. The repository execution specification remains the acceptance policy.
 
-- `types/ccb_platform_v1.d.lua`, native Platform registrations, and generated
-  Platform inventories are authoritative for the current Lua runtime contract.
-- `LUA_FIRST_PLATFORM.md` is authoritative for platform design decisions inherited
-  from CCB Lua 0.1 and maintained by CPH.
-- `LUA_FIRST_EOC_WORKFLOW.md` defines the active EOC-capability objective,
-  domain-batch development cadence, and scoped acceptance gates.  Follow it
-  for Lua-first EOC parity work.
-- The accepted trust policy in `LUA_FIRST_PLATFORM.md` permits full standard
-  libraries and external/native modules at the player's risk. Do not reintroduce
-  sandbox tiers or mandatory global runtime quotas; preserve supported `ccb`
-  correctness and lifetime checks. Trusted loading and discovery notices are
-  implemented in source but still require native and startup acceptance; do not
-  describe the accepted policy as shipped merely because source exists.
-- Never hand-edit generated reference inventories; run their named generator.
-- Do not add a second Lua runtime, `game.*` surface, capability sandbox,
-  authored manifest, JSON loader, EOC runner, or EOC-key-shaped API. Useful
-  native operations belong under the Platform contract; compatibility-only
-  operations are deleted.
-- Keep examples runnable and synchronized with declarations.
-- `templates/minimal/` and `templates/complete/` contain no runtime JSON/EOC and are
-  copied by `tools/create_lua_mod.py`; never make their suggested directories
-  loader requirements.  The complete template's Mod-id token is replaced only
-  in the scaffold staging directory before atomic installation.
-  The scaffolder may add optional `.luarc.json` and a frozen `.ccb-sdk/` for
-  editor use; neither is a runtime manifest, and `--no-editor` omits them.
-- The replacement ledger is generated on demand by
+- Use `require("ccb")` as the sole behavior authoring entrypoint. Do not add
+  v5, `game.*`, EOC-key APIs, a public JSON loader/EOC runner, or a second Lua
+  runtime. Static JSON may remain.
+- Full standard libraries and external/native modules are allowed at the
+  player's risk; do not reintroduce a sandbox or mandatory global quotas.
+  Preserve correctness and lifetime checks; policy acceptance alone does not
+  prove implementation or startup acceptance.
+- When changing a public API, update declarations and regenerate affected
+  references with the generators in `ai/generated-files.yml`. Never hand-edit
+  generated files. The replacement ledger is generated on demand by
   `tools/agent/generate_lua_first_replacement_ledger.py`; its expanded YAML is
-  not tracked. Change its generator, never an exported ledger by hand.
-  A bounded or primitive disposition is not
-  completeness; only the final semantic gate may produce a verified status.
-- `primitive_available_unverified` means only that composable native domain
-  building blocks exist; it is not selector-level parity and must not be
-  described as a completed migration.
-- `bounded_implemented_unverified` means one or more explicitly named legacy
-  shapes have source, declarations, tests, migration output, and documentation;
-  it never claims that every legal shape of that selector has parity.
-- `tools/migrate_lua_first.py` may emit native Lua skeletons and explicit TODO
-  reports.  It must never generate a JSON loader, EOC runner, or raw legacy
-  object as a hidden compatibility path.
-- Platform Mods must not require a `lua/` subdirectory or author-maintained
-  JSON manifest.  Templates may recommend structure but may not require it.
+  not tracked.
+- Implement actual gameplay needs and add focused regression tests for changed
+  behavior. Run relevant checks; a per-selector EOC audit is not a routine gate.
+  Report what was not tested. Historical roadmap and ledger entries describe
+  their exact scope; bounded or primitive coverage is not complete migration.
+- Migration output is a reviewable Lua skeleton with classified TODOs, never
+  a hidden JSON loader, EOC runner, or raw legacy object.
+- Keep templates and examples runnable; Mods need neither a `lua/` subdirectory
+  nor an author-maintained JSON manifest. Optional `.luarc.json` and `.ccb-sdk/`
+  are editor aids, not runtime requirements.
 
-Follow `LUA_FIRST_EOC_WORKFLOW.md` for validation selection and cadence.
-The single Lua contract gate includes live repository checks and tool regressions:
+The single Lua contract suite includes live checks and tool regressions:
 
 ```sh
 python3 -m unittest discover -s tools/lua_api -p 'test_*.py'
 ```
 
-本仓库的现行文档用于解释这些契约；与本目录声明或注册冲突时，应更新并
-标记对应的本仓文档。文档影响通过 `ai/docs-impact.yml` 的稳定 ID 和路径
-关联，不能用历史 CCB-Docs 记录代替同步，也不得以文档覆盖契约。
+本仓库的现行文档用于解释这些契约；与源码或声明冲突时更新对应文档。
+文档影响通过 `ai/docs-impact.yml` 的稳定 ID 和本仓路径关联，不能用历史
+CCB-Docs 记录代替同步，也不得以文档覆盖契约。

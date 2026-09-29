@@ -693,6 +693,9 @@ void Character::randomize( const bool random_scenario, bool play_now )
     randomize_height();
     randomize_blood();
     randomize_heartrate();
+    // NOTE: do not query overmap settings here: the overmap must only be
+    // generated after the world seed is set (see main_menu::new_character_tab).
+    // Use the same effective regional city rules as the rest of the character UI.
     const bool can_start_in_city = cities_enabled();
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;

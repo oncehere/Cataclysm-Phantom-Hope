@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:fd16b027baf4eef6c94b2be284dd1a89958eb661e6d4e5decdedf1a9719ad2ca",
+    "source_fingerprint": "sha256:9362049af3f4262e49dead45b8e3b2f90906cee8fbd740d44f9a24bd052dcaf6",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "registrations": "src/init.cpp#DynamicDataLoader::initialize"
@@ -16,8 +16,8 @@
     "registered_and_observed": 183,
     "registered_not_observed": [ "TRAIT_BLACKLIST", "WORLD_OPTION", "colordef", "sound_effect_preload", "spell_migration", "wound", "wound_fix" ],
     "observed_not_registered": [  ],
-    "tracked_json_files": 6770,
-    "top_level_objects": 94754,
+    "tracked_json_files": 6771,
+    "top_level_objects": 94760,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -1498,7 +1498,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 909,
+        "occurrences": 911,
         "examples": [ { "path": "data/json/construction/appliances.json", "pointer": "/0" } ],
         "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ]
       },
@@ -1566,7 +1566,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 525,
+        "occurrences": 526,
         "examples": [ { "path": "data/json/construction_group.json", "pointer": "/0" } ],
         "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ]
       },
@@ -2916,7 +2916,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 28,
+        "occurrences": 30,
         "examples": [ { "path": "data/mods/Isolation-Protocol/Player/sorcery.json", "pointer": "/0" } ],
         "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ]
       },
@@ -6322,7 +6322,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 600,
+        "occurrences": 601,
         "examples": [ { "path": "data/json/debug/teleportation.json", "pointer": "/2" } ],
         "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ]
       },
