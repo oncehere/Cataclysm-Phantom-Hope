@@ -121,6 +121,13 @@ Some actions sent additional context variables, that can be used in EoC, in form
 
 ## Value types
 
+For character talkers, a `math` expression such as `u_limb_score('balance')`
+reads the limb score without restricting the body-part type. The optional
+`'type'` argument narrows it, for example
+`u_limb_score('balance', 'type': 'leg')`. Omitting the argument does not attempt
+to parse an empty body-part type. The same rule applies to `n_limb_score` for
+the beta talker.
+
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
 
 | name | description | example |
