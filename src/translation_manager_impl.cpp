@@ -1,6 +1,8 @@
 #if defined(LOCALIZE)
 
+#include <algorithm>
 #include <cstring>
+#include <filesystem>
 
 #include "cached_options.h"
 #include "debug.h"
@@ -64,7 +66,18 @@ void TranslationManager::Impl::ScanTranslationDocuments()
     }
     if( dir_exist( locale_dir() ) ) {
         DebugLog( D_INFO, DC_ALL ) << "[i18n] Scanning core translations from " << locale_dir();
-        for( const std::string &dir : get_files_from_path( "LC_MESSAGES", locale_dir(), true ) ) {
+        std::vector<std::string> core_dirs = get_files_from_path( "LC_MESSAGES", locale_dir(),
+                                             true );
+        const std::string maintained_prefix =
+            ( std::filesystem::u8path( locale_dir() ) / "cph" ).generic_u8string() + "/";
+        // Lookup uses the first catalog containing a message. Keep user mods
+        // first, then our maintained catalogs, then the verified base catalogs.
+        // Partition this single scan so maintained catalogs are not loaded twice.
+        std::stable_partition( core_dirs.begin(), core_dirs.end(),
+        [&maintained_prefix]( const std::string & dir ) {
+            return dir.compare( 0, maintained_prefix.size(), maintained_prefix ) == 0;
+        } );
+        for( const std::string &dir : core_dirs ) {
             mo_dirs.emplace_back( dir, "cataclysm-dda.mo" );
         }
     }
