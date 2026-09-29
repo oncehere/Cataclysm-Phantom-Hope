@@ -5975,3 +5975,7 @@ Combination of values work as `and`, no matter how they are arranged. This two n
 ```jsonc
 "search_data": [ { "category": "weapons", "wielded_only": true } ]
 ```
+
+Material unit changes, such as the mass and volume of one charge of ash, do not
+add EOC operations.  Validate any dependent item quantities using loaded game
+data; the inventory fingerprint alone does not establish their physical totals.
