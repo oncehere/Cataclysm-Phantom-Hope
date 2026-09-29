@@ -1342,6 +1342,11 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 - return true if the terrain, furniture or field has specific id
 - `loc` will specify location of terrain or furniture (**mandatory**)
 
+In CPH, any triggered pit variant can become `t_pit_corpsed` at 300 L;
+`map_terrain_id` distinguishes them using its existing condition key.
+Adding the restoration construction refreshes the checked EOC inventories'
+source fingerprints, but adds no EOC condition or effect entry.
+
 #### Valid talkers:
 
 No talker is needed.

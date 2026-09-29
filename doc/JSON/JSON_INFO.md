@@ -2178,6 +2178,12 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 "on_display": false                                                 // This is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 ```
 
+CPH's `constr_pit_from_corpsefilled` uses the existing `construction` type:
+`pre_terrain` is `t_pit_corpsed`, `post_terrain` is `t_pit`, and the recipe
+requires DIG 2 for a base time of 30 minutes.  It adds a construction instance,
+not a new JSON object type.  Completing it moves any remaining pit items to an
+available adjacent tile before restoring the pit.
+
 | pre_special            | Description
 |---                     |---
 | `check_channel`        | Must be empty and have a current in at least one orthogonal tile
