@@ -25,7 +25,25 @@ SAFE_GIT_ENV = {
     "GIT_TERMINAL_PROMPT",
     "GIT_PAGER",
 }
+ISOLATED_GIT_ENV = {
+    "GIT_CONFIG_GLOBAL": os.devnull,
+    "GIT_CONFIG_NOSYSTEM": "1",
+}
 PATHS = ["--", ".", ":(top,exclude)obj-lua", ":(top,exclude)obj-lua/**"]
+
+
+def rejected_git_environment(environment):
+    """Accept inherited isolation, not arbitrary Git configuration overrides.
+
+    Callers still discard every inherited GIT_* variable and set their own
+    fixed Git environment. Return names only, never potentially secret values.
+    """
+    return sorted(
+        name for name, value in environment.items()
+        if name.startswith("GIT_") and name not in SAFE_GIT_ENV and not (
+            name in ISOLATED_GIT_ENV and value == ISOLATED_GIT_ENV[name]
+        )
+    )
 
 
 def redact(value):
@@ -135,11 +153,7 @@ class Probe:
         ).strip()
 
     def run(self, lock, target=None, online=False):
-        unexpected = sorted(
-            k
-            for k in os.environ
-            if k.startswith("GIT_") and k not in SAFE_GIT_ENV
-        )
+        unexpected = rejected_git_environment(os.environ)
         self.check(
             "git_environment",
             not unexpected,

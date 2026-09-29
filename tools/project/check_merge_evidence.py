@@ -17,11 +17,8 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
+from preflight import rejected_git_environment
 
-SAFE_GIT_ENV = {
-    "GIT_OPTIONAL_LOCKS", "GIT_NO_LAZY_FETCH",
-    "GIT_TERMINAL_PROMPT", "GIT_PAGER",
-}
 BINDINGS = (
     "repository_id", "pull_request", "base_sha", "head_sha",
     "tested_commit", "tested_tree", "policy_sha", "inputs_digest",
@@ -101,8 +98,7 @@ def trusted(path, expected, repo, evidence):
 
 
 def git(repo, *args):
-    overrides = [key for key in os.environ if
-                 key.startswith("GIT_") and key not in SAFE_GIT_ENV]
+    overrides = rejected_git_environment(os.environ)
     require(not overrides, "refusing Git environment overrides")
     env = {key: value for key, value in os.environ.items()
            if not key.startswith("GIT_")}

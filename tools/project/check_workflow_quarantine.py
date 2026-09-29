@@ -15,15 +15,13 @@ import re
 import subprocess
 import sys
 
+from preflight import rejected_git_environment
+
 
 BASELINE = "bcb85682f3d28ab0f0123b05e45651bb9888b61b"
 SOURCE_REPOSITORY = "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb"
 SOURCE_DIRECTORY = ".github/workflows"
 QUARANTINE_DIRECTORY = "project/inherited-workflows"
-SAFE_GIT_ENV = {
-    "GIT_OPTIONAL_LOCKS", "GIT_NO_LAZY_FETCH",
-    "GIT_TERMINAL_PROMPT", "GIT_PAGER",
-}
 
 
 class InspectionError(Exception):
@@ -31,10 +29,7 @@ class InspectionError(Exception):
 
 
 def git(repo, *args):
-    unexpected = sorted(
-        key for key in os.environ
-        if key.startswith("GIT_") and key not in SAFE_GIT_ENV
-    )
+    unexpected = rejected_git_environment(os.environ)
     if unexpected:
         raise InspectionError(
             "refusing Git environment overrides: " + ", ".join(unexpected)
