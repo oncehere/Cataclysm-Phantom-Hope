@@ -10,7 +10,7 @@ The checked object-type inventory in `data/reference/json/ccb_json_object_types.
 is generated from the current source and data tree. Regenerate it with
 `python3 tools/json_api/generate_contracts.py` after changing tracked JSON;
 source fingerprints or reference locations can change without adding a new
-JSON object type.
+JSON object type. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
 Use the `Home` key to return to the top.
 
@@ -2182,6 +2182,12 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 "strict": false,                                                    // If true, the build activity for this construction will only look for prerequisites in the same group
 "on_display": false                                                 // This is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 ```
+
+CPH's `constr_pit_from_corpsefilled` uses the existing `construction` type:
+`pre_terrain` is `t_pit_corpsed`, `post_terrain` is `t_pit`, and the recipe
+requires DIG 2 for a base time of 30 minutes.  It adds a construction instance,
+not a new JSON object type.  Completing it moves any remaining pit items to an
+available adjacent tile before restoring the pit.
 
 | pre_special            | Description
 |---                     |---

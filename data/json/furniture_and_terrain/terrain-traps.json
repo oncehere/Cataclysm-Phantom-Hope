@@ -30,7 +30,7 @@
     "type": "terrain",
     "id": "t_pit_corpsed",
     "name": "corpse filled pit",
-    "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies could be dug out, but nothing in here looks remotely usable.",
+    "description": "A giant trench full of corpses, maybe even a mass graveyard.  You can take out the bodies and other items, or dig the pit clear with suitable tools.",
     "symbol": "#",
     "color": "green",
     "move_cost": 5,
