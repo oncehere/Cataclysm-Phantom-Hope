@@ -618,11 +618,16 @@ TEST_CASE( "lua_platform_mutation_replace_matches_legacy_context_values_for_alph
         sol::protected_function_result call = replace( alpha_npc,
                                               cata::lua_platform::script_game_id( "mutation", hair.str() ), variant );
         REQUIRE( call.valid() );
-        REQUIRE( call.get<sol::table>()["ok"].get<bool>() );
+        const sol::table result = call;
+        REQUIRE( result["ok"].get<bool>() );
         CHECK( legacy.other.get_mutations_variants() == platform.other.get_mutations_variants() );
         REQUIRE( platform.other.get_mutations_variants().size() == 1 );
         CHECK( platform.other.get_mutations_variants().front().trait == hair );
-        CHECK( platform.other.get_mutations_variants().front().variant == "white" );
+        // Native set_mutation keeps an existing trait's variant.  Resolving a
+        // new color does not turn replacement into a set_variant operation.
+        CHECK( platform.other.get_mutations_variants().front().variant == "black" );
+        CHECK( result["value"]["variant"].get<std::string>() == "black" );
+        CHECK( result["value"]["present"].get<bool>() );
         CHECK_FALSE( platform.player.has_trait( hair ) );
     }
 }
@@ -814,6 +819,7 @@ TEST_CASE( "lua_platform_mutation_action_matches_native_without_permanent_trait"
     const bool npc_target = GENERATE( false, true );
     const bool active = GENERATE( false, true );
     const bool present = GENERATE( false, true );
+    CAPTURE( npc_target, active, present );
     Character &old_target = legacy.target( npc_target );
     Character &new_target = platform.target( npc_target );
     const trait_id &trait = trait_SNAIL_TRAIL;
@@ -837,10 +843,20 @@ TEST_CASE( "lua_platform_mutation_action_matches_native_without_permanent_trait"
                     platform.handle( npc_target ),
                     cata::lua_platform::script_game_id( "mutation", trait.str() ), active );
         REQUIRE( call.valid() );
-        REQUIRE( call.get<sol::table>()["ok"].get<bool>() );
+        const sol::table result = call;
+        REQUIRE( result["ok"].get<bool>() );
         CHECK( old_target.has_active_mutation( trait ) == new_target.has_active_mutation( trait ) );
-        CHECK( new_target.has_active_mutation( trait ) == ( active && present ) );
+        // The native action can activate cached state without granting a
+        // permanent trait; invoke_activation deliberately has that behavior.
+        CHECK( old_target.has_active_mutation( trait ) == active );
+        CHECK( new_target.has_active_mutation( trait ) == active );
         CHECK( old_target.has_permanent_trait( trait ) == new_target.has_permanent_trait( trait ) );
+        CHECK( old_target.has_permanent_trait( trait ) == present );
+        CHECK( new_target.has_permanent_trait( trait ) == present );
+        CHECK( result["value"]["active"].get<bool>() == active );
+        CHECK( result["value"]["present"].get<bool>() == present );
+        CHECK( old_target.get_thirst() == new_target.get_thirst() );
+        CHECK( old_target.get_stored_kcal() == new_target.get_stored_kcal() );
     }
 }
 
