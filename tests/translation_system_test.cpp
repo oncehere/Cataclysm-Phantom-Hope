@@ -1,12 +1,128 @@
+#include <algorithm>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "filesystem.h"
+#include "path_info.h"
 #include "string_formatter.h"
 #include "translation_document.h"
 #include "translation_manager_impl.h"
+#include "translations.h"
 
 #if defined(LOCALIZE)
+
+// A small MO fixture keeps catalog-discovery tests independent of installed
+// languages and of an external msgfmt process at test runtime.
+static void write_priority_catalog( const std::filesystem::path &path,
+                                    const std::string &prefix, bool fallback )
+{
+    std::vector<std::pair<std::string, std::string>> messages = {
+        {
+            "", "Content-Type: text/plain; charset=UTF-8;\n"
+            "Plural-Forms: nplurals=2; plural=n!=1;\n"
+        },
+        { "shared", prefix + " shared" },
+        { "item\004shared", prefix + " context" },
+        { std::string( "unit" ) + '\0' + "units", prefix + " unit" + '\0' + prefix + " units" },
+        {
+            std::string( "item\004unit" ) + '\0' + "units",
+            prefix + " context unit" + '\0' + prefix + " context units"
+        }
+    };
+    if( fallback ) {
+        messages.emplace_back( "base only", "base fallback" );
+    }
+    std::sort( messages.begin(), messages.end() );
+    std::filesystem::create_directories( path.parent_path() );
+    std::ofstream output( path, std::ios::binary );
+    REQUIRE( output.is_open() );
+    const auto write_u32 = [&output]( std::uint32_t value ) {
+        for( int i = 0; i < 4; ++i ) {
+            output.put( static_cast<char>( value & 0xff ) );
+            value >>= 8;
+        }
+    };
+    const std::uint32_t count = static_cast<std::uint32_t>( messages.size() );
+    for( const std::uint32_t value : {
+             0x950412deU, 0U, count, 28U, 28U + count * 8, 0U, 0U
+         } ) {
+        write_u32( value );
+    }
+    std::uint32_t offset = 28 + count * 16;
+    for( const bool originals : {
+             true, false
+         } ) {
+        for( const std::pair<std::string, std::string> &message : messages ) {
+            const std::string &text = originals ? message.first : message.second;
+            write_u32( static_cast<std::uint32_t>( text.size() ) );
+            write_u32( offset );
+            offset += static_cast<std::uint32_t>( text.size() ) + 1;
+        }
+    }
+    for( const bool originals : {
+             true, false
+         } ) {
+        for( const std::pair<std::string, std::string> &message : messages ) {
+            output << ( originals ? message.first : message.second ) << '\0';
+        }
+    }
+    output.close();
+    REQUIRE( output.good() );
+}
+
+TEST_CASE( "TranslationManager_discovers_maintained_catalog_priority",
+           "[translations][translation_priority]" )
+{
+    const std::string language = "cph_priority_test";
+    const std::filesystem::path core = std::filesystem::u8path( locale_dir() );
+    const std::filesystem::path base = core / language;
+    const std::filesystem::path maintained = core / "cph" / language;
+    const std::filesystem::path user = std::filesystem::u8path( PATH_INFO::user_moddir() ) /
+                                       "cph_translation_priority_test";
+    // Never replace existing files, even when an earlier interrupted run left a
+    // fixture behind. Each cleanup is limited to a directory created here.
+    REQUIRE_FALSE( std::filesystem::exists( base ) );
+    REQUIRE_FALSE( std::filesystem::exists( maintained ) );
+    REQUIRE_FALSE( std::filesystem::exists( user ) );
+    on_out_of_scope cleanup( [&]() {
+        std::filesystem::remove_all( user );
+        std::filesystem::remove_all( maintained );
+        std::filesystem::remove_all( base );
+    } );
+    write_priority_catalog( base / "LC_MESSAGES/cataclysm-dda.mo", "base", true );
+    write_priority_catalog( maintained / "LC_MESSAGES/cataclysm-dda.mo", "maintained", false );
+    std::string expected = "maintained";
+
+    SECTION( "maintained overrides base" ) {
+    }
+    SECTION( "user mods retain priority" ) {
+        write_priority_catalog( user / language / "LC_MESSAGES/priority.mo", "user", false );
+        expected = "user";
+    }
+    SECTION( "base works without maintained catalog" ) {
+        std::filesystem::remove_all( maintained );
+        expected = "base";
+    }
+
+    TranslationManager manager;
+    REQUIRE( manager.GetAvailableLanguages().count( language ) == 1 );
+    manager.SetLanguage( language );
+    CHECK( std::string( manager.Translate( "shared" ) ) == expected + " shared" );
+    CHECK( manager.TranslateWithContext( "item", "shared" ) == expected + " context" );
+    CHECK( manager.TranslatePlural( "unit", "units", 1 ) == expected + " unit" );
+    CHECK( manager.TranslatePlural( "unit", "units", 2 ) == expected + " units" );
+    CHECK( manager.TranslatePluralWithContext( "item", "unit", "units", 1 ) ==
+           expected + " context unit" );
+    CHECK( manager.TranslatePluralWithContext( "item", "unit", "units", 2 ) ==
+           expected + " context units" );
+    CHECK( std::string( manager.Translate( "base only" ) ) == "base fallback" );
+    CHECK( std::string( manager.Translate( "missing" ) ) == "missing" );
+    manager.SetLanguage( "en" );
+    CHECK( std::string( manager.Translate( "shared" ) ) == "shared" );
+}
 
 static void LoadMODocument( const char *path )
 {
