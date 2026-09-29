@@ -23,6 +23,12 @@ precedence. These overrides can only be edited when creating or copying a world.
 See [advanced world rules](../../docs/project/world-advanced-options.md) for scope
 and compatibility effects.
 
+Graphical builds use SDL3, including the native canvas used by Platform Mods;
+SDL2 is no longer a build option. This backend change preserves Platform v1
+and the existing dialogue interface. Terminal and headless builds remain
+available, with UI capabilities still determined by the active build. See the
+[build guide](../../doc/c++/COMPILING.md) for platform requirements.
+
 ## Tool validation environment
 
 The Lua API and agent tools share the pinned dependencies in
