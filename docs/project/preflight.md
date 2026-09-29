@@ -35,6 +35,15 @@ is excluded by explicit Git pathspecs and is not inventoried. Other ignored
 build caches are not enumerated. This probe does not claim that every historical
 blob in a promisor repository is locally present.
 
+The shared Git environment check accepts the isolation values already supplied
+by CI: `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL` equal to the platform's
+`os.devnull`. Either may be absent. Other values (including empty strings),
+alternate configuration files and additional Git overrides remain rejected.
+Preflight, merge rehearsal, evidence verification, workflow quarantine and the
+Linux probe use this same check. They still discard inherited Git variables
+and rebuild their fixed subprocess environment; only rejected names are
+reported, never values. CI retains its configuration and credential isolation.
+
 Fetch sources must be the declared GitHub CDDA/CCB repositories, under
 `upstream` and `ccb`. Optional `source-cache` is a local absolute path used only
 as a cache, never as upstream provenance. Every configured remote must have

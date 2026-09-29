@@ -13,6 +13,7 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "requirements.h"
+#include "rng.h"
 #include "trap.h"
 #include "type_id.h"
 
@@ -120,4 +121,37 @@ TEST_CASE( "corpse_filled_pit_can_be_dug_open", "[construction][pit][corpse]" )
     }
     CHECK( found_corpse );
     CHECK( found_rock );
+}
+
+TEST_CASE( "corpses_reduce_pit_damage_before_the_pit_is_full", "[trap][pit][corpse][partial_fill]" )
+{
+    const auto torso_damage = []( int corpse_count ) {
+        clear_creatures();
+        clear_avatar();
+        clear_map_without_vision();
+        avatar &player = get_avatar();
+        player.set_dex_base( 0 );
+        player.set_dodges_left( 1 );
+        REQUIRE( player.get_dodge() == 0.0f );
+        map &here = get_map();
+        const tripoint_bub_ms p = player.pos_bub();
+        here.ter_set( p, ter_id( "t_pit" ) );
+        const item corpse = item::make_corpse( mtype_id( "mon_zombie" ) );
+        REQUIRE( corpse.volume() == 62500_ml );
+        for( int i = 0; i < corpse_count; ++i ) {
+            here.add_item_or_charges( p, corpse );
+        }
+        const int before = player.get_part_hp_cur( bodypart_id( "torso" ) );
+        // Compare the same fall with and without 187.5 L of corpses.
+        rng_set_engine_seed( 88166 );
+        REQUIRE( trapfunc::pit( p, &player, nullptr ) );
+        CHECK( here.ter( p ) == ter_id( "t_pit" ) );
+        return before - player.get_part_hp_cur( bodypart_id( "torso" ) );
+    };
+
+    const int empty_damage = torso_damage( 0 );
+    const int partially_filled_damage = torso_damage( 3 );
+    CAPTURE( empty_damage, partially_filled_damage );
+    CHECK( partially_filled_damage > 0 );
+    CHECK( partially_filled_damage < empty_damage );
 }

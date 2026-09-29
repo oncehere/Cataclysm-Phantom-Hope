@@ -273,6 +273,45 @@ class PreflightTests(unittest.TestCase):
                 )
                 self.assertFalse(report["commands"])
 
+    def test_fixed_git_configuration_isolation_is_accepted(self):
+        for environment in (
+            {"GIT_CONFIG_GLOBAL": os.devnull},
+            {"GIT_CONFIG_NOSYSTEM": "1"},
+            {"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"},
+        ):
+            with self.subTest(environment=environment):
+                report = self.probe(env=environment)
+                self.check_status(report, "git_environment", "PASS")
+                self.assertEqual(report["local_status"], "PASS", report)
+
+    def test_git_configuration_isolation_requires_exact_values(self):
+        for key, value in (
+            ("GIT_CONFIG_GLOBAL", ""),
+            ("GIT_CONFIG_GLOBAL", "private-configuration-path"),
+            ("GIT_CONFIG_NOSYSTEM", ""),
+            ("GIT_CONFIG_NOSYSTEM", "0"),
+            ("GIT_CONFIG_NOSYSTEM", "false"),
+            ("GIT_CONFIG_NOSYSTEM", "true"),
+            ("GIT_CONFIG_SYSTEM", os.devnull),
+            ("GIT_CONFIG_COUNT", "0"),
+            ("GIT_CONFIG_KEY_0", "private-configuration-path"),
+            ("GIT_CONFIG_VALUE_0", "private-configuration-path"),
+        ):
+            with self.subTest(key=key, value=value):
+                report = self.probe(env={
+                    "GIT_CONFIG_GLOBAL": os.devnull,
+                    "GIT_CONFIG_NOSYSTEM": "1",
+                    key: value,
+                })
+                self.check_status(report, "git_environment", "FAIL")
+                self.assertEqual(
+                    report["checks"][0]["detail"]["rejected_variable_names"],
+                    [key],
+                )
+                self.assertNotIn("private-configuration-path",
+                                 json.dumps(report))
+                self.assertFalse(report["commands"])
+
     def test_harmless_pager_environment_is_overridden(self):
         self.assertEqual(
             self.probe(env={"GIT_PAGER": "false"})["local_status"], "PASS"
