@@ -229,3 +229,16 @@ In general, there are two situations where `copy-from` should be used in the cor
 * Two things are _nearly identical_ variants of each other.
   * If they're pretty much identical (e.g. everything except for their descriptions can be kept, there are only decorative differences, there are no mechanical differences, or in the case of [guns](/doc/GUN_NAMING_AND_INCLUSION.md#difference-threshold) minor value differences), they can be handled as [variants](JSON_INFO.md#snippets) (scroll down to the variant example).
 * A group of entities always (not almost always, always) shares some set of properties, then one or two levels of abstracts can set up a very shallow and narrow hierarchy.
+
+A Mod can retain an item override while changing how that item is acquired.
+For example, Aftershock: Exoplanet depends on `ccb` and overrides `multi_cooker`
+with `"copy-from": "multi_cooker"` to provide its micro-cooker. Replacing that
+ID in selected supply and merchant groups does not remove the override or
+change the core groups; the loaded Mod still determines the item's properties.
+
+Weapon balance changes also affect children that inherit `melee_damage`.
+For example, `spear_knife` inherits the stab value of `spear_knife_superior`,
+while `crude_goedendag` applies its relative bash and stab adjustments to
+`spear_steel_crude`. Check the loaded child values as well as the parent JSON;
+the spear regressions in `tests/effective_dps_test.cpp` cover these cases and
+the separate relative bonuses retained by `qt_spear_steel`.
