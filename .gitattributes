@@ -26,6 +26,8 @@
 # Generated translation text, don't mess with them.
 *.mo      binary
 *.po      -text -diff
+# Maintained catalogs need reviewable diffs while retaining their exact bytes.
+lang/cph/*.po diff
 *.pot     -text
 
 # Treat images, archives, and font files as binary.

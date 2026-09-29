@@ -11,7 +11,9 @@ import re
 import subprocess
 import sys
 
-from preflight import PATHS, SAFE_GIT_ENV, github_repository, read_lock
+from preflight import (
+    PATHS, github_repository, read_lock, rejected_git_environment,
+)
 from check_merge_evidence import (
     decode, protected_changes, read_verified, regular, relative,
 )
@@ -133,8 +135,7 @@ class Rehearsal:
                     'CCB tracking head changed; rebuild and retest', 'BLOCKED')
 
     def preflight(self):
-        unexpected = sorted(k for k in os.environ
-                            if k.startswith('GIT_') and k not in SAFE_GIT_ENV)
+        unexpected = rejected_git_environment(os.environ)
         require(not unexpected, 'unsupported Git environment names: ' +
                 ', '.join(unexpected))
         require(Path(self.value('rev-parse', '--show-toplevel')).resolve() ==

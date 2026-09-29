@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "kind": "initial-import-record",
+  "source_commit": "a43a8f2f270994dad716ab067c48aad7c2eeaee3",
+  "maintenance_commit": "e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a",
+  "maintenance_snapshot": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation",
+  "license": "CC-BY-SA-3.0 with inherited notices",
+  "template_sha256": "45daf8012d1506fea29ba6c57a6ee8f3263f6547aead05de990002b9a3286fd2",
+  "reviewed_po_sha256": "ea44f957f2188f6a954635b8bd292d85eb4f60a2b8661312164d66f205c12d9d",
+  "integrated_po_sha256": "a20d100c726f836a63b4709550c1c1d9f416ad13bedd6e5a24eb08bf42fe09be",
+  "integration_changes": "Only catalog description/Project-Id-Version and upstream attribution comments; all entry identities, translations, flags, comments and locations preserved.",
+  "entries": 117224,
+  "previous_project_entries_preserved": 251,
+  "source_counts": {
+    "cdda": 112452,
+    "ccb": 1122,
+    "external": 3076,
+    "gemini": 316,
+    "human": 258
+  },
+  "sources": [
+    {
+      "repository": "CleverRaven/Cataclysm-DDA",
+      "commit": "325f682298f6fe9ece6b8b7bdd7840244bc81741",
+      "workflow_run": 36497683966,
+      "artifact_id": 11003869087,
+      "url": "https://github.com/CleverRaven/Cataclysm-DDA/actions/runs/36497683966/artifacts/11003869087",
+      "archive_sha256": "8b78bf08e533da334af3e25ffcc5e4697abe2b01ff141505f6254c8615db45a6",
+      "po_sha256": "97af98b7dc2be636514f3481138eeba5ddb76f13bbe952240bb9128961e86510",
+      "original_po": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/inputs/cdda-11003869087.zh_CN.po"
+    },
+    {
+      "repository": "CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb",
+      "commit": "bcb85682f3d28ab0f0123b05e45651bb9888b61b",
+      "workflow_run": 35769923993,
+      "artifact_id": 10715293685,
+      "url": "https://github.com/CrimsonCrossBunker/Cataclysm-Cleanwater-Bomb/actions/runs/35769923993/artifacts/10715293685",
+      "archive_sha256": "fa5008e9c674073cfa78a0f869edc17dbabde7b156cc2a459c9d0ed665555062",
+      "po_sha256": "72f95ff1e2df9da111753cebd5be3e21b2acddf17e78d8dc8d68f59c1978661e",
+      "original_po": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/inputs/ccb-10715293685.zh_CN.po"
+    }
+  ],
+  "provenance_state": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/.pokeeper/zh_CN.state.json",
+  "review_corrections": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/review-corrections-20260929.json",
+  "scope": "Records this import, not an immutable checksum requirement for future contributor PO edits. No full linguistic or platform acceptance is inferred."
+}
