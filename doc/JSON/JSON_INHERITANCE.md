@@ -235,3 +235,10 @@ For example, Aftershock: Exoplanet depends on `ccb` and overrides `multi_cooker`
 with `"copy-from": "multi_cooker"` to provide its micro-cooker. Replacing that
 ID in selected supply and merchant groups does not remove the override or
 change the core groups; the loaded Mod still determines the item's properties.
+
+Weapon balance changes also affect children that inherit `melee_damage`.
+For example, `spear_knife` inherits the stab value of `spear_knife_superior`,
+while `crude_goedendag` applies its relative bash and stab adjustments to
+`spear_steel_crude`. Check the loaded child values as well as the parent JSON;
+the spear regressions in `tests/effective_dps_test.cpp` cover these cases and
+the separate relative bonuses retained by `qt_spear_steel`.
