@@ -310,6 +310,8 @@ TEST_CASE( "lua_platform_native_non_nul_variable_keys_round_trip_in_save_json",
         creature.serialize( json );
     }
     const JsonObject creature_record = json_loader::from_string( creature_json.str() ).get_object();
+    // This test reads only variable storage from the complete avatar save record.
+    creature_record.allow_omitted_members();
     global_variables::impl_t restored_creature_values;
     REQUIRE( creature_record.read( "values", restored_creature_values ) );
     for( std::size_t index = 0; index < keys.size(); ++index ) {

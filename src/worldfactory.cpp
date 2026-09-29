@@ -2638,7 +2638,7 @@ static std::string get_opt_slider( int width, int current, int max, bool no_colo
 static void apply_worldgen_slider( const option_slider &slider, const int level, WORLD &world )
 {
     slider.apply_opts( level, world.WORLD_OPTIONS );
-    for( const std::string &id : {
+    for( const std::string id : {
              "CITY_SIZE", "CITY_SPACING"
          } ) {
         if( slider.affects_option( level, id ) ) {

@@ -17,6 +17,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "event_subscriber.h"
+#include "flexbuffer_json.h"
 #include "json_loader.h"
 #include "lua_platform_handle.h"
 #include "lua_platform_runtime.h"
@@ -44,10 +45,15 @@ struct variable_changed_observer : event_subscriber {
 };
 
 void apply_talk_effect( dialogue &context, const std::string &json,
-                        const std::string &name )
+                        const std::string &name, const bool allow_omitted_members = false )
 {
+    const JsonObject input = json_loader::from_string( json ).get_object();
+    if( allow_omitted_members ) {
+        // Priority tests deliberately include values the selected branch ignores.
+        input.allow_omitted_members();
+    }
     talk_effect_t effect;
-    effect.parse_sub_effect( json_loader::from_string( json ).get_object(), name );
+    effect.parse_sub_effect( input, name );
     for( const talk_effect_fun_t &entry : effect.effects ) {
         entry( context );
     }
@@ -126,7 +132,7 @@ TEST_CASE( "lua_platform_variable_assignment_matches_literal_legacy_effects",
                            "value":17,
                            "possible_values":["candidate-a","candidate-b"]
                        })",
-                       "lua_platform_u_add_var_possible_values_priority" );
+                       "lua_platform_u_add_var_possible_values_priority", true );
     REQUIRE( player.maybe_get_value( priority_key ) != nullptr );
     const std::string native_choice = player.get_value( priority_key ).str();
     CHECK( native_choice != "17" );
@@ -157,7 +163,7 @@ TEST_CASE( "lua_platform_variable_assignment_matches_literal_legacy_effects",
         R"({"u_add_var":"variable_assignment_time_override","time":true,"value":17,"possible_values":[")" +
         ignored_time_candidate + R"("]})";
     apply_talk_effect( context, time_override_effect,
-                       "lua_platform_u_add_var_time_priority" );
+                       "lua_platform_u_add_var_time_priority", true );
     REQUIRE( player.maybe_get_value( time_override_key ) != nullptr );
     CHECK( player.get_value( time_override_key ).str() == time_override_value );
     CHECK( observer.changes.size() == 4 );
@@ -168,7 +174,7 @@ TEST_CASE( "lua_platform_variable_assignment_matches_literal_legacy_effects",
                            "value":17,
                            "possible_values":[]
                        })",
-                       "lua_platform_u_add_var_time_with_empty_candidates" );
+                       "lua_platform_u_add_var_time_with_empty_candidates", true );
     REQUIRE( player.maybe_get_value( time_empty_candidates_key ) != nullptr );
     CHECK( player.get_value( time_empty_candidates_key ).str() == time_override_value );
     CHECK( observer.changes.size() == 4 );
@@ -308,7 +314,7 @@ TEST_CASE( "lua_platform_variable_assignment_matches_literal_legacy_effects",
                            "value":17,
                            "possible_values":["ignored"]
                        })",
-                       "lua_platform_u_add_var_time_semantics" );
+                       "lua_platform_u_add_var_time_semantics", true );
     CHECK( player.get_value( time_key ).str() == time_value );
     CHECK( observer.changes.size() == events_before_time );
     player.remove_value( time_key );
