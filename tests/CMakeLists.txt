@@ -52,7 +52,7 @@ if (BUILD_TESTING)
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 
-    if (CURSES)
+    if (CURSES OR HEADLESS)
         add_executable(cata_test ${CATACLYSM_DDA_TEST_SOURCES})
         if (LOCALIZE)
             add_dependencies(cata_test test_mo)

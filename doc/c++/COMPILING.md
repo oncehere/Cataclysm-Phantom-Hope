@@ -274,14 +274,14 @@ Run:
 
 ## Cross-compile to Windows from Linux
 
-> **The MXE cross-compile is unsupported.** Its CI job was removed on
-> 2024-12-11 in commit `39a3e408e4` (PR #78495), and SDL2 support has since been
-> removed from the code base. MXE packages sdl3, sdl3_image and sdl3_ttf but no
-> sdl3_mixer, so a sound build is out and nobody has tried the rest. The scripts
-> and the section below are kept deliberately, in the state they bit-rotted
-> into, for anyone who wants to revive the path.
+> **The inherited MXE graphics/sound cross-build is retired in CPH.** Native
+> Windows SDL3 builds remain available through MSVC and MSYS2. The following
+> toolchain notes are historical references, not a working build recipe. The
+> separate old Emscripten/WebAssembly entrypoint is also retired and exits
+> before installing its obsolete SDK. Restoring either route needs a separate
+> SDL3 dependency and runtime implementation with platform validation.
 
-To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
+The historical Windows-from-Linux recipe used MXE and was written for Ubuntu 20.04. The remaining notes preserve that setup context; do not use them as current SDL3 build instructions.
 
 Dependencies:
 
@@ -323,9 +323,8 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 ### Building (SDL)
 
-Untested. MXE packages sdl3, sdl3_image and sdl3_ttf, so the pieces for a
-no-sound tiles cross-build exist, but this CPH path has not been verified. There
-is no sdl3_mixer package, so `SOUND=1` needs one added upstream in MXE first.
+No current CPH recipe is provided. Both graphics and sound through the old
+MXE route are retired; `requirements.sh` rejects those modes before host setup.
 
 
 <!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->

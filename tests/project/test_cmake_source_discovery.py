@@ -297,6 +297,42 @@ add_subdirectory(src)
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertTrue((self.source / "src/prefix.h").is_file())
 
+    def test_retired_emscripten_rejects_builds_but_runs_utilities(self):
+        make = shutil.which("make")
+        git = shutil.which("git")
+        if not make or not git:
+            self.skipTest("make and Git are required")
+        for relative in ("Makefile", "tools/safe_clean.py"):
+            shutil.copyfile(ROOT / relative, self.source / relative)
+        for directory in ("lang", "data/raw", "data/json", "data/core"):
+            (self.source / directory).mkdir()
+        self.write("lang/Makefile", "all:\n\t@echo done > localized.marker\n")
+        env = {key: value for key, value in os.environ.items()
+               if not key.startswith("GIT_")}
+        env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+        for command in ([git, "init", "--quiet"],
+                        [git, "add", "Makefile", "tools/safe_clean.py",
+                         "lang/Makefile"]):
+            subprocess.run(command, cwd=self.source, env=env, check=True,
+                           capture_output=True, text=True)
+        command = [make, "--no-print-directory", "NATIVE=emscripten",
+                   "TILES=1", "SOUND=1", "ASTYLE=0", "LINTJSON=0",
+                   "CATA_ENABLE_LUA_PLATFORM=0"]
+        for goals in ([], ["prefix"], ["clean", "all"]):
+            with self.subTest(goals=goals):
+                result = subprocess.run(command + goals, cwd=self.source,
+                                        env=env, capture_output=True, text=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("NATIVE=emscripten is retired", result.stderr)
+        for goal in ("clean-plan", "localization", "lang/mo_built.stamp"):
+            with self.subTest(goal=goal):
+                result = subprocess.run(command + [goal], cwd=self.source,
+                                        env=env, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0,
+                                 result.stdout + result.stderr)
+        self.assertTrue((self.source / "lang/localized.marker").is_file())
+        self.assertTrue((self.source / "lang/mo_built.stamp").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

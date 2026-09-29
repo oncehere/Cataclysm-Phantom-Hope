@@ -1,3 +1,5 @@
+# Historical toolchain reference. CPH has retired the MXE graphics/sound
+# cross-build; this container is not a supported SDL3 Windows build environment.
 FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
 
 # NOTE: Uninstall CMake extensions

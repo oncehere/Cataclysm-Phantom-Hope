@@ -22,8 +22,7 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx
-# Emscripten
-#   Run: make NATIVE=emscripten
+# Emscripten/WebAssembly builds are retired; cleanup and localization remain available.
 
 # Build types:
 # Debug (no optimizations)
@@ -116,10 +115,6 @@ CXX_WARNINGS = \
   -Wzero-as-null-pointer-constant \
   -Wno-dangling-reference \
   -Wno-c++20-compat
-ifeq ($(NATIVE), emscripten)
-  # The EM_ASM macro triggers this warning.
-  WARNINGS += -Wno-gnu-zero-variadic-macro-arguments
-endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -154,6 +149,15 @@ CLEAN_GOALS = clean clean-plan clean-tests clean-lang distclean appclean dmgdist
 ifneq ($(MAKECMDGOALS),)
   ifeq ($(filter-out $(CLEAN_GOALS),$(MAKECMDGOALS)),)
     CLEAN_ONLY = 1
+  endif
+endif
+
+# Retired platform requests fail before probing an obsolete toolchain. Utility
+# recipes remain usable, including cleanup of historical .js output names.
+NO_SDL_GOALS = localization lang/mo_built.stamp
+ifeq ($(NATIVE), emscripten)
+  ifneq ($(filter-out $(CLEAN_GOALS) $(NO_SDL_GOALS),$(if $(MAKECMDGOALS),$(MAKECMDGOALS),all)),)
+    $(error NATIVE=emscripten is retired: the former SDL2 WebAssembly build has no supported SDL3 replacement)
   endif
 endif
 
@@ -463,8 +467,6 @@ ifeq ($(RELEASE), 1)
     else
       OPTLEVEL = -O3
     endif
-  else ifeq ($(NATIVE), emscripten)
-    OPTLEVEL = -Os
   else
     # MXE ICE Workaround
     # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
@@ -533,9 +535,7 @@ else
     # way to turn off optimization (make NOOPT=1) entirely.
     OPTLEVEL = -O0
   else
-    ifeq ($(NATIVE),emscripten)
-      OPTLEVEL = -O3
-    else ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+    ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
       OPTLEVEL = -Og
     else
       OPTLEVEL = -O0
@@ -709,54 +709,6 @@ ifeq ($(NATIVE), cygwin)
   TARGETSYSTEM=CYGWIN
 endif
 
-# Emscripten
-ifeq ($(NATIVE), emscripten)
-  CXX=emcc
-  LD=emcc
-  ifeq ($(CCACHE), 1)
-    CXX=$(CCACHEBIN) emcc
-    LD=$(CCACHEBIN) emcc
-  endif
-
-  # Flags that are common across compile and link phases.
-  # This inherited target has no configured SDL3 image/mixer dependency build.
-  # Keep the historical Emscripten rules, without requesting retired SDL2 ports;
-  # build-scripts/build-emscripten.sh documents the incomplete SDL3 route.
-  EMCC_COMMON_FLAGS = -fexceptions
-
-  ifneq ($(RELEASE), 1)
-    EMCC_COMMON_FLAGS += -g
-  endif
-
-  CXXFLAGS += $(EMCC_COMMON_FLAGS)
-  LDFLAGS += $(EMCC_COMMON_FLAGS)
-
-  LDFLAGS += -sFORCE_FILESYSTEM
-  LDFLAGS += -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
-  LDFLAGS += -sINITIAL_MEMORY=512MB
-  LDFLAGS += -sMAXIMUM_MEMORY=4GB
-  LDFLAGS += -sALLOW_MEMORY_GROWTH
-  LDFLAGS += -sSTACK_SIZE=262144
-  LDFLAGS += -sASYNCIFY
-  LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
-  LDFLAGS += -sENVIRONMENT=web
-  LDFLAGS += -lidbfs.js
-  LDFLAGS += -lembind
-  LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
-  LDFLAGS += -sMAX_WEBGL_VERSION=2
-
-  ifeq ($(RELEASE), 1)
-    # Release-mode Linker flags.
-    LDFLAGS += -Os
-    LDFLAGS += -sLZ4
-  else
-    # Debug mode linker flags.
-    LDFLAGS += -O1 # Emscripten link time is slow, so use low optimization level.
-    LDFLAGS += -sFS_DEBUG
-    LDFLAGS += -gseparate-dwarf
-  endif
-endif
-
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
@@ -797,7 +749,6 @@ PKG_CONFIG = $(if $(filter 1,$(CLEAN_ONLY)),true,$(CROSS)pkg-config)
 
 # Utility targets should not require desktop SDL dependencies just because CI
 # exported TILES=1 for build jobs.
-NO_SDL_GOALS = localization lang/mo_built.stamp
 ifneq ($(MAKECMDGOALS),)
   ifeq ($(filter-out $(NO_SDL_GOALS),$(MAKECMDGOALS)),)
     override SDL3 =
@@ -857,7 +808,7 @@ ifeq ($(TILES), 1)
     endif
     CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
-  else ifneq ($(NATIVE),emscripten)
+  else
     CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags sdl3))
     CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags sdl3-image sdl3-ttf))
     CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
@@ -1327,9 +1278,7 @@ $(TARGET): $(OBJS) $(SHADERS_STAMP) $(LUA_PLATFORM_LINK_MODE_STAMP) | $(L10N)
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
-      ifneq ($(NATIVE), emscripten)
 	$(STRIP) -Sx $(TARGET)
-      endif
     endif
   endif
 endif

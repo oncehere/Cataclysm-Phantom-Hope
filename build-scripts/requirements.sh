@@ -2,6 +2,13 @@
 
 set -e
 
+# The inherited MXE graphics/audio route depended on the retired SDL2 stack.
+# Reject it before dependency installation or any other host-side action.
+if [ -n "${MXE_TARGET:-}" ] && { [ "${TILES:-0}" = "1" ] || [ "${SOUND:-0}" = "1" ]; }; then
+  printf '%s\n' 'The MXE graphics/sound cross-build is retired in CPH. Use native Windows SDL3 builds.' >&2
+  exit 2
+fi
+
 function just_json
 {
     for filename in $(./build-scripts/files_changed || echo UNKNOWN)
