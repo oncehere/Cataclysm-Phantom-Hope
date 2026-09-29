@@ -243,6 +243,60 @@ add_subdirectory(src)
                                  "cataclysm", "--parallel", "15")
                     self.command(str(build / "src/cataclysm"))
 
+    def test_cmake_rejects_legacy_off_for_sound_as_well_as_tiles(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        # Execute the actual project option normalization and diagnostic before
+        # library discovery. HEADLESS has already disabled TILES at this point.
+        option_setup = (ROOT / "CMakeLists.txt").read_text().split(
+            "# Can't use both home and xdg directories", 1)[0]
+        (self.source / "CMakeModules").mkdir()
+        shutil.copyfile(ROOT / "CMakeModules/ListImportedTargets.cmake",
+                        self.source / "CMakeModules/ListImportedTargets.cmake")
+        self.write("CMakeLists.txt", option_setup)
+        for tiles, sound, headless in (("ON", "OFF", "OFF"),
+                                       ("OFF", "ON", "OFF"),
+                                       ("OFF", "ON", "ON"),
+                                       ("OFF", "OFF", "ON"),
+                                       ("OFF", "OFF", "OFF")):
+            with self.subTest(tiles=tiles, sound=sound, headless=headless):
+                build = self.root / f"legacy-{tiles}-{sound}-{headless}"
+                result = subprocess.run([
+                    CMAKE, "-S", str(self.source), "-B", str(build),
+                    "-G", "Ninja", "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                    "-DUSE_SDL3=OFF", "-DTILES=" + tiles,
+                    "-DSOUND=" + sound, "-DHEADLESS=" + headless,
+                ], capture_output=True, text=True, check=False)
+                if tiles == "ON" or sound == "ON":
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("USE_SDL3=OFF is no longer supported",
+                                  result.stderr)
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_make_rejects_legacy_off_for_sound_as_well_as_tiles(self):
+        make = shutil.which("make")
+        if not make:
+            self.skipTest("make is required")
+        shutil.copyfile(ROOT / "Makefile", self.source / "Makefile")
+        # Run a real, harmless prefix recipe in the disposable source fixture.
+        # A rejected backend flag must fail before any build recipe executes.
+        for tiles, sound in (("1", "0"), ("0", "1"), ("1", "1"),
+                             ("0", "0")):
+            with self.subTest(tiles=tiles, sound=sound):
+                result = subprocess.run([
+                    make, "--no-print-directory", "prefix", "SDL3=0",
+                    "TILES=" + tiles, "SOUND=" + sound,
+                    "ASTYLE=0", "LINTJSON=0", "LOCALIZE=0", "PREFIX=/fixture",
+                ], cwd=self.source, capture_output=True, text=True, check=False)
+                if tiles == "1" or sound == "1":
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("SDL3=0 is no longer supported", result.stderr)
+                    self.assertFalse((self.source / "src/prefix.h").exists())
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertTrue((self.source / "src/prefix.h").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

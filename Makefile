@@ -815,8 +815,8 @@ ifeq ($(SDL), 1)
   TILES = 1
 endif
 ifeq ($(SDL3), 0)
-  ifeq ($(TILES), 1)
-    $(error SDL3=0 is no longer supported: SDL3 is the only tiles backend. Drop the flag, or build without TILES=1 for a text-only compilation)
+  ifneq ($(filter 1,$(TILES) $(SOUND)),)
+    $(error SDL3=0 is no longer supported: graphics and sound require SDL3. Drop the flag, or disable TILES and SOUND for a text-only compilation)
   endif
 endif
 

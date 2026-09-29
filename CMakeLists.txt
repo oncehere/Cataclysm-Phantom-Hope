@@ -175,10 +175,10 @@ if (HEADLESS)
 endif ()
 
 # Reject an obsolete backend selection without retaining a second build route.
-if (TILES AND DEFINED USE_SDL3 AND NOT USE_SDL3)
+if ((TILES OR SOUND) AND DEFINED USE_SDL3 AND NOT USE_SDL3)
     message(FATAL_ERROR
-            "USE_SDL3=OFF is no longer supported: SDL3 is the only tiles backend. "
-            "Drop the option, or build without -DTILES=ON for a text-only compilation.")
+            "USE_SDL3=OFF is no longer supported: graphics and sound require SDL3. "
+            "Drop the option, or disable TILES and SOUND for a text-only compilation.")
 endif ()
 
 # Can't use both home and xdg directories

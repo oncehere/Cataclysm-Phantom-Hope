@@ -15,6 +15,9 @@ Set-Location -LiteralPath $source
 
 function Invoke-Recorded([string]$Id, [string]$Exe, [string[]]$Arguments) {
     $log = Join-Path $evidence "$Id.log"
+    # Tee-Object never creates a file when a successful native command is silent.
+    # Record a real empty log before running it so hashing also covers that case.
+    [System.IO.File]::WriteAllText($log, '')
     & $Exe @Arguments 2>&1 | Tee-Object -FilePath $log | Write-Host
     $code = $LASTEXITCODE
     [ordered]@{ id = $Id; cwd = (Get-Location).Path; argv = @($Exe) + $Arguments;
