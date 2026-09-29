@@ -337,6 +337,49 @@ class MergeFixture(unittest.TestCase):
         self.assertEqual(result['status'], 'FAIL')
         self.assertIn('GIT_CONFIG_COUNT', result['reason'])
 
+    def test_fixed_git_configuration_isolation_is_accepted(self):
+        clean = {key: value for key, value in os.environ.items()
+                 if not key.startswith('GIT_')}
+        for isolation in (
+            {'GIT_CONFIG_GLOBAL': os.devnull},
+            {'GIT_CONFIG_NOSYSTEM': '1'},
+            {'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_CONFIG_NOSYSTEM': '1'},
+        ):
+            with self.subTest(isolation=isolation), patch.dict(
+                os.environ, {**clean, **isolation}, clear=True
+            ):
+                probe = self.probe()
+                result = probe.run()
+                self.assertEqual(result['status'], 'PASS', result['reason'])
+                self.assertEqual(probe.env['GIT_CONFIG_GLOBAL'], os.devnull)
+                self.assertEqual(probe.env['GIT_CONFIG_NOSYSTEM'], '1')
+
+    def test_git_configuration_isolation_requires_exact_values(self):
+        clean = {key: value for key, value in os.environ.items()
+                 if not key.startswith('GIT_')}
+        clean.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1')
+        for key, value in (
+            ('GIT_CONFIG_GLOBAL', ''),
+            ('GIT_CONFIG_GLOBAL', 'private-configuration-path'),
+            ('GIT_CONFIG_NOSYSTEM', ''),
+            ('GIT_CONFIG_NOSYSTEM', '0'),
+            ('GIT_CONFIG_NOSYSTEM', 'false'),
+            ('GIT_CONFIG_NOSYSTEM', 'true'),
+            ('GIT_CONFIG_SYSTEM', os.devnull),
+            ('GIT_CONFIG_COUNT', '0'),
+            ('GIT_CONFIG_KEY_0', 'private-configuration-path'),
+            ('GIT_CONFIG_VALUE_0', 'private-configuration-path'),
+        ):
+            with self.subTest(key=key, value=value), patch.dict(
+                os.environ, {**clean, key: value}, clear=True
+            ):
+                result = self.probe().run()
+                self.assertEqual(result['status'], 'FAIL')
+                self.assertIn(key, result['reason'])
+                self.assertNotIn('private-configuration-path',
+                                 json.dumps(result))
+                self.assertNotIn('candidate_commit', result)
+
     def test_base_moves_during_merge_requires_rebuild(self):
         newer = self.upstream()
         fixture = self
