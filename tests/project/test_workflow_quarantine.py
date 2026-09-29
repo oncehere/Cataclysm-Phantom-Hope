@@ -15,6 +15,7 @@ SCRIPT = (
     Path(__file__).resolve().parents[2] /
     "tools/project/check_workflow_quarantine.py"
 )
+sys.path.insert(0, str(SCRIPT.parent))
 SPEC = importlib.util.spec_from_file_location("workflow_quarantine", SCRIPT)
 QUARANTINE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(QUARANTINE)
@@ -152,6 +153,51 @@ class WorkflowQuarantineTest(unittest.TestCase):
                     self.report()
                 self.assertIn(key, str(caught.exception))
                 self.assertNotIn("secret-fixture-value", str(caught.exception))
+
+    def test_fixed_git_configuration_isolation_is_accepted(self):
+        clean = {key: value for key, value in os.environ.items()
+                 if not key.startswith("GIT_")}
+        for isolation in (
+            {"GIT_CONFIG_GLOBAL": os.devnull},
+            {"GIT_CONFIG_NOSYSTEM": "1"},
+            {"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"},
+        ):
+            with self.subTest(isolation=isolation), mock.patch.dict(
+                os.environ, {**clean, **isolation}, clear=True
+            ):
+                with mock.patch.object(
+                    QUARANTINE.subprocess, "run", wraps=subprocess.run
+                ) as run:
+                    self.assertEqual(self.report()["status"], "PASS")
+                for call in run.call_args_list:
+                    child = call.kwargs["env"]
+                    self.assertEqual(child["GIT_CONFIG_GLOBAL"], os.devnull)
+                    self.assertEqual(child["GIT_CONFIG_NOSYSTEM"], "1")
+
+    def test_git_configuration_isolation_requires_exact_values(self):
+        clean = {key: value for key, value in os.environ.items()
+                 if not key.startswith("GIT_")}
+        clean.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1")
+        for key, value in (
+            ("GIT_CONFIG_GLOBAL", ""),
+            ("GIT_CONFIG_GLOBAL", "private-configuration-path"),
+            ("GIT_CONFIG_NOSYSTEM", ""),
+            ("GIT_CONFIG_NOSYSTEM", "0"),
+            ("GIT_CONFIG_NOSYSTEM", "false"),
+            ("GIT_CONFIG_NOSYSTEM", "true"),
+            ("GIT_CONFIG_SYSTEM", os.devnull),
+            ("GIT_CONFIG_COUNT", "0"),
+            ("GIT_CONFIG_KEY_0", "private-configuration-path"),
+            ("GIT_CONFIG_VALUE_0", "private-configuration-path"),
+        ):
+            with self.subTest(key=key, value=value), mock.patch.dict(
+                os.environ, {**clean, key: value}, clear=True
+            ):
+                with self.assertRaises(QUARANTINE.InspectionError) as caught:
+                    self.report()
+                self.assertIn(key, str(caught.exception))
+                self.assertNotIn("private-configuration-path",
+                                 str(caught.exception))
 
     def test_replacement_refs_are_rejected(self):
         self.run_git(

@@ -8,12 +8,14 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/project"))
 SPEC = importlib.util.spec_from_file_location(
     "merge_evidence", ROOT / "tools/project/check_merge_evidence.py")
 gate = importlib.util.module_from_spec(SPEC)
@@ -438,6 +440,35 @@ class MergeEvidenceTests(unittest.TestCase):
         self.git("replace", "-d", self.head)
         (self.repo / ".git/info/grafts").write_text("")
         self.assert_rejected()
+
+    def test_fixed_git_isolation_still_uses_the_declared_repository(self):
+        for isolation in (
+            {"GIT_CONFIG_GLOBAL": os.devnull},
+            {"GIT_CONFIG_NOSYSTEM": "1"},
+            {"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"},
+        ):
+            with self.subTest(isolation=isolation), patch.dict(
+                os.environ, isolation
+            ):
+                self.assertEqual(gate.git(self.repo, "rev-parse", "HEAD"),
+                                 self.head)
+
+    def test_unsafe_git_configuration_is_rejected_before_subprocess(self):
+        for name, value in (
+            ("GIT_CONFIG_GLOBAL", "private-fixture-config"),
+            ("GIT_CONFIG_GLOBAL", ""),
+            ("GIT_CONFIG_NOSYSTEM", "0"),
+            ("GIT_CONFIG_NOSYSTEM", ""),
+            ("GIT_CONFIG_COUNT", "0"),
+        ):
+            with self.subTest(name=name, value=value), patch.dict(
+                os.environ, {"GIT_CONFIG_GLOBAL": os.devnull,
+                             "GIT_CONFIG_NOSYSTEM": "1", name: value}
+            ), patch.object(gate.subprocess, "run") as run:
+                with self.assertRaisesRegex(ValueError, "environment") as ctx:
+                    gate.git(self.repo, "rev-parse", "HEAD")
+                run.assert_not_called()
+                self.assertNotIn("private-fixture-config", str(ctx.exception))
 
     def test_scan_without_context_is_blocked_not_merge_permission(self):
         result = gate.evaluate(
