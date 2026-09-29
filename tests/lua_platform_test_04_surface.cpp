@@ -41,7 +41,9 @@ TEST_CASE( "lua_platform_trade_root_exposes_supported_operations",
 
     const sol::table trade = services["trade"];
     REQUIRE( trade.valid() );
-    const std::set<std::string> expected = { "commit", "get", "open", "order_price", "pay", "quote" };
+    const std::set<std::string> expected = {
+        "commit", "get", "open", "order_price", "pay", "quote", "selling_offers"
+    };
     std::set<std::string> exposed;
     for( const auto &entry : trade ) {
         REQUIRE( entry.first.is<std::string>() );
@@ -56,6 +58,7 @@ TEST_CASE( "lua_platform_trade_root_exposes_supported_operations",
     CHECK( trade["open"].is<sol::function>() );
     CHECK( trade["pay"].is<sol::function>() );
     CHECK( trade["order_price"].is<sol::function>() );
+    CHECK( trade["selling_offers"].is<sol::function>() );
     CHECK_FALSE( trade["settle"].valid() );
     CHECK_FALSE( trade["settle_credit"].valid() );
     CHECK_FALSE( trade["buy_monsters"].valid() );

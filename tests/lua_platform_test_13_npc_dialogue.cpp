@@ -205,10 +205,10 @@ TEST_CASE( "lua_platform_npc_write_gate_precedes_exact_resolution",
     sol::state lua;
     sol::table services = lua.create_table();
     cata::lua_platform::install_game_handle_api(
-        lua, services, current_runtime, current_world, []() {} );
+    lua, services, current_runtime, current_world, []() {} );
     cata::lua_platform::install_npc_api(
-        services, current_runtime, current_world, []() {},
-        [&]() {
+    services, current_runtime, current_world, []() {},
+    [&]() {
         write_gate_called = true;
         owner->retire();
     }, []() {} );
@@ -497,7 +497,7 @@ TEST_CASE( "lua_platform_open_dialogue_rejects_stale_participants_and_generation
         const sol::table envelope = result.get<sol::table>();
         CHECK_FALSE( envelope["ok"].get<bool>() );
         CHECK( envelope["error"].get<sol::table>()["code"].get<std::string>() ==
-               "stale_identity" );
+               "stale_avatar_identity" );
     }
 
     SECTION( "runtime owner" ) {
@@ -598,7 +598,7 @@ TEST_CASE( "lua_platform_dialogue_response_callbacks_reject_stale_topics",
     const std::uint64_t replaced_callback =
         cata::lua_platform::dialogue::register_response_callback(
             cata::lua_platform::dialogue::response_callback_origin::platform,
-            [&]( dialogue &, const talk_topic &, bool ) {
+    [&]( dialogue &, const talk_topic &, bool ) {
         ++callback_calls;
         return talk_topic( "CALLBACK_RAN" );
     }, first_session, "TALK_ONE" );
@@ -617,7 +617,7 @@ TEST_CASE( "lua_platform_dialogue_response_callbacks_reject_stale_topics",
     const std::uint64_t ended_callback =
         cata::lua_platform::dialogue::register_response_callback(
             cata::lua_platform::dialogue::response_callback_origin::platform,
-            [&]( dialogue &, const talk_topic &, bool ) {
+    [&]( dialogue &, const talk_topic &, bool ) {
         ++callback_calls;
         return talk_topic( "CALLBACK_RAN" );
     }, second_session, "TALK_TWO" );
@@ -787,10 +787,10 @@ TEST_CASE( "lua_platform_dialogue_session_scope_and_teardown_retirement",
         CHECK( second_session->active() );
 
         stale_context = std::make_unique<cata::lua_platform::dialogue::context>(
-                             nullptr, conversation, "TALK_ONE", false,
-                             "dialogue context is stale",
-                             cata::lua_platform::dialogue::context::actor_converter{}, second_session,
-                             second_runtime, world_generation );
+                            nullptr, conversation, "TALK_ONE", false,
+                            "dialogue context is stale",
+                            cata::lua_platform::dialogue::context::actor_converter{}, second_session,
+                            second_runtime, world_generation );
         CHECK( stale_context->valid() );
 
         cata::lua_platform::dialogue::retire_sessions_for_runtime( first_runtime );

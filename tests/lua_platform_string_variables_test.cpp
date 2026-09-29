@@ -502,7 +502,11 @@ TEST_CASE( "lua_migration_indirect_string_native_pointer_baseline",
                  "u_key", "n_key"
              } ) {
             context.set_value( key, pointer );
-            CHECK( native.evaluate( context ) == "fallback" );
+            const std::string diagnostic = capture_debugmsg_during( [&]() {
+                CHECK( native.evaluate( context ) == "fallback" );
+            } );
+            CHECK( diagnostic.find( pointer == "u_key" ? "invalid alpha talker" :
+                                    "invalid beta talker" ) != std::string::npos );
         }
         // A referenced string that itself looks like a pointer is not followed.
         const std::string target = "native_indirect_target";

@@ -221,18 +221,19 @@ bool game::check_mod_data( const std::vector<mod_id> &opts )
         try {
             load_core_data();
 
-            // Load any dependencies and de-duplicate them
-            std::vector<mod_id> dep_vector = tree.get_dependencies_of_X_as_strings( mod.ident );
-            std::set<mod_id> dep_set( dep_vector.begin(), dep_vector.end() );
-            for( const auto &dep : dep_set ) {
-                load_data_from_dir( dep->path, dep->ident.str() );
+            // Match world loading: preserve dependency order and load only
+            // interactions with Mods that are part of this check.
+            std::vector<mod_id> platform_order = tree.get_dependencies_of_X_as_strings( mod.ident );
+            platform_order.push_back( mod.ident );
+            canonicalize_mod_list( platform_order );
+            test_world->active_mod_order = platform_order;
+            for( const mod_id &pack : platform_order ) {
+                load_mod_data_from_dir( pack->path, pack.str() );
+            }
+            for( const mod_id &pack : platform_order ) {
+                load_mod_interaction_data_from_dir( pack->path / "mod_interactions", pack.str() );
             }
 
-            // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str() );
-
-            std::vector<mod_id> platform_order = dep_vector;
-            platform_order.push_back( mod.ident );
             std::string platform_error;
             if( !cata::lua_platform::prepare_mods( lua_platform_sources( platform_order ),
                                                    platform_error ) ) {
@@ -263,6 +264,9 @@ bool game::check_mod_data( const std::vector<mod_id> &opts )
         MAPBUFFER.clear();
         overmap_buffer.clear();
         if( !mod_valid ) {
+            // Destroy partially loaded JSON while the diagnostics subsystem
+            // is still alive, rather than during static destruction at exit.
+            DynamicDataLoader::get_instance().unload_data();
             return false;
         }
     }
