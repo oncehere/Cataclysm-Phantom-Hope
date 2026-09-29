@@ -5982,3 +5982,12 @@ Combination of values work as `and`, no matter how they are arranged. This two n
 ```jsonc
 "search_data": [ { "category": "weapons", "wielded_only": true } ]
 ```
+
+Material unit changes, such as the mass and volume of one charge of ash, do not
+add EOC operations.  Validate any dependent item quantities using loaded game
+data; the inventory fingerprint alone does not establish their physical totals.
+
+For example, changing inherited spear damage or crafting tool requirements
+refreshes these inventories' input fingerprints without adding EOC selectors.
+Combat damage, recipe availability and tool checks still need native gameplay
+tests; the inventory alone does not validate those balance effects.

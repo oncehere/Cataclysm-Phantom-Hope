@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "flag.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -17,6 +18,9 @@
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -325,5 +329,110 @@ TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
         INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
                              it->get_id().str() ) );
         CHECK( calc_expected_dps( it->get_id() ) <= 25.0 );
+    }
+}
+
+TEST_CASE( "cph_selected_spear_damage_and_actual_dps", "[spear][dps]" )
+{
+    // I-0622 deliberately keeps the tempered spear's extra bash damage.
+    const std::vector<std::pair<std::string, std::pair<int, int>>> damage = {
+        { "spear_spike", { 4, 19 } },
+        { "spear_knife_superior", { 4, 22 } },
+        { "spear_knife_proper", { 4, 22 } },
+        { "spear_homemade_halfpike", { 4, 20 } },
+        { "spear_steel_crude", { 4, 20 } },
+        { "spear_pipe", { 7, 20 } },
+        { "spear_knife", { 4, 22 } },
+        { "crude_goedendag", { 22, 6 } },
+        { "qt_spear_steel", { 8, 35 } }
+    };
+    avatar &attacker = get_avatar();
+    for( const auto &entry : damage ) {
+        const item weapon( itype_id( entry.first ) );
+        CAPTURE( entry.first );
+        CHECK( weapon.damage_melee( damage_type_id( "bash" ) ) == entry.second.first );
+        CHECK( weapon.damage_melee( damage_type_id( "stab" ) ) == entry.second.second );
+        make_experienced_tester( attacker );
+        const double rated_dps = attacker.melee_value( weapon );
+        for( const mtype_id &target : {
+                 mon_zombie_smoker_no_weakpoints, mon_zombie_soldier_no_weakpoints
+             } ) {
+            monster defender( target );
+            item trial_weapon = weapon;
+            clear_character( attacker );
+            const double estimated = weapon.effective_dps( attacker, defender );
+            const double actual = weapon_dps_trials( attacker, defender, trial_weapon );
+            WARN( entry.first << " target=" << target.str() << " rated=" << rated_dps
+                  << " estimated=" << estimated << " actual=" << actual );
+            CHECK( actual == Approx( estimated ).epsilon( 0.2 ) );
+        }
+    }
+}
+
+TEST_CASE( "cph_selected_spear_crafting_requirements", "[spear][crafting]" )
+{
+    struct spear_recipe {
+        std::string id;
+        int difficulty;
+        int minutes;
+        int hammer;
+    };
+    const std::vector<spear_recipe> recipes = {
+        { "spear_steel_crude", 3, 90, 3 },
+        { "spear_knife_superior", 2, 90, 3 },
+        { "spear_knife_superior_from simple version", 2, 30, 1 },
+        { "spear_knife_proper", 3, 150, 3 }
+    };
+    avatar &crafter = get_avatar();
+    for( const spear_recipe &entry : recipes ) {
+        CAPTURE( entry.id );
+        const recipe_id rid( entry.id );
+        REQUIRE( rid.is_valid() );
+        const recipe &rec = rid.obj();
+        CHECK( rec.difficulty == entry.difficulty );
+        clear_character( crafter );
+        crafter.add_proficiency( proficiency_id( "prof_carving" ), true );
+        CHECK( rec.batch_time( crafter, 1, 1.0, 0, {} ) == entry.minutes * 60 * 100 );
+
+        inventory components;
+        for( const std::vector<item_comp> &alternatives : rec.simple_requirements().get_components() ) {
+            REQUIRE_FALSE( alternatives.empty() );
+            const item_comp &component = alternatives.front();
+            for( int i = 0; i < component.count; ++i ) {
+                components.add_item( item( component.type ), false, false );
+            }
+        }
+        components.add_item( item( itype_id( "knife_combat" ) ), false, false );
+
+        // Exercise the same available recipe and nested recipe sources used by the crafting menu.
+        crafter.set_skill_level( skill_id( "fabrication" ), entry.difficulty - 1 );
+        crafter.set_knowledge_level( skill_id( "fabrication" ), entry.difficulty - 1 );
+        CHECK_FALSE( crafter.get_group_available_recipes( &components ).contains( &rec ) );
+        crafter.set_skill_level( skill_id( "fabrication" ), entry.difficulty );
+        crafter.set_knowledge_level( skill_id( "fabrication" ), entry.difficulty );
+        const recipe_subset &available = crafter.get_group_available_recipes( &components );
+        CHECK( available.contains( &rec ) );
+        bool nested_visible = false;
+        for( const recipe *parent : crafter.get_available_nested( available ) ) {
+            nested_visible |= parent->nested_category_data.count( rid ) != 0;
+        }
+        CHECK( nested_visible );
+
+        for( const bool proper_hammer : {
+                 false, true
+             } ) {
+            for( const bool proper_drill : {
+                     false, true
+                 } ) {
+                inventory tools = components;
+                tools.add_item( item( itype_id( proper_hammer ? "hammer" : "rock" ) ), false, false );
+                tools.add_item( item( itype_id( proper_drill ? "hand_drill" : "makeshift_hand_drill" ) ),
+                                false, false );
+                const bool expected = proper_drill && ( proper_hammer || entry.hammer == 1 );
+                CAPTURE( proper_hammer, proper_drill );
+                CHECK( rec.deduped_requirements().can_make_with_inventory( &crafter, tools,
+                        rec.get_component_filter() ) == expected );
+            }
+        }
     }
 }

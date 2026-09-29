@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:4e0370e9645367b3cdc70d10003a444ad4fe10260a8d5794db21f1871acf7842",
+    "source_fingerprint": "sha256:5ea6d6791a8f4ad52d8fea38e1b8befdc9d6ff553ff01f10dd6b526073d232f5",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "registrations": "src/init.cpp#DynamicDataLoader::initialize"
