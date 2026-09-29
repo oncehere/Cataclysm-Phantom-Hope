@@ -1,8 +1,12 @@
 #if defined(SDL_SOUND)
 
 #include <SDL3/SDL.h>
+#include <cstdint>
+#include <filesystem>
+#include <fstream>
 #include <optional>
 #include <string>
+#include <system_error>
 
 #include "cached_options.h"
 #include "cata_catch.h"
@@ -48,6 +52,96 @@ TEST_CASE( "audio_only_initialization_accepts_sdl3_success", "[sound_backend][sd
     // SDL3 returns true on success; the old SDL2 integer check rejected it.
     CHECK_NOTHROW( initSDLAudioOnly() );
     CHECK( ( SDL_WasInit( SDL_INIT_AUDIO ) & SDL_INIT_AUDIO ) != 0 );
+}
+
+TEST_CASE( "sound_backend_decodes_wav_and_reuses_sfx_and_music_tracks",
+           "[sound_backend][sdl3][integration]" )
+{
+    // Reserve an isolated directory; never read a user sound pack or save.
+    std::filesystem::path root;
+    const std::filesystem::path temporary_root = std::filesystem::temp_directory_path();
+    for( int attempt = 0; attempt < 100; ++attempt ) {
+        const std::filesystem::path candidate = temporary_root /
+                                                ( "cata-sdl3-wav-test-" + std::to_string( attempt ) );
+        std::error_code error;
+        if( std::filesystem::create_directory( candidate, error ) ) {
+            root = candidate;
+            break;
+        }
+        REQUIRE( ( !error || error == std::errc::file_exists ) );
+    }
+    REQUIRE_FALSE( root.empty() );
+    on_out_of_scope remove_fixture( [&]() {
+        std::error_code error;
+        std::filesystem::remove_all( root, error );
+    } );
+
+    const std::filesystem::path wav = root / "tone.wav";
+    {
+        // 100 ms of deterministic 8-bit mono PCM, 8000 Hz, in a RIFF/WAVE file.
+        // A non-silent square wave exercises file decoding rather than the
+        // single silent raw frame used by the pitch-only tests below.
+        std::ofstream output( wav, std::ios::binary );
+        REQUIRE( output.is_open() );
+        const auto write_le = [&output]( uint32_t value, int bytes ) {
+            for( int i = 0; i < bytes; ++i ) {
+                output.put( static_cast<char>( value & 0xff ) );
+                value >>= 8;
+            }
+        };
+        output.write( "RIFF", 4 );
+        write_le( 36 + 800, 4 );
+        output.write( "WAVEfmt ", 8 );
+        write_le( 16, 4 ); // PCM format chunk size.
+        write_le( 1, 2 ); // PCM format.
+        write_le( 1, 2 ); // Mono.
+        write_le( 8000, 4 ); // Sample rate.
+        write_le( 8000, 4 ); // Bytes per second.
+        write_le( 1, 2 ); // Block alignment.
+        write_le( 8, 2 ); // Bits per sample.
+        output.write( "data", 4 );
+        write_le( 800, 4 );
+        for( int sample = 0; sample < 800; ++sample ) {
+            output.put( static_cast<char>( sample % 8 < 4 ? 96 : 160 ) );
+        }
+        output.close();
+        REQUIRE( output.good() );
+    }
+
+    // The real decoder and playback APIs run without opening an audio device.
+    // An unpumped memory mixer keeps playback deterministic without sleeps.
+    REQUIRE( sound_backend::init( 44100, 2, 1024,
+                                  sound_backend::init_options{ /*memory_only=*/true } ) );
+    sound_backend::sfx_audio *effect = nullptr;
+    sound_backend::music_source *music = nullptr;
+    const sfx::channel slot = sfx::channel::daytime_outdoors_env;
+    on_out_of_scope cleanup_audio( [&]() {
+        sound_backend::stop_reserved( slot, 0 );
+        sound_backend::stop_music( 0 );
+        sound_backend::free_sfx( effect );
+        sound_backend::free_music( music );
+        sound_backend::shutdown();
+    } );
+
+    effect = sound_backend::load_sfx( wav.generic_u8string() );
+    music = sound_backend::load_music( wav.generic_u8string() );
+    REQUIRE( effect != nullptr );
+    REQUIRE( music != nullptr );
+    CHECK_FALSE( sound_backend::is_reserved_playing( slot ) );
+    CHECK_FALSE( sound_backend::is_music_playing() );
+
+    for( int play = 0; play < 2; ++play ) {
+        CAPTURE( play );
+        sound_backend::play_reserved( effect, slot, sound_backend::play_opts{} );
+        REQUIRE( sound_backend::is_reserved_playing( slot ) );
+        REQUIRE( sound_backend::play_music( music, 0, 0 ) );
+        REQUIRE( sound_backend::is_music_playing() );
+        sound_backend::stop_reserved( slot, 0 );
+        CHECK_FALSE( sound_backend::is_reserved_playing( slot ) );
+        CHECK( sound_backend::is_music_playing() );
+        sound_backend::stop_music( 0 );
+        CHECK_FALSE( sound_backend::is_music_playing() );
+    }
 }
 
 TEST_CASE( "sound_backend_slow_time_predicate_install_and_clear", "[sound_backend]" )
