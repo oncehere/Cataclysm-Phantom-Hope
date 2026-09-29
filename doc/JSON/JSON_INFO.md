@@ -4737,3 +4737,7 @@ how the `"val"` field is interpreted:
 | `"float"`  | A decimal number.  Ex: `"type": "float", "val": 0.8`
 | `"bool"`   | A boolean.  Ex: `"type": "bool", "val": false`
 | `"string"` | A text value.  Ex: `"type": "string", "val": "crops"`
+
+For stackable materials, item weight and volume apply per charge; audit spawn
+counts and recipe quantities together when changing those units.  A regenerated
+inventory does not verify the resulting total mass or container capacity.
