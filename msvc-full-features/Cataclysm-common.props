@@ -55,6 +55,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <MultiProcessorCompilation Condition="'$(MultiProcessorCompilation)' == ''">true</MultiProcessorCompilation>
       <MultiProcessorCompilation Condition="'$(MultiProcessorCompilation)' != ''">$(MultiProcessorCompilation)</MultiProcessorCompilation>
+      <ProcessorNumber Condition="'$(CL_MPCount)' != ''">$(CL_MPCount)</ProcessorNumber>
       <MinimalRebuild>false</MinimalRebuild>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>
