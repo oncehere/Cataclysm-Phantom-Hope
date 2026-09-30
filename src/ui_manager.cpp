@@ -255,6 +255,11 @@ size_t ui_adaptor::ui_stack_size()
     return ui_stack.size();
 }
 
+bool ui_adaptor::is_top() const
+{
+    return !ui_stack.empty() && &ui_stack.back().get() == this;
+}
+
 // This function does two things:
 // 1. Ensure that any UI that would be overwritten by redrawing a lower invalidated
 //    UI also gets redrawn.

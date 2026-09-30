@@ -237,6 +237,8 @@ class ui_adaptor
         static void redraw_invalidated();
         static void screen_resized();
         static size_t ui_stack_size();
+        // Query the live stack, including before the next redraw.
+        bool is_top() const;
     private:
         static void invalidation_consistency_and_optimization();
 

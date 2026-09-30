@@ -10,8 +10,10 @@
 #include <imgui/imgui_internal.h>
 
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "npc.h"
 #include "output.h"
 #include "panels.h"
 #include "string_formatter.h"
@@ -19,6 +21,18 @@
 #include "text.h"
 #include "translations.h"
 #include "ui_profile.h"
+
+std::string dialogue_sidebar_text( const const_dialogue &conversation, std::string text )
+{
+    if( conversation.has_actor( false ) && conversation.has_actor( true ) ) {
+        parse_tags( text, *conversation.const_actor( false ), *conversation.const_actor( true ),
+                    conversation, conversation.cur_item );
+    }
+    if( !text.empty() && ( text.front() == '&' || text.front() == '*' ) ) {
+        text.erase( 0, 1 );
+    }
+    return text;
+}
 
 // Adapted in order from the first-parent net changes of CDDA #88235,
 // #88369 and #88498.  Topic progression and Lua ownership stay in npctalk.cpp.
@@ -97,12 +111,30 @@ std::string dialogue_imgui_impl::display_name() const
            conversation->actor( true )->disp_name() : std::string();
 }
 
+const std::string &dialogue_imgui_impl::sidebar_text( const std::string &text )
+{
+    const auto found = sidebar_text_cache.find( text );
+    if( found != sidebar_text_cache.end() ) {
+        return found->second;
+    }
+    // Resolve snippets once per topic rather than consuming RNG on every frame.
+    return sidebar_text_cache.emplace( text, conversation ?
+                                       dialogue_sidebar_text( *conversation, text ) : text ).first->second;
+}
+
 void dialogue_imgui_impl::draw_controls()
 {
     if( hide_ui ) {
         hide_if_hidden();
         return;
     }
+
+    // Help and other UI layers keep drawing this view underneath them.
+    // The live adaptor stack also covers direct model frames and NoNav windows.
+    ImGui::BeginDisabled( !is_on_top() );
+    on_out_of_scope restore_interaction( []() {
+        ImGui::EndDisabled();
+    } );
 
     const bool physical_information = has_physical_information();
     if( !physical_information ) {
@@ -212,23 +244,25 @@ void dialogue_imgui_impl::draw_sidebar_information()
 #endif
     ImGui::Separator();
     if( conversation->actor( false )->can_see() ) {
-        cataimgui::TextColoredParagraphNewline( c_blue, conversation->actor( true )->short_description() );
+        cataimgui::TextColoredParagraphNewline( c_blue,
+                                                sidebar_text( conversation->actor( true )->short_description() ) );
     } else {
         std::string blind_description = string_format(
                                             _( "&You're blind and can't look at %s." ), display_name() );
         if( !blind_description.empty() && blind_description.front() == '&' ) {
             blind_description.erase( 0, 1 );
         }
-        cataimgui::TextColoredParagraphNewline( c_blue, blind_description );
+        cataimgui::TextColoredParagraphNewline( c_blue, sidebar_text( blind_description ) );
     }
     ImGui::Separator();
     cataimgui::TextColoredParagraphNewline( c_red,
-                                            conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) );
+                                            sidebar_text( conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) ) );
     ImGui::Separator();
     cataimgui::TextColoredParagraphNewline( c_pink,
-                                            conversation->actor( true )->view_personality_traits() );
+                                            sidebar_text( conversation->actor( true )->view_personality_traits() ) );
     ImGui::Separator();
-    cataimgui::TextColoredParagraphNewline( c_yellow, conversation->actor( true )->opinion_text() );
+    cataimgui::TextColoredParagraphNewline( c_yellow,
+                                            sidebar_text( conversation->actor( true )->opinion_text() ) );
     ImGui::Separator();
     // These remain actions as well as sidebar information.  In particular,
     // YELL has a real effect and must not disappear with the old window.
@@ -301,6 +335,7 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
         const std::vector<bool> &selectable )
 {
     response_list = responses;
+    sidebar_text_cache.clear();
     response_selectable = selectable;
     previous_response = -1;
     user_clicked_response_button = false;
@@ -387,8 +422,10 @@ void dialogue_imgui_impl::draw_responses()
         }
         splitter.Merge( ImGui::GetWindowDrawList() );
         ImGui::PopStyleVar();
-        ImGui::SetCursorPos( ImVec2( row_origin.x,
-                                     button_origin.y + button_height + ImGui::GetStyle().ItemSpacing.y ) );
+        ImGui::SetCursorPos( ImVec2( row_origin.x, button_origin.y + button_height ) );
+        // Submit the row end to layout instead of extending bounds with a cursor
+        // move alone. ItemSize supplies the following row spacing.
+        ImGui::Dummy( ImVec2( 0.0F, 0.0F ) );
         if( !enabled ) {
             ImGui::EndDisabled();
         }

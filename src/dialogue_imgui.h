@@ -3,11 +3,15 @@
 #define CATA_SRC_DIALOGUE_IMGUI_H
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "cata_imgui.h"
 #include "color.h"
 #include "dialogue.h"
+
+// Expand native narration tags for the sidebar without history speaker markers.
+std::string dialogue_sidebar_text( const const_dialogue &conversation, std::string text );
 
 /** The dialogue view.  The caller owns the topic stack and Lua session. */
 class dialogue_imgui_impl : public cataimgui::window
@@ -53,6 +57,7 @@ class dialogue_imgui_impl : public cataimgui::window
         std::vector<bool> response_selectable;
         std::vector<std::string> responses_debug;
         std::string special_action;
+        std::unordered_map<std::string, std::string> sidebar_text_cache;
         int previous_response = -1;
         bool compact_sidebar = false;
         float viewport_width = -1.0F;
@@ -61,6 +66,7 @@ class dialogue_imgui_impl : public cataimgui::window
         nc_color default_color() const;
         bool has_physical_information() const;
         std::string display_name() const;
+        const std::string &sidebar_text( const std::string &text );
         void draw_history() const;
         void draw_responses();
         void draw_sidebar_information();

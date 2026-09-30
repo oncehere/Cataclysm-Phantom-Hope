@@ -1184,6 +1184,11 @@ void cataimgui::window::set_redraw_underlay( const bool value )
     }
 }
 
+bool cataimgui::window::is_on_top() const
+{
+    return p_impl && p_impl->window_adaptor->is_top();
+}
+
 bool cataimgui::window::is_bounds_changed()
 {
     return p_impl->is_resized;

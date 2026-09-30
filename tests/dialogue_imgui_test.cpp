@@ -45,6 +45,23 @@ dialogue topic_conversation()
     return dialogue( std::make_unique<talker_topic>(), std::make_unique<talker_topic>() );
 }
 
+class dialogue_help_overlay : public cataimgui::window
+{
+    public:
+        dialogue_help_overlay() : cataimgui::window( "Keybindings overlay",
+                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar ) {}
+
+    protected:
+        cataimgui::bounds get_bounds() override {
+            const ImVec2 viewport = ImGui::GetIO().DisplaySize;
+            return { viewport.x * 0.85F, 0, viewport.x * 0.15F, viewport.y * 0.08F };
+        }
+
+        void draw_controls() override {
+            ImGui::TextUnformatted( "Help" );
+        }
+};
+
 class dialogue_imgui_frame_fixture
 {
     public:
@@ -81,6 +98,11 @@ class dialogue_imgui_frame_fixture
             io.DisplaySize = roomy_viewport();
             io.DeltaTime = 1.0F / 60.0F;
             io.ConfigInputTrickleEventQueue = false;
+            io.ConfigErrorRecoveryEnableAssert = false;
+            context_->ErrorCallbackUserData = this;
+            context_->ErrorCallback = []( ImGuiContext *, void *data, const char *message ) {
+                static_cast<dialogue_imgui_frame_fixture *>( data )->errors_.emplace_back( message );
+            };
 #ifdef TUI
             // Reuse the production text renderer's cell font and style without
             // initializing a terminal or platform input backend.
@@ -108,16 +130,30 @@ class dialogue_imgui_frame_fixture
             ImGui::SetCurrentContext( previous_ );
         }
 
-        void frame( dialogue_imgui_impl &window ) const {
-            ImGui::NewFrame();
-            window.draw();
-            ImGui::Render();
+        void assert_no_errors() const {
+            std::string diagnostics;
+            for( const std::string &error : errors_ ) {
+                diagnostics += error + "\n";
+            }
+            INFO( diagnostics );
+            REQUIRE( errors_.empty() );
+            CHECK( context_->ErrorCountCurrentFrame == 0 );
         }
 
-        void settle( dialogue_imgui_impl &window ) const {
-            frame( window );
-            frame( window );
-            frame( window );
+        void frame( dialogue_imgui_impl &window, cataimgui::window *overlay = nullptr ) const {
+            ImGui::NewFrame();
+            window.draw();
+            if( overlay ) {
+                overlay->draw();
+            }
+            ImGui::Render();
+            assert_no_errors();
+        }
+
+        void settle( dialogue_imgui_impl &window, cataimgui::window *overlay = nullptr ) const {
+            frame( window, overlay );
+            frame( window, overlay );
+            frame( window, overlay );
         }
 
         ImGuiWindow *child( const std::string &name ) const {
@@ -157,19 +193,21 @@ class dialogue_imgui_frame_fixture
             return buttons( child( "##DIALOGUE_RESPONSES" ) );
         }
 
-        void click( dialogue_imgui_impl &window, const ImVec2 &position ) const {
+        void click( dialogue_imgui_impl &window, const ImVec2 &position,
+                    cataimgui::window *overlay = nullptr ) const {
             ImGuiIO &io = ImGui::GetIO();
             io.AddMousePosEvent( position.x, position.y );
-            frame( window );
+            frame( window, overlay );
             io.AddMouseButtonEvent( 0, true );
-            frame( window );
+            frame( window, overlay );
             io.AddMouseButtonEvent( 0, false );
-            frame( window );
+            frame( window, overlay );
         }
 
     private:
         ImGuiContext *previous_;
         ImGuiContext *context_;
+        std::vector<std::string> errors_;
 };
 } // namespace
 
@@ -300,6 +338,127 @@ TEST_CASE( "dialogue_imgui_mouse_selects_duplicate_labels_and_rejects_disabled_b
     frames.click( window, buttons[1].GetCenter() );
     CHECK_FALSE( window.user_clicked_response_button );
     CHECK( window.sel_response == 0 );
+}
+
+TEST_CASE( "dialogue_imgui_response_rows_finish_without_layout_errors",
+           "[dialogue][imgui][layout]" )
+{
+    dialogue_imgui_frame_fixture frames;
+    dialogue conversation = topic_conversation();
+    dialogue_imgui_impl window( &conversation, false, true );
+    SECTION( "a single short final response" ) {
+        window.set_responses( { { c_white, "a", "Short response" } } );
+    }
+    SECTION( "explicit newlines and Chinese text" ) {
+        window.set_responses( { { c_white, "a", "First line\n第二行中文回应\nLast line" } } );
+    }
+    SECTION( "a prefix above a very narrow response" ) {
+        const ImVec2 narrow = frames.narrow_viewport();
+        ImGui::GetIO().DisplaySize = ImVec2( narrow.x * 0.3F, narrow.y );
+        window.set_responses( { { c_white, "a", "Narrow response" } } );
+    }
+    frames.settle( window );
+    REQUIRE_FALSE( frames.buttons().empty() );
+}
+
+TEST_CASE( "dialogue_imgui_overlay_blocks_lower_responses_sidebar_and_compact_switches",
+           "[dialogue][imgui][input][mouse][npc][layout]" )
+{
+    clear_avatar();
+    npc interlocutor;
+    interlocutor.normalize();
+    interlocutor.name = "Overlay NPC";
+    dialogue_imgui_frame_fixture frames;
+    dialogue conversation( get_talker_for( get_avatar() ), get_talker_for( interlocutor ) );
+    dialogue_imgui_impl window( &conversation );
+    window.set_responses( { { c_white, "a", "First response" },
+        { c_white, "b", "Second response" } } );
+    frames.settle( window );
+    ImGuiWindow *sidebar = frames.child( "##DIALOGUE_SIDEBAR" );
+    REQUIRE( sidebar );
+    ImGui::SetScrollY( sidebar, sidebar->ScrollMax.y );
+    frames.settle( window );
+    std::vector<ImRect> response_buttons = frames.buttons();
+    std::vector<ImRect> action_buttons = frames.buttons( sidebar );
+    REQUIRE( response_buttons.size() == 2 );
+    REQUIRE_FALSE( action_buttons.empty() );
+    const ImVec2 response_click = response_buttons.back().GetCenter();
+    const ImVec2 yell_click = action_buttons.back().GetCenter();
+    {
+        dialogue_help_overlay overlay;
+        frames.settle( window, &overlay );
+        frames.click( window, response_click, &overlay );
+        CHECK_FALSE( window.user_clicked_response_button );
+        CHECK( window.sel_response == 0 );
+        frames.click( window, yell_click, &overlay );
+        CHECK( window.take_special_action().empty() );
+    }
+    frames.settle( window );
+    frames.click( window, response_click );
+    CHECK( window.user_clicked_response_button );
+    CHECK( window.sel_response == 1 );
+    frames.click( window, yell_click );
+    CHECK( window.take_special_action() == "YELL" );
+
+    ImGui::GetIO().DisplaySize = frames.narrow_viewport();
+    frames.settle( window );
+    ImGuiWindow *responses = frames.child( "##DIALOGUE_RESPONSES" );
+    REQUIRE( responses );
+    const ImGuiWindow *parent = responses->ParentWindow;
+    std::vector<ImRect> switches = frames.buttons( parent );
+    REQUIRE( switches.size() == 1 );
+    const ImVec2 info_click = switches.front().GetCenter();
+    {
+        dialogue_help_overlay overlay;
+        frames.settle( window, &overlay );
+        frames.click( window, info_click, &overlay );
+        CHECK( responses->Active );
+        CHECK_FALSE( sidebar->Active );
+    }
+    frames.settle( window );
+    frames.click( window, info_click );
+    frames.settle( window );
+    CHECK( sidebar->Active );
+    CHECK_FALSE( responses->Active );
+    switches = frames.buttons( parent );
+    REQUIRE( switches.size() == 1 );
+    const ImVec2 back_click = switches.front().GetCenter();
+    {
+        dialogue_help_overlay overlay;
+        frames.settle( window, &overlay );
+        frames.click( window, back_click, &overlay );
+        CHECK( sidebar->Active );
+        CHECK_FALSE( responses->Active );
+    }
+    frames.settle( window );
+    frames.click( window, back_click );
+    frames.settle( window );
+    CHECK( responses->Active );
+    CHECK_FALSE( sidebar->Active );
+}
+
+TEST_CASE( "dialogue_imgui_sidebar_expands_names_and_strips_narration_markers",
+           "[dialogue][imgui][npc][text]" )
+{
+    clear_avatar();
+    npc interlocutor;
+    interlocutor.normalize();
+    interlocutor.name = "Sidebar NPC";
+    dialogue conversation( get_talker_for( get_avatar() ), get_talker_for( interlocutor ) );
+    CHECK( dialogue_sidebar_text( conversation, "&<npc_name> is here." ) == "Sidebar NPC is here." );
+    CHECK( dialogue_sidebar_text( conversation, "*<color_red><npc_name></color>" ) ==
+           "<color_red>Sidebar NPC</color>" );
+    for( const std::string &raw : {
+             conversation.actor( true )->evaluation_by( *conversation.actor( false ) ),
+             conversation.actor( true )->view_personality_traits()
+         } ) {
+        const std::string rendered = dialogue_sidebar_text( conversation, raw );
+        CHECK( rendered.find( "<npc_name>" ) == std::string::npos );
+        CHECK( ( rendered.empty() || ( rendered.front() != '&' && rendered.front() != '*' ) ) );
+    }
+    dialogue generic = topic_conversation();
+    CHECK( dialogue_sidebar_text( generic, "*Detached participant" ) == "Detached participant" );
+    CHECK( dialogue_sidebar_text( generic, "&<npc_name>" ).find( "<npc_name>" ) == std::string::npos );
 }
 
 TEST_CASE( "dialogue_imgui_long_chinese_response_wraps_and_lower_lines_are_clickable",
@@ -638,9 +797,10 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
     REQUIRE( registration.valid() );
     platform::set_active_runtimes( { owner } );
     owner->world_is_ready = true;
-    const auto keyboard_binding = []( const std::string & action ) {
+    const auto keyboard_binding = []( const std::string & action,
+    const std::string &context = "DIALOGUE_CHOOSE_RESPONSE" ) {
         const std::vector<input_event> bindings = inp_mngr.get_input_for_action(
-                    action, "DIALOGUE_CHOOSE_RESPONSE" );
+                    action, context );
         const auto found = std::find_if( bindings.begin(), bindings.end(),
         []( const input_event & event ) {
             return event.type == input_event_t::keyboard_char ||
@@ -656,6 +816,12 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
     }
     SECTION( "quit skips the disabled first exit and retains the Lua callbacks" ) {
         events = { keyboard_binding( "QUIT" ), confirm };
+    }
+    SECTION( "help closes and returns to the current dialogue" ) {
+        events = { keyboard_binding( "HELP_KEYBINDINGS" ),
+                   keyboard_binding( "QUIT", "HELP_KEYBINDINGS" ),
+                   keyboard_binding( "QUIT" ), confirm
+                 };
     }
     // Headless input exhaustion exits the test process.  Leave a recovery
     // sequence queued so a rejected selection produces assertions instead.
@@ -693,5 +859,6 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
         INFO( error.what() );
     }
     CHECK( lifecycle.valid() );
+    frames.assert_no_errors();
 }
 #endif

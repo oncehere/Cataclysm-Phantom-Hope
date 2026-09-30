@@ -241,6 +241,7 @@ class window
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
         void hide_if_hidden() const;
+        bool is_on_top() const;
         void set_redraw_underlay( bool value );
 };
 
