@@ -23,7 +23,8 @@ Required tools are Git, Python 3, CMake, MSBuild/MSVC and gettext `msgfmt` on PA
 The inherited `.github/workflows/msvc-full-features.yml` at pinned U (see
 [source inventory and Git read command](inherited-workflows.md)) uses Windows
 2022, CMake 3.31.6, SDL2 and vcpkg commit
-`f6672d8e480ccdecddfad3fd1b838ba369ffe6cd`. The new probe reads that commit from
+`f6672d8e480ccdecddfad3fd1b838ba369ffe6cd`. That SDL2 command is historical and cannot build the current SDL3-only source.
+The current probe reads the dependency commit from
 `msvc-full-features/vcpkg.json`, checks the supplied checkout, records actual SDK
 and MSVC developer-shell versions, and fails when dependencies are unavailable.
 It does not guess an SDK, run a package manager, download executables, call
@@ -48,10 +49,10 @@ pwsh -File C:\cph-lab\source\tools\project\windows_probe.ps1 `
   -VcpkgInstalled C:\cph-lab\vcpkg-installed -Parallel 2
 ```
 
-The inherited workflow actually uses this MSBuild solution command:
+For the current SDL3-only source, the corresponding MSBuild solution command is:
 
 ```powershell
-msbuild -m -p:Configuration=Release -p:Platform=x64 -p:UseSDL3=false `
+msbuild -m -p:Configuration=Release -p:Platform=x64 `
   '-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip' `
   msvc-full-features/Cataclysm-vcpkg-static.sln
 ```
@@ -59,8 +60,8 @@ msbuild -m -p:Configuration=Release -p:Platform=x64 -p:UseSDL3=false `
 The probe intentionally uses the separately inherited, real
 `windows-tiles-sounds-x64-msvc` CMake preset and builds `cataclysm-tiles` plus
 `cata_test-tiles` in `RelWithDebInfo`. This is a CMake baseline probe, not a claim
-that the solution workflow was replayed. SDL2 is explicit (`USE_SDL3=OFF`),
-matching that workflow. Localization and tests remain enabled; binaries go to
+that the solution workflow was replayed. SDL3 is required by the current source and manifest. The VS18 solution-header
+choice is separate from this probe's Visual Studio 2022 CMake generator. Localization and tests remain enabled; binaries go to
 the explicit build directory, and existing CMake caches must match the source.
 Lua stays enabled. Home/XDG data modes are explicitly disabled, with process-only
 XDG directories additionally redirected into this attempt. The actual configured
@@ -104,15 +105,15 @@ unverified even if this native probe later passes.
 
 ## macOS: inherited commands, not yet an executed CPH probe
 
-The locked matrix's SDL2 graphical leg targets `macos-15`, Apple Clang 17 and
-the original Make build. Its actual packaging command is:
+The locked matrix's SDL2 command is a historical input. For current SDL3-only
+source, a macOS Make packaging attempt uses the SDL3 dependencies and shaders:
 
 ```sh
-make -j1 CCACHE=1 LINTJSON=0 DEBUG_SYMBOLS=1 NATIVE=osx TILES=1 SOUND=1 SDL3=0 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=0 dmgdist
+make -j1 CCACHE=1 LINTJSON=0 DEBUG_SYMBOLS=1 NATIVE=osx TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=0 dmgdist
 ```
 
 Run only in a dedicated macOS checkout after supplying the actual toolchain,
-gettext, ccache, SDL2 frameworks, universal dependency libraries, `dylibbundler`
+gettext, ccache, SDL3 frameworks, universal dependency libraries, `dylibbundler`
 and DMG tooling described in the quarantined inherited workflow. Record
 `xcrun --show-sdk-path`, `clang++ --version`, `uname -m`, command exits and the
 resulting `.app`/`Cataclysm.dmg` hashes. Inspect each executable with `file`,
@@ -142,8 +143,8 @@ compile/target 35, minimum 24, NDK `28.1.13356709`, and CMake 3.22.1. These are
 declared inputs, not evidence that this machine has them installed.
 
 The command requires the real SDL3 Android dependencies and validated prebuilt
-shader inputs. Android retains its inherited SDL3 behavior; this is not a
-desktop SDL3 migration. `android/app/build.gradle` still runs `make localization
+shader inputs. Android retains its inherited SDL3 behavior; desktop and Android now share
+the SDL3-only source contract. `android/app/build.gradle` still runs `make localization
 LANGUAGES=all` on Linux hosts or `lang/compile_mo.sh` on Windows when localization
 is enabled. The new MO bootstrap has not yet been integrated and verified for
 that Gradle path; do not substitute `-Plocalize=false` or an empty translation
@@ -176,3 +177,20 @@ the local source/tooling work and already executable Linux checks can continue.
 macOS 首期不要求人工实机游玩，但仍须构建、包和约定自动检查。Android 先验证 ARM64 自动运行条件；若不可用，可提交“实际 ARM64 包静态/签名＋同源码兼容架构模拟器＋首次/高风险实机”的 profile 待决定，不能自行把它写为已接受。人工验证只覆盖记录的版本/变更，不能无限复用，也不新增每天人工批准或提供真机的门槛。目标和检查策略变化须留决定。
 
 历史核验来源（本次未重新在线核验）：[Android 模拟器架构与加速](https://developer.android.com/studio/run/emulator-acceleration)。身份生命周期与哨兵验收见 [身份手册](identity-audit.md#现行身份与隔离要求)，发布门槛见 [执行规格 §6.2](execution-spec.md#62-发布)。
+
+## SDL3 Windows candidate validation
+
+[`project-sdl3-validation.yml`](../../.github/workflows/project-sdl3-validation.yml)
+runs [`validate-sdl3-windows.ps1`](../../build-scripts/validate-sdl3-windows.ps1)
+on a disposable native Windows runner. It records the actual commit/tree and
+PR base/head, then builds the MSBuild tiles/sound and headless targets with
+15 parallel jobs, runs the sound, shader-dispatch, Lua dialogue and translation
+selections, and checks the isolated ZIP for shaders and the replaceable mpg123
+DLL/license. It preserves command exits, JUnit reports and package hashes.
+
+This supplementary workflow is candidate evidence only: it does not publish
+`cph/trusted-gate`, change pause/protection settings or publish a release. Its
+checked-in presence is not a Windows PASS. Interactive Chinese input, fonts,
+window modes, controllers, audible output and GPU execution still require
+separate runtime evidence. The VS18 solution header remains a separate selected
+candidate; the runner and CMake generator are still Visual Studio 2022.

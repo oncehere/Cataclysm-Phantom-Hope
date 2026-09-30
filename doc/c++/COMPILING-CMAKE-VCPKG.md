@@ -8,12 +8,14 @@
 
 Use [CMake setup](COMPILING-CMAKE.md) for source checkout and the general flow.
 The native Windows gate uses Visual Studio 2022, the
-`windows-tiles-sounds-x64-msvc` preset, SDL2, gettext and the locked static x64
+`windows-tiles-sounds-x64-msvc` preset, SDL3, gettext and the locked static x64
 vcpkg dependency set. Its precise commands are produced by
 [`tools/project/ci_build.py`](../../tools/project/ci_build.py) from
 [`project/check-policy.json`](../../project/check-policy.json).
 
 ## Local development
+
+The separate VS18 solution-header choice does not change this CMake generator.
 
 Open a Visual Studio 2022 developer shell with C++ build tools installed.
 Provide a vcpkg checkout matching your intended dependency configuration and
@@ -24,7 +26,7 @@ just to store a machine-specific path.
 
 ```powershell
 $env:VCPKG_ROOT = 'C:\dev\vcpkg'
-cmake --preset windows-tiles-sounds-x64-msvc -DUSE_SDL3=OFF
+cmake --preset windows-tiles-sounds-x64-msvc
 cmake --build --preset windows-tiles-sounds-x64-msvc --parallel 2
 ctest --preset windows-tiles-sounds-x64-msvc --output-on-failure
 ```

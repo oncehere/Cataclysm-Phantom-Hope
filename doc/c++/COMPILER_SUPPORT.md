@@ -17,7 +17,7 @@ upstream snapshot and must not be used as a CPH support promise.
 | Target | Configuration source | Evidence required |
 | --- | --- | --- |
 | Linux x86_64 | `linux-tiles-sounds-x64`; native Ubuntu runner, SDL3 | Build, required tests, runtime metadata and artifact hashes for the candidate |
-| Windows x86_64 | `windows-tiles-sounds-x64-msvc`; Visual Studio 2022 runner, SDL2 | Native MSVC build and required tests for the candidate |
+| Windows x86_64 | `windows-tiles-sounds-x64-msvc`; Visual Studio 2022 runner, SDL3 | Native MSVC build and required tests for the candidate |
 | macOS and Android | Informational probes | Separate native/build/device evidence before claiming support |
 | MinGW, cross builds, BSD and other recipes | Inherited local build instructions | Their own tested commit and toolchain; they do not satisfy native W/L gates |
 

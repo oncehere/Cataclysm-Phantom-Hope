@@ -438,7 +438,7 @@ def dependencies(runner, work, target, parallel):
             root / "vcpkg.exe",
             "install",
             "--triplet=" + target["vcpkg_triplet"],
-            "--x-feature=sdl2",
+            "--x-feature=sdl3",
             "--x-manifest-root=" + str(CONTROL / "msvc-full-features"),
             "--overlay-triplets=" + str(CONTROL / ".github/vcpkg_triplets"),
             "--x-install-root=" + str(installed),
@@ -494,7 +494,7 @@ def configure(runner, source, build, target, dependency_paths, msgfmt):
         command += [
             "-A",
             target["generator_platform"],
-            "-DVCPKG_MANIFEST_FEATURES=sdl2",
+            "-DVCPKG_MANIFEST_FEATURES=sdl3",
             "-DGETTEXT_MSGFMT_BINARY=" + msgfmt,
             "-DGETTEXT_MSGFMT_EXECUTABLE=" + msgfmt,
             "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_" +

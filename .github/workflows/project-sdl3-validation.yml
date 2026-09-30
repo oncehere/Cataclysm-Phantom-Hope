@@ -1,0 +1,75 @@
+# Candidate platform evidence only; this workflow never publishes trusted-gate
+# status, changes repository controls, or publishes a release.
+name: CPH SDL3 Windows validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/project-sdl3-validation.yml'
+      - '.github/vcpkg_triplets/**'
+      - 'build-scripts/validate-sdl3-windows.ps1'
+      - 'build-scripts/windist.ps1'
+      - 'msvc-full-features/**'
+      - 'src/sdl*'
+      - 'src/sound_backend*'
+      - 'src/cata_shader*'
+      - 'src/cata_imgui*'
+      - 'tests/sdl_gamepad_test.cpp'
+      - 'tests/sound_backend_test.cpp'
+      - 'tests/renderer_recovery_test.cpp'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    if: github.repository == 'oncehere/Cataclysm-Phantom-Hope'
+    runs-on: windows-2022
+    timeout-minutes: 240
+    steps:
+      - name: Preserve source bytes
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+      - name: Checkout candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Install gettext
+        id: gettext
+        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2
+        with:
+          msystem: MSYS
+          install: gettext
+          update: false
+          cache: false
+      - name: Select compatible CMake
+        uses: lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb # pinned inherited action
+        with:
+          cmakeVersion: 3.31.6
+          ninjaVersion: 1.12.1
+      - name: Build, test and package the exact candidate
+        shell: pwsh
+        env:
+          CPH_MSYS_ROOT: ${{ steps.gettext.outputs.msys2-location }}
+          CPH_PR_BASE: ${{ github.event.pull_request.base.sha }}
+          CPH_PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PYTHONUTF8: '1'
+          PYTHONIOENCODING: utf-8
+          VCPKG_MAX_CONCURRENCY: '15'
+        run: |
+          ./build-scripts/validate-sdl3-windows.ps1 -WorkDir "$env:RUNNER_TEMP/cph-sdl3" -Parallel 15
+      - name: Preserve actual platform evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: cph-sdl3-windows-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/cph-sdl3/evidence/**
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6

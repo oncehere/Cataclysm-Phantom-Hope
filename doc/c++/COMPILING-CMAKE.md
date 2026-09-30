@@ -23,10 +23,9 @@ cmake --list-presets
 ```
 
 Install a compiler, the preset's build tool (Ninja or Visual Studio 2022), and
-its dependencies before configuring. Tiles default to SDL3 unless explicitly
-set to SDL2 with `-DUSE_SDL3=OFF`; sound and localization add their own library
-and gettext requirements. Linux's native gate uses SDL3; Windows's current
-native gate selects SDL2. Use [the dependency lock](../../project/assets.lock.json)
+its dependencies before configuring. Tiles require SDL3; `-DUSE_SDL3=OFF` is
+rejected. Sound and localization add their own library and gettext requirements. Both native target definitions
+select SDL3; a checked-in definition is not evidence of a successful platform run. Use [the dependency lock](../../project/assets.lock.json)
 and [check policy](../../project/check-policy.json) to reproduce the exact gate,
 including its generator overrides. Ordinary preset examples below are local
 development recipes, not a substitute for that evidence contract.
@@ -75,7 +74,11 @@ localization. Likewise `-DTESTS=OFF` removes test coverage, and
 `-DCATA_ENABLE_LUA_PLATFORM=OFF` does not validate the required Lua runtime.
 Use `cmake -LAH -N out/build/<preset>` to inspect the actual cache.
 
-Useful options are `TILES`, `SOUND`, `CURSES`, `HEADLESS`, `USE_SDL3`, `LOCALIZE`,
+Terminal builds remain available with `-DTILES=OFF -DCURSES=ON`; optional
+`-DSOUND=ON` uses SDL3 audio without the tiles renderer. Headless builds default
+to no SDL dependency when sound is disabled.
+
+Useful options are `TILES`, `SOUND`, `CURSES`, `HEADLESS`, `LOCALIZE`,
 `TESTS`, `CATA_ENABLE_LUA_PLATFORM`, `JSON_FORMAT`, `USE_HOME_DIR`, `USE_XDG_DIR`
 and `USE_PREFIX_DATA_DIR`. Defaults and interactions are defined in the build
 files. `CPH_TEST_IDENTITY` is a Linux-only unpublished isolation test identity;

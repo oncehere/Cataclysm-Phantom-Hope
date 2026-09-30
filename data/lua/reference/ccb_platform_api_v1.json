@@ -29626,7 +29626,7 @@
         "lua_name": "PlatformCanvasContext",
         "registration": {
           "installer": "platform_v1.install_runtime_dialogue_presentation_api",
-          "line": 742,
+          "line": 736,
           "namespace": "ccb",
           "path": "src/lua_platform_runtime_dialogue.cpp"
         },
@@ -29640,7 +29640,7 @@
         "lua_name": "PlatformDialogueContext",
         "registration": {
           "installer": "platform_v1.install_runtime_dialogue_presentation_api",
-          "line": 759,
+          "line": 753,
           "namespace": "ccb",
           "path": "src/lua_platform_runtime_dialogue.cpp"
         },

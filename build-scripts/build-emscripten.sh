@@ -1,13 +1,6 @@
 #!/bin/bash
-set -exo pipefail
-
-CCACHE=${CCACHE:-0}
-
-emsdk install 3.1.51
-emsdk activate 3.1.51
-if [ "$CCACHE" == "1" ]
-then
-    emsdk activate ccache-git-emscripten-64bit
-fi
-
-make -j`nproc` NATIVE=emscripten BACKTRACE=0 TILES=1 TESTS=0 RUNTESTS=0 RELEASE=1 CCACHE="$CCACHE" LINTJSON=0 cataclysm-tiles.js
+# The inherited SDL2 WebAssembly build is retired. Keep this entrypoint so
+# callers get a clear failure before installing an obsolete emsdk or building.
+# SDL3 web dependencies and runtime integration require a separate project.
+printf '%s\n' 'The old Emscripten/WebAssembly build is retired in CPH. Use a native SDL3 build.' >&2
+exit 2

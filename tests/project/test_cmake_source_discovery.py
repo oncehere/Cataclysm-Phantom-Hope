@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -135,6 +136,202 @@ TestRegistration test_registration;
 
     def test_makefiles_discovers_source_changes(self):
         self.exercise_generator("Unix Makefiles", "make")
+
+    def test_tiles_build_uses_sdl3_without_a_backend_flag(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        # Only SDL3 targets are supplied. Selecting the former default SDL2
+        # branch must fail configuration, even though these are tiny sources.
+        (self.source / "data/shaders").mkdir()
+        shutil.copyfile(ROOT / "tools/build_shaders.py",
+                        self.source / "tools/build_shaders.py")
+        cmake = """
+cmake_minimum_required(VERSION 3.20)
+project(tiles_backend_fixture LANGUAGES C CXX)
+set(TILES ON)
+set(CURSES OFF)
+set(SOUND ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+foreach(component SDL3 SDL3_image SDL3_ttf SDL3_mixer)
+    add_library(${component}::${component} INTERFACE IMPORTED)
+    if(FIXTURE_STATIC_TARGETS)
+        add_library(${component}::${component}-static INTERFACE IMPORTED)
+    endif()
+endforeach()
+add_subdirectory(src)
+"""
+        self.write("CMakeLists.txt", cmake)
+        # The empty shader fixture exercises the real build rule/stamp without
+        # claiming to validate GPU artifacts or needing glslang in tooling CI.
+        with mock.patch.dict(os.environ, {"GLSLANG": COMPILER}):
+            for dynamic, static_targets in (("ON", "OFF"), ("OFF", "ON"),
+                                            ("OFF", "OFF")):
+                with self.subTest(dynamic=dynamic, static=static_targets):
+                    build = self.root / f"tiles-{dynamic}-{static_targets}"
+                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
+                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                                 "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                                 "-DDYNAMIC_LINKING=" + dynamic,
+                                 "-DFIXTURE_STATIC_TARGETS=" + static_targets)
+                    self.command(CMAKE, "--build", str(build), "--target",
+                                 "cataclysm-tiles", "--parallel", "15")
+                    self.command(str(build / "src/cataclysm-tiles"))
+                    stamp = self.source / "data/shaders/build-spv.stamp"
+                    self.assertTrue(stamp.is_file())
+                    stamp.unlink()
+
+    def test_headless_build_does_not_require_sdl_targets(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        self.write("CMakeLists.txt", """
+cmake_minimum_required(VERSION 3.20)
+project(headless_backend_fixture LANGUAGES C CXX)
+set(TILES OFF)
+set(CURSES OFF)
+set(HEADLESS ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+add_subdirectory(src)
+""")
+        self.command(CMAKE, "-S", str(self.source), "-B", str(self.build),
+                     "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                     "-DCMAKE_CXX_COMPILER=" + COMPILER)
+        self.command(CMAKE, "--build", str(self.build), "--target", "cataclysm",
+                     "--parallel", "15")
+        self.command(str(self.build / "src/cataclysm"))
+
+    def test_text_backends_link_sound_without_image_or_font_libraries(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        (self.source / "audio").mkdir()
+        self.write("audio/fixture_audio.h", "int fixture_audio();\n")
+        self.write("audio/fixture_audio.cpp",
+                   "int fixture_audio() { return 42; }\n")
+        self.write("src/main.cpp", """
+#ifndef SDL_SOUND
+#error Terminal sound was requested but was not enabled.
+#endif
+#include "fixture_audio.h"
+int main() { return fixture_audio() == 42 ? 0 : 1; }
+""")
+        self.write("CMakeLists.txt", """
+cmake_minimum_required(VERSION 3.20)
+project(text_audio_fixture LANGUAGES C CXX)
+set(TILES OFF)
+set(SOUND ON)
+set(CATA_ENABLE_LUA_PLATFORM OFF)
+add_library(fixture_audio STATIC audio/fixture_audio.cpp)
+target_include_directories(fixture_audio PUBLIC "${CMAKE_SOURCE_DIR}/audio")
+add_library(SDL3::SDL3 INTERFACE IMPORTED)
+add_library(SDL3_mixer::SDL3_mixer ALIAS fixture_audio)
+if(NOT DYNAMIC_LINKING)
+    add_library(SDL3::SDL3-static INTERFACE IMPORTED)
+    add_library(SDL3_mixer::SDL3_mixer-static ALIAS fixture_audio)
+endif()
+add_subdirectory(src)
+""")
+        for backend in ("CURSES", "HEADLESS"):
+            for dynamic in ("ON", "OFF"):
+                with self.subTest(backend=backend, dynamic=dynamic):
+                    build = self.root / f"audio-{backend}-{dynamic}"
+                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
+                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                                 "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                                 "-D" + backend + "=ON",
+                                 "-DDYNAMIC_LINKING=" + dynamic)
+                    self.command(CMAKE, "--build", str(build), "--target",
+                                 "cataclysm", "--parallel", "15")
+                    self.command(str(build / "src/cataclysm"))
+
+    def test_cmake_rejects_legacy_off_for_sound_as_well_as_tiles(self):
+        if not shutil.which("ninja"):
+            self.skipTest("ninja is required")
+        # Execute the actual project option normalization and diagnostic before
+        # library discovery. HEADLESS has already disabled TILES at this point.
+        option_setup = (ROOT / "CMakeLists.txt").read_text().split(
+            "# Can't use both home and xdg directories", 1)[0]
+        (self.source / "CMakeModules").mkdir()
+        shutil.copyfile(ROOT / "CMakeModules/ListImportedTargets.cmake",
+                        self.source / "CMakeModules/ListImportedTargets.cmake")
+        self.write("CMakeLists.txt", option_setup)
+        for tiles, sound, headless in (("ON", "OFF", "OFF"),
+                                       ("OFF", "ON", "OFF"),
+                                       ("OFF", "ON", "ON"),
+                                       ("OFF", "OFF", "ON"),
+                                       ("OFF", "OFF", "OFF")):
+            with self.subTest(tiles=tiles, sound=sound, headless=headless):
+                build = self.root / f"legacy-{tiles}-{sound}-{headless}"
+                result = subprocess.run([
+                    CMAKE, "-S", str(self.source), "-B", str(build),
+                    "-G", "Ninja", "-DCMAKE_CXX_COMPILER=" + COMPILER,
+                    "-DUSE_SDL3=OFF", "-DTILES=" + tiles,
+                    "-DSOUND=" + sound, "-DHEADLESS=" + headless,
+                ], capture_output=True, text=True, check=False)
+                if tiles == "ON" or sound == "ON":
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("USE_SDL3=OFF is no longer supported",
+                                  result.stderr)
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_make_rejects_legacy_off_for_sound_as_well_as_tiles(self):
+        make = shutil.which("make")
+        if not make:
+            self.skipTest("make is required")
+        shutil.copyfile(ROOT / "Makefile", self.source / "Makefile")
+        # Run a real, harmless prefix recipe in the disposable source fixture.
+        # A rejected backend flag must fail before any build recipe executes.
+        for tiles, sound in (("1", "0"), ("0", "1"), ("1", "1"),
+                             ("0", "0")):
+            with self.subTest(tiles=tiles, sound=sound):
+                result = subprocess.run([
+                    make, "--no-print-directory", "prefix", "SDL3=0",
+                    "TILES=" + tiles, "SOUND=" + sound,
+                    "ASTYLE=0", "LINTJSON=0", "LOCALIZE=0", "PREFIX=/fixture",
+                ], cwd=self.source, capture_output=True, text=True, check=False)
+                if tiles == "1" or sound == "1":
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("SDL3=0 is no longer supported", result.stderr)
+                    self.assertFalse((self.source / "src/prefix.h").exists())
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertTrue((self.source / "src/prefix.h").is_file())
+
+    def test_retired_emscripten_rejects_builds_but_runs_utilities(self):
+        make = shutil.which("make")
+        git = shutil.which("git")
+        if not make or not git:
+            self.skipTest("make and Git are required")
+        for relative in ("Makefile", "tools/safe_clean.py"):
+            shutil.copyfile(ROOT / relative, self.source / relative)
+        for directory in ("lang", "data/raw", "data/json", "data/core"):
+            (self.source / directory).mkdir()
+        self.write("lang/Makefile", "all:\n\t@echo done > localized.marker\n")
+        env = {key: value for key, value in os.environ.items()
+               if not key.startswith("GIT_")}
+        env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+        for command in ([git, "init", "--quiet"],
+                        [git, "add", "Makefile", "tools/safe_clean.py",
+                         "lang/Makefile"]):
+            subprocess.run(command, cwd=self.source, env=env, check=True,
+                           capture_output=True, text=True)
+        command = [make, "--no-print-directory", "NATIVE=emscripten",
+                   "TILES=1", "SOUND=1", "ASTYLE=0", "LINTJSON=0",
+                   "CATA_ENABLE_LUA_PLATFORM=0"]
+        for goals in ([], ["prefix"], ["clean", "all"]):
+            with self.subTest(goals=goals):
+                result = subprocess.run(command + goals, cwd=self.source,
+                                        env=env, capture_output=True, text=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("NATIVE=emscripten is retired", result.stderr)
+        for goal in ("clean-plan", "localization", "lang/mo_built.stamp"):
+            with self.subTest(goal=goal):
+                result = subprocess.run(command + [goal], cwd=self.source,
+                                        env=env, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0,
+                                 result.stdout + result.stderr)
+        self.assertTrue((self.source / "lang/localized.marker").is_file())
+        self.assertTrue((self.source / "lang/mo_built.stamp").is_file())
 
 
 if __name__ == "__main__":

@@ -4,7 +4,10 @@
 #include <utility>
 
 #include "cata_catch.h"
+#include "json.h"
+#include "json_loader.h"
 #include "options.h"
+#include "options_helpers.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
@@ -14,6 +17,27 @@ static const option_slider_id option_slider_test_world_difficulty( "test_world_d
 TEST_CASE( "core_data_preserves_the_radiation_mutation_world_default", "[option]" )
 {
     CHECK( get_option<bool>( "RAD_MUTATION" ) );
+}
+
+TEST_CASE( "retired_renderer_options_remain_loadable_but_hidden", "[option][sdl3]" )
+{
+    options_manager &manager = get_options();
+    REQUIRE( manager.has_option( "FRAMEBUFFER_ACCEL" ) );
+    REQUIRE( manager.has_option( "USE_COLOR_MODULATED_TEXTURES" ) );
+    override_option restore_framebuffer( "FRAMEBUFFER_ACCEL", "false" );
+    override_option restore_modulated( "USE_COLOR_MODULATED_TEXTURES", "false" );
+
+    // Existing settings remain recognizable after the renderer becomes automatic.
+    manager.deserialize( json_loader::from_string( R"([
+        {"name":"FRAMEBUFFER_ACCEL","value":"true"},
+        {"name":"USE_COLOR_MODULATED_TEXTURES","value":"true"}
+    ])" ).get_array() );
+
+    CHECK( get_option<bool>( "FRAMEBUFFER_ACCEL" ) );
+    CHECK( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) );
+    CHECK( manager.get_option( "FRAMEBUFFER_ACCEL" ).is_hidden() );
+    CHECK( manager.get_option( "USE_COLOR_MODULATED_TEXTURES" ).is_hidden() );
+    CHECK_FALSE( manager.has_option( "RENDER_BATCHING" ) );
 }
 
 TEST_CASE( "option_slider_test", "[option]" )
