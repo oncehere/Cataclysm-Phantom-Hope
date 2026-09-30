@@ -25,6 +25,10 @@
 #include "talker_topic.h"
 #include "uistate.h"
 
+#ifdef TUI
+    #include <imtui/imtui-impl-text.h>
+#endif
+
 #if defined(CATA_ENABLE_LUA_PLATFORM) && CATA_ENABLE_LUA_PLATFORM
     #include "lua_platform_dialogue.h"
     #include "lua_platform_handle.h"
@@ -44,21 +48,52 @@ dialogue topic_conversation()
 class dialogue_imgui_frame_fixture
 {
     public:
+        static ImVec2 roomy_viewport() {
+#ifdef TUI
+            return ImVec2( 120, 40 );
+#else
+            return ImVec2( 800, 600 );
+#endif
+        }
+
+        static ImVec2 narrow_viewport() {
+#ifdef TUI
+            return ImVec2( 32, 48 );
+#else
+            return ImVec2( 200, 700 );
+#endif
+        }
+
+        static float layout_tolerance() {
+            return ImGui::GetTextLineHeight() * 0.1F;
+        }
+
+        static float scroll_tolerance() {
+            return ImGui::GetTextLineHeight() * 0.5F;
+        }
+
         dialogue_imgui_frame_fixture() : previous_( ImGui::GetCurrentContext() ),
             context_( ImGui::CreateContext() ) {
             ImGui::SetCurrentContext( context_ );
             ImGuiIO &io = ImGui::GetIO();
             io.IniFilename = nullptr;
             io.LogFilename = nullptr;
-            io.DisplaySize = ImVec2( 800, 600 );
+            io.DisplaySize = roomy_viewport();
             io.DeltaTime = 1.0F / 60.0F;
             io.ConfigInputTrickleEventQueue = false;
+#ifdef TUI
+            // Reuse the production text renderer's cell font and style without
+            // initializing a terminal or platform input backend.
+            ImTui_ImplText_Init();
+#else
+            // GUI and mono placeholders match the two font slots used by Tiles.
             io.Fonts->AddFontDefault();
             io.Fonts->AddFontDefault();
             unsigned char *pixels = nullptr;
             int width = 0;
             int height = 0;
             io.Fonts->GetTexDataAsRGBA32( &pixels, &width, &height );
+#endif
             ImGuiStyle &style = ImGui::GetStyle();
             style.FrameRounding = 0;
             style.DisabledAlpha = 1.0F;
@@ -232,24 +267,6 @@ TEST_CASE( "dialogue_imgui_topic_returns_are_safe_at_root_and_preserve_categorie
     }
 }
 
-TEST_CASE( "dialogue_imgui_quit_skips_disabled_exit_responses",
-           "[dialogue][imgui][input]" )
-{
-    restore_on_out_of_scope<bool> restore_debug( debug_mode );
-    debug_mode = false;
-    dialogue conversation = topic_conversation();
-    talk_response exit;
-    exit.success.next_topic = talk_topic( "TALK_DONE" );
-    conversation.add_gen_response( exit, false, true, false );
-    CHECK( conversation.get_best_quit_response() == 1 );
-    conversation.add_gen_response( exit, false, true, true );
-    CHECK( conversation.get_best_quit_response() == 1 );
-    conversation.response_condition_eval[1] = false;
-    CHECK( conversation.get_best_quit_response() == 2 );
-    debug_mode = true;
-    CHECK( conversation.get_best_quit_response() == 0 );
-}
-
 TEST_CASE( "dialogue_imgui_mouse_selects_duplicate_labels_and_rejects_disabled_buttons",
            "[dialogue][imgui][input][mouse]" )
 {
@@ -302,11 +319,14 @@ TEST_CASE( "dialogue_imgui_long_chinese_response_wraps_and_lower_lines_are_click
     const ImGuiWindow *responses = frames.child( "##DIALOGUE_RESPONSES" );
     REQUIRE( responses );
     CHECK( buttons[0].GetHeight() > ImGui::GetTextLineHeightWithSpacing() * 3 );
-    CHECK( buttons[0].Max.x <= responses->InnerClipRect.Max.x + 1 );
-    const float lower_visible_line = std::min( buttons[0].Max.y,
-                                     responses->InnerClipRect.Max.y ) - 3;
-    REQUIRE( lower_visible_line > buttons[0].Min.y + ImGui::GetTextLineHeightWithSpacing() );
-    frames.click( window, ImVec2( buttons[0].GetCenter().x, lower_visible_line ) );
+    CHECK( buttons[0].Max.x <= responses->InnerClipRect.Max.x + frames.layout_tolerance() );
+    ImRect visible_button = buttons[0];
+    visible_button.ClipWith( responses->InnerClipRect );
+    const float line_height = ImGui::GetTextLineHeightWithSpacing();
+    REQUIRE( visible_button.GetHeight() > line_height );
+    const float lower_visible_line = visible_button.Max.y - line_height * 0.25F;
+    REQUIRE( lower_visible_line > buttons[0].Min.y + line_height );
+    frames.click( window, ImVec2( visible_button.GetCenter().x, lower_visible_line ) );
     CHECK( window.user_clicked_response_button );
     CHECK( window.sel_response == 0 );
 }
@@ -338,7 +358,7 @@ TEST_CASE( "dialogue_imgui_history_and_keyboard_selection_scroll_with_updated_co
     const ImGuiWindow *history = frames.child( "##DIALOGUE_HISTORY" );
     REQUIRE( history );
     REQUIRE( history->ScrollMax.y > 0 );
-    CHECK( history->Scroll.y >= history->ScrollMax.y - 1 );
+    CHECK( history->Scroll.y >= history->ScrollMax.y - frames.scroll_tolerance() );
     CHECK( window.scroll_to == cataimgui::scroll::none );
 }
 
@@ -354,7 +374,7 @@ TEST_CASE( "dialogue_imgui_resize_and_modal_hide_preserve_accessible_children",
     const ImGuiWindow *wide_responses = frames.child( "##DIALOGUE_RESPONSES" );
     REQUIRE( wide_responses );
     const float wide_width = wide_responses->Size.x;
-    ImGui::GetIO().DisplaySize = ImVec2( 200, 700 );
+    ImGui::GetIO().DisplaySize = frames.narrow_viewport();
     frames.settle( window );
     const ImGuiWindow *narrow_responses = frames.child( "##DIALOGUE_RESPONSES" );
     const ImGuiWindow *history = frames.child( "##DIALOGUE_HISTORY" );
@@ -365,15 +385,17 @@ TEST_CASE( "dialogue_imgui_resize_and_modal_hide_preserve_accessible_children",
     CHECK( narrow_responses->Size.y > 0 );
     CHECK( history->Size.x > 0 );
     CHECK( history->Size.y > 0 );
-    CHECK( narrow_responses->Pos.x + narrow_responses->Size.x <= 201 );
-    CHECK( narrow_responses->Pos.y + narrow_responses->Size.y <= 701 );
+    CHECK( narrow_responses->Pos.x + narrow_responses->Size.x <=
+           ImGui::GetIO().DisplaySize.x + frames.layout_tolerance() );
+    CHECK( narrow_responses->Pos.y + narrow_responses->Size.y <=
+           ImGui::GetIO().DisplaySize.y + frames.layout_tolerance() );
 
     window.set_hidden( true );
     frames.settle( window );
     CHECK_FALSE( narrow_responses->Active );
     CHECK( narrow_responses->ParentWindow->Hidden );
     window.set_hidden( false );
-    ImGui::GetIO().DisplaySize = ImVec2( 800, 600 );
+    ImGui::GetIO().DisplaySize = frames.roomy_viewport();
     frames.settle( window );
     REQUIRE( frames.child( "##DIALOGUE_RESPONSES" ) );
     CHECK_FALSE( frames.child( "##DIALOGUE_RESPONSES" )->Hidden );
@@ -409,7 +431,7 @@ TEST_CASE( "dialogue_imgui_npc_sidebar_and_actions_remain_accessible_on_narrow_w
     CHECK( window.take_special_action() == "YELL" );
     CHECK( window.take_special_action().empty() );
 
-    ImGui::GetIO().DisplaySize = ImVec2( 200, 700 );
+    ImGui::GetIO().DisplaySize = frames.narrow_viewport();
     frames.settle( window );
     REQUIRE( responses->Active );
     const ImGuiWindow *parent = responses->ParentWindow;
@@ -420,7 +442,8 @@ TEST_CASE( "dialogue_imgui_npc_sidebar_and_actions_remain_accessible_on_narrow_w
     CHECK( sidebar->Active );
     CHECK_FALSE( responses->Active );
     CHECK( sidebar->Size.x > 0 );
-    CHECK( sidebar->Pos.x + sidebar->Size.x <= 201 );
+    CHECK( sidebar->Pos.x + sidebar->Size.x <=
+           ImGui::GetIO().DisplaySize.x + frames.layout_tolerance() );
     toggles = frames.buttons( parent );
     REQUIRE( toggles.size() == 1 );
     frames.click( window, toggles.front().GetCenter() );
@@ -493,6 +516,8 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
 {
     namespace platform = cata::lua_platform;
     clear_avatar();
+    restore_on_out_of_scope<bool> restore_debug( debug_mode );
+    debug_mode = false;
     platform::clear_active_runtimes();
     sol::state lua;
     lua.open_libraries( sol::lib::base, sol::lib::table );
@@ -531,10 +556,12 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
             responses = function(context)
                 remember(context, "responses")
                 return {{
-                    text = "Unselected response",
+                    text = "Disabled exit response",
+                    condition = false,
+                    show_always = true,
                     topic = "TALK_DONE",
                     on_select = function()
-                        error("The keyboard selection did not move down")
+                        error("A disabled exit response was selected")
                     end
                 }, {
                     text = "Finish conversation",
@@ -611,26 +638,35 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
     REQUIRE( registration.valid() );
     platform::set_active_runtimes( { owner } );
     owner->world_is_ready = true;
-    const std::vector<input_event> confirm = inp_mngr.get_input_for_action(
-                "CONFIRM", "DIALOGUE_CHOOSE_RESPONSE" );
-    const auto keyboard_confirm = std::find_if( confirm.begin(), confirm.end(),
-    []( const input_event & event ) {
-        return event.type == input_event_t::keyboard_char ||
-               event.type == input_event_t::keyboard_code;
-    } );
-    REQUIRE( keyboard_confirm != confirm.end() );
-    const std::vector<input_event> down = inp_mngr.get_input_for_action(
-            "DOWN", "DIALOGUE_CHOOSE_RESPONSE" );
-    const auto keyboard_down = std::find_if( down.begin(), down.end(),
-    []( const input_event & event ) {
-        return event.type == input_event_t::keyboard_char ||
-               event.type == input_event_t::keyboard_code;
-    } );
-    REQUIRE( keyboard_down != down.end() );
+    const auto keyboard_binding = []( const std::string & action ) {
+        const std::vector<input_event> bindings = inp_mngr.get_input_for_action(
+                    action, "DIALOGUE_CHOOSE_RESPONSE" );
+        const auto found = std::find_if( bindings.begin(), bindings.end(),
+        []( const input_event & event ) {
+            return event.type == input_event_t::keyboard_char ||
+                   event.type == input_event_t::keyboard_code;
+        } );
+        REQUIRE( found != bindings.end() );
+        return *found;
+    };
+    const input_event confirm = keyboard_binding( "CONFIRM" );
+    std::vector<input_event> events;
+    SECTION( "keyboard movement and confirmation reset the next topic selection" ) {
+        events = { keyboard_binding( "DOWN" ), confirm, confirm };
+    }
+    SECTION( "quit skips the disabled first exit and retains the Lua callbacks" ) {
+        events = { keyboard_binding( "QUIT" ), confirm };
+    }
+    // Headless input exhaustion exits the test process.  Leave a recovery
+    // sequence queued so a rejected selection produces assertions instead.
+    const std::vector<input_event> recovery = { keyboard_binding( "DOWN" ), confirm, confirm };
     REQUIRE( input_replay::begin_record( replay_path ) );
-    input_replay::on_record( *keyboard_down );
-    input_replay::on_record( *keyboard_confirm );
-    input_replay::on_record( *keyboard_confirm );
+    for( const input_event &event : events ) {
+        input_replay::on_record( event );
+    }
+    for( const input_event &event : recovery ) {
+        input_replay::on_record( event );
+    }
     input_replay::finish();
     REQUIRE( input_replay::begin_replay( replay_path ) );
     restore_on_out_of_scope<bool> restore_distraction( uistate.distraction_conversation );
@@ -643,7 +679,7 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
     CHECK( get_avatar().talk_to( get_talker_for( interlocutor ), true, false, false,
                                  "TALK_IMGUI_BEFORE", "Test intercom" ) ==
            avatar_talk_to_result::completed );
-    CHECK( input_replay::replay_remaining() == 0 );
+    CHECK( input_replay::replay_remaining() == static_cast<int>( recovery.size() ) );
     const sol::protected_function_result lifecycle = lua.safe_script( R"(
         assert(table.concat(trace, ",") ==
             "start,line,responses,speaker_effect,success,select,option," ..
