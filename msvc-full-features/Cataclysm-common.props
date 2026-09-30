@@ -53,7 +53,8 @@
       <WarningLevel>Level1</WarningLevel>
       <SDLCheck>false</SDLCheck>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation Condition="'$(MultiProcessorCompilation)' == ''">true</MultiProcessorCompilation>
+      <MultiProcessorCompilation Condition="'$(MultiProcessorCompilation)' != ''">$(MultiProcessorCompilation)</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>

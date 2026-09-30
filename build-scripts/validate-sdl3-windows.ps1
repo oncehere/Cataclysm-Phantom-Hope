@@ -97,8 +97,24 @@ try {
     $common = @("-m:$Parallel", '-p:Platform=x64', '-p:MultiProcessorCompilation=false',
         '-p:VcpkgManifestInstall=false', "-p:VcpkgInstalledDir=$installed/",
         'msvc-full-features/Cataclysm-vcpkg-static.sln')
+    # -m limits projects, while /MP would multiply that budget inside each
+    # compiler. Check actual ClCompile metadata before starting the build.
+    Invoke-Recorded 'compile-parallel-evaluation' 'msbuild' @('-nologo', '-getItem:ClCompile',
+        '-p:Platform=x64', '-p:Configuration=Release', '-p:MultiProcessorCompilation=false',
+        '-p:VcpkgManifestInstall=false', "-p:VcpkgInstalledDir=$installed/",
+        'msvc-full-features/Cataclysm-libAL-vcpkg-static.vcxproj')
+    $evaluation = Get-Content -Raw "$evidence/compile-parallel-evaluation.log" | ConvertFrom-Json
+    $compileItems = @($evaluation.Items.ClCompile)
+    if ($compileItems.Count -eq 0 -or @($compileItems | Where-Object {
+        $_.MultiProcessorCompilation -ne 'false'
+    }).Count -ne 0) {
+        throw 'ClCompile metadata did not disable /MP; the requested parallel budget is not enforced.'
+    }
     Invoke-Recorded 'build-tiles-sound' 'msbuild' ($common + @('-p:Configuration=Release',
         '-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip'))
+    if (Get-Content -Raw "$evidence/build-tiles-sound.log" | Select-String '(?im)CL\.exe[^\r\n]*\s/MP(?:\d+)?(?:\s|$)') {
+        throw 'A compiler command enabled /MP despite the explicit parallel budget.'
+    }
     Invoke-Recorded 'tiles-version' './cataclysm-tiles.exe' @('--version')
     $selections = [ordered]@{ sound = '[sound_backend]'; shader = '[tiles][gpu]';
         gamepad = '[gamepad]'; renderer = '[renderer_recovery]'; options = '[option][sdl3]';
@@ -135,6 +151,9 @@ try {
 
     Invoke-Recorded 'build-headless' 'msbuild' ($common + @('-p:Configuration=Release-NoTilesHeadless',
         '-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static'))
+    if (Get-Content -Raw "$evidence/build-headless.log" | Select-String '(?im)CL\.exe[^\r\n]*\s/MP(?:\d+)?(?:\s|$)') {
+        throw 'A headless compiler command enabled /MP despite the explicit parallel budget.'
+    }
     Invoke-Recorded 'headless-version' './cataclysm-headless.exe' @('--version')
     Invoke-Recorded 'headless-dependencies' 'dumpbin' @('/DEPENDENTS', 'cataclysm-headless.exe')
     if (Get-Content -Raw "$evidence/headless-dependencies.log" | Select-String '(?i)SDL[23]|pdcurses') {
