@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <variant>
@@ -241,7 +242,7 @@ TEST_CASE( "lua_platform_persistent_arrays_reject_invalid_input_atomically",
     CHECK( second.get<std::int64_t>( 1 ) == 1 );
     CHECK( second.get<sol::table>( 2 ).get<std::int64_t>( 1 ) == 2 );
     const sol::table empty = script_persistent_value_to_lua( lua,
-        script_array_value( script_persistent_array{} ) );
+                             script_array_value( script_persistent_array{} ) );
     CHECK( empty.size() == 0 );
 }
 
@@ -250,10 +251,29 @@ TEST_CASE( "lua_platform_persistent_coordinates_reject_invalid_components",
 {
     const std::string coordinates = GENERATE(
                                         "[]", "[1,2]", "[1,2,3,4]", "[1.5,2,3]", "[true,2,3]",
-                                        "[2147483648,0,0]", "[-2147483649,0,0]", "[18446744073709551615,0,0]" );
+                                        "[2147483648,0,0]", "[-2147483649,0,0]", "[18446744073709551615,0,0]",
+                                        "[0,9223372036854775808,0]", "[0,0,-9223372036854775809]" );
+    CAPTURE( coordinates );
     const std::string input = R"({"type":"tripoint_abs_ms","value":)" + coordinates + "}";
     CHECK_THROWS( cata::lua_platform::detail::read_persistent_value(
                       json_loader::from_string( input ).get_object() ) );
+}
+
+TEST_CASE( "lua_platform_persistent_coordinates_preserve_integer_boundaries",
+           "[lua][platform][semantic][state]" )
+{
+    const int component = GENERATE( std::numeric_limits<int>::min(), -1, 0,
+                                    std::numeric_limits<int>::max() );
+    CAPTURE( component );
+    const std::string number = std::to_string( component );
+    const std::string input = R"({"type":"tripoint_abs_ms","value":[)" + number + "," + number +
+                              "," + number + "]}";
+    const auto restored = cata::lua_platform::detail::read_persistent_value(
+                              json_loader::from_string( input ).get_object() );
+    const auto &coordinates = std::get<cata::lua_platform::script_persistent_tripoint>( restored );
+    CHECK( coordinates.x == component );
+    CHECK( coordinates.y == component );
+    CHECK( coordinates.z == component );
 }
 
 #endif

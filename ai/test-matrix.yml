@@ -49,7 +49,7 @@ entries:
   - id: json-load
     paths: ['data/core/*.json', 'data/json/*.json', 'data/mods/*.json']
     description: Native content/dependency loading. Use ccb for core or the changed Mod ID and a binary matching the source; missing inputs mean NOT_RUN.
-    command: '"${CPH_GAME_BINARY:?Set a game binary matching the source}" --check-mods "${CPH_MOD_ID:?Set ccb for core or the changed Mod ID}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/"'
+    command: '"${CPH_GAME_BINARY:?Set a game binary matching the source}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/" --check-mods "${CPH_MOD_ID:?Set ccb for core or the changed Mod ID}"'
     workdir: .
     cost: medium
   - id: json-eoc-contract
@@ -74,7 +74,7 @@ entries:
     workdir: .
     cost: fast
   - id: lua-migration
-    paths: [tools/migrate_lua_first.py, tools/lua_migration_output.py, tools/test_migrate_lua_first.py, tools/test_lua_mutation_migration.py]
+    paths: [tools/migrate_lua_first.py, tools/lua_migration_output.py, tools/test_migrate_lua_first.py, tools/test_lua_mutation_migration.py, tools/test_lua_named_predicate_migration.py]
     command: python3 tools/test_migrate_lua_first.py
     workdir: .
     cost: fast
@@ -159,6 +159,6 @@ entries:
     cost: fast
   - id: lua-mod-load
     paths: ['data/mods/*.lua']
-    command: '"${CPH_LUA_BINARY:?Set a Lua-enabled game binary matching the source}" --check-mods "${CPH_MOD_ID:?Set the changed Mod ID}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/"'
+    command: '"${CPH_LUA_BINARY:?Set a Lua-enabled game binary matching the source}" --datadir ./data/ --userdir "${CPH_TEST_USERDIR:?Set an isolated temporary userdir}/" --configdir "${CPH_TEST_CONFIGDIR:?Set an isolated temporary config directory}/" --check-mods "${CPH_MOD_ID:?Set the changed Mod ID}"'
     workdir: .
     cost: medium

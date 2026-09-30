@@ -618,6 +618,11 @@ See below for specifics on the various items
 
 Standard components and tools for crafting (See [Recipe requirements](ITEM_CRAFT_AND_DISASSEMBLY.md#recipe-requirements))
 
+Each outer entry in a requirement's `tools` array is mandatory; entries within
+one group are alternatives. For example, `smelting_standard` requires a heat
+source, a crucible, tongs, and a mold, with alternatives within those four
+groups. A crucible alone does not satisfy the complete tool requirement.
+
 | Filename                     | Description
 |---                           |---
 | `ammo.json`                  | ammo components

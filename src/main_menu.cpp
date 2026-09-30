@@ -68,6 +68,7 @@
 #include "path_info.h"
 #include "project_identity.h"
 #include "popup.h"
+#include "rng.h"
 #include "safemode_ui.h"
 #include "save_snapshot.h"
 #include "scenario.h"
@@ -2081,6 +2082,13 @@ bool main_menu::new_character_tab()
                 }
 
                 world_generator->set_active_world( world );
+                // Roll the world seed before character creation: the
+                // character creator may touch the overmap, and everything
+                // this world generates must share one seed.  Worlds with
+                // saves instead restore their seed from the master save.
+                if( world->world_saves.empty() ) {
+                    g->set_seed( rng_bits() );
+                }
                 try {
                     if( !g->setup() ) {
                         continue;
@@ -2129,6 +2137,13 @@ bool main_menu::new_character_tab()
             return false;
         }
         world_generator->set_active_world( world );
+        // Roll the world seed before character creation: the
+        // character creator may touch the overmap, and everything
+        // this world generates must share one seed.  Worlds with
+        // saves instead restore their seed from the master save.
+        if( world->world_saves.empty() ) {
+            g->set_seed( rng_bits() );
+        }
         try {
             if( !g->setup() ) {
                 return false;

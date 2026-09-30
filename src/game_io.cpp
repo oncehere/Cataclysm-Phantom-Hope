@@ -221,18 +221,19 @@ bool game::check_mod_data( const std::vector<mod_id> &opts )
         try {
             load_core_data();
 
-            // Load any dependencies and de-duplicate them
-            std::vector<mod_id> dep_vector = tree.get_dependencies_of_X_as_strings( mod.ident );
-            std::set<mod_id> dep_set( dep_vector.begin(), dep_vector.end() );
-            for( const auto &dep : dep_set ) {
-                load_data_from_dir( dep->path, dep->ident.str() );
+            // Match world loading: preserve dependency order and load only
+            // interactions with Mods that are part of this check.
+            std::vector<mod_id> platform_order = tree.get_dependencies_of_X_as_strings( mod.ident );
+            platform_order.push_back( mod.ident );
+            canonicalize_mod_list( platform_order );
+            test_world->active_mod_order = platform_order;
+            for( const mod_id &pack : platform_order ) {
+                load_mod_data_from_dir( pack->path, pack.str() );
+            }
+            for( const mod_id &pack : platform_order ) {
+                load_mod_interaction_data_from_dir( pack->path / "mod_interactions", pack.str() );
             }
 
-            // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str() );
-
-            std::vector<mod_id> platform_order = dep_vector;
-            platform_order.push_back( mod.ident );
             std::string platform_error;
             if( !cata::lua_platform::prepare_mods( lua_platform_sources( platform_order ),
                                                    platform_error ) ) {
@@ -263,6 +264,9 @@ bool game::check_mod_data( const std::vector<mod_id> &opts )
         MAPBUFFER.clear();
         overmap_buffer.clear();
         if( !mod_valid ) {
+            // Destroy partially loaded JSON while the diagnostics subsystem
+            // is still alive, rather than during static destruction at exit.
+            DynamicDataLoader::get_instance().unload_data();
             return false;
         }
     }
@@ -1009,7 +1013,7 @@ void game::init_autosave()
     last_save_timestamp = std::time( nullptr );
 }
 
-void game::quicksave()
+void game::quicksave( bool automatic )
 {
     static bool quicksave_in_progress = false;
     // Android can pump focus events from loading screens and save popups.
@@ -1021,9 +1025,11 @@ void game::quicksave()
     }
     restore_on_out_of_scope restore_quicksaving( quicksave_in_progress );
     quicksave_in_progress = true;
+    const bool finishing_dimension_rollback = !automatic &&
+            save_snapshot::dimension_rollback_exists( world_generator->active_world->folder_path() );
     //Don't autosave if the player hasn't done anything since the last autosave/quicksave,
     if( !moves_since_last_save && !dimension_checkpoint_pending &&
-        !world_generator->active_world->world_saves.empty() ) {
+        !world_generator->active_world->world_saves.empty() && !finishing_dimension_rollback ) {
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while." ) );
@@ -1040,6 +1046,9 @@ void game::quicksave()
     if( !save() ) {
         return;
     }
+    if( !automatic ) {
+        discard_dimension_rollback_snapshot();
+    }
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
@@ -1047,7 +1056,7 @@ void game::quicksave()
 
 void game::quickload()
 {
-    const WORLD *active_world = world_generator->active_world;
+    WORLD *active_world = world_generator->active_world;
     if( active_world == nullptr ) {
         return;
     }
@@ -1060,9 +1069,25 @@ void game::quickload()
         return;
     }
 
-    if( moves_since_last_save == 0 ) {
+    const cata_path world_dir = active_world->folder_path();
+    const bool restore_dimension_rollback = save_snapshot::dimension_rollback_exists( world_dir );
+    if( moves_since_last_save == 0 && !restore_dimension_rollback ) {
         // Nothing has happened since the last save; no need to reload.
         return;
+    }
+
+    if( restore_dimension_rollback ) {
+        // Dimension travel writes maps before its safety checkpoint.  Restore
+        // the complete pre-travel world, not just its older character file.
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        m = map();
+        if( !save_snapshot::restore_dimension_rollback( world_dir ) ) {
+            popup_getkey( _( "Failed to restore the pre-travel save." ) );
+            reload_active_save( save_file );
+            return;
+        }
+        active_world->invalidate_compression_cache();
     }
 
     if( reload_active_save( save_file ) ) {
@@ -1097,6 +1122,7 @@ void game::snapshot_menu()
                 popup_getkey( _( "Could not save the game before taking a snapshot." ) );
                 continue;
             }
+            discard_dimension_rollback_snapshot();
             if( save_snapshot::make_snapshot( world_dir, sel.new_name, u.get_name(),
                                               to_turn<int>( calendar::turn ) ) ) {
                 add_msg( _( "Snapshot \"%s\" saved." ), sel.new_name );
@@ -1204,13 +1230,41 @@ void game::save_pending_dimension_checkpoint()
     save();
 }
 
+void game::ensure_dimension_rollback_snapshot()
+{
+    if( !world_generator || !world_generator->active_world ||
+        world_generator->active_world->world_saves.empty() ) {
+        return;
+    }
+    const cata_path world_dir = world_generator->active_world->folder_path();
+    if( save_snapshot::dimension_rollback_exists( world_dir ) ) {
+        return;
+    }
+    if( !save_snapshot::make_dimension_rollback( world_dir, u.get_name(),
+            to_turn<int>( calendar::turn ) ) ) {
+        add_msg( m_warning, _( "Could not preserve the last save before dimension travel." ) );
+    }
+}
+
+void game::discard_dimension_rollback_snapshot()
+{
+    if( !world_generator || !world_generator->active_world ) {
+        return;
+    }
+    const cata_path world_dir = world_generator->active_world->folder_path();
+    if( save_snapshot::dimension_rollback_exists( world_dir ) &&
+        !save_snapshot::delete_dimension_rollback( world_dir ) ) {
+        add_msg( m_warning, _( "Could not remove the outdated dimension rollback save." ) );
+    }
+}
+
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
     if( std::time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
-    quicksave();    //Driving checks are handled by quicksave()
+    quicksave( true );    //Driving checks are handled by quicksave()
 }
 
 cata_path PATH_INFO::player_base_save_path()

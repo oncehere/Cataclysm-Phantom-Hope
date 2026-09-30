@@ -1,8 +1,10 @@
 #include <algorithm>
 #include <array>
+#include <cstdint>
 #include <functional>
 #include <iterator>
 #include <list>
+#include <limits>
 #include <map>
 #include <optional>
 #include <set>
@@ -1059,4 +1061,50 @@ TEST_CASE( "serialize_optional", "[json]" )
         std::vector<std::optional<int>> v{ { 1 }, { 2 }, { 3 } };
         test_serialization( v, "[1,2,3]" );
     }
+}
+
+TEST_CASE( "json_integer_input_rejects_int64_overflow", "[json]" )
+{
+    const std::string number = GENERATE( "9223372036854775808", "-9223372036854775809",
+                                         "18446744073709551615", "18446744073709551616" );
+    CAPTURE( number );
+    CHECK_THROWS_AS( json_loader::from_string( number ), JsonError );
+    CHECK_THROWS_AS( json_loader::from_string( "[" + number + "]" ), JsonError );
+    CHECK_THROWS_AS( json_loader::from_string( R"({"value":)" + number + "}" ), JsonError );
+}
+
+TEST_CASE( "json_integer_input_preserves_int64_boundaries", "[json]" )
+{
+    const std::int64_t value = GENERATE( std::numeric_limits<std::int64_t>::min(),
+                                         std::int64_t( -1 ), std::int64_t( 0 ), std::int64_t( 1 ),
+                                         std::numeric_limits<std::int64_t>::max() );
+    CAPTURE( value );
+    const std::string number = std::to_string( value );
+    CHECK( json_loader::from_string( number ).get_int64() == value );
+    CHECK( json_loader::from_string( "[" + number + "]" ).get_array()[0].get_int64() == value );
+    CHECK( json_loader::from_string( R"({"value":)" + number + "}" ).get_object().get_int64(
+               "value" ) == value );
+}
+
+TEST_CASE( "json_integer_input_rejects_hexadecimal_tokens", "[json]" )
+{
+    const std::string number = GENERATE( "0x10", "-0x10", "0X7f" );
+    CAPTURE( number );
+    CHECK_THROWS_AS( json_loader::from_string( number ), JsonError );
+    CHECK_THROWS_AS( json_loader::from_string( "[" + number + "]" ), JsonError );
+    CHECK_THROWS_AS( json_loader::from_string( R"({"value":)" + number + "}" ), JsonError );
+}
+
+TEST_CASE( "json_integer_input_preserves_decimal_leading_zeros", "[json]" )
+{
+    const std::string digits = GENERATE( "010", "0010", "0000000010" );
+    const bool negative = GENERATE( false, true );
+    const std::string number = negative ? "-" + digits : digits;
+    const std::int64_t expected = negative ? -10 : 10;
+    CAPTURE( number );
+    CHECK( json_loader::from_string( number ).get_int64() == expected );
+    CHECK( json_loader::from_string( "[" + number + "]" ).get_array()[0].get_int64() == expected );
+    CHECK( json_loader::from_string( R"({"value":)" + number + "}" ).get_object().get_int64(
+               "value" ) == expected );
+    CHECK( json_loader::from_string( "-0" ).get_int64() == 0 );
 }
