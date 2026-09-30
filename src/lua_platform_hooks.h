@@ -216,6 +216,7 @@ native_hook_result dispatch_native_dialogue_hook(
     bool by_radio = false,
     std::optional<std::string_view> reason = std::nullopt );
 void clear_dialogue_response_callbacks();
+void clear_dialogue_response_callbacks( ::dialogue &d );
 void begin_dialogue_session( ::dialogue &d );
 void end_dialogue_session( ::dialogue &d ) noexcept;
 std::optional<std::string> dialogue_dynamic_line(

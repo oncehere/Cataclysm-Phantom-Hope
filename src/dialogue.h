@@ -13,8 +13,8 @@
 #include <vector>
 
 #include "cata_lazy.h"
+#include "color.h"
 #include "dialogue_helpers.h"
-#include "dialogue_win.h"
 #include "global_vars.h"
 #include "npc_opinion.h"
 #include "talker.h"
@@ -28,10 +28,12 @@
 *
 * dialogue::gen_responses() will call down to json_talk_response::gen_responses to fill dialogue::responses
 * dialogue::dynamic_line() will construct the current talk_topic dynamic line
-* dialogue::responses and dialogue::dynamic_line together are drawn in the dialogue window
-* dialogue::opt will load the data into a dialogue_window UI
+* dialogue::responses and dialogue::dynamic_line are presented by dialogue_imgui_impl.
+* dialogue::opt_imgui captures a choice; avatar::talk_to owns the conversation lifecycle.
 */
 
+class dialogue_imgui_impl;
+class input_context;
 class JsonArray;
 class JsonObject;
 class martialart;
@@ -61,6 +63,15 @@ using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
+
+struct talk_data {
+    nc_color color;
+    std::string hotkey_desc;
+    std::string text;
+};
+
+std::optional<size_t> dialogue_response_hotkey_index(
+    const std::vector<input_event> &hotkeys, const input_event &event );
 
 /**
  * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
@@ -284,7 +295,12 @@ struct dialogue: public const_dialogue {
         bool done = false;
         std::vector<talk_topic> topic_stack;
 
-        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
+        talk_topic opt_imgui( dialogue_imgui_impl &d_win, const talk_topic &topic,
+                              input_context &ctxt );
+        bool response_is_selectable( size_t index ) const;
+        talk_topic apply_response( size_t index );
+        // Advance or finish the native topic stack without owning UI or Lua hooks.
+        bool advance_topic( const talk_topic &next );
         dialogue() = default;
         ~dialogue() noexcept;
         dialogue( const dialogue &d );
@@ -299,9 +315,9 @@ struct dialogue: public const_dialogue {
         std::string dynamic_line( const talk_topic &topic );
         void apply_speaker_effects( const talk_topic &the_topic );
         // Display name for the NPC in conversation history. Uses
-        // remote_name from dialogue_window when set (intercom etc.),
+        // remote_name from dialogue_imgui_impl when set (intercom etc.),
         // falls back to NPC display name, empty if not a conversation.
-        std::string speaker_name( const dialogue_window &d_win ) const;
+        std::string speaker_name( const dialogue_imgui_impl &d_win ) const;
 
         /**
          * Possible responses from the player character, filled in @ref gen_responses.
@@ -408,7 +424,8 @@ struct dialogue: public const_dialogue {
         * @param responses: true = responses, false = dynamic line
         * @param do_response: if > -1, which response to get data for
         */
-        std::vector<std::string> build_debug_info( const dialogue_window &d_win, const talk_topic &topic,
+        std::vector<std::string> build_debug_info( const dialogue_imgui_impl &d_win,
+                const talk_topic &topic,
                 int do_response = -1 );
 };
 

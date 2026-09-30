@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:7228dc851e0ce77e25bf1e1b6b33fce81f2cc83dbf4021d7681bc155aede4d7f",
+    "source_fingerprint": "sha256:e690bea2817b26e2b5bca895dd864be35587aff3b99c676164d8e0af4c7a0df1",
     "contract_roots": [ "data/core", "data/json", "data/mods", "data/sound" ],
     "discovery": "git ls-files",
     "registrations": "src/init.cpp#DynamicDataLoader::initialize"
@@ -181,7 +181,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1672 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1678 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -493,7 +493,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3835 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3841 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -801,7 +801,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 505 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 511 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -837,7 +837,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 672 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 678 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1053,7 +1053,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 980 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 986 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1189,7 +1189,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1257 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1263 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1369,7 +1369,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 198 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 204 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1605,7 +1605,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1507 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1513 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1749,7 +1749,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1566 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1572 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1785,7 +1785,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 515 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 521 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -1999,7 +1999,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5849 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5855 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2071,7 +2071,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1591 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1597 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2107,7 +2107,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 83 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 89 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2143,7 +2143,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 82 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 88 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2283,7 +2283,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5387 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5393 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2319,7 +2319,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1726 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1732 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2643,7 +2643,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3219 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3225 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -2779,7 +2779,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2589 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2595 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3220,7 +3220,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4495 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4501 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3360,7 +3360,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2589 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2595 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3396,7 +3396,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2656 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2662 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3432,7 +3432,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4443 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4449 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3540,7 +3540,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 573 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 579 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3780,7 +3780,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4696 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4702 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -3888,7 +3888,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4459 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4465 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -4344,7 +4344,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2140 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2146 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -4380,7 +4380,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1971 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1977 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5205,7 +5205,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2740 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 2746 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5241,7 +5241,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2247 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2253 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5489,7 +5489,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4385 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4391 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5589,7 +5589,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3989 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3995 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5625,7 +5625,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2614 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 2620 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5693,7 +5693,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4338 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4344 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5729,7 +5729,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1043 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 1049 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5765,7 +5765,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4336 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 4342 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -5909,7 +5909,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5584 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 5590 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6293,7 +6293,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3075 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3081 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6329,7 +6329,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 270 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 276 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6397,7 +6397,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3024 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3030 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6469,7 +6469,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3076 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3082 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6505,7 +6505,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3070 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3076 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6577,7 +6577,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3110 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 3116 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6685,7 +6685,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4655 } ],
+        "evidence": [ { "path": "doc/JSON/JSON_INFO.md", "line": 4661 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {
@@ -6749,7 +6749,7 @@
       "schema": { "status": "none", "paths": [  ], "note": "No general validator-backed Schema exists for this object type." },
       "documentation": {
         "status": "lexically_mentioned",
-        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3278 } ],
+        "evidence": [ { "path": "doc/JSON/EFFECT_ON_CONDITION.md", "line": 3284 } ],
         "confidence": "lexical_only"
       },
       "field_contract": {

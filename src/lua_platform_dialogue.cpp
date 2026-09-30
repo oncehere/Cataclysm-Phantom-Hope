@@ -1,6 +1,7 @@
 #include "lua_platform_dialogue.h"
 
 #include "lua_platform_state.h"
+#include <algorithm>
 #include <character_id.h>
 #include <coordinates.h>
 #include <dialogue.h>
@@ -353,6 +354,7 @@ dialogue_session_ptr session_for(
 
 void end_session( ::dialogue &d ) noexcept
 {
+    clear_response_callbacks( d );
     dialogue_session_registry &registry = session_registry();
     const auto found = registry.lifetimes.find( &d );
     if( found == registry.lifetimes.end() ) {
@@ -772,6 +774,23 @@ void clear_response_callbacks( const response_callback_origin origin )
 {
     for( auto iter = response_callbacks.begin(); iter != response_callbacks.end(); ) {
         if( iter->second.origin == origin ) {
+            iter = response_callbacks.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+}
+
+void clear_response_callbacks( ::dialogue &d )
+{
+    for( auto iter = response_callbacks.begin(); iter != response_callbacks.end(); ) {
+        const stored_response_callback &stored = iter->second;
+        const bool owned = stored.session ? stored.session->native_dialogue_ == &d :
+                           std::any_of( d.responses.begin(), d.responses.end(),
+        [id = iter->first]( const talk_response & response ) {
+            return response.lua_response_id == id;
+        } );
+        if( owned ) {
             iter = response_callbacks.erase( iter );
         } else {
             ++iter;
