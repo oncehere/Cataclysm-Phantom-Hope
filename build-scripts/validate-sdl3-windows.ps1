@@ -43,7 +43,7 @@ function Assert-Junit([string]$Path) {
 }
 function Assert-CompilerParallelBudget([string]$Path, [int]$ExpectedParallel) {
     $observed = $false
-    foreach ($command in [regex]::Matches((Get-Content -Raw -LiteralPath $Path), '(?im)^.*\bCL\.exe\b[^\r\n]*$')) {
+    foreach ($command in [regex]::Matches((Get-Content -Raw -LiteralPath $Path), '(?im)^[^\r\n]*\bCL\.exe\b[^\r\n]*')) {
         foreach ($option in [regex]::Matches($command.Value, '(?i)(?<!\S)[/-]MP(?<count>\S*)')) {
             if ($option.Groups['count'].Value -ne "$ExpectedParallel") {
                 throw "Compiler option $($option.Value) does not enforce /MP$ExpectedParallel in $Path."
