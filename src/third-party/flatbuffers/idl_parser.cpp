@@ -3047,10 +3047,15 @@ CheckedError Parser::ParseFlexBufferValue(flexbuffers::Builder *builder) {
       builder->String(attribute_);
       EXPECT(kTokenStringConstant);
       break;
-    case kTokenIntegerConstant:
-      builder->Int(StringToInt(attribute_.c_str()));
+    case kTokenIntegerConstant: {
+      int64_t value;
+      if (!StringToIntegerImpl(&value, attribute_.c_str(), 10)) {
+        return Error("invalid number: \"" + attribute_ + "\"");
+      }
+      builder->Int(value);
       EXPECT(kTokenIntegerConstant);
       break;
+    }
     case kTokenFloatConstant: {
       double d;
       StringToNumber(attribute_.c_str(), &d);

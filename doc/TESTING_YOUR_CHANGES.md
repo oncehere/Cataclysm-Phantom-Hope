@@ -45,6 +45,24 @@ and actual data-path logs rather than relying on the executable location. Use
 disposable user, config and save directories. Lua Platform changes additionally
 follow the [Lua contract workflow](../data/lua/LUA_FIRST_EOC_WORKFLOW.md).
 
+For headless content validation, put `--check-mods <mod-id>` after all path
+options: it consumes the remaining arguments as Mod IDs. Each selected Mod is
+checked with its dependencies; interaction directories are loaded only for
+Mods in that dependency set. Core uses the Mod ID `ccb`.
+
+When changing this native validation entrypoint, also run its isolated CLI
+regression with the matching game binary:
+
+```sh
+python3 tests/check_mods_integration.py --binary "$CPH_GAME_BINARY" \
+  --source . --output /tmp/cph-check-mods-result.json
+```
+
+The regression creates disposable user Mods to check inactive-interaction
+exclusion, active dependency overrides and inheritance, and rejection of true
+same-source duplicates. It reads source data without modifying it and records
+native exit codes and diagnostics. Choose a fresh output path for each run.
+
 You should also use an up-to-date version of Cataclysm and ensure that
 the git revision matches the Cataclysm executable version to avoid
 conflicts due to other people's changes to the JSON handling code.

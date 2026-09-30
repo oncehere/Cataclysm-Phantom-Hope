@@ -237,11 +237,16 @@ TEST_CASE( "lua_platform_contained_trade_preserves_exact_source_and_rollback_ord
 {
     // Native stage modes, followed by public commit and stale-container quote modes.
     const int mode = GENERATE( 0, 1, 2, 3, 4, 5 );
+    CAPTURE( mode );
     platform_trade_quote_fixture fixture( 981, 982, 983001, 983002 );
     REQUIRE( fixture.ready() );
     item bag( itype_id( "backpack" ), calendar::turn );
     for( int i = 0; i < 3; ++i ) {
-        bag.force_insert_item( item( itype_id( "rock" ), calendar::turn ), pocket_type::CONTAINER );
+        // Keep three distinct Items so extracting the middle one exercises
+        // exact source identity and rollback order, not charge-stack merging.
+        const item child( itype_id( "hammer" ), calendar::turn );
+        REQUIRE_FALSE( child.count_by_charges() );
+        bag.force_insert_item( child, pocket_type::CONTAINER );
     }
     bag.set_owner( *fixture.buyer );
     item &container = fixture.buyer->inv->add_item( std::move( bag ), false, false, false );
