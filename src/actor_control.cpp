@@ -1172,6 +1172,7 @@ void reset()
     state.event_watermark = 0;
     state.acknowledged = 0;
     state.events.clear();
+    state.requirement_decisions.clear();
     state.checkpoint_delta.clear();
     state.event_bytes = 0;
     state.queue.clear();

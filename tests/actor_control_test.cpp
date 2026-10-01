@@ -996,7 +996,7 @@ TEST_CASE( "actor_control_trade_permission_checks_actual_hostile_beneficiary",
     response( "offer_plan", plan( request,
                                   "[{\"id\":\"gift\",\"action\":\"trade\",\"args\":{\"target\":" +
                                   std::to_string( other.getID().get_value() ) +
-                                  ",\"give\":[{\"item_type\":\"rock\"}],\"take\":[]}}]" ) );
+                                  ",\"give\":[{\"item_type\":\"rock\",\"count\":1}],\"take\":[]}}]" ) );
     other.set_attitude( NPCATT_KILL );
     REQUIRE( other.is_enemy() );
     actor.set_moves( 100 );
@@ -1022,7 +1022,7 @@ TEST_CASE( "actor_control_player_trade_confirmation_rechecks_take_beneficiary_pe
     response( "offer_plan", plan( response( "take_request" ),
                                   "[{\"id\":\"take\",\"action\":\"trade\",\"args\":{\"target\":" +
                                   std::to_string( get_avatar().getID().get_value() ) +
-                                  ",\"give\":[],\"take\":[{\"item_type\":\"rock\"}]}}]" ) );
+                                  ",\"give\":[],\"take\":[{\"item_type\":\"rock\",\"count\":1}]}}]" ) );
     actor.set_moves( 100 );
     control::act( actor, false );
     REQUIRE( actor.maybe_get_value( "cph_ai.pending_trade" ) );
@@ -1101,7 +1101,9 @@ TEST_CASE( "actor_control_linked_casual_speech_does_not_accept_message_contents"
                                         0 ).get_string( "requirement_id" );
     response( "offer_plan", plan( request,
                                   "[{\"id\":\"reply\",\"action\":\"talk\",\"requirement_id\":" +
-                                  control::quote( requirement ) + ",\"args\":{\"text\":\"I heard you.\"}}]" ) );
+                                  control::quote( requirement ) + ",\"args\":{\"target\":" +
+                                  std::to_string( get_avatar().getID().get_value() ) +
+                                  ",\"text\":\"I heard you.\"}}]" ) );
     actor.set_moves( 100 );
     REQUIRE( control::act( actor, false ) );
     CHECK( at( response( "status" ), "requirement_decisions",
@@ -1170,4 +1172,36 @@ TEST_CASE( "actor_control_new_chat_during_native_craft_retains_completed_work",
     CHECK( at( result, "receipts", 0 ).get_string( "code" ) == "crafted" );
     CHECK( at( result, "requirement_decisions", 0 ).get_string( "decision" ) == "pending" );
     CHECK( native_amount( actor, "bandages_makeshift" ) == 2 );
+}
+
+TEST_CASE( "actor_control_reset_discards_previous_world_requirement_decisions",
+           "[actor_control][social][save]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    std::string error;
+    REQUIRE( control::chat( "Gather a rock in this world.", error ) );
+    const JsonObject original = response( "take_request" );
+    const std::string requirement = at( original, "requirement_decisions",
+                                        0 ).get_string( "requirement_id" );
+    const std::string refusal = "[{\"id\":\"no\",\"action\":\"refuse\",\"requirement_id\":" +
+                                control::quote( requirement ) + ",\"args\":{\"text\":\"I refuse.\"}}]";
+    response( "offer_plan", plan( original, refusal ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    CHECK( at( response( "status" ), "requirement_decisions",
+               0 ).get_string( "decision" ) == "refused" );
+    const std::string previous_world = child( original, "context" ).get_string( "world_id" );
+    control::reset();
+    control::enable( true );
+    prepare( actor );
+    const JsonObject fresh = response( "take_request" );
+    CHECK( child( fresh, "context" ).get_string( "world_id" ) != previous_world );
+    CHECK( fresh.get_array( "requirement_decisions" ).empty() );
+    CHECK( snapshot( saved() ).get_array( "requirement_decisions" ).empty() );
+    control::dispatch( "offer_plan", plan( fresh, refusal ), error );
+    CHECK( error == "unknown_requirement" );
+    response( "offer_plan", plan( fresh, R"([{"id":"new-world","action":"wait","args":{}}])" ) );
+    CHECK( response( "status" ).get_int( "queue_length" ) == 1 );
 }
