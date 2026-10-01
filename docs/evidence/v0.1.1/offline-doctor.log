@@ -1,0 +1,1 @@
+{"state": "checked", "checks": {"python_3_12": true, "config_schema": true, "background_exists": true, "background_is_file": true, "protocol_version": "1.0", "schema_digest": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c", "profile_absolute": true, "model_called": false, "sdk_3_22_1": true, "endpoint_configured": false, "credential_available": false}}

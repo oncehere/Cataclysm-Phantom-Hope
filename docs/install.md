@@ -20,7 +20,7 @@ git -C cph-source rev-parse HEAD
 ```
 
 The native candidate is
-[`85d161b424bc9e7d2349516c88eefe644c62d1f9`](https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/85d161b424bc9e7d2349516c88eefe644c62d1f9).
+[`a04e657dc009cc5dceacec20eb1acdc23068f248`](https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/a04e657dc009cc5dceacec20eb1acdc23068f248).
 Use the manifest's tested combination when choosing the package to install.
 The adapted changes are available for review in
 [CPH draft PR #25](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/25).
@@ -28,15 +28,17 @@ They have not been merged into ordinary CPH `main` or deployed to the user's
 installed game by this package.
 
 Install a C++17 compiler, CMake, Ninja and the native dependencies described in
-CPH's [CMake build guide](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/85d161b424bc9e7d2349516c88eefe644c62d1f9/doc/c++/COMPILING-CMAKE.md).
+CPH's [CMake build guide](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/a04e657dc009cc5dceacec20eb1acdc23068f248/doc/c++/COMPILING-CMAKE.md).
 Tiles require SDL3. The repository's
-[flake.nix](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/85d161b424bc9e7d2349516c88eefe644c62d1f9/flake.nix)
-also declares its development dependencies. The Linux candidate was built with
-the following configuration; sound, translations and backtraces are disabled
+[flake.nix](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/a04e657dc009cc5dceacec20eb1acdc23068f248/flake.nix)
+also declares its development dependencies. The Linux candidate was tested with
+**Clang 21.1.8**. Select that C++ compiler explicitly in the following
+configuration; sound, translations and backtraces are disabled
 in this particular tested build:
 
 ```sh
 cmake -S cph-source -B cph-build -G Ninja \
+  -DCMAKE_CXX_COMPILER=clang++ \
   -DCMAKE_BUILD_TYPE=Release '-DCMAKE_CXX_FLAGS_RELEASE=-O1 -DNDEBUG' \
   -DCATA_ENABLE_LUA_PLATFORM=ON -DTILES=ON -DCURSES=OFF -DHEADLESS=OFF \
   -DSOUND=OFF -DLOCALIZE=OFF -DBACKTRACE=OFF -DLIBBACKTRACE=OFF \
@@ -65,7 +67,7 @@ release directory, install exact hashed dependencies, then the project wheel:
 ```sh
 python3.12 -m venv /absolute/companion-venv
 /absolute/companion-venv/bin/python -m pip install --require-hashes -r requirements.lock
-/absolute/companion-venv/bin/python -m pip install --no-deps cph_ai_companion-0.1.0-py3-none-any.whl
+/absolute/companion-venv/bin/python -m pip install --no-deps cph_ai_companion-0.1.1-py3-none-any.whl
 ```
 
 Verify the published checksums before installation. `requirements.lock` is the
@@ -138,6 +140,17 @@ unpatched CPH version is not covered by the safe-removal guarantee.
 Supported same-schema upgrades preserve manual edits and checkpoints. Back up
 the profile and use an explicitly validated native/package pair. Unsupported
 future schema versions fail closed without rewriting their files.
+
+For an upgrade from `0.1.0` to `0.1.1`, install the new wheel in a separate
+environment. The installer protects existing MOD files, so a changed version
+cannot overwrite the old MOD. Use the old program's `stop` and `remove-mod`
+commands above and wait for successful safe removal. With the new program,
+run `init --install-mod` using a new, empty bootstrap profile directory solely
+to install the MOD. Keep your original character profile, background and memory
+files, then bind its original profile ID in game and run the new program with
+that original profile. `init` cannot overwrite an existing profile. If native
+dependency release is incomplete, preserve the installation until CPH reports
+safe removal.
 
 After an interrupted game save, retain the native operation journal and all
 game files. A local memory checkpoint marked `prepared` does not confirm a

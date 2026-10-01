@@ -25,7 +25,14 @@ own command, platform, exact identity and result.
 
 The candidate is an experimental prerelease. The recorded outcomes have bounded
 scope; the compatibility manifest binds the release package to the tested native
-commit `85d161b424bc9e7d2349516c88eefe644c62d1f9` and the installed 111-test wheel.
+commit `a04e657dc009cc5dceacec20eb1acdc23068f248` and the installed `0.1.1`
+111-test wheel. Previous `0.1.0` evidence remains historical.
+
+The revision fixes two internal native helpers rejected by the actual `0.1.0`
+CPH Linux CI build's missing-declaration checks. The
+[diagnosis and exact validation boundary](evidence/v0.1.1/gcc-helper-fix-20261001.md)
+preserve that introduced failure; a local GNU module check does not convert it
+into hosted success. Latest hosted CI and publication are recorded separately.
 
 The first focused native execution failed 8 cases / 20 assertions. Its
 [failure history and assertion excerpt](evidence/native-failure-history.json)
@@ -35,14 +42,15 @@ fixture/JSON diagnostic corrections.
 | Recorded check | Outcome and scope |
 | --- | --- |
 | Python source and installed package | **PASS**, 111 tests in each environment; installed non-editable wheel tested outside the source checkout |
-| Installed MOD loading | **PASS**, actual native `--check-mods` after fixing the metadata filename; original failure and an undiagnosed intermediate run remain in [the report](evidence/install-manifest-fix.json) |
-| Focused native suite | **PASS**, 63 cases / 1,727 assertions from canonical engine objects and selected real test objects; [native report](evidence/native-acceptance.json) |
+| Installed MOD loading | **PASS**, actual nativea04 `--check-mods` for newly installed `0.1.1`; [revision report](evidence/v0.1.1/native-mod-load-v011-a04-20261001.json); original metadata failure remains historical |
+| Focused native suite | **PASS**, 63 cases / 1,727 assertions from canonical engine objects and selected real test objects; [revision report and exact a04 identity mapping](evidence/v0.1.1/native-acceptance.json) |
 | Multiplayer proxy exclusion | **PASS**, two native regression cases / 96 assertions after reproducing the prior gap; live multiplayer host/client session remains **NOT_RUN** |
 | Native journal/recovery fixtures | **PASS** within that focused suite: rollback/commit, beforeimages, native writers, checkpoint markers and gameplay snapshot boundaries |
-| Installed/native integration | **PASS**, final native85 / installed111 wheel, one case / 2,021 assertions: real NPC ground-item gather, native action-point cost, receipt, local memory and safe handoff; [joint report](evidence/native-installed-joint.json) |
-| Full native game build | **PASS**, final native85 `cataclysm-tiles`; this is compilation, not GUI execution |
+| Installed/native integration | **PASS**, nativea04 / installed `0.1.1`, one case / 1,538 assertions: real NPC ground-item gather, native action-point cost, receipt, local memory and safe handoff; [joint report](evidence/v0.1.1/native-installed-joint.json) |
+| Full native game build | **PASS**, local Clang 21.1.8 nativea04 `cataclysm-tiles`; this is compilation, not GUI execution |
+| GNU module diagnostics | **PASS**, GCC 15.3.0 checks `actor_control.cpp` with strict missing-declaration diagnostics; full GNU game and final hosted CPH result remain separate |
 | Adjacent native regressions | **FAIL**, 15 of 17 cases pass; `crafting_with_a_companion` and `on_load-sane-values` fail three assertions; [raw log](evidence/native-adjacent-regressions.log) |
-| Hosted independent-project CI | **PASS for implementation commit only**, [run 36816213998](https://github.com/oncehere/cph-ai-companion/actions/runs/36816213998); final documentation CI is recorded separately |
+| Hosted independent-project CI | **PASS for historical `0.1.0` final commit `ce8b6a5`**, [run 36830812721](https://github.com/oncehere/cph-ai-companion/actions/runs/36830812721); `0.1.1` CI is recorded separately after its final commit |
 | Full official native suite | **NOT_RUN**; the focused runner is not the full `cata_test-tiles` target |
 | GUI, real provider and actual user environment | **NOT_RUN** |
 | Complete physical crash campaign, graphical save/load, actual cross-dimension journey and death/replacement GUI | **NOT_RUN** |

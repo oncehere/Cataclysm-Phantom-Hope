@@ -19,21 +19,21 @@ class ReleaseTests(unittest.TestCase):
         self.dist = self.root / "dist"
         self.dist.mkdir()
         (self.root / "docs").mkdir()
-        self.record = {"schema_version": 1, "package_version": "0.1.0", "protocol_version": "1.0",
+        self.record = {"schema_version": 1, "package_version": "0.1.1", "protocol_version": "1.0",
                        "candidate": {"status": "LOCAL_CANDIDATE", "native_head": None},
                        "validated_combinations": [], "acceptance": {"gameplay": "NOT_RUN"}}
         (self.root / "docs/compatibility.json").write_text(json.dumps(self.record))
         for name in ("requirements.lock", "build-requirements.lock", "uv.lock", "LICENSE", "NOTICE", "THIRD_PARTY.md", "README.md"):
             (self.root / name).write_text("test " + name)
-        (self.dist / "cph_ai_companion-0.1.0.tar.gz").write_bytes(b"source-fixture")
-        self.wheel = self.dist / "cph_ai_companion-0.1.0-py3-none-any.whl"
+        (self.dist / "cph_ai_companion-0.1.1.tar.gz").write_bytes(b"source-fixture")
+        self.wheel = self.dist / "cph_ai_companion-0.1.1-py3-none-any.whl"
 
     def tearDown(self):
         self.temp.cleanup()
 
     def write_wheel(self, *, main=True, unsafe=False):
         with zipfile.ZipFile(self.wheel, "w") as archive:
-            archive.writestr("cph_ai_companion-0.1.0.dist-info/METADATA", "Name: cph-ai-companion\nVersion: 0.1.0\nRequires-Python: <3.13,>=3.12\n")
+            archive.writestr("cph_ai_companion-0.1.1.dist-info/METADATA", "Name: cph-ai-companion\nVersion: 0.1.1\nRequires-Python: <3.13,>=3.12\n")
             archive.writestr(release.PROTOCOL_FILE, '{"protocol_version":"1.0"}')
             archive.writestr(release.MOD_PREFIX + "mod.lua", "return { id='cph_ai_companion' }")
             if main:
@@ -49,7 +49,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(manifest["validated_combinations"], [])
         self.assertEqual(manifest["acceptance"]["gameplay"], "NOT_RUN")
         self.assertEqual(manifest["candidate"]["native_head"], None)
-        with zipfile.ZipFile(self.dist / "cph_ai_companion-0.1.0-mod.zip") as archive:
+        with zipfile.ZipFile(self.dist / "cph_ai_companion-0.1.1-mod.zip") as archive:
             self.assertEqual(archive.read("cph_ai_companion/main.lua"), b"return {}")
         for line in (self.dist / "SHA256SUMS").read_text().splitlines():
             digest, name = line.split("  ", 1)
@@ -66,10 +66,10 @@ class ReleaseTests(unittest.TestCase):
     def test_mod_archive_and_checksums_are_reproducible(self):
         self.write_wheel()
         release.assemble(self.dist, root=self.root)
-        first = (self.dist / "cph_ai_companion-0.1.0-mod.zip").read_bytes()
+        first = (self.dist / "cph_ai_companion-0.1.1-mod.zip").read_bytes()
         checksums = (self.dist / "SHA256SUMS").read_bytes()
         release.assemble(self.dist, root=self.root)
-        self.assertEqual((self.dist / "cph_ai_companion-0.1.0-mod.zip").read_bytes(), first)
+        self.assertEqual((self.dist / "cph_ai_companion-0.1.1-mod.zip").read_bytes(), first)
         self.assertEqual((self.dist / "SHA256SUMS").read_bytes(), checksums)
 
 

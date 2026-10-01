@@ -11,7 +11,7 @@ executes actions, consumes resources and time, produces receipts, and runs local
 NPC behavior between plans. Readable local files hold background and cognition;
 human edits and deletions take precedence over automatic updates.
 
-This checkout is a **0.1.0 experimental prerelease candidate**. Compatibility and actual
+This checkout is a **0.1.1 experimental prerelease candidate**. Compatibility and actual
 acceptance are recorded in [docs/compatibility.md](docs/compatibility.md) and
 [docs/acceptance.md](docs/acceptance.md). The tested integration uses a real
 native NPC and installed Python package with a synthetic local model endpoint.

@@ -303,12 +303,11 @@
   ],
   "date": "2026-10-01",
   "language_boundary": "Bounded/control-character validation plus explicit intent checks; unannotated natural prose is not semantically guaranteed truthful or peaceful. User accepted this boundary.",
-  "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
-  "native_evidence": "docs/evidence/v0.1.1/native-acceptance.json",
-  "package_version": "0.1.1",
-  "python_evidence": "docs/evidence/v0.1.1/python-package.json",
+  "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "native_evidence": "docs/evidence/native-acceptance.json",
+  "python_evidence": "docs/evidence/python-package.json",
   "python_suite_tests": 111,
   "schema_version": 1,
   "scope": "Fifteen independently configurable explicit behaviors; native effects in automated isolated fixtures andPython permission tests, not real-model graphical quality acceptance.",
-  "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+  "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
 }

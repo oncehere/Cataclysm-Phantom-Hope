@@ -21,7 +21,7 @@ jobs:
         run: |
           uv venv /tmp/cph-companion-artifact --python 3.12
           uv pip install --python /tmp/cph-companion-artifact/bin/python --require-hashes -r dist/requirements.lock
-          uv pip install --python /tmp/cph-companion-artifact/bin/python --no-deps dist/cph_ai_companion-0.1.0-py3-none-any.whl
+          uv pip install --python /tmp/cph-companion-artifact/bin/python --no-deps dist/cph_ai_companion-0.1.1-py3-none-any.whl
           cd /tmp
           /tmp/cph-companion-artifact/bin/cph-ai-companion init --profile /tmp/cph-companion-test-profile --actor-id 7
           /tmp/cph-companion-artifact/bin/cph-ai-companion doctor --offline --profile /tmp/cph-companion-test-profile

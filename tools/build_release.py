@@ -10,7 +10,7 @@ from pathlib import Path, PurePosixPath
 import shutil
 import zipfile
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 MOD_PREFIX = "cph_ai_companion/resources/mod/"
 PROTOCOL_FILE = "cph_ai_companion/resources/protocol/protocol.json"
 

@@ -1,39 +1,35 @@
 {
   "acceptance": {
     "actual_user_environment": "NOT_RUN",
-    "artifact_install": "PASS_V011_OUTSIDE_SOURCE",
+    "artifact_install": "PASS",
     "complete_physical_crash_campaign": "NOT_RUN",
-    "full_game_build": "PASS_LOCAL_CLANG_21_1_8",
-    "full_gnu_game": "NOT_RUN",
+    "full_game_build": "PASS_CATACLYSM_TILES",
     "full_native_suite": "NOT_RUN",
     "gameplay": "PASS_RECORDED_ISOLATED_NATIVE_SCENARIOS",
-    "gnu_module": "PASS_GCC_15_3_SYNTAX_DIAGNOSTICS_ONLY",
     "gui": "NOT_RUN",
-    "hosted_ci": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
-    "hosted_cph_result": "PENDING_EXTERNAL_RESULT_AS_OF_PACKAGE_ASSEMBLY",
-    "installed_native_joint": "PASS_A04_V011_ACTUAL",
+    "hosted_ci": "PASS_IMPLEMENTATION_AFB780_ONLY",
+    "installed_native_joint": "PASS_FINAL85_INSTALLED111",
     "live_multiplayer": "NOT_RUN",
-    "mod_load": "PASS_V011_A04_ACTUAL",
     "native_tests": "PASS_FOCUSED_63_CASES",
-    "published": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
-    "python_tests": "PASS_111_V011_SOURCE_AND_INSTALLED",
+    "published": "NOT_RUN_AS_OF_PACKAGE_ASSEMBLY",
+    "python_tests": "PASS",
     "real_provider": "NOT_RUN",
     "save_reload": "PASS_FOCUSED_FAULT_FIXTURES; FULL_GUI_JOURNEYS_NOT_RUN"
   },
   "candidate": {
-    "joint_repeat": "PASS_NATIVE_A04_PACKAGE_V011",
+    "joint_repeat": "PASS_FINAL85_INSTALLED111",
     "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
-    "native_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
-    "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+    "native_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
     "status": "EXPERIMENTAL_PRERELEASE_CANDIDATE",
-    "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+    "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
   },
   "evidence": {
     "adjacent_failures": "docs/evidence/native-controlled-baseline.json",
-    "joint": "docs/evidence/v0.1.1/native-installed-joint.json",
-    "native": "docs/evidence/v0.1.1/native-acceptance.json",
+    "joint": "docs/evidence/native-installed-joint.json",
+    "native": "docs/evidence/native-acceptance.json",
     "personality": "docs/evidence/personality-coverage.json",
-    "python": "docs/evidence/v0.1.1/python-package.json"
+    "python": "docs/evidence/python-package.json"
   },
   "evidence_as_of": "PACKAGE_ASSEMBLY_SNAPSHOT; final GitHub CI and public release state/digests are recorded in their actual GitHub metadata and outer report",
   "formats": {
@@ -47,24 +43,17 @@
     "evidence": "docs/evidence/native-controlled-baseline.json"
   },
   "openai_sdk": "3.22.1",
-  "package_version": "0.1.1",
-  "previous_release": {
-    "boundary": "Published historical assets and tests remain unchanged; they do not certify this revised package.",
-    "compatibility_snapshot": "docs/evidence/v0.1.0-compatibility.json",
-    "url": "https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.0",
-    "version": "0.1.0"
-  },
+  "package_version": "0.1.0",
   "protocol_version": "1.0",
   "python": ">=3.12,<3.13",
   "schema_version": 1,
   "target_platform": "linux-x86_64",
   "validated_combinations": [
     {
-      "compiler": "Clang21.1.8",
-      "evidence": "docs/evidence/v0.1.1/native-installed-joint.json",
-      "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
-      "native_source_url": "https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/a04e657dc009cc5dceacec20eb1acdc23068f248",
-      "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+      "evidence": "docs/evidence/native-installed-joint.json",
+      "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+      "native_source_url": "https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/85d161b424bc9e7d2349516c88eefe644c62d1f9",
+      "native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
       "not_run": [
         "full official native suite",
         "GUI",
@@ -74,11 +63,10 @@
         "actual cross-dimension journey",
         "death/replacement GUI",
         "live multiplayer host/client",
-        "other platforms",
-        "fullGNUgame orcompletehostedCPHbuild"
+        "other platforms"
       ],
       "openai_sdk": "3.22.1",
-      "package_version": "0.1.1",
+      "package_version": "0.1.0",
       "platform": "linux-x86_64",
       "protocol_version": "1.0",
       "python": "3.12.14",
@@ -88,11 +76,10 @@
         "installed111 package with real NPC ground pickup,actual native AP/receipts and local memory",
         "input-wait processing without game-time or AP advance",
         "safe native handoff",
-        "official SDK with synthetic localhost HTTP",
-        "Latestinstalled0.1.1 MOD native scanner"
+        "official SDK with synthetic localhost HTTP"
       ],
       "status": "PASS_RECORDED_JOINT_SCOPE",
-      "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+      "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
     }
   ]
 }

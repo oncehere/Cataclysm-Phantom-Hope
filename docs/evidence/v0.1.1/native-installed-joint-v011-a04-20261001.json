@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-10-01T08:06:53.341517+00:00",
+  "status": "PASS",
+  "head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+  "tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+  "argv": [
+    "/tmp/cph-ai-build-20260930/tests/cata_test-actor-control",
+    "[.actor_control_joint]",
+    "--user-dir",
+    "/tmp/cph-ai-joint-v0.1.1-a04-user-20261001",
+    "--rng-seed",
+    "123456",
+    "--reporter",
+    "compact",
+    "--durations",
+    "yes"
+  ],
+  "environment": {
+    "CPH_COMPANION_PYTHON": "/tmp/cph-ai-artifact-install-v0.1.1-20261001/bin/python",
+    "CPH_COMPANION_JOINT_DRIVER": "/home/oncehere/\u6587\u6863/ChatGPT/CPH/cph-ai-companion/tools/joint_driver.py"
+  },
+  "exit_code": 0,
+  "seconds": 21.133,
+  "cases": 1,
+  "assertions": 1538,
+  "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466",
+  "binary_sha256": "5e5d4ad5e8585924028eef01e522510385609536f94ed6e2a509089e2af6d72b",
+  "log": "/home/oncehere/\u6587\u6863/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-installed-joint-v011-a04-20261001.log",
+  "log_sha256": "926fe00f1596866054edd9c238238be8a617f05f4397fcb645219109ed1e9b81",
+  "scope": "Actual CPH NPC/game/input-wait execution plus installed Python0.1.1 wheel/SDK synthetic localhost HTTP; no GUI backend or real model"
+}
