@@ -10,6 +10,7 @@
 #include <system_error>
 #include <vector>
 
+#include "actor_control_save.h"
 #include "calendar.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -28,6 +29,33 @@ namespace
 
 // Folder under a world directory that holds all snapshots.
 const std::string SNAPSHOTS_DIR = "snapshots";
+// This authority belongs to the live world, never to a gameplay snapshot.
+const std::string ACTOR_SAVE_JOURNAL = ".cph-actor-save";
+
+class snapshot_world_lease
+{
+    public:
+        explicit snapshot_world_lease( const cata_path &world ) :
+            owns_( !cata::actor_control::save_transaction::active() ) {
+            std::string error;
+            valid_ = owns_ ? cata::actor_control::save_transaction::begin(
+                         world.get_unrelative_path(), error, false ) :
+                     cata::actor_control::save_transaction::owns_world( world.get_unrelative_path() ) &&
+                     !cata::actor_control::save_transaction::capturing();
+        }
+        ~snapshot_world_lease() {
+            if( owns_ && valid_ ) {
+                std::string error;
+                cata::actor_control::save_transaction::finish( true, error );
+            }
+        }
+        bool valid() const {
+            return valid_;
+        }
+    private:
+        bool owns_;
+        bool valid_ = false;
+};
 // Per-snapshot metadata file name.
 const std::string SNAPSHOT_META = "snapshot_meta.json";
 // A stable slot name is needed because the game may restart or change language
@@ -166,6 +194,10 @@ namespace save_snapshot
 bool make_snapshot( const cata_path &world_dir, const std::string &slot_name,
                     const std::string &character_name, const int turn )
 {
+    snapshot_world_lease lease( world_dir );
+    if( !lease.valid() ) {
+        return false;
+    }
     const std::string dir_name = ensure_valid_file_name( slot_name );
     if( dir_name.empty() ) {
         return false;
@@ -191,7 +223,7 @@ bool make_snapshot( const cata_path &world_dir, const std::string &slot_name,
 
     // Copy the whole world, excluding the snapshots folder itself (so a snapshot
     // never nests prior snapshots).
-    if( !copy_tree( world_dir.get_unrelative_path(), dest_fs, { SNAPSHOTS_DIR } ) ) {
+    if( !copy_tree( world_dir.get_unrelative_path(), dest_fs, { SNAPSHOTS_DIR, ACTOR_SAVE_JOURNAL } ) ) {
         // Clean up the partial snapshot so it is never presented as restorable.
         std::error_code ec;
         std::filesystem::remove_all( dest_fs, ec );
@@ -270,6 +302,10 @@ bool snapshot_exists( const cata_path &world_dir, const std::string &slot_name )
 
 bool restore_snapshot( const cata_path &world_dir, const std::string &dir_name )
 {
+    snapshot_world_lease lease( world_dir );
+    if( !lease.valid() ) {
+        return false;
+    }
     const cata_path snap_path = snapshots_root( world_dir ) / dir_name;
     const std::filesystem::path snap_fs = snap_path.get_unrelative_path();
     if( !dir_exist( snap_fs ) ) {
@@ -287,7 +323,7 @@ bool restore_snapshot( const cata_path &world_dir, const std::string &dir_name )
     //   2. Copy the snapshot into the world (excluding its own meta file).
     //   3. On success, delete the backup. On any failure, move the backup
     //      contents back so the world is never left half-deleted.
-    const std::vector<std::string> protect = { SNAPSHOTS_DIR, RESTORE_BACKUP_DIR };
+    const std::vector<std::string> protect = { SNAPSHOTS_DIR, RESTORE_BACKUP_DIR, ACTOR_SAVE_JOURNAL };
 
     std::error_code ec;
     std::filesystem::remove_all( backup_fs, ec ); // clear any stale backup
@@ -305,7 +341,7 @@ bool restore_snapshot( const cata_path &world_dir, const std::string &dir_name )
 
     // Copy the snapshot in, excluding the per-snapshot meta file so it does not
     // pollute the world root (and snowball into future snapshots).
-    if( !copy_tree( snap_fs, world_fs, { SNAPSHOT_META } ) ) {
+    if( !copy_tree( snap_fs, world_fs, { SNAPSHOT_META, ACTOR_SAVE_JOURNAL } ) ) {
         // Restore failed: wipe the partial copy and move the backup back.
         clear_dir_except( world_fs, protect );
         move_entries( backup_fs, world_fs, {} );

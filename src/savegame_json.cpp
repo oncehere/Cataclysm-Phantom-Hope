@@ -4277,6 +4277,18 @@ void mission::deserialize( const JsonObject &jo )
     jo.read( "good_fac_id", good_fac_id );
     jo.read( "bad_fac_id", bad_fac_id );
     jo.read( "player_id", player_id );
+    npc_assignee_id = character_id();
+    npc_reward_remaining_ = 0;
+    npc_reward_receipts_.clear();
+    jo.read( "npc_assignee_id", npc_assignee_id );
+    jo.read( "npc_reward_remaining", npc_reward_remaining_ );
+    jo.read( "npc_reward_receipts", npc_reward_receipts_ );
+    if( npc_assignee_id.is_valid() && player_id.is_valid() ) {
+        debugmsg( "Mission %d has both player and NPC assignees", uid );
+        npc_assignee_id = character_id();
+        npc_reward_remaining_ = 0;
+        npc_reward_receipts_.clear();
+    }
     generic_reward_claimed_ = false;
     jo.read( "generic_reward_claimed", generic_reward_claimed_ );
 }
@@ -4315,6 +4327,9 @@ void mission::serialize( JsonOut &json ) const
     json.member( "step", step );
     json.member( "follow_up", follow_up );
     json.member( "player_id", player_id );
+    json.member( "npc_assignee_id", npc_assignee_id );
+    json.member( "npc_reward_remaining", npc_reward_remaining_ );
+    json.member( "npc_reward_receipts", npc_reward_receipts_ );
     json.member( "generic_reward_claimed", generic_reward_claimed_ );
 
     json.end_object();
