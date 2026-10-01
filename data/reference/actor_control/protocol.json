@@ -1513,5 +1513,10 @@
     ],
     "contradictions": "A plan cannot refuse and perform another step linked to the same requirement. Persisted refused requirements cannot be revived by later plans or native daily fallback.",
     "semantic_boundary": "The engine enforces typed task associations. An explicitly independent personal goal can overlap a refused request physically; arbitrary prose cannot prove that the declared purpose is truthful."
+  },
+  "checkpoint_identity": {
+    "version": "params.version and reference.projection_version bind the captured native checkpoint_context.memory_version.",
+    "file_revision": "reference.revision identifies the local immutable checkpoint file revision; it is distinct from native projection_version and remains authoritative for local restore.",
+    "commit": "A prepared reference is not proof of a successful physical game save."
   }
 }

@@ -1014,6 +1014,7 @@ TEST_CASE( "actor_control_player_trade_confirmation_rechecks_take_beneficiary_pe
     control_fixture fixture;
     npc &actor = fixture.companion();
     actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    get_avatar().worn.wear_item( get_avatar(), item( itype_id( "debug_backpack" ) ), false, false );
     item rock( itype_id( "rock" ), calendar::turn );
     rock.set_owner( get_avatar() );
     get_avatar().i_add( std::move( rock ) );

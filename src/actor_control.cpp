@@ -1926,6 +1926,8 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             if( !state.checkpoint_requested || !params.has_object( "reference" ) ||
                 !params.has_object( "context" ) ||
                 params.get_string( "version", "" ) != state.memory_version ||
+                read_object( state.checkpoint_context ).get_string( "memory_version", "" ) !=
+                state.memory_version ||
                 !same_context( subobject( params, "context" ),
                                read_object( state.checkpoint_context ) ) ) {
                 error = "stale_checkpoint";
@@ -1933,7 +1935,8 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             }
             const JsonObject reference = subobject( params, "reference" );
             if( reference.get_string( "id", "" ).empty() ||
-                reference.get_string( "revision", "" ) != state.memory_version ) {
+                reference.get_string( "revision", "" ).empty() ||
+                reference.get_string( "projection_version", "" ) != state.memory_version ) {
                 error = "invalid_checkpoint";
                 return "null";
             }

@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <utility>
@@ -54,6 +55,14 @@ std::string joint_result_text( const std::filesystem::path &path )
     std::ifstream input( path );
     return input.good() ? std::string( std::istreambuf_iterator<char>( input ),
                                        std::istreambuf_iterator<char>() ) : "Joint driver result unavailable";
+}
+
+std::string joint_saved_state()
+{
+    std::ostringstream buffer;
+    JsonOut out( buffer );
+    control::serialize( out );
+    return buffer.str();
 }
 
 class joint_fixture
@@ -268,6 +277,38 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     CHECK( actor.amount_of( itype_id( "rock" ) ) == 1 );
     CHECK( get_map().i_at( ground ).empty() );
 
+    // Exercise the real runtime checkpoint RPC after the native receipt. This
+    // prepares the extension only; it does not commit a game/world save.
+    std::string prepared_state;
+    const int completed_moves = actor.get_moves();
+    for( int attempt = 0; attempt < 5; ++attempt ) {
+        control::before_save();
+        const std::string serialized = joint_saved_state();
+        const JsonObject pending = joint_object( serialized );
+        if( !pending.get_member( "saved_checkpoint" ).test_null() ) {
+            prepared_state = serialized;
+            break;
+        }
+        if( child.finished() ) {
+            break;
+        }
+    }
+    INFO( joint_result_text( result_path ) );
+    REQUIRE_FALSE( prepared_state.empty() );
+    const JsonObject prepared = joint_object( prepared_state );
+    const JsonObject reference = joint_object( prepared.get_object( "saved_checkpoint" ).str() );
+    const JsonObject checkpoint_context = joint_object(
+            prepared.get_object( "saved_memory_context" ).str() );
+    REQUIRE_FALSE( reference.get_string( "revision" ).empty() );
+    REQUIRE_FALSE( reference.get_string( "projection_version" ).empty() );
+    CHECK( reference.get_string( "projection_version" ) ==
+           checkpoint_context.get_string( "memory_version" ) );
+    CHECK( reference.get_string( "revision" ) != reference.get_string( "projection_version" ) );
+    CHECK( actor.get_moves() == completed_moves );
+    CHECK( calendar::turn == before );
+    CHECK( get_avatar().get_moves() == player_moves );
+    control::after_save( false );
+
     while( std::chrono::steady_clock::now() < deadline && !child.finished() ) {
         control::pump_incoming();
         std::this_thread::sleep_for( std::chrono::milliseconds( 2 ) );
@@ -285,6 +326,10 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     CHECK( result.get_bool( "no_tools" ) );
     CHECK( result.get_string( "receipt_state" ) == "succeeded" );
     CHECK( result.get_int( "memory_receipts" ) >= 1 );
+    CHECK( result.get_bool( "checkpoint_prepared" ) );
+    CHECK( result.get_string( "checkpoint_projection_version" ) ==
+           reference.get_string( "projection_version" ) );
+    CHECK( result.get_string( "checkpoint_file_revision" ) == reference.get_string( "revision" ) );
     CHECK( result.get_string( "detach_state" ) == "detached" );
     CHECK( joint_object( control::status() ).get_string( "detach_state" ) == "detached" );
     CHECK( joint_object( control::status() ).get_int( "queue_length" ) == 0 );
