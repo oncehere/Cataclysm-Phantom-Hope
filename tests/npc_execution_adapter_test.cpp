@@ -23,6 +23,7 @@
 #include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "mission.h"
+#include "native_item_transfer.h"
 #include "npc.h"
 #include "npc_execution_adapter.h"
 #include "player_activity.h"
@@ -79,8 +80,8 @@ struct native_fixture {
 
     execution_result act( const std::string &action, const std::string &args,
                           const std::string &id = "native-test-step",
-                          const std::string &source_operation = {} ) {
-        return NpcExecutionAdapter::execute( *actor, { id, action, args, {}, source_operation } );
+                          const std::string &source_operation = {}, const std::string &requirement_id = {} ) {
+        return NpcExecutionAdapter::execute( *actor, { id, action, args, {}, source_operation, requirement_id } );
     }
 
     std::string position( const tripoint_bub_ms &pos, const std::string &extra = "" ) const {
@@ -385,7 +386,9 @@ TEST_CASE( "npc_actor_social_speech_and_goal_behaviors_have_effects",
     const int before = f.actor->get_moves();
     const int player_moves = get_avatar().get_moves();
     const std::string native_goal = f.actor->get_committed_goal();
-    REQUIRE( f.act( action, f.speech() ).state == execution_state::succeeded );
+    REQUIRE( f.act( action, f.speech(), "native-test-step", {},
+                    action == "refuse" ? "native-incoming-message" : std::string() ).state ==
+             execution_state::succeeded );
     CHECK( f.actor->get_moves() == before - 100 );
     CHECK( get_avatar().get_moves() == player_moves );
     CHECK( stored( *f.actor, "last_social_action" ) == action );
@@ -740,4 +743,51 @@ TEST_CASE( "npc_actor_native_enquiries_require_real_two_way_hearing",
             CHECK( person.get_array( "trade_offers" ).size() == 0 );
         }
     }
+}
+
+TEST_CASE( "native_item_transfer_selects_partial_native_stock_and_commits_provenance",
+           "[actor_control][native][inventory][trade]" )
+{
+    native_fixture f;
+    add_owned( *f.actor, "antibiotics", 10, "required-stock" );
+    const int before = amount( *f.actor, "antibiotics" );
+    std::vector<cata::native_item_transfer::selection> selected;
+    int price = 0;
+    std::string error;
+    REQUIRE( cata::native_item_transfer::select( *f.actor, *f.other,
+    { { itype_id( "antibiotics" ), 3 } }, selected, price, error, { true, true },
+    { "cph_ai_produced_step", "required-stock" } ) );
+    REQUIRE( selected.size() == 1 );
+    CHECK( selected.front().count == 3 );
+    CHECK( amount( *f.actor, "antibiotics" ) == before );
+    REQUIRE( price > 0 );
+    const std::vector<cata::native_item_transfer::selection> placed =
+        cata::native_item_transfer::commit( selected, *f.other,
+    { "cph_ai_produced_step", "committed-output" } );
+    REQUIRE( placed.size() == 1 );
+    CHECK( placed.front().location->is_owned_by( *f.other ) );
+    CHECK( amount( *f.actor, "antibiotics" ) == before - 3 );
+    CHECK( amount( *f.other, "antibiotics" ) == 3 );
+    CHECK( sourced_amount( *f.other, "antibiotics", "committed-output" ) == 3 );
+}
+
+TEST_CASE( "native_item_transfer_failed_batch_keeps_stock_and_selection_uncommitted",
+           "[actor_control][native][inventory][trade]" )
+{
+    native_fixture f;
+    add_owned( *f.actor, "rock" );
+    std::vector<cata::native_item_transfer::selection> selected;
+    int price = 73;
+    std::string error;
+    CHECK_FALSE( cata::native_item_transfer::select( *f.actor, *f.other,
+    { { itype_id( "rock" ), 1 }, { itype_id( "2x4" ), 1 } }, selected,
+    price, error, { true, true } ) );
+    CHECK( error == "inventory_or_consent_changed" );
+    CHECK( selected.empty() );
+    CHECK( price == 73 );
+    CHECK( amount( *f.actor, "rock" ) == 1 );
+    CHECK( amount( *f.other, "rock" ) == 0 );
+    std::vector<item> too_large( 1000, item( itype_id( "2x4" ), calendar::turn ) );
+    CHECK_FALSE( cata::native_item_transfer::can_receive( *f.other, too_large ) );
+    CHECK( amount( *f.other, "2x4" ) == 0 );
 }

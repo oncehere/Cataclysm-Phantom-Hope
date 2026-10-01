@@ -22,7 +22,7 @@ TEST_CASE( "actor_control_shared_protocol_fixtures_match_native_validity",
     const std::string text( ( std::istreambuf_iterator<char>( input ) ),
                             std::istreambuf_iterator<char>() );
     const JsonArray fixtures = json_loader::from_string( text ).get_array();
-    REQUIRE( fixtures.size() == 12 );
+    REQUIRE( fixtures.size() == 15 );
     int valid_count = 0;
     int invalid_count = 0;
     for( const JsonObject &fixture : fixtures ) {
@@ -33,7 +33,7 @@ TEST_CASE( "actor_control_shared_protocol_fixtures_match_native_validity",
         std::vector<cata::actor_control::action_step> steps;
         std::string error;
         bool accepted = false;
-        const std::string diagnostic = capture_debugmsg_during( [&]() {
+        const std::string diagnostic = capture_debugmsg_during( [&accepted, &plan, &steps, &error]() {
             accepted = cata::actor_control::parse_plan(
                            cata::actor_control::stringify( plan ), steps, error );
             CHECK_FALSE( cata::actor_control::capability_catalog().empty() );
@@ -59,6 +59,6 @@ TEST_CASE( "actor_control_shared_protocol_fixtures_match_native_validity",
             CHECK( steps.empty() );
         }
     }
-    CHECK( valid_count == 4 );
-    CHECK( invalid_count == 8 );
+    CHECK( valid_count == 5 );
+    CHECK( invalid_count == 10 );
 }

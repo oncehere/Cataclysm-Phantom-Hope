@@ -4,6 +4,7 @@
 
 #include <string>
 
+class Character;
 class JsonObject;
 class JsonOut;
 class npc;
@@ -18,6 +19,8 @@ void enable( bool value );
 bool enabled();
 bool has_binding();
 bool is_bound( const npc &actor );
+/** Native transfer permission, rechecked at the mutation and player-confirmation boundary. */
+bool permits_item_aid( const npc &actor, const Character &recipient );
 /** Identity persists after stop; this checks actual offline-work ownership. */
 bool pauses_offline_work( npc &actor );
 /** Native death lifecycle only; never exposed over the external protocol. */

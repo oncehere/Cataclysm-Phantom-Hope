@@ -36,7 +36,7 @@
 #include "map.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_execution_adapter.h"
+#include "native_item_transfer.h"
 #include "npctrade.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
@@ -582,69 +582,26 @@ bool mission::claim_npc_reward( npc &assignee, const itype_id &id, int count,
         error = "reward_unavailable";
         return false;
     }
-    std::vector<std::pair<item_location, int>> stock;
-    int remaining = count;
+    std::vector<cata::native_item_transfer::selection> stock;
     int price = 0;
-    for( item_location loc : issuer->all_items_loc() ) {
-        if( remaining == 0 ) {
-            break;
-        }
-        if( loc->typeId() != id || issuer->is_worn( *loc ) ||
-            ( loc->is_container() && !loc->empty() ) ||
-            !issuer->wants_to_sell( loc, 1, assignee ).success() ) {
-            continue;
-        }
-        const int quantity = std::min( remaining, loc->count_by_charges() ? loc->charges : 1 );
-        if( quantity < 1 ) {
-            continue;
-        }
-        item portion = *loc;
-        if( portion.count_by_charges() ) {
-            portion.charges = quantity;
-        }
-        if( !assignee.can_pickWeight( portion ) || !assignee.can_pickVolume( portion ) ) {
+    if( !cata::native_item_transfer::select( *issuer, assignee, { { id, count } }, stock,
+price, error, { true, false } ) ) {
+        if( error == "recipient_capacity" ) {
             error = "reward_capacity";
-            return false;
-        }
-        const int cost = std::max( 1, npc_trading::adjusted_price( loc.get_item(), quantity,
-                                   assignee, *issuer ) );
-        if( cost > INT_MAX - price ) {
+        } else if( error == "trade_value_exceeded" ) {
             error = "reward_value_exceeded";
-            return false;
+        } else if( error == "inventory_or_consent_changed" ) {
+            error = "reward_stock_shortage";
         }
-        price += cost;
-        stock.emplace_back( loc, quantity );
-        remaining -= quantity;
-    }
-    if( remaining != 0 || price > npc_reward_remaining_ ) {
-        error = remaining != 0 ? "reward_stock_shortage" : "reward_credit_shortage";
         return false;
     }
-    std::vector<item> portions;
-    for( const std::pair<item_location, int> &entry : stock ) {
-        item portion = *entry.first;
-        if( portion.count_by_charges() ) {
-            portion.charges = entry.second;
-        }
-        portions.push_back( std::move( portion ) );
-    }
-    if( !cata::actor_control::NpcExecutionAdapter::can_receive_items( assignee, portions ) ) {
-        error = "reward_capacity";
+    if( price > npc_reward_remaining_ ) {
+        error = "reward_credit_shortage";
         return false;
     }
-    // All checks precede this game-thread transaction.  No callbacks or yields
-    // occur between actual stock movement, credit debit and receipt commitment.
-    for( std::pair<item_location, int> &entry : stock ) {
-        item transfer = *entry.first;
-        if( transfer.count_by_charges() && entry.first->charges > entry.second ) {
-            transfer.charges = entry.second;
-            entry.first->charges -= entry.second;
-        } else {
-            entry.first.remove_item();
-        }
-        transfer.set_owner( assignee );
-        assignee.i_add( std::move( transfer ) );
-    }
+    // Selection, credit debit and receipt commitment remain one game-thread
+    // transaction, with no callbacks or yields between these mutations.
+    cata::native_item_transfer::commit( stock, assignee );
     npc_reward_remaining_ -= price;
     npc_reward_receipts_.emplace( receipt_id, request );
     return true;

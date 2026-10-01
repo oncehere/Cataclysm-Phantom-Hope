@@ -20,6 +20,8 @@ struct action_step {
     std::string intent;
     /** Native output provenance resolved from an accepted preceding receipt. */
     std::string source_operation = {};
+    /** Stable native incoming-message identity; never derived from its prose. */
+    std::string requirement_id = {};
 };
 
 struct execution_result {

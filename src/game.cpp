@@ -940,7 +940,7 @@ bool game::start_game()
         popup( _( "Cannot recover the world save: %s" ), recovery_error );
         return false;
     }
-    on_out_of_scope release_world_lease( [&]() {
+    on_out_of_scope release_world_lease( [owns_world_lease]() {
         if( owns_world_lease ) {
             std::string ignored;
             cata::actor_control::save_transaction::finish( true, ignored );
@@ -10389,6 +10389,36 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
+static void rollback_actor_dimension_transition( game &current,
+        const std::filesystem::path &world_root, bool owns_world_lease,
+        bool recovery_required, bool transit_started )
+{
+    bool recovered = true;
+    std::string rollback_error;
+    if( owns_world_lease ) {
+        recovered = cata::actor_control::save_transaction::finish( false, rollback_error );
+        if( !recovered || recovery_required ) {
+            recovered = cata::actor_control::save_transaction::recover( world_root, rollback_error );
+        }
+        cata::actor_control::after_save( false );
+    }
+    if( transit_started || !recovered ) {
+        // The caller can still own item/NPC pointers. Reloading here
+        // would leave those dangling, so discard live transit at the
+        // normal menu boundary after settling the world journal. A
+        // joined save also observes QUIT_NOSAVED and refuses to commit.
+        cata::actor_control::enable( false );
+        current.uquit = QUIT_NOSAVED;
+        if( owns_world_lease ) {
+            if( recovered ) {
+                popup( _( "Dimension travel failed. The world save is consistent; returning to the main menu without saving again." ) );
+            } else {
+                popup( _( "Dimension travel failed and world save recovery is required: %s" ), rollback_error );
+            }
+        }
+    }
+}
+
 bool game::travel_to_dimension( dimension_id dimension_destination,
                                 const std::vector<npc *> &npc_travellers,
                                 const std::vector<item_location> &item_travellers,
@@ -10418,31 +10448,10 @@ bool game::travel_to_dimension( dimension_id dimension_destination,
     const bool capturing_transition = cata::actor_control::save_transaction::capturing();
     bool transit_started = false;
     bool recovery_required = false;
-    on_out_of_scope rollback_transition( [&]() {
-        bool recovered = true;
-        std::string rollback_error;
-        if( owns_world_lease ) {
-            recovered = cata::actor_control::save_transaction::finish( false, rollback_error );
-            if( !recovered || recovery_required ) {
-                recovered = cata::actor_control::save_transaction::recover( world_root, rollback_error );
-            }
-            cata::actor_control::after_save( false );
-        }
-        if( transit_started || !recovered ) {
-            // The caller can still own item/NPC pointers. Reloading here
-            // would leave those dangling, so discard live transit at the
-            // normal menu boundary after settling the world journal. A
-            // joined save also observes QUIT_NOSAVED and refuses to commit.
-            cata::actor_control::enable( false );
-            uquit = QUIT_NOSAVED;
-            if( owns_world_lease ) {
-                if( recovered ) {
-                    popup( _( "Dimension travel failed. The world save is consistent; returning to the main menu without saving again." ) );
-                } else {
-                    popup( _( "Dimension travel failed and world save recovery is required: %s" ), rollback_error );
-                }
-            }
-        }
+    on_out_of_scope rollback_transition( [this, &world_root, owns_world_lease,
+          &recovery_required, &transit_started]() {
+        rollback_actor_dimension_transition( *this, world_root, owns_world_lease,
+                                             recovery_required, transit_started );
     } );
     try {
         if( owns_world_lease && capturing_transition && !save() ) {

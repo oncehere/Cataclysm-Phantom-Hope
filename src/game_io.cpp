@@ -406,7 +406,7 @@ bool game::load( const save_t &name )
         popup( _( "Cannot recover the world save: %s" ), recovery_error );
         return false;
     }
-    on_out_of_scope release_world_lease( [&]() {
+    on_out_of_scope release_world_lease( [owns_world_lease]() {
         if( owns_world_lease ) {
             std::string ignored;
             cata::actor_control::save_transaction::finish( true, ignored );
@@ -863,7 +863,7 @@ bool game::save()
         popup( _( "Cannot begin the world save: %s" ), transaction_error );
         return false;
     }
-    on_out_of_scope rollback_world_save( [&]() {
+    on_out_of_scope rollback_world_save( [owns_world_lease]() {
         if( owns_world_lease ) {
             std::string rollback_error;
             if( !cata::actor_control::save_transaction::finish( false, rollback_error ) ) {

@@ -188,6 +188,11 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
         const JsonObject plan = parsed.get_object();
         plan.allow_omitted_members();
         std::set<std::string> seen;
+        std::set<std::string> refused;
+        std::set<std::string> worked;
+        if( plan.get_string( "intent", "" ) == "refuse" ) {
+            return fail( error, "refusal_requires_requirement" );
+        }
         std::vector<action_step> candidate;
         for( const JsonObject &entry : plan.get_array( "steps" ) ) {
             entry.allow_omitted_members();
@@ -230,7 +235,27 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
             if( action == "talk" && arguments.has_member( "topic" ) != arguments.has_member( "option" ) ) {
                 return fail( error, "incomplete_dialogue_option" );
             }
-            candidate.push_back( action_step {id, action, arguments.str(), entry.get_string( "intent", "" )} );
+            const std::string requirement = entry.get_string( "requirement_id", "" );
+            if( action == "refuse" ) {
+                if( requirement.empty() ) {
+                    return fail( error, "refusal_requires_requirement" );
+                }
+                refused.insert( requirement );
+            } else {
+                if( entry.get_string( "intent", "" ) == "refuse" ) {
+                    return fail( error, "refusal_requires_requirement" );
+                }
+                if( !requirement.empty() ) {
+                    worked.insert( requirement );
+                }
+            }
+            candidate.push_back( action_step { id, action, arguments.str(),
+                                               entry.get_string( "intent", "" ), {}, requirement } );
+        }
+        for( const std::string &requirement : refused ) {
+            if( worked.count( requirement ) != 0 ) {
+                return fail( error, "contradictory_requirement_decision" );
+            }
         }
         steps = std::move( candidate );
         return true;

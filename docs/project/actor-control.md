@@ -43,7 +43,7 @@ runtime platform is Linux x86_64.
 External methods cover handshake, capabilities, status, configure, memory sync,
 decision request, candidate submission, receipt queries, checkpoints,
 cancellation, safe stop and removal checks. They do not set items, attributes,
-the game clock, task completion or another character's consent. Protocol 1.0's
+the game clock, task completion or another character's consent. Protocol 1.1's
 schemas and shared valid/invalid samples are the executable contract.
 
 ## Native execution and knowledge
@@ -75,6 +75,17 @@ and resources. Time progression alone does not invalidate a plan. Accepted
 duplicates return existing receipts. Later steps execute only after successful
 dependencies and refer to real native inventory/results; text never grants
 objects, consent or rewards. Speech occupies the same bounded queue budget.
+Player chat exposes a stable requirement ID. Work answering that request carries
+`step.requirement_id`; an explicit refusal persists a decision for the same ID.
+The controller rejects contradictory work and later plans that revive it. A
+new player request can receive a new identity; unstructured prose alone does not
+invent or override a native decision. A completed craft keeps its success and
+outputs when cancellation arrives before the next queue reconciliation.
+
+Trading checks both its declared intent and actual beneficiary before items move,
+including after player confirmation. Shared native inventory-transfer code
+handles selection and capacity for ordinary NPC missions and the adapter;
+mission reward ownership remains independent of AI control.
 
 The 15 independently configurable social intents have native gates and debug
 records. Natural speech uses explicit intention checks and bounded text

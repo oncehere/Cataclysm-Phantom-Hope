@@ -1,10 +1,10 @@
 {
   "files": {
-    "fixtures.json": "1ffb026e228e99854d6a36e69d3a148f6d6ff2927349b245f290801fd3290e89",
-    "protocol.json": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c"
+    "fixtures.json": "1a504264a759526d3e9e63a5d258e90a856436d81e417dae49e29dab50537f67",
+    "protocol.json": "fb29a3e47b58899523e2739d2611368d6e44b2115d76c6d8bfc35358e304ba9b"
   },
-  "protocol_version": "1.0",
+  "protocol_version": "1.1",
   "schema_version": 1,
   "source_project": "cph-ai-companion",
-  "source_revision": "e31579a4c0f08e84ead237cb34fa992f3c859d98"
+  "source_revision": "831dec10c8981d731831f259774d6897646559dd"
 }

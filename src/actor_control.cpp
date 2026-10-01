@@ -49,6 +49,13 @@ constexpr std::size_t maximum_event_bytes = 16 * maximum_message;
 const char default_policy[] =
     R"({"schema_version":1,"applies_to":"bound_companion_only","expression_policy":"natural_with_intent_checks","traits":{"honesty":0.45,"self_interest":0.65,"commitment":0.55,"caution":0.6},"social_behavior":{"refuse":true,"argue":true,"propose_own_goals":true,"deception":{"enabled":true,"lie_in_dialogue":true,"conceal_information":true,"false_promise":true,"transaction_fraud":false},"betrayal":{"enabled":true,"break_commitment":true,"aid_conflicting_party":true,"disclose_known_information":true,"leave_group":false,"misappropriate_items":false,"sabotage":false,"attack_player":false,"attack_allies":false}}})";
 
+struct requirement_decision {
+    std::int64_t source_sequence = 0;
+    std::string decision = "pending";
+    std::string operation_id;
+    std::string text;
+};
+
 struct pending_step {
     action_step step;
     std::string from_step;
@@ -110,6 +117,7 @@ struct controller {
     std::deque<std::string> checkpoint_delta;
     std::size_t event_bytes = 0;
     std::deque<pending_step> queue;
+    std::map<std::string, requirement_decision> requirement_decisions;
     std::map<std::string, std::string> receipts;
     std::map<std::string, std::string> accepted_plans;
     std::deque<std::string> receipt_order;
@@ -465,12 +473,98 @@ bool validate_policy( const JsonObject &policy )
     return true;
 }
 
+void write_requirement( JsonOut &out, const std::string &id,
+                        const requirement_decision &decision, bool include_text = false )
+{
+    out.start_object();
+    out.member( "requirement_id", id );
+    out.member( "source_event_id", id );
+    out.member( "source_sequence", decision.source_sequence );
+    out.member( "decision", decision.decision );
+    out.member( "operation_id", decision.operation_id );
+    if( decision.decision == "pending" && include_text ) {
+        out.member( "text", decision.text );
+    }
+    out.end_object();
+}
+
+void write_requirements( JsonOut &out, bool persistence = false )
+{
+    out.member( "requirement_decisions" );
+    out.start_array();
+    for( const std::pair<const std::string, requirement_decision> &entry :
+         state.requirement_decisions ) {
+        write_requirement( out, entry.first, entry.second,
+                           persistence || entry.second.source_sequence <= state.acknowledged );
+    }
+    out.end_array();
+}
+
+bool matches_actor_scope( const JsonObject &scope )
+{
+    return ( scope.has_int( "actor_id" ) && scope.get_int( "actor_id" ) == state.actor_id ) ||
+           ( scope.has_string( "actor_id" ) &&
+             scope.get_string( "actor_id" ) == std::to_string( state.actor_id ) );
+}
+
+std::string render_request( const std::string &window_context, const std::string &observed,
+                            const std::string &action_catalog,
+                            const std::vector<std::string> &window )
+{
+    std::ostringstream buffer;
+    JsonOut out( buffer );
+    out.start_object();
+    out.member( "context" );
+    write_raw( out, window_context );
+    out.member( "observations" );
+    write_raw( out, observed );
+    out.member( "events" );
+    out.start_array();
+    for( const std::string &entry : window ) {
+        write_raw( out, entry );
+    }
+    out.end_array();
+    out.member( "action_catalog" );
+    write_raw( out, action_catalog );
+    write_requirements( out );
+    out.end_object();
+    return buffer.str();
+}
+
 bool step_allowed( const action_step &step, std::string &error )
 {
     if( ( is_behavior( step.action ) && !allows( step.action ) ) ||
         ( !step.intent.empty() && ( !is_behavior( step.intent ) || !allows( step.intent ) ) ) ) {
         error = "behavior_disabled";
         return false;
+    }
+    if( step.action == "refuse" && step.requirement_id.empty() ) {
+        error = "refusal_requires_requirement";
+        return false;
+    }
+    if( step.action != "refuse" && step.intent == "refuse" ) {
+        error = "refusal_requires_requirement";
+        return false;
+    }
+    if( step.requirement_id.empty() && step.action != "propose_own_goals" &&
+        step.intent != "propose_own_goals" &&
+        std::any_of( state.requirement_decisions.begin(), state.requirement_decisions.end(),
+    []( const std::pair<const std::string, requirement_decision> &incoming ) {
+    return incoming.second.decision == "pending" || incoming.second.decision == "refused";
+} ) ) {
+        error = "requirement_association_required";
+        return false;
+    }
+    if( !step.requirement_id.empty() ) {
+        const auto decision = state.requirement_decisions.find( step.requirement_id );
+        if( decision == state.requirement_decisions.end() ) {
+            error = "unknown_requirement";
+            return false;
+        }
+        if( decision->second.decision == "refused" && step.action != "refuse" ) {
+            error = "requirement_refused";
+            return false;
+        }
     }
     const JsonObject args = read_object( step.args_json );
     if( args.has_member( "text" ) && ( !args.has_string( "text" ) ||
@@ -533,6 +627,10 @@ std::string receipt( const action_step &step, const execution_result &result )
     out.member( "operation_id", step.id );
     out.member( "action", step.action );
     out.member( "intent", step.intent );
+    out.member( "requirement_id", step.requirement_id );
+    out.member( "origin", !step.requirement_id.empty() ? "incoming_message" :
+                step.action == "propose_own_goals" || step.intent == "propose_own_goals" ?
+                "own_goal" : "autonomous" );
     out.member( "state", result.state == execution_state::running ? "running" :
                 result.state == execution_state::succeeded ? "succeeded" : "failed" );
     out.member( "code", result.code );
@@ -545,6 +643,25 @@ std::string receipt( const action_step &step, const execution_result &result )
 
 void record_result( const action_step &step, const execution_result &result )
 {
+    const auto incoming = state.requirement_decisions.find( step.requirement_id );
+    const bool performs_requirement = step.action == "craft" || step.action == "gather" ||
+                                      step.action == "trade" || step.action == "accept_mission" ||
+                                      step.action == "complete_mission" || step.action == "claim_reward";
+    if( incoming != state.requirement_decisions.end() && result.state != execution_state::failed &&
+        result.code != "queued" && ( performs_requirement ||
+                                     ( step.action == "refuse" && result.state == execution_state::succeeded ) ) ) {
+        requirement_decision &decision = incoming->second;
+        const std::string next = step.action == "refuse" ? "refused" : "accepted";
+        if( decision.decision != next ) {
+            decision.decision = next;
+            decision.operation_id = step.id;
+            decision.text.clear();
+            std::ostringstream detail;
+            JsonOut out( detail );
+            write_requirement( out, incoming->first, decision );
+            event( "requirement_decision", next, detail.str() );
+        }
+    }
     if( state.receipts.count( step.id ) == 0 ) {
         state.receipt_order.push_back( step.id );
     }
@@ -596,6 +713,18 @@ bool owns_native_activity( const npc &candidate )
            ( !completed || completed->to_string() != operation );
 }
 
+void finish_cancelled_step( npc *bound, const pending_step &entry, const std::string &reason )
+{
+    const diag_value *completed = bound ? bound->maybe_get_value( "cph_ai.craft_completed_step" ) :
+                                  nullptr;
+    if( bound && entry.started && entry.step.action == "craft" && completed &&
+        completed->to_string() == entry.step.id ) {
+        record_result( entry.step, NpcExecutionAdapter::execute( *bound, entry.step ) );
+    } else {
+        record_result( entry.step, { execution_state::failed, reason, "{}", false } );
+    }
+}
+
 void complete_detach()
 {
     if( state.control_state == "dead" ) {
@@ -624,14 +753,7 @@ void complete_detach()
         bound->cancel_activity();
     }
     for( const pending_step &entry : state.queue ) {
-        const diag_value *completed = bound ? bound->maybe_get_value( "cph_ai.craft_completed_step" ) :
-                                      nullptr;
-        if( bound && entry.started && entry.step.action == "craft" && completed &&
-            completed->to_string() == entry.step.id ) {
-            record_result( entry.step, NpcExecutionAdapter::execute( *bound, entry.step ) );
-        } else {
-            record_result( entry.step, { execution_state::failed, "control_stopped", "{}", false } );
-        }
+        finish_cancelled_step( bound, entry, "control_stopped" );
     }
     state.queue.clear();
     if( bound ) {
@@ -799,6 +921,13 @@ bool is_bound( const npc &candidate )
     return has_binding() && candidate.getID().get_value() == state.actor_id;
 }
 
+bool permits_item_aid( const npc &candidate, const Character &recipient )
+{
+    const npc *beneficiary = recipient.as_npc();
+    return !is_initialized() || !is_bound( candidate ) || !beneficiary ||
+           !beneficiary->is_enemy() || allows( "aid_conflicting_party" );
+}
+
 bool pauses_offline_work( npc &candidate )
 {
     if( multiplayer_proxy( candidate ) ) {
@@ -888,7 +1017,8 @@ bool chat( const std::string &text, std::string &error )
         return false;
     }
     if( !valid_text( text ) ||
-        state.events.size() + state.checkpoint_delta.size() >= maximum_events ) {
+        state.events.size() + state.checkpoint_delta.size() >= maximum_events ||
+        state.requirement_decisions.size() >= maximum_events ) {
         error = "invalid_dialogue_text";
         return false;
     }
@@ -896,11 +1026,17 @@ bool chat( const std::string &text, std::string &error )
         error = "actor_cannot_hear";
         return false;
     }
+    const std::string incoming_id = state.load_epoch + "." +
+                                    std::to_string( state.event_watermark + 1 );
     if( !event( "statement", text, "{\"speaker_id\":" + std::to_string(
-                    get_avatar().getID().get_value() ) + "}" ) ) {
+                    get_avatar().getID().get_value() ) + ",\"requirement_id\":" +
+                quote( incoming_id ) + "}" ) ) {
         error = "event_backpressure";
         return false;
     }
+    state.requirement_decisions.emplace( incoming_id,
+                                         requirement_decision { state.event_watermark, "pending", {}, text } );
+    invalidate_request();
     state.chat_trigger = true;
     state.transcript.push_back( "{\"speaker\":\"player\",\"text\":" + quote( text ) + "}" );
     while( state.transcript.size() > maximum_transcript ) {
@@ -937,7 +1073,7 @@ void cancel()
     }
     if( !bound || !bound->activity || !owns_native_activity( *bound ) ) {
         for( const pending_step &entry : state.queue ) {
-            record_result( entry.step, { execution_state::failed, "plan_cancelled", "{}", false } );
+            finish_cancelled_step( bound, entry, "plan_cancelled" );
         }
         state.queue.clear();
         if( state.detach_state == "attached" && state.control_state == "cancel_pending" ) {
@@ -1309,6 +1445,7 @@ std::string status( bool include_debug, const std::string &operation_id )
     out.member( "saved_memory_context" );
     write_raw( out, state.saved_memory_context );
     out.member( "queue_length", state.queue.size() );
+    write_requirements( out );
     out.member( "receipts" );
     std::deque<std::string> receipt_view;
     for( const std::string &id : state.receipt_order ) {
@@ -1339,6 +1476,7 @@ std::string status( bool include_debug, const std::string &operation_id )
             out.member( "id", entry.step.id );
             out.member( "action", entry.step.action );
             out.member( "intent", entry.step.intent );
+            out.member( "requirement_id", entry.step.requirement_id );
             out.member( "args" );
             write_raw( out, entry.step.args_json );
             out.member( "from_step", entry.from_step );
@@ -1497,15 +1635,10 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             const std::string version = params.get_string( "version" );
             if( version.empty() || version.size() > 256 ||
                 snapshot.get_string( "revision", "" ) != version ||
-                !snapshot.has_array( "records" ) || snapshot.get_array( "records" ).size() > 100 ) {
+                !snapshot.has_array( "records" ) || snapshot.get_array( "records" ).size() > 1000 ) {
                 error = "invalid_memory_snapshot";
                 return "null";
             }
-            const auto matches_actor = [&]( const JsonObject & scope ) {
-                return ( scope.has_int( "actor_id" ) && scope.get_int( "actor_id" ) == state.actor_id ) ||
-                       ( scope.has_string( "actor_id" ) &&
-                         scope.get_string( "actor_id" ) == std::to_string( state.actor_id ) );
-            };
             const bool has_root_scope = snapshot.has_object( "context" );
             if( snapshot.has_member( "context" ) ) {
                 if( !has_root_scope ) {
@@ -1515,7 +1648,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 const JsonObject scope = subobject( snapshot, "context" );
                 if( scope.get_string( "world_id", "" ) != state.world_id ||
                     scope.get_string( "branch_id", "" ) != state.branch_id ||
-                    scope.get_string( "load_epoch", "" ) != state.load_epoch || !matches_actor( scope ) ) {
+                    scope.get_string( "load_epoch", "" ) != state.load_epoch || !matches_actor_scope( scope ) ) {
                     error = "memory_scope_mismatch";
                     return "null";
                 }
@@ -1531,7 +1664,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 }
                 const JsonObject scope = record.get_object( "context" );
                 scope.allow_omitted_members();
-                if( !matches_actor( scope ) ) {
+                if( !matches_actor_scope( scope ) ) {
                     error = "memory_actor_mismatch";
                     return "null";
                 }
@@ -1602,9 +1735,6 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 !state.queue.empty() || state.cognition_stale ) {
                 return "null";
             }
-            if( !state.request_payload.empty() ) {
-                return state.request_payload;
-            }
             const std::string observed = NpcExecutionAdapter::observe( *bound );
             const JsonObject observation = read_object( observed );
             observation.allow_omitted_members();
@@ -1633,9 +1763,13 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             relevant_out.end_object();
             const std::string signature = canonical( json_loader::from_string( relevant.str() ) );
             if( signature != state.observation_signature ) {
+                invalidate_request();
                 state.observation_signature = signature;
                 state.decision_trigger = true;
                 event( "observation", "perceived_environment_changed", observed );
+            }
+            if( !state.request_payload.empty() ) {
+                return state.request_payload;
             }
             if( state.request_context.empty() ) {
                 if( !state.decision_trigger || ( !state.chat_trigger &&
@@ -1647,31 +1781,12 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             const std::string observed_wire = normalized_json( observed );
             const std::string catalog_wire = normalized_json( catalog() );
             const std::size_t limit = maximum_message - envelope_headroom;
-            const auto render = [&]( const std::string & window_context,
-            const std::vector<std::string> &window ) {
-                std::ostringstream buffer;
-                JsonOut out( buffer );
-                out.start_object();
-                out.member( "context" );
-                write_raw( out, window_context );
-                out.member( "observations" );
-                write_raw( out, observed_wire );
-                out.member( "events" );
-                out.start_array();
-                for( const std::string &entry : window ) {
-                    write_raw( out, entry );
-                }
-                out.end_array();
-                out.member( "action_catalog" );
-                write_raw( out, catalog_wire );
-                out.end_object();
-                return buffer.str();
-            };
             std::vector<std::string> window;
             std::int64_t watermark = state.acknowledged;
             // Measure the exact serialized base, then admit a prefix by its
             // normalized wire bytes. The 128 byte margin covers watermark digits.
-            const std::size_t base_size = render( original_context, window ).size();
+            const std::size_t base_size = render_request( original_context, observed_wire, catalog_wire,
+                                          window ).size();
             if( base_size + 128 > limit ) {
                 state.last_error = error = "oversized_context";
                 return "null";
@@ -1694,7 +1809,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 watermark = read_object( entry ).get_int64( "sequence" );
             }
             const std::string window_context = context_with_watermark( original_context, watermark );
-            const std::string payload = render( window_context, window );
+            const std::string payload = render_request( window_context, observed_wire, catalog_wire, window );
             if( payload.size() > limit ) {
                 state.last_error = error = "oversized_context";
                 return "null";
@@ -1760,6 +1875,11 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 error = "plan_not_allowed";
                 return "null";
             }
+            for( const action_step &step : candidate ) {
+                if( !step_allowed( step, error ) ) {
+                    return "null";
+                }
+            }
             std::map<std::string, std::string> dependencies;
             for( const JsonObject &step : params.get_array( "steps" ) ) {
                 step.allow_omitted_members();
@@ -1778,6 +1898,20 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 state.accepted_plans.erase( state.accepted_plans.begin() );
             }
             state.acknowledged = offered.get_int64( "event_watermark" );
+            for( const std::pair<const std::string, requirement_decision> &incoming :
+                 state.requirement_decisions ) {
+                if( incoming.second.decision != "pending" ||
+                    incoming.second.source_sequence > state.acknowledged ) {
+                    continue;
+                }
+                const bool addressed = std::any_of( candidate.begin(), candidate.end(),
+                [&incoming]( const action_step & step ) {
+                    return step.requirement_id == incoming.first;
+                } );
+                if( !addressed ) {
+                    state.acknowledged = std::min( state.acknowledged, incoming.second.source_sequence - 1 );
+                }
+            }
             while( !state.events.empty() && read_object( state.events.front() ).get_int64(
                        "sequence" ) <= state.acknowledged ) {
                 state.checkpoint_delta.push_back( state.events.front() );
@@ -1843,7 +1977,7 @@ bool prepare_save_commit()
         const std::string checkpoint = state.pending_checkpoint == "null" ?
                                        state.saved_checkpoint : state.pending_checkpoint;
         const cata_path marker = checkpoint_marker();
-        const bool committed = write_to_file( marker, [&]( std::ostream & stream ) {
+        const bool committed = write_to_file( marker, [&checkpoint]( std::ostream & stream ) {
             JsonOut out( stream );
             out.start_object();
             out.member( "schema_version", 1 );
@@ -1918,6 +2052,7 @@ void serialize( JsonOut &out )
     out.member( "saved_memory_context" );
     write_raw( out, state.pending_checkpoint == "null" ? state.saved_memory_context :
                state.checkpoint_context );
+    write_requirements( out, true );
     out.member( "events" );
     out.start_array();
     for( const std::string &entry : state.events ) {
@@ -1939,6 +2074,7 @@ void serialize( JsonOut &out )
         out.member( "args" );
         write_raw( out, entry.step.args_json );
         out.member( "intent", entry.step.intent );
+        out.member( "requirement_id", entry.step.requirement_id );
         out.member( "from_step", entry.from_step );
         out.member( "source_operation", entry.step.source_operation );
         out.member( "started", entry.started );
@@ -2006,7 +2142,7 @@ void deserialize( const JsonObject &object )
             bool confirmed = false;
             const cata_path marker = checkpoint_marker();
             try {
-                read_from_file_optional_json( marker, [&]( const JsonValue & value ) {
+                read_from_file_optional_json( marker, [&confirmed]( const JsonValue & value ) {
                     const JsonObject commit = value.get_object();
                     commit.allow_omitted_members();
                     confirmed = commit.get_int( "schema_version", 0 ) == 1 &&
@@ -2067,6 +2203,23 @@ void deserialize( const JsonObject &object )
                                            read_object( state.events.front() ).get_int64( "sequence" ) - 1 );
             state.decision_trigger = true;
         }
+        if( object.has_array( "requirement_decisions" ) ) {
+            for( const JsonObject &entry : object.get_array( "requirement_decisions" ) ) {
+                entry.allow_omitted_members();
+                const std::string id = entry.get_string( "requirement_id" );
+                const std::string decision = entry.get_string( "decision" );
+                const std::int64_t sequence = entry.get_int64( "source_sequence" );
+                if( id.empty() || id.size() > 256 || sequence < 1 || sequence > state.event_watermark ||
+                    state.requirement_decisions.size() >= maximum_events ||
+                    ( decision != "pending" && decision != "accepted" && decision != "refused" ) ||
+                    entry.get_string( "source_event_id" ) != id || state.requirement_decisions.count( id ) ) {
+                    throw std::runtime_error( "invalid_saved_requirement" );
+                }
+                state.requirement_decisions.emplace( id, requirement_decision {
+                    sequence, decision, entry.get_string( "operation_id", "" ), entry.get_string( "text", "" )
+                } );
+            }
+        }
         for( const JsonObject &entry : object.get_array( "queue" ) ) {
             entry.allow_omitted_members();
             if( state.queue.size() >= 6 ) {
@@ -2076,7 +2229,7 @@ void deserialize( const JsonObject &object )
             state.queue.push_back( { {
                     entry.get_string( "id" ), entry.get_string( "action" ),
                     subobject( entry, "args" ).str(), entry.get_string( "intent", "" ),
-                    entry.get_string( "source_operation", "" )
+                    entry.get_string( "source_operation", "" ), entry.get_string( "requirement_id", "" )
                 },
                 entry.get_string( "from_step", "" ), started, started } );
         }

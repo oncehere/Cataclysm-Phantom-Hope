@@ -16,6 +16,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -30,10 +31,13 @@
 #include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "npc.h"
+#include "npc_execution_adapter.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "type_id.h"
 #include "worldfactory.h"
 
@@ -305,12 +309,16 @@ TEST_CASE( "actor_control_request_ack_covers_only_observed_events", "[actor_cont
     REQUIRE( control::chat( "Another thing happened while you were thinking.", error ) );
     calendar::turn += 1_turns;
     const std::string offered = plan( request, "[]" );
-    response( "offer_plan", offered );
+    control::dispatch( "offer_plan", offered, error );
+    CHECK( error == "stale_request" );
+    const JsonObject fresh = response( "take_request" );
+    response( "offer_plan", plan( fresh, "[]" ) );
     const JsonObject next = response( "take_request" );
-    REQUIRE( next.get_array( "events" ).size() == 1 );
+    REQUIRE( next.get_array( "events" ).size() >= 2 );
     const JsonObject statement = at( next, "events", 0 );
     CHECK( statement.get_string( "kind" ) == "statement" );
-    CHECK( statement.get_string( "text" ) == "Another thing happened while you were thinking." );
+    CHECK( statement.get_string( "text" ) == "The medicine is north, I think." );
+    CHECK( next.get_array( "requirement_decisions" ).size() == 2 );
     CHECK( child( next, "context" ).get_string( "request_id" ) !=
            child( request, "context" ).get_string( "request_id" ) );
 }
@@ -340,7 +348,8 @@ TEST_CASE( "actor_control_plan_retry_returns_real_receipts_without_reexecution",
     CHECK( at( duplicate, "receipts", 0 ).get_string( "state" ) == "succeeded" );
     CHECK( actor.get_moves() == 100 );
     std::string error;
-    control::dispatch( "offer_plan", plan( request, R"([{"id":"rest","action":"refuse","args":{}}])" ),
+    control::dispatch( "offer_plan", plan( request,
+                                           R"([{"id":"rest","action":"wait","args":{"turns":2}}])" ),
                        error );
     CHECK( error == "operation_payload_conflict" );
     CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
@@ -489,7 +498,7 @@ TEST_CASE( "actor_control_idle_world_does_not_trigger_periodic_model_work",
     std::string error;
     CHECK( control::dispatch( "take_request", "{}", error ) == "null" );
     CHECK( error.empty() );
-    for( const std::string &method : {
+    for( const char *method : {
              "act", "on_lifecycle", "set_moves", "set_inventory", "advance_time"
          } ) {
         control::dispatch( method, "{}", error );
@@ -551,15 +560,18 @@ TEST_CASE( "actor_control_wire_window_limits_bytes_and_acknowledges_only_its_pre
     const int64_t watermark = last.get_int64( "sequence" );
     CHECK( child( request, "context" ).get_int64( "event_watermark" ) == watermark );
     REQUIRE( control::chat( "Arrived after the pending request.", error ) );
-    CHECK( control::dispatch( "take_request", "{}", error ) == wire );
+    const JsonObject fresh = response( "take_request" );
+    CHECK( child( fresh, "context" ).get_string( "request_id" ) !=
+           child( request, "context" ).get_string( "request_id" ) );
     const std::string status_wire = control::status();
     CHECK( status_wire.size() < 1048576 - 4096 );
     CHECK( snapshot( status_wire ).get_int( "transcript_omitted" ) > 0 );
-    response( "offer_plan", plan( request, "[]" ) );
+    response( "offer_plan", plan( fresh, "[]" ) );
     const JsonObject remaining = response( "take_request" );
     REQUIRE( remaining.get_array( "events" ).size() > 0 );
-    CHECK( at( remaining, "events", 0 ).get_int64( "sequence" ) == watermark + 1 );
-    CHECK( snapshot( saved() ).get_array( "checkpoint_delta" ).size() == events.size() );
+    // An empty plan handles no player messages. Their bounded prefix is kept.
+    CHECK( at( remaining, "events", 0 ).get_int64( "sequence" ) == 2 );
+    CHECK( snapshot( saved() ).get_array( "checkpoint_delta" ).size() == 1 );
 }
 
 TEST_CASE( "actor_control_receipt_event_identity_and_goal_source_match_runtime_journal",
@@ -615,8 +627,8 @@ TEST_CASE( "actor_control_offline_restore_redelivers_acknowledged_checkpoint_del
     const JsonArray original = request.get_array( "events" );
     response( "offer_plan", plan( request, "[]" ) );
     const std::string stored = saved();
-    CHECK( snapshot( stored ).get_array( "events" ).empty() );
-    CHECK( snapshot( stored ).get_array( "checkpoint_delta" ).size() == original.size() );
+    CHECK( snapshot( stored ).get_array( "events" ).size() == original.size() - 1 );
+    CHECK( snapshot( stored ).get_array( "checkpoint_delta" ).size() == 1 );
     control::deserialize( snapshot( stored ) );
     response( "sync_memory",
               R"({"version":"test-memory","snapshot":{"revision":"test-memory","records":[]}})" );
@@ -675,11 +687,11 @@ TEST_CASE( "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in",
     CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
     CHECK_FALSE( response( "status" ).has_member( "debug" ) );
     response( "offer_plan", plan( request,
-                                  R"([{"id":"rest","action":"wait","intent":"refuse","args":{}}])" ) );
+                                  R"([{"id":"rest","action":"wait","intent":"argue","args":{}}])" ) );
     const JsonObject debug = child( response( "status", "{\"include_debug\":true}" ), "debug" );
     REQUIRE( debug.get_array( "current_queue" ).size() == 1 );
     const JsonObject current = at( debug, "current_queue", 0 );
-    CHECK( current.get_string( "intent" ) == "refuse" );
+    CHECK( current.get_string( "intent" ) == "argue" );
     CHECK( current.get_string( "phase" ) == "queued" );
     CHECK_FALSE( current.get_bool( "started" ) );
 }
@@ -890,7 +902,7 @@ TEST_CASE( "actor_control_prepared_checkpoint_marker_is_rolled_back_without_reti
     const std::filesystem::path root = PATH_INFO::world_base_save_path().get_unrelative_path();
     std::string error;
     REQUIRE( cata::actor_control::save_transaction::begin( root, error ) );
-    on_out_of_scope release_transaction( [&]() {
+    on_out_of_scope release_transaction( [&error]() {
         cata::actor_control::save_transaction::finish( false, error );
         control::after_save( false );
     } );
@@ -925,7 +937,7 @@ TEST_CASE( "actor_control_imports_subjective_growth_without_importing_physical_f
         scope + ",\"origin_context\":{\"world_id\":\"previous-world\",\"actor_id\":\"7\"},"
         "\"imported\":true,\"continuity\":\"imported_experience_not_current_world_fact\","
         "\"source_ids\":[\"previous-observation\"],\"preferences\":{\"caution\":0.9},\"confidence\":1}";
-    const auto offer = [&]( const std::string & entry, bool root_scope ) {
+    const auto offer = [&scope]( const std::string & entry, bool root_scope ) {
         return "{\"version\":\"imported\",\"snapshot\":{\"revision\":\"imported\"," +
                ( root_scope ? "\"context\":" + scope + "," : std::string() ) +
                "\"records\":[" + entry + "]}}";
@@ -948,4 +960,175 @@ TEST_CASE( "actor_control_imports_subjective_growth_without_importing_physical_f
     CHECK( error == "memory_scope_mismatch" );
     CHECK( control::following_distance( actor, 4 ) == 5 );
     CHECK( actor.get_moves() == moves );
+}
+
+TEST_CASE( "actor_control_trade_permission_checks_actual_hostile_beneficiary",
+           "[actor_control][social][trade]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    npc &other = fixture.companion();
+    actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    other.worn.wear_item( other, item( itype_id( "debug_backpack" ) ), false, false );
+    actor.rules.set_flag( ally_rule::forbid_engage );
+    other.rules.set_flag( ally_rule::forbid_engage );
+    item stock( itype_id( "rock" ), calendar::turn );
+    stock.set_owner( actor );
+    actor.i_add( std::move( stock ) );
+    prepare( actor );
+    const bool enabled = GENERATE( false, true );
+    std::string restricted = policy;
+    if( !enabled ) {
+        const std::string setting = "\"aid_conflicting_party\":true";
+        restricted.replace( restricted.find( setting ), setting.size(),
+                            "\"aid_conflicting_party\":false" );
+    }
+    response( "configure", "{\"profile_id\":\"test-profile\",\"personality\":" + restricted +
+              ",\"limits\":{\"max_steps\":5,\"cooldown\":0}}" );
+    // Allegiance changes after acceptance must be checked again at execution.
+    const JsonObject request = response( "take_request" );
+    response( "offer_plan", plan( request,
+                                  "[{\"id\":\"gift\",\"action\":\"trade\",\"args\":{\"target\":" +
+                                  std::to_string( other.getID().get_value() ) +
+                                  ",\"give\":[{\"item_type\":\"rock\"}],\"take\":[]}}]" ) );
+    other.set_attitude( NPCATT_KILL );
+    REQUIRE( other.is_enemy() );
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    const JsonObject receipt = at( response( "status" ), "receipts", 0 );
+    CHECK( receipt.get_string( "code" ) == ( enabled ? "trade_committed" : "behavior_disabled" ) );
+    CHECK( actor.amount_of( itype_id( "rock" ) ) == ( enabled ? 0 : 1 ) );
+    CHECK( other.amount_of( itype_id( "rock" ) ) == ( enabled ? 1 : 0 ) );
+    CHECK( actor.rules.has_flag( ally_rule::forbid_engage ) );
+}
+
+TEST_CASE( "actor_control_player_trade_confirmation_rechecks_take_beneficiary_permission",
+           "[actor_control][social][trade]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    item rock( itype_id( "rock" ), calendar::turn );
+    rock.set_owner( get_avatar() );
+    get_avatar().i_add( std::move( rock ) );
+    prepare( actor );
+    response( "offer_plan", plan( response( "take_request" ),
+                                  "[{\"id\":\"take\",\"action\":\"trade\",\"args\":{\"target\":" +
+                                  std::to_string( get_avatar().getID().get_value() ) +
+                                  ",\"give\":[],\"take\":[{\"item_type\":\"rock\"}]}}]" ) );
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    REQUIRE( actor.maybe_get_value( "cph_ai.pending_trade" ) );
+    std::string restricted = policy;
+    const std::string setting = "\"aid_conflicting_party\":true";
+    restricted.replace( restricted.find( setting ), setting.size(),
+                        "\"aid_conflicting_party\":false" );
+    response( "configure", "{\"profile_id\":\"test-profile\",\"personality\":" + restricted +
+              ",\"limits\":{\"max_steps\":5,\"cooldown\":0}}" );
+    actor.set_attitude( NPCATT_KILL );
+    REQUIRE( actor.is_enemy() );
+    const int before = actor.get_moves();
+    CHECK( control::NpcExecutionAdapter::resolve_player_trade( actor,
+            true ).code == "behavior_disabled" );
+    CHECK( actor.amount_of( itype_id( "rock" ) ) == 0 );
+    CHECK( get_avatar().amount_of( itype_id( "rock" ) ) == 1 );
+    CHECK( actor.get_moves() == before );
+}
+
+TEST_CASE( "actor_control_refusal_is_durable_and_keeps_unaddressed_messages_pending",
+           "[actor_control][social][save]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    std::string error;
+    REQUIRE( control::chat( "Gather a rock for me.", error ) );
+    REQUIRE( control::chat( "Another independent request.", error ) );
+    const JsonObject request = response( "take_request" );
+    const std::string requirement = at( request, "requirement_decisions",
+                                        0 ).get_string( "requirement_id" );
+    const std::string refuse = "{\"id\":\"no\",\"action\":\"refuse\",\"requirement_id\":" +
+                               control::quote( requirement ) + ",\"args\":{\"text\":\"I refuse that request.\"}}";
+    const tripoint_abs_ms location = actor.pos_abs();
+    const std::string gather = "{\"id\":\"get\",\"action\":\"gather\",\"requirement_id\":" +
+                               control::quote( requirement ) + ",\"args\":{\"item_type\":\"rock\",\"x\":" +
+                               std::to_string( location.x() ) + ",\"y\":" + std::to_string( location.y() ) +
+                               ",\"z\":" + std::to_string( location.z() ) + "}}";
+    control::dispatch( "offer_plan", plan( request, "[" + refuse + "," + gather + "]" ), error );
+    CHECK( error == "contradictory_requirement_decision" );
+    CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
+    response( "offer_plan", plan( request, "[" + refuse + "]" ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    const JsonObject result = response( "status" );
+    CHECK( at( result, "requirement_decisions", 0 ).get_string( "decision" ) == "refused" );
+    CHECK( at( result, "requirement_decisions", 1 ).get_string( "decision" ) == "pending" );
+    CHECK( snapshot( saved() ).get_array( "events" ).size() > 0 );
+    control::deserialize( snapshot( saved() ) );
+    response( "sync_memory",
+              R"({"version":"restored","snapshot":{"revision":"restored","records":[]}})" );
+    const JsonObject restored = response( "take_request" );
+    CHECK( at( restored, "requirement_decisions", 0 ).get_string( "decision" ) == "refused" );
+    control::dispatch( "offer_plan", plan( restored, "[" + gather + "]" ), error );
+    CHECK( error == "requirement_refused" );
+    control::dispatch( "offer_plan", plan( restored, R"([{"id":"get","action":"wait","args":{}}])" ),
+                       error );
+    CHECK( error == "requirement_association_required" );
+    control::dispatch( "offer_plan", plan( restored,
+                                           R"([{"id":"no","action":"refuse","args":{"text":"No."}}])" ), error );
+    CHECK( error == "refusal_requires_requirement" );
+    response( "offer_plan", plan( restored,
+                                  R"([{"id":"own","action":"wait","intent":"propose_own_goals","args":{}}])" ) );
+}
+
+TEST_CASE( "actor_control_linked_casual_speech_does_not_accept_message_contents",
+           "[actor_control][social]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    std::string error;
+    REQUIRE( control::chat( "This is a belief, not an instruction.", error ) );
+    const JsonObject request = response( "take_request" );
+    const std::string requirement = at( request, "requirement_decisions",
+                                        0 ).get_string( "requirement_id" );
+    response( "offer_plan", plan( request,
+                                  "[{\"id\":\"reply\",\"action\":\"talk\",\"requirement_id\":" +
+                                  control::quote( requirement ) + ",\"args\":{\"text\":\"I heard you.\"}}]" ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    CHECK( at( response( "status" ), "requirement_decisions",
+               0 ).get_string( "decision" ) == "pending" );
+    CHECK_FALSE( actor.maybe_get_value( "cph_ai.commitment" ) );
+}
+
+TEST_CASE( "actor_control_cancel_retains_completed_native_craft_output_receipt",
+           "[actor_control][lifecycle][crafting]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    const recipe_id recipe( "bandages_makeshift" );
+    actor.learn_recipe( &recipe.obj() );
+    item sheet( itype_id( "sheet_cotton" ), calendar::turn );
+    sheet.set_owner( actor );
+    actor.i_add( std::move( sheet ) );
+    prepare( actor );
+    response( "offer_plan", plan( response( "take_request" ),
+                                  R"([{"id":"craft","action":"craft","args":{"recipe":"bandages_makeshift"}}])" ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    REQUIRE( actor.activity );
+    process_activity( actor );
+    REQUIRE_FALSE( actor.activity );
+    REQUIRE( actor.charges_of( itype_id( "bandages_makeshift" ) ) == 2 );
+    actor.set_moves( 0 );
+    control::cancel();
+    const JsonObject result = response( "status" );
+    CHECK( result.get_int( "queue_length" ) == 0 );
+    const JsonObject receipt = at( result, "receipts", 0 );
+    CHECK( receipt.get_string( "state" ) == "succeeded" );
+    CHECK( receipt.get_string( "code" ) == "crafted" );
+    REQUIRE( child( receipt, "detail" ).get_array( "produced" ).size() > 0 );
+    CHECK( actor.charges_of( itype_id( "bandages_makeshift" ) ) == 2 );
 }

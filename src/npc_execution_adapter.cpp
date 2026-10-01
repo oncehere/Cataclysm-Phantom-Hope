@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+#include "actor_control.h"
+#include "actor_control_protocol.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -32,6 +34,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "native_item_transfer.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -196,93 +199,21 @@ tripoint_bub_ms position_arg( const JsonObject &args )
                               args.get_int( "y" ), args.get_int( "z" ) ) );
 }
 
-struct transfer_entry {
-    item_location loc;
-    int count;
-};
+using transfer_entry = cata::native_item_transfer::selection;
 
 bool select_transfer( Character &source, Character &recipient, const JsonArray &requests,
                       std::vector<transfer_entry> &selected, int &price, std::string &error,
                       bool require_consent, const std::string &source_operation = {} )
 {
-    std::map<std::string, int> requested;
+    std::vector<cata::native_item_transfer::request> items;
     for( const JsonObject row : requests ) {
-        const std::string name = row.get_string( "item_type" );
-        const int count = row.get_int( "count", 1 );
-        if( count < 1 || count > 1000 || !itype_id( name ).is_valid() ) {
-            error = "invalid_item_request";
-            return false;
-        }
-        if( requested.size() >= 32 && requested.count( name ) == 0 ) {
-            error = "too_many_item_requests";
-            return false;
-        }
-        requested[name] += count;
-        if( requested[name] > 1000 ) {
-            error = "invalid_item_request";
-            return false;
-        }
+        items.push_back( { itype_id( row.get_string( "item_type" ) ), row.get_int( "count", 1 ) } );
     }
-    for( const std::pair<const std::string, int> &request : requested ) {
-        int remaining = request.second;
-        for( item_location loc : source.all_items_loc() ) {
-            if( remaining == 0 ) {
-                break;
-            }
-            if( loc->typeId().str() != request.first || source.is_worn( *loc ) ||
-                ( loc->is_container() && !loc->empty() ) ||
-                ( !source_operation.empty() &&
-                  loc->get_var( "cph_ai_produced_step", "" ) != source_operation ) ) {
-                continue;
-            }
-            if( require_consent && source.is_npc() &&
-                !source.as_npc()->wants_to_sell( loc, 1, recipient ).success() ) {
-                continue;
-            }
-            if( require_consent && recipient.is_npc() &&
-                !recipient.as_npc()->wants_to_buy( *loc, 1, source ).success() ) {
-                continue;
-            }
-            const int count = std::min( remaining, loc->count_by_charges() ? loc->charges : 1 );
-            if( count < 1 ) {
-                continue;
-            }
-            item portion = *loc;
-            if( portion.count_by_charges() ) {
-                portion.charges = count;
-            }
-            if( !recipient.can_pickWeight( portion ) || !recipient.can_pickVolume( portion ) ) {
-                error = "recipient_capacity";
-                return false;
-            }
-            selected.push_back( { loc, count } );
-            const int cost = std::max( 1, npc_trading::adjusted_price( loc.get_item(), count,
-                                       recipient, source ) );
-            if( cost > INT_MAX - price ) {
-                error = "trade_value_exceeded";
-                return false;
-            }
-            price += cost;
-            remaining -= count;
-        }
-        if( remaining != 0 ) {
-            error = source_operation.empty() ? "inventory_or_consent_changed" : "source_output_unavailable";
-            return false;
-        }
-    }
-    std::vector<item> portions;
-    for( const transfer_entry &entry : selected ) {
-        item portion = *entry.loc;
-        if( portion.count_by_charges() ) {
-            portion.charges = entry.count;
-        }
-        portions.push_back( std::move( portion ) );
-    }
-    if( !NpcExecutionAdapter::can_receive_items( recipient, portions ) ) {
-        error = "recipient_capacity";
-        return false;
-    }
-    return true;
+    const cata::native_item_transfer::item_variable constraint = source_operation.empty() ?
+            cata::native_item_transfer::item_variable {} :
+            cata::native_item_transfer::item_variable { "cph_ai_produced_step", source_operation };
+    return cata::native_item_transfer::select( source, recipient, items, selected, price, error,
+    { require_consent, require_consent }, constraint );
 }
 
 struct placed_output {
@@ -329,20 +260,12 @@ output_summary transfer_selected( std::vector<transfer_entry> &selected, Charact
                                   const std::string &produced_step = {} )
 {
     output_summary outputs;
-    for( transfer_entry &entry : selected ) {
-        item transfer = *entry.loc;
-        if( transfer.count_by_charges() && transfer.charges > entry.count ) {
-            transfer.charges = entry.count;
-            entry.loc->charges -= entry.count;
-        } else {
-            entry.loc.remove_item();
-        }
-        transfer.set_owner( recipient );
-        if( !produced_step.empty() ) {
-            transfer.set_var( "cph_ai_produced_step", produced_step );
-        }
-        const item_location placed = recipient.i_add( std::move( transfer ) );
-        record_output( outputs, placed, entry.count );
+    const cata::native_item_transfer::item_variable stamp = produced_step.empty() ?
+            cata::native_item_transfer::item_variable {} :
+            cata::native_item_transfer::item_variable { "cph_ai_produced_step", produced_step };
+    for( const transfer_entry &placed : cata::native_item_transfer::commit( selected, recipient,
+            stamp ) ) {
+        record_output( outputs, placed.location, placed.count );
     }
     return outputs;
 }
@@ -386,6 +309,12 @@ execution_result exchange( npc &actor, const action_step &step, const JsonObject
     }
     if( give.empty() && take.empty() ) {
         return result( execution_state::failed, "empty_trade" );
+    }
+    // Evaluate native beneficiaries after real stock and consent selection, even
+    // when this offer was accepted earlier or confirmed by the player later.
+    if( ( !give.empty() && !permits_item_aid( actor, *target ) ) ||
+        ( !take.empty() && !permits_item_aid( actor, actor ) ) ) {
+        return result( execution_state::failed, "behavior_disabled" );
     }
     if( !human_confirmed && given_value < taken_value ) {
         return result( execution_state::failed, "native_trade_rejected" );
@@ -554,34 +483,7 @@ execution_result speak( npc &actor, const JsonObject &args, const std::string &c
 
 bool NpcExecutionAdapter::can_receive_items( Character &recipient, const std::vector<item> &items )
 {
-    // Copies preserve pocket settings and current contents.  Native best_pocket
-    // then reserves each addition on those copies, so a batch cannot pass by
-    // checking every item against the same unmodified free space.
-    outfit projected_worn = recipient.worn;
-    const item_location held = recipient.get_wielded_item();
-    item projected_weapon = held ? *held : item();
-    units::mass incoming = 0_gram;
-    for( const item &portion : items ) {
-        incoming += portion.weight();
-        if( incoming > recipient.free_weight_capacity() ||
-            incoming > recipient.weight_capacity() - recipient.weight_carried() ) {
-            return false;
-        }
-        item_location weapon_location( recipient, &projected_weapon );
-        std::pair<item_location, item_pocket *> selected =
-            projected_weapon.best_pocket( portion, weapon_location, nullptr, false, true );
-        projected_worn.best_pocket( recipient, portion, nullptr, selected, true );
-        if( !selected.second ) {
-            return false;
-        }
-        item *placed = nullptr;
-        selected.second->add( portion, &placed );
-        if( !placed ) {
-            return false;
-        }
-        selected.second->on_contents_changed();
-    }
-    return true;
+    return cata::native_item_transfer::can_receive( recipient, items );
 }
 
 bool NpcExecutionAdapter::available( const npc &actor, const std::string &action )
@@ -950,6 +852,10 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
 
 execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &step )
 {
+    if( !step.requirement_id.empty() && step.action != "refuse" &&
+        value( actor, "refused_requirement." + step.requirement_id ) == "true" ) {
+        return result( execution_state::failed, "requirement_refused" );
+    }
     try {
         if( actor.is_dead_state() ) {
             return result( execution_state::failed, "actor_dead" );
@@ -1146,8 +1052,19 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
             actor.mod_moves( -100 );
             return result( execution_state::succeeded, "native_dialogue", true );
         }
-        if( step.action == "refuse" || step.action == "argue" ||
-            step.action == "lie_in_dialogue" ) {
+        if( step.action == "refuse" ) {
+            if( step.requirement_id.empty() ) {
+                return result( execution_state::failed, "refusal_requires_requirement" );
+            }
+            execution_result rejected = speak( actor, args, step.action );
+            if( rejected.state == execution_state::succeeded ) {
+                actor.set_value( "cph_ai.refused_requirement." + step.requirement_id, "true" );
+                rejected.detail_json = "{\"requirement_id\":" + quote( step.requirement_id ) +
+                                       ",\"decision\":\"refused\"}";
+            }
+            return rejected;
+        }
+        if( step.action == "argue" || step.action == "lie_in_dialogue" ) {
             return speak( actor, args, step.action );
         }
         if( step.action == "propose_own_goals" ) {

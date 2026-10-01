@@ -23,6 +23,9 @@ def main() -> None:
             parser.error("protocol snapshot fingerprint differs from its source")
     raw = (directory / "protocol.json").read_bytes()
     spec = json.loads(raw)
+    version = spec["protocol_version"]
+    if version not in ("1.0", "1.1") or source["protocol_version"] != version:
+        parser.error("unsupported or inconsistent protocol version")
     encoded = json.dumps(spec, ensure_ascii=True, separators=(",", ":"))
     if ')CPHAI"' in encoded:
         parser.error("invalid raw-string delimiter")
@@ -30,7 +33,7 @@ def main() -> None:
                '// Authoritative snapshot: cph-ai-companion ' + source["source_revision"] + '\n'
                '#pragma once\n'
                'namespace cata::actor_control {\n'
-               'inline constexpr char protocol_version[] = "1.0";\n'
+               'inline constexpr char protocol_version[] = "' + version + '";\n'
                'inline constexpr char protocol_digest[] = "' + hashlib.sha256(raw).hexdigest() + '";\n'
                'inline constexpr char protocol_json[] = R"CPHAI(' + encoded + ')CPHAI";\n'
                '}\n')

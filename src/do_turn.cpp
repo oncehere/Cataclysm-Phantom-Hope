@@ -152,7 +152,7 @@ bool cleanup_at_end()
                    transaction_error );
             return cleanup_at_end();
         }
-        on_out_of_scope rollback_death_save( [&]() {
+        on_out_of_scope rollback_death_save( []() {
             std::string error;
             if( !cata::actor_control::save_transaction::finish( false, error ) ) {
                 popup( _( "The final world save needs recovery: %s" ), error );
