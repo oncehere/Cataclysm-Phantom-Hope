@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import shutil
+import tarfile
 import zipfile
 
 VERSION = "0.1.2.dev0"
@@ -23,6 +24,17 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _check_metadata(body: bytes, artifact: str) -> None:
+    metadata = BytesParser().parsebytes(body)
+    for field in ("Name", "Version", "Requires-Python"):
+        if len(metadata.get_all(field, [])) != 1:
+            raise ReleaseError("invalid_" + artifact + "_metadata")
+    if metadata["Name"] != "cph-ai-companion" or metadata["Version"] != VERSION:
+        raise ReleaseError("wrong_project_" + artifact)
+    if metadata["Requires-Python"] != "<3.13,>=3.12":
+        raise ReleaseError("wrong_python_requirement")
+
+
 def mod_payloads(wheel: Path) -> tuple[dict[str, bytes], str]:
     with zipfile.ZipFile(wheel) as archive:
         names = archive.namelist()
@@ -31,18 +43,15 @@ def mod_payloads(wheel: Path) -> tuple[dict[str, bytes], str]:
         metadata_names = [name for name in names if name.endswith(".dist-info/METADATA")]
         if len(metadata_names) != 1:
             raise ReleaseError("invalid_wheel_metadata")
-        metadata = BytesParser().parsebytes(archive.read(metadata_names[0]))
-        if metadata.get("Name") != "cph-ai-companion" or metadata.get("Version") != VERSION:
-            raise ReleaseError("wrong_project_wheel")
-        if metadata.get("Requires-Python") != "<3.13,>=3.12":
-            raise ReleaseError("wrong_python_requirement")
+        _check_metadata(archive.read(metadata_names[0]), "wheel")
         payloads = {}
         for name in names:
             if not name.startswith(MOD_PREFIX) or name.endswith("/"):
                 continue
             relative = name[len(MOD_PREFIX):]
             path = PurePosixPath(relative)
-            if not relative or path.is_absolute() or ".." in path.parts or "\\" in relative:
+            if (not relative or path.is_absolute() or ".." in path.parts or "\\" in relative
+                    or "\0" in relative or path.as_posix() != relative):
                 raise ReleaseError("invalid_mod_resource")
             payloads[relative] = archive.read(name)
         if not {"mod.lua", "main.lua"}.issubset(payloads):
@@ -54,6 +63,54 @@ def mod_payloads(wheel: Path) -> tuple[dict[str, bytes], str]:
         if protocol.get("protocol_version") != "1.1":
             raise ReleaseError("unsupported_protocol")
         return payloads, hashlib.sha256(protocol_data).hexdigest()
+
+
+def validate_sdist(sdist: Path, payloads: dict[str, bytes], digest: str) -> None:
+    """Read referenced members in place; never extract a source archive."""
+    prefix = f"cph_ai_companion-{VERSION}/"
+    try:
+        with tarfile.open(sdist, "r:gz") as archive:
+            members = {}
+            for member in archive.getmembers():
+                name = member.name.rstrip("/") if member.isdir() else member.name
+                path = PurePosixPath(name)
+                if (not name or path.is_absolute() or ".." in path.parts or "\\" in name
+                        or "\0" in name or path.as_posix() != name
+                        or (name != prefix[:-1] and not name.startswith(prefix))
+                        or (name == prefix[:-1] and not member.isdir())):
+                    raise ReleaseError("invalid_sdist_path")
+                if name in members:
+                    raise ReleaseError("duplicate_sdist_entries")
+                members[name] = member
+            for name in members:
+                for parent in PurePosixPath(name).parents:
+                    ancestor = members.get(parent.as_posix())
+                    if ancestor is not None and not ancestor.isdir():
+                        raise ReleaseError("invalid_sdist_path")
+
+            def read(name: str) -> bytes:
+                member = members.get(prefix + name)
+                if member is None:
+                    raise ReleaseError("sdist_resource_missing")
+                if not member.isfile():
+                    raise ReleaseError("nonregular_sdist_resource")
+                stream = archive.extractfile(member)
+                if stream is None:
+                    raise ReleaseError("nonregular_sdist_resource")
+                with stream:
+                    return stream.read()
+
+            _check_metadata(read("PKG-INFO"), "sdist")
+            if hashlib.sha256(read("src/" + PROTOCOL_FILE)).hexdigest() != digest:
+                raise ReleaseError("sdist_protocol_mismatch")
+            mod_prefix = prefix + "src/" + MOD_PREFIX
+            source_payloads = {name[len(mod_prefix):]: read(name[len(prefix):])
+                               for name, member in members.items()
+                               if name.startswith(mod_prefix) and not member.isdir()}
+            if source_payloads != payloads:
+                raise ReleaseError("sdist_mod_mismatch")
+    except (tarfile.TarError, EOFError, OSError):
+        raise ReleaseError("invalid_sdist_archive") from None
 
 
 def _copy(source: Path, destination: Path) -> None:
@@ -71,11 +128,14 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None) -> di
     if len(wheels) != 1 or len(sdists) != 1:
         raise ReleaseError("exact_wheel_and_sdist_required")
     payloads, digest = mod_payloads(wheels[0])
+    validate_sdist(sdists[0], payloads, digest)
     record = json.loads((compatibility or root / "docs/compatibility.json").read_text(encoding="utf-8"))
     if (not isinstance(record, dict) or record.get("schema_version") != 1
             or record.get("package_version") != VERSION or record.get("protocol_version") != "1.1"
             or not isinstance(record.get("validated_combinations"), list)):
         raise ReleaseError("invalid_compatibility_record")
+    if "schema_digest" in record and record["schema_digest"] != digest:
+        raise ReleaseError("compatibility_schema_mismatch")
     # Package assembly cannot turn an untested candidate into a validated pair.
     record["schema_digest"] = digest
     mod_zip = dist / f"cph_ai_companion-{VERSION}-mod.zip"
