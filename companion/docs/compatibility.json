@@ -1,39 +1,36 @@
 {
   "acceptance": {
-    "actual_user_environment": "NOT_RUN_NEW_CANDIDATE",
-    "artifact_install": "PASS_OUTSIDE_SOURCE",
-    "complete_physical_crash_campaign": "NOT_RUN_NEW_CANDIDATE",
-    "full_game_build": "PASS_LOCAL_CLANG",
-    "full_gnu_game": "NOT_RUN_NEW_CANDIDATE",
-    "full_native_suite": "NOT_RUN_NEW_CANDIDATE",
-    "gameplay": "NOT_RUN_NEW_CANDIDATE",
-    "gnu_module": "PASS_ACTUAL_TEST_TU",
-    "gui": "NOT_RUN_NEW_CANDIDATE",
-    "hosted_ci": "NOT_RUN_NEW_HEAD",
-    "hosted_cph_result": "NOT_RUN_NEW_CANDIDATE",
-    "installed_native_joint": "PASS_1_CASE_1377_ASSERTIONS",
-    "live_multiplayer": "NOT_RUN_NEW_CANDIDATE",
-    "mod_load": "PASS_ACTUAL_INSTALLED_MOD",
-    "native_tests": "PASS_72_CASES_1968_ASSERTIONS",
-    "published": "NOT_PUBLISHED_LOCAL_CANDIDATE",
-    "python_tests": "PASS_149_SOURCE_AND_INSTALLED",
-    "real_provider": "NOT_RUN_NEW_CANDIDATE",
-    "save_reload": "NOT_RUN_NEW_CANDIDATE"
+    "actual_user_environment": "NOT_RUN_MONOREPO_CANDIDATE",
+    "artifact_install": "NOT_RUN_MONOREPO_CANDIDATE",
+    "complete_physical_crash_campaign": "NOT_RUN_MONOREPO_CANDIDATE",
+    "full_game_build": "NOT_RUN_MONOREPO_CANDIDATE",
+    "full_gnu_game": "NOT_RUN_MONOREPO_CANDIDATE",
+    "full_native_suite": "NOT_RUN_MONOREPO_CANDIDATE",
+    "gameplay": "NOT_RUN_MONOREPO_CANDIDATE",
+    "gnu_module": "NOT_RUN_MONOREPO_CANDIDATE",
+    "gui": "NOT_RUN_MONOREPO_CANDIDATE",
+    "hosted_ci": "NOT_RUN_MONOREPO_CANDIDATE",
+    "hosted_cph_result": "NOT_RUN_MONOREPO_CANDIDATE",
+    "installed_native_joint": "NOT_RUN_MONOREPO_CANDIDATE",
+    "live_multiplayer": "NOT_RUN_MONOREPO_CANDIDATE",
+    "mod_load": "NOT_RUN_MONOREPO_CANDIDATE",
+    "native_tests": "NOT_RUN_MONOREPO_CANDIDATE",
+    "published": "NOT_PUBLISHED",
+    "python_tests": "NOT_RUN_MONOREPO_CANDIDATE",
+    "real_provider": "NOT_RUN_MONOREPO_CANDIDATE",
+    "save_reload": "NOT_RUN_MONOREPO_CANDIDATE"
   },
   "candidate": {
-    "joint_repeat": "PASS_FINAL_INSTALLED_PAIR",
-    "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
-    "native_head": "e01386a1eba1752b169aa55d3941abef506b6461",
-    "native_tree": "e2030870f2154596db910a0631c10ea327ee203d",
-    "native_worktree": "codex/actor-control-20260930",
-    "status": "LOCAL_FIX_CANDIDATE_VERIFIED"
+    "native_head": null,
+    "package_directory": "companion",
+    "source_repository": "oncehere/Cataclysm-Phantom-Hope",
+    "status": "LOCAL_MONOREPO_CANDIDATE"
   },
   "evidence": {
-    "prior_release": "docs/evidence/v0.1.1-compatibility.json",
-    "python": "docs/evidence/review-fixes-20261001/python-source-reconciled.json",
-    "review_fixes": "docs/evidence/review-fixes-20261001/verified.json"
+    "pre_monorepo": "docs/evidence/pre-monorepo-compatibility.json",
+    "prior_release": "docs/evidence/v0.1.1-compatibility.json"
   },
-  "evidence_as_of": "2026-10-01T11:27:19.793052+00:00",
+  "evidence_as_of": "2026-10-01",
   "formats": {
     "checkpoint": 1,
     "configuration": 1,
@@ -57,20 +54,5 @@
   "schema_digest": "8a8e3f131065bf5eb82cec3233f5dc9c94d4ab2f97143627e49505d5726840a7",
   "schema_version": 1,
   "target_platform": "linux-x86_64",
-  "validated_combinations": [
-    {
-      "native_head": "e01386a1eba1752b169aa55d3941abef506b6461",
-      "native_runner_sha256": "59ac5afada031c7c3f61602adb2e82605a239e26f112e4a8a90c5d326bd6a208",
-      "native_tree": "e2030870f2154596db910a0631c10ea327ee203d",
-      "package_version": "0.1.2.dev0",
-      "platform": "linux-x86_64",
-      "protocol_version": "1.1",
-      "python": "3.12.14",
-      "runtime_validation_origin_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
-      "scope": "Locally installed synthetic SDK/native joint gather, checkpoint preparation and safe handoff; no real-model or graphical claim",
-      "standalone_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
-      "wheel_identity_reuse": "PASS_BYTE_IDENTICAL_TO_INSTALLED_AND_NATIVE_TESTED_WHEEL",
-      "wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
-    }
-  ]
+  "validated_combinations": []
 }

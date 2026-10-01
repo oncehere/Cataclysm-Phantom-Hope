@@ -1,16 +1,58 @@
 # Install, configure and safely stop
 
-The instructions below describe the published **0.1.1 / protocol 1.0** artifacts.
-This checkout's **0.1.2.dev0 / protocol 1.1** fixes are local candidates and cannot
-be paired with the old native revision or wheel below. Candidate verification
-uses a separate wheel installation and the isolated native worktree recorded in
-`docs/compatibility.json`; it does not replace a published asset or installed game.
+The Python project and MOD source now live in `companion/` in the
+[CPH source repository](https://github.com/oncehere/Cataclysm-Phantom-Hope).
+They retain separate builds, package releases, installation and explicit
+startup. The local source migration does not replace the installed game or the
+[published 0.1.1 release](https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.1),
+and does not delete the original independent repository.
+
+This checkout's **0.1.2.dev0 / protocol 1.1** is an unpublished candidate. It
+cannot be paired with the old native revision or wheel below. Imported
+review-fix evidence in `compatibility.json` belongs to its recorded inputs;
+the monorepo candidate needs its own installed-package/native validation.
+
+## Build the companion from a CPH source checkout
+
+Use a selected CPH checkout containing `companion/`. A moving branch name alone
+does not identify a tested combination. Check the package/native source and
+artifact identities in the compatibility record before using them together.
+From the CPH repository root, run:
+
+```sh
+python3 tools/actor_control/generate_protocol.py --check
+cd companion
+uv sync --locked --group build
+uv run --locked python -m unittest discover -s tests
+uv build --python .venv/bin/python --no-build-isolation --out-dir dist
+uv run --locked python tools/build_release.py --dist dist --candidate-only
+```
+
+Use uv 0.12.17 and Python 3.12. The native check reads the package's authoritative
+protocol and fixture files directly; the former protocol export step is
+retired. The package commands operate relative to `companion/`, and the resulting
+wheel, source archive and MOD ZIP remain separate from the game binary. The
+Python source archive also builds independently using its packaged resources.
+The assembled candidate has no validated native/package combinations and marks
+acceptance as `NOT_RUN`. It does not import historical PASS results. After
+separate acceptance, `--compatibility /absolute/tested-compatibility.json` can
+preserve an explicit record whose validated combinations all name the exact
+built wheel hash; a mismatch is rejected.
+Build native CPH separately using the build guide in the selected game checkout.
+Neither package assembly nor source consolidation starts a provider or grants
+in-game control.
+
+## Historical published 0.1.1 installation
+
+The remaining instructions describe the published **0.1.1 / protocol 1.0**
+artifacts and their original adapted native revision. They are retained for that
+release and are not an installation recipe for this monorepo candidate.
 
 The experimental prerelease targets Linux x86_64 with Python 3.12. An ordinary
 CPH build without ActorControl cannot provide the required service. The release
 contains the Python program and MOD, not an adapted CPH binary.
 
-## Obtain and build the adapted CPH source
+### Obtain and build the adapted CPH source
 
 Use [oncehere/Cataclysm-Phantom-Hope](https://github.com/oncehere/Cataclysm-Phantom-Hope)
 and its `codex/actor-control-20260930` branch. Check out the exact commit in the
@@ -65,7 +107,7 @@ This source-build path does not replace the system's installed CPH. Build
 success and the automated native integration scenario do not establish a GUI
 session or the user's real saves; those remain separate acceptance entries.
 
-## Install the final artifacts
+### Install the final artifacts
 
 Create an isolated environment outside the source checkout. From the downloaded
 release directory, install exact hashed dependencies, then the project wheel:
@@ -81,7 +123,7 @@ runtime export of `uv.lock`; build dependencies have a separate lock. Resources
 are loaded through Python package resources and work from any current directory.
 Python and third-party dependencies are not bundled with this project.
 
-## Profile, MOD and connection
+### Profile, MOD and connection
 
 ```sh
 cph-ai-companion init --profile /absolute/profile --actor-id 7 \
@@ -119,7 +161,7 @@ game directories. By default `$XDG_RUNTIME_DIR/cph-ai-companion/` holds private
 descriptors; a private user cache runtime directory is the fallback. The model
 credential does not belong in those descriptors.
 
-## File editing, saves and removal
+### File editing, saves and removal
 
 Edit record JSON files under the configured memory directory to correct
 cognition. To delete a record, remove its current record body. The next refresh

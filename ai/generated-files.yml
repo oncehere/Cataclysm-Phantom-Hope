@@ -6,7 +6,7 @@ entries:
     paths: [src/actor_control_protocol_generated.h]
     tracked: true
     generated_by: python3 tools/actor_control/generate_protocol.py
-    validation_id: cpp-tests
+    validation_id: actor-control-protocol
   - id: documentation-registry
     paths: [ai/documentation-registry.yml]
     tracked: true

@@ -1,16 +1,17 @@
 # Acceptance and release evidence
 
-Current checkout: **0.1.2.dev0 local review fixes / protocol 1.1**. New verification
-is recorded separately in `docs/evidence/review-fixes-20261001/`; the historical
-0.1.1 results below do not certify these changed sources. No new release or
-mainline merge is implied.
+Current checkout: **0.1.2.dev0 local monorepo candidate / protocol 1.1**.
+The Python project and MOD now live in CPH's `companion/` subtree and retain
+their independent package and control lifecycle. Migration verification must
+bind the resulting CPH source tree and the actual installed package. Imported
+results below do not certify this changed source layout. No new release,
+mainline merge or actual-user installation is implied.
 
-
-Current review-fix verification binds source `40d7c1442ad7` / package
-`0.1.2.dev0` to CPH `e01386a1eba1`, protocol `1.1`. See the
+The imported, pre-migration review-fix verification binds source `40d7c1442ad7`
+/ package `0.1.2.dev0` to CPH `e01386a1eba1`, protocol `1.1`. See the
 [exact evidence and hashes](evidence/review-fixes-20261001/verified.json).
 
-| New candidate check | Outcome |
+| Pre-migration review-fix check | Outcome |
 | --- | --- |
 | Python source / installed wheel outside checkout | PASS, 149 tests each, Python 3.12.14 |
 | Native focused regressions | PASS, 72 cases / 1,968 assertions |
@@ -20,8 +21,8 @@ Current review-fix verification binds source `40d7c1442ad7` / package
 | GNU regression / metadata / generators / style | PASS within their recorded scopes; GNU compiles the actual changed test translation unit, not the full game |
 | Real provider / GUI / actual user saves / full official suite / hosted CI / publication | NOT_RUN; no new push, mainline merge or release |
 
-The wheel and sdist were built from the frozen code commit before this
-documentation-only evidence update. The external assembled compatibility
+That wheel and sdist were built from the frozen independent code commit before
+its documentation-only evidence update. The external assembled compatibility
 manifest records the tested wheel hash. Archive validation reads the real sdist
 metadata and exact protocol/MOD payloads without extracting it; assembly does
 not upgrade unrun acceptance. Historical 0.1.1 tables below remain historical.
@@ -43,11 +44,20 @@ promote `NOT_RUN` to `PASS` solely because an implementation or test exists.
 | Artifacts | Exact wheel/sdist/MOD resources, dependency hashes, checksums, fresh Python 3.12 install outside checkout and isolated user directory |
 | Actual provider | Separately configured endpoint/credential/budget; real response and quality test, no paid CI call |
 
-Offline Python tests use fakes and local loopback sockets. The configured CI
-workflow builds package artifacts and runs those tests; it does not call a model, publish, modify game
-saves or prove GUI/native gameplay acceptance. Native tests, real game scenarios,
+Offline Python tests use fakes and local loopback sockets. Package commands run
+from `companion/`; their CI entry point belongs to the CPH-root
+`.github/workflows/`. Package checks build the separate wheel/sdist/MOD artifacts
+and run offline tests; they do not call a model, publish, modify game saves or
+prove GUI/native gameplay acceptance. Native tests, real game scenarios,
 GUI, real-provider work, hosted execution and actual release each require their
 own command, platform, exact identity and result.
+
+Package assembly defaults to an unvalidated candidate, also selected explicitly
+by `--candidate-only`. Its output has empty `validated_combinations` and
+`NOT_RUN` acceptance entries, regardless of historical source records. Retaining
+separately tested results requires `--compatibility` with an explicit file whose
+validated pairs all identify this exact built wheel hash. Mismatched identities
+are rejected, and an empty pair list cannot carry PASS claims into the output.
 
 ## Historical 0.1.1 evidence
 

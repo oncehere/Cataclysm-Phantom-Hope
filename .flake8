@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git,__pycache__,lang/json,tools/clang-tidy-plugin/test/check_clang_tidy.py
+exclude = .git,__pycache__,lang/json,tools/clang-tidy-plugin/test/check_clang_tidy.py,companion/.venv,companion/dist,companion/build
 ignore =
     # E265 forces comments to have a space after the '#'.  We have a bunch of
     # optional debugging code commented out this way, and not having a space is
@@ -14,6 +14,10 @@ ignore =
 # pre-existing lint debt explicitly.  Remove entries as the legacy tools are
 # modernized.
 per-file-ignores =
+    # Preserve the imported companion's line layout; syntax and Pyflakes
+    # checks still apply. Its source and installed-package suites run in the
+    # independent companion validation route.
+    companion/*:E501
     tools/decompose.py:E201,E202,E225,E275,E302,E501,W291
     tools/density_audit.py:E226,E302,E401,E501,F541,W391
     tools/gen_excel_v3.py:E117,E128,E129,E225,E226,E231,E302,E305,E401,E501,E701,E702,E722,F401

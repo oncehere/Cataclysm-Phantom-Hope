@@ -71,7 +71,7 @@ class ReleaseTests(unittest.TestCase):
                     info.size = len(content)
                     archive.addfile(info, io.BytesIO(content))
 
-    def test_mod_is_extracted_from_wheel_and_claims_are_preserved(self):
+    def test_mod_is_extracted_from_wheel_as_an_unvalidated_candidate(self):
         self.write_wheel()
         result = release.assemble(self.dist, root=self.root)
         self.assertFalse(result["published"])
@@ -84,6 +84,58 @@ class ReleaseTests(unittest.TestCase):
         for line in (self.dist / "SHA256SUMS").read_text().splitlines():
             digest, name = line.split("  ", 1)
             self.assertEqual(digest, release.sha256(self.dist / name))
+
+    def test_default_and_candidate_only_do_not_inherit_old_wheel_pass(self):
+        self.write_wheel()
+        self.record["candidate"] = {"status": "VERIFIED", "native_head": "old-native-head"}
+        self.record["acceptance"] = {"python_tests": "PASS", "installed_native_joint": "PASS"}
+        self.record["validated_combinations"] = [{"wheel_sha256": "0" * 64, "native_head": "old-native-head"}]
+        self.record["evidence"] = {"joint": "old-joint.json"}
+        recorded = json.dumps(self.record)
+        source = self.root / "docs/compatibility.json"
+        source.write_text(recorded)
+        for candidate_only in (False, True):
+            with self.subTest(candidate_only=candidate_only):
+                result = release.assemble(self.dist, root=self.root, candidate_only=candidate_only)
+                manifest = json.loads((self.dist / "compatibility.json").read_text())
+                self.assertEqual(result["validated_combinations"], [])
+                self.assertEqual(manifest["validated_combinations"], [])
+                self.assertEqual(manifest["candidate"]["status"], "UNVALIDATED_PACKAGE_CANDIDATE")
+                self.assertIsNone(manifest["candidate"]["native_head"])
+                self.assertEqual(manifest["acceptance"]["python_tests"], "NOT_RUN")
+                self.assertEqual(manifest["acceptance"]["installed_native_joint"], "NOT_RUN")
+                self.assertNotIn("evidence", manifest)
+                self.assertNotIn("PASS", json.dumps(manifest))
+                self.assertEqual(manifest["artifacts"][self.wheel.name]["sha256"], release.sha256(self.wheel))
+        self.assertEqual(source.read_text(), recorded)
+
+    def test_explicit_compatibility_preserves_only_exact_wheel_evidence(self):
+        self.write_wheel()
+        self.record["candidate"] = {"status": "VERIFIED", "native_head": "tested-native-head"}
+        self.record["acceptance"] = {"installed_native_joint": "PASS"}
+        source = self.root / "explicit-compatibility.json"
+        for combination in ({"wheel_sha256": "0" * 64}, {"native_head": "tested-native-head"}):
+            with self.subTest(combination=combination):
+                self.record["validated_combinations"] = [combination]
+                source.write_text(json.dumps(self.record))
+                with self.assertRaisesRegex(release.ReleaseError, "^compatibility_wheel_mismatch$"):
+                    release.assemble(self.dist, root=self.root, compatibility=source)
+                self.assertFalse((self.dist / "compatibility.json").exists())
+                self.assertFalse((self.dist / "cph_ai_companion-0.1.2.dev0-mod.zip").exists())
+        self.record["validated_combinations"] = [{"wheel_sha256": release.sha256(self.wheel),
+                                                 "native_head": "tested-native-head"}]
+        source.write_text(json.dumps(self.record))
+        release.assemble(self.dist, root=self.root, compatibility=source)
+        manifest = json.loads((self.dist / "compatibility.json").read_text())
+        self.assertEqual(manifest["validated_combinations"], self.record["validated_combinations"])
+        self.assertEqual(manifest["candidate"], self.record["candidate"])
+        self.assertEqual(manifest["acceptance"]["installed_native_joint"], "PASS")
+        self.record["validated_combinations"] = []
+        source.write_text(json.dumps(self.record))
+        release.assemble(self.dist, root=self.root, compatibility=source)
+        manifest = json.loads((self.dist / "compatibility.json").read_text())
+        self.assertEqual(manifest["acceptance"]["installed_native_joint"], "NOT_RUN")
+        self.assertEqual(manifest["candidate"]["status"], "UNVALIDATED_PACKAGE_CANDIDATE")
 
     def test_missing_resources_and_path_traversal_prevent_assembly(self):
         self.write_wheel(main=False)
@@ -165,14 +217,15 @@ class ReleaseTests(unittest.TestCase):
     def test_supplied_protocol_evidence_digest_cannot_be_silently_replaced(self):
         self.write_wheel()
         self.record["schema_digest"] = "different-tested-protocol"
-        (self.root / "docs/compatibility.json").write_text(json.dumps(self.record))
+        source = self.root / "docs/compatibility.json"
+        source.write_text(json.dumps(self.record))
         with self.assertRaisesRegex(release.ReleaseError, "compatibility_schema_mismatch"):
-            release.assemble(self.dist, root=self.root)
+            release.assemble(self.dist, root=self.root, compatibility=source)
         self.assertFalse((self.dist / "compatibility.json").exists())
         _, digest = release.mod_payloads(self.wheel)
         self.record["schema_digest"] = digest
-        (self.root / "docs/compatibility.json").write_text(json.dumps(self.record))
-        release.assemble(self.dist, root=self.root)
+        source.write_text(json.dumps(self.record))
+        release.assemble(self.dist, root=self.root, compatibility=source)
         self.assertEqual(json.loads((self.dist / "compatibility.json").read_text())["schema_digest"], digest)
 
 

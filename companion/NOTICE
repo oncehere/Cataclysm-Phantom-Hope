@@ -4,7 +4,11 @@ Copyright 2026 CPH AI Companion contributors
 This project's original Python, Lua, protocol, tests and documentation are
 licensed under the Apache License, Version 2.0. See LICENSE.
 
-CPH is a separately distributed game. Changes in the CPH source tree remain
+The original independent project is preserved in CPH's companion/ subtree,
+including its source history and attribution. The Python package and MOD remain
+separately distributed from the game.
+
+Changes outside this subproject in the CPH source tree remain
 subject to its existing licenses, including CC BY-SA 3.0; this package's license
 does not relicense the game or its resources.
 

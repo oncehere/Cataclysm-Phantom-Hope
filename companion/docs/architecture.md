@@ -2,15 +2,24 @@
 
 | Module | Location | Owns |
 | --- | --- | --- |
-| ActorControl / NpcExecutionAdapter | CPH C++ | Fixed actor identity, actual perception, capability checks, queues, native activities, receipts, save state |
-| Companion MOD | Python package resources, Lua | Binding and game-side chat/status/debug entry points through `require("ccb").services.actor_control` |
-| AgentRuntime / LlmProvider | Python | Bounded planning, context, provider worker lifetime, protocol requests |
-| AgentMemory | Python | Background reads, file-backed cognition, manual precedence, checkpoints and retrieval |
+| ActorControl / NpcExecutionAdapter | CPH `src/`, C++ | Fixed actor identity, actual perception, capability checks, queues, native activities, receipts, save state |
+| Companion MOD | `companion/` Python package resources, Lua | Binding and game-side chat/status/debug entry points through `require("ccb").services.actor_control` |
+| AgentRuntime / LlmProvider | `companion/src/cph_ai_companion/`, Python | Bounded planning, context, provider worker lifetime, protocol requests |
+| AgentMemory | `companion/src/cph_ai_companion/`, Python | Background reads, file-backed cognition, manual precedence, checkpoints and retrieval |
 
-The protocol and shared fixtures in package resources are the specification.
-`tools/export_cph_protocol.py` copies a fixed snapshot to a selected CPH tree.
-Its digest and source identity accompany the native snapshot; builds never fetch
-the latest specification. Only the game thread mutates game-world state.
+The Python project and MOD now share the CPH source repository under
+`companion/`. They retain separate package artifacts and an external Python
+process; source consolidation does not merge the multiplayer and NPC control
+flows or start a model automatically.
+
+`companion/src/cph_ai_companion/resources/protocol/protocol.json` and
+`fixtures.json` are the single protocol and fixture authority. The CPH-root
+`tools/actor_control/generate_protocol.py` reads them directly and embeds the
+contract and test fixtures in the native generated header. Its `--check` mode
+rejects a stale header. The cross-repository export tool and the native
+`data/reference/actor_control/` snapshot are retired. Built Python resources and
+native code still carry the exact protocol digest; builds never fetch a moving
+specification. Only the game thread mutates game-world state.
 
 The loopback bridge authenticates one external client per instance. Instance
 descriptors and credentials are private files; explicit session selection avoids
@@ -145,3 +154,9 @@ all MOD bytes must agree. Canonical paths, duplicate members, referenced file
 types and present ancestor directories are checked; supplied evidence cannot
 silently change protocol digest. Tests and compatibility still bind the actual
 built wheel, native binary and source commits independently of assembly.
+Default assembly and `--candidate-only` create a fresh unvalidated record,
+without copying historical candidate status, acceptance or supported pairs.
+`--compatibility` selects an explicit evidence file; every validated combination
+must match the built wheel's exact SHA-256, package version and protocol. Empty
+combination lists remain unvalidated. This check preserves supplied evidence
+for its identified artifact; it does not run or infer native acceptance.

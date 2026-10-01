@@ -118,7 +118,46 @@ def _copy(source: Path, destination: Path) -> None:
         shutil.copyfile(source, destination)
 
 
-def assemble(dist: Path, *, root: Path, compatibility: Path | None = None) -> dict:
+def _candidate_record(digest: str) -> dict:
+    checks = ("artifact_install", "python_tests", "native_tests", "installed_native_joint",
+              "full_game_build", "full_gnu_game", "gnu_module", "full_native_suite", "mod_load",
+              "gui", "gameplay", "real_provider", "save_reload", "actual_user_environment",
+              "complete_physical_crash_campaign", "live_multiplayer", "hosted_ci", "hosted_cph_result")
+    return {"schema_version": 1, "package_version": VERSION, "protocol_version": "1.1",
+            "schema_digest": digest, "python": ">=3.12,<3.13", "target_platform": "linux-x86_64",
+            "candidate": {"status": "UNVALIDATED_PACKAGE_CANDIDATE", "native_head": None},
+            "acceptance": {**{name: "NOT_RUN" for name in checks}, "published": "NOT_PUBLISHED"},
+            "validated_combinations": []}
+
+
+def _compatibility_record(path: Path, digest: str, wheel_digest: str) -> dict:
+    record = json.loads(path.read_text(encoding="utf-8"))
+    if (not isinstance(record, dict) or type(record.get("schema_version")) is not int
+            or record["schema_version"] != 1 or record.get("package_version") != VERSION
+            or record.get("protocol_version") != "1.1"
+            or not isinstance(record.get("validated_combinations"), list)):
+        raise ReleaseError("invalid_compatibility_record")
+    if "schema_digest" in record and record["schema_digest"] != digest:
+        raise ReleaseError("compatibility_schema_mismatch")
+    for combination in record["validated_combinations"]:
+        if not isinstance(combination, dict) or combination.get("wheel_sha256") != wheel_digest:
+            raise ReleaseError("compatibility_wheel_mismatch")
+        if (combination.get("package_version", VERSION) != VERSION
+                or combination.get("protocol_version", "1.1") != "1.1"
+                or combination.get("schema_digest", digest) != digest):
+            raise ReleaseError("invalid_compatibility_record")
+    if not record["validated_combinations"]:
+        return _candidate_record(digest)
+    # Explicit evidence remains evidence for this exact wheel, not a result
+    # inferred by assembly. Never carry claims for another artifact into it.
+    record["schema_digest"] = digest
+    return record
+
+
+def assemble(dist: Path, *, root: Path, compatibility: Path | None = None,
+             candidate_only: bool = False) -> dict:
+    if candidate_only and compatibility is not None:
+        raise ReleaseError("incompatible_assembly_options")
     dist = dist.resolve()
     root = root.resolve()
     if not dist.is_dir():
@@ -129,15 +168,8 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None) -> di
         raise ReleaseError("exact_wheel_and_sdist_required")
     payloads, digest = mod_payloads(wheels[0])
     validate_sdist(sdists[0], payloads, digest)
-    record = json.loads((compatibility or root / "docs/compatibility.json").read_text(encoding="utf-8"))
-    if (not isinstance(record, dict) or record.get("schema_version") != 1
-            or record.get("package_version") != VERSION or record.get("protocol_version") != "1.1"
-            or not isinstance(record.get("validated_combinations"), list)):
-        raise ReleaseError("invalid_compatibility_record")
-    if "schema_digest" in record and record["schema_digest"] != digest:
-        raise ReleaseError("compatibility_schema_mismatch")
-    # Package assembly cannot turn an untested candidate into a validated pair.
-    record["schema_digest"] = digest
+    record = (_compatibility_record(compatibility, digest, sha256(wheels[0]))
+              if compatibility is not None else _candidate_record(digest))
     mod_zip = dist / f"cph_ai_companion-{VERSION}-mod.zip"
     with zipfile.ZipFile(mod_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(payloads.items()):
@@ -169,10 +201,15 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None) -> di
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dist", type=Path, required=True)
-    parser.add_argument("--compatibility", type=Path)
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--candidate-only", action="store_true",
+                      help="assemble an unvalidated candidate without importing recorded PASS results (default)")
+    mode.add_argument("--compatibility", type=Path,
+                      help="explicit evidence file; every validated combination must name this exact wheel hash")
     args = parser.parse_args()
     try:
-        result = assemble(args.dist, root=Path(__file__).resolve().parents[1], compatibility=args.compatibility)
+        result = assemble(args.dist, root=Path(__file__).resolve().parents[1],
+                          compatibility=args.compatibility, candidate_only=args.candidate_only)
     except (ReleaseError, OSError, ValueError, zipfile.BadZipFile) as error:
         parser.exit(1, "release assembly failed: " + (str(error) if isinstance(error, ReleaseError) else type(error).__name__) + "\n")
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))

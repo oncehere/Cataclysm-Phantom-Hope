@@ -86,6 +86,13 @@ CURRENT_PLATFORM_DOCUMENTS = {
     "data/json/LOADING_ORDER.md": "json.loading-order",
 }
 CURRENT_CPH_DOCUMENTS = {
+    "companion/README.md": "cph.companion",
+    "companion/THIRD_PARTY.md": "cph.companion-provenance",
+    "companion/docs/architecture.md": "cph.companion-architecture",
+    "companion/docs/install.md": "cph.companion-install",
+    "companion/docs/compatibility.md": "cph.companion-compatibility",
+    "companion/docs/acceptance.md": "cph.companion-acceptance",
+    "docs/project/ai-companion-monorepo.md": "cph.companion-monorepo",
     "docs/project/actor-control.md": "cph.actor-control",
     "docs/README.md": "cph.documentation-index",
     "tools/agent/README.md": "cph.agent-tools",
@@ -224,7 +231,8 @@ def classify(path: str, legacy: dict[str, dict],
     if (retired or path.startswith("ai/history/") or
             path.startswith("doc/migration/") or
             path.startswith("doc/design-balance-lore/") or
-            path.startswith(".deepcode/plans/")):
+            path.startswith(".deepcode/plans/") or
+            path.startswith("companion/docs/evidence/")):
         category = "historical_document"
         status = "historical"
         authority = "historical"

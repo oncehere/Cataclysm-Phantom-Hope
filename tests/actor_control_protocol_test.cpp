@@ -1,27 +1,19 @@
-#include <filesystem>
-#include <fstream>
-#include <iterator>
 #include <string>
 #include <vector>
 
 #include "actor_control_protocol.h"
+#include "actor_control_protocol_generated.h"
 #include "actor_control_types.h"
 #include "cata_catch.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "json_loader.h"
-#include "path_info.h"
 
 TEST_CASE( "actor_control_shared_protocol_fixtures_match_native_validity",
            "[actor_control][protocol]" )
 {
-    const std::filesystem::path path = std::filesystem::path( PATH_INFO::datadir() ) /
-                                       "reference" / "actor_control" / "fixtures.json";
-    std::ifstream input( path );
-    REQUIRE( input.is_open() );
-    const std::string text( ( std::istreambuf_iterator<char>( input ) ),
-                            std::istreambuf_iterator<char>() );
-    const JsonArray fixtures = json_loader::from_string( text ).get_array();
+    const JsonArray fixtures = json_loader::from_string(
+                                   cata::actor_control::protocol_fixtures_json ).get_array();
     REQUIRE( fixtures.size() == 15 );
     int valid_count = 0;
     int invalid_count = 0;

@@ -200,9 +200,11 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
            "[.actor_control_joint]" )
 {
     const char *python = std::getenv( "CPH_COMPANION_PYTHON" );
-    const char *driver = std::getenv( "CPH_COMPANION_JOINT_DRIVER" );
+    const char *driver_override = std::getenv( "CPH_COMPANION_JOINT_DRIVER" );
+    const std::filesystem::path driver = driver_override ?
+                                         std::filesystem::path( driver_override ) :
+                                         std::filesystem::current_path() / "companion" / "tools" / "joint_driver.py";
     REQUIRE( python != nullptr );
-    REQUIRE( driver != nullptr );
     REQUIRE( std::filesystem::is_regular_file( python ) );
     REQUIRE( std::filesystem::is_regular_file( driver ) );
     REQUIRE_FALSE( input_replay::is_recording() );
@@ -245,7 +247,7 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     waiting_input.register_action( "ANY_INPUT" );
 
     const std::filesystem::path result_path = fixture.directory() / "result.json";
-    joint_driver_process child( { python, driver, "--session", descriptor,
+    joint_driver_process child( { python, driver.string(), "--session", descriptor,
                                   "--profile", ( fixture.directory() / "profile" ).string(),
                                   "--profile-id", "joint-companion", "--result", result_path.string() } );
     const time_point before = calendar::turn;

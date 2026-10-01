@@ -11,13 +11,22 @@ and persistent `mp_proxy` marker. A restored binding to a proxy cannot observe,
 plan or execute actions. Stopping such a binding clears only controller state;
 it does not cancel the proxy's native activity or change its entity values.
 
-The separately distributed `cph-ai-companion` contains the Python 3.12 runtime,
+The separately distributed `cph-ai-companion` is maintained under
+[`companion/`](../../companion/README.md) and contains the Python 3.12 runtime,
 file memory and Lua companion Mod. CPH contains the authoritative control,
-activity and save integration. The original independent code is Apache-2.0;
-native CPH changes retain the repository's license. The protocol snapshot's
-exact source commit and SHA-256 digests are in
-[`data/reference/actor_control/source.json`](../../data/reference/actor_control/source.json).
-Builds use that snapshot, without fetching a newer protocol.
+activity and save integration. The original independent code retains its
+Apache-2.0 license; native CPH changes retain the repository's license.
+Multiplayer and companion control remain separate workflows.
+
+The single protocol authority is
+[`companion/src/cph_ai_companion/resources/protocol/`](../../companion/src/cph_ai_companion/resources/protocol/).
+`python3 tools/actor_control/generate_protocol.py` embeds its `protocol.json`
+and shared `fixtures.json` into `src/actor_control_protocol_generated.h`.
+The header records both source paths and the SHA-256 of each input's exact
+bytes, without tying generation to a changing Git HEAD. Valid uncommitted
+protocol edits can be generated locally; `--check` checks both inputs without
+writing. The Python package ships those same resources. Retired copies under
+`data/reference/actor_control/` are no longer consumed or distributed.
 
 ## Public entry points
 
@@ -142,7 +151,10 @@ Focused tests use `[actor_control]` for the controller, native adapter, bridge,
 protocol fixtures, Lua surface, native writer hooks, crash recovery and snapshot
 exclusion. The Linux-only hidden test
 `[.actor_control_joint]` requires `CPH_COMPANION_PYTHON` pointing to an installed
-Python 3.12 package and `CPH_COMPANION_JOINT_DRIVER` pointing to its test driver.
+Python 3.12 package. Run from the repository root to use
+`companion/tools/joint_driver.py`, or set `CPH_COMPANION_JOINT_DRIVER` explicitly
+when running elsewhere. The package under test remains an installed wheel,
+not an implicit source import.
 It runs the real SDK against a synthetic loopback endpoint, verifies a real NPC
 pickup and journaled receipt, and confirms safe stop with isolated directories.
 It makes no paid provider calls. Its pre-execution phase asserts that polling

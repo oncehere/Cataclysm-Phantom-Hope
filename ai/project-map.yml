@@ -2,6 +2,15 @@ schema_version: 1
 kind: project_map
 description: Offline subsystem routing for human contributors and agents.
 entries:
+  - id: ai-companion
+    paths: [companion/, tools/actor_control/, 'src/actor_control*', src/npc_execution_adapter.cpp, src/npc_execution_adapter.h, '.github/workflows/project-companion.yml']
+    purpose: Independently packaged Python and Lua companion, single protocol source, and native NPC control integration.
+    instructions: AGENTS.md
+    validation_ids: [actor-control-protocol, companion-python, companion-package, companion-joint]
+    boundaries:
+      - companion/ retains its Apache-2.0 license and independent wheel, sdist and Mod distribution.
+      - Native control and multiplayer keep separate identity, scheduling and observation rules.
+      - Offline validation and Mod loading never start model calls.
   - id: engine
     paths: [src/]
     purpose: Native C++ engine, gameplay, UI, and Lua bindings.

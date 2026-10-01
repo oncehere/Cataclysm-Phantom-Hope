@@ -11,6 +11,7 @@ CPH 是目前使用的**工作名称**。本仓库是 [Cataclysm: Dark Days Ahea
 - 项目讨论与一般求助：[CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) 已启用；报告时请注明准确提交、平台和复现步骤。
 - [Issues 说明](ISSUES.md)及仓库内表单已合入；入口是否已启用以 GitHub 页面为准。不可用时可在 Discussions 讨论可公开的问题。敏感漏洞请先阅读[安全政策](SECURITY.md)，勿在公开讨论中发布细节。
 - 开发资料从[项目文档导航](docs/README.md)、[项目地图](ai/project-map.yml)及目标路径上全部祖先 `AGENTS.md` 开始。`doc/` 保留继承的游戏与构建资料；使用时按当前源码和测试核对。
+- AI 同伴在 [`companion/`](companion/README.md) 同仓维护，Python 程序和 MOD 仍独立打包；参见[源码、协议与发行边界](docs/project/ai-companion-monorepo.md)。
 
 ## 方向与边界
 
@@ -19,6 +20,8 @@ CPH 将持续检查 CCB 指定主分支的更新，以保留历史的方式整�
 ## 许可证与来源
 
 本仓库继承原项目的 **CC BY-SA 3.0** 及各文件所附的兼容许可与第三方声明。保留原作者、提交历史、资产署名和单独许可文件；翻译来源和当前临时输入见[翻译署名](TRANSLATION_CREDITS.md)。
+
+`companion/` 子项目保留独立的 [Apache-2.0](companion/LICENSE)、[NOTICE](companion/NOTICE) 和来源声明，不改变游戏代码与资源的许可。
 
 ---
 
@@ -31,3 +34,5 @@ CPH maintains separate evidence for synchronization, builds, merges, and release
 Fork [this repository](https://github.com/oncehere/Cataclysm-Phantom-Hope) and base contributions on CPH `main`; read [CONTRIBUTING.md](CONTRIBUTING.md). [CPH Discussions](https://github.com/oncehere/Cataclysm-Phantom-Hope/discussions) is available for public questions. Check the [issue guide](ISSUES.md) and the dated [status snapshot](docs/project/status.md) before filing; if Issues are unavailable, use Discussions for public matters. Do not disclose sensitive vulnerabilities in public; see [SECURITY.md](SECURITY.md) for the private-route availability condition.
 
 The initial supported path is a new save, without a promise to migrate CCB saves. Installation and data isolation from CCB need further acceptance evidence. Inherited CCB decisions are identified as history in [SYNC_EXCLUDED_PRS.md](SYNC_EXCLUDED_PRS.md). Source, assets, and contributions retain CC BY-SA 3.0 and applicable third-party notices; see [translation credits](TRANSLATION_CREDITS.md).
+
+The Apache-2.0 [AI companion subproject](companion/README.md) is maintained here and distributed independently as a Python package and Mod. Its native NPC controller and multiplayer keep their separate control rules. See the [source and distribution guide](docs/project/ai-companion-monorepo.md).

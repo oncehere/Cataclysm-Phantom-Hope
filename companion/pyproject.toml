@@ -28,7 +28,7 @@ build = ["hatchling==1.27.0"]
 packages = ["src/cph_ai_companion"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/tests", "/tools", "/docs", "/.github", "/pyproject.toml",
+include = ["/src", "/tests", "/tools", "/docs", "/pyproject.toml",
            "/uv.lock", "/requirements.lock", "/build-requirements.lock", "/README.md",
            "/LICENSE", "/NOTICE", "/THIRD_PARTY.md"]
 

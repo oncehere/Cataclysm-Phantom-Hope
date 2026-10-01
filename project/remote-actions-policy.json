@@ -8,7 +8,8 @@
     "project-ci.yml",
     "project-gate.yml",
     "project-sync.yml",
-    "project-sdl3-validation.yml"
+    "project-sdl3-validation.yml",
+    "project-companion.yml"
   ],
   "allowed_actions": [
     "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",

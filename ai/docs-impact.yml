@@ -5,7 +5,7 @@ enforcement: staged
 entries:
   - id: actor-control-contract
     enforcement: required
-    patterns: [src/actor_control*, src/npc_execution_adapter*, src/mission*, src/craft_command*, data/reference/actor_control/*, tools/actor_control/*]
+    patterns: [src/actor_control*, src/npc_execution_adapter*, src/mission*, src/craft_command*, companion/src/cph_ai_companion/resources/protocol/*, tools/actor_control/*]
     documentation_ids: [cph.actor-control]
     generated_reference_impact: true
     required_check_ids: [documentation-impact]
@@ -16,6 +16,22 @@ entries:
         - id: cph.actor-control
           path: docs/project/actor-control.md
     risk_group: actor-control
+    risk_level: high
+  - id: companion-packaging
+    enforcement: required
+    patterns: [companion/*, .github/workflows/project-companion.yml]
+    documentation_ids: [cph.companion, cph.companion-monorepo]
+    generated_reference_impact: false
+    required_check_ids: [documentation-impact, companion-python, companion-package]
+    documentation_readiness:
+      state: in_repository_review_required
+      repository: oncehere/Cataclysm-Phantom-Hope
+      documents:
+        - id: cph.companion
+          path: companion/README.md
+        - id: cph.companion-monorepo
+          path: docs/project/ai-companion-monorepo.md
+    risk_group: companion-packaging
     risk_level: high
   - id: governance-policy
     enforcement: advisory
