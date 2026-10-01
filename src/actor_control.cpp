@@ -1221,8 +1221,8 @@ int following_distance( const npc &candidate, int native_distance )
     return std::clamp( native_distance + offset, 2, 6 );
 }
 
-std::size_t write_recent( JsonOut &out, const std::deque<std::string> &entries,
-                          std::size_t byte_budget )
+static std::size_t write_recent( JsonOut &out, const std::deque<std::string> &entries,
+                                 std::size_t byte_budget )
 {
     std::vector<std::string> selected;
     std::size_t used = 0;
@@ -1242,7 +1242,7 @@ std::size_t write_recent( JsonOut &out, const std::deque<std::string> &entries,
     return entries.size() - selected.size();
 }
 
-void write_cognition_debug( JsonOut &out )
+static void write_cognition_debug( JsonOut &out )
 {
     const JsonObject cognition = read_object( state.cognition );
     out.start_object();
