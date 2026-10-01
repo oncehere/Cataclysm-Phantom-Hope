@@ -101,10 +101,15 @@ class control_fixture
         npc &companion() {
             npc &result = spawn_npc( get_avatar().pos_bub().xy() + point( ++companions, 0 ),
                                      "test_talker" );
+            const tripoint_bub_ms spawn_position = result.pos_bub();
             clear_character( result );
+            // clear_character also moves characters to the avatar's default
+            // tile. Keep each real NPC at its distinct native spawn position.
+            result.setpos( get_map(), spawn_position );
             result.set_attitude( NPCATT_FOLLOW );
             result.set_fac( faction_id( "your_followers" ) );
             REQUIRE( result.is_player_ally() );
+            REQUIRE( result.pos_bub() != get_avatar().pos_bub() );
             REQUIRE( result.is_active() );
             return result;
         }
@@ -155,6 +160,9 @@ TEST_CASE( "actor_control_fixed_binding_preserves_native_character", "[actor_con
     control_fixture fixture;
     npc &first = fixture.companion();
     npc &other = fixture.companion();
+    REQUIRE( first.pos_bub() != other.pos_bub() );
+    REQUIRE( get_creature_tracker().creature_at<npc>( first.pos_bub() ) == &first );
+    REQUIRE( get_creature_tracker().creature_at<npc>( other.pos_bub() ) == &other );
     const character_id original = first.getID();
     const int native_moves = first.get_moves();
     const int player_moves = get_avatar().get_moves();
