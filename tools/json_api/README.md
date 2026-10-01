@@ -22,17 +22,14 @@ tables, or tracked JSON examples:
 
 ```sh
 python3 tools/json_api/generate_contracts.py
-make -j2 tools/format/json_formatter.cgi RELEASE=1
-tools/format/json_formatter.cgi data/reference/json/ccb_json_object_types.json
-tools/format/json_formatter.cgi data/reference/json/ccb_eoc_conditions.json
-tools/format/json_formatter.cgi data/reference/json/ccb_eoc_effects.json
 python3 tools/json_api/generate_contracts.py --check
 python3 -m unittest discover -s tools/json_api -p 'test_*.py'
 ```
 
-`--check` compares parsed JSON so the repository formatter remains the single
-authority for whitespace.  Run the local JSON formatter to check canonical layout; the retired upstream
-JSON style workflow is not an active CPH check.  The tests validate the inventory Schema, hard coverage
+Keep the generator's output layout for these snapshots. The Make JSON style
+targets exclude `data/reference/` and `data/lua/reference/`; runtime content
+still uses the repository JSON formatter. `--check` compares parsed JSON and
+also accepts previously formatted inventories. The tests validate the inventory Schema, hard coverage
 counts, source symbols and line numbers, documentation evidence, and every
 published example JSON Pointer.
 
