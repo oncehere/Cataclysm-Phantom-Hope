@@ -6,6 +6,11 @@ It preserves that entity's identity, items, skills, physiological state and
 native costs. Death does not select a replacement. Player control is reserved
 for a future adapter and is not implemented.
 
+Multiplayer player proxies are excluded using the existing live partner identity
+and persistent `mp_proxy` marker. A restored binding to a proxy cannot observe,
+plan or execute actions. Stopping such a binding clears only controller state;
+it does not cancel the proxy's native activity or change its entity values.
+
 The separately distributed `cph-ai-companion` contains the Python 3.12 runtime,
 file memory and Lua companion Mod. CPH contains the authoritative control,
 activity and save integration. The original independent code is Apache-2.0;

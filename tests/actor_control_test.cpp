@@ -21,6 +21,8 @@
 #include "creature_tracker.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
@@ -180,6 +182,112 @@ TEST_CASE( "actor_control_fixed_binding_preserves_native_character", "[actor_con
     control::pump_incoming();
     CHECK( calendar::turn == original_time );
     CHECK( get_avatar().get_moves() == player_moves );
+}
+
+TEST_CASE( "actor_control_rejects_multiplayer_proxy_binding", "[actor_control][multiplayer]" )
+{
+    control_fixture fixture;
+    npc &proxy = fixture.companion();
+    proxy.set_value( "mp_proxy", "1" );
+    const character_id id = proxy.getID();
+    const int moves = proxy.get_moves();
+    const int player_moves = get_avatar().get_moves();
+    const time_point before = calendar::turn;
+    std::string error;
+    CHECK_FALSE( control::bind( proxy, "test-profile", error ) );
+    CHECK( error == "multiplayer_proxy_not_supported" );
+    CHECK_FALSE( control::has_binding() );
+    CHECK_FALSE( proxy.maybe_get_value( "cph_ai.bound" ) );
+    CHECK( proxy.get_value( "mp_proxy" ) == "1" );
+    CHECK( proxy.getID() == id );
+    CHECK( proxy.get_moves() == moves );
+    CHECK( get_avatar().get_moves() == player_moves );
+    CHECK( calendar::turn == before );
+}
+
+TEST_CASE( "actor_control_restored_binding_never_controls_multiplayer_proxy",
+           "[actor_control][multiplayer][lifecycle]" )
+{
+    control_fixture fixture;
+    npc &proxy = fixture.companion();
+    prepare( proxy );
+    proxy.i_add( item( itype_id( "bandages" ) ) );
+    proxy.set_moves( 100 );
+    const character_id id = proxy.getID();
+    const int moves = proxy.get_moves();
+    const int player_moves = get_avatar().get_moves();
+    const std::size_t inventory = proxy.all_items_loc().size();
+    const time_point before = calendar::turn;
+    const std::string initial_save = saved();
+
+    SECTION( "late plans and subjective preferences cannot control the partner" ) {
+        control::deserialize( snapshot( initial_save ) );
+        const std::string scope = "{\"actor_id\":" + std::to_string( id.get_value() ) + "}";
+        response( "sync_memory",
+                  "{\"version\":\"cautious\",\"snapshot\":{\"revision\":\"cautious\",\"records\":["
+                  "{\"id\":\"known-event\",\"kind\":\"observation\",\"text\":\"I was hurt.\","
+                  "\"context\":" + scope + "},"
+                  "{\"id\":\"experience\",\"kind\":\"growth\",\"text\":\"I prefer more space.\","
+                  "\"context\":" + scope + ",\"source_ids\":[\"known-event\"],\"confidence\":1,"
+                  "\"preferences\":{\"caution\":0.9}}]}}" );
+        REQUIRE( control::following_distance( proxy, 4 ) == 5 );
+        const JsonObject request = response( "take_request" );
+        proxy.set_value( "mp_proxy", "1" );
+        std::string error;
+        const std::string unavailable = control::dispatch( "take_request", "{}", error );
+        CHECK( error.empty() );
+        CHECK( json_loader::from_string( unavailable ).test_null() );
+        control::dispatch( "offer_plan", plan( request,
+                                               R"([{"id":"late","action":"wait","args":{}}])" ), error );
+        CHECK( error == "stale_request" );
+        CHECK( control::following_distance( proxy, 4 ) == 4 );
+    }
+
+    SECTION( "a restored queue cannot use the proxy action budget" ) {
+        const JsonObject request = response( "take_request" );
+        response( "offer_plan", plan( request,
+                                      R"([{"id":"queued","action":"wait","args":{}}])" ) );
+        const std::string queued_save = saved();
+        proxy.set_value( "mp_proxy", "1" );
+        control::deserialize( snapshot( queued_save ) );
+        CHECK_FALSE( control::act( proxy, false ) );
+        CHECK_FALSE( control::pauses_offline_work( proxy ) );
+        CHECK( proxy.get_value( "cph_ai.bound" ) == "true" );
+    }
+
+    SECTION( "cancel and stop preserve the partner native activity and markers" ) {
+        const JsonObject request = response( "take_request" );
+        response( "offer_plan", plan( request,
+                                      R"([{"id":"queued","action":"wait","args":{}}])" ) );
+        const std::string queued_save = saved();
+        proxy.set_value( "mp_proxy", "1" );
+        control::deserialize( snapshot( queued_save ) );
+        proxy.assign_activity( player_activity( activity_id( "ACT_WAIT" ), 1000 ) );
+        proxy.set_value( "cph_ai.pending_trade", "partner-owned-offer" );
+        proxy.set_value( "cph_ai.pending_trade_id", "partner-owned-operation" );
+        proxy.set_value( "cph_ai.pending_trade_source_operation", "partner-owned-source" );
+        control::cancel();
+        control::stop();
+        control::pump_incoming();
+        CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
+        CHECK( response( "status" ).get_string( "detach_state" ) == "detached" );
+        REQUIRE( proxy.activity );
+        CHECK( proxy.activity.id() == activity_id( "ACT_WAIT" ) );
+        CHECK( proxy.activity.moves_left == 1000 );
+        CHECK( proxy.get_value( "cph_ai.bound" ) == "true" );
+        CHECK( proxy.get_value( "cph_ai.pending_trade" ) == "partner-owned-offer" );
+        CHECK( proxy.get_value( "cph_ai.pending_trade_id" ) == "partner-owned-operation" );
+        CHECK( proxy.get_value( "cph_ai.pending_trade_source_operation" ) == "partner-owned-source" );
+        CHECK_FALSE( control::pauses_offline_work( proxy ) );
+    }
+
+    CHECK( proxy.get_value( "mp_proxy" ) == "1" );
+    CHECK( proxy.getID() == id );
+    CHECK( proxy.get_moves() == moves );
+    CHECK( get_avatar().get_moves() == player_moves );
+    CHECK( proxy.all_items_loc().size() == inventory );
+    CHECK( proxy.has_amount( itype_id( "bandages" ), 1 ) );
+    CHECK( calendar::turn == before );
 }
 
 TEST_CASE( "actor_control_request_ack_covers_only_observed_events", "[actor_control][protocol]" )

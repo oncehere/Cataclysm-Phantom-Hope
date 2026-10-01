@@ -27,6 +27,7 @@
 #include "json_loader.h"
 #include "math_parser_diag_value.h"
 #include "mod_manager.h"
+#include "mp_gamestate.h"
 #include "npc.h"
 #include "npc_execution_adapter.h"
 #include "path_info.h"
@@ -207,6 +208,14 @@ cata_path checkpoint_marker()
                std::to_string( state.actor_id ) + "-" + state.save_nonce + ".json" );
 }
 
+bool multiplayer_proxy( const npc &candidate )
+{
+    // The live predicate covers both host and client proxies. The existing
+    // durable tag also covers disconnects, reloads and orphaned proxies.
+    return candidate.maybe_get_value( "mp_proxy" ) ||
+           cata_mp::is_partner_npc( candidate.getID() );
+}
+
 npc *actor()
 {
     if( !g || state.actor_id < 0 ) {
@@ -214,18 +223,27 @@ npc *actor()
     }
     // Do not load an off-bubble NPC merely to answer an external query.
     for( npc &candidate : g->all_npcs() ) {
-        if( candidate.getID().get_value() == state.actor_id && !candidate.is_dead() ) {
+        if( candidate.getID().get_value() == state.actor_id && !candidate.is_dead() &&
+            !multiplayer_proxy( candidate ) ) {
             return &candidate;
         }
     }
     return nullptr;
 }
 
-npc *actor_for_handoff()
+npc *actor_for_handoff( bool *unsupported_proxy = nullptr )
 {
     // Unlike observations, cleanup may use an existing off-bubble object.
     // find_npc scans already loaded overmaps only; it does not load a region.
-    return g && state.actor_id >= 0 ? g->find_npc( character_id( state.actor_id ) ) : nullptr;
+    npc *candidate = g && state.actor_id >= 0 ?
+                     g->find_npc( character_id( state.actor_id ) ) : nullptr;
+    if( candidate && multiplayer_proxy( *candidate ) ) {
+        if( unsupported_proxy ) {
+            *unsupported_proxy = true;
+        }
+        return nullptr;
+    }
+    return candidate;
 }
 
 std::int64_t game_time()
@@ -583,8 +601,9 @@ void complete_detach()
     if( state.control_state == "dead" ) {
         return;
     }
-    npc *bound = actor_for_handoff();
-    if( has_binding() && !bound ) {
+    bool unsupported_proxy = false;
+    npc *bound = actor_for_handoff( &unsupported_proxy );
+    if( has_binding() && !bound && !unsupported_proxy ) {
         state.control_state = "detach_pending";
         state.detach_state = "detach_pending";
         return;
@@ -782,6 +801,9 @@ bool is_bound( const npc &candidate )
 
 bool pauses_offline_work( npc &candidate )
 {
+    if( multiplayer_proxy( candidate ) ) {
+        return false;
+    }
     if( !is_initialized() || !is_bound( candidate ) ) {
         return candidate.get_value( "cph_ai.bound" ) == "true";
     }
@@ -794,7 +816,8 @@ bool pauses_offline_work( npc &candidate )
 
 void on_actor_death( npc &candidate )
 {
-    if( !is_initialized() || !is_bound( candidate ) || !candidate.is_dead() ) {
+    if( !is_initialized() || !is_bound( candidate ) || !candidate.is_dead() ||
+        multiplayer_proxy( candidate ) ) {
         return;
     }
     invalidate_request();
@@ -823,6 +846,10 @@ bool bind( npc &candidate, const std::string &profile_id, std::string &error )
     error.clear();
     if( !state.enabled || !state.future_payload.empty() ) {
         error = "control_disabled";
+        return false;
+    }
+    if( multiplayer_proxy( candidate ) ) {
+        error = "multiplayer_proxy_not_supported";
         return false;
     }
     if( candidate.is_dead() || !candidate.is_active() ||
@@ -892,8 +919,9 @@ void cancel()
 {
     invalidate_request();
     cancel_unstarted( "plan_cancelled" );
-    npc *bound = actor_for_handoff();
-    if( has_binding() && !bound ) {
+    bool unsupported_proxy = false;
+    npc *bound = actor_for_handoff( &unsupported_proxy );
+    if( has_binding() && !bound && !unsupported_proxy ) {
         state.control_state = "cancel_pending";
         state.last_error = "cancel_waiting_for_actor";
         return;
@@ -1064,7 +1092,7 @@ void pump_incoming()
 
 bool act( npc &candidate, bool urgent )
 {
-    if( !is_bound( candidate ) || !state.future_payload.empty() ) {
+    if( !is_bound( candidate ) || multiplayer_proxy( candidate ) || !state.future_payload.empty() ) {
         return false;
     }
     if( state.detach_state == "detach_pending" ) {
@@ -1153,7 +1181,8 @@ bool act( npc &candidate, bool urgent )
 
 int following_distance( const npc &candidate, int native_distance )
 {
-    if( !state.enabled || !is_bound( candidate ) || state.detach_state != "attached" ||
+    if( !state.enabled || !is_bound( candidate ) || multiplayer_proxy( candidate ) ||
+        state.detach_state != "attached" ||
         !state.queue.empty() || native_distance <= 2 || !state.future_payload.empty() ) {
         // Preserve stairs, explicit close-follow and loss-of-vision constraints.
         return native_distance;
