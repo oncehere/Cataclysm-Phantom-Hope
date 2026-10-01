@@ -1,0 +1,350 @@
+{
+  "additional_checks": {
+    "actual_installed_mod_load": {
+      "exit_code": 0,
+      "log": "native-mod-load-verified.log",
+      "sha256": "33cdc788b9d94037be82170684a28a1bf45d1b9d950677c1e5d60e8326ca4de3",
+      "status": "PASS"
+    },
+    "assembly": {
+      "checksum_check": "PASS_ALL_11_FILES_PLUS_SHA256SUMS",
+      "log": "assembly-export-fix.log",
+      "published": false,
+      "sha256": "6614ec83df08e3459f19408644a2aead49999589e5182598497dc134ee3e4e59",
+      "status": "PASS"
+    },
+    "format": {
+      "log": "format-verified.log",
+      "sha256": "330a2c3b200144a12195a7ae5cf97b114852f3bf0d469200aaa3f10ebc197b4b",
+      "status": "PASS"
+    },
+    "full_clang_game_build": {
+      "exit_code": 0,
+      "log": "game-build-final-pair-rerun.log",
+      "sha256": "f9056e4c27416a31b79dfa92c1a2f56b3c2bbc40db680f901d4c521d00638776",
+      "status": "PASS"
+    },
+    "gnu_actual_test_translation_unit": {
+      "controlled_old_source": "FAIL_EXPECTED_RANGE_LOOP",
+      "full_gnu_game": "NOT_RUN",
+      "report": "gnu-test-compile-verified.json",
+      "status": "PASS"
+    },
+    "metadata_docs_generators": {
+      "exit_code": 0,
+      "log": "metadata-final-verified.log",
+      "sha256": "5cf48ed5acf9d3c8a0c1df15d372bc272a83be48fe32875e3e0277cb67e2f1d5",
+      "source_head": "e01386a1eba1752b169aa55d3941abef506b6461",
+      "status": "PASS"
+    },
+    "offline_init_doctor": {
+      "log": "installed-doctor-verified.log",
+      "model_called": false,
+      "sha256": "3e29a05c48f1f61df92bd938db234dc0e7ac26cf17e1e5ded3db3cfe5c021f5c",
+      "status": "PASS"
+    },
+    "protocol_export": {
+      "absolute_root_log": "protocol-export-absolute-rerun.log",
+      "absolute_root_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initial_failure_log": "protocol-export-final.log",
+      "relative_root_log": "protocol-export-root-rerun.log",
+      "relative_root_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Real native generator invoked with the selected root after normalization; fixed protocol source snapshot unchanged.",
+      "status": "PASS"
+    }
+  },
+  "artifact_build_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+  "artifacts_before_assembly": {
+    ".gitignore": {
+      "bytes": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
+    "cph_ai_companion-0.1.2.dev0-py3-none-any.whl": {
+      "bytes": 59888,
+      "sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
+    },
+    "cph_ai_companion-0.1.2.dev0.tar.gz": {
+      "bytes": 184523,
+      "sha256": "1762d7c5449f5b45dcadf5adafe15677d3316c26a1a87e97a558130a62ec3e30"
+    }
+  },
+  "assembled_assets": {
+    ".gitignore": {
+      "bytes": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
+    "LICENSE": {
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "NOTICE": {
+      "bytes": 708,
+      "sha256": "813d5707668f609e9138b79b4f17896986642a1523bf75e7a254514c15cfe411"
+    },
+    "README.md": {
+      "bytes": 3275,
+      "sha256": "0f2c199bc939f5afb16c6d4ee4ef491c5d64622ba72f32bb3c1f8e7f3c362a51"
+    },
+    "SHA256SUMS": {
+      "bytes": 951,
+      "sha256": "3dcf84db14c227620ae7e4f866322c1c068b4ab5891daacd1cd8bcf79b84d0ce"
+    },
+    "THIRD_PARTY.md": {
+      "bytes": 2120,
+      "sha256": "ef38cb7ec5e209c7bc160b9ac5e266f8666005aef6e1ed67188421727fa0e702"
+    },
+    "build-requirements.lock": {
+      "bytes": 1188,
+      "sha256": "814c5749bced3d80c1c0be10631784ca40deb99dcf45a6ec7117c6b98268f8e4"
+    },
+    "compatibility.json": {
+      "bytes": 4811,
+      "sha256": "b0ea1b6f50c07ba549ca38e593993cfdc6ac05f41fbeec2023fa229b592709fc"
+    },
+    "cph_ai_companion-0.1.2.dev0-mod.zip": {
+      "bytes": 646,
+      "sha256": "1e6b7e8dab63387b8800f0d9c4614b3bbe53ab2e371402a4c1c70a54235d222b"
+    },
+    "cph_ai_companion-0.1.2.dev0-py3-none-any.whl": {
+      "bytes": 59888,
+      "sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
+    },
+    "cph_ai_companion-0.1.2.dev0.tar.gz": {
+      "bytes": 184523,
+      "sha256": "1762d7c5449f5b45dcadf5adafe15677d3316c26a1a87e97a558130a62ec3e30"
+    },
+    "requirements.lock": {
+      "bytes": 6508,
+      "sha256": "c58f9c2b75d9df4a213b7f7d1a8152fcd940c1a1eb7f15694d6250773559311c"
+    },
+    "uv.lock": {
+      "bytes": 27094,
+      "sha256": "a3af9a905abc7d5f0c62cd4600216f29204d196ea92a06ed83e9034f94f056c6"
+    }
+  },
+  "cleanup": "cleanup-result.json",
+  "code_inputs": {
+    "src/cph_ai_companion/__init__.py": "9bd92ce0668e922a2970fbc8f1583ad3d8b078e63c4ce147d315feedda0a100a",
+    "src/cph_ai_companion/cli.py": "e337c3efc55baa2d83a32c59e071988ef20f471db37d675a6600b78abb759700",
+    "src/cph_ai_companion/config.py": "e0fe9df125aab1bf24afb51d8a765cc29199f865054857a55c98efdb7451fac4",
+    "src/cph_ai_companion/memory.py": "63f8ae83d2b5a46c990b2b946ae020fd6729ff4ddd7308e5252ab6287a951227",
+    "src/cph_ai_companion/personality.py": "e0b6d159409b39ed8ad2c91a0661ceed1cba7c8cbaf00c92fd29c26aa1636779",
+    "src/cph_ai_companion/protocol.py": "533ca48ef4235ba6f2cb51801a2da3c04f770292736fdefc44f4c003bf9e9402",
+    "src/cph_ai_companion/provider.py": "7be0bae60726324ce9ac74d65c65aaa08b998f07f9df37c821def5fcf7e3b50d",
+    "src/cph_ai_companion/resources/mod/main.lua": "b90f81ef2dc1ad1bcbbec2172eafa64dcdcad25320e8360949d114b50b34d922",
+    "src/cph_ai_companion/resources/mod/mod.lua": "52eae9f72dc8354d9236570544e02b4d33bb766c79384844631c7d0c6f083b8e",
+    "src/cph_ai_companion/resources/protocol/fixtures.json": "1a504264a759526d3e9e63a5d258e90a856436d81e417dae49e29dab50537f67",
+    "src/cph_ai_companion/resources/protocol/protocol.json": "8a8e3f131065bf5eb82cec3233f5dc9c94d4ab2f97143627e49505d5726840a7",
+    "src/cph_ai_companion/resources/templates/background.md": "f2744c84c868016c48872f81ef447a6667e25fa8bdf5cc608dbdfe5106cf9e1d",
+    "src/cph_ai_companion/resources/templates/config.json": "237b94654d1dc7d664f5187fb63cd4fbd9c62bef10a951009ba716c62aa5c6f7",
+    "src/cph_ai_companion/runtime.py": "8ab5fd33c7cec5a770794189787703f0a0a36adfaee01d31750e0154382ff571",
+    "src/cph_ai_companion/transport.py": "03c83d09138884a2f6235f1b311c8b99ab9dbcf5704af98a791a299470daa5ce",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4",
+    "tests/test_config.py": "454235069951b6936f78d3b42caa09ee5f81437d26f3f0ff68b883bb88fa3223",
+    "tests/test_memory.py": "f60f455f6c0cca8094f115b9a213f7b79b579d547275604db06ce26ecafd1740",
+    "tests/test_personality.py": "bde6618544b74ea4cf3bbf8ee5acb0ece1c6af95a71de98167e5a6553733fadd",
+    "tests/test_protocol.py": "0ff9b051f63394c13e819a96d063fd2d07b54d8c330166e89130eddb5585d0a2",
+    "tests/test_provider.py": "bd28281c46ed39cf0a96b0fbf10236ddf80e58b8a0e80b1125704b6cf90a6233",
+    "tests/test_release.py": "47233db8323bc1e073a52e0bf87905c0cc0aad338bf312736eadcd1d2f77d508",
+    "tests/test_runtime.py": "fba117da4c72692e7cfecdfa1825f1db25ded333cb9178eccadf7e0d16637860",
+    "tests/test_transport.py": "029f9a7648e2a1ef234bd480a680c8245b7fcfceb6264d97e69832a29ef09eec",
+    "tools/build_release.py": "cc5d4f17850cfcf55a3ca67045bbbd8a8ef626051f6de5148ed3ee940cefae74",
+    "tools/export_cph_protocol.py": "7d76db1e196d4771cfc9706439b63be71c3a6d30b936b0d8e2fea4592db3fdad",
+    "tools/joint_driver.py": "4bfc5c261b14f12e78f9c73c2ff5d0de5385efe9f87230bf84cfaecda126fb1a"
+  },
+  "created_at": "2026-10-01T11:27:19.793052+00:00",
+  "documentation_followup": "Documentation/evidence-only follow-up commit recorded in final-state.json; immutable package build and test inputs remain bound to standalone_source_head.",
+  "external_changes": {
+    "historical_assets": "NOT_MODIFIED_BY_TASK",
+    "installed_game_activation": "NOT_DONE",
+    "main_merge": "NOT_DONE",
+    "push": "NOT_DONE",
+    "release": "NOT_DONE"
+  },
+  "fix_matrix": "fix-matrix.md",
+  "historical_adjacent_failures": {
+    "boundary": "Controlled old npc.cpp replacement only, not a complete baseline build. Current three mission tests are separate.",
+    "cases": [
+      "crafting_with_a_companion",
+      "on_load-sane-values"
+    ],
+    "evidence": "cph-ai-companion/docs/evidence/native-controlled-baseline.json",
+    "status": "HISTORICAL_FAIL; NOT_RERUN_THIS_FIX"
+  },
+  "installed_identity": {
+    "cwd": "/tmp",
+    "import_path": "/tmp/cph-ai-review-final-install-20261001/lib/python3.12/site-packages/cph_ai_companion/__init__.py",
+    "package_version": "0.1.2.dev0",
+    "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [GCC 15.3.0]",
+    "real_provider": "NOT_RUN",
+    "sdk_version": "3.22.1"
+  },
+  "native_build_report": "native-build-final.json",
+  "native_game_sha256": "3cb885af0d6821187b614a670015cafa556ad20815632b72d2431d62576f2262",
+  "native_game_version": "Cataclysm: Cleanwater Bomb 1979-12-31-e01386a1eba\n\n+tiles, -sound\n\ndata dir: /usr/local/share/cataclysm-dda/\nuser dir: /home/oncehere/.cataclysm-dda/\n",
+  "native_head": "e01386a1eba1752b169aa55d3941abef506b6461",
+  "native_runner_sha256": "59ac5afada031c7c3f61602adb2e82605a239e26f112e4a8a90c5d326bd6a208",
+  "native_tree": "e2030870f2154596db910a0631c10ea327ee203d",
+  "not_run": [
+    "Real LLM/provider quality",
+    "GUI/ordinary graphical play",
+    "User actual saves/environment",
+    "Full official native test suite",
+    "Full GCC game",
+    "Complete physical crash campaign",
+    "Live multiplayer session",
+    "New-head hosted CI",
+    "Other platforms"
+  ],
+  "original_findings": {
+    "addressed": 10,
+    "functional_build": 8,
+    "standards_maintenance": 2
+  },
+  "package_version": "0.1.2.dev0",
+  "primary_head": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
+  "protocol_source": {
+    "files": {
+      "fixtures.json": "1a504264a759526d3e9e63a5d258e90a856436d81e417dae49e29dab50537f67",
+      "protocol.json": "8a8e3f131065bf5eb82cec3233f5dc9c94d4ab2f97143627e49505d5726840a7"
+    },
+    "protocol_version": "1.1",
+    "schema_version": 1,
+    "source_project": "cph-ai-companion",
+    "source_revision": "933ad89349220614052909fcc5210c5bda0386f5"
+  },
+  "protocol_version": "1.1",
+  "retained_failure_history": [
+    "native-focused.log",
+    "native-focused-reconciled.log",
+    "native-installed-joint.log",
+    "native-build-verified.driver.log",
+    "native-mod-load.log",
+    "metadata-verified.log",
+    "game-build-final-pair.log",
+    "protocol-export-final.log"
+  ],
+  "runtime_validation_origin_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
+  "schema_version": 1,
+  "standalone_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+  "standalone_source_tree": "36c6b3aa8ca3974fac79280891604cf0d67d18f9",
+  "status": "LOCAL_REVIEW_FIXES_VERIFIED",
+  "tests": {
+    "native_focused": {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+        "[actor_control]",
+        "--user-dir",
+        "/tmp/cph-ai-review-native-user-20261001",
+        "--rng-seed",
+        "424242",
+        "--reporter",
+        "compact",
+        "--durations",
+        "yes"
+      ],
+      "assertions": 1968,
+      "cases": 72,
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+      "exit_code": 0,
+      "log": "native-focused-final.log",
+      "log_sha256": "2bc0409b68439643f0c63c3efdc659a1dc907f904049e416634e8404ee19a569",
+      "status": "PASS"
+    },
+    "native_installed_joint": {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+        "[.actor_control_joint]",
+        "--user-dir",
+        "/tmp/cph-ai-review-joint-user-20261001",
+        "--rng-seed",
+        "123456",
+        "--reporter",
+        "compact",
+        "--durations",
+        "yes"
+      ],
+      "assertions": 1377,
+      "cases": 1,
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+      "environment": {
+        "CPH_COMPANION_JOINT_DRIVER": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tools/joint_driver.py",
+        "CPH_COMPANION_PYTHON": "/tmp/cph-ai-review-final-install-20261001/bin/python"
+      },
+      "exit_code": 0,
+      "log": "native-installed-joint-final.log",
+      "log_sha256": "bea5aace8ce379bc0ed4e3add877474ab81e51ab1d92fbdb95f87b8090ed2a14",
+      "status": "PASS"
+    },
+    "native_mission_adjacent": {
+      "argv": [
+        "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+        "mission_generic_reward_claim_persists_across_copy_and_save,mission_goal_condition_test,automatic_find_item_mission_batch_processing",
+        "--user-dir",
+        "/tmp/cph-ai-review-mission-user-20261001",
+        "--rng-seed",
+        "123456",
+        "--reporter",
+        "compact",
+        "--durations",
+        "yes"
+      ],
+      "assertions": 63,
+      "cases": 3,
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+      "exit_code": 0,
+      "log": "native-mission-adjacent.log",
+      "log_sha256": "571810e46b74deeadaf7982dfd2e19ab2316ab5c2eaa8c206fe8676543c6fb99",
+      "status": "PASS"
+    },
+    "python_installed": {
+      "argv": [
+        "/tmp/cph-ai-review-final-install-20261001/bin/python",
+        "-B",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tests",
+        "-v"
+      ],
+      "cwd": "/tmp",
+      "exit_code": 0,
+      "log": "python-installed-verified.log",
+      "log_sha256": "24af63681ffd522d8b8309c7845b261a70e899bdc49163841437c77a87d18edf",
+      "seconds": 10.605,
+      "status": "PASS",
+      "tests": 149
+    },
+    "python_source": {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+      "environment": {
+        "PYTHONPATH": "src"
+      },
+      "exit_code": 0,
+      "log": "python-source-export-fix.log",
+      "log_sha256": "e44132904dd1be85689e607a0fa24e2ac2e4f5960e6d4ee385c382b7b2f8dc04",
+      "seconds": 10.818,
+      "status": "PASS",
+      "tests": 149
+    }
+  },
+  "wheel_identity_reuse": {
+    "build_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+    "current_wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e",
+    "previous_wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e",
+    "reason": "Only exporter and documentation/evidence changes since df138cb; wheel src/resources/metadata bytes unchanged.",
+    "wheel_bytes_identical": true
+  }
+}

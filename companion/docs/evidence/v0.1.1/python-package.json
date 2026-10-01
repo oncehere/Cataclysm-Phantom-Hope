@@ -1,0 +1,145 @@
+{
+  "actual_native_mod_load": {
+    "evidence": "docs/evidence/v0.1.1/native-mod-load-v011-a04-20261001.json",
+    "status": "PASS"
+  },
+  "archive_verification": {
+    "all_runtime_payloads_match_source_wheel_and_install": true,
+    "final_documentation_sdist_reassembly": "Final assembly verified after source snapshot freeze; final artifact digests recorded separately in release directorySHA256SUMS andouterassembly report",
+    "fresh_installed_mod_has_no_gameplay_json": true,
+    "license_files_in_wheel": [
+      "LICENSE",
+      "NOTICE"
+    ],
+    "mod_files": [
+      "cph_ai_companion/main.lua",
+      "cph_ai_companion/mod.lua"
+    ],
+    "mod_resources_match_wheel_and_source": true,
+    "runtime_and_resource_files": 15,
+    "sdist_paths_safe_and_unique": true,
+    "sdist_required_materials_present": true,
+    "sdist_runtime_tests_tools_and_locks_match_source": true,
+    "wheel_entries": 21,
+    "wheel_readme_experimental_prerelease": true
+  },
+  "artifact_hash_authority": "/tmp/cph-ai-release-v0.1.1-20261001/SHA256SUMS and compatibility.json; final source-containing archive hash recorded outside that archive",
+  "build": {
+    "command": "UV_CACHE_DIR=/tmp/cph-ai-artifact-uv-cache-20260930 uv build --python .venv/bin/python --no-build-isolation --out-dir /tmp/cph-ai-release-v0.1.1-20261001",
+    "exit_code": 0,
+    "log": "docs/evidence/v0.1.1/python-build.log",
+    "wheel_built_from_sdist": true
+  },
+  "changes": [
+    "Current package/CLI installation metadata/MOD/release tool/CI artifact expectations advance to0.1.1; no runtime planning or memory behavior changes",
+    "Install documents explicitly select clang++ and record testedClang21.1.8; new profile bootstrap installs the revised MOD after controlled safe removal while original character files are retained",
+    "All0.1.0 release assets and previous evidence remain unchanged"
+  ],
+  "date": "2026-10-01",
+  "historical_v010_compatibility": "docs/evidence/v0.1.0-compatibility.json",
+  "historical_v010_python_evidence": "docs/evidence/python-package.json",
+  "hosted_ci": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
+  "import_root": "/tmp/cph-ai-artifact-install-v0.1.1-20261001/lib/python3.12/site-packages/cph_ai_companion",
+  "installed_python": "/tmp/cph-ai-artifact-install-v0.1.1-20261001/bin/python",
+  "installed_tests": {
+    "cwd": "/tmp",
+    "editable": false,
+    "exit_code": 0,
+    "log": "docs/evidence/v0.1.1/python-tests-installed.log",
+    "seconds": 5.898,
+    "tests": 111
+  },
+  "lock_and_manifest": "docs/evidence/v0.1.1/lock-and-install-metadata.json",
+  "model_scope": {
+    "official_sdk_synthetic_http": "PASS_PYTHON_TESTS_ONLY",
+    "paid_calls": false,
+    "real_provider": "NOT_RUN"
+  },
+  "native_joint": {
+    "evidence": "docs/evidence/v0.1.1/native-installed-joint.json",
+    "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+    "status": "PASS_RECORDED_SCOPE",
+    "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+  },
+  "new_release_directory": "/tmp/cph-ai-release-v0.1.1-20261001",
+  "offline_cli": {
+    "doctor": {
+      "credential_available": false,
+      "endpoint_configured": false,
+      "exit_code": 0,
+      "log": "docs/evidence/v0.1.1/offline-doctor.log",
+      "model_called": false
+    },
+    "init": {
+      "exit_code": 0,
+      "log": "docs/evidence/v0.1.1/offline-init.log",
+      "model_started": false
+    },
+    "list_sessions": {
+      "exit_code": 0,
+      "log": "docs/evidence/v0.1.1/offline-list-sessions.log",
+      "sessions": []
+    }
+  },
+  "openai_sdk": "3.22.1",
+  "package_version": "0.1.1",
+  "publication": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
+  "python": "3.12.14",
+  "schema_version": 1,
+  "scope": "Source111 tests, new noneditable outside-source Python111 tests, offline CLI, hashed locks and archive runtime/resource parity; final nativejoint separate",
+  "source_tests": {
+    "exit_code": 0,
+    "log": "docs/evidence/v0.1.1/python-tests-source.log",
+    "seconds": 6.179,
+    "tests": 111
+  },
+  "status": "PASS_PYTHON_SCOPE",
+  "temporary_paths": {
+    "game_user": "/tmp/cph-ai-v011-game-user-20261001",
+    "native_mod_config": "/tmp/cph-ai-v011-native-mod-check-20261001/config",
+    "native_mod_save": "/tmp/cph-ai-v011-native-mod-check-20261001/save",
+    "profile": "/tmp/cph-ai-v011-profile-20261001",
+    "retention": "Retained for parent native joint/MOD acceptance and release assembly; no real user save touched",
+    "runtime": "/tmp/cph-ai-v011-runtime-20261001"
+  },
+  "tested_source_sha256": {
+    "src/cph_ai_companion/__init__.py": "1d5aa83f79a434b4343e88402efab62ff10d543e8b04a62bbb11306a0b9a172e",
+    "src/cph_ai_companion/cli.py": "0a682a8e553b1d264707bf7950a03e106e7696e5aa630618e0090cb9a66325de",
+    "src/cph_ai_companion/config.py": "e0fe9df125aab1bf24afb51d8a765cc29199f865054857a55c98efdb7451fac4",
+    "src/cph_ai_companion/memory.py": "0a6a34eac12e94428e83d6fea8ee1cc499e5d11351b356af0f19208b2d55c49b",
+    "src/cph_ai_companion/personality.py": "e0b6d159409b39ed8ad2c91a0661ceed1cba7c8cbaf00c92fd29c26aa1636779",
+    "src/cph_ai_companion/protocol.py": "9db8bd7134ddd2b844c48e7956b6565771f4b3b75bca0076d9c3cbf2c5882f81",
+    "src/cph_ai_companion/provider.py": "7be0bae60726324ce9ac74d65c65aaa08b998f07f9df37c821def5fcf7e3b50d",
+    "src/cph_ai_companion/resources/mod/main.lua": "b90f81ef2dc1ad1bcbbec2172eafa64dcdcad25320e8360949d114b50b34d922",
+    "src/cph_ai_companion/resources/mod/mod.lua": "00e9bd5575d7980a20a25c10de4cbba1633e0413156e1e15f23956e0898976c0",
+    "src/cph_ai_companion/resources/protocol/fixtures.json": "1ffb026e228e99854d6a36e69d3a148f6d6ff2927349b245f290801fd3290e89",
+    "src/cph_ai_companion/resources/protocol/protocol.json": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c",
+    "src/cph_ai_companion/resources/templates/background.md": "f2744c84c868016c48872f81ef447a6667e25fa8bdf5cc608dbdfe5106cf9e1d",
+    "src/cph_ai_companion/resources/templates/config.json": "237b94654d1dc7d664f5187fb63cd4fbd9c62bef10a951009ba716c62aa5c6f7",
+    "src/cph_ai_companion/runtime.py": "1ed32b796927a843f5e8c8ba7f293e39b2d57461646fd03d00de077648ecacce",
+    "src/cph_ai_companion/transport.py": "03c83d09138884a2f6235f1b311c8b99ab9dbcf5704af98a791a299470daa5ce",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4",
+    "tests/test_config.py": "454235069951b6936f78d3b42caa09ee5f81437d26f3f0ff68b883bb88fa3223",
+    "tests/test_memory.py": "a8e8f9327af761692e258a49c0b83154ed5e2776ab2ed5935a95d28817cf1889",
+    "tests/test_personality.py": "bde6618544b74ea4cf3bbf8ee5acb0ece1c6af95a71de98167e5a6553733fadd",
+    "tests/test_protocol.py": "0ff9b051f63394c13e819a96d063fd2d07b54d8c330166e89130eddb5585d0a2",
+    "tests/test_provider.py": "bd28281c46ed39cf0a96b0fbf10236ddf80e58b8a0e80b1125704b6cf90a6233",
+    "tests/test_release.py": "a6faa2e7a609096070ad30e5122dbd88d903dff3a25f3d089897dae354594c4b",
+    "tests/test_runtime.py": "08e792603d3386d75d254aed1874747a18b1d0be6dd8fabae209d70975c4e5e7",
+    "tests/test_transport.py": "029f9a7648e2a1ef234bd480a680c8245b7fcfceb6264d97e69832a29ef09eec",
+    "tools/build_release.py": "df750accca49d795463911fb23a6e14af871956fd3c6a64588e0bb796162e7bd",
+    "tools/export_cph_protocol.py": "0496de85b0d80e3ad1ce1660f7650fb81eb5b89d2e480258292f1533bb1fd0b3",
+    "tools/joint_driver.py": "407683e6d5f050f87655ae22850bb46babcc272e036d9ebd46224f417c5f5436"
+  },
+  "unrun": [
+    "GUI",
+    "real provider/model quality",
+    "complete physical crash campaign",
+    "actual user game environment",
+    "live multiplayer host/client",
+    "other operating systems"
+  ],
+  "uv": "0.12.17",
+  "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+}

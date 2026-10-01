@@ -1,0 +1,404 @@
+[
+  {
+    "name": "move",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "move-1",
+          "action": "move",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "craft",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "craft-1",
+          "action": "craft",
+          "args": {
+            "recipe": "bandages",
+            "batch": 1
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": []
+    }
+  },
+  {
+    "name": "unknown_action",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "bad-1",
+          "action": "set_inventory",
+          "args": {}
+        }
+      ]
+    }
+  },
+  {
+    "name": "extra_arg",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "bad-1",
+          "action": "move",
+          "args": {
+            "x": 1,
+            "y": 2,
+            "z": 0,
+            "moves": 100
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing_target",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "bad-1",
+          "action": "attack",
+          "args": {}
+        }
+      ]
+    }
+  },
+  {
+    "name": "duplicate_step",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "same",
+          "action": "wait",
+          "args": {}
+        },
+        {
+          "id": "same",
+          "action": "wait",
+          "args": {}
+        }
+      ]
+    }
+  },
+  {
+    "name": "bad_count",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "gather-1",
+          "action": "gather",
+          "args": {
+            "x": 1,
+            "y": 2,
+            "z": 0,
+            "item_type": "bandages",
+            "count": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "boolean_actor",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": true,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": []
+    }
+  },
+  {
+    "name": "null_args",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "bad-1",
+          "action": "wait",
+          "args": null
+        }
+      ]
+    }
+  },
+  {
+    "name": "receipt_dependency",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "craft-1",
+          "action": "craft",
+          "args": {
+            "recipe": "bandages"
+          }
+        },
+        {
+          "id": "deliver-1",
+          "action": "talk",
+          "args": {
+            "target": 8,
+            "text": "I made this."
+          },
+          "from_step": "craft-1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "forward_dependency",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "wait-1",
+          "action": "wait",
+          "args": {},
+          "from_step": "future"
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_has_stable_requirement",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "I will not gather that."
+          },
+          "requirement_id": "world-A:branch-A:event-1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_without_requirement",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "No."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_and_work_for_same_requirement",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "No."
+          },
+          "requirement_id": "r1"
+        },
+        {
+          "id": "gather-2",
+          "action": "gather",
+          "args": {
+            "x": 1,
+            "y": 2,
+            "z": 0,
+            "item_type": "rock"
+          },
+          "requirement_id": "r1"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,87 @@
+{
+  "adjacent_regressions": "docs/evidence/native-controlled-baseline.json",
+  "date": "2026-10-01",
+  "final_native_identity_build": {
+    "focused_binary_sha256": "5e5d4ad5e8585924028eef01e522510385609536f94ed6e2a509089e2af6d72b",
+    "game_binary_sha256": "f006645f21e33adace9beb5f936e49c9d7f7f8cfbd3cc753321081ce90832c62",
+    "identity_commit_matches": true,
+    "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+    "source_sha256": "dca61acd0baf5469c801697171c4893d6bfaa771281a775e3af5470efc9b07cd",
+    "source_status": ""
+  },
+  "full_game_build": {
+    "binary_sha256": "f006645f21e33adace9beb5f936e49c9d7f7f8cfbd3cc753321081ce90832c62",
+    "clean_full_GNU_build": "NOT_RUN",
+    "evidence": "docs/evidence/v0.1.1/final-a04-identity-game-build-20261001.json",
+    "exit_code": 0,
+    "gui_execution": "NOT_RUN",
+    "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "status": "PASS_LOCAL_CLANG_21_1_8",
+    "target": "cataclysm-tiles"
+  },
+  "full_official_native_suite": "NOT_RUN",
+  "generated_metadata_checks": "Historical85checks retained in docs/evidence/release-native-metadata-checks.json; latestCPHhosted/metadata outcomes recordedseparately",
+  "gnu_module_check": {
+    "compiler": "g++ (GCC) 15.3.0",
+    "evidence": "docs/evidence/v0.1.1/gcc-missing-declarations-20261001.json",
+    "exit_code": 0,
+    "scope": "Completeactor_control.cpp syntax/type/strictdiagnostics; fullGNUgame andhostedfix resultnotclaimed",
+    "status": "PASS"
+  },
+  "historical_v010_native": "docs/evidence/v0.1.0-native-acceptance.json",
+  "installed111_joint": {
+    "assertions": 1538,
+    "binary_sha256": "5e5d4ad5e8585924028eef01e522510385609536f94ed6e2a509089e2af6d72b",
+    "cases": 1,
+    "evidence": "docs/evidence/v0.1.1/native-installed-joint.json",
+    "status": "PASS",
+    "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+  },
+  "mod_load": {
+    "evidence": "docs/evidence/v0.1.1/native-mod-load-v011-a04-20261001.json",
+    "status": "PASS"
+  },
+  "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+  "native_test_suite": {
+    "assertions": 1727,
+    "cases": 63,
+    "elapsed_seconds": 30.209,
+    "exit_code": 0,
+    "json_errors": 0,
+    "log": "docs/evidence/v0.1.1/native-gcc-helper-fix-20261001.log",
+    "log_sha256": "03cff9c391a3abfc26e06f549c0f45f2b7c8be1fbead0a55dce70a899e2ca467",
+    "status": "PASS"
+  },
+  "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+  "original_failure_history": "docs/evidence/native-failure-history.json",
+  "original_green_report_sha256": "f5fc20869e36274a7a27ac4a617cfa7210f5b829e1eecb3df98f01250f1c7b0a",
+  "proxy_regression": {
+    "after": {
+      "assertions": 96,
+      "cases": 2,
+      "elapsed_seconds": 22.369,
+      "exit_code": 0,
+      "json_errors": 0,
+      "log": "docs/evidence/native-proxy-green.log",
+      "log_sha256": "6b6cee1193df10a3557f3c5d6d7ed683459a1697ea1feb81b6f27d3c9f9765c0",
+      "status": "PASS"
+    },
+    "before": {
+      "cases": 2,
+      "exit_code": 13,
+      "failed_assertions": 13,
+      "log": "docs/evidence/native-proxy-red.log",
+      "log_sha256": "756d689792c5ad4c5d0e8960800e26fecb84197733ac98955f0eb680cd166d75",
+      "status": "FAIL"
+    },
+    "live_host_client_session": "NOT_RUN",
+    "scope": "Real NPC entities carrying existing multiplayer proxy tags exercise public binding, restored queues, perception, stop/cancel and protected native state; no live host/client session was started."
+  },
+  "schema_version": 1,
+  "source_identity_note": "Thetwo internalhelper static declarations are the onlynative source correction. Exactsource hash mappings andactuala04version/Clangbuild63/GNUmodulecheck are retained inrevision evidence.",
+  "source_sha256": {
+    "src/actor_control.cpp": "dca61acd0baf5469c801697171c4893d6bfaa771281a775e3af5470efc9b07cd"
+  },
+  "status": "PASS_FOCUSED_NATIVE_SCOPE"
+}

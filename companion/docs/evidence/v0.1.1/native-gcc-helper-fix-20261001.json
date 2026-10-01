@@ -1,0 +1,32 @@
+{
+  "created_at": "2026-10-01T07:56:33.640373+00:00",
+  "scope": "ActorControl native module regression after two internal-linkage fixes; official full cata_test target NOT_RUN",
+  "source_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "source_sha256": "dca61acd0baf5469c801697171c4893d6bfaa771281a775e3af5470efc9b07cd",
+  "binary_sha256": "63120783ff933b30b5b65e61c7a228b2c521bca5a425486197f4d67beeb5511b",
+  "argv": [
+    "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+    "[actor_control]",
+    "--rng-seed",
+    "123456",
+    "--reporter",
+    "compact",
+    "--durations",
+    "yes",
+    "--user-dir",
+    "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-gcc-helper-fix-20261001-user"
+  ],
+  "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+  "exit_code": 0,
+  "elapsed_seconds": 30.209,
+  "log": "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-gcc-helper-fix-20261001.log",
+  "log_sha256": "03cff9c391a3abfc26e06f549c0f45f2b7c8be1fbead0a55dce70a899e2ca467",
+  "summary": [
+    "Passed all 63 test cases with 1727 assertions."
+  ],
+  "json_errors": 0,
+  "failed_assertions": [],
+  "real_llm": "NOT_RUN",
+  "hosted_fix": "NOT_RUN",
+  "full_gcc_game": "NOT_RUN"
+}

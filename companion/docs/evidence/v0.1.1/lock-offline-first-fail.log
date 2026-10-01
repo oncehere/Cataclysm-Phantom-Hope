@@ -1,0 +1,6 @@
+WARN jiter==0.17.0 needs to be downloaded from a registry
+error: No solution found when resolving dependencies
+  cause: Because hatchling was not found in the cache and cph-ai-companion:build depends on hatchling==1.27.0, we can conclude that cph-ai-companion:build's requirements are unsatisfiable.
+         And because your project requires cph-ai-companion:build, we can conclude that your project's requirements are unsatisfiable.
+
+hint: Packages were unavailable because the network was disabled. When the network is disabled, registry packages may only be read from the cache.

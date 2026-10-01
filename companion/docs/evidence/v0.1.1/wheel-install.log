@@ -1,0 +1,5 @@
+Using Python 3.12.14 environment at: cph-ai-artifact-install-v0.1.1-20261001
+Resolved 1 package in 2ms
+Prepared 1 package in 5ms
+Installed 1 package in 2ms
+ + cph-ai-companion==0.1.1 (from file:///tmp/cph-ai-release-v0.1.1-20261001/cph_ai_companion-0.1.1-py3-none-any.whl)

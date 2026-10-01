@@ -1,0 +1,14 @@
+CPH AI Companion
+Copyright 2026 CPH AI Companion contributors
+
+This project's original Python, Lua, protocol, tests and documentation are
+licensed under the Apache License, Version 2.0. See LICENSE.
+
+CPH is a separately distributed game. Changes in the CPH source tree remain
+subject to its existing licenses, including CC BY-SA 3.0; this package's license
+does not relicense the game or its resources.
+
+The project independently implements design ideas discussed in Mindcraft and
+Generative Agents. No code or character assets from those projects are bundled.
+Mantella is a design reference only; no AGPL code or character assets are copied.
+Dependency and reference details are recorded in THIRD_PARTY.md.

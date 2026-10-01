@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cph-ai-companion"
+version = "0.1.2.dev0"
+description = "Explicitly started, file-backed AI companion runtime for adapted CPH builds"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { file = "LICENSE" }
+authors = [{ name = "CPH AI Companion contributors" }]
+dependencies = ["openai==3.22.1"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: POSIX :: Linux",
+]
+
+[project.scripts]
+cph-ai-companion = "cph_ai_companion.cli:main"
+
+[dependency-groups]
+build = ["hatchling==1.27.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cph_ai_companion"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/tools", "/docs", "/.github", "/pyproject.toml",
+           "/uv.lock", "/requirements.lock", "/build-requirements.lock", "/README.md",
+           "/LICENSE", "/NOTICE", "/THIRD_PARTY.md"]
+
+[tool.uv]
+required-version = "==0.12.17"
