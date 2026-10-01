@@ -8,9 +8,9 @@
     },
     "assembly": {
       "checksum_check": "PASS_ALL_11_FILES_PLUS_SHA256SUMS",
-      "log": "assembly-verified.log",
+      "log": "assembly-export-fix.log",
       "published": false,
-      "sha256": "0986930c49d2b2bd79f609029d89ffe7c58fc9665a4f0f4d417394f7a997d3dd",
+      "sha256": "6614ec83df08e3459f19408644a2aead49999589e5182598497dc134ee3e4e59",
       "status": "PASS"
     },
     "format": {
@@ -44,19 +44,28 @@
       "status": "PASS"
     },
     "protocol_export": {
-      "log": "protocol-export-check.log",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "absolute_root_log": "protocol-export-absolute-rerun.log",
+      "absolute_root_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initial_failure_log": "protocol-export-final.log",
+      "relative_root_log": "protocol-export-root-rerun.log",
+      "relative_root_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Real native generator invoked with the selected root after normalization; fixed protocol source snapshot unchanged.",
       "status": "PASS"
     }
   },
+  "artifact_build_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
   "artifacts_before_assembly": {
+    ".gitignore": {
+      "bytes": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
     "cph_ai_companion-0.1.2.dev0-py3-none-any.whl": {
       "bytes": 59888,
       "sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
     },
     "cph_ai_companion-0.1.2.dev0.tar.gz": {
-      "bytes": 180183,
-      "sha256": "80a758162930506ffd27211f6b02057e6e078b878d37479461d9e1c226500bf1"
+      "bytes": 184523,
+      "sha256": "1762d7c5449f5b45dcadf5adafe15677d3316c26a1a87e97a558130a62ec3e30"
     }
   },
   "assembled_assets": {
@@ -78,7 +87,7 @@
     },
     "SHA256SUMS": {
       "bytes": 951,
-      "sha256": "284e331666f66560fdb1f44f1389dafb23db5a1a613e9fc3e05dd2d697b1bf26"
+      "sha256": "3dcf84db14c227620ae7e4f866322c1c068b4ab5891daacd1cd8bcf79b84d0ce"
     },
     "THIRD_PARTY.md": {
       "bytes": 2120,
@@ -89,8 +98,8 @@
       "sha256": "814c5749bced3d80c1c0be10631784ca40deb99dcf45a6ec7117c6b98268f8e4"
     },
     "compatibility.json": {
-      "bytes": 4630,
-      "sha256": "3e11f145bf23e415a107890e1872a297d27b569b608cfa5dc912fab17d414c55"
+      "bytes": 4811,
+      "sha256": "b0ea1b6f50c07ba549ca38e593993cfdc6ac05f41fbeec2023fa229b592709fc"
     },
     "cph_ai_companion-0.1.2.dev0-mod.zip": {
       "bytes": 646,
@@ -101,8 +110,8 @@
       "sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
     },
     "cph_ai_companion-0.1.2.dev0.tar.gz": {
-      "bytes": 180183,
-      "sha256": "80a758162930506ffd27211f6b02057e6e078b878d37479461d9e1c226500bf1"
+      "bytes": 184523,
+      "sha256": "1762d7c5449f5b45dcadf5adafe15677d3316c26a1a87e97a558130a62ec3e30"
     },
     "requirements.lock": {
       "bytes": 6508,
@@ -140,7 +149,7 @@
     "tests/test_runtime.py": "fba117da4c72692e7cfecdfa1825f1db25ded333cb9178eccadf7e0d16637860",
     "tests/test_transport.py": "029f9a7648e2a1ef234bd480a680c8245b7fcfceb6264d97e69832a29ef09eec",
     "tools/build_release.py": "cc5d4f17850cfcf55a3ca67045bbbd8a8ef626051f6de5148ed3ee940cefae74",
-    "tools/export_cph_protocol.py": "9bc212a532d4271fe445a301e6ccf626c82d614cc1739427b02198695232fdd5",
+    "tools/export_cph_protocol.py": "7d76db1e196d4771cfc9706439b63be71c3a6d30b936b0d8e2fea4592db3fdad",
     "tools/joint_driver.py": "4bfc5c261b14f12e78f9c73c2ff5d0de5385efe9f87230bf84cfaecda126fb1a"
   },
   "created_at": "2026-10-01T11:27:19.793052+00:00",
@@ -212,11 +221,13 @@
     "native-build-verified.driver.log",
     "native-mod-load.log",
     "metadata-verified.log",
-    "game-build-final-pair.log"
+    "game-build-final-pair.log",
+    "protocol-export-final.log"
   ],
+  "runtime_validation_origin_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
   "schema_version": 1,
-  "standalone_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
-  "standalone_source_tree": "2239f5caacd2eae222393d2f25e7e8b4b44e74db",
+  "standalone_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+  "standalone_source_tree": "36c6b3aa8ca3974fac79280891604cf0d67d18f9",
   "status": "LOCAL_REVIEW_FIXES_VERIFIED",
   "tests": {
     "native_focused": {
@@ -322,11 +333,18 @@
         "PYTHONPATH": "src"
       },
       "exit_code": 0,
-      "log": "python-source-verified.log",
-      "log_sha256": "d9e7df78de65aac4479a54048ffe74a768e6324f5a8d50f25a7d3375bf8a0ffc",
-      "seconds": 11.288,
+      "log": "python-source-export-fix.log",
+      "log_sha256": "e44132904dd1be85689e607a0fa24e2ac2e4f5960e6d4ee385c382b7b2f8dc04",
+      "seconds": 10.818,
       "status": "PASS",
       "tests": 149
     }
+  },
+  "wheel_identity_reuse": {
+    "build_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+    "current_wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e",
+    "previous_wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e",
+    "reason": "Only exporter and documentation/evidence changes since df138cb; wheel src/resources/metadata bytes unchanged.",
+    "wheel_bytes_identical": true
   }
 }

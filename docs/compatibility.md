@@ -25,7 +25,7 @@ actual-user save/runtime tests are separate results. Windows, macOS and Android
 support is not inferred from the portable Python wheel tag. Package assembly
 preserves this manifest rather than upgrading unrun checks to PASS.
 
-The freshly verified local pair is standalone code `df138cbbb24e` and CPH
+The freshly verified local pair is standalone code `40d7c1442ad7` and CPH
 `e01386a1eba1`, with 149 source and installed Python tests, 72 focused native
 cases, a final installed/native checkpoint/gather/handoff case and actual MOD
 loading. Exact artifact and binary hashes are recorded in

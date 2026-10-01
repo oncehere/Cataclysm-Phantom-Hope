@@ -66,8 +66,10 @@
       "platform": "linux-x86_64",
       "protocol_version": "1.1",
       "python": "3.12.14",
+      "runtime_validation_origin_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
       "scope": "Locally installed synthetic SDK/native joint gather, checkpoint preparation and safe handoff; no real-model or graphical claim",
-      "standalone_source_head": "df138cbbb24e9eae2c54ca112c15bfbb2e1bb8db",
+      "standalone_source_head": "40d7c1442ad71c9a05c6a741b92b8e7ffa4e9d3f",
+      "wheel_identity_reuse": "PASS_BYTE_IDENTICAL_TO_INSTALLED_AND_NATIVE_TESTED_WHEEL",
       "wheel_sha256": "331047052387e663b5a719020fead43068442dc2c52f382511ee78e3839c1d1e"
     }
   ]

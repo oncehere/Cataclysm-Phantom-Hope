@@ -6,7 +6,7 @@ is recorded separately in `docs/evidence/review-fixes-20261001/`; the historical
 mainline merge is implied.
 
 
-Current review-fix verification binds source `df138cbbb24e` / package
+Current review-fix verification binds source `40d7c1442ad7` / package
 `0.1.2.dev0` to CPH `e01386a1eba1`, protocol `1.1`. See the
 [exact evidence and hashes](evidence/review-fixes-20261001/verified.json).
 
