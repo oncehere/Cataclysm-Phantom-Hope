@@ -7,6 +7,7 @@
 #include <translation.h>
 #include <type_id.h>
 #include <algorithm>
+#include <climits>
 #include <cstddef>
 #include <istream>
 #include <iterator>
@@ -29,11 +30,14 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "kill_tracker.h"
 #include "lua_platform_hooks.h"
 #include "map.h"
 #include "monster.h"
 #include "npc.h"
+#include "npc_execution_adapter.h"
+#include "npctrade.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -347,7 +351,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             i.step_complete( 1 );
         }
         //fail the mission if the mission giver dies
-        if( i.npc_id == dead_guys_id ) {
+        if( i.npc_id == dead_guys_id || i.npc_assignee_id == dead_guys_id ) {
             i.fail();
         }
         //fail the mission if recruit target dies
@@ -425,7 +429,7 @@ void mission::assign( avatar &u )
         debugmsg( "strange: player is already assigned to mission %d", uid );
         return;
     }
-    if( player_id.is_valid() ) {
+    if( player_id.is_valid() || npc_assignee_id.is_valid() ) {
         debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d",
                   uid, player_id.get_value() );
         return;
@@ -463,6 +467,187 @@ void mission::assign( avatar &u )
 void mission::fail()
 {
     fail( get_avatar() );
+}
+
+character_id mission::get_assigned_npc_id() const
+{
+    return npc_assignee_id;
+}
+
+bool mission::supports_npc_assignment() const
+{
+    return type && type->id == mission_type_id( "MISSION_GET_ANTIBIOTICS" );
+}
+
+mission::mission_status mission::get_status() const
+{
+    return status;
+}
+
+bool mission::assign( npc &assignee )
+{
+    npc *issuer = g->find_npc( npc_id );
+    if( !supports_npc_assignment() || !issuer || issuer == &assignee ||
+        issuer->is_dead_state() || assignee.is_dead_state() ||
+        is_assigned() || status != mission_status::yet_to_start ||
+        std::find( issuer->chatbin.missions.begin(), issuer->chatbin.missions.end(), this ) ==
+        issuer->chatbin.missions.end() ||
+        rl_dist( issuer->pos_bub(), assignee.pos_bub() ) > 2 ||
+        !assignee.sees( get_map(), *issuer ) ) {
+        return false;
+    }
+    npc_assignee_id = assignee.getID();
+    dialogue d( get_talker_for( assignee ), get_talker_for( issuer ) );
+    const time_duration duration = type->deadline.evaluate( d );
+    deadline = duration == 0_turns ? calendar::turn_zero : calendar::turn + duration;
+    type->start( this );
+    status = mission_status::in_progress;
+    issuer->chatbin.missions.erase( std::remove( issuer->chatbin.missions.begin(),
+                                    issuer->chatbin.missions.end(), this ), issuer->chatbin.missions.end() );
+    issuer->chatbin.missions_assigned.push_back( this );
+    cata::lua_platform::dispatch_native_hook( "on_mission_start", {
+        { "mission", cata::lua_platform::native_callback_mission { uid, identity_generation_ } }
+    } );
+    return true;
+}
+
+bool mission::is_complete( const npc &assignee, const character_id &issuer_id ) const
+{
+    if( !supports_npc_assignment() || assignee.getID() != npc_assignee_id ||
+        issuer_id != npc_id || status != mission_status::in_progress ||
+        ( has_deadline() && calendar::turn > deadline ) ) {
+        return false;
+    }
+    const npc *issuer = g->find_npc( npc_id );
+    if( !issuer || issuer->is_dead_state() || assignee.is_dead_state() ||
+        rl_dist( issuer->pos_bub(), assignee.pos_bub() ) > 2 ||
+        !assignee.sees( get_map(), *issuer ) ) {
+        return false;
+    }
+    // Only the claimant's actual inventory qualifies.  Map and player items do not.
+    for( const char *medicine : {
+             "antibiotics", "strong_antibiotic", "panacea"
+         } ) {
+        const itype_id id( medicine );
+        if( item::count_by_charges( id ) ? assignee.has_charges( id, 1 ) :
+            assignee.has_amount( id, 1 ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool mission::wrap_up( npc &assignee )
+{
+    if( !is_complete( assignee, npc_id ) || assignee.activity ) {
+        return false;
+    }
+    // The mission's native JSON effects consume the medicine, cure the issuer and
+    // restore their rules.  parse_funcs supplies this NPC as alpha, never the avatar.
+    type->end( this );
+    status = mission_status::success;
+    deadline = calendar::turn;
+    npc_reward_remaining_ = get_value();
+    cata::lua_platform::dispatch_native_hook( "on_mission_end", {
+        { "mission", cata::lua_platform::native_callback_mission { uid, identity_generation_ } },
+        { "success", true }
+    } );
+    return true;
+}
+
+int mission::npc_reward_remaining() const
+{
+    return npc_reward_remaining_;
+}
+
+bool mission::claim_npc_reward( npc &assignee, const itype_id &id, int count,
+                                const std::string &receipt_id, std::string &error )
+{
+    const std::string request = id.str() + ":" + std::to_string( count );
+    const std::map<std::string, std::string>::const_iterator previous =
+        npc_reward_receipts_.find( receipt_id );
+    if( previous != npc_reward_receipts_.end() ) {
+        if( previous->second == request && assignee.getID() == npc_assignee_id ) {
+            return true;
+        }
+        error = "receipt_conflict";
+        return false;
+    }
+    npc *issuer = g->find_npc( npc_id );
+    if( status != mission_status::success || assignee.getID() != npc_assignee_id ||
+        !issuer || issuer->is_dead_state() || assignee.is_dead_state() ||
+        count < 1 || count > 1000 || receipt_id.empty() || receipt_id.size() > 256 ||
+        !id.is_valid() || rl_dist( issuer->pos_bub(), assignee.pos_bub() ) > 2 ||
+        !assignee.sees( get_map(), *issuer ) ) {
+        error = "reward_unavailable";
+        return false;
+    }
+    std::vector<std::pair<item_location, int>> stock;
+    int remaining = count;
+    int price = 0;
+    for( item_location loc : issuer->all_items_loc() ) {
+        if( remaining == 0 ) {
+            break;
+        }
+        if( loc->typeId() != id || issuer->is_worn( *loc ) ||
+            ( loc->is_container() && !loc->empty() ) ||
+            !issuer->wants_to_sell( loc, 1, assignee ).success() ) {
+            continue;
+        }
+        const int quantity = std::min( remaining, loc->count_by_charges() ? loc->charges : 1 );
+        if( quantity < 1 ) {
+            continue;
+        }
+        item portion = *loc;
+        if( portion.count_by_charges() ) {
+            portion.charges = quantity;
+        }
+        if( !assignee.can_pickWeight( portion ) || !assignee.can_pickVolume( portion ) ) {
+            error = "reward_capacity";
+            return false;
+        }
+        const int cost = std::max( 1, npc_trading::adjusted_price( loc.get_item(), quantity,
+                                   assignee, *issuer ) );
+        if( cost > INT_MAX - price ) {
+            error = "reward_value_exceeded";
+            return false;
+        }
+        price += cost;
+        stock.emplace_back( loc, quantity );
+        remaining -= quantity;
+    }
+    if( remaining != 0 || price > npc_reward_remaining_ ) {
+        error = remaining != 0 ? "reward_stock_shortage" : "reward_credit_shortage";
+        return false;
+    }
+    std::vector<item> portions;
+    for( const std::pair<item_location, int> &entry : stock ) {
+        item portion = *entry.first;
+        if( portion.count_by_charges() ) {
+            portion.charges = entry.second;
+        }
+        portions.push_back( std::move( portion ) );
+    }
+    if( !cata::actor_control::NpcExecutionAdapter::can_receive_items( assignee, portions ) ) {
+        error = "reward_capacity";
+        return false;
+    }
+    // All checks precede this game-thread transaction.  No callbacks or yields
+    // occur between actual stock movement, credit debit and receipt commitment.
+    for( std::pair<item_location, int> &entry : stock ) {
+        item transfer = *entry.first;
+        if( transfer.count_by_charges() && entry.first->charges > entry.second ) {
+            transfer.charges = entry.second;
+            entry.first->charges -= entry.second;
+        } else {
+            entry.first.remove_item();
+        }
+        transfer.set_owner( assignee );
+        assignee.i_add( std::move( transfer ) );
+    }
+    npc_reward_remaining_ -= price;
+    npc_reward_receipts_.emplace( receipt_id, request );
+    return true;
 }
 
 void mission::fail( avatar &player_character )
@@ -992,7 +1177,8 @@ void mission::update_world_missions_character( const character_id &old_char_id,
         const character_id &new_char_id )
 {
     for( auto &world_mission : world_missions ) {
-        if( world_mission.second.in_progress() &&
+        if( !world_mission.second.get_assigned_npc_id().is_valid() &&
+            world_mission.second.in_progress() &&
             ( world_mission.second.get_assigned_player_id()  == old_char_id ||
               world_mission.second.get_assigned_player_id() == character_id( - 1 ) ) ) {
             world_mission.second.set_assigned_player_id( new_char_id );
@@ -1002,7 +1188,7 @@ void mission::update_world_missions_character( const character_id &old_char_id,
 
 bool mission::is_assigned() const
 {
-    return player_id.is_valid();
+    return player_id.is_valid() || npc_assignee_id.is_valid();
 }
 
 character_id mission::get_assigned_player_id() const

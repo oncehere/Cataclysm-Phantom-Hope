@@ -86,6 +86,7 @@ CURRENT_PLATFORM_DOCUMENTS = {
     "data/json/LOADING_ORDER.md": "json.loading-order",
 }
 CURRENT_CPH_DOCUMENTS = {
+    "docs/project/actor-control.md": "cph.actor-control",
     "docs/README.md": "cph.documentation-index",
     "tools/agent/README.md": "cph.agent-tools",
     "doc/JSON/JSON_INFO.md": "json.object-types",

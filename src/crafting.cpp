@@ -15,6 +15,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -54,10 +55,12 @@
 #include "item_components.h"
 #include "item_location.h"
 #include "item_uid.h"
+#include "json.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
 #include "lua_platform_hooks.h"
+#include "math_parser_diag_value.h"
 #include "lua_platform_runtime.h"
 #include "magic.h"
 #include "magic_enchantment.h"
@@ -1943,6 +1946,11 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
     if( craft.is_null() ) {
         return;
     }
+    if( is_npc() ) {
+        if( const diag_value *step = maybe_get_value( "cph_ai.craft_step" ) ) {
+            craft.set_var( "cph_ai_craft_step", step->to_string() );
+        }
+    }
     const recipe &making = craft.get_making();
     if( static_cast<int>( get_skill_level( command.get_skill_id() ) ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
@@ -1967,7 +1975,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    if( is_avatar() ) {
+    if( is_avatar() || ( is_npc() && maybe_get_value( "cph_ai.craft_step" ) ) ) {
         assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
     } else {
         // set flag to craft
@@ -2524,6 +2532,12 @@ static void spawn_items( Character &guy, std::vector<item> &results,
         }
         set_temp_rot( it, relative_rot, should_heat, rot_mitigation );
         it.set_owner( guy.get_faction()->id );
+        if( guy.is_npc() ) {
+            const diag_value *step = guy.maybe_get_value( "cph_ai.craft_step" );
+            if( step ) {
+                it.set_var( "cph_ai_produced_step", step->to_string() );
+            }
+        }
     };
 
     map &here = get_map();
@@ -2714,6 +2728,46 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
     cata::lua_platform::invoke_recipe_completion_handler(
         making.ident().str(), making.lua_platform_mod,
         making.lua_platform_result_handler, *this, batch_size );
+    if( is_npc() ) {
+        const diag_value *step = maybe_get_value( "cph_ai.craft_step" );
+        if( step && craft.get_var( "cph_ai_craft_step", "" ) == step->to_string() ) {
+            const std::string step_id = step->to_string();
+            std::ostringstream serialized;
+            JsonOut receipt( serialized );
+            receipt.start_object();
+            receipt.member( "produced" );
+            receipt.start_array();
+            const auto record = [&receipt, &step_id]( const item & produced,
+            const tripoint_abs_ms & position, const char *location ) {
+                if( produced.get_var( "cph_ai_produced_step", "" ) != step_id ) {
+                    return;
+                }
+                receipt.start_object();
+                receipt.member( "item_type", produced.typeId().str() );
+                receipt.member( "count", produced.count_by_charges() ? produced.charges : 1 );
+                receipt.member( "location", location );
+                receipt.member( "x", position.x() );
+                receipt.member( "y", position.y() );
+                receipt.member( "z", position.z() );
+                receipt.end_object();
+            };
+            for( const item_location &placed : all_items_loc() ) {
+                record( *placed, pos_abs(), "actor" );
+            }
+            map &here = get_map();
+            for( const tripoint_bub_ms &position : here.points_in_radius( loc.value_or( pos_bub() ), 2 ) ) {
+                if( here.inbounds( position ) ) {
+                    for( const item &placed : here.i_at( position ) ) {
+                        record( placed, here.get_abs( position ), "ground" );
+                    }
+                }
+            }
+            receipt.end_array();
+            receipt.end_object();
+            set_value( "cph_ai.craft_completed_step", step_id );
+            set_value( "cph_ai.craft_result", serialized.str() );
+        }
+    }
 }
 
 bool Character::can_continue_craft( item &craft )
@@ -2764,14 +2818,14 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         std::string buffer = _( "Consume the missing components and continue crafting?" );
         buffer += "\n";
         buffer += continue_reqs.list_all();
-        if( !query_yn( buffer ) ) {
+        if( is_avatar() && !query_yn( buffer ) ) {
             return false;
         }
 
         if( !continue_reqs.can_make_with_inventory( this, crafting_inventory(), no_rotten_filter,
                 batch_size ) ) {
-            if( !query_yn( _( "Some components required to continue are rotten.\n"
-                              "Continue crafting anyway?" ) ) ) {
+            if( !is_avatar() || !query_yn( _( "Some components required to continue are rotten.\n"
+                                              "Continue crafting anyway?" ) ) ) {
                 return false;
             }
             use_rotten_filter = false;
@@ -2779,8 +2833,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         if( !continue_reqs.can_make_with_inventory( this, crafting_inventory(), no_favorite_filter,
                 batch_size ) ) {
-            if( !query_yn( _( "Some components required to continue are favorite.\n"
-                              "Continue crafting anyway?" ) ) ) {
+            if( !is_avatar() || !query_yn( _( "Some components required to continue are favorite.\n"
+                                              "Continue crafting anyway?" ) ) ) {
                 return false;
             }
             use_favorite_filter = false;

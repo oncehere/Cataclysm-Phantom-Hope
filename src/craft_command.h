@@ -82,7 +82,7 @@ struct step_tool_alloc {
 */
 std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
         Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
-        bool &cancelled, int reselect_step = -1 );
+        bool &cancelled, int reselect_step = -1, bool interactive = true );
 
 /**
 *   Class that describes a crafting job.
@@ -105,6 +105,8 @@ class craft_command
         void execute( const std::optional<tripoint_bub_ms> &new_loc );
         /** Executes with saved location, NOT the same as execute( std::nullopt )! */
         void execute( bool only_cache_comps = false );
+        /** Deterministic component selection for an NPC; never opens player UI. */
+        bool execute_for_npc();
 
         /**
          * Consumes the selected components and returns the resulting in progress craft item.

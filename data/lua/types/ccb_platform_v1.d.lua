@@ -8261,6 +8261,7 @@ function CcbHordesApi.remove_legacy_group(token) end
 ---@field tileset CcbPlatformTilesetApi
 ---@field achievements CcbPlatformAchievementsApi
 ---@field activities CcbPlatformActivitiesApi
+---@field actor_control CcbActorControlApi Fixed NPC companion control; no action executor or model process is exposed.
 ---@field addictions CcbAddictionsApi
 ---@field bionics CcbPlatformBionicsApi
 ---@field camps CcbCampsApi
@@ -8317,6 +8318,60 @@ function CcbHordesApi.remove_legacy_group(token) end
 ---@field gameplay CcbPlatformGameplayApi
 ---@field equipment CcbEquipmentApi
 local CcbPlatformServices = {}
+
+---@class CcbActorControlStatus
+---@field enabled boolean
+---@field actor_id? integer The existing bound NPC's stable identity; absent before binding.
+---@field profile_id string Local external profile identity.
+---@field state string Current execution or lifecycle state.
+---@field control_state string
+---@field detach_state string Includes detach_pending when a native activity cannot yet stop.
+---@field connected boolean
+---@field cognition_stale boolean
+---@field queue_length integer
+---@field receipts table[] Engine-issued execution results; editing these copies has no game effect.
+---@field transcript table[] Known dialogue only.
+---@field debug? table Present only when debugging is enabled in configuration.
+
+---@class CcbActorControlResult: CcbResult
+---@field value? CcbActorControlStatus Detached bounded status snapshot on success.
+
+---@class CcbActorControlApi
+local CcbActorControlApi = {}
+
+---Enable the native local control interface inside a runtime callback.
+---This never starts a model or an external program. Disabling requests safe handoff.
+---@param value boolean
+---@return CcbActorControlResult
+function CcbActorControlApi.enable(value) end
+
+---Bind one living, already recruited NPC using a current typed handle.
+---An existing binding cannot be replaced with a different entity or profile.
+---@param handle GameHandle Exact NPC subtype; stale runtime/world/identity handles are rejected.
+---@param profile_id string
+---@return CcbActorControlResult
+function CcbActorControlApi.bind(handle, profile_id) end
+
+---Deliver player speech as a received statement without advancing game time.
+---@param text string
+---@return CcbActorControlResult
+function CcbActorControlApi.chat(text) end
+
+---@param include_debug? boolean Does not enable debug or bypass perception limits.
+---@return CcbActorControlResult
+function CcbActorControlApi.status(include_debug) end
+
+---@param value boolean Pause external queue execution; native urgent reactions still apply.
+---@return CcbActorControlResult
+function CcbActorControlApi.pause(value) end
+
+---Cancel the unstarted queue and safely interrupt or hand back the current native activity.
+---@return CcbActorControlResult
+function CcbActorControlApi.cancel() end
+
+---Invalidate outstanding plans and request safe return to ordinary NPC control.
+---@return CcbActorControlResult
+function CcbActorControlApi.stop() end
 ---@param handle GameHandle
 ---@param job string Native NPC job. find_mount returns no_match when no mount is available and restores the NPC if it was performing a player activity.
 ---@return CcbResult

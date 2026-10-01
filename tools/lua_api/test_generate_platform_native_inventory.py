@@ -33,6 +33,25 @@ except ImportError:
 
 
 class PlatformNativeInventoryGeneratorTest(unittest.TestCase):
+    def test_actor_control_installer_is_reachable_from_the_only_runtime(self) -> None:
+        installers, edges, _ = build_installer_model()
+        installer = next(
+            entry for entry in installers
+            if entry["id"] == "shared.install_actor_control_api"
+        )
+        self.assertEqual(
+            installer["source"]["path"],
+            "src/lua_platform_actor_control.cpp",
+        )
+        self.assertTrue(
+            any(
+                entry["caller"] == "platform_v1.install_runtime_api"
+                and entry["callee"] == installer["id"]
+                and entry["source"]["path"] == "src/lua_platform_runtime_services.cpp"
+                for entry in edges
+            )
+        )
+
     def test_id_kinds_are_sorted_and_keep_native_types(self) -> None:
         entries = parse_id_kinds(
             """

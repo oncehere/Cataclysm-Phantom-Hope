@@ -82,6 +82,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "actor_control.h"
 #include "npc_attack.h"
 #include "npc_decision_category.h"
 #include "npc_opinion.h"
@@ -1541,6 +1542,16 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
+    // Reactions remain native and precede external plans.  Calling the
+    // controller consumes only the NPC's existing turn budget.
+    const bool control_urgent = ai_cache.danger > 0 ||
+                                !ai_cache.dangerous_explosives.empty() ||
+                                sees_dangerous_field( pos_bub() ) || has_effect( effect_npc_fire_bad ) ||
+                                has_effect( effect_asthma ) || has_effect( effect_npc_run_away ) ||
+                                get_attitude() == NPCATT_FLEE_TEMP;
+    if( cata::actor_control::act( *this, control_urgent ) ) {
+        return;
+    }
     // Forage/harvest activities skip BT re-evaluation to prevent backlog
     // flooding, but must yield to danger so the NPC can fight or flee.
     if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {

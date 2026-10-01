@@ -278,6 +278,61 @@ void craft_command::execute( bool only_cache_comps )
     }
 }
 
+bool craft_command::execute_for_npc()
+{
+    if( empty() || !crafter || !crafter->is_npc() || batch_size < 1 ||
+        !crafter->has_recipe( rec ) || !crafter->can_make( rec, batch_size ) ) {
+        return false;
+    }
+    flags = recipe_filter_flags::no_rotten | recipe_filter_flags::no_favorite;
+    if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+        return false;
+    }
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos_bub(), pickup_range, crafter );
+    const std::function<bool( const item & )> filter = rec->get_component_filter( flags );
+    const std::vector<const requirement_data *> alternatives =
+        rec->deduped_requirements().feasible_alternatives(
+            crafter, crafter->crafting_inventory(), filter, batch_size, craft_flags::start_only );
+    if( alternatives.empty() ) {
+        return false;
+    }
+    const requirement_data &needs = *alternatives.front();
+    item_selections.clear();
+    tool_selections.clear();
+    for( const std::vector<item_comp> &components : needs.get_components() ) {
+        comp_selection<item_comp> selected = crafter->select_item_component(
+                components, batch_size, map_inv, true, filter, true, false, rec );
+        if( selected.use_from == usage_from::cancel ) {
+            return false;
+        }
+        item_selections.push_back( selected );
+    }
+    if( rec->has_steps() ) {
+        bool cancelled = false;
+        step_tool_allocs = select_step_tool_allocs( *crafter, *rec, batch_size, map_inv,
+                           cancelled, -1, false );
+        if( cancelled ) {
+            return false;
+        }
+    } else {
+        for( const std::vector<tool_comp> &tools : needs.get_tools() ) {
+            comp_selection<tool_comp> selected = crafter->select_tool_component(
+            tools, batch_size, map_inv, true, true, false, []( int charges ) {
+                return charges / 20 + charges % 20;
+            } );
+            if( selected.use_from == usage_from::cancel ) {
+                return false;
+            }
+            tool_selections.push_back( selected );
+        }
+    }
+    crafter->start_craft( *this, loc, {} );
+    crafter->last_batch = batch_size;
+    crafter->lastrecipe = rec->ident();
+    return static_cast<bool>( crafter->activity );
+}
+
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
 static std::string component_list_string( const std::vector<comp_selection<T>> &components )
@@ -499,7 +554,7 @@ static bool should_add_crafting_faults( Character *who, const recipe *rec )
 }
 std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
         Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
-        bool &cancelled, int reselect_step )
+        bool &cancelled, int reselect_step, bool interactive )
 {
     cancelled = false;
     const std::vector<recipe_step> &steps = rec.steps();
@@ -537,7 +592,7 @@ std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
             }
         }
         comp_selection<tool_comp> ts = crafter.select_tool_component(
-                                           group, batch, map_inv, true, true, true, start_charges );
+                                           group, batch, map_inv, true, true, interactive, start_charges );
         if( ts.use_from != usage_from::cancel )
         {
             replay.emplace_back( key, ts );

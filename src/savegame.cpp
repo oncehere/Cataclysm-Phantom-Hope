@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "achievement.h"
+#include "actor_control.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
@@ -147,6 +148,8 @@ void game::serialize_json( std::ostream &fout )
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
+    json.member( "actor_control" );
+    cata::actor_control::serialize( json );
     json.member( "inactive_global_effect_on_condition_vector",
                  inactive_global_effect_on_condition_vector );
 
@@ -314,6 +317,11 @@ void game::unserialize_impl( const JsonObject &data )
     data.read( "kill_tracker", *kill_tracker_ptr );
 
     data.read( "player", u );
+    if( data.has_object( "actor_control" ) ) {
+        cata::actor_control::deserialize( data.get_object( "actor_control" ) );
+    } else {
+        cata::actor_control::reset();
+    }
     data.read( "inactive_global_effect_on_condition_vector",
                inactive_global_effect_on_condition_vector );
     //load queued_eocs

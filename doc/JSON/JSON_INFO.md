@@ -12,6 +12,13 @@ is generated from the current source and data tree. Regenerate it with
 source fingerprints or reference locations can change without adding a new
 JSON object type. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
+The native [ActorControl service](../../docs/project/actor-control.md) uses its
+separate versioned control protocol and Lua service. Its NPC queues, mission
+claimants and memory checkpoints are internal save data; they do not register
+additional gameplay JSON object types or EOC effects. Regenerated inventory
+fingerprints therefore describe current source locations without introducing
+new content IDs.
+
 Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

@@ -27,6 +27,8 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "actor_control.h"
+#include "actor_control_ui.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -108,6 +110,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_execution_adapter.h"
 #include "npc_class.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
@@ -675,6 +678,8 @@ int npc_trading::cash_to_favor( const npc &, int cash )
 namespace
 {
 enum npc_chat_menu {
+    NPC_CHAT_AI_COMPANION,
+    NPC_CHAT_NATIVE_NPC_TASKS,
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
@@ -1147,6 +1152,20 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
     uilist nmenu;
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
+    if( cata::actor_control::enabled() || cata::actor_control::has_binding() ) {
+        nmenu.addentry( NPC_CHAT_AI_COMPANION, true, 'A', _( "AI companion" ) );
+    }
+    std::vector<npc *> native_task_actors;
+    for( Creature *candidate : available ) {
+        npc *person = candidate->as_npc();
+        if( person && cata::actor_control::NpcExecutionAdapter::has_native_management( *person ) ) {
+            native_task_actors.push_back( person );
+        }
+    }
+    if( !native_task_actors.empty() ) {
+        nmenu.addentry( NPC_CHAT_NATIVE_NPC_TASKS, true, 'Q', _( "Companion tasks and rewards" ) );
+    }
+
     if( !available.empty() ) {
         const Creature *guy = available.front();
         std::string title;
@@ -1231,6 +1250,17 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
     }
 
     switch( nmenu.ret ) {
+        case NPC_CHAT_AI_COMPANION:
+            cata::actor_control::open_menu();
+            return;
+        case NPC_CHAT_NATIVE_NPC_TASKS: {
+            const int selected = npc_select_menu( native_task_actors, _( "Manage whose tasks?" ), false );
+            if( selected >= 0 ) {
+                cata::actor_control::NpcExecutionAdapter::open_native_management_menu(
+                    *native_task_actors[selected] );
+            }
+            return;
+        }
         case NPC_CHAT_TALK: {
             const int npcselect = creature_select_menu( available, _( "Talk to whom?" ), false );
             if( npcselect < 0 ) {
@@ -3209,7 +3239,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             }
             ui_manager::redraw();
             input_event evt;
+            cata::actor_control::pump_incoming();
             action = ctxt.handle_input();
+            cata::actor_control::pump_incoming();
             evt = ctxt.get_raw_input();
             if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
                 continue;
@@ -4462,7 +4494,8 @@ talk_effect_fun_t::func f_consume_item( const JsonObject &jo, std::string_view m
         if( is_npc ) {
             consume_item( *d.actor( true ), current_item_name, current_count, current_charges );
         } else {
-            if( do_popup ) {
+            if( do_popup && d.actor( false )->get_character() &&
+                d.actor( false )->get_character()->is_avatar() ) {
                 if( current_count == 1 ) {
                     popup( _( "You give %1$s a %2$s." ), d.actor( true )->disp_name(),
                            item::nname( current_item_name ) );

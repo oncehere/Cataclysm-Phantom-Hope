@@ -5,6 +5,9 @@
 #include <sstream>
 #include <string>
 
+#ifndef CATA_IN_TOOL
+    #include "actor_control_save.h"
+#endif
 #include "filesystem.h"
 #include "ofstream_wrapper.h"
 
@@ -159,6 +162,9 @@ void ofstream_wrapper::close()
         throw std::runtime_error( "writing to file failed" );
     }
     std::error_code ec2;
+#ifndef CATA_IN_TOOL
+    cata::actor_control::save_transaction::before_write( path );
+#endif
     std::filesystem::rename( temp_path, path, ec2 );
     if( ec2 ) {
         // Leave the temp path, so the user can move it if possible.

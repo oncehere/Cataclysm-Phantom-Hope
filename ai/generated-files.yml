@@ -2,6 +2,11 @@ schema_version: 1
 kind: generated_files
 description: Files and artifacts that must be regenerated rather than hand-edited.
 entries:
+  - id: actor-control-protocol
+    paths: [src/actor_control_protocol_generated.h]
+    tracked: true
+    generated_by: python3 tools/actor_control/generate_protocol.py
+    validation_id: cpp-tests
   - id: documentation-registry
     paths: [ai/documentation-registry.yml]
     tracked: true

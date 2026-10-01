@@ -27,6 +27,8 @@
 #include <vector>
 
 #include "achievement.h"
+#include "actor_control.h"
+#include "actor_control_save.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -310,10 +312,11 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     here.load( pos_sm, true, pump_events );
 }
 
-void game::move_save_to_graveyard()
+void game::move_save_to_graveyard( graveyard_scope scope, const std::string &timestamp )
 {
     const cata_path save_dir      = PATH_INFO::world_base_save_path();
-    const cata_path graveyard_dir = PATH_INFO::graveyarddir_path() / timestamp_now();
+    const cata_path graveyard_dir = PATH_INFO::graveyarddir_path() /
+                                    ( timestamp.empty() ? timestamp_now() : timestamp );
     const std::string prefix      = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -326,6 +329,11 @@ void game::move_save_to_graveyard()
     }
 
     for( const cata_path &src_path : save_files ) {
+        const bool directory = std::filesystem::is_directory( src_path.get_unrelative_path() );
+        if( ( scope == graveyard_scope::regular_files && directory ) ||
+            ( scope == graveyard_scope::directories && !directory ) ) {
+            continue;
+        }
         const cata_path dst_path = graveyard_dir / src_path.get_relative_path().filename();
 
         if( rename_file( src_path, dst_path ) ) {
@@ -390,6 +398,20 @@ bool game::load( const save_t &name )
     map &here = get_map();
 
     const cata_path worldpath = PATH_INFO::world_base_save_path();
+    const bool owns_world_lease = !cata::actor_control::save_transaction::active();
+    std::string recovery_error;
+    if( owns_world_lease ? !cata::actor_control::save_transaction::begin(
+            worldpath.get_unrelative_path(), recovery_error, false ) :
+        !cata::actor_control::save_transaction::owns_world( worldpath.get_unrelative_path() ) ) {
+        popup( _( "Cannot recover the world save: %s" ), recovery_error );
+        return false;
+    }
+    on_out_of_scope release_world_lease( [&]() {
+        if( owns_world_lease ) {
+            std::string ignored;
+            cata::actor_control::save_transaction::finish( true, ignored );
+        }
+    } );
     const cata_path save_file_path = PATH_INFO::world_base_save_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
@@ -825,11 +847,30 @@ static bool save_in_progress = false;
 
 bool game::save()
 {
-    if( save_in_progress ) {
+    if( save_in_progress || uquit == QUIT_NOSAVED ) {
         return false;
     }
     restore_on_out_of_scope restore_saving( save_in_progress );
     save_in_progress = true;
+    const bool owns_world_lease = !cata::actor_control::save_transaction::active();
+    const std::filesystem::path world_root = PATH_INFO::world_base_save_path().get_unrelative_path();
+    std::string transaction_error;
+    if( owns_world_lease ? !cata::actor_control::save_transaction::begin(
+            world_root, transaction_error, cata::actor_control::has_binding() ) :
+        ( !cata::actor_control::save_transaction::owns_world( world_root ) ||
+          ( cata::actor_control::has_binding() &&
+            !cata::actor_control::save_transaction::capturing() ) ) ) {
+        popup( _( "Cannot begin the world save: %s" ), transaction_error );
+        return false;
+    }
+    on_out_of_scope rollback_world_save( [&]() {
+        if( owns_world_lease ) {
+            std::string rollback_error;
+            if( !cata::actor_control::save_transaction::finish( false, rollback_error ) ) {
+                add_msg( m_warning, _( "World save recovery is required: %s" ), rollback_error );
+            }
+        }
+    } );
     // total_time_played accumulates real wall-clock seconds, which is inherently
     // non-deterministic. Under input replay we freeze the delta at 0 so the
     // persisted playtime (written to both .pt and the character .sav) is
@@ -841,11 +882,16 @@ bool game::save()
         : std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - time_of_last_load );
     std::chrono::seconds total_time_played = time_played_at_last_load + time_since_load;
-    if constexpr( cata::lua_platform::is_enabled() ) {
-        cata::lua_platform::before_save();
-    }
-    events().send<event_type::game_save>( time_since_load, total_time_played );
     try {
+        if constexpr( cata::lua_platform::is_enabled() ) {
+            cata::lua_platform::before_save();
+        }
+        events().send<event_type::game_save>( time_since_load, total_time_played );
+        cata::actor_control::before_save();
+        if( uquit == QUIT_NOSAVED ) {
+            cata::actor_control::after_save( false );
+            return false;
+        }
         if( !save_player_data() ||
             !save_achievements() ||
             !save_factions_missions_npcs() ||
@@ -862,6 +908,7 @@ bool game::save()
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
             debugmsg( "game not saved" );
+            cata::actor_control::after_save( false );
             if constexpr( cata::lua_platform::is_enabled() ) {
                 cata::lua_platform::after_save( false, "main game save failed" );
             }
@@ -893,6 +940,29 @@ bool game::save()
             EM_ASM( window.game_unsaved = false; );
 #endif
             dimension_checkpoint_pending = false;
+            if( uquit == QUIT_NOSAVED ) {
+                cata::actor_control::after_save( false );
+                return false;
+            }
+            cata::actor_control::prepare_save_commit();
+            if( owns_world_lease ) {
+                if( !cata::actor_control::save_transaction::finish( true, transaction_error ) ) {
+                    cata::actor_control::after_save( false );
+                    std::string recovery_error;
+                    if( !cata::actor_control::save_transaction::recover( world_root, recovery_error ) ) {
+                        // Continuing could load a mixture of physical save generations.
+                        // Preserve the journal and return to the menu without saving again.
+                        cata::actor_control::enable( false );
+                        uquit = QUIT_NOSAVED;
+                    }
+                    popup( _( "Cannot commit the world save: %s" ), transaction_error );
+                    return false;
+                }
+                rollback_world_save.cancel();
+                cata::actor_control::after_save( true );
+            } else if( !cata::actor_control::save_transaction::capturing() ) {
+                cata::actor_control::after_save( true );
+            }
             if constexpr( cata::lua_platform::is_enabled() ) {
                 cata::lua_platform::after_save( platform_state_saved,
                                                 platform_state_error );
@@ -900,6 +970,7 @@ bool game::save()
             return true;
         }
     } catch( std::ios::failure & ) {
+        cata::actor_control::after_save( false );
         if constexpr( cata::lua_platform::is_enabled() ) {
             cata::lua_platform::after_save( false, "I/O failure while saving game" );
         }
