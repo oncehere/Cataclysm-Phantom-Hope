@@ -17,6 +17,8 @@ def main() -> None:
     parser.add_argument("--cph-root", type=Path, required=True)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
+    # Resolve relative paths before the generator changes its working directory.
+    args.cph_root = args.cph_root.resolve()
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     changed = subprocess.check_output(["git", "status", "--porcelain", "--", str(RESOURCE.relative_to(ROOT))], cwd=ROOT, text=True)
     if changed:
