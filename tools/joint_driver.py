@@ -30,6 +30,14 @@ def main() -> int:
     result_path = Path(args.result)
     profile = Path(args.profile)
     calls: list[dict] = []
+    checkpoints: list[dict] = []
+
+    class JointClient(JsonRpcClient):
+        def request(self, method, params=None):
+            reply = super().request(method, params)
+            if method == "checkpoint" and isinstance(reply, dict) and reply.get("accepted") is True:
+                checkpoints.append(dict(params["reference"]))
+            return reply
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *unused):
@@ -80,18 +88,25 @@ def main() -> int:
     try:
         config = load_config(profile)
         memory = MemoryStore(profile, config)
-        client = JsonRpcClient(SessionDescriptor.load(args.session), timeout=5)
+        client = JointClient(SessionDescriptor.load(args.session), timeout=5)
         runtime = AgentRuntime(config, memory, client, profile=profile)
         deadline = time.monotonic() + 45
+        gathered = False
         while time.monotonic() < deadline:
-            step = runtime.run_once()
+            step = runtime.run_once() if not gathered else {"state": "waiting_for_checkpoint"}
             status = client.request("status")
             receipts = [receipt for receipt in status.get("receipts", [])
                         if receipt.get("action") == "gather" and receipt.get("state") == "succeeded"]
             if receipts:
+                gathered = True
                 # Capture the actual terminal status in the same production path
                 # used during cooldown. No model call or forged receipt is needed.
                 runtime._capture_receipts(status)
+                if status.get("checkpoint_requested") is True:
+                    runtime._lifecycle(status)
+                if not checkpoints:
+                    time.sleep(0.002)
+                    continue
                 records = memory.retrieve(status["context"], limit=100)
                 recorded = [record for record in records if record["kind"] == "receipt"
                             and record.get("data", {}).get("operation_id") == receipts[-1]["operation_id"]]
@@ -103,7 +118,9 @@ def main() -> int:
                 result.update(state="passed", sdk_calls=len(calls), receipt_state=receipts[-1]["state"],
                     memory_receipts=len(recorded), detach_state=detach.get("detach_state"),
                     actor_id=status.get("actor_id"), non_streaming=all(call["stream"] is False for call in calls),
-                    no_tools=all(not call["has_tools"] for call in calls))
+                    no_tools=all(not call["has_tools"] for call in calls), checkpoint_prepared=True,
+                    checkpoint_projection_version=checkpoints[-1]["projection_version"],
+                    checkpoint_file_revision=checkpoints[-1]["revision"])
                 if result["detach_state"] != "detached":
                     raise ValueError("handoff_not_confirmed")
                 exit_code = 0

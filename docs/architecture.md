@@ -92,6 +92,10 @@ edit or deletion. Revision checks invalidate in-flight model output.
 
 Checkpoints name existing record revisions and have `state: prepared`. CPH's
 successful save association determines which checkpoint can be restored.
+The reference retains its true local file `revision`; `projection_version` and
+the handshake `version` bind the native projection captured for that save.
+These versions are distinct. A concurrent edit before submission rejects the
+checkpoint instead of assigning an unrelated file revision to the projection.
 Restoration changes cognition only. Items, tasks, teams, physical relationships
 and queued physical effects remain authoritative in CPH. Explicitly imported
 old-world experiences are labelled as experiences, not current world facts.

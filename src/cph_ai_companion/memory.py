@@ -916,8 +916,23 @@ class MemoryStore:
                           known.get("commitment") if isinstance(known, Mapping) else None):
                 if isinstance(value, str) and value:
                     texts.append(value)
-            pending = {item.get("requirement_id") for item in request.get("requirement_decisions", [])
-                       if isinstance(item, Mapping) and item.get("decision") == "pending"}
+            requirements = request.get("requirement_decisions", [])
+            if not isinstance(requirements, list) or len(requirements) > 256:
+                raise MemoryStoreError("invalid_memory_request")
+            pending = set()
+            for item in requirements:
+                if not isinstance(item, Mapping) or item.get("decision") != "pending":
+                    continue
+                identity = item.get("requirement_id")
+                if isinstance(identity, str):
+                    pending.add(identity)
+                # The requirement outlives ACK of its source event. Its native
+                # pending text remains current context until an actual decision.
+                if "text" in item:
+                    text = item["text"]
+                    if not isinstance(text, str) or not 1 <= len(text) <= 4096 or "\x00" in text:
+                        raise MemoryStoreError("invalid_memory_request")
+                    texts.append(text)
             for event in request.get("events", []):
                 if not isinstance(event, Mapping) or event.get("kind") != "statement":
                     continue

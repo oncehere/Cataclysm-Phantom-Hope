@@ -16,21 +16,21 @@
     "mod_load": "NOT_RUN_NEW_CANDIDATE",
     "native_tests": "NOT_RUN_NEW_CANDIDATE",
     "published": "NOT_RUN_NEW_CANDIDATE",
-    "python_tests": "PASS_138_SOURCE",
+    "python_tests": "PASS_142_SOURCE",
     "real_provider": "NOT_RUN_NEW_CANDIDATE",
     "save_reload": "NOT_RUN_NEW_CANDIDATE"
   },
   "candidate": {
     "joint_repeat": "NOT_RUN_NEW_CANDIDATE",
     "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
-    "native_head": "b2cb17ab73bd85d8a60e45b3345d106170d2ce99",
-    "native_tree": "6e9770ac91cdf9f8e924478792039b1805dfdf47",
+    "native_head": "f7f93d0ab77896bf796650756093e3ef82b75997",
+    "native_tree": "a0e7e748a021056f56f4c0b25da056c4df8bc496",
     "native_worktree": "codex/actor-control-20260930",
     "status": "LOCAL_FIX_CANDIDATE_VERIFYING"
   },
   "evidence": {
     "prior_release": "docs/evidence/v0.1.1-compatibility.json",
-    "python": "docs/evidence/review-fixes-20261001/python-source.json"
+    "python": "docs/evidence/review-fixes-20261001/python-source-final.json"
   },
   "evidence_as_of": "LOCAL_REVIEW_FIX_CANDIDATE; historical release evidence does not certify changed sources",
   "formats": {

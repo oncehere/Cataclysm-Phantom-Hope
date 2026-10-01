@@ -509,10 +509,16 @@ class AgentRuntime:
             checkpoint_context = status.get("checkpoint_context")
             if not isinstance(checkpoint_context, Mapping):
                 raise RuntimeErrorCode("invalid_checkpoint_request")
+            projection_version = checkpoint_context.get("memory_version")
+            if not isinstance(projection_version, str) or not projection_version:
+                raise RuntimeErrorCode("invalid_checkpoint_request")
             checkpoint = self.memory.checkpoint(checkpoint_context)
+            if not self.memory.is_current(checkpoint["revision"]):
+                raise RuntimeErrorCode("memory_changed_during_checkpoint")
             self.client.request("checkpoint", {
-                "reference": {"id": checkpoint["id"], "revision": checkpoint["revision"]},
-                "context": dict(checkpoint_context), "version": self.memory.revision,
+                "reference": {"id": checkpoint["id"], "revision": checkpoint["revision"],
+                              "projection_version": projection_version},
+                "context": dict(checkpoint_context), "version": projection_version,
             })
 
     def _capture_receipts(self, status: Mapping[str, Any]) -> None:

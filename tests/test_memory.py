@@ -326,6 +326,25 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(snapshot["mandatory_record_ids"], [ids[0]])
         self.assertEqual([record["id"] for record in snapshot["records"]], [ids[0]])
 
+    def test_pending_requirement_text_protects_receipt_after_its_source_event_is_acked(self):
+        store = self.open()
+        events = [{"id": f"diary-{i}", "kind": "summary", "text": "Unrelated diary", "importance": 1}
+                  for i in range(120)]
+        events.append({"id": "crafted", "kind": "receipt", "text": "crafted", "importance": 0.1,
+                       "data": {"state": "succeeded", "detail": {"item_type": "bandages"}}})
+        receipt = store.ingest(CONTEXT, events)[-1]
+        request = {"events": [], "requirement_decisions": [
+            {"requirement_id": "ask", "source_event_id": "ask", "source_sequence": 1,
+             "decision": "pending", "text": "Please deliver bandages"}]}
+        snapshot = store.snapshot(CONTEXT, request)
+        self.assertEqual(snapshot["mandatory_record_ids"], [receipt])
+        self.assertEqual([record["id"] for record in snapshot["records"]], [receipt])
+        for text in (None, "", "bad\0text", "x" * 4097):
+            with self.subTest(text_type=type(text).__name__, length=len(text) if isinstance(text, str) else None):
+                request["requirement_decisions"][0]["text"] = text
+                with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_request"):
+                    store.snapshot(CONTEXT, request)
+
     def test_goal_relevance_keeps_recalled_personality_growth_without_relearning_its_raw_source(self):
         store = self.open()
         ids = store.ingest(CONTEXT, [

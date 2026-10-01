@@ -26,6 +26,7 @@ class FakeClient:
         self.saved_checkpoint = None
         self.receipts = []
         self.profile_id = "profile"
+        self.strict_checkpoint = False
 
     def connect(self):
         self.connected = True
@@ -54,6 +55,10 @@ class FakeClient:
             self.offers.append(deepcopy(params))
             return {"state": "accepted", "plan_id": "p"}
         if method == "checkpoint":
+            if self.strict_checkpoint and (params["version"] != self.context["memory_version"]
+                                           or params["reference"].get("projection_version") != self.context["memory_version"]
+                                           or not params["reference"].get("revision")):
+                raise TransportError("stale_checkpoint")
             self.checkpoint_requested = False
             self.saved_checkpoint = params["reference"]
             return {"prepared": True}
@@ -368,11 +373,12 @@ class RuntimeTests(unittest.TestCase):
 
     def test_save_prepare_records_reference_without_claiming_game_save_success(self):
         self.client.checkpoint_requested = True
+        self.client.context["memory_version"] = "native-projection"
         runtime = self.runtime()
         runtime.start()
         prepared = [params for method, params in self.client.calls if method == "checkpoint"]
         self.assertEqual(len(prepared), 1)
-        self.assertEqual(set(prepared[0]["reference"]), {"id", "revision"})
+        self.assertEqual(set(prepared[0]["reference"]), {"id", "revision", "projection_version"})
         self.assertTrue((Path(self.directory.name) / "memory/checkpoints" / (prepared[0]["reference"]["id"] + ".json")).exists()
                         or (Path(self.directory.name) / "checkpoints" / (prepared[0]["reference"]["id"] + ".json")).exists())
 
@@ -619,6 +625,39 @@ class RuntimeTests(unittest.TestCase):
         self.addCleanup(restarted.close)
         self.assertEqual(restarted.run_once()["state"], "waiting_for_information")
         self.assertEqual(provider.messages, [])
+
+    def test_checkpoint_binds_captured_native_projection_and_preserves_true_file_revision(self):
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "before save"}])
+        file_revision = self.memory.revision
+        self.client.context["memory_version"] = "captured-projection"
+        self.client.checkpoint_requested = True
+        self.client.strict_checkpoint = True
+        runtime = self.runtime()
+        runtime.start()
+        params = next(params for method, params in self.client.calls if method == "checkpoint")
+        reference = params["reference"]
+        self.assertEqual(params["version"], "captured-projection")
+        self.assertEqual(reference["projection_version"], "captured-projection")
+        self.assertEqual(reference["revision"], file_revision)
+        self.assertNotEqual(reference["revision"], reference["projection_version"])
+        checkpoint = json.loads((self.memory.memory_root / "checkpoints" / (reference["id"] + ".json")).read_text())
+        self.assertEqual(checkpoint["revision"], reference["revision"])
+        self.assertEqual(self.client.saved_checkpoint, reference)
+        restored = self.memory.restore(self.context, reference)
+        self.assertEqual(restored["records"][0]["text"], "before save")
+
+    def test_human_edit_after_checkpoint_creation_prevents_stale_checkpoint_handshake(self):
+        self.client.context["memory_version"] = "captured-projection"
+        self.client.checkpoint_requested = True
+        original = self.memory.checkpoint
+        def edit_after_creation(context):
+            checkpoint = original(context)
+            (Path(self.directory.name) / "background.md").write_text("Human edit after checkpoint capture")
+            return checkpoint
+        self.memory.checkpoint = edit_after_creation
+        with self.assertRaisesRegex(RuntimeErrorCode, "memory_changed_during_checkpoint"):
+            self.runtime().start()
+        self.assertEqual([params for method, params in self.client.calls if method == "checkpoint"], [])
 
 
 if __name__ == "__main__":
