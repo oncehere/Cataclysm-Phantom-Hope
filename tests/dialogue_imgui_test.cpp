@@ -189,6 +189,15 @@ class dialogue_imgui_frame_fixture
                 for( int corner = 1; corner < 4; ++corner ) {
                     rect.Add( vertices[i + corner].pos );
                 }
+#ifdef TUI
+                // The inherited ImTui ButtonEx and RenderFrame patches shift
+                // the painted quad while ButtonBehavior keeps the original
+                // hit rectangle. Undo those paint offsets for layout and
+                // click assertions; the renderer itself remains unchanged.
+                rect.Min.x -= 1.0F;
+                rect.Max.x -= 0.4F;
+                rect.Max.y += 0.1F;
+#endif
                 result.push_back( rect );
                 i += 3;
             }
