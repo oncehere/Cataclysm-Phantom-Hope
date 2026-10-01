@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-30",
+  "timezone": "America/Los_Angeles",
+  "status": "PASS",
+  "scope": "Official OpenAI-compatible SDK connected to a local synthetic HTTP endpoint; no paid provider or real model used",
+  "workdir": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+  "command": ".venv/bin/python -m unittest discover -s tests -p test_provider.py -v",
+  "exit_code": 0,
+  "tests": 7,
+  "python": "3.12.14",
+  "openai": "3.22.1",
+  "cases": [
+    "Official SDK sent POST /v1/chat/completions to 127.0.0.1",
+    "Non-streaming JSON completion and token usage normalized",
+    "max_tokens sent explicitly; no model-supplied tools executed",
+    "One HTTP 500 produced one request, proving SDK implicit retry disabled",
+    "Server error text omitted from ProviderError",
+    "Truncated completion, missing finish reason and tool calls rejected",
+    "Worker hard wall deadline and invalidated-request termination"
+  ],
+  "not_run": ["Real model quality", "Paid API calls", "Full game integration", "Other platforms"]
+}

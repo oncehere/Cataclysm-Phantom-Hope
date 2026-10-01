@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-30",
+  "findings": [
+    {
+      "behavior": "Without a running external program, stop cancels queued work and requests native safe detach.",
+      "id": "stop-no-runtime",
+      "status": "FIXED"
+    },
+    {
+      "behavior": "Linux pidfd handle and process-start recheck prevent SIGTERM from targeting a reused numeric PID.",
+      "id": "stop-process-identity",
+      "status": "FIXED"
+    },
+    {
+      "behavior": "An observer/checkpoint RPC that consumes the remaining episode budget cannot be followed by a late plan submission.",
+      "id": "episode-post-model-deadline",
+      "status": "FIXED"
+    },
+    {
+      "behavior": "Explicit imported subjective interpretations use current binding scope and retain origin_context; imported physical facts remain local.",
+      "id": "imported-cognition-origin",
+      "status": "FIXED_SOURCE; NATIVE_COUNTERPART_NOT_RUN"
+    },
+    {
+      "behavior": "Selected out-of-scope or future experiences carry an import continuity label only in the retrieval view, preserving configured retention and the raw local files.",
+      "id": "retained-branch-and-future-origin",
+      "status": "FIXED_SOURCE; NATIVE_COUNTERPART_NOT_RUN"
+    },
+    {
+      "behavior": "Non-.json ownership manifest avoids gameplay JSON scanning while preserving ownership/removal safeguards.",
+      "evidence": "docs/evidence/install-manifest-fix.json",
+      "id": "install-metadata-json-scan",
+      "status": "FIXED_PACKAGE; ACTUAL_NATIVE_RECHECK_NOT_RUN"
+    }
+  ],
+  "historical_review": "docs/evidence/final-python-review-109.json",
+  "installed_package_at_review": {
+    "evidence": "docs/evidence/python-package-99.json",
+    "state": "PRIOR_TESTED_REVISION; final-review source fixes not installed yet",
+    "tests": 99,
+    "wheel_sha256": "7be0f1f0e1a06d5cedcb2c4689c1bec5dc64015e339cf1f0bbc7738383e570fb"
+  },
+  "native_save_journal": "NOT_RUN pending exact CPH and joint multi-file recovery evidence",
+  "packaging_state": "110 SOURCE AND INSTALLED PASS; native pair pending final CPH identity and acceptance",
+  "post_fix_installed_package": {
+    "evidence": "docs/evidence/python-package.json",
+    "import_location": "/tmp/cph-ai-artifact-install-20260930/lib/python3.12/site-packages/cph_ai_companion",
+    "runtime_source_wheel_installed_bytes_equal": true,
+    "seconds": 4.739,
+    "status": "PASS",
+    "tests": 110,
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
+  },
+  "reviewed_boundaries": [
+    "Provider watchdog deadline/cancel remains independent of bounded observer RPC callbacks. Late output is rejected.",
+    "Session calls and token reservations are charged before invocation; compatible-endpoint usage cannot refund reservations.",
+    "Local memory retrieves only selected scope/continuity records, respects human changes/deletion, and never restores physical effects.",
+    "Provider SDK is child-only; import, init, doctor and MOD scan do not start model calls.",
+    "Current package and compatibility evidence keep native/gameplay/save/GUI/real-provider/hosted/release results as NOT_RUN."
+  ],
+  "schema_version": 1,
+  "scope": "Independent Python runtime/memory/lifecycle review; native and joint validation separate",
+  "source_sha256": {
+    "src/cph_ai_companion/cli.py": "d9db0b310660958d973a147943dcdeff5ffd37f6c50dbdbfb246ebcbb643adba",
+    "src/cph_ai_companion/memory.py": "0a6a34eac12e94428e83d6fea8ee1cc499e5d11351b356af0f19208b2d55c49b",
+    "src/cph_ai_companion/provider.py": "7be0bae60726324ce9ac74d65c65aaa08b998f07f9df37c821def5fcf7e3b50d",
+    "src/cph_ai_companion/runtime.py": "ae1dbf4fccbbb0c1af181e762b3b77b112e13817f76a09afd3d5975cbeaa4156",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4",
+    "tests/test_memory.py": "a8e8f9327af761692e258a49c0b83154ed5e2776ab2ed5935a95d28817cf1889",
+    "tests/test_runtime.py": "8660e12bf9dd75ccae83aef02fb0278d687dc4da8545777fdb0d77e16391ed09"
+  },
+  "source_tests": {
+    "log": "docs/evidence/python-tests-final.log",
+    "seconds": 6.323,
+    "status": "PASS",
+    "tests": 110
+  }
+}

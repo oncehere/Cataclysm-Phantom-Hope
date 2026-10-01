@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0",
+  "protocol_version": "1.0",
+  "python": ">=3.12,<3.13",
+  "target_platform": "linux-x86_64",
+  "openai_sdk": "3.22.1",
+  "formats": {
+    "configuration": 1,
+    "memory": 1,
+    "checkpoint": 1,
+    "native_extension": 1
+  },
+  "candidate": {
+    "status": "LOCAL_CANDIDATE",
+    "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
+    "native_head": null
+  },
+  "validated_combinations": [],
+  "acceptance": {
+    "python_tests": "PASS",
+    "artifact_install": "PASS",
+    "native_tests": "NOT_RUN",
+    "gameplay": "NOT_RUN",
+    "gui": "NOT_RUN",
+    "save_reload": "NOT_RUN",
+    "real_provider": "NOT_RUN",
+    "hosted_ci": "NOT_RUN",
+    "published": "NOT_RUN"
+  }
+}

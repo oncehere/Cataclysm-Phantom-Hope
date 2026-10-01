@@ -1,0 +1,48 @@
+{
+  "actual_native_recheck": "NOT_RUN pending fresh native MOD acceptance",
+  "date": "2026-09-30",
+  "finding": "Installation ownership JSON was scanned as gameplay JSON by CPH",
+  "fix": {
+    "content": "JSON ownership metadata; no gameplay type",
+    "legacy_files": "No unsolicited takeover, migration or removal of unowned old files",
+    "metadata_filename": ".cph-ai-companion-install-manifest",
+    "removal": "Only unchanged manifest-owned files after native safe-removal confirmation"
+  },
+  "installed_after_fix": {
+    "fresh_game_userdir": "/tmp/cph-ai-artifact-final-game-user-110-20260930",
+    "log": "docs/evidence/python-tests-installed-final.log",
+    "manifest_file_present": true,
+    "model_called": false,
+    "scanned_gameplay_json_files": [],
+    "seconds": 4.739,
+    "status": "PASS",
+    "tests": 110,
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
+  },
+  "original_native_check": {
+    "error": "missing required type",
+    "raw_log": "Pending root native evidence reference",
+    "reported_by": "root",
+    "scenario": "Actual installed MOD --check-mods",
+    "status": "FAIL"
+  },
+  "prior_wheel_sha256": "abba8c2e052acfe1a2d5e205b73fecb1813712d154fbd5724bdfc9671300c6ca",
+  "regression_before_fix": {
+    "command": ".venv/bin/python -m unittest discover -s tests -p test_cli.py -v",
+    "failures": 1,
+    "log": "docs/evidence/install-manifest-before-fix.log",
+    "status": "FAIL",
+    "tests": 10
+  },
+  "schema_version": 1,
+  "source_after_fix": {
+    "log": "docs/evidence/python-tests-final.log",
+    "seconds": 6.323,
+    "status": "PASS",
+    "tests": 110
+  },
+  "source_sha256": {
+    "src/cph_ai_companion/cli.py": "d9db0b310660958d973a147943dcdeff5ffd37f6c50dbdbfb246ebcbb643adba",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4"
+  }
+}

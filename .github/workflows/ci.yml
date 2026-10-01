@@ -1,0 +1,27 @@
+name: Offline Python and packaging
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  python-and-artifacts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.12.17'
+      - run: uv sync --locked --group build
+      - run: uv run --locked python -m unittest discover -s tests
+      - run: uv build --python .venv/bin/python --no-build-isolation --out-dir dist
+      - run: uv run --locked python tools/build_release.py --dist dist
+      - name: Install exact wheel outside source checkout
+        run: |
+          uv venv /tmp/cph-companion-artifact --python 3.12
+          uv pip install --python /tmp/cph-companion-artifact/bin/python --require-hashes -r dist/requirements.lock
+          uv pip install --python /tmp/cph-companion-artifact/bin/python --no-deps dist/cph_ai_companion-0.1.0-py3-none-any.whl
+          cd /tmp
+          /tmp/cph-companion-artifact/bin/cph-ai-companion init --profile /tmp/cph-companion-test-profile --actor-id 7
+          /tmp/cph-companion-artifact/bin/cph-ai-companion doctor --offline --profile /tmp/cph-companion-test-profile

@@ -1,0 +1,30 @@
+test_errors_are_codes_without_private_paths (test_cli.CliTests.test_errors_are_codes_without_private_paths) ... ok
+test_init_is_offline_preserves_background_and_refuses_overwrite (test_cli.CliTests.test_init_is_offline_preserves_background_and_refuses_overwrite) ... ok
+test_install_cannot_claim_existing_unowned_directory (test_cli.CliTests.test_install_cannot_claim_existing_unowned_directory) ... ok
+test_install_metadata_cannot_be_scanned_as_gameplay_json (test_cli.CliTests.test_install_metadata_cannot_be_scanned_as_gameplay_json) ... FAIL
+test_installer_refuses_manifest_path_traversal (test_cli.CliTests.test_installer_refuses_manifest_path_traversal) ... ok
+test_mod_installed_from_package_resources_and_no_silent_overwrite (test_cli.CliTests.test_mod_installed_from_package_resources_and_no_silent_overwrite) ... ok
+test_remove_requires_game_confirmation_and_preserves_unknown_files (test_cli.CliTests.test_remove_requires_game_confirmation_and_preserves_unknown_files) ... ok
+test_reused_runtime_pid_is_never_signalled_and_native_control_is_released (test_cli.CliTests.test_reused_runtime_pid_is_never_signalled_and_native_control_is_released) ... ok
+test_stop_signals_verified_process_handle_instead_of_reusable_pid (test_cli.CliTests.test_stop_signals_verified_process_handle_instead_of_reusable_pid) ... ok
+test_stop_without_runtime_requests_native_detach_after_cancelling_queue (test_cli.CliTests.test_stop_without_runtime_requests_native_detach_after_cancelling_queue) ... ok
+
+======================================================================
+FAIL: test_install_metadata_cannot_be_scanned_as_gameplay_json (test_cli.CliTests.test_install_metadata_cannot_be_scanned_as_gameplay_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tests/test_cli.py", line 63, in test_install_metadata_cannot_be_scanned_as_gameplay_json
+    self.assertEqual([name for name in game_json if name != "modinfo.json"], [])
+AssertionError: Lists differ: ['.cph-ai-companion-install.json'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'.cph-ai-companion-install.json'
+
+- ['.cph-ai-companion-install.json']
++ []
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.072s
+
+FAILED (failures=1)
