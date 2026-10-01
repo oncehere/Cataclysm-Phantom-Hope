@@ -138,3 +138,10 @@ Leaving the simulation area pauses work without granting offline action points.
 Unsupported future formats stop takeover and preserve files. Safe MOD removal
 requires native confirmation that detach and world dependency release completed.
 The NPC's real items, mission assignment and reward rights survive removal.
+
+Release assembly reads wheel metadata and source archive metadata without
+extracting the archive. Project/version/Python requirement, protocol digest and
+all MOD bytes must agree. Canonical paths, duplicate members, referenced file
+types and present ancestor directories are checked; supplied evidence cannot
+silently change protocol digest. Tests and compatibility still bind the actual
+built wheel, native binary and source commits independently of assembly.

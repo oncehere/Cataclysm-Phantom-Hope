@@ -6,6 +6,26 @@ is recorded separately in `docs/evidence/review-fixes-20261001/`; the historical
 mainline merge is implied.
 
 
+Current review-fix verification binds source `df138cbbb24e` / package
+`0.1.2.dev0` to CPH `e01386a1eba1`, protocol `1.1`. See the
+[exact evidence and hashes](evidence/review-fixes-20261001/verified.json).
+
+| New candidate check | Outcome |
+| --- | --- |
+| Python source / installed wheel outside checkout | PASS, 149 tests each, Python 3.12.14 |
+| Native focused regressions | PASS, 72 cases / 1,968 assertions |
+| Installed wheel / native joint test | PASS, 1 case / 1,377 assertions; real ground pickup/AP/receipt, cognition checkpoint preparation and safe handoff |
+| Adjacent mission checks | PASS, 3 cases / 63 assertions |
+| Game build / actual installed MOD load | PASS, local Clang full game target and native MOD scanner |
+| GNU regression / metadata / generators / style | PASS within their recorded scopes; GNU compiles the actual changed test translation unit, not the full game |
+| Real provider / GUI / actual user saves / full official suite / hosted CI / publication | NOT_RUN; no new push, mainline merge or release |
+
+The wheel and sdist were built from the frozen code commit before this
+documentation-only evidence update. The external assembled compatibility
+manifest records the tested wheel hash. Archive validation reads the real sdist
+metadata and exact protocol/MOD payloads without extracting it; assembly does
+not upgrade unrun acceptance. Historical 0.1.1 tables below remain historical.
+
 This file describes required evidence. Actual outcomes belong in the dated
 implementation evidence and the machine-readable compatibility record. Never
 promote `NOT_RUN` to `PASS` solely because an implementation or test exists.
@@ -29,7 +49,9 @@ saves or prove GUI/native gameplay acceptance. Native tests, real game scenarios
 GUI, real-provider work, hosted execution and actual release each require their
 own command, platform, exact identity and result.
 
-The candidate is an experimental prerelease. The recorded outcomes have bounded
+## Historical 0.1.1 evidence
+
+The historical candidate is an experimental prerelease. The recorded outcomes have bounded
 scope; the compatibility manifest binds the release package to the tested native
 commit `a04e657dc009cc5dceacec20eb1acdc23068f248` and the installed `0.1.1`
 111-test wheel. Previous `0.1.0` evidence remains historical.
