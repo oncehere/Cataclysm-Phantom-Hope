@@ -97,6 +97,12 @@ class dialogue_imgui_frame_fixture
             io.LogFilename = nullptr;
             io.DisplaySize = roomy_viewport();
             io.DeltaTime = 1.0F / 60.0F;
+            // Match production clients: keyboard input is also delivered to
+            // ImGui, while dialogue navigation belongs to input_context.
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+#ifndef TUI
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+#endif
             io.ConfigInputTrickleEventQueue = false;
             io.ConfigErrorRecoveryEnableAssert = false;
             context_->ErrorCallbackUserData = this;
@@ -340,6 +346,54 @@ TEST_CASE( "dialogue_imgui_mouse_selects_duplicate_labels_and_rejects_disabled_b
     CHECK( window.sel_response == 0 );
 }
 
+TEST_CASE( "dialogue_imgui_keyboard_navigation_does_not_activate_mouse_controls",
+           "[dialogue][imgui][input][mouse][npc]" )
+{
+    clear_avatar();
+    npc interlocutor;
+    interlocutor.normalize();
+    interlocutor.name = "Keyboard NPC";
+    dialogue_imgui_frame_fixture frames;
+    dialogue conversation( get_talker_for( get_avatar() ), get_talker_for( interlocutor ) );
+    dialogue_imgui_impl window( &conversation );
+    window.set_responses( { { c_white, "a", "First response" },
+        { c_white, "b", "Second response" } } );
+    frames.settle( window );
+
+    SECTION( "response child after a real mouse selection" ) {
+        const std::vector<ImRect> buttons = frames.buttons();
+        REQUIRE( buttons.size() == 2 );
+        frames.click( window, buttons[1].GetCenter() );
+        REQUIRE( window.user_clicked_response_button );
+        REQUIRE( window.sel_response == 1 );
+        window.user_clicked_response_button = false;
+    }
+    SECTION( "sidebar child after a real mouse action" ) {
+        ImGuiWindow *sidebar = frames.child( "##DIALOGUE_SIDEBAR" );
+        REQUIRE( sidebar );
+        ImGui::SetScrollY( sidebar, sidebar->ScrollMax.y );
+        frames.settle( window );
+        const std::vector<ImRect> buttons = frames.buttons( sidebar );
+        REQUIRE_FALSE( buttons.empty() );
+        frames.click( window, buttons.back().GetCenter() );
+        REQUIRE( window.take_special_action() == "YELL" );
+    }
+    const int selected = window.sel_response;
+    ImGuiIO &io = ImGui::GetIO();
+    // Apply an actual move request on one frame and Enter on the next.  Hiding
+    // the nav cursor during drawing is too late to prevent NewFrame activation.
+    io.AddKeyEvent( ImGuiKey_UpArrow, true );
+    frames.frame( window );
+    io.AddKeyEvent( ImGuiKey_UpArrow, false );
+    io.AddKeyEvent( ImGuiKey_Enter, true );
+    frames.frame( window );
+    io.AddKeyEvent( ImGuiKey_Enter, false );
+    frames.frame( window );
+    CHECK_FALSE( window.user_clicked_response_button );
+    CHECK( window.sel_response == selected );
+    CHECK( window.take_special_action().empty() );
+}
+
 TEST_CASE( "dialogue_imgui_response_rows_finish_without_layout_errors",
            "[dialogue][imgui][layout]" )
 {
@@ -478,7 +532,10 @@ TEST_CASE( "dialogue_imgui_long_chinese_response_wraps_and_lower_lines_are_click
     const ImGuiWindow *responses = frames.child( "##DIALOGUE_RESPONSES" );
     REQUIRE( responses );
     CHECK( buttons[0].GetHeight() > ImGui::GetTextLineHeightWithSpacing() * 3 );
-    CHECK( buttons[0].Max.x <= responses->InnerClipRect.Max.x + frames.layout_tolerance() );
+    // GetContentRegionAvail sizes widgets against ContentRegionRect.  The
+    // renderer's InnerClipRect is floored to integer pixels/cells, so a normal
+    // full-width button can have a fractional right edge beyond that clip.
+    CHECK( buttons[0].Max.x <= responses->ContentRegionRect.Max.x + frames.layout_tolerance() );
     ImRect visible_button = buttons[0];
     visible_button.ClipWith( responses->InnerClipRect );
     const float line_height = ImGui::GetTextLineHeightWithSpacing();

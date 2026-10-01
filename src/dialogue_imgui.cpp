@@ -275,7 +275,10 @@ void dialogue_imgui_impl::draw_sidebar_information()
 
 void dialogue_imgui_impl::draw_dialogue_sidebar( const float width, const float height )
 {
-    if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", ImVec2( width, height ), ImGuiChildFlags_Borders ) ) {
+    // Children do not inherit NoNav; input_context owns keyboard and gamepad selection.
+    // Children do not inherit NoNav; input_context owns keyboard and gamepad selection.
+    if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", ImVec2( width, height ), ImGuiChildFlags_Borders,
+                           ImGuiWindowFlags_NoNav ) ) {
         draw_sidebar_information();
     }
     ImGui::EndChild();
@@ -283,7 +286,8 @@ void dialogue_imgui_impl::draw_dialogue_sidebar( const float width, const float 
 
 void dialogue_imgui_impl::draw_dialogue_history( const float width, const float height )
 {
-    if( ImGui::BeginChild( "##DIALOGUE_HISTORY", ImVec2( width, height ), ImGuiChildFlags_Borders ) ) {
+    if( ImGui::BeginChild( "##DIALOGUE_HISTORY", ImVec2( width, height ), ImGuiChildFlags_Borders,
+                           ImGuiWindowFlags_NoNav ) ) {
         draw_history();
         cataimgui::set_scroll( scroll_to );
     }
@@ -293,7 +297,8 @@ void dialogue_imgui_impl::draw_dialogue_history( const float width, const float 
 void dialogue_imgui_impl::draw_dialogue_responses( const float width, const float height )
 {
     if( ImGui::BeginChild( "##DIALOGUE_RESPONSES", ImVec2( width, height ),
-                           ImGuiChildFlags_Borders ) ) {
+                           ImGuiChildFlags_Borders,
+                           ImGuiWindowFlags_NoNav ) ) {
         cataimgui::TextColoredParagraphNewline( default_color(), is_computer ? _( "Your input:" ) :
                                                 is_not_conversation ? _( "What do you do?" ) : _( "Your response:" ) );
         draw_responses();

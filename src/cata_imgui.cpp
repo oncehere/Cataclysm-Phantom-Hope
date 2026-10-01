@@ -586,7 +586,28 @@ void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
         clear_screen = false;
     }
     ImGui_ImplSDLRenderer3_NewFrame();
+#if defined(TILES)
+    // SDL polling and Android touch adapters already normalize their queued
+    // events. The backend can append a fallback position in window coordinates;
+    // convert only that new tail before ImGui consumes the queue.
+    ImGuiContext &context = *ImGui::GetCurrentContext();
+    const int first_backend_event = context.InputEventsQueue.Size;
+#endif
     ImGui_ImplSDL3_NewFrame();
+#if defined(TILES)
+    for( int i = first_backend_event; i < context.InputEventsQueue.Size; ++i ) {
+        ImGuiInputEvent &event = context.InputEventsQueue[i];
+        if( event.Type != ImGuiInputEventType_MousePos ||
+            event.MousePos.PosX == -FLT_MAX || event.MousePos.PosY == -FLT_MAX ) {
+            continue;
+        }
+        const SDL_Point position = window_to_display_buffer_coords( SDL_Point{
+            static_cast<int>( event.MousePos.PosX ), static_cast<int>( event.MousePos.PosY )
+        } );
+        event.MousePos.PosX = static_cast<float>( position.x );
+        event.MousePos.PosY = static_cast<float>( position.y );
+    }
+#endif
 
     // ImGui draws into display_buffer, whose size differs from the window under
     // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
@@ -669,19 +690,11 @@ void cataimgui::client::process_input( void *input, int display_buffer_w, int di
         }
         ( void )display_buffer_w;
         ( void )display_buffer_h;
+        // Coordinate-bearing events already use display-buffer pixels. Keep
+        // this argument for the existing polling/touch callers without applying
+        // a second scale conversion.
+        ( void )scaling_factor;
         SDL_Event imgui_ev = *evt;
-        if( scaling_factor > 1 ) {
-            if( imgui_ev.type == CATA_MOUSEMOTION ) {
-                imgui_ev.motion.x /= scaling_factor;
-                imgui_ev.motion.y /= scaling_factor;
-            } else if( imgui_ev.type == CATA_MOUSEBUTTONDOWN || imgui_ev.type == CATA_MOUSEBUTTONUP ) {
-                imgui_ev.button.x /= scaling_factor;
-                imgui_ev.button.y /= scaling_factor;
-            } else if( imgui_ev.type == CATA_MOUSEWHEEL ) {
-                imgui_ev.wheel.mouse_x /= scaling_factor;
-                imgui_ev.wheel.mouse_y /= scaling_factor;
-            }
-        }
         ImGui_ImplSDL3_ProcessEvent( &imgui_ev );
 #if defined(__ANDROID__)
         // Android keyboards may report editing controls with SDLK_UNKNOWN while
