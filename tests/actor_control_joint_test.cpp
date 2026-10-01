@@ -296,9 +296,10 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     INFO( joint_result_text( result_path ) );
     REQUIRE_FALSE( prepared_state.empty() );
     const JsonObject prepared = joint_object( prepared_state );
-    const JsonObject reference = joint_object( prepared.get_object( "saved_checkpoint" ).str() );
-    const JsonObject checkpoint_context = joint_object(
-            prepared.get_object( "saved_memory_context" ).str() );
+    const JsonObject reference = prepared.get_object( "saved_checkpoint" );
+    reference.allow_omitted_members();
+    const JsonObject checkpoint_context = prepared.get_object( "saved_memory_context" );
+    checkpoint_context.allow_omitted_members();
     REQUIRE_FALSE( reference.get_string( "revision" ).empty() );
     REQUIRE_FALSE( reference.get_string( "projection_version" ).empty() );
     CHECK( reference.get_string( "projection_version" ) ==
