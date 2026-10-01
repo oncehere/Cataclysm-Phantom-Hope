@@ -146,7 +146,9 @@ TEST_CASE( "mp_magic_explicit_spell_healing_keeps_single_player_effects",
     avatar &caster = get_avatar();
     caster.setpos( get_map(), tripoint_bub_ms( 60, 60, 0 ) );
     const spell_id heal_id( "test_mp_direct_heal" );
-    JsonObject definition = json_loader::from_string( R"({
+    // Catch runs this setup again for each section in the same loaded registry.
+    if( !heal_id.is_valid() ) {
+        JsonObject definition = json_loader::from_string( R"({
         "id": "test_mp_direct_heal",
         "name": "Test co-op healing",
         "description": "Deterministic healing for multiplayer role guards.",
@@ -156,9 +158,7 @@ TEST_CASE( "mp_magic_explicit_spell_healing_keeps_single_player_effects",
         "min_damage": -7,
         "max_damage": -7,
         "max_level": 1
-    })" );
-    // Catch runs this setup again for each section in the same loaded registry.
-    if( !heal_id.is_valid() ) {
+        })" );
         spell_type::load_spell( definition, "" );
     }
     spell healing( heal_id );
