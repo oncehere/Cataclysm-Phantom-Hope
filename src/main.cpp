@@ -1168,7 +1168,9 @@ int main( int argc, const char *argv[] )
         }
     }
 
-    game_ui::init_ui();
+    if( !test_mode ) {
+        game_ui::init_ui();
+    }
 
     g = std::make_unique<game>();
 
