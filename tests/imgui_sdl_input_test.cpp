@@ -138,8 +138,8 @@ TEST_CASE( "imgui_sdl3_scaled_mouse_reaches_lower_right_button",
 
         process_window_mouse_event( client, SDL_EVENT_MOUSE_MOTION, target, scale, buffer_w, buffer_h );
         run_sdl_input_frame( client, window, buffer_w, buffer_h, errors );
-        CHECK( io.MousePos.x == Catch::Approx( target.x ).margin( 1.0F ) );
-        CHECK( io.MousePos.y == Catch::Approx( target.y ).margin( 1.0F ) );
+        CHECK( io.MousePos.x == Approx( target.x ).margin( 1.0F ) );
+        CHECK( io.MousePos.y == Approx( target.y ).margin( 1.0F ) );
         REQUIRE( window.hovered );
         process_window_mouse_event( client, SDL_EVENT_MOUSE_BUTTON_DOWN, target, scale,
                                     buffer_w, buffer_h );
