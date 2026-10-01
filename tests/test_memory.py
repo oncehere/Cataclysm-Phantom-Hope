@@ -359,6 +359,56 @@ class MemoryTests(unittest.TestCase):
         with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_request"):
             store.snapshot(CONTEXT, {"events": [], "requirement_decisions": rows})
 
+    def test_pending_requirement_identity_protects_failure_receipts_across_languages(self):
+        store = self.open({"memory": {"cognition": {"forgetting_enabled": False},
+                                      "continuity": {"load_experiences": "retain"}}})
+        events = [{"id": f"diary-{i}", "kind": "summary", "importance": 1,
+                   "text": "Bring bandages 请拿绷带, unrelated diary"} for i in range(120)]
+        requirement = "load-epoch.1"
+        failure = {"id": "receipt.gather-1", "kind": "receipt", "text": "gather_stock_changed",
+                   "importance": 0.1,
+                   "data": {"operation_id": "gather-1", "action": "gather", "intent": "",
+                            "requirement_id": requirement, "origin": "incoming_message",
+                            "state": "failed", "code": "gather_stock_changed", "detail": {}}}
+        events.extend([failure, {**failure, "id": "receipt.unrelated",
+                                "data": {**failure["data"], "requirement_id": "other.1"}}])
+        ids = store.ingest(CONTEXT, events)
+        stale = store.ingest({**CONTEXT, "branch_id": "other-branch"},
+                             [{**failure, "id": "receipt.other-branch"}])[0]
+        request = {"events": [], "requirement_decisions": [
+            {"requirement_id": requirement, "decision": "pending", "text": "Bring bandages"}]}
+        for text in ("Bring bandages", "请拿绷带"):
+            with self.subTest(text=text):
+                request["requirement_decisions"][0]["text"] = text
+                snapshot = store.snapshot(CONTEXT, request)
+                self.assertEqual(snapshot["mandatory_record_ids"], [ids[-2]])
+                self.assertIn(ids[-2], {record["id"] for record in snapshot["records"]})
+                self.assertNotIn(ids[-1], {record["id"] for record in snapshot["records"]})
+                self.assertNotIn(stale, snapshot["mandatory_record_ids"])
+        request["requirement_decisions"][0]["decision"] = "accepted"
+        self.assertEqual(store.snapshot(CONTEXT, request)["mandatory_record_ids"], [])
+        request["requirement_decisions"][0]["decision"] = "pending"
+        self.record_paths(store, ids[-2])[0].unlink()
+        self.assertEqual(store.snapshot(CONTEXT, request)["mandatory_record_ids"], [])
+
+    def test_pending_requirement_identity_respects_identifier_and_mandatory_bounds(self):
+        store = self.open()
+        requirement = "load-epoch.1"
+        ids = store.ingest(CONTEXT, [{"id": f"receipt-{i}", "kind": "receipt", "text": "gather_stock_changed",
+                                     "data": {"requirement_id": requirement}}
+                                    for i in range(MAX_MANDATORY_RECORDS)])
+        request = {"events": [], "requirement_decisions": [
+            {"requirement_id": requirement, "decision": "pending", "text": "请拿绷带"}]}
+        self.assertEqual(set(store.snapshot(CONTEXT, request)["mandatory_record_ids"]), set(ids))
+        store.ingest(CONTEXT, [{"id": "receipt-overflow", "kind": "receipt", "text": "gather_stock_changed",
+                               "data": {"requirement_id": requirement}}])
+        with self.assertRaisesRegex(MemoryStoreError, "mandatory_context_too_large"):
+            store.snapshot(CONTEXT, request)
+        for invalid in (None, "", "bad\0id", "x" * 257):
+            with self.subTest(identity=invalid):
+                request["requirement_decisions"][0]["requirement_id"] = invalid
+                self.assertEqual(store.snapshot(CONTEXT, request)["mandatory_record_ids"], [])
+
     def test_goal_relevance_keeps_recalled_personality_growth_without_relearning_its_raw_source(self):
         store = self.open()
         ids = store.ingest(CONTEXT, [

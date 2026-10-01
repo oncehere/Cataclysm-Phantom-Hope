@@ -96,6 +96,20 @@ def _query_words(query: str) -> set[str]:
     return words - {"a", "an", "and", "the", "to", "i", "it", "is", "of", "for", "with"}
 
 
+def _pending_requirement_ids(request: Mapping[str, Any] | None) -> set[str]:
+    if request is None:
+        return set()
+    if not isinstance(request, Mapping):
+        raise MemoryStoreError("invalid_memory_request")
+    requirements = request.get("requirement_decisions", [])
+    if not isinstance(requirements, list) or len(requirements) > MAX_PENDING_REQUIREMENTS:
+        raise MemoryStoreError("invalid_memory_request")
+    return {identity for item in requirements
+            if isinstance(item, Mapping) and item.get("decision") == "pending"
+            and isinstance(identity := item.get("requirement_id"), str)
+            and 1 <= len(identity) <= 256 and "\x00" not in identity}
+
+
 def _event_fingerprint(record: Mapping[str, Any]) -> str:
     value = dict(record)
     value["context"] = {key: record["context"][key] for key in ("world_id", "branch_id", "actor_id")}
@@ -918,15 +932,10 @@ class MemoryStore:
                 if isinstance(value, str) and value:
                     texts.append(value)
             requirements = request.get("requirement_decisions", [])
-            if not isinstance(requirements, list) or len(requirements) > MAX_PENDING_REQUIREMENTS:
-                raise MemoryStoreError("invalid_memory_request")
-            pending = set()
+            pending = _pending_requirement_ids(request)
             for item in requirements:
                 if not isinstance(item, Mapping) or item.get("decision") != "pending":
                     continue
-                identity = item.get("requirement_id")
-                if isinstance(identity, str):
-                    pending.add(identity)
                 # The requirement outlives ACK of its source event. Its native
                 # pending text remains current context until an actual decision.
                 if "text" in item:
@@ -942,7 +951,8 @@ class MemoryStore:
                     texts.append(event["text"])
         return " ".join(texts)
 
-    def _mandatory(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]], query: str) -> set[str]:
+    def _mandatory(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]],
+                   query: str, pending_requirements: set[str] | None = None) -> set[str]:
         records = {rid: record for rid, (_, record) in selected.items()}
         mandatory = {rid for rid, record in records.items() if self._unfinished(context, record)}
         # Keep receipt evidence referenced by current obligations even when its
@@ -959,8 +969,18 @@ class MemoryStore:
                     if records[source]["kind"] == "receipt" and self._current_scope(context, records[source]):
                         mandatory.add(source)
         words = _query_words(query)
+        pending_requirements = pending_requirements or set()
         for rid, record in records.items():
-            if record["kind"] != "receipt" or not words or not self._current_scope(context, record):
+            if record["kind"] != "receipt" or not self._current_scope(context, record):
+                continue
+            # A failed action keeps its native requirement pending. Preserve its
+            # evidence by stable identity even when a code or item ID has no
+            # lexical overlap with the request (including translated requests).
+            requirement = record.get("data", {}).get("requirement_id")
+            if isinstance(requirement, str) and requirement in pending_requirements:
+                mandatory.add(rid)
+                continue
+            if not words:
                 continue
             text = record["text"].casefold()
             if "data" in record:
@@ -977,7 +997,7 @@ class MemoryStore:
         self._freeze_imports(context)
         selected = self._selected(context)
         query = self._goal_query(context, selected, request)
-        mandatory = self._mandatory(context, selected, query)
+        mandatory = self._mandatory(context, selected, query, _pending_requirement_ids(request))
         records = self._ranked(context, selected, query, 100, mandatory)
         try:
             background = self._read_path(self.background_path).decode("utf-8") if self.background_path.exists() else ""
