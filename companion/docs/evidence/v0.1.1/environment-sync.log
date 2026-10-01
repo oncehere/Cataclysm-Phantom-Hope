@@ -1,0 +1,11 @@
+Resolved 21 packages in 1ms
+   Building cph-ai-companion @ file:///home/oncehere/%E6%96%87%E6%A1%A3/ChatGPT/CPH/cph-ai-companion
+      Built cph-ai-companion @ file:///home/oncehere/%E6%96%87%E6%A1%A3/ChatGPT/CPH/cph-ai-companion
+Prepared 1 package in 4.34s
+Uninstalled 1 package in 0.73ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 1 package in 1ms
+ - cph-ai-companion==0.1.0 (from file:///home/oncehere/%E6%96%87%E6%A1%A3/ChatGPT/CPH/cph-ai-companion)
+ + cph-ai-companion==0.1.1 (from file:///home/oncehere/%E6%96%87%E6%A1%A3/ChatGPT/CPH/cph-ai-companion)

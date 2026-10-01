@@ -1,0 +1,90 @@
+{
+  "actual_native_recheck": {
+    "binary": "/tmp/cph-ai-build-20260930/src/cataclysm-tiles",
+    "binary_sha256": "a016493496d2c9f9ea0f50f1be36a4a64cd107a7f424cf0e59b259ebb477c4d6",
+    "binary_version_from_debug": "1979-12-31-9915f0b6381",
+    "command": [
+      "/tmp/cph-ai-build-20260930/src/cataclysm-tiles",
+      "--basepath",
+      "/tmp/cph-ai-source-20260930/",
+      "--userdir",
+      "/tmp/cph-ai-artifact-final-game-user-110-20260930/",
+      "--datadir",
+      "/tmp/cph-ai-source-20260930/data/",
+      "--configdir",
+      "/tmp/cph-ai-native-mod-check-110-20260930/config/",
+      "--savedir",
+      "/tmp/cph-ai-native-mod-check-110-20260930/save/",
+      "--check-mods",
+      "cph_ai_companion"
+    ],
+    "debug_errors": 0,
+    "debug_log": "docs/evidence/native-mod-manifest-110-debug.log",
+    "exit_code": 0,
+    "joint_compatibility": "NOT_RUN pending final native/unit and joint proof",
+    "log": "docs/evidence/native-mod-manifest-110-pass.log",
+    "log_sha256": {
+      "docs/evidence/native-mod-manifest-110-debug.log": "04b084a7c4d0e1e7e955994ac8d6b23406fdd7a444572b8152cecf3add68d620",
+      "docs/evidence/native-mod-manifest-110-pass.log": "33cdc788b9d94037be82170684a28a1bf45d1b9d950677c1e5d60e8326ca4de3",
+      "docs/evidence/native-mod-manifest-110-undetermined.log": "33cdc788b9d94037be82170684a28a1bf45d1b9d950677c1e5d60e8326ca4de3",
+      "docs/evidence/native-mod-manifest-before-fix.log": "87e6788d4fbf1a5d86888a8a9f9035b496bc5188bcba578e8e5d30285bced725"
+    },
+    "reported_by": "root; copied raw log and independently read debug log",
+    "scope": "Installed MOD catalog/data loading only; no game action, GUI, save recovery, real model or jointly compatible revision claimed",
+    "status": "PASS",
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
+  },
+  "date": "2026-09-30",
+  "finding": "Installation ownership JSON was scanned as gameplay JSON by CPH",
+  "fix": {
+    "content": "JSON ownership metadata; no gameplay type",
+    "legacy_files": "No unsolicited takeover, migration or removal of unowned old files",
+    "metadata_filename": ".cph-ai-companion-install-manifest",
+    "removal": "Only unchanged manifest-owned files after native safe-removal confirmation"
+  },
+  "installed_after_fix": {
+    "fresh_game_userdir": "/tmp/cph-ai-artifact-final-game-user-110-20260930",
+    "log": "docs/evidence/python-tests-installed-final.log",
+    "manifest_file_present": true,
+    "model_called": false,
+    "scanned_gameplay_json_files": [],
+    "seconds": 4.739,
+    "status": "PASS",
+    "tests": 110,
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
+  },
+  "intermediate_native_recheck": {
+    "cause": "UNKNOWN; initial run did not explicitly create configdir and produced no diagnostic error log",
+    "exit_code": 1,
+    "log": "docs/evidence/native-mod-manifest-110-undetermined.log",
+    "reported_by": "root",
+    "resolution": "Explicitly created isolated config/save paths and ran the corrected check; no claim that the unknown original cause was proven",
+    "status": "FAIL"
+  },
+  "original_native_check": {
+    "error": "missing required type",
+    "raw_log": "docs/evidence/native-mod-manifest-before-fix.log",
+    "reported_by": "root",
+    "scenario": "Actual installed MOD --check-mods",
+    "status": "FAIL"
+  },
+  "prior_wheel_sha256": "abba8c2e052acfe1a2d5e205b73fecb1813712d154fbd5724bdfc9671300c6ca",
+  "regression_before_fix": {
+    "command": ".venv/bin/python -m unittest discover -s tests -p test_cli.py -v",
+    "failures": 1,
+    "log": "docs/evidence/install-manifest-before-fix.log",
+    "status": "FAIL",
+    "tests": 10
+  },
+  "schema_version": 1,
+  "source_after_fix": {
+    "log": "docs/evidence/python-tests-final.log",
+    "seconds": 6.323,
+    "status": "PASS",
+    "tests": 110
+  },
+  "source_sha256": {
+    "src/cph_ai_companion/cli.py": "d9db0b310660958d973a147943dcdeff5ffd37f6c50dbdbfb246ebcbb643adba",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4"
+  }
+}

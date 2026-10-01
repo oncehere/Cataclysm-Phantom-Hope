@@ -1,0 +1,90 @@
+{
+  "head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "results": [
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/agent/generate_documentation_registry.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-documentation-registry",
+      "log": "docs/evidence/release-native-documentation-registry.log",
+      "seconds": 0.701,
+      "sha256": "d63fe295c76eb2ca67a4d5a95de4b9c82683df566bf8f9739ea3a0d63a28a4aa"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/agent/check_project_metadata.py"
+      ],
+      "exit_code": 0,
+      "label": "release-native-project-metadata",
+      "log": "docs/evidence/release-native-project-metadata.log",
+      "seconds": 1.746,
+      "sha256": "c72927ae81837259dc1d55f5f037b09da952790f8fb8305e190adde0eb65c7a0"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/lua_api/generate_platform_native_inventory.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-lua-native",
+      "log": "docs/evidence/release-native-lua-native.log",
+      "seconds": 2.277,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/lua_api/generate_platform_contract.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-lua-contract",
+      "log": "docs/evidence/release-native-lua-contract.log",
+      "seconds": 0.224,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/lua_api/generate_platform_coverage.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-lua-coverage",
+      "log": "docs/evidence/release-native-lua-coverage.log",
+      "seconds": 0.176,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/json_api/generate_contracts.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-json-contract",
+      "log": "docs/evidence/release-native-json-contract.log",
+      "seconds": 22.459,
+      "sha256": "8730bd6c59e2c0a4de912c174e2eafed4b7d9ab250285005f886a85565dc77a4"
+    },
+    {
+      "argv": [
+        "/tmp/cph-ai-validation-20260930/bin/python",
+        "tools/actor_control/generate_protocol.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "label": "release-native-actor-protocol",
+      "log": "docs/evidence/release-native-actor-protocol.log",
+      "seconds": 0.056,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Seven native generated/documentation/protocol consistency checks; this does not claim hosted CI or gameplay.",
+  "tree": "1928b4a7eefdbd614126155fbbff02ddda355778"
+}

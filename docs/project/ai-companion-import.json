@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "layout": "companion/",
+  "history_method": "non-squash subtree import after native merge",
+  "cph_base": "df8fe8ead66bbdfe9efb307ea4367bc121138db1",
+  "native_companion_head": "e01386a1eba1752b169aa55d3941abef506b6461",
+  "native_integration_commit": "f78cffc462daac447dd7656605683b2941f96bc7",
+  "source_repository": "https://github.com/oncehere/cph-ai-companion",
+  "source_head": "1240c94b4a65e7ca5a561ea08d02937b1294eb1d",
+  "source_tree": "878cde718345f361c8697d52c101cf95b432ac3a",
+  "import_commit": "f136291bfb836e819a1178a5305a58e196d616b7",
+  "companion_license": "Apache-2.0",
+  "native_license": "Existing CPH and per-file third-party licenses retained",
+  "old_repository_and_releases": "retained",
+  "independent_distribution": true,
+  "control_mechanisms_merged": false
+}

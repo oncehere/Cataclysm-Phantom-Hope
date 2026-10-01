@@ -18,6 +18,9 @@
 
 #include <filesystem>
 
+#ifndef CATA_IN_TOOL
+    #include "actor_control_save.h"
+#endif
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 
@@ -346,6 +349,9 @@ std::shared_ptr<const mmap_file> mmap_file::map_file( const std::filesystem::pat
 
 std::unique_ptr<mmap_file> mmap_file::map_writeable_file( const std::filesystem::path &file_path )
 {
+#ifndef CATA_IN_TOOL
+    cata::actor_control::save_transaction::before_write( file_path );
+#endif
     return map_file_generic( file_path, true );
 }
 

@@ -1,0 +1,6 @@
+test_prompt_preserves_bounded_native_action_semantics_without_private_fields (test_runtime.RuntimeTests.test_prompt_preserves_bounded_native_action_semantics_without_private_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+OK

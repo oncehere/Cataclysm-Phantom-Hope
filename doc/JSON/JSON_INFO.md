@@ -18,6 +18,13 @@ response fields documented in [NPCs](NPCs.md). A response displayed through
 selection can execute its effects. Presentation changes refresh inventory
 fingerprints and source locations without changing JSON registration or inheritance.
 
+The native [ActorControl service](../../docs/project/actor-control.md) uses its
+separate versioned control protocol and Lua service. Its NPC queues, mission
+claimants and memory checkpoints are internal save data; they do not register
+additional gameplay JSON object types or EOC effects. Regenerated inventory
+fingerprints therefore describe current source locations without introducing
+new content IDs.
+
 Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

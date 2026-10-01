@@ -54,6 +54,7 @@ extern "C" {
 #include "item.h"
 #include "item_location.h"
 #include "lua_platform_achievements.h"
+#include "lua_platform_actor_control.h"
 #include "lua_platform_activities.h"
 #include "lua_platform_addictions.h"
 #include "lua_platform_bindings_coords.h"
@@ -2235,6 +2236,8 @@ void install_runtime_api( const std::shared_ptr<runtime> &value,
     cata::lua_platform::install_npc_api(
         services, runtime_generation, world_generation,
         require_read, require_write, runtime_npc_identity_changed );
+    cata::lua_platform::install_actor_control_api(
+        services, runtime_generation, world_generation, require_read, require_write );
     cata::lua_platform::install_trade_api( services, runtime_generation, world_generation,
                                            require_read, require_write );
     cata::lua_platform::install_magic_api( services, runtime_generation, world_generation,

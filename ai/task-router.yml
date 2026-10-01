@@ -2,6 +2,18 @@ schema_version: 1
 kind: task_router
 description: Deterministic task-to-context routing for contributors and agents.
 entries:
+  - id: ai-companion
+    keywords: [AI companion, ActorControl, NPC companion, AI同伴, AI 同伴, 同伴协议]
+    paths: [companion/, tools/actor_control/, 'src/actor_control*', 'src/npc_execution_adapter*', '.github/workflows/project-companion.yml']
+    project_ids: [ai-companion, engine, tests]
+    documentation_ids: [repo.companion-readme-md, repo.docs-project-actor-control-md, repo.docs-project-ai-companion-monorepo-md]
+    source_symbols: []
+    validation_ids: [actor-control-protocol, companion-python, companion-package, companion-joint]
+    compatibility:
+      - Preserve installed-wheel identity and native joint receipts when claiming a validated combination.
+      - Protocol resources in companion/ are authoritative; regenerate the native header.
+    upstream_differences:
+      - CPH maintains the independently distributed companion in the same source repository without merging multiplayer control.
   - id: repository-navigation
     keywords: [navigate, locate, repository, project map, 定位, 仓库, 项目地图]
     paths: [AGENTS.md, ai/, tools/agent/]

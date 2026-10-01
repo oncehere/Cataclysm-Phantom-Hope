@@ -51,3 +51,14 @@ Run these commands from the repository root. Translation-tool tests also need
 gettext's `msgfmt` and `msgcat` on PATH. LuaLS editor integration needs the
 separate `CCB_LUALS` executable; report those tests as unrun when it is absent.
 Tool regression results do not establish native Lua loading or gameplay.
+
+## Actor control
+
+`require("ccb").services.actor_control` provides the bounded `enable`, `bind`,
+`chat`, `status`, `pause`, `cancel` and `stop` surface for the explicitly selected
+recruited companion. Binding uses a current typed NPC handle; writable operations
+require a writable callback. Snapshots do not expose native pointers. Native
+execution, save/load hooks and arbitrary game-state setters are not Lua tools.
+The service is dormant until enabled by an active Mod; it does not call a model.
+See [ActorControl](../../docs/project/actor-control.md) for the loopback protocol,
+native action/knowledge boundaries, lifecycle and independent companion package.

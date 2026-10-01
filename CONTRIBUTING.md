@@ -18,7 +18,7 @@ Read [docs/README.md](docs/README.md) for navigation. Inherited material can des
 
 ## License, provenance, and accountable review
 
-The inherited game and its contributions are distributed under CC BY-SA 3.0 and applicable compatible terms. By contributing to CPH, you agree to contribute under that license, subject to applicable file-specific notices and compatible third-party terms. Preserve those notices and credits. Record the exact source repository, commit/PR, authors and license for adapted material; retain history and original authorship where practical. Do not submit third-party material without compatible rights. An AI output or a link alone is not proof of provenance.
+The inherited game and its contributions are distributed under CC BY-SA 3.0 and applicable compatible terms. Contributions to the independently distributed `companion/` subproject follow its Apache-2.0 [LICENSE](companion/LICENSE) and [NOTICE](companion/NOTICE). Contribute under the license of the component being changed, subject to applicable file-specific notices and third-party terms. Preserve those notices and credits. Record the exact source repository, commit/PR, authors and license for adapted material; retain history and original authorship where practical. Do not submit third-party material without compatible rights. An AI output or a link alone is not proof of provenance.
 
 Each PR must name a real **Responsible human**. That person reviews the final diff, understands compatibility impact, owns every claimed test result, checks licenses and attribution, and responds to review. AI-assisted and bot-authored PRs may be submitted; naming the tool/model is optional. This role is PR accountability, not a permanent CODEOWNERS assignment.
 

@@ -325,6 +325,10 @@ class mission
         mission_type_id follow_up;
         // The id of the player that has accepted this mission.
         character_id player_id;
+        // Mutually exclusive with player_id.  AI removal never changes this claimant.
+        character_id npc_assignee_id;
+        int npc_reward_remaining_ = 0;
+        std::map<std::string, std::string> npc_reward_receipts_;
         // Persistent Platform generic-reward claim state.  Core dialogue
         // reward UI retains its existing sequencing and does not use this.
         bool generic_reward_claimed_ = false;
@@ -370,6 +374,15 @@ class mission
          * player.
          */
         character_id get_assigned_player_id() const;
+        character_id get_assigned_npc_id() const;
+        bool supports_npc_assignment() const;
+        bool assign( npc &assignee );
+        bool is_complete( const npc &assignee, const character_id &issuer ) const;
+        bool wrap_up( npc &assignee );
+        int npc_reward_remaining() const;
+        bool claim_npc_reward( npc &assignee, const itype_id &item_type, int count,
+                               const std::string &receipt_id, std::string &error );
+        mission_status get_status() const;
         /*@}*/
 
         /**

@@ -1,0 +1,104 @@
+{
+  "adjacent_regressions": {
+    "boundary": "These actual failures remain FAIL; reproducing them with base npc.cpp does not convert them to PASS or establish a full baseline build.",
+    "cases": 17,
+    "controlled_comparison": "docs/evidence/native-controlled-baseline.json",
+    "exit_code": 3,
+    "failed_assertions": 3,
+    "failed_case_ids": [
+      "crafting_with_a_companion",
+      "on_load-sane-values"
+    ],
+    "failed_cases": 2,
+    "log": "docs/evidence/native-adjacent-regressions.log",
+    "log_sha256": "2b62cb229947cf6206d6246a5bfaffa3d723dd92d6a152ec433c41e8ccab770a",
+    "passed_cases": 15,
+    "seconds": 21.9001,
+    "status": "FAIL"
+  },
+  "artifact": {
+    "import_root": "/tmp/cph-ai-artifact-install-20260930/lib/python3.12/site-packages/cph_ai_companion",
+    "installed_python": "/tmp/cph-ai-artifact-install-20260930/bin/python",
+    "package_evidence": "docs/evidence/python-package.json",
+    "package_version": "0.1.0",
+    "python": "3.12.14",
+    "sdk": "3.22.1",
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
+  },
+  "checked_outcomes": {
+    "actual_native_actor_and_item": "PASS: recruited native NPC sees a real ground rock; it receives exactly one rock and ground item is removed",
+    "native_cost": "PASS: gather consumes NPC action points; no avatar action-point grant",
+    "provider_contract": "PASS: SDK3.22.1 uses nonstreaming Chat Completions, at least one actual loopback call, no generated tools",
+    "receipt_memory": "PASS: native successful operation_id is recorded in installed AgentMemory, not fabricated by the synthetic endpoint",
+    "safe_handoff": "PASS: installed runtime requests stop; native detach becomes detached and queue is empty",
+    "waiting_input": "PASS: production input/communication path handles the response without game-time or actor/avatar AP change before queued action"
+  },
+  "compatibility": "This 0047 repeat passes the stated joint path. The release combination will be bound only after the final native binding-guard review.",
+  "date": "2026-10-01",
+  "historical_first_run": "docs/evidence/native-installed-joint-first.json",
+  "hosted_ci": {
+    "evidence": "docs/evidence/github-companion-first-ci.json",
+    "final_documentation_head": "PENDING_FINAL_PUSH_AND_CI",
+    "head_sha": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "run": 36816213998,
+    "status": "PASS_FOR_IMPLEMENTATION_HEAD",
+    "url": "https://github.com/oncehere/cph-ai-companion/actions/runs/36816213998"
+  },
+  "native_suite": {
+    "assertions": 1631,
+    "exit_code": 0,
+    "full_game_suite": "NOT_RUN",
+    "log": "docs/evidence/native-actor-suite-final.log",
+    "log_sha256": "8072cb9db1a438dc6c6ecfe5463aff00fa7c93c3de56eef855c78f3135368079",
+    "official_cata_test_tiles_target": "NOT_RUN",
+    "scope": "Focused canonical engine and selected real test objects; automated fixtures cover native actions, task ownership, save-journal faults and lifecycle boundaries.",
+    "seconds": 25.906,
+    "source_head_owner_reported": "0047ae5b7ea0f706715d9c05ca501ac242c9464a",
+    "status": "PASS_FOCUSED_SCOPE",
+    "test_cases": 61,
+    "version_label_in_log": "1979-12-31-69dc1922ea0",
+    "version_label_note": "Final fixture build used 0047; compared with production69dc only two test-fixture positions and version relinking changed, according to root. Final compatibility binding remains pending."
+  },
+  "not_run": {
+    "all_fifteen_personality_real_gameplay_scenes": "NOT_RUN",
+    "complete_multi_file_physical_crash_campaign": "NOT_RUN",
+    "cross_dimension_actual_journey": "NOT_RUN",
+    "graphical_input_and_dialogue": "NOT_RUN",
+    "other_platforms": "NOT_RUN",
+    "player_death_and_replacement_GUI": "NOT_RUN",
+    "user_actual_game_environment": "NOT_RUN"
+  },
+  "provider_scope": {
+    "endpoint": "synthetic localhost HTTP only",
+    "model_quality": "NOT_RUN",
+    "paid_calls": false,
+    "real_provider": "NOT_RUN"
+  },
+  "run": {
+    "assertions": 1882,
+    "case": "actor_control_final_package_executes_real_npc_gather_and_records_memory",
+    "case_seconds": 1.914,
+    "cases": 1,
+    "exit_code": 0,
+    "exit_code_authority": "root execution report; Catch2 log independently inspected",
+    "log": "docs/evidence/native-installed-joint-final0047.log",
+    "log_sha256": "873cab6dcd88fac433507b144c1c59343a9979f2157ef377c4c5391ce050ea98",
+    "random_seed": 123456,
+    "session_seconds": 25.982
+  },
+  "schema_version": 1,
+  "scope": "One isolated Linux native/installed-package joint scenario using the official SDK against a synthetic loopback HTTP endpoint",
+  "source": {
+    "executed_native_head_owner_reported": "0047ae5b7ea0f706715d9c05ca501ac242c9464a",
+    "executed_native_tree": "6a12ca715a2296e5dfe50c8f53adca724384eac7",
+    "joint_driver_sha256": "407683e6d5f050f87655ae22850bb46babcc272e036d9ebd46224f417c5f5436",
+    "native_final_compatibility_head": null,
+    "native_test": "tests/actor_control_joint_test.cpp",
+    "native_test_sha256": "b83b4014e37251a0601294a3c423d10cffb4b9576e6d47294d0dae11b823a1f5",
+    "native_version_label_in_log": "1979-12-31-0047ae5b7ea",
+    "project_implementation_head": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "version_label_note": "This repeat log matches source 0047. Final release compatibility still awaits the last native binding-guard review."
+  },
+  "status": "PASS",
+  "timezone": "America/Los_Angeles"
+}

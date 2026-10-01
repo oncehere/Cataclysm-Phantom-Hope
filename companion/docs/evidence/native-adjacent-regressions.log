@@ -1,0 +1,136 @@
+
+
+-----------------------------------------
+23:47:32.634 : Starting log.
+23:47:32.634 INFO : Cataclysm DDA version 1979-12-31-69dc1922ea0
+23:47:32.634 INFO : Randomness seeded to: 123456
+
+23:47:32.634 INFO : Running Catch2 session:
+
+23:47:32.636 INFO : SDL render devices: software, opengl, opengles2, vulkan, gpu
+23:47:32.636 INFO : [options] C locale set to C
+23:47:32.636 INFO : [options] C++ locale set to CLua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+
+23:47:32.660 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Lua_First_Example/mod.lua
+23:47:32.661 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Migrated_Core/mod.lua
+23:47:34.761 INFO : /tmp/cph-ai-source-20260930/src/mod_tracker.h:68: Tried check if 'test_vit_override_and_extend' had a duplicate, but type 'vitamin' does not track object sources
+23:47:34.768 WARNING : Catharsis Covenant Basemodule pack load time:: 2023870us (avg: 2023870us) (count: 1)
+23:47:34.768 WARNING : TESTING DATA pack load time:: 72576us (avg: 72576us) (count: 1)
+23:47:50.431 INFO : Game data loaded
+/tmp/cph-ai-source-20260930/tests/crafting_test.cpp:449: failed: std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() for: {?} != {?}
+0.001 s:     Given: a companion who can help with crafting
+0.000 s: crafting_with_a_companion
+0.000 s: crafting_with_a_companion
+0.080 s: step recipe
+0.080 s: craft_continue_preserves_per_step_tool_buckets
+0.035 s: cleared prior allocations rebuild every step
+0.035 s: craft_continue_preserves_per_step_tool_buckets
+0.033 s: stepless recipe keeps its implicit-step buckets
+0.033 s: craft_continue_preserves_per_step_tool_buckets
+0.000 s:       And: the finished item should be in the inventory
+0.000 s:      Then: it should take the expected number of turns
+0.054 s:      When: crafting begins, and continues until the craft is completed
+0.054 s:     Given: a recipe and all the required tools and materials to craft it
+0.054 s: total_crafting_time_with_or_without_interruption
+0.000 s:       And: the finished item should be in the inventory
+0.000 s:      Then: it should take the remaining number of turns
+0.029 s:  And when: crafting resumes until the craft is finished
+0.029 s:      Then: the in-progress craft should be in the inventory
+0.077 s:      When: crafting begins, but is interrupted after 2 turns
+0.077 s:     Given: a recipe and all the required tools and materials to craft it
+0.077 s: total_crafting_time_with_or_without_interruption
+1.005 s: dimension_travel_keeps_loaded_unique_special_state
+0.000 s: mission_generic_reward_claim_persists_across_copy_and_save
+0.000 s:      Then: mission_not_complete
+0.000 s:      When: condition_not_met
+0.000 s:      When: mission_origin_start
+0.000 s:     Given: no_npc
+0.000 s: mission_goal_condition_test
+0.000 s:      Then: mission_complete
+0.000 s:      When: condition_met
+0.000 s:      When: mission_origin_start
+0.000 s:     Given: no_npc
+0.000 s: mission_goal_condition_test
+0.000 s:      Then: mission_not_complete
+0.000 s:      When: condition_not_met
+0.000 s:      When: mission_no_origin
+0.000 s:     Given: no_npc
+0.000 s: mission_goal_condition_test
+0.000 s:      Then: mission_not_complete
+0.000 s:      When: condition_met
+0.000 s:      When: mission_no_origin
+0.000 s:     Given: no_npc
+0.000 s: mission_goal_condition_test
+0.000 s:      Then: mission_not_complete
+0.000 s:      When: condition_not_met
+0.000 s:      When: mission_origin_start
+0.002 s:     Given: with_npc
+0.002 s: mission_goal_condition_test
+0.000 s:      Then: mission_complete
+0.000 s:      When: condition_met
+0.000 s:      When: mission_origin_start
+0.002 s:     Given: with_npc
+0.003 s: mission_goal_condition_test
+0.000 s:      Then: mission_not_complete
+0.000 s:      When: condition_not_met
+0.000 s:      When: mission_no_origin
+0.002 s:     Given: with_npc
+0.002 s: mission_goal_condition_test
+0.000 s:      Then: mission_complete
+0.000 s:      When: condition_met
+0.000 s:      When: mission_no_origin
+0.002 s:     Given: with_npc
+0.002 s: mission_goal_condition_test
+0.000 s: missing item does not complete the mission
+0.138 s: automatic_find_item_mission_batch_processing
+0.001 s: item in character inventory completes the mission
+0.130 s: automatic_find_item_mission_batch_processing
+0.001 s: nearby item completes the mission
+0.130 s: automatic_find_item_mission_batch_processing
+0.001 s: one item cannot complete two missions
+0.130 s: automatic_find_item_mission_batch_processing
+0.000 s: crafting
+0.025 s: npc_work_route_waits_without_growing_backlog
+0.000 s: disassembly
+0.032 s: npc_work_route_waits_without_growing_backlog
+0.044 s: Awake for 10 minutes, gaining hunger/thirst/sleepiness
+0.045 s: on_load-sane-values
+/tmp/cph-ai-source-20260930/tests/npc_test.cpp:189: failed: who.get_hunger() <= hunger.max for: 300 (0x12c) <= 164
+/tmp/cph-ai-source-20260930/tests/npc_test.cpp:191: failed: who.get_thirst() <= thirst.max for: 568 (0x238) <= 164
+0.050 s: Awake for 2 days, gaining hunger/thirst/sleepiness
+0.050 s: on_load-sane-values
+0.042 s: Sleeping for 6 hours, gaining hunger/thirst (not testing sleepiness due to lack of effects processing)
+0.042 s: on_load-sane-values
+0.108 s: Awake for 10 minutes, gaining hunger/thirst/sleepiness
+0.109 s: on_load-similar-to-per-turn
+0.270 s: Awake for 6 hours, gaining hunger/thirst/sleepiness
+0.270 s: on_load-similar-to-per-turn
+0.014 s: NPCs escape dangerous terrain by pushing other NPCs
+0.838 s: npc-movement
+0.009 s: Player in vehicle & NPCs escaping dangerous terrain
+0.810 s: npc-movement
+0.046 s: npc_can_target_player
+0.000 s: quicksave_ignores_a_session_still_loading
+0.000 s: quicksave_ignores_a_session_still_loading
+0.001 s: dimension_checkpoint_ignores_periodic_autosave_settings
+0.001 s: advanced_world_effective_values_do_not_overwrite_mod_defaults
+0.000 s: inherited NPC maximum
+0.000 s: advanced_world_validates_combinations_with_inherited_mod_values
+0.000 s: inherited highway spacing
+0.000 s: advanced_world_validates_combinations_with_inherited_mod_values
+0.000 s: inherited zero highway deviation
+0.000 s: advanced_world_validates_combinations_with_inherited_mod_values
+0.000 s: unknown weather
+0.000 s: advanced_world_validates_combinations_with_inherited_mod_values
+0.011 s: advanced_world_snapshot_copy_reset_and_active_world_lifecycle
+Failed 2 test cases, failed 3 assertions.
+
+
+23:47:54.759 INFO : Test world Test World 测试世界 3 left for inspection.
+23:47:54.759 INFO : Finished in 21.9001 seconds
+23:47:54.759 INFO : Randomness seeded to: 123456
+

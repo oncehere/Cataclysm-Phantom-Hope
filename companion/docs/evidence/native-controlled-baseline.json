@@ -1,0 +1,68 @@
+{
+  "base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
+  "baseline_source_sha256": "82e18f451199a1cb76f46bc1eaf61a6c95c863139480425f138a7f54014b0eb5",
+  "candidate_head": "0047ae5b7ea0f706715d9c05ca501ac242c9464a",
+  "commands": {
+    "compile-baseline-npc": {
+      "cwd": "/tmp/cph-ai-build-20260930",
+      "elapsed_seconds": 28.465,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "link-baseline-npc": {
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930",
+      "elapsed_seconds": 7.838,
+      "exit_code": 0,
+      "log_sha256": "2b0ff925479e5cf0e28acc2fabbb802285f6d3f5791f8e7f60bf048be480036b"
+    },
+    "run-baseline-npc-source": {
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+      "elapsed_seconds": 26.557,
+      "exit_code": 3,
+      "failed_assertions": [
+        "/tmp/cph-ai-source-20260930/tests/crafting_test.cpp:449: failed: std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() for: {?} != {?}",
+        "/tmp/cph-ai-source-20260930/tests/npc_test.cpp:189: failed: who.get_hunger() <= hunger.max for: 300 (0x12c) <= 164",
+        "/tmp/cph-ai-source-20260930/tests/npc_test.cpp:191: failed: who.get_thirst() <= thirst.max for: 568 (0x238) <= 164"
+      ],
+      "failure_exit": true,
+      "json_error_count": 0,
+      "log": "docs/evidence/native-baseline-run-baseline-npc-source.log",
+      "log_sha256": "6ed7c457d210dc5b7fa5d3521a87436ffc7443b6d1d07b75917d284bb12ff7dd"
+    },
+    "run-candidate": {
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930",
+      "elapsed_seconds": 26.563,
+      "exit_code": 3,
+      "failed_assertions": [
+        "/tmp/cph-ai-source-20260930/tests/crafting_test.cpp:449: failed: std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() for: {?} != {?}",
+        "/tmp/cph-ai-source-20260930/tests/npc_test.cpp:189: failed: who.get_hunger() <= hunger.max for: 300 (0x12c) <= 164",
+        "/tmp/cph-ai-source-20260930/tests/npc_test.cpp:191: failed: who.get_thirst() <= thirst.max for: 568 (0x238) <= 164"
+      ],
+      "failure_exit": true,
+      "json_error_count": 0,
+      "log": "docs/evidence/native-baseline-run-candidate.log",
+      "log_sha256": "53dc758e0ab1b9c46967010e6fdbfa541355c8b392889291e47f9e2115cb70ab"
+    }
+  },
+  "full_baseline_build": "NOT_RUN",
+  "full_baseline_suite": "NOT_RUN",
+  "identical_baseline_inputs": {
+    "src/character.h": "261ae7e3748b3bb13f75d29c5c9ad41d932758283818987a117cacffb7af3c9b",
+    "src/character_body.cpp": "bbc65218ae5b97beb1d3f9cbe607750058ebb198e96d3e0e012a7e73f5067e3f",
+    "src/character_health.cpp": "8bd9f9442e6d89038f3c1f88a34fd3c055cf6f3014729835a1d5e446a929ea54",
+    "src/npc.h": "77477132a4f8921ecb0df39914b2bbc213542a14e654fe7b3b099398c9413b0d",
+    "tests/crafting_test.cpp": "53cba4eb57f5ce8f73e289405420410c948f488af09f659111b9086d77c57418",
+    "tests/npc_test.cpp": "1f46b8383109d88a89cab1c30c7ad69c0b2e30dbc64e32139be50281cd1603a7",
+    "tests/player_helpers.cpp": "e1736aaacf7132f594744172ea833a4eca9257dcd7ab480a619a47130d273bd1",
+    "tests/test_main.cpp": "3667b4cb5ea780c38a97f4572de6be0336813be7b8b5fc13a71bc42cc948d327"
+  },
+  "inference": "The same two cases and three assertions fail when only npc.cpp is replaced by the base source with identical listed ABI/test/helper inputs. This is a controlled source comparison, not a complete baseline build or proof that the complete baseline suite passes.",
+  "original_result_sha256": "c5d378faee37c4cb56a56e0a3e04de894ed157f15694718d075ba665bc93c32c",
+  "protected_inputs_unchanged": true,
+  "rng_seed": 123456,
+  "schema_version": 1,
+  "scope": "06db npc.cpp compiled against current unchanged npc/Character ABI headers; all other inputs from the current focused runner. Not a full baseline build.",
+  "source_unchanged": true,
+  "status": "FAIL_REPRODUCED_IN_CONTROLLED_SOURCE_COMPARISON",
+  "test_cases": "crafting_with_a_companion,on_load-sane-values"
+}
