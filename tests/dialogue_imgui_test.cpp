@@ -28,6 +28,7 @@
 
 #ifdef TUI
     #include <imtui/imtui-impl-text.h>
+    #include <imtui/imtui.h>
 #endif
 
 #if defined(CATA_ENABLE_LUA_PLATFORM) && CATA_ENABLE_LUA_PLATFORM
@@ -955,8 +956,42 @@ TEST_CASE( "dialogue_imgui_reopened_instance_shows_new_content_on_first_frame",
     REQUIRE( old_history->Scroll.y > 0 );
     REQUIRE( old_responses->Scroll.y > 0 );
 
-    const auto visible_glyph_quads = []( const ImGuiWindow * child ) {
+    const auto visible_history_glyphs = []( const ImGuiWindow * child ) {
         int count = 0;
+#ifdef TUI
+        // ImTui intentionally encodes glyphs in zero-height quads.  Decode the
+        // real history draw list with the production text renderer and inspect
+        // its clipped cells instead of imposing pixel-font geometry.
+        ImTui::ImplImtui_Data terminal;
+        ImGuiIO &io = ImGui::GetIO();
+        restore_on_out_of_scope<void *> restore_backend( io.BackendPlatformUserData );
+        io.BackendPlatformUserData = &terminal;
+        ImDrawData draw_data = *ImGui::GetDrawData();
+        draw_data.CmdLists.resize( 1 );
+        draw_data.CmdLists[0] = child->DrawList;
+        draw_data.CmdListsCount = 1;
+        draw_data.TotalIdxCount = child->DrawList->IdxBuffer.Size;
+        draw_data.TotalVtxCount = child->DrawList->VtxBuffer.Size;
+        ImTui_ImplText_RenderDrawData( &draw_data );
+        std::string visible_text;
+        for( int y = 0; y < terminal.Screen.ny; ++y ) {
+            for( int x = 0; x < terminal.Screen.nx; ++x ) {
+                if( !child->InnerClipRect.Contains( ImVec2( x, y ) ) ) {
+                    continue;
+                }
+                const ImTui::TCell &cell = terminal.Screen.data[y * terminal.Screen.nx + x];
+                if( cell.ch > ' ' && cell.chwidth > 0 ) {
+                    ++count;
+                }
+                // Spaces have no glyph quad, so an unpainted cell is a blank.
+                visible_text.push_back( cell.ch >= ' ' && cell.ch < 128 ?
+                                        static_cast<char>( cell.ch ) : ' ' );
+            }
+            visible_text.push_back( '\n' );
+        }
+        INFO( visible_text );
+        CHECK( visible_text.find( "Fresh greeting must be visible" ) != std::string::npos );
+#else
         const ImVec2 white = ImGui::GetIO().Fonts->TexUvWhitePixel;
         const ImVector<ImDrawVert> &v = child->DrawList->VtxBuffer;
         for( int i = 0; i + 3 < v.Size; i += 4 ) {
@@ -971,6 +1006,7 @@ TEST_CASE( "dialogue_imgui_reopened_instance_shows_new_content_on_first_frame",
                 ++count;
             }
         }
+#endif
         return count;
     };
     const auto assert_visible_content = [&]() {
@@ -978,7 +1014,7 @@ TEST_CASE( "dialogue_imgui_reopened_instance_shows_new_content_on_first_frame",
         const ImGuiWindow *const response = frames.child( "##DIALOGUE_RESPONSES" );
         REQUIRE( history );
         REQUIRE( response );
-        const int glyphs = visible_glyph_quads( history );
+        const int glyphs = visible_history_glyphs( history );
         const std::vector<ImRect> buttons = frames.buttons( response );
         int visible_buttons = 0;
         for( const ImRect &button : buttons ) {
