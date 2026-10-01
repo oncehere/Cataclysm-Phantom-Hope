@@ -35,7 +35,7 @@ static bool restart_redrawing = false;
 #endif
 static ui_stack_t ui_stack;
 
-ui_adaptor::ui_adaptor() : is_imgui( false ), redraw_uis_below( false ),
+ui_adaptor::ui_adaptor() : is_imgui( false ), redraw_uis_below( false ), is_on_top( false ),
     disabling_uis_below( false ),
     is_debug_message_ui( false ),
     invalidated( false ), deferred_resize( false )
@@ -44,7 +44,7 @@ ui_adaptor::ui_adaptor() : is_imgui( false ), redraw_uis_below( false ),
 }
 
 ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : is_imgui( false ),
-    redraw_uis_below( false ),
+    redraw_uis_below( false ), is_on_top( false ),
     disabling_uis_below( true ),
     is_debug_message_ui( false ), invalidated( false ), deferred_resize( false )
 {
@@ -52,7 +52,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : is_imgui( false ),
 }
 
 ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
-    redraw_uis_below( false ),
+    redraw_uis_below( false ), is_on_top( false ),
     disabling_uis_below( true ),
     is_debug_message_ui( true ), invalidated( false ), deferred_resize( false )
 {
@@ -253,6 +253,11 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 size_t ui_adaptor::ui_stack_size()
 {
     return ui_stack.size();
+}
+
+bool ui_adaptor::is_top() const
+{
+    return !ui_stack.empty() && &ui_stack.back().get() == this;
 }
 
 // This function does two things:

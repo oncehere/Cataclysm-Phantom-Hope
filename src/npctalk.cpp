@@ -33,6 +33,7 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_path.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -51,7 +52,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
-#include "dialogue_win.h"
+#include "dialogue_imgui.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enum_traits.h"
@@ -1691,6 +1692,8 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
     dialogue d( get_talker_for( *this ), std::move( talk_with ), {} );
     cata::lua_platform::begin_dialogue_session( d );
     d.by_radio = radio_contact;
+    restore_on_out_of_scope<bool> restore_radio_contact( dialogue_by_radio );
+    restore_on_out_of_scope<std::string> restore_remote_name( dialogue_remote_name );
     dialogue_by_radio = radio_contact;
     dialogue_remote_name = remote_name;
     d.actor( true )->check_missions();
@@ -1709,6 +1712,10 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
     } else {
         d.add_topic( debug_topic );
     }
+    if( d.topic_stack.empty() ) {
+        cata::lua_platform::end_dialogue_session( d );
+        return avatar_talk_to_result::not_started;
+    }
     const cata::lua_platform::native_hook_result start_hook =
         cata::lua_platform::dispatch_native_dialogue_hook(
             "on_dialogue_start", *d.actor( false ),
@@ -1720,19 +1727,36 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
         *start_hook.result != d.topic_stack.back().id ) {
         d.add_topic( *start_hook.result );
     }
-    dialogue_window d_win;
-    d_win.is_computer = is_computer;
-    d_win.is_not_conversation = is_not_conversation;
-    if( !remote_name.empty() ) {
-        d_win.is_remote = true;
-        d_win.remote_name = remote_name;
+    dialogue_imgui_impl d_win( &d, is_computer, is_not_conversation, remote_name );
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    ctxt.register_updown();
+    for( const char *action : {
+             "CONFIRM", "HOME", "END", "PAGE_UP", "PAGE_DOWN",
+             "SCROLL_INFOBOX_UP", "SCROLL_INFOBOX_DOWN", "ANY_INPUT",
+             "HELP_KEYBINDINGS", "QUIT", "SELECT", "MOUSE_MOVE",
+             "SCROLL_UP", "SCROLL_DOWN", "CLICK_AND_DRAG",
+             "DEBUG_DIALOGUE_DL_CONDITIONAL", "DEBUG_DIALOGUE_RESP_CONDITIONAL",
+             "DEBUG_DIALOGUE_DL_EFFECT", "DEBUG_DIALOGUE_RESP_EFFECT",
+             "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE"
+         } ) {
+        ctxt.register_action( action );
     }
+    if( !is_computer && !is_not_conversation && remote_name.empty() ) {
+        for( const char *action : {
+                 "LOOK_AT", "SIZE_UP_STATS", "ASSESS_PERSONALITY",
+                 "YELL", "CHECK_OPINION"
+             } ) {
+            ctxt.register_action( action );
+        }
+    }
+    ctxt.set_timeout( 10 );
     // Main dialogue loop
     std::string last_topic = d.topic_stack.back().id;
     do {
         d.actor( true )->update_missions( d.missions_assigned );
         last_topic = d.topic_stack.back().id;
-        talk_topic next = d.opt( d_win, d.topic_stack.back() );
+        talk_topic next = d.opt_imgui( d_win, d.topic_stack.back(), ctxt );
+        d_win.set_hidden( true );
         const cata::lua_platform::native_hook_result option_hook =
             cata::lua_platform::dispatch_native_dialogue_hook(
                 "on_dialogue_option", *d.actor( false ),
@@ -1744,17 +1768,10 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
             *option_hook.result != next.id ) {
             next = talk_topic( *option_hook.result );
         }
-        if( next.id == "TALK_NONE" ) {
-            int cat = topic_category( d.topic_stack.back() );
-            do {
-                d.topic_stack.pop_back();
-            } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
-        }
-        if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
+        if( !d.advance_topic( next ) ) {
             d.actor( true )->say( bye_message( d.actor( true )->get_npc() ) );
-            d.done = true;
-        } else if( next.id != "TALK_NONE" ) {
-            d.add_topic( next );
+        } else {
+            d_win.set_hidden( false );
         }
     } while( !d.done );
     cata::lua_platform::dispatch_native_dialogue_hook(
@@ -1763,9 +1780,8 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
         d.by_radio,
         d.reason.empty() ? std::nullopt :
         std::optional<std::string_view>( d.reason ) );
-    cata::lua_platform::clear_dialogue_response_callbacks();
+    cata::lua_platform::clear_dialogue_response_callbacks( d );
     cata::lua_platform::end_dialogue_session( d );
-    dialogue_remote_name.clear();
 
     if( activity.id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
@@ -1784,7 +1800,7 @@ avatar_talk_to_result avatar::talk_to( std::unique_ptr<talker> talk_with,
     return avatar_talk_to_result::completed;
 }
 
-std::string dialogue::speaker_name( const dialogue_window &d_win ) const
+std::string dialogue::speaker_name( const dialogue_imgui_impl &d_win ) const
 {
     if( d_win.is_not_conversation ) {
         return "";
@@ -2077,10 +2093,10 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 
 void dialogue::gen_responses( const talk_topic &the_topic )
 {
+    cata::lua_platform::clear_dialogue_response_callbacks( *this );
     responses.clear();
     response_condition_exists.clear();
     response_condition_eval.clear();
-    cata::lua_platform::clear_dialogue_response_callbacks();
 
     if( cata::lua_platform::gen_lua_dialogue_responses( *this, the_topic ) ) {
         return;
@@ -2461,13 +2477,6 @@ int topic_category( const talk_topic &the_topic )
     };
     if( topic_9.count( topic ) > 0 ) {
         return 9;
-    }
-    static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
-        }
-    };
-    if( topic_99.count( topic ) > 0 ) {
-        return 99;
     }
     return -1; // Not grouped with other topics
 }
@@ -3101,176 +3110,55 @@ const talk_topic &special_talk( const std::string &action )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
+std::optional<size_t> dialogue_response_hotkey_index(
+    const std::vector<input_event> &hotkeys, const input_event &event )
 {
-    d_win.add_history_separator();
-
-    ui_adaptor ui;
-    const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize( ui );
-    };
-    ui.on_screen_resize( resize_cb );
-    resize_cb( ui );
-
-    // Construct full line
-    std::string challenge = dynamic_line( topic );
-    gen_responses( topic );
-
-    // Put quotes around challenge (unless it's an action)
-    if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = string_format( _( "\"%s\"" ), challenge );
+    const auto found = std::find( hotkeys.begin(), hotkeys.end(), event );
+    if( found == hotkeys.end() ) {
+        return std::nullopt;
     }
+    return std::distance( hotkeys.begin(), found );
+}
 
-    // Parse any tags in challenge
-    if( actor( true )->get_npc() ) {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
-                    topic.item_type );
-    } else {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
-                    topic.item_type );
+bool dialogue::response_is_selectable( size_t index ) const
+{
+    if( index >= responses.size() ) {
+        return false;
     }
-    challenge = uppercase_first_letter( challenge );
-
-    d_win.clear_history_highlights();
-    if( challenge[0] == '&' ) {
-        // No name prepended!
-        challenge = challenge.substr( 1 );
-        d_win.add_to_history( challenge );
-    } else if( challenge[0] == '*' ) {
-        // Prepend name
-        challenge = string_format( pgettext( "npc does something", "%s %s" ),
-                                   speaker_name( d_win ),
-                                   challenge.substr( 1 ) );
-        d_win.add_to_history( challenge );
-    } else {
-        npc *npc_actor = actor( true )->get_npc();
-        d_win.add_to_history( challenge, speaker_name( d_win ),
-                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
+    if( debug_mode || index >= response_condition_exists.size() ||
+        !response_condition_exists[index] ) {
+        return true;
     }
-    if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
-        for( auto &line : dynamic_line_debug ) {
-            d_win.add_to_history( line );
-        }
+    return index < response_condition_eval.size() && response_condition_eval[index];
+}
+
+bool dialogue::advance_topic( const talk_topic &next )
+{
+    if( done ) {
+        return false;
     }
-    apply_speaker_effects( topic );
-
-    if( responses.empty() ) {
-        debugmsg( "No dialogue responses" );
-        return talk_topic( "TALK_NONE" );
-    }
-
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    d_win.set_up_scrolling( ctxt );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
-    ctxt.register_action( "QUIT" );
-    std::vector<talk_data> response_lines;
-    std::vector<input_event> response_hotkeys;
-    const auto generate_response_lines = [&]() {
-#if defined(__ANDROID__)
-        ctxt.get_registered_manual_keys().clear();
-#endif
-        const hotkey_queue &queue = hotkey_queue::alphabets();
-        response_lines.clear();
-        response_hotkeys.clear();
-        input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
-            response_lines.emplace_back( td );
-            response_hotkeys.emplace_back( evt );
-#if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input(), td.text );
-#endif
-            evt = ctxt.next_unassigned_hotkey( queue, evt );
-        }
-        d_win.set_responses( response_lines );
-    };
-    generate_response_lines();
-
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( speaker_name( d_win ) );
-    } );
-
-    size_t response_ind = response_hotkeys.size();
-    bool okay;
-    do {
-        std::string action;
+    const talk_topic incoming = next;
+    if( incoming.id == "TALK_NONE" && !topic_stack.empty() ) {
+        const int category = topic_category( topic_stack.back() );
         do {
-            if( debug_mode ) {
-                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
-                d_win.debug_topic_name = topic.id;
-            }
-            ui_manager::redraw();
-            input_event evt;
-            action = ctxt.handle_input();
-            evt = ctxt.get_raw_input();
-            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
-                continue;
-            }
-            d_win.handle_scrolling( action, ctxt );
-            talk_topic st = special_talk( action );
-            if( st.id != "TALK_NONE" ) {
-                return st;
-            }
-            if( action == "HELP_KEYBINDINGS" ) {
-                // Reallocate hotkeys as keybindings may have changed
-                generate_response_lines();
-            } else if( action == "CONFIRM" ) {
-                response_ind = d_win.sel_response;
-                //response condition must be reverified since non-selectable responses can be displayed
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
-            } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
-                d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
-            } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
-                d_win.show_response_conditionals = !d_win.show_response_conditionals;
-            } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
-                d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
-            } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
-                d_win.show_response_effects = !d_win.show_response_effects;
-            } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
-                d_win.show_all_responses = !d_win.show_all_responses;
-                if( debug_mode ) {
-                    this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
-                    gen_responses( topic );
-                    generate_response_lines();
-                }
-            } else if( action == "ANY_INPUT" ) {
-                // Check real hotkeys; equivalent functionally to CONFIRM
-                const auto hotkey_it = std::find( response_hotkeys.begin(),
-                                                  response_hotkeys.end(), evt );
-                response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
-            } else if( action == "QUIT" ) {
-                response_ind = get_best_quit_response();
-            }
-        } while( response_ind >= response_hotkeys.size() ||
-                 ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
-        okay = true;
-        std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
-        if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
-            okay = query_yn( _( "You may be attacked!  Proceed?" ) );
-        } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
-            okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
-        }
-    } while( !okay );
+            topic_stack.pop_back();
+        } while( !topic_stack.empty() && category != -1 &&
+                 topic_category( topic_stack.back() ) == category );
+    }
+    if( incoming.id == "TALK_DONE" || topic_stack.empty() ) {
+        done = true;
+    } else if( incoming.id != "TALK_NONE" ) {
+        add_topic( incoming );
+    }
+    return !done;
+}
 
-    d_win.add_history_separator();
-    d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
-
-    talk_response chosen = responses[response_ind];
+talk_topic dialogue::apply_response( size_t index )
+{
+    if( !response_is_selectable( index ) ) {
+        return topic_stack.empty() ? talk_topic( "TALK_NONE" ) : topic_stack.back();
+    }
+    talk_response chosen = responses[index];
     if( chosen.mission_selected != nullptr ) {
         actor( true )->select_mission( chosen.mission_selected );
     }
@@ -3290,6 +3178,163 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     return ret_topic;
 }
 
+
+talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_win, const talk_topic &topic,
+                                input_context &ctxt )
+{
+    d_win.add_to_history( "" );
+    std::string challenge = dynamic_line( topic );
+    gen_responses( topic );
+    d_win.sel_response = 0;
+    if( challenge.empty() || ( challenge.front() != '*' && challenge.front() != '&' ) ) {
+        challenge = string_format( _( "\"%s\"" ), challenge );
+    }
+    if( actor( true )->get_npc() ) {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
+                    topic.item_type );
+    } else {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
+                    topic.item_type );
+    }
+    challenge = uppercase_first_letter( challenge );
+    if( !challenge.empty() && challenge.front() == '&' ) {
+        d_win.add_to_history( challenge.substr( 1 ) );
+    } else if( !challenge.empty() && challenge.front() == '*' ) {
+        d_win.add_to_history( string_format( pgettext( "npc does something", "%s %s" ),
+                                             speaker_name( d_win ), challenge.substr( 1 ) ) );
+    } else {
+        npc *npc_actor = actor( true )->get_npc();
+        d_win.add_to_history( challenge, speaker_name( d_win ),
+                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
+    }
+    if( debug_mode ) {
+        for( const std::string &line : build_debug_info( d_win, topic ) ) {
+            d_win.add_to_history( line );
+        }
+    }
+    // Speaker effects can also open a child dialogue or other native UI.
+    d_win.set_hidden( true );
+    apply_speaker_effects( topic );
+    d_win.set_hidden( false );
+    if( responses.empty() ) {
+        debugmsg( "No dialogue responses" );
+        return talk_topic( "TALK_NONE" );
+    }
+
+    std::vector<talk_data> response_lines;
+    std::vector<input_event> response_hotkeys;
+    const auto generate_response_lines = [&]() {
+#if defined(__ANDROID__)
+        ctxt.get_registered_manual_keys().clear();
+#endif
+        response_lines.clear();
+        response_hotkeys.clear();
+        std::vector<bool> selectable;
+        const hotkey_queue &queue = hotkey_queue::alphabets();
+        input_event event = ctxt.first_unassigned_hotkey( queue );
+        for( size_t i = 0; i < responses.size(); ++i ) {
+            const talk_data line = responses[i].create_option_line( *this, event, d_win.is_computer );
+            response_lines.push_back( line );
+            response_hotkeys.push_back( event );
+            selectable.push_back( response_is_selectable( i ) );
+#if defined(__ANDROID__)
+            ctxt.register_manual_key( event.get_first_input(), line.text );
+#endif
+            event = ctxt.next_unassigned_hotkey( queue, event );
+        }
+        d_win.set_responses( response_lines, selectable );
+    };
+    generate_response_lines();
+    d_win.scroll_to = cataimgui::scroll::end;
+
+    while( true ) {
+        if( responses.empty() ) {
+            return talk_topic( "TALK_NONE" );
+        }
+        if( debug_mode ) {
+            d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
+            d_win.debug_topic_name = topic.id;
+        }
+        ui_manager::redraw();
+        std::optional<size_t> selected;
+        std::string action = d_win.take_special_action();
+        input_event event;
+        if( d_win.user_clicked_response_button ) {
+            d_win.user_clicked_response_button = false;
+            if( d_win.sel_response >= 0 ) {
+                selected = static_cast<size_t>( d_win.sel_response );
+            }
+        } else if( action.empty() ) {
+            action = ctxt.handle_input();
+            event = ctxt.get_raw_input();
+        }
+        if( !action.empty() && !d_win.is_computer && !d_win.is_not_conversation && !d_win.is_remote ) {
+            const talk_topic &special = special_talk( action );
+            if( special.id != "TALK_NONE" ) {
+                return special;
+            }
+        }
+        if( action == "UP" || action == "DOWN" ) {
+            const int count = static_cast<int>( responses.size() );
+            d_win.sel_response = ( d_win.sel_response + ( action == "UP" ? count - 1 : 1 ) ) % count;
+        } else if( action == "HOME" ) {
+            d_win.scroll_to = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            d_win.scroll_to = cataimgui::scroll::end;
+        } else if( action == "PAGE_UP" ) {
+            d_win.scroll_to = cataimgui::scroll::page_up;
+        } else if( action == "PAGE_DOWN" ) {
+            d_win.scroll_to = cataimgui::scroll::page_down;
+        } else if( action == "SCROLL_INFOBOX_UP" ) {
+            d_win.scroll_to = cataimgui::scroll::line_up;
+        } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+            d_win.scroll_to = cataimgui::scroll::line_down;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            generate_response_lines();
+        } else if( action == "CONFIRM" && d_win.sel_response >= 0 ) {
+            selected = static_cast<size_t>( d_win.sel_response );
+        } else if( action == "ANY_INPUT" ) {
+            selected = dialogue_response_hotkey_index( response_hotkeys, event );
+        } else if( action == "QUIT" ) {
+            selected = static_cast<size_t>( get_best_quit_response() );
+        } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
+            d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
+        } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
+            d_win.show_response_conditionals = !d_win.show_response_conditionals;
+        } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
+            d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
+        } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
+            d_win.show_response_effects = !d_win.show_response_effects;
+        } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" && debug_mode ) {
+            d_win.show_all_responses = !d_win.show_all_responses;
+            debug_ignore_conditionals = !debug_ignore_conditionals;
+            gen_responses( topic );
+            generate_response_lines();
+        }
+        if( !selected || !response_is_selectable( *selected ) ) {
+            continue;
+        }
+
+        d_win.set_hidden( true );
+        on_out_of_scope restore_window( [&]() {
+            d_win.set_hidden( false );
+        } );
+        const std::set<dialogue_consequence> consequences = responses[*selected].get_consequences( *this );
+        if( consequences.count( dialogue_consequence::hostile ) > 0 &&
+            !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+            continue;
+        }
+        if( consequences.count( dialogue_consequence::helpless ) > 0 &&
+            !query_yn( _( "You'll be helpless!  Proceed?" ) ) ) {
+            continue;
+        }
+        d_win.add_to_history( "" );
+        d_win.add_to_history( response_lines[*selected].text, _( "You" ), c_light_blue );
+        d_win.scroll_to = cataimgui::scroll::end;
+        return apply_response( *selected );
+    }
+}
+
 /**
  * Finds the best response to use when the player is trying to quit.
  *
@@ -3299,11 +3344,14 @@ int dialogue::get_best_quit_response()
 {
     if( responses.size() == 1 ) {
         // Only one response. Use it. Consequences will be prompted for by the caller.
-        return 0;
+        return response_is_selectable( 0 ) ? 0 : responses.size();
     }
 
     // Find relevant responses
     for( size_t i = 0; i < responses.size(); ++i ) {
+        if( !response_is_selectable( i ) ) {
+            continue;
+        }
         const talk_response &response = responses[i];
         if( response.trial.calc_chance( *this ) < 100 ) {
             // Don't pick anything with a chance to fail.
@@ -3364,12 +3412,15 @@ void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::stri
 }
 
 
-std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_win,
+std::vector<std::string> dialogue::build_debug_info( const dialogue_imgui_impl &d_win,
         const talk_topic &topic, int do_response )
 {
     std::vector<std::string> debug_output;
     json_talk_topic json_topic = json_talk_topics[topic.id];
     if( do_response > -1 ) {
+        if( static_cast<size_t>( do_response ) >= responses.size() ) {
+            return debug_output;
+        }
         std::string write_str;
         std::vector<json_talk_response> json_responses = json_topic.get_responses();
         if( json_responses.empty() ) {

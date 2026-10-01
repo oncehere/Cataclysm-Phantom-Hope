@@ -682,6 +682,19 @@ promotes a planned capability into a shipped one.
 schema、迁移行为或 roadmap 状态变化时同步更新本文和`ai/documentation-registry.yml` 中对应的本仓文档路径和稳定 ID；源码与测试始终
 优先于说明文案。
 
+### Dialogue presentation and nested callbacks / 对话界面与嵌套回调
+
+The ImGui dialogue view uses the existing `ccb.dialogue` registrations and
+native start, option and end hooks. Response regeneration and session exit
+retire only that native dialogue's callbacks, so opening a child dialogue from
+speaker effects or response effects preserves the parent's pending response.
+A selected callback is consumed before invocation. Topic changes, native
+dialogue moves and destruction still invalidate their existing contexts;
+neither the Lua API nor JSON topic format changes with the view.
+
+ImGui 对话沿用现行注册和钩子。子对话不会清除父会话待选的 Lua 回调；选中回调
+执行前即被消费。主题变化、会话移动及析构仍使原上下文失效。
+
 ### Explicit empty scalar values / 显式空值
 
 `ccb.services.types.null` is an immutable `NullValue`: it retains a key in a

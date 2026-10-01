@@ -12,6 +12,12 @@ is generated from the current source and data tree. Regenerate it with
 source fingerprints or reference locations can change without adding a new
 JSON object type. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
+The ImGui conversation view retains the existing `talk_topic` object and
+response fields documented in [NPCs](NPCs.md). A response displayed through
+`show_always` still needs its condition to pass in ordinary play before mouse, keyboard or hotkey
+selection can execute its effects. Presentation changes refresh inventory
+fingerprints and source locations without changing JSON registration or inheritance.
+
 Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

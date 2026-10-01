@@ -271,6 +271,10 @@ void clear_dialogue_response_callbacks()
 {
 }
 
+void clear_dialogue_response_callbacks( dialogue & )
+{
+}
+
 void begin_dialogue_session( dialogue & )
 {
 }

@@ -99,6 +99,9 @@ class client
         // aborting mid-flight when end_frame() is unsafe (renderer undefined).
         // The next NewFrame would assert if the frame were left open.
         void abort_frame();
+        // Tiles mouse events must already use display-buffer coordinates from
+        // the polling/touch adapter. scaling_factor is retained for caller
+        // compatibility and does not rescale those normalized coordinates.
         void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0,
                             int scaling_factor = 1 );
         void process_cata_input( const input_event &event );
@@ -241,6 +244,7 @@ class window
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
         void hide_if_hidden() const;
+        bool is_on_top() const;
         void set_redraw_underlay( bool value );
 };
 

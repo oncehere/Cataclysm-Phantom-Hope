@@ -28,6 +28,13 @@ and the existing dialogue interface. Terminal and headless builds remain
 available, with UI capabilities still determined by the active build. See the
 [build guide](../../doc/c++/COMPILING.md) for platform requirements.
 
+The ImGui conversation view retains `ccb.dialogue` registration, response
+callbacks and native start/option/end hooks. Regenerating responses or closing
+a child dialogue clears only that dialogue's callbacks, preserving the parent's
+pending choice. Selected callbacks are consumed once; topic changes, moves and
+destruction continue to invalidate their contexts. See
+[nested dialogue ownership](LUA_FIRST_PLATFORM.md#dialogue-presentation-and-nested-callbacks--对话界面与嵌套回调).
+
 ## Tool validation environment
 
 The Lua API and agent tools share the pinned dependencies in

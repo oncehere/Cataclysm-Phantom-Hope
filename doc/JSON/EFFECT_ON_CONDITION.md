@@ -1974,6 +1974,12 @@ Plays sound `bionics`, variant `pixelated` with volume 50
 #### `open_dialogue`
 Opens up a dialog between the participants; this should only be used in effect_on_conditions, not in actual npc dialogue
 
+CPH uses the same native conversation lifecycle as NPC dialogue.  The ImGui
+presentation preserves topic return, response effects and Lua dialogue hooks.
+An explicit topic uses a generic talker and does not require NPC-only sidebar
+fields.  The call remains synchronous; the JSON syntax and supported participants
+are unchanged.
+
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "topic" | optional | string or [variable object](#variable-object) | if used, instead of the dialogue with the participant, this topic would be used with an empty talker |
