@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -21,6 +22,21 @@
 #include "text.h"
 #include "translations.h"
 #include "ui_profile.h"
+
+namespace
+{
+void dialogue_paragraph( const nc_color color, const std::string_view text )
+{
+    float wrap_position = 0.0F;
+#ifdef TUI
+    // ImTui places each glyph in the following cell; leave that cell inside
+    // the actual command clip rectangle rather than losing each row's end.
+    wrap_position = ImGui::GetCursorPosX() +
+                    std::max( 1.0F, ImGui::GetContentRegionAvail().x - 1.0F );
+#endif
+    cataimgui::TextColoredParagraphNewline( color, text, std::nullopt, wrap_position );
+}
+} // namespace
 
 std::string dialogue_sidebar_text( const const_dialogue &conversation, std::string text )
 {
@@ -139,11 +155,11 @@ void dialogue_imgui_impl::draw_controls()
     const bool physical_information = has_physical_information();
     if( !physical_information ) {
         if( is_computer ) {
-            cataimgui::TextColoredParagraphNewline( default_color(),
-                                                    string_format( _( "Interaction: %s" ), display_name() ) );
+            dialogue_paragraph( default_color(),
+                                string_format( _( "Interaction: %s" ), display_name() ) );
         } else if( !is_not_conversation ) {
-            cataimgui::TextColoredParagraphNewline( default_color(),
-                                                    string_format( _( "Dialogue: %s" ), display_name() ) );
+            dialogue_paragraph( default_color(),
+                                string_format( _( "Dialogue: %s" ), display_name() ) );
         }
     }
     if( debug_mode ) {
@@ -155,7 +171,7 @@ void dialogue_imgui_impl::draw_controls()
         for( int i = 0; i < static_cast<int>( flags.size() ); ++i ) {
             status += colorize( names[i], flags[i] ? c_yellow : c_brown ) + " ";
         }
-        cataimgui::TextColoredParagraphNewline( c_white, status );
+        dialogue_paragraph( c_white, status );
     }
 
     const float gap = std::max( ImGui::GetStyle().ItemSpacing.x,
@@ -232,37 +248,37 @@ void dialogue_imgui_impl::draw_sidebar_information()
             "|                          |\n"
             "|--------------------------|";
         cataimgui::PushMonoFont();
-        cataimgui::TextColoredParagraphNewline( c_white, portrait );
+        dialogue_paragraph( c_white, portrait );
         ImGui::PopFont();
     }
 #ifndef TUI
     cataimgui::PushGuiFont1_5x();
 #endif
-    cataimgui::TextColoredParagraphNewline( default_color(), display_name() );
+    dialogue_paragraph( default_color(), display_name() );
 #ifndef TUI
     cataimgui::PopGuiFont1_5x();
 #endif
     ImGui::Separator();
     if( conversation->actor( false )->can_see() ) {
-        cataimgui::TextColoredParagraphNewline( c_blue,
-                                                sidebar_text( conversation->actor( true )->short_description() ) );
+        dialogue_paragraph( c_blue,
+                            sidebar_text( conversation->actor( true )->short_description() ) );
     } else {
         std::string blind_description = string_format(
                                             _( "&You're blind and can't look at %s." ), display_name() );
         if( !blind_description.empty() && blind_description.front() == '&' ) {
             blind_description.erase( 0, 1 );
         }
-        cataimgui::TextColoredParagraphNewline( c_blue, sidebar_text( blind_description ) );
+        dialogue_paragraph( c_blue, sidebar_text( blind_description ) );
     }
     ImGui::Separator();
-    cataimgui::TextColoredParagraphNewline( c_red,
-                                            sidebar_text( conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) ) );
+    dialogue_paragraph( c_red,
+                        sidebar_text( conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) ) );
     ImGui::Separator();
-    cataimgui::TextColoredParagraphNewline( c_pink,
-                                            sidebar_text( conversation->actor( true )->view_personality_traits() ) );
+    dialogue_paragraph( c_pink,
+                        sidebar_text( conversation->actor( true )->view_personality_traits() ) );
     ImGui::Separator();
-    cataimgui::TextColoredParagraphNewline( c_yellow,
-                                            sidebar_text( conversation->actor( true )->opinion_text() ) );
+    dialogue_paragraph( c_yellow,
+                        sidebar_text( conversation->actor( true )->opinion_text() ) );
     ImGui::Separator();
     // These remain actions as well as sidebar information.  In particular,
     // YELL has a real effect and must not disappear with the old window.
@@ -312,8 +328,8 @@ void dialogue_imgui_impl::draw_dialogue_responses( const float width, const floa
     if( ImGui::BeginChild( "##DIALOGUE_RESPONSES", ImVec2( width, height ),
                            ImGuiChildFlags_Borders,
                            ImGuiWindowFlags_NoNav ) ) {
-        cataimgui::TextColoredParagraphNewline( default_color(), is_computer ? _( "Your input:" ) :
-                                                is_not_conversation ? _( "What do you do?" ) : _( "Your response:" ) );
+        dialogue_paragraph( default_color(), is_computer ? _( "Your input:" ) :
+                            is_not_conversation ? _( "What do you do?" ) : _( "Your response:" ) );
         draw_responses();
     }
     ImGui::EndChild();
@@ -340,7 +356,7 @@ void dialogue_imgui_impl::add_to_history( const std::string &text, const nc_colo
 void dialogue_imgui_impl::draw_history() const
 {
     for( const history_message &msg : history ) {
-        cataimgui::TextColoredParagraphNewline( msg.color, msg.text );
+        dialogue_paragraph( msg.color, msg.text );
     }
 }
 
@@ -364,7 +380,7 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
 void dialogue_imgui_impl::draw_responses()
 {
     if( debug_mode ) {
-        cataimgui::draw_colored_text( "talk_topic: " + debug_topic_name );
+        dialogue_paragraph( c_white, "talk_topic: " + debug_topic_name );
     }
     if( !response_list.empty() ) {
         sel_response = std::clamp( sel_response, 0, static_cast<int>( response_list.size() ) - 1 );
@@ -452,7 +468,7 @@ void dialogue_imgui_impl::draw_responses()
     previous_response = sel_response;
     if( debug_mode ) {
         for( const std::string &info : responses_debug ) {
-            cataimgui::TextColoredParagraphNewline( c_yellow, info );
+            dialogue_paragraph( c_yellow, info );
         }
     }
 }

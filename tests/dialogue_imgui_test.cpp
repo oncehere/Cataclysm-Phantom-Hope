@@ -1040,3 +1040,67 @@ TEST_CASE( "dialogue_imgui_reopened_instance_shows_new_content_on_first_frame",
     frames.frame( *window );
     assert_visible_content();
 }
+
+TEST_CASE( "dialogue_imgui_debug_and_history_text_fit_narrow_children",
+           "[dialogue][imgui][debug]" )
+{
+    restore_on_out_of_scope<bool> restore_debug( debug_mode );
+    dialogue_imgui_frame_fixture frames;
+    ImGui::GetIO().DisplaySize = frames.narrow_viewport();
+    dialogue conversation = topic_conversation();
+    dialogue_imgui_impl window( &conversation, false, true );
+    const std::string history_text = "HISTORY_" + std::string( 90, 'Y' ) + "_LAST_CHARACTER";
+    window.add_to_history( history_text );
+    window.set_responses( { { c_white, "a", "Short response" } } );
+    debug_mode = true;
+    window.debug_topic_name = "TALK_SHORT";
+    frames.settle( window );
+    const std::vector<ImRect> baseline_buttons = frames.buttons();
+    REQUIRE( baseline_buttons.size() == 1 );
+    const float baseline_y = baseline_buttons[0].Min.y;
+    window.debug_topic_name = "TALK_DEBUG_" + std::string( 100, 'X' ) + "_VISIBLE_TAIL";
+    frames.settle( window );
+    const ImGuiWindow *response = frames.child( "##DIALOGUE_RESPONSES" );
+    const ImGuiWindow *history = frames.child( "##DIALOGUE_HISTORY" );
+    REQUIRE( response );
+    REQUIRE( history );
+    const std::vector<ImRect> debug_buttons = frames.buttons();
+    REQUIRE( debug_buttons.size() == 1 );
+    CAPTURE( response->ContentSize.x, history->ContentSize.x,
+             response->WorkRect.GetWidth(), history->WorkRect.GetWidth(),
+             response->ScrollMax.x, history->ScrollMax.x, baseline_y, debug_buttons[0].Min.y );
+    CHECK( response->ContentSize.x <= response->WorkRect.GetWidth() + frames.layout_tolerance() );
+    CHECK( history->ContentSize.x <= history->WorkRect.GetWidth() + frames.layout_tolerance() );
+    CHECK( debug_buttons[0].Min.y >= baseline_y + ImGui::GetTextLineHeight() * 2 );
+#ifdef TUI
+    // Render only the child's real draw list.  The production renderer applies
+    // its command clips; scan its cells without a second pixel-rect filter.
+    const auto visible_text = []( const ImGuiWindow * child ) {
+        ImTui::ImplImtui_Data terminal;
+        ImGuiIO &io = ImGui::GetIO();
+        restore_on_out_of_scope<void *> restore_backend( io.BackendPlatformUserData );
+        io.BackendPlatformUserData = &terminal;
+        ImDrawData draw_data = *ImGui::GetDrawData();
+        draw_data.CmdLists.resize( 1 );
+        draw_data.CmdLists[0] = child->DrawList;
+        draw_data.CmdListsCount = 1;
+        draw_data.TotalIdxCount = child->DrawList->IdxBuffer.Size;
+        draw_data.TotalVtxCount = child->DrawList->VtxBuffer.Size;
+        ImTui_ImplText_RenderDrawData( &draw_data );
+        std::string result;
+        for( int i = 0; i < terminal.Screen.size(); ++i ) {
+            const ImTui::TCell &cell = terminal.Screen.data[i];
+            if( cell.ch > ' ' && cell.ch < 128 && cell.chwidth > 0 ) {
+                result.push_back( static_cast<char>( cell.ch ) );
+            }
+        }
+        return result;
+    };
+    const std::string topic_cells = visible_text( response );
+    const std::string history_cells = visible_text( history );
+    INFO( topic_cells );
+    INFO( history_cells );
+    CHECK( topic_cells.find( window.debug_topic_name ) != std::string::npos );
+    CHECK( history_cells.find( history_text ) != std::string::npos );
+#endif
+}
