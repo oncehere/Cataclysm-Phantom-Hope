@@ -95,6 +95,8 @@ TEST_CASE( "imgui_sdl3_scaled_mouse_reaches_lower_right_button",
         borrowed_window.release();
         ImGui::SetCurrentContext( previous );
     } );
+    // The client owns its new context; retain the previous one for cleanup.
+    ImGui::SetCurrentContext( nullptr );
     GeometryRenderer_Ptr geometry = std::make_unique<DefaultGeometryRenderer>();
 
     for( const int scale : {

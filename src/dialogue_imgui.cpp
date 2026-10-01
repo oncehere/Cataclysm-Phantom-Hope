@@ -276,7 +276,6 @@ void dialogue_imgui_impl::draw_sidebar_information()
 void dialogue_imgui_impl::draw_dialogue_sidebar( const float width, const float height )
 {
     // Children do not inherit NoNav; input_context owns keyboard and gamepad selection.
-    // Children do not inherit NoNav; input_context owns keyboard and gamepad selection.
     if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", ImVec2( width, height ), ImGuiChildFlags_Borders,
                            ImGuiWindowFlags_NoNav ) ) {
         draw_sidebar_information();
