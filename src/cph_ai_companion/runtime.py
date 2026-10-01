@@ -8,6 +8,10 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
+import re
+import stat
+import tempfile
 import threading
 import time
 from copy import deepcopy
@@ -61,11 +65,16 @@ in 0..1. This only guides bounded native following distance between plans.
 These are your interpretations, possibly mistaken, never new observations,
 commitments, goals, receipts or world facts. They cannot rewrite the background.
 Personal goals require propose_own_goals; promises require native social actions.
+Incoming player requirements carry stable requirement_id values and current
+requirement_decisions. Associate every action implementing a requirement with
+its requirement_id. Refusal must use the refuse action with that exact ID;
+never disguise refusal as another action or combine refusal with work for the
+same requirement. Unaddressed requirements remain pending, never assumed accepted.
 """
 
 
-def _reflections(candidate: dict[str, Any], snapshot: Mapping[str, Any],
-                 context: Mapping[str, Any], query_results: list[Any]) -> list[dict[str, Any]]:
+def _reflections(candidate: dict[str, Any], messages: list[dict[str, str]],
+                 context: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Validate bounded cognitive proposals against actually retrieved sources.
 
     Engine plans never carry these records. They are committed only after plan
@@ -74,9 +83,10 @@ def _reflections(candidate: dict[str, Any], snapshot: Mapping[str, Any],
     values = candidate.pop("reflections", [])
     if not isinstance(values, list) or len(values) > 3:
         raise RuntimeErrorCode("invalid_reflections")
-    available = {record["id"] for record in snapshot.get("records", [])
+    shown = json.loads(messages[-1]["content"])
+    available = {record["id"] for record in shown.get("memory_records", [])
                  if isinstance(record, Mapping) and isinstance(record.get("id"), str)}
-    for result in query_results:
+    for result in shown.get("local_queries", []):
         available.update(record["id"] for record in result.get("records", [])
                          if isinstance(record, Mapping) and isinstance(record.get("id"), str))
     prepared = []
@@ -160,6 +170,7 @@ sliced; native action descriptions are bounded to 512 characters.
     limit = config["limits"].get("max_input_tokens", 32768)
     events = deepcopy(request.get("events", []))
     records = deepcopy(snapshot.get("records", []))
+    mandatory = set(snapshot.get("mandatory_record_ids", []))
     # Preserve full sensed data on disk. The latest observation is already in
     # this prompt; repeating its raw event body would waste the input budget.
     # Typed receipts retain their real outcome and item references.
@@ -171,9 +182,12 @@ sliced; native action descriptions are bounded to 512 characters.
         "events": events, "action_catalog": _compact_catalog(request.get("action_catalog", [])),
         "personality": config["personality"], "background": snapshot.get("background", ""),
         "memory_records": records,
+        "mandatory_record_ids": sorted(mandatory),
         "memory_revision": snapshot.get("revision"),
         "max_steps": config["limits"]["max_steps"], "local_queries": deepcopy(query_results or []),
     }
+    if "requirement_decisions" in request:
+        payload["requirement_decisions"] = deepcopy(request["requirement_decisions"])
     if correction:
         payload["previous_candidate_error"] = correction
     while True:
@@ -181,8 +195,10 @@ sliced; native action descriptions are bounded to 512 characters.
                     {"role": "user", "content": _encoded(payload)}]
         if conservative_input_tokens(messages) <= limit:
             return messages
-        if payload["memory_records"]:
-            payload["memory_records"].pop()
+        disposable = next((index for index in range(len(payload["memory_records"]) - 1, -1, -1)
+                           if payload["memory_records"][index].get("id") not in mandatory), None)
+        if disposable is not None:
+            payload["memory_records"].pop(disposable)
         elif payload["local_queries"]:
             payload["local_queries"].pop()
         else:
@@ -216,7 +232,15 @@ def _engine_cognition(snapshot: Mapping[str, Any], context: Mapping[str, Any] | 
         result["context"] = deepcopy(dict(context))
     fields = {"id", "kind", "text", "context", "source_ids", "confidence",
               "importance", "preferences", "status", "game_time", "provenance", "continuity"}
-    for record in snapshot.get("records", [])[:100]:
+    mandatory = set(snapshot.get("mandatory_record_ids", []))
+    records = list(snapshot.get("records", []))
+    records.sort(key=lambda record: record.get("id") not in mandatory)
+    for record in records:
+        protected = record.get("id") in mandatory
+        if len(result["records"]) >= 1000 or (len(result["records"]) >= 100 and not protected):
+            if protected:
+                raise RuntimeErrorCode("context_budget_exceeded")
+            break
         imported = record.get("continuity") == "imported_experience_not_current_world_fact"
         if imported and (context is None or record.get("kind") not in {"belief", "relationship", "growth", "summary"}):
             continue
@@ -226,13 +250,48 @@ def _engine_cognition(snapshot: Mapping[str, Any], context: Mapping[str, Any] | 
             projected["context"] = deepcopy(dict(context))
             projected["imported"] = True
         if isinstance(projected.get("text"), str):
+            if protected and len(projected["text"].encode("utf-8")) > 65536:
+                raise RuntimeErrorCode("context_budget_exceeded")
             projected["text"] = projected["text"].encode("utf-8")[:65536].decode("utf-8", errors="ignore")
         result["records"].append(projected)
         # Reserve framing, request identity and version outside the snapshot.
         if len(_encoded(result).encode("utf-8")) > 1024 * 1024 - 4096:
             result["records"].pop()
+            if protected:
+                raise RuntimeErrorCode("context_budget_exceeded")
             break
     return result
+
+
+def _binding_context(context: Mapping[str, Any]) -> dict[str, Any]:
+    return {key: context.get(key) for key in ("world_id", "branch_id", "actor_id", "load_epoch")}
+
+
+def _projection_version(projection: Mapping[str, Any]) -> str:
+    stable = deepcopy(dict(projection))
+    if isinstance(stable.get("context"), Mapping):
+        stable["context"] = _binding_context(stable["context"])
+    for record in stable["records"]:
+        if record.get("imported") is True:
+            record["context"] = _binding_context(record["context"])
+    return _revision(stable)
+
+
+def _episode_key(request: Mapping[str, Any], snapshot: Mapping[str, Any]) -> str:
+    observations = deepcopy(request.get("observations", {}))
+    actor = observations.get("actor") if isinstance(observations, Mapping) else None
+    if isinstance(actor, dict):
+        for key in ("moves", "known_information", "concealed_information", "commitment", "commitment_state"):
+            actor.pop(key, None)
+    # Bridge request IDs and memory projections can change after ingest or an
+    # automatic reflection. Only actual new information starts another budget.
+    return _revision({"binding": _binding_context(request["context"]),
+                      "observations": observations, "events": request.get("events", []),
+                      "requirement_decisions": request.get("requirement_decisions", []),
+                      "background": snapshot.get("background", ""),
+                      "manual_records": [{key: value for key, value in record.items() if key != "recall_weight"}
+                                         for record in snapshot.get("records", [])
+                                         if record.get("provenance") == "manual"]})
 
 
 def _is_stopped(status: Mapping[str, Any]) -> bool:
@@ -255,13 +314,102 @@ class AgentRuntime:
         self._started = False
         self._closed = False
         self._synced_revision: str | None = None
+        self._synced_projection: str | None = None
+        self._memory_request: Mapping[str, Any] | None = None
         self._next_episode = 0.0
         self._calls = 0
         self._tokens = 0
         self._config_revision = _revision(self.config)
         self._owned_binding: tuple[Any, Any] | None = None
         self._restored_load: tuple[Any, ...] | None = None
+        self._episode: dict[str, Any] | None = None
+        self._episodes = self._read_episodes()
         self.last_result: dict[str, Any] = {"state": "created"}
+
+    def _read_episodes(self) -> dict[str, Any]:
+        """Persist only hashes and bounded counters, never prompt contents.
+
+        MemoryStore already holds the single-writer lock. A restart after a
+        reserved call is uncertain, so it waits instead of reissuing the call.
+        """
+        path = self.memory.memory_root / "runtime-episodes.json"
+        try:
+            descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        except FileNotFoundError:
+            return {}
+        except OSError:
+            raise RuntimeErrorCode("invalid_episode_journal") from None
+        try:
+            with os.fdopen(descriptor, "rb") as source:
+                metadata = os.fstat(source.fileno())
+                if not stat.S_ISREG(metadata.st_mode) or metadata.st_mode & 0o077:
+                    raise ValueError()
+                body = source.read(1024 * 1024 + 1)
+            if len(body) > 1024 * 1024:
+                raise ValueError()
+            value = json.loads(body)
+            if not isinstance(value, dict) or set(value) != {"schema_version", "episodes"} or type(value["schema_version"]) is not int or value["schema_version"] != 1:
+                raise ValueError()
+            episodes = value["episodes"]
+            if not isinstance(episodes, dict) or len(episodes) > 256:
+                raise ValueError()
+            for identity, episode in episodes.items():
+                if not re.fullmatch(r"[a-f0-9]{64}", identity) or not isinstance(episode, dict) or set(episode) != {"key", "calls", "queries", "state", "code"}:
+                    raise ValueError()
+                if not isinstance(episode["key"], str) or not re.fullmatch(r"[a-f0-9]{64}", episode["key"]):
+                    raise ValueError()
+                if any(type(episode[field]) is not int or not 0 <= episode[field] <= 1000000 for field in ("calls", "queries")):
+                    raise ValueError()
+                if episode["state"] not in {"active", "waiting", "submitted"} or not isinstance(episode["code"], str) or not re.fullmatch(r"[a-z0-9_]{0,128}", episode["code"]):
+                    raise ValueError()
+                if episode["state"] == "active":
+                    episode.update(state="waiting", code="planning_interrupted")
+            return episodes
+        except (TypeError, ValueError, OSError):
+            raise RuntimeErrorCode("invalid_episode_journal") from None
+
+    def _write_episodes(self) -> None:
+        path = self.memory.memory_root / "runtime-episodes.json"
+        if path.is_symlink():
+            raise RuntimeErrorCode("invalid_episode_journal")
+        if self._episode is not None:
+            self._episodes[self._episode["owner"]] = {key: self._episode[key] for key in
+                                                    ("key", "calls", "queries", "state", "code")}
+        if len(self._episodes) > 256:
+            raise RuntimeErrorCode("episode_journal_full")
+        descriptor, temporary = tempfile.mkstemp(prefix=".runtime-episodes-", dir=self.memory.memory_root)
+        try:
+            with os.fdopen(descriptor, "wb") as target:
+                target.write(_encoded({"schema_version": 1, "episodes": self._episodes}).encode("utf-8"))
+                target.flush()
+                os.fsync(target.fileno())
+            os.replace(temporary, path)
+            descriptor = os.open(self.memory.memory_root, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                os.fsync(descriptor)
+            finally:
+                os.close(descriptor)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
+
+    def _select_episode(self, request: Mapping[str, Any], snapshot: Mapping[str, Any]) -> dict[str, Any]:
+        key = _revision([_episode_key(request, snapshot), self._config_revision])
+        owner = _revision([self.config["profile_id"], request["context"].get("actor_id")])
+        if self._episode is None or self._episode["key"] != key or self._episode["owner"] != owner:
+            saved = self._episodes.get(owner)
+            counters = deepcopy(saved) if saved is not None and saved["key"] == key else {
+                "key": key, "calls": 0, "queries": 0, "state": "active", "code": ""}
+            self._episode = {**counters, "owner": owner,
+                             "deadline": self.clock() + self.config["limits"]["episode_timeout"],
+                             "query_results": [], "correction": None}
+            self._write_episodes()
+        return self._episode
+
+    def _finish_episode(self, code: str, *, submitted: bool = False) -> None:
+        assert self._episode is not None
+        self._episode.update(state="submitted" if submitted else "waiting", code=code)
+        self._write_episodes()
 
     def start(self) -> None:
         if self._started:
@@ -327,13 +475,22 @@ class AgentRuntime:
             "debug": latest.get("debug", {"enabled": False}),
         })
         self._synced_revision = None
+        self._synced_projection = None
         return True
 
-    def _sync(self, context: Mapping[str, Any]) -> dict[str, Any]:
-        snapshot = self.memory.snapshot(context)
-        if snapshot["revision"] != self._synced_revision:
-            self.client.request("sync_memory", {"snapshot": _engine_cognition(snapshot, context), "version": snapshot["revision"]})
-            self._synced_revision = snapshot["revision"]
+    def _sync(self, context: Mapping[str, Any], request: Mapping[str, Any] | None = None) -> dict[str, Any]:
+        if request is not None:
+            self._memory_request = request
+        if self._memory_request is not None and _binding_context(self._memory_request["context"]) != _binding_context(context):
+            self._memory_request = None
+        snapshot = self.memory.snapshot(context, request=self._memory_request)
+        projection = _engine_cognition(snapshot, context)
+        version = _projection_version(projection)
+        if version != self._synced_projection:
+            projection["revision"] = version
+            self.client.request("sync_memory", {"snapshot": projection, "version": version})
+            self._synced_projection = version
+        self._synced_revision = snapshot["revision"]
         return snapshot
 
     def _lifecycle(self, status: Mapping[str, Any]) -> None:
@@ -343,6 +500,7 @@ class AgentRuntime:
         saved = status.get("saved_checkpoint")
         identity = (context.get("world_id"), context.get("actor_id"), context.get("load_epoch"))
         if identity != self._restored_load:
+            self._synced_projection = None
             if isinstance(saved, Mapping) and saved.get("id"):
                 self.memory.restore(context, saved)
                 self._synced_revision = None
@@ -398,7 +556,10 @@ class AgentRuntime:
             self._stop.set()
             return False
         context = status.get("context")
-        return self.memory.is_current(revision) and isinstance(context, Mapping) and _same_context(context, original)
+        if not isinstance(context, Mapping) or not _same_context(context, original) or not self.memory.is_current(revision):
+            return False
+        self._sync(context)
+        return self.memory.is_current(revision) and self._synced_projection == original.get("memory_version")
 
     def _reserve_call(self, messages: list[dict[str, str]]) -> int:
         limits = self.config["limits"]
@@ -443,26 +604,42 @@ class AgentRuntime:
         context = request["context"]
         # Ingest only engine-delivered events. The MemoryStore rejects unknown
         # provenance/kinds rather than promoting arbitrary model text.
-        self.memory.ingest(context, request.get("events", []))
-        previous = self._synced_revision
-        snapshot = self._sync(context)
-        if previous != snapshot["revision"]:
+        events = []
+        for delivered in request.get("events", []):
+            event = deepcopy(delivered)
+            if event.get("kind") == "requirement_decision":
+                event["kind"] = "receipt"
+                event["data"] = {**event.get("data", {}), "native_event_kind": "requirement_decision"}
+            events.append(event)
+        self.memory.ingest(context, events)
+        previous = self._synced_projection
+        snapshot = self._sync(context, request)
+        if previous != self._synced_projection:
             return {"state": "memory_resynced"}
         policy = PersonalityPolicy(self.config["personality"])
         limits = self.config["limits"]
-        deadline = self.clock() + limits["episode_timeout"]
-        queries_used = 0
-        query_results: list[Any] = []
-        correction: str | None = None
+        episode = self._select_episode(request, snapshot)
+        if episode["state"] != "active":
+            return {"state": "waiting_for_information", "code": episode["code"]}
+        deadline = episode["deadline"]
+        query_results = episode["query_results"]
+        correction = episode["correction"]
         self._next_episode = self.clock() + limits["cooldown"]
-        for _ in range(limits["max_calls"]):
+        while episode["calls"] < limits["max_calls"]:
             if self._stop.is_set():
                 return self._explicit_stop()
             remaining = deadline - self.clock()
             if remaining <= 0:
+                self._finish_episode("episode_timeout")
                 return {"state": "rejected", "code": "episode_timeout"}
-            messages = build_messages(request, snapshot, self.config, query_results, correction)
+            try:
+                messages = build_messages(request, snapshot, self.config, query_results, correction)
+            except RuntimeErrorCode as exc:
+                self._finish_episode(exc.code)
+                return {"state": "rejected", "code": exc.code}
             reservation = self._reserve_call(messages)
+            episode["calls"] += 1
+            self._write_episodes()
             try:
                 completion = self.provider.complete(
                     messages, timeout=min(limits["request_timeout"], remaining),
@@ -473,26 +650,31 @@ class AgentRuntime:
                 if self._stop.is_set():
                     return self._explicit_stop()
                 if exc.code == "request_invalidated":
+                    self._finish_episode(exc.code)
                     return {"state": "discarded", "code": exc.code}
                 correction = exc.code
+                episode["correction"] = correction
                 continue
             self._charge_usage(completion, reservation)
             if self._stop.is_set():
                 return self._explicit_stop()
             if self.clock() >= deadline:
+                self._finish_episode("episode_timeout")
                 return {"state": "rejected", "code": "episode_timeout"}
             if not self._alive(context, snapshot["revision"]):
                 if self._stop.is_set():
                     return self._explicit_stop()
+                self._finish_episode("request_invalidated")
                 return {"state": "discarded", "code": "request_invalidated"}
             if self.clock() >= deadline:
+                self._finish_episode("episode_timeout")
                 return {"state": "rejected", "code": "episode_timeout"}
             candidate = completion.value
             if "queries" in candidate:
                 if set(candidate) != {"queries"} or not isinstance(candidate["queries"], list):
                     correction = "invalid_local_query"
                     continue
-                if queries_used + len(candidate["queries"]) > limits["max_queries"]:
+                if episode["queries"] + len(candidate["queries"]) > limits["max_queries"]:
                     correction = "local_query_budget_exceeded"
                     continue
                 try:
@@ -505,7 +687,8 @@ class AgentRuntime:
                         if not isinstance(text, str) or len(text) > 2048 or type(count) is not int or not 1 <= count <= 20:
                             raise RuntimeErrorCode("invalid_local_query")
                     for query in candidate["queries"]:
-                        queries_used += 1
+                        episode["queries"] += 1
+                        self._write_episodes()
                         query_results.append({"query": query["query"], "records": self.memory.retrieve(
                             context, query["query"], query.get("limit", 5))})
                     correction = None
@@ -514,7 +697,7 @@ class AgentRuntime:
                 continue
             try:
                 candidate = deepcopy(candidate)
-                reflections = _reflections(candidate, snapshot, context, query_results)
+                reflections = _reflections(candidate, messages, context)
                 if "context" in candidate and candidate["context"] != context:
                     raise RuntimeErrorCode("model_context_mismatch")
                 candidate["context"] = deepcopy(context)
@@ -530,16 +713,20 @@ class AgentRuntime:
             # Recheck after validation and before submission; engine performs
             # the definitive stale-context, knowledge and capability checks.
             if self.clock() >= deadline:
+                self._finish_episode("episode_timeout")
                 return {"state": "rejected", "code": "episode_timeout"}
             if not self._alive(context, snapshot["revision"]):
                 if self._stop.is_set():
                     return self._explicit_stop()
+                self._finish_episode("request_invalidated")
                 return {"state": "discarded", "code": "request_invalidated"}
             # An observer RPC or checkpoint exchange can consume the rest of
             # the episode after a timely model result. Never submit it late.
             if self.clock() >= deadline:
+                self._finish_episode("episode_timeout")
                 return {"state": "rejected", "code": "episode_timeout"}
             result = self.client.request("offer_plan", candidate)
+            self._finish_episode("plan_submitted", submitted=True)
             submitted = {"state": "submitted", "receipt": result}
             if reflections and isinstance(result, Mapping) and (result.get("accepted") is True or result.get("state") == "accepted"):
                 try:
@@ -549,6 +736,7 @@ class AgentRuntime:
                     # just because a concurrent human edit won the memory race.
                     submitted["cognition"] = {"state": "discarded", "code": exc.code}
             return submitted
+        self._finish_episode(correction or "planning_call_limit")
         return {"state": "rejected", "code": correction or "planning_call_limit"}
 
     def _explicit_stop(self) -> dict[str, Any]:

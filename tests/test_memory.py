@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from cph_ai_companion.memory import MAX_EVENT_DATA_BYTES, MemoryStore, MemoryStoreError
+from cph_ai_companion.memory import MAX_EVENT_DATA_BYTES, MAX_MANDATORY_RECORDS, MemoryStore, MemoryStoreError
 
 
 CONTEXT = {"world_id": "world-a", "branch_id": "branch-a", "actor_id": "npc-7",
@@ -213,6 +213,156 @@ class MemoryTests(unittest.TestCase):
         store.ingest(CONTEXT, [{"id": "growth", "kind": "growth", "text": "学会谨慎"},
                                 {"id": "event", "kind": "observation", "text": "药柜的位置"}])
         self.assertEqual([r["text"] for r in store.retrieve({**CONTEXT, "world_id": "new-world"})], ["学会谨慎"])
+
+    def test_foreign_growth_entry_is_frozen_across_updates_loads_and_restarts(self):
+        config = {"memory": {"continuity": {"new_world_personality_growth": "retain"}}}
+        store = self.open(config)
+        store.ingest(CONTEXT, [{"id": "danger", "kind": "receipt", "text": "Saw danger"},
+                                {"id": "lesson", "kind": "growth", "text": "Entry lesson", "source_ids": ["danger"]}])
+        other = {**CONTEXT, "world_id": "new-world"}
+        first = store.snapshot(other)
+        self.assertEqual([r["text"] for r in first["records"]], ["Entry lesson"])
+        store.ingest({**CONTEXT, "game_time": 200},
+                     [{"id": "lesson", "kind": "growth", "text": "Later foreign lesson", "source_ids": ["danger"]}])
+        reloaded = {**other, "branch_id": "new-load"}
+        self.assertEqual([r["text"] for r in store.retrieve(reloaded)], ["Entry lesson"])
+        store.close()
+        reopened = self.open(config)
+        records = reopened.snapshot(reloaded)["records"]
+        self.assertEqual([r["text"] for r in records], ["Entry lesson"])
+        self.assertEqual(records[0]["context"], CONTEXT)
+        self.assertEqual(records[0]["continuity"], "imported_experience_not_current_world_fact")
+
+    def test_explicit_growth_policy_and_archive_expansion_choose_new_entry_versions(self):
+        store = self.open()
+        other = {**CONTEXT, "world_id": "new-world"}
+        self.assertEqual(store.retrieve(other), [])
+        event = {"id": "lesson", "kind": "growth", "text": "Enabled entry"}
+        store.ingest(CONTEXT, [event])
+        store.continuity["new_world_personality_growth"] = "retain"
+        self.assertEqual([r["text"] for r in store.retrieve(other)], ["Enabled entry"])
+        later = {**CONTEXT, "game_time": 200}
+        store.ingest(later, [{**event, "text": "Explicit archive entry"}])
+        archive = store.checkpoint(later)
+        self.assertEqual([r["text"] for r in store.retrieve(other)], ["Enabled entry"])
+        store.continuity["selected_archives"] = [archive["id"]]
+        self.assertEqual([r["text"] for r in store.retrieve(other)], ["Explicit archive entry"])
+        store.continuity["new_world_personality_growth"] = "reset"
+        self.assertEqual(store.retrieve(other), [])
+
+    def test_frozen_foreign_growth_still_honors_manual_edits_and_source_deletion(self):
+        store = self.open({"memory": {"continuity": {"new_world_personality_growth": "retain"}}})
+        source, growth = store.ingest(CONTEXT, [
+            {"id": "danger", "kind": "receipt", "text": "Saw danger"},
+            {"id": "lesson", "kind": "growth", "text": "Entry lesson", "source_ids": ["danger"]}])
+        other = {**CONTEXT, "world_id": "new-world"}
+        store.retrieve(other)
+        store.ingest({**CONTEXT, "game_time": 200},
+                     [{"id": "lesson", "kind": "growth", "text": "Automatic later lesson", "source_ids": ["danger"]}])
+        self.edit(store._safe(store._state["heads"][growth]), text="Human correction")
+        self.assertEqual(store.retrieve(other)[0]["text"], "Human correction")
+        self.assertEqual(store.retrieve(other)[0]["provenance"], "manual")
+        self.record_paths(store, source)[0].unlink()
+        self.assertEqual(store.retrieve(other), [])
+        self.assertEqual(self.record_paths(store, growth), [])
+        store.ingest(CONTEXT, [{"id": "danger", "kind": "receipt", "text": "Saw danger"}])
+        self.assertEqual(store.retrieve(other), [])
+
+    def test_schema_one_without_import_entries_migrates_without_changing_format(self):
+        config = {"memory": {"continuity": {"new_world_personality_growth": "retain"}}}
+        store = self.open(config)
+        store.ingest(CONTEXT, [{"id": "lesson", "kind": "growth", "text": "Legacy lesson"}])
+        manifest = sorted((store.memory_root / "manifests").glob("*.json"))[-1]
+        store.close()
+        value = json.loads(manifest.read_text(encoding="utf-8"))
+        value.pop("imports", None)
+        manifest.write_text(json.dumps(value), encoding="utf-8")
+        migrated = self.open(config)
+        other = {**CONTEXT, "world_id": "new-world"}
+        self.assertEqual([r["text"] for r in migrated.retrieve(other)], ["Legacy lesson"])
+        current = json.loads(sorted((migrated.memory_root / "manifests").glob("*.json"))[-1].read_text())
+        self.assertEqual(current["schema_version"], 1)
+        self.assertTrue(current["imports"])
+
+    def test_snapshot_protects_pending_commitment_and_goal_receipt_from_irrelevant_summaries(self):
+        store = self.open()
+        events = [{"id": f"diary-{i}", "kind": "summary", "text": "Unrelated diary", "importance": 1}
+                  for i in range(120)]
+        events.extend([
+            {"id": "crafted", "kind": "receipt", "text": "crafted", "importance": 0.1,
+             "data": {"state": "succeeded", "action": "craft", "detail": {"item_type": "bandages"}}},
+            {"id": "promise", "kind": "commitment", "status": "accepted", "text": "Deliver bandages",
+             "importance": 0.1, "source_ids": ["crafted"]}])
+        ids = store.ingest(CONTEXT, events)
+        request = {"observations": {"actor": {"known_information": {"goal": "Deliver bandages"}}}}
+        snapshot = store.snapshot({**CONTEXT, "game_time": 10000000}, request)
+        self.assertEqual(set(snapshot["mandatory_record_ids"]), set(ids[-2:]))
+        self.assertEqual({record["id"] for record in snapshot["records"]}, set(ids[-2:]))
+        self.assertTrue(all(record["recall_weight"] < 0.05 for record in snapshot["records"]))
+        self.assertEqual(len(self.record_paths(store, ids[0])), 1)  # forgetting retains audit/records
+
+    def test_snapshot_preserves_more_than_one_hundred_obligations_and_bounds_overflow(self):
+        store = self.open()
+        ids = store.ingest(CONTEXT, [{"id": f"promise-{i}", "kind": "commitment", "status": "accepted",
+                                      "text": f"Promise number {i}"} for i in range(101)])
+        snapshot = store.snapshot(CONTEXT)
+        self.assertEqual(set(snapshot["mandatory_record_ids"]), set(ids))
+        self.assertEqual(len(snapshot["records"]), 101)
+        store.ingest(CONTEXT, [{"id": f"extra-{i}", "kind": "commitment", "status": "accepted",
+                                "text": f"Extra obligation {i}"}
+                               for i in range(MAX_MANDATORY_RECORDS - 100)])
+        with self.assertRaisesRegex(MemoryStoreError, "mandatory_context_too_large"):
+            store.snapshot(CONTEXT)
+
+    def test_pending_requirement_selects_relevant_receipts_and_not_whole_diary(self):
+        store = self.open()
+        ids = store.ingest(CONTEXT, [
+            {"id": "crafted", "kind": "receipt", "text": "crafted",
+             "data": {"state": "succeeded", "detail": {"item_type": "bandages"}}},
+            {"id": "diary", "kind": "summary", "text": "Unrelated sunny afternoon", "importance": 1}])
+        request = {"requirement_decisions": [{"requirement_id": "ask", "decision": "pending"}],
+                   "events": [{"kind": "statement", "text": "Please bring bandages", "data": {"requirement_id": "ask"}}]}
+        snapshot = store.snapshot(CONTEXT, request)
+        self.assertEqual(snapshot["mandatory_record_ids"], [ids[0]])
+        self.assertEqual([record["id"] for record in snapshot["records"]], [ids[0]])
+
+    def test_goal_relevance_keeps_recalled_personality_growth_without_relearning_its_raw_source(self):
+        store = self.open()
+        ids = store.ingest(CONTEXT, [
+            {"id": "danger", "kind": "observation", "text": "Danger at an unrelated location"},
+            {"id": "growth", "kind": "growth", "text": "I learned caution", "source_ids": ["danger"],
+             "preferences": {"caution": 0.9}}])
+        snapshot = store.snapshot(CONTEXT, {"observations": {"goal": "Deliver bandages"}})
+        self.assertEqual([record["id"] for record in snapshot["records"]], [ids[1]])
+        self.assertEqual(snapshot["mandatory_record_ids"], [])
+
+    def test_imported_old_obligations_and_receipts_are_not_current_mandatory_state(self):
+        store = self.open()
+        store.ingest(CONTEXT, [
+            {"id": "crafted", "kind": "receipt", "text": "Crafted bandages"},
+            {"id": "promise", "kind": "commitment", "status": "accepted", "text": "Deliver bandages",
+             "source_ids": ["crafted"]}])
+        archive = store.checkpoint(CONTEXT)
+        store.close()
+        store = self.open({"memory": {"continuity": {"new_world_experiences": "selected_archives",
+                                                       "selected_archives": [archive["id"]]}}})
+        snapshot = store.snapshot({**CONTEXT, "world_id": "new-world"}, {"observations": {"goal": "Deliver bandages"}})
+        self.assertEqual(snapshot["mandatory_record_ids"], [])
+        self.assertTrue(all(record["continuity"] == "imported_experience_not_current_world_fact"
+                            for record in snapshot["records"]))
+
+    def test_closed_obligations_do_not_reserve_context_but_checkpoint_pending_ones_do(self):
+        store = self.open()
+        ids = store.ingest(CONTEXT, [
+            {"id": "done", "kind": "commitment", "status": "fulfilled", "text": "Delivered medicine"},
+            {"id": "cancelled", "kind": "commitment", "status": "cancelled", "text": "Cancelled delivery"},
+            {"id": "done-goal", "kind": "goal", "status": "completed", "text": "Finished goal"},
+            {"id": "pending", "kind": "commitment", "status": "accepted", "text": "Bring bandages"}])
+        self.assertEqual(store.snapshot(CONTEXT)["mandatory_record_ids"], [ids[-1]])
+        checkpoint = store.checkpoint(CONTEXT)
+        loaded = {**CONTEXT, "branch_id": "loaded-branch"}
+        snapshot = store.restore(loaded, checkpoint)
+        self.assertEqual(snapshot["mandatory_record_ids"], [ids[-1]])
 
     def test_retained_old_branch_and_future_events_are_labelled_only_in_retrieval_view(self):
         store = self.open({"memory": {"continuity": {"load_experiences": "retain"}}})

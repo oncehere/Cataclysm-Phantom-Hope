@@ -1,5 +1,11 @@
 # Install, configure and safely stop
 
+The instructions below describe the published **0.1.1 / protocol 1.0** artifacts.
+This checkout's **0.1.2.dev0 / protocol 1.1** fixes are local candidates and cannot
+be paired with the old native revision or wheel below. Candidate verification
+uses a separate wheel installation and the isolated native worktree recorded in
+`docs/compatibility.json`; it does not replace a published asset or installed game.
+
 The experimental prerelease targets Linux x86_64 with Python 3.12. An ordinary
 CPH build without ActorControl cannot provide the required service. The release
 contains the Python program and MOD, not an adapted CPH binary.

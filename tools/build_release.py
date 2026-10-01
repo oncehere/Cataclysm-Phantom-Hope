@@ -10,7 +10,7 @@ from pathlib import Path, PurePosixPath
 import shutil
 import zipfile
 
-VERSION = "0.1.1"
+VERSION = "0.1.2.dev0"
 MOD_PREFIX = "cph_ai_companion/resources/mod/"
 PROTOCOL_FILE = "cph_ai_companion/resources/protocol/protocol.json"
 
@@ -51,7 +51,7 @@ def mod_payloads(wheel: Path) -> tuple[dict[str, bytes], str]:
             raise ReleaseError("protocol_resource_missing")
         protocol_data = archive.read(PROTOCOL_FILE)
         protocol = json.loads(protocol_data)
-        if protocol.get("protocol_version") != "1.0":
+        if protocol.get("protocol_version") != "1.1":
             raise ReleaseError("unsupported_protocol")
         return payloads, hashlib.sha256(protocol_data).hexdigest()
 
@@ -73,7 +73,7 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None) -> di
     payloads, digest = mod_payloads(wheels[0])
     record = json.loads((compatibility or root / "docs/compatibility.json").read_text(encoding="utf-8"))
     if (not isinstance(record, dict) or record.get("schema_version") != 1
-            or record.get("package_version") != VERSION or record.get("protocol_version") != "1.0"
+            or record.get("package_version") != VERSION or record.get("protocol_version") != "1.1"
             or not isinstance(record.get("validated_combinations"), list)):
         raise ReleaseError("invalid_compatibility_record")
     # Package assembly cannot turn an untested candidate into a validated pair.

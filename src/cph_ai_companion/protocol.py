@@ -7,7 +7,7 @@ import math
 from importlib.resources import files
 from typing import Any
 
-PROTOCOL_VERSION = "1.0"
+PROTOCOL_VERSION = "1.1"
 MAX_MESSAGE_BYTES = 1048576
 
 
@@ -77,12 +77,20 @@ def validate_plan(plan: Any) -> dict[str, Any]:
     _validate(plan, spec["schemas"]["plan"])
     catalog = {entry["name"]: entry for entry in spec["actions"]}
     seen: set[str] = set()
+    requirements: dict[str, set[str]] = {}
     for step in plan["steps"]:
         if step["id"] in seen:
             raise ProtocolError("duplicate_step")
         if "from_step" in step and step["from_step"] not in seen:
             raise ProtocolError("invalid_dependency")
         seen.add(step["id"])
+        requirement_id = step.get("requirement_id")
+        if step["action"] == "refuse" and not requirement_id:
+            raise ProtocolError("requirement_required")
+        if step["action"] != "refuse" and step.get("intent") == "refuse":
+            raise ProtocolError("requirement_required")
+        if requirement_id:
+            requirements.setdefault(requirement_id, set()).add(step["action"])
         _validate(step["args"], catalog[step["action"]]["args"])
         if step["action"] == "attack":
             args = step["args"]
@@ -92,6 +100,10 @@ def validate_plan(plan: Any) -> dict[str, Any]:
                 raise ProtocolError("invalid_attack_target")
         if step["action"] == "talk" and (("topic" in step["args"]) != ("option" in step["args"])):
             raise ProtocolError("incomplete_dialogue_option")
+    if any("refuse" in actions and len(actions) > 1 for actions in requirements.values()):
+        raise ProtocolError("contradictory_requirement_decision")
+    if plan.get("intent") == "refuse":
+        raise ProtocolError("requirement_required")
     try:
         encoded = json.dumps(plan, ensure_ascii=False, allow_nan=False).encode("utf-8")
     except (ValueError, TypeError):

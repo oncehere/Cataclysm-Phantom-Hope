@@ -32,6 +32,20 @@ perfectly classified action: structured intent checks do not prove every
 unannotated sentence truthful or harmless. Native targets and effects receive
 separate checks.
 
+Protocol 1.1 assigns each incoming player message a native requirement identity.
+An explicit `refuse` step names that identity and persists the decision; the
+controller rejects contradictory work and later attempts to revive the same
+requirement. A new request has a new identity. Natural prose is still subject to
+the documented classification boundary; it cannot fabricate an engine decision.
+
+Planning budgets belong to an event episode rather than a polling call. Calls,
+read-only queries and the active deadline span successive polls. A private
+metadata journal retains counters and terminal state across runtime restarts;
+interrupted episodes wait for new information instead of acquiring a fresh
+deadline. Cooldown, an ordinary clock tick or an internally refreshed request
+ID does not grant another budget. The journal contains identities and budget
+metadata, never a provider key or prompt body.
+
 ## Local cognition
 
 `paths.background` names the user-controlled background file; automatic code
@@ -44,6 +58,13 @@ receipts, relationships, growth, summaries and personal goals. A player's claim
 does not become a world fact. Goals come from accepted native goal events, not
 unaccepted model proposals. Retrieval checks actor/world/branch policy before
 ranking by query relevance, importance and game time.
+Unfinished commitments and current-goal receipts are marked as mandatory in a
+snapshot before ordinary retrieval is ranked or trimmed. If those mandatory
+records and the fixed context exceed the configured input limit, planning stops
+with a context-budget error; it does not silently discard the obligation.
+Native cognition synchronization compares its bounded projection as well as the
+file revision, so game-time forgetting can refresh the cache without treating
+every ordinary clock advance as a new file revision or invalidating all plans.
 
 The same bounded planning response may propose up to three subjective reflections
 with references to retrieved records. The runtime validates their sources and
@@ -79,6 +100,11 @@ summaries the current binding scope and preserves `origin_context`, `imported`
 and their continuity label. Imported observations, statements, receipts,
 commitments and goals remain local historical experiences; they cannot become
 current native facts. Unmarked foreign records are never silently rebound.
+The first entry into a world establishes a durable, versioned set of imported
+growth records. Subsequent growth in the origin world does not change that
+starting point. Explicit continuity configuration changes can add permitted
+sources. Manual edits and tombstones remain authoritative over frozen references;
+the optional import manifest is backwards compatible with memory format 1.
 
 The native save design also journals accepted physical operations across CPH's
 separate avatar, world, mission and map files. A prepared external checkpoint is

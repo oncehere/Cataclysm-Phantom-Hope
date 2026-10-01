@@ -1,5 +1,11 @@
 # Acceptance and release evidence
 
+Current checkout: **0.1.2.dev0 local review fixes / protocol 1.1**. New verification
+is recorded separately in `docs/evidence/review-fixes-20261001/`; the historical
+0.1.1 results below do not certify these changed sources. No new release or
+mainline merge is implied.
+
+
 This file describes required evidence. Actual outcomes belong in the dated
 implementation evidence and the machine-readable compatibility record. Never
 promote `NOT_RUN` to `PASS` solely because an implementation or test exists.

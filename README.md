@@ -11,12 +11,13 @@ executes actions, consumes resources and time, produces receipts, and runs local
 NPC behavior between plans. Readable local files hold background and cognition;
 human edits and deletions take precedence over automatic updates.
 
-This checkout is a **0.1.1 experimental prerelease candidate**. Compatibility and actual
-acceptance are recorded in [docs/compatibility.md](docs/compatibility.md) and
-[docs/acceptance.md](docs/acceptance.md). The tested integration uses a real
-native NPC and installed Python package with a synthetic local model endpoint.
+This checkout is a **0.1.2.dev0 local review-fix candidate**, using wire protocol 1.1.
+It has not been published. Protocol 1.0 builds cannot control this candidate;
+version and exact digest must match. Current verification is recorded in
+[docs/compatibility.md](docs/compatibility.md) and [docs/acceptance.md](docs/acceptance.md).
+The published 0.1.1 package and its assets remain unchanged.
 Graphical interaction, real-model quality and the user's actual game environment
-have separate, unrun acceptance entries.
+have separate acceptance entries.
 
 The first gathering action picks up actual ground items; it does not implement
 general plant harvesting, logging or mining. Queued attacks use native melee.

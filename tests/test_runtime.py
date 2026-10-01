@@ -1,13 +1,15 @@
 from copy import deepcopy
+import json
 from pathlib import Path
 import tempfile
 import unittest
 
-from cph_ai_companion.config import default_config
+from cph_ai_companion.config import default_config, load_config
 from cph_ai_companion.memory import MemoryStore
 from cph_ai_companion.protocol import action_catalog
 from cph_ai_companion.provider import Completion, ProviderError
-from cph_ai_companion.runtime import AgentRuntime, RuntimeErrorCode, build_messages, _engine_cognition
+from cph_ai_companion.runtime import (AgentRuntime, RuntimeErrorCode, build_messages,
+                                      conservative_input_tokens, _engine_cognition, _reflections)
 from cph_ai_companion.transport import TransportError
 
 
@@ -15,6 +17,7 @@ class FakeClient:
     def __init__(self, context):
         self.context = deepcopy(context)
         self.events = []
+        self.observations = {"actor": {"id": 7}}
         self.calls = []
         self.offers = []
         self.connected = False
@@ -45,7 +48,7 @@ class FakeClient:
             self.context["memory_version"] = params["version"]
             return {}
         if method == "take_request":
-            return {"context": deepcopy(self.context), "observations": {"actor": {"id": 7}},
+            return {"context": deepcopy(self.context), "observations": deepcopy(self.observations),
                     "events": deepcopy(self.events), "action_catalog": action_catalog()[:1]}
         if method == "offer_plan":
             self.offers.append(deepcopy(params))
@@ -229,6 +232,7 @@ class RuntimeTests(unittest.TestCase):
         runtime = self.runtime()
         runtime.run_once()
         self.now = 20
+        self.client.observations["actor"]["position"] = [1, 2, 0]
         with self.assertRaisesRegex(RuntimeErrorCode, "session_call_budget_exhausted"):
             runtime.run_once()
         self.assertEqual(len(self.provider.messages), 1)
@@ -279,6 +283,7 @@ class RuntimeTests(unittest.TestCase):
     def test_reflection_with_invented_source_or_fact_kind_is_rejected(self):
         for kind, sources in (("receipt", ["fake"]), ("belief", ["fake"]), ("growth", [])):
             with self.subTest(kind=kind):
+                self.client.observations["new_event"] = kind
                 self.provider = FakeProvider([{"steps": [], "reflections": [{"kind": kind, "text": "imagined", "source_ids": sources}]}])
                 self.assertEqual(self.runtime().run_once()["state"], "rejected")
         self.assertEqual(self.client.offers, [])
@@ -307,6 +312,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(self.runtime().run_once()["state"], "submitted")
         record = next(r for r in self.memory.retrieve(self.context) if r["kind"] == "relationship")
         self.assertEqual(record["preferences"], {"caution": 0.9})
+        self.client.observations["new_event"] = "another interaction"
         self.provider = FakeProvider([{"steps": [], "reflections": [{"kind": "growth", "text": "Become powerful", "source_ids": [source], "preferences": {"strength": 999}}]}])
         self.assertEqual(self.runtime().run_once()["state"], "rejected")
 
@@ -374,6 +380,245 @@ class RuntimeTests(unittest.TestCase):
         request = {"context": self.context, "observations": {"text": "x" * 50000}}
         with self.assertRaisesRegex(RuntimeErrorCode, "context_budget_exceeded"):
             build_messages(request, {"revision": "r", "records": []}, self.config)
+
+    def test_exhausted_event_group_does_not_reset_after_cooldown_or_synthetic_request_change(self):
+        self.config["limits"]["max_calls"] = 3
+        self.provider = FakeProvider([{"steps": [{"id": "a", "action": "invented", "args": {}}]}] * 6)
+        runtime = self.runtime()
+        self.assertEqual(runtime.run_once()["state"], "rejected")
+        self.assertEqual(len(self.provider.messages), 3)
+        self.now = 11
+        self.client.context.update(request_id="synthetic-refresh", game_time=101)
+        result = runtime.run_once()
+        self.assertEqual(result["state"], "waiting_for_information")
+        self.assertEqual(len(self.provider.messages), 3)
+        self.assertEqual(runtime._episode["calls"], 3)
+        journal = (self.memory.memory_root / "runtime-episodes.json").read_text()
+        self.assertNotIn("synthetic-refresh", journal)
+        self.assertNotIn("world", journal)
+
+    def test_genuine_new_observation_starts_a_new_episode_after_exhaustion(self):
+        self.provider = FakeProvider([{"steps": [{"id": "a", "action": "invented", "args": {}}]},
+                                      {"steps": [{"id": "b", "action": "wait", "args": {}}]}])
+        runtime = self.runtime()
+        self.assertEqual(runtime.run_once()["state"], "rejected")
+        self.now = 11
+        self.client.observations["visible"] = {"target": "newly sensed"}
+        self.assertEqual(runtime.run_once()["state"], "submitted")
+        self.assertEqual(len(self.provider.messages), 2)
+
+    def test_provider_failures_consume_same_episode_and_restart_remains_waiting(self):
+        self.config["limits"]["max_calls"] = 3
+        runtime = self.runtime()
+        calls = []
+        def fail(messages, **kwargs):
+            calls.append(messages)
+            raise ProviderError("provider_timeout")
+        self.provider.complete = fail
+        self.assertEqual(runtime.run_once(), {"state": "rejected", "code": "provider_timeout"})
+        self.assertEqual(len(calls), 3)
+        runtime.close()
+        self.now = 11
+        self.provider = FakeProvider()
+        self.assertEqual(self.runtime().run_once(), {"state": "waiting_for_information", "code": "provider_timeout"})
+        self.assertEqual(self.provider.messages, [])
+
+    def test_uncertain_reserved_call_is_not_reissued_after_restart(self):
+        runtime = self.runtime()
+        def disconnect(messages, **kwargs):
+            raise TransportError("disconnected")
+        self.provider.complete = disconnect
+        with self.assertRaises(TransportError):
+            runtime.run_once()
+        self.assertEqual(runtime._episode["calls"], 1)
+        runtime.close()
+        self.provider = FakeProvider()
+        self.assertEqual(self.runtime().run_once(), {"state": "waiting_for_information", "code": "planning_interrupted"})
+        self.assertEqual(self.provider.messages, [])
+
+    def test_query_budget_is_retained_after_stale_response_and_next_poll(self):
+        self.config["limits"].update(max_calls=3, max_queries=1)
+        self.provider = FakeProvider([{"queries": [{"query": "medicine", "limit": 1}]},
+                                      {"steps": [{"id": "a", "action": "wait", "args": {}}]}])
+        def invalidate_second_call():
+            if len(self.provider.messages) == 2:
+                self.client.context["request_id"] = "synthetic-refresh"
+        self.provider.before = invalidate_second_call
+        runtime = self.runtime()
+        self.assertEqual(runtime.run_once(), {"state": "discarded", "code": "request_invalidated"})
+        self.assertEqual(runtime._episode["queries"], 1)
+        self.assertEqual(runtime._episode["calls"], 2)
+        self.now = 11
+        self.assertEqual(runtime.run_once()["state"], "waiting_for_information")
+        self.assertEqual(len(self.provider.messages), 2)
+
+    def test_episode_journal_rejects_symlink_and_unknown_format(self):
+        path = self.memory.memory_root / "runtime-episodes.json"
+        path.write_text('{"schema_version":2,"episodes":{}}')
+        path.chmod(0o600)
+        with self.assertRaisesRegex(RuntimeErrorCode, "invalid_episode_journal"):
+            self.runtime()
+        path.write_text('{"schema_version":true,"episodes":{}}')
+        with self.assertRaisesRegex(RuntimeErrorCode, "invalid_episode_journal"):
+            self.runtime()
+        path.write_text('{"schema_version":1,"episodes":{}}')
+        path.chmod(0o644)
+        with self.assertRaisesRegex(RuntimeErrorCode, "invalid_episode_journal"):
+            self.runtime()
+        path.unlink()
+        target = Path(self.directory.name) / "outside.json"
+        target.write_text('{"schema_version":1,"episodes":{}}')
+        path.symlink_to(target)
+        with self.assertRaisesRegex(RuntimeErrorCode, "invalid_episode_journal"):
+            self.runtime()
+        self.assertEqual(target.read_text(), '{"schema_version":1,"episodes":{}}')
+
+    def test_time_based_forgetting_resyncs_projection_without_file_revision_change(self):
+        self.memory.cognition.update(half_life_seconds=1, recall_threshold=0.1)
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "danger"},
+                                         {"id": "lesson", "kind": "growth", "text": "caution",
+                                          "source_ids": ["heard"], "preferences": {"caution": 0.9}}])
+        runtime = self.runtime()
+        first = runtime._sync(self.context)
+        versions = [params["version"] for method, params in self.client.calls if method == "sync_memory"]
+        second = runtime._sync({**self.context, "game_time": 120})
+        syncs = [params for method, params in self.client.calls if method == "sync_memory"]
+        self.assertEqual(first["revision"], second["revision"])
+        self.assertEqual(len(syncs), 2)
+        self.assertNotEqual(syncs[-1]["version"], versions[0])
+        self.assertEqual(syncs[-1]["snapshot"]["records"], [])
+
+    def test_ordinary_clock_advance_keeps_projection_version_and_load_change_resends(self):
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "danger"}])
+        runtime = self.runtime()
+        runtime._sync(self.context)
+        runtime._sync({**self.context, "game_time": 101, "request_id": "fresh", "event_watermark": 2})
+        syncs = [params for method, params in self.client.calls if method == "sync_memory"]
+        self.assertEqual(len(syncs), 1)
+        runtime._sync({**self.context, "load_epoch": "different-load"})
+        syncs = [params for method, params in self.client.calls if method == "sync_memory"]
+        self.assertEqual(len(syncs), 2)
+        self.assertNotEqual(syncs[0]["version"], syncs[1]["version"])
+
+    def test_forgetting_during_model_call_invalidates_the_old_projection(self):
+        self.memory.cognition.update(half_life_seconds=1, recall_threshold=0.1)
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "danger"}])
+        self.provider.before = lambda: self.client.context.update(game_time=120)
+        self.assertEqual(self.runtime().run_once()["state"], "discarded")
+        self.assertEqual(self.client.offers, [])
+
+    def test_mandatory_records_survive_prompt_trimming_and_oversize_is_explicit(self):
+        request = {"context": self.context, "observations": {}, "action_catalog": action_catalog()[:1]}
+        mandatory = {"id": "receipt", "kind": "receipt", "text": "crafted medicine", "data": {"item": "bandages"}}
+        snapshot = {"revision": "r", "records": [*[{"id": str(i), "kind": "summary", "text": "x" * 1000}
+                                                   for i in range(30)], mandatory],
+                    "mandatory_record_ids": ["receipt"]}
+        messages = build_messages(request, snapshot, self.config)
+        payload = json.loads(messages[1]["content"])
+        self.assertIn(mandatory, payload["memory_records"])
+        self.assertLess(len(payload["memory_records"]), 31)
+        self.assertLessEqual(conservative_input_tokens(messages), self.config["limits"]["max_input_tokens"])
+        snapshot["records"][-1]["text"] = "x" * 30000
+        with self.assertRaisesRegex(RuntimeErrorCode, "context_budget_exceeded"):
+            build_messages(request, snapshot, self.config)
+
+    def test_native_cache_reserves_more_than_100_mandatory_records_without_truncating(self):
+        mandatory = [{"id": "receipt-" + str(i), "kind": "receipt", "text": "required", "context": self.context}
+                     for i in range(101)]
+        snapshot = {"revision": "r", "records": [{"id": "chat", "kind": "summary", "text": "optional", "context": self.context}, *mandatory],
+                    "mandatory_record_ids": [record["id"] for record in mandatory]}
+        self.assertEqual(_engine_cognition(snapshot)["records"], mandatory)
+        snapshot["records"][1]["text"] = "x" * 65537
+        with self.assertRaisesRegex(RuntimeErrorCode, "context_budget_exceeded"):
+            _engine_cognition(snapshot)
+
+    def test_reflection_sources_must_be_present_after_prompt_and_query_trimming(self):
+        request = {"context": self.context, "observations": {}}
+        snapshot = {"revision": "r", "records": [{"id": "hidden", "kind": "statement", "text": "x" * 30000}]}
+        queries = [{"query": "history", "records": [{"id": "query-hidden", "kind": "statement", "text": "x" * 30000}]}]
+        messages = build_messages(request, snapshot, self.config, queries)
+        self.assertEqual(json.loads(messages[1]["content"])["memory_records"], [])
+        self.assertEqual(json.loads(messages[1]["content"])["local_queries"], [])
+        for source in ("hidden", "query-hidden"):
+            with self.subTest(source=source), self.assertRaisesRegex(RuntimeErrorCode, "reflection_source_unavailable"):
+                _reflections({"reflections": [{"kind": "belief", "text": "interpretation", "source_ids": [source]}]}, messages, self.context)
+
+    def test_real_memory_obligation_and_its_receipt_reach_prompt_and_native_cache(self):
+        self.memory.cognition.update(half_life_seconds=1, recall_threshold=0.1)
+        events = [{"id": "crafted", "kind": "receipt", "text": "crafted bandages", "importance": 0.01,
+                   "data": {"item_type": "bandages", "count": 4}},
+                  {"id": "promised", "kind": "commitment", "text": "deliver medicine", "status": "accepted",
+                   "importance": 0.01, "source_ids": ["crafted"]}]
+        events += [{"id": "chat-" + str(i), "kind": "summary", "text": "unrelated ordinary conversation",
+                    "importance": 1} for i in range(120)]
+        ids = self.memory.ingest(self.context, events)
+        context = {**self.context, "game_time": 120}
+        request = {"context": context, "observations": {}, "action_catalog": action_catalog()[:1]}
+        snapshot = self.memory.snapshot(context, request)
+        self.assertEqual(set(snapshot["mandatory_record_ids"]), set(ids[:2]))
+        messages = build_messages(request, snapshot, self.config)
+        shown = {record["id"]: record for record in json.loads(messages[1]["content"])["memory_records"]}
+        self.assertEqual(shown[ids[0]]["data"], {"item_type": "bandages", "count": 4})
+        self.assertEqual(shown[ids[1]]["status"], "accepted")
+        cache = _engine_cognition(snapshot, context)
+        self.assertEqual({record["id"] for record in cache["records"]}, set(ids[:2]))
+
+    def test_automatic_reflection_and_projection_refresh_do_not_buy_another_episode(self):
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "Player says cellar is safe"}])
+        source = self.memory.retrieve(self.context)[0]["id"]
+        self.provider = FakeProvider([{"steps": [], "reflections": [{"kind": "belief", "text": "perhaps safe",
+                                                                       "source_ids": [source]}]}])
+        runtime = self.runtime()
+        self.assertEqual(runtime.run_once()["state"], "submitted")
+        self.now = 11
+        self.client.context["request_id"] = "projection-refresh"
+        self.assertEqual(runtime.run_once()["state"], "waiting_for_information")
+        self.assertEqual(len(self.provider.messages), 1)
+
+    def test_ordinary_clock_advance_during_thinking_keeps_candidate_valid(self):
+        self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "danger"}])
+        self.provider.before = lambda: self.client.context.update(game_time=101)
+        self.assertEqual(self.runtime().run_once()["state"], "submitted")
+        self.assertEqual(len(self.client.offers), 1)
+
+    def test_native_requirement_decision_is_kept_as_receipt_without_promoting_model_text(self):
+        self.client.events = [{"id": "decided", "kind": "requirement_decision", "text": "refused",
+                               "data": {"requirement_id": "incoming", "decision": "refused"}}]
+        self.assertEqual(self.runtime().run_once()["state"], "memory_resynced")
+        record = self.memory.retrieve(self.context)[0]
+        self.assertEqual(record["kind"], "receipt")
+        self.assertEqual(record["data"], {"requirement_id": "incoming", "decision": "refused",
+                                           "native_event_kind": "requirement_decision"})
+
+    def test_prompt_preserves_stable_requirement_decisions_for_structured_refusal(self):
+        decisions = [{"requirement_id": "incoming", "source_event_id": "incoming", "source_sequence": 1,
+                      "decision": "pending"}]
+        request = {"context": self.context, "observations": {}, "requirement_decisions": decisions}
+        messages = build_messages(request, {"revision": "r", "records": []}, self.config)
+        self.assertEqual(json.loads(messages[1]["content"])["requirement_decisions"], decisions)
+        self.assertIn("requirement_id", messages[0]["content"])
+
+    def test_explicit_config_edit_renews_budget_and_unchanged_config_restart_waits(self):
+        profile = Path(self.directory.name)
+        (profile / "config.json").write_text(json.dumps(self.config))
+        self.provider = FakeProvider([{"steps": [{"id": "a", "action": "invented", "args": {}}]},
+                                      {"steps": [{"id": "b", "action": "wait", "args": {}}]}])
+        runtime = AgentRuntime(load_config(profile), self.memory, self.client, self.provider,
+                               profile=profile, clock=lambda: self.now)
+        self.addCleanup(runtime.close)
+        self.assertEqual(runtime.run_once()["state"], "rejected")
+        self.config["personality"]["social_behavior"]["refuse"] = False
+        (profile / "config.json").write_text(json.dumps(self.config))
+        self.now = 11
+        self.assertEqual(runtime.run_once()["state"], "submitted")
+        self.assertEqual(len(self.provider.messages), 2)
+        runtime.close()
+        provider = FakeProvider()
+        restarted = AgentRuntime(load_config(profile), self.memory, self.client, provider,
+                                 profile=profile, clock=lambda: self.now)
+        self.addCleanup(restarted.close)
+        self.assertEqual(restarted.run_once()["state"], "waiting_for_information")
+        self.assertEqual(provider.messages, [])
 
 
 if __name__ == "__main__":

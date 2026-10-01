@@ -92,7 +92,7 @@ def install_mod(user_dir: str | Path) -> Path:
         path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
         if not path.exists():
             _new_file(path, data)
-    manifest = {"schema_version": 1, "package_version": "0.1.1", "protocol_version": PROTOCOL_VERSION,
+    manifest = {"schema_version": 1, "package_version": "0.1.2.dev0", "protocol_version": PROTOCOL_VERSION,
                 "schema_digest": schema_digest(),
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in payloads.items()}}
     if not manifest_path.exists():

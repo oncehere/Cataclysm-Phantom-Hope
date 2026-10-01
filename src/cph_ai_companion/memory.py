@@ -25,6 +25,7 @@ KINDS = frozenset({"observation", "statement", "belief", "commitment", "receipt"
 SUBJECTIVE = frozenset({"belief", "relationship", "growth", "summary", "goal"})
 _MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_EVENT_DATA_BYTES = 1024 * 1024
+MAX_MANDATORY_RECORDS = 256
 _DATA_KINDS = frozenset({"observation", "statement", "receipt", "commitment", "goal"})
 _RECORD_FIELDS = frozenset({"schema_version", "id", "source_event_id", "kind", "context", "text",
                             "source_ids", "importance", "confidence", "provenance", "status",
@@ -78,6 +79,20 @@ def _scope(context: Mapping[str, Any]) -> str:
 
 def _record_id(context: Mapping[str, Any], source_id: str) -> str:
     return _digest(_encoded([_scope(context), source_id]))[:32]
+
+
+def _world_scope(context: Mapping[str, Any]) -> str:
+    # A cognition import belongs to the world and actor, not a particular load
+    # branch or game checkpoint. Reloading that world must keep its entry point.
+    return _digest(_encoded([context[k] for k in ("world_id", "actor_id")]))[:32]
+
+
+def _query_words(query: str) -> set[str]:
+    words = set(re.findall(r"\w+", query.casefold()))
+    for text in re.findall(r"[\u3400-\u9fff]+", query):
+        if len(text) > 2:
+            words.update(text[i:i + 2] for i in range(len(text) - 1))
+    return words - {"a", "an", "and", "the", "to", "i", "it", "is", "of", "for", "with"}
 
 
 def _event_fingerprint(record: Mapping[str, Any]) -> str:
@@ -195,6 +210,7 @@ class MemoryStore:
             self._state: dict[str, Any] = {
                 "schema_version": 1, "sequence": 0, "heads": {}, "files": {},
                 "manual": [], "deleted": [], "conflicts": [], "views": {}, "watched": {},
+                "imports": {},
             }
             manifests = sorted(self._safe("memory/manifests").glob("*.json"))
             if manifests:
@@ -304,6 +320,9 @@ class MemoryStore:
         return _digest(data)
 
     def _validate_state(self) -> None:
+        # Schema 1 manifests from earlier releases have no import entry points.
+        # Establish each entry lazily at its first subsequent context read.
+        self._state.setdefault("imports", {})
         for key in ("heads", "files", "views", "watched"):
             if not isinstance(self._state.get(key), dict):
                 raise MemoryStoreError("invalid_memory_manifest")
@@ -323,6 +342,22 @@ class MemoryStore:
             self._safe(path)
             if not path.startswith("memory/records/") or not isinstance(metadata, dict) or not _ID.fullmatch(str(metadata.get("id", ""))):
                 raise MemoryStoreError("invalid_memory_manifest")
+        if not isinstance(self._state["imports"], dict):
+            raise MemoryStoreError("invalid_memory_manifest")
+        for identity, entry in self._state["imports"].items():
+            if not isinstance(identity, str) or not _ID.fullmatch(identity) or not isinstance(entry, dict):
+                raise MemoryStoreError("invalid_memory_manifest")
+            if type(entry.get("retain")) is not bool or not isinstance(entry.get("growth_heads"), dict):
+                raise MemoryStoreError("invalid_memory_manifest")
+            if _world_scope(_context(entry.get("context", {}))) != identity:
+                raise MemoryStoreError("invalid_memory_manifest")
+            archives = entry.get("selected_archives")
+            if not isinstance(archives, list) or any(not isinstance(item, str) or not _ID.fullmatch(item) for item in archives):
+                raise MemoryStoreError("invalid_memory_manifest")
+            for rid, path in entry["growth_heads"].items():
+                if not isinstance(rid, str) or not _ID.fullmatch(rid) or not isinstance(path, str) or not path.startswith(f"memory/records/{rid}/"):
+                    raise MemoryStoreError("invalid_memory_manifest")
+                self._safe(path)
 
     def _publish(self) -> None:
         self._state["sequence"] += 1
@@ -694,6 +729,48 @@ class MemoryStore:
         self.refresh()
         return result
 
+    def _freeze_imports(self, context: dict[str, Any]) -> None:
+        """Persist the foreign growth entry point independently of game saves.
+
+        A reset-to-retain change or an explicitly added archive is an import
+        expansion. Ordinary loads and new automatic heads in another world are
+        not. Human record edits and tombstones are applied later to this view.
+        """
+        identity = _world_scope(context)
+        previous = self._state["imports"].get(identity)
+        retain = self.continuity.get("new_world_personality_growth", "reset") == "retain"
+        archives = sorted(set(self.continuity.get("selected_archives", [])))
+        if previous is None and not retain:
+            return
+        entry = deepcopy(previous) if previous is not None else {
+            "context": deepcopy(context), "entry_revision": self.revision,
+            "retain": False, "selected_archives": [], "growth_heads": {},
+        }
+        if retain and not entry["retain"]:
+            # The initial entry and explicit policy expansion choose existing
+            # published heads once. Never consume independent audit bodies.
+            entry["growth_heads"] = {
+                rid: self._state["heads"][rid] for rid, record in self._records.items()
+                if record["kind"] == "growth"
+                and str(record["context"]["world_id"]) != context["world_id"]
+                and rid not in self._state["deleted"]
+            }
+        added = set(archives) - set(entry["selected_archives"])
+        if retain:
+            for archive in sorted(added):
+                for rid, path in self._load_checkpoint(archive)["heads"].items():
+                    if rid in self._state["deleted"]:
+                        continue
+                    record = self._json(path)
+                    self._validate_record(record, rid)
+                    if record["kind"] == "growth" and str(record["context"]["world_id"]) != context["world_id"]:
+                        entry["growth_heads"][rid] = path
+        entry["retain"] = retain
+        entry["selected_archives"] = archives
+        if entry != previous:
+            self._state["imports"][identity] = entry
+            self._publish()
+
     def _imports(self) -> dict[str, str]:
         paths: dict[str, str] = {}
         if self.continuity.get("new_world_experiences", "none") != "selected_archives" and self.continuity.get("new_world_personality_growth", "reset") != "retain":
@@ -711,6 +788,7 @@ class MemoryStore:
         view = self._state["views"].get(_scope(context))
         candidates = dict(self._state["heads"])
         imports = self._imports()
+        frozen_growth = self._state["imports"].get(_world_scope(context), {}).get("growth_heads", {})
         for rid, path in imports.items():
             if rid in self._state["deleted"]:
                 continue
@@ -719,6 +797,7 @@ class MemoryStore:
             origin = self._json(path)["context"]
             if origin["world_id"] != context["world_id"] or rid not in candidates:
                 candidates[rid] = path
+        candidates.update(frozen_growth)
         if view is not None:
             # Checkpoint policy selects historical heads; retain policy selects
             # current heads. Do not apply a checkpoint to both indiscriminately.
@@ -751,7 +830,7 @@ class MemoryStore:
                         continue
             else:
                 if growth:
-                    if self.continuity.get("new_world_personality_growth", "reset") != "retain":
+                    if self.continuity.get("new_world_personality_growth", "reset") != "retain" or rid not in frozen_growth:
                         continue
                 elif self.continuity.get("new_world_experiences", "none") != "selected_archives" or rid not in imports:
                     continue
@@ -770,25 +849,120 @@ class MemoryStore:
         if not isinstance(query, str) or type(limit) is not int or not 0 <= limit <= 1000:
             raise MemoryStoreError("invalid_memory_query")
         self.refresh()
-        words = set(re.findall(r"\w+", query.casefold()))
+        self._freeze_imports(context)
+        return self._ranked(context, self._selected(context), query, limit)
+
+    def _ranked(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]],
+                query: str, limit: int, mandatory: set[str] | None = None) -> list[dict[str, Any]]:
+        words = _query_words(query)
+        mandatory = mandatory or set()
         ranked = []
-        for rid, (_, record) in self._selected(context).items():
+        pinned = []
+        for rid, (_, source) in selected.items():
+            record = deepcopy(source)
             age = max(0, context["game_time"] - record["context"]["game_time"])
             weight = record.get("importance", 0.5)
             if self.cognition.get("forgetting_enabled", True):
                 weight *= 2 ** (-age / self.cognition.get("half_life_seconds", 604800.0))
-                if weight < self.cognition.get("recall_threshold", 0.05):
+                if rid not in mandatory and weight < self.cognition.get("recall_threshold", 0.05):
                     continue
-            matches = sum(word in record["text"].casefold() for word in words)
-            if words and not matches:
+            text = record["text"].casefold()
+            if record["kind"] == "receipt" and "data" in record:
+                text += " " + _encoded(record["data"]).decode("utf-8").casefold()
+            matches = sum(word in text for word in words)
+            # Current personality growth and relationship interpretations guide
+            # every goal; their relevance does not require repeating a goal noun.
+            personal = record["kind"] in {"growth", "relationship"}
+            if rid not in mandatory and words and not matches and not personal:
                 continue
             record["recall_weight"] = weight
-            ranked.append((matches, weight, record["context"]["game_time"], rid, record))
+            target = pinned if rid in mandatory else ranked
+            target.append((matches, weight, record["context"]["game_time"], rid, record))
+        pinned.sort(key=lambda item: item[:4], reverse=True)
         ranked.sort(key=lambda item: item[:4], reverse=True)
-        return [item[4] for item in ranked[:limit]]
+        return [item[4] for item in pinned] + [item[4] for item in ranked[:max(0, limit - len(pinned))]]
 
-    def snapshot(self, context: Mapping[str, Any]) -> dict[str, Any]:
-        records = self.retrieve(context, limit=100)
+    def _current_scope(self, context: dict[str, Any], record: Mapping[str, Any]) -> bool:
+        origin = _context(record["context"])
+        if any(origin[key] != context[key] for key in ("world_id", "actor_id")) or origin["game_time"] > context["game_time"]:
+            return False
+        if origin["branch_id"] == context["branch_id"]:
+            return True
+        # A selected same-world checkpoint restores obligations from that save.
+        # Merely retained/imported alternate timelines do not create new tasks.
+        view = self._state["views"].get(_scope(context), {})
+        return (self.continuity.get("load_experiences", "checkpoint") == "checkpoint"
+                and record["id"] in view)
+
+    def _unfinished(self, context: dict[str, Any], record: Mapping[str, Any]) -> bool:
+        if not self._current_scope(context, record):
+            return False
+        if record["kind"] == "commitment":
+            return record.get("status", "proposed") not in {"fulfilled", "cancelled"}
+        return record["kind"] == "goal" and record.get("status", "proposed") not in {"completed", "abandoned"}
+
+    def _goal_query(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]],
+                    request: Mapping[str, Any] | None) -> str:
+        texts = [record["text"] for _, record in selected.values() if self._unfinished(context, record)]
+        if request is not None:
+            if not isinstance(request, Mapping):
+                raise MemoryStoreError("invalid_memory_request")
+            observations = request.get("observations", {})
+            actor = observations.get("actor", {}) if isinstance(observations, Mapping) else {}
+            known = actor.get("known_information", {}) if isinstance(actor, Mapping) else {}
+            for value in (request.get("goal"), observations.get("goal") if isinstance(observations, Mapping) else None,
+                          actor.get("goal") if isinstance(actor, Mapping) else None,
+                          known.get("goal") if isinstance(known, Mapping) else None,
+                          known.get("commitment") if isinstance(known, Mapping) else None):
+                if isinstance(value, str) and value:
+                    texts.append(value)
+            pending = {item.get("requirement_id") for item in request.get("requirement_decisions", [])
+                       if isinstance(item, Mapping) and item.get("decision") == "pending"}
+            for event in request.get("events", []):
+                if not isinstance(event, Mapping) or event.get("kind") != "statement":
+                    continue
+                data = event.get("data", {})
+                if isinstance(data, Mapping) and data.get("requirement_id") in pending and isinstance(event.get("text"), str):
+                    texts.append(event["text"])
+        return " ".join(texts)
+
+    def _mandatory(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]], query: str) -> set[str]:
+        records = {rid: record for rid, (_, record) in selected.items()}
+        mandatory = {rid for rid, record in records.items() if self._unfinished(context, record)}
+        # Keep receipt evidence referenced by current obligations even when its
+        # wording differs from their goals. Do not recover missing sources from
+        # audit logs, nor pin other forgotten observations or interpretations.
+        visited = set(mandatory)
+        pending = list(mandatory)
+        while pending:
+            record = records[pending.pop()]
+            for source in record.get("source_ids", []):
+                if source in records and source not in visited:
+                    visited.add(source)
+                    pending.append(source)
+                    if records[source]["kind"] == "receipt" and self._current_scope(context, records[source]):
+                        mandatory.add(source)
+        words = _query_words(query)
+        for rid, record in records.items():
+            if record["kind"] != "receipt" or not words or not self._current_scope(context, record):
+                continue
+            text = record["text"].casefold()
+            if "data" in record:
+                text += " " + _encoded(record["data"]).decode("utf-8").casefold()
+            if any(word in text for word in words):
+                mandatory.add(rid)
+        if len(mandatory) > MAX_MANDATORY_RECORDS:
+            raise MemoryStoreError("mandatory_context_too_large")
+        return mandatory
+
+    def snapshot(self, context: Mapping[str, Any], request: Mapping[str, Any] | None = None) -> dict[str, Any]:
+        context = _context(context)
+        self.refresh()
+        self._freeze_imports(context)
+        selected = self._selected(context)
+        query = self._goal_query(context, selected, request)
+        mandatory = self._mandatory(context, selected, query)
+        records = self._ranked(context, selected, query, 100, mandatory)
         try:
             background = self._read_path(self.background_path).decode("utf-8") if self.background_path.exists() else ""
         except UnicodeError:
@@ -798,11 +972,12 @@ class MemoryStore:
         if self.refresh():
             raise MemoryStoreError("memory_changed_during_snapshot")
         return {"revision": self.revision, "background": background, "records": records,
-                "cognition": deepcopy(self.cognition)}
+                "cognition": deepcopy(self.cognition), "mandatory_record_ids": sorted(mandatory)}
 
     def checkpoint(self, context: Mapping[str, Any]) -> dict[str, Any]:
         context = _context(context)
         self.refresh()
+        self._freeze_imports(context)
         checkpoint_id = uuid4().hex
         heads = {rid: path for rid, (path, _) in self._selected(context).items()}
         result = {"schema_version": 1, "id": checkpoint_id, "context": context,

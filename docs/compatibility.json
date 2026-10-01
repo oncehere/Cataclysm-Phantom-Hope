@@ -1,41 +1,38 @@
 {
   "acceptance": {
-    "actual_user_environment": "NOT_RUN",
-    "artifact_install": "PASS_V011_OUTSIDE_SOURCE",
-    "complete_physical_crash_campaign": "NOT_RUN",
-    "full_game_build": "PASS_LOCAL_CLANG_21_1_8",
-    "full_gnu_game": "NOT_RUN",
-    "full_native_suite": "NOT_RUN",
-    "gameplay": "PASS_RECORDED_ISOLATED_NATIVE_SCENARIOS",
-    "gnu_module": "PASS_GCC_15_3_SYNTAX_DIAGNOSTICS_ONLY",
-    "gui": "NOT_RUN",
-    "hosted_ci": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
-    "hosted_cph_result": "PENDING_EXTERNAL_RESULT_AS_OF_PACKAGE_ASSEMBLY",
-    "installed_native_joint": "PASS_A04_V011_ACTUAL",
-    "live_multiplayer": "NOT_RUN",
-    "mod_load": "PASS_V011_A04_ACTUAL",
-    "native_tests": "PASS_FOCUSED_63_CASES",
-    "published": "NOT_RUN_V011_AS_OF_PACKAGE_ASSEMBLY",
-    "python_tests": "PASS_111_V011_SOURCE_AND_INSTALLED",
-    "real_provider": "NOT_RUN",
-    "save_reload": "PASS_FOCUSED_FAULT_FIXTURES; FULL_GUI_JOURNEYS_NOT_RUN"
+    "actual_user_environment": "NOT_RUN_NEW_CANDIDATE",
+    "artifact_install": "NOT_RUN_NEW_CANDIDATE",
+    "complete_physical_crash_campaign": "NOT_RUN_NEW_CANDIDATE",
+    "full_game_build": "NOT_RUN_NEW_CANDIDATE",
+    "full_gnu_game": "NOT_RUN_NEW_CANDIDATE",
+    "full_native_suite": "NOT_RUN_NEW_CANDIDATE",
+    "gameplay": "NOT_RUN_NEW_CANDIDATE",
+    "gnu_module": "NOT_RUN_NEW_CANDIDATE",
+    "gui": "NOT_RUN_NEW_CANDIDATE",
+    "hosted_ci": "NOT_RUN_NEW_CANDIDATE",
+    "hosted_cph_result": "NOT_RUN_NEW_CANDIDATE",
+    "installed_native_joint": "NOT_RUN_NEW_CANDIDATE",
+    "live_multiplayer": "NOT_RUN_NEW_CANDIDATE",
+    "mod_load": "NOT_RUN_NEW_CANDIDATE",
+    "native_tests": "NOT_RUN_NEW_CANDIDATE",
+    "published": "NOT_RUN_NEW_CANDIDATE",
+    "python_tests": "PASS_138_SOURCE",
+    "real_provider": "NOT_RUN_NEW_CANDIDATE",
+    "save_reload": "NOT_RUN_NEW_CANDIDATE"
   },
   "candidate": {
-    "joint_repeat": "PASS_NATIVE_A04_PACKAGE_V011",
+    "joint_repeat": "NOT_RUN_NEW_CANDIDATE",
     "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
-    "native_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
-    "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
-    "status": "EXPERIMENTAL_PRERELEASE_CANDIDATE",
-    "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+    "native_head": "b2cb17ab73bd85d8a60e45b3345d106170d2ce99",
+    "native_tree": "6e9770ac91cdf9f8e924478792039b1805dfdf47",
+    "native_worktree": "codex/actor-control-20260930",
+    "status": "LOCAL_FIX_CANDIDATE_VERIFYING"
   },
   "evidence": {
-    "adjacent_failures": "docs/evidence/native-controlled-baseline.json",
-    "joint": "docs/evidence/v0.1.1/native-installed-joint.json",
-    "native": "docs/evidence/v0.1.1/native-acceptance.json",
-    "personality": "docs/evidence/personality-coverage.json",
-    "python": "docs/evidence/v0.1.1/python-package.json"
+    "prior_release": "docs/evidence/v0.1.1-compatibility.json",
+    "python": "docs/evidence/review-fixes-20261001/python-source.json"
   },
-  "evidence_as_of": "PACKAGE_ASSEMBLY_SNAPSHOT; final GitHub CI and public release state/digests are recorded in their actual GitHub metadata and outer report",
+  "evidence_as_of": "LOCAL_REVIEW_FIX_CANDIDATE; historical release evidence does not certify changed sources",
   "formats": {
     "checkpoint": 1,
     "configuration": 1,
@@ -47,52 +44,16 @@
     "evidence": "docs/evidence/native-controlled-baseline.json"
   },
   "openai_sdk": "3.22.1",
-  "package_version": "0.1.1",
+  "package_version": "0.1.2.dev0",
   "previous_release": {
-    "boundary": "Published historical assets and tests remain unchanged; they do not certify this revised package.",
-    "compatibility_snapshot": "docs/evidence/v0.1.0-compatibility.json",
-    "url": "https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.0",
-    "version": "0.1.0"
+    "boundary": "Published assets and historical tests remain unchanged and do not certify this candidate.",
+    "compatibility_snapshot": "docs/evidence/v0.1.1-compatibility.json",
+    "url": "https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.1",
+    "version": "0.1.1"
   },
-  "protocol_version": "1.0",
+  "protocol_version": "1.1",
   "python": ">=3.12,<3.13",
   "schema_version": 1,
   "target_platform": "linux-x86_64",
-  "validated_combinations": [
-    {
-      "compiler": "Clang21.1.8",
-      "evidence": "docs/evidence/v0.1.1/native-installed-joint.json",
-      "native_commit": "a04e657dc009cc5dceacec20eb1acdc23068f248",
-      "native_source_url": "https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/a04e657dc009cc5dceacec20eb1acdc23068f248",
-      "native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
-      "not_run": [
-        "full official native suite",
-        "GUI",
-        "real provider/model quality",
-        "actual user game environment",
-        "complete physical crash campaign",
-        "actual cross-dimension journey",
-        "death/replacement GUI",
-        "live multiplayer host/client",
-        "other platforms",
-        "fullGNUgame orcompletehostedCPHbuild"
-      ],
-      "openai_sdk": "3.22.1",
-      "package_version": "0.1.1",
-      "platform": "linux-x86_64",
-      "protocol_version": "1.0",
-      "python": "3.12.14",
-      "schema_digest": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c",
-      "scope": [
-        "63-case focused native suite",
-        "installed111 package with real NPC ground pickup,actual native AP/receipts and local memory",
-        "input-wait processing without game-time or AP advance",
-        "safe native handoff",
-        "official SDK with synthetic localhost HTTP",
-        "Latestinstalled0.1.1 MOD native scanner"
-      ],
-      "status": "PASS_RECORDED_JOINT_SCOPE",
-      "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
-    }
-  ]
+  "validated_combinations": []
 }
