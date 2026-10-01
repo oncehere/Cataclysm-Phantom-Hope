@@ -354,8 +354,10 @@ TEST_CASE( "actor_control_plan_retry_returns_real_receipts_without_reexecution",
     CHECK( at( duplicate, "receipts", 0 ).get_string( "state" ) == "succeeded" );
     CHECK( actor.get_moves() == 100 );
     std::string error;
+    // A different valid payload must reach the request-identity conflict check.
+    // The wire contract allows one turn only; omitting it uses the native default.
     control::dispatch( "offer_plan", plan( request,
-                                           R"([{"id":"rest","action":"wait","args":{"turns":2}}])" ),
+                                           R"([{"id":"rest","action":"wait","args":{}}])" ),
                        error );
     CHECK( error == "operation_payload_conflict" );
     CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
