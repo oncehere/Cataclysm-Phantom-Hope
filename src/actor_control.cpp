@@ -531,7 +531,7 @@ std::string render_request( const std::string &window_context, const std::string
     return buffer.str();
 }
 
-bool step_allowed( const action_step &step, std::string &error )
+bool step_allowed( const action_step &step, std::string &error, bool enforce_association = true )
 {
     if( ( is_behavior( step.action ) && !allows( step.action ) ) ||
         ( !step.intent.empty() && ( !is_behavior( step.intent ) || !allows( step.intent ) ) ) ) {
@@ -546,7 +546,7 @@ bool step_allowed( const action_step &step, std::string &error )
         error = "refusal_requires_requirement";
         return false;
     }
-    if( step.requirement_id.empty() && step.action != "propose_own_goals" &&
+    if( enforce_association && step.requirement_id.empty() && step.action != "propose_own_goals" &&
         step.intent != "propose_own_goals" &&
         std::any_of( state.requirement_decisions.begin(), state.requirement_decisions.end(),
     []( const std::pair<const std::string, requirement_decision> &incoming ) {
@@ -1257,7 +1257,7 @@ bool act( npc &candidate, bool urgent )
         return false;
     }
     std::string permission_error;
-    if( !step_allowed( current.step, permission_error ) ) {
+    if( !step_allowed( current.step, permission_error, !current.started ) ) {
         record_result( current.step, { execution_state::failed, permission_error, "{}", false } );
         state.queue.pop_front();
         cancel_unstarted( "dependency_failed" );

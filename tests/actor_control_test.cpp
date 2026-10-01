@@ -152,6 +152,12 @@ std::string plan( const JsonObject &request, const std::string &steps )
     return "{\"context\":" + child( request, "context" ).str() + ",\"steps\":" + steps + "}";
 }
 
+int native_amount( const Character &actor, const char *name )
+{
+    const itype_id id( name );
+    return item::count_by_charges( id ) ? actor.charges_of( id ) : actor.amount_of( id );
+}
+
 std::string saved()
 {
     std::ostringstream buffer;
@@ -1121,7 +1127,7 @@ TEST_CASE( "actor_control_cancel_retains_completed_native_craft_output_receipt",
     REQUIRE( actor.activity );
     process_activity( actor );
     REQUIRE_FALSE( actor.activity );
-    REQUIRE( actor.charges_of( itype_id( "bandages_makeshift" ) ) == 2 );
+    REQUIRE( native_amount( actor, "bandages_makeshift" ) == 2 );
     actor.set_moves( 0 );
     control::cancel();
     const JsonObject result = response( "status" );
@@ -1130,5 +1136,37 @@ TEST_CASE( "actor_control_cancel_retains_completed_native_craft_output_receipt",
     CHECK( receipt.get_string( "state" ) == "succeeded" );
     CHECK( receipt.get_string( "code" ) == "crafted" );
     REQUIRE( child( receipt, "detail" ).get_array( "produced" ).size() > 0 );
-    CHECK( actor.charges_of( itype_id( "bandages_makeshift" ) ) == 2 );
+    CHECK( native_amount( actor, "bandages_makeshift" ) == 2 );
+}
+
+TEST_CASE( "actor_control_new_chat_during_native_craft_retains_completed_work",
+           "[actor_control][lifecycle][crafting][social]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    const recipe_id recipe( "bandages_makeshift" );
+    actor.learn_recipe( &recipe.obj() );
+    item sheet( itype_id( "sheet_cotton" ), calendar::turn );
+    sheet.set_owner( actor );
+    actor.i_add( std::move( sheet ) );
+    prepare( actor );
+    response( "offer_plan", plan( response( "take_request" ),
+                                  R"([{"id":"craft","action":"craft","args":{"recipe":"bandages_makeshift"}}])" ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    REQUIRE( actor.activity );
+    std::string error;
+    REQUIRE( control::chat( "Another question while you work.", error ) );
+    process_activity( actor );
+    REQUIRE_FALSE( actor.activity );
+    REQUIRE( native_amount( actor, "bandages_makeshift" ) == 2 );
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    const JsonObject result = response( "status" );
+    CHECK( result.get_int( "queue_length" ) == 0 );
+    CHECK( at( result, "receipts", 0 ).get_string( "state" ) == "succeeded" );
+    CHECK( at( result, "receipts", 0 ).get_string( "code" ) == "crafted" );
+    CHECK( at( result, "requirement_decisions", 0 ).get_string( "decision" ) == "pending" );
+    CHECK( native_amount( actor, "bandages_makeshift" ) == 2 );
 }
