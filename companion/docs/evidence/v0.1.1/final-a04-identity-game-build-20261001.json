@@ -1,0 +1,51 @@
+{
+  "created_at": "2026-10-01T08:05:06.418571+00:00",
+  "scope": "Actual canonical cataclysm-tiles complete game target build using existing compiled objects; not clean/full-GCC or hosted acceptance",
+  "source_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+  "source_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+  "source_status": "",
+  "source_sha256": "dca61acd0baf5469c801697171c4893d6bfaa771281a775e3af5470efc9b07cd",
+  "argv": [
+    "/nix/store/r8a159fqvj0mpczq0dq8d3dwdd2rsz8c-ninja-1.13.2/bin/ninja",
+    "-C",
+    "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930",
+    "-j3",
+    "cataclysm-tiles"
+  ],
+  "cwd": "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930",
+  "exit_code": 0,
+  "elapsed_seconds": 6.583,
+  "log": "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/final-a04-identity-game-build-20261001.log",
+  "log_sha256": "7789af0a818a0a2e747d230efc3cdf052294bf3eb44a07ba44b718993c0ea825",
+  "environment": {
+    "CCACHE_DISABLE": "1",
+    "XDG_CACHE_HOME": "/tmp/cph-ai-nix-cache-20260930"
+  },
+  "game_binary": "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/src/cataclysm-tiles",
+  "game_binary_sha256": "f006645f21e33adace9beb5f936e49c9d7f7f8cfbd3cc753321081ce90832c62",
+  "focused_binary": "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+  "focused_binary_sha256": "5e5d4ad5e8585924028eef01e522510385609536f94ed6e2a509089e2af6d72b",
+  "game_version_argv": [
+    "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/src/cataclysm-tiles",
+    "--version"
+  ],
+  "game_version": "Cataclysm: Cleanwater Bomb 1979-12-31-a04e657dc00\n\n+tiles, -sound\n\ndata dir: /usr/local/share/cataclysm-dda/\nuser dir: /home/oncehere/.cataclysm-dda/",
+  "game_version_exit": 0,
+  "identity_commit_matches": true,
+  "checkout_and_controller_bytes_unchanged": true,
+  "validation_reuse": {
+    "basis": "Exact actor_control.cpp SHA equals GNU and precommit native63 reports; actual commit changes only the two internal helper links; no repeated behavioral test needed; final installed joint/hosted owned by root",
+    "gnu_report": "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/gcc-missing-declarations-20261001.json",
+    "gnu_compiler": "g++ (GCC) 15.3.0",
+    "gnu_exit": 0,
+    "native_report": "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-gcc-helper-fix-20261001.json",
+    "native_summary": [
+      "Passed all 63 test cases with 1727 assertions."
+    ],
+    "native_exit": 0,
+    "json_errors": 0
+  },
+  "hosted_fix": "NOT_RUN",
+  "final_installed_joint": "DEFERRED_TO_ROOT",
+  "full_gcc_game": "NOT_RUN"
+}

@@ -2,6 +2,15 @@ Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unpo
 
 --------------------------------------------------------------------------------
 
+The independently distributed CPH AI Companion subproject in companion/ is
+licensed under Apache-2.0. Its original Python, Lua, protocol, tests and
+documentation retain the authorship and notices in companion/LICENSE,
+companion/NOTICE and companion/THIRD_PARTY.md. Native game changes and all other
+components retain their existing licenses; sharing this source repository does
+not relicense the game or the companion package.
+
+--------------------------------------------------------------------------------
+
 GNU Unifont (data/font/unifont.ttf) is licensed under SIL Open Font License version 1.1 and GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
 --------------------------------------------------------------------------------

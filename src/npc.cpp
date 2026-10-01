@@ -1,4 +1,5 @@
 #include "npc.h"
+#include "actor_control.h"
 
 #include <calendar.h>
 #include <color.h>
@@ -3076,7 +3077,7 @@ int npc::follow_distance() const
     if( !sees( here,  player_character ) ) {
         return 2;
     }
-    return 4;
+    return cata::actor_control::following_distance( *this, 4 );
 }
 
 nc_color npc::basic_symbol_color() const
@@ -3384,6 +3385,7 @@ void npc::die( map *here, Creature *nkiller )
         }
     }
     dead = true;
+    cata::actor_control::on_actor_death( *this );
     overmap_buffer.foreach_loaded_camp( [this]( basecamp & camp ) {
         camp.platform_retire_tasks_for_worker( *this );
     } );
@@ -3662,7 +3664,8 @@ void npc::on_load( map *here )
         // Otherwise NPCs try to eat rotten food and fail
         process_items( here );
         // give NPCs that are doing activities a pile of moves
-        if( has_destination() || activity ) {
+        if( ( has_destination() || activity ) &&
+            !cata::actor_control::pauses_offline_work( *this ) ) {
             add_msg_debug( debugmode::DF_NPC, "on_load: adding %d moves to %s (cur=%d)",
                            to_moves<int>( dt ), get_name(), get_moves() );
             mod_moves( to_moves<int>( dt ) );

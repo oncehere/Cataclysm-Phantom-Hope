@@ -15,6 +15,9 @@
 #include <utility>
 #include <vector>
 
+#ifndef CATA_IN_TOOL
+    #include "actor_control_save.h"
+#endif
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "coordinates.h"
@@ -418,6 +421,7 @@ void mapbuffer::save_quad(
         if( z ) {
             z->delete_files( { filename.get_relative_path().filename() } );
         } else {
+            cata::actor_control::save_transaction::before_write( filename.get_unrelative_path() );
             std::filesystem::remove( filename.get_unrelative_path() );
         }
     }

@@ -20,6 +20,7 @@
 #include <utility>
 
 #include "action.h"
+#include "actor_control.h"
 #if defined(__ANDROID__)
     #include "android_native_ui.h"
 #endif
@@ -565,8 +566,14 @@ const std::string &input_context::handle_input( const int timeout )
         }
     }
     while( true ) {
-
+        cata::actor_control::pump_incoming();
+        const int event_timeout = inp_mngr.get_timeout();
+        if( cata::actor_control::listening() && ( event_timeout < 0 || event_timeout > 100 ) ) {
+            inp_mngr.set_timeout( 100 );
+        }
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
+        inp_mngr.set_timeout( event_timeout );
+        cata::actor_control::pump_incoming();
         // A platform HUD tap can arrive while the backend is polling input.
         // Prefer it over the event that woke this loop without manufacturing a
         // keyboard event.

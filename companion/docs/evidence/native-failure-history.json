@@ -1,0 +1,65 @@
+{
+  "adapter_diagnosis_snapshot": {
+    "authority": "Dated adapter-owner diagnosis; the final focused run, not this earlier NOT_RUN diagnosis, provides rerun evidence.",
+    "fixes": [
+      {
+        "after": "shared adapter visual predicate honors actual blindness and native clairvoyance before position and creature visibility",
+        "before": "native adjacent and minimum-range shortcuts permit visual observation without sight",
+        "id": "blind_adjacent_knowledge",
+        "kind": "production"
+      },
+      {
+        "after": "five-minute native effect, required intensity three and actual deafness",
+        "before": "one-minute deaf effect becomes intensity one",
+        "id": "deaf_duration",
+        "kind": "fixture"
+      },
+      {
+        "after": "expect early target-not-observed failure and no further moves or stock",
+        "before": "expect stock-selection failure after source becomes empty",
+        "id": "empty_gather",
+        "kind": "fixture"
+      },
+      {
+        "after": "assert real map damage and NPC cost, then bounded native attempts until destruction",
+        "before": "expect instant destruction after one bash",
+        "id": "native_door_damage",
+        "kind": "fixture"
+      },
+      {
+        "after": "clean fixture setup, seeded ground item and full before/after serialized ground equality",
+        "before": "random spawn drops invalidate empty-ground assumption",
+        "id": "generated_doctor_stock",
+        "kind": "fixture"
+      },
+      {
+        "after": "local allow_omitted_members on intentional fragments only",
+        "before": "partial execution and assertion readers emit unread-member errors",
+        "id": "partial_json",
+        "kind": "diagnostic"
+      }
+    ],
+    "owned_source": {
+      "src/npc_execution_adapter.cpp": "528b480ea8e4d558e09920193fb97e17badd58b3137389abfd46ebd59a6e9094",
+      "tests/npc_execution_adapter_test.cpp": "8957af0fd8fb71e1c2afbfaef3d9e6a3984070df26c9b09f501410b9020a894b"
+    }
+  },
+  "boundary": "The first failed execution remains historical FAIL. Later focused acceptance does not claim the full official native test target, all gameplay or graphical recovery passed.",
+  "excerpt": "docs/evidence/native-actor-suite-first-failures.txt",
+  "excerpt_sha256": "447ca3bbb4559820cfb7ee517c7d230c03ad7bffd8f00b8ea608a76ac436f216",
+  "later_focused_rerun": {
+    "assertions": 1631,
+    "cases": 61,
+    "report": "docs/evidence/native-installed-joint.json#native_suite",
+    "status": "PASS"
+  },
+  "original_cases": 61,
+  "original_failed_assertions": 20,
+  "original_failed_cases": 8,
+  "original_source": "a054085e89bddeb69b4c92bf8843c1395776ec9a",
+  "original_status": "FAIL",
+  "raw_log_bytes": 30493878,
+  "raw_log_retention": "The full 30 MB original log is retained in the dated workspace implementation evidence; this package includes the assertion excerpt instead of duplicating diagnostics.",
+  "raw_log_sha256": "7b4aeb8e3aef45e6b60618d8c1123429417886282a8a8e63ef6a662357a81b34",
+  "schema_version": 1
+}

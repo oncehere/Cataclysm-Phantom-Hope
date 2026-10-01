@@ -7,6 +7,19 @@ import generate_documentation_registry as registry
 
 
 class DocumentationRegistryTest(unittest.TestCase):
+    def test_companion_manuals_current_and_imported_evidence_historical(self):
+        current = registry.classify("companion/README.md", {})
+        self.assertEqual(current["stable_document_id"], "cph.companion")
+        self.assertTrue(current["include_in_ai_index"])
+        for path in ("companion/docs/architecture.md",
+                     "companion/docs/install.md"):
+            self.assertEqual(registry.classify(path, {})["status"], "active")
+        historical = registry.classify(
+            "companion/docs/evidence/v0.1.1/gcc-helper-fix-20261001.md", {},
+        )
+        self.assertEqual(historical["status"], "historical")
+        self.assertFalse(historical["include_in_ai_index"])
+
     def test_origins_preserve_ids_and_attribution_without_git_history(self):
         with mock.patch.object(
             registry.subprocess, "run",

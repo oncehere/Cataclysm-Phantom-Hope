@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-01T08:07:44.107003+00:00",
+  "status": "PASS",
+  "argv": [
+    "/tmp/cph-ai-build-20260930/src/cataclysm-tiles",
+    "--basepath",
+    "/tmp/cph-ai-source-20260930/",
+    "--datadir",
+    "/tmp/cph-ai-source-20260930/data/",
+    "--userdir",
+    "/tmp/cph-ai-v011-game-user-20261001/",
+    "--configdir",
+    "/tmp/cph-ai-v011-native-mod-check-20261001/config/",
+    "--savedir",
+    "/tmp/cph-ai-v011-native-mod-check-20261001/save/",
+    "--check-mods",
+    "cph_ai_companion"
+  ],
+  "exit_code": 0,
+  "seconds": 18.203,
+  "native_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+  "native_binary_sha256": "f006645f21e33adace9beb5f936e49c9d7f7f8cfbd3cc753321081ce90832c62",
+  "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466",
+  "installed_mod_dir": "/tmp/cph-ai-v011-game-user-20261001/mods/cph_ai_companion",
+  "log": "/home/oncehere/\u6587\u6863/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-mod-load-v011-a04-20261001.log",
+  "log_sha256": "33cdc788b9d94037be82170684a28a1bf45d1b9d950677c1e5d60e8326ca4de3",
+  "scope": "Actual latest installed0.1.1 LuaMOD scanner load in adapted nativea04 game; not GUI or real model"
+}

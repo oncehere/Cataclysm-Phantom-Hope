@@ -1,0 +1,115 @@
+{
+  "adjacent_regressions": {
+    "boundary": "These actual failures remain FAIL; reproducing them with base npc.cpp does not convert them to PASS or establish a full baseline build.",
+    "cases": 17,
+    "controlled_comparison": "docs/evidence/native-controlled-baseline.json",
+    "exit_code": 3,
+    "failed_assertions": 3,
+    "failed_case_ids": [
+      "crafting_with_a_companion",
+      "on_load-sane-values"
+    ],
+    "failed_cases": 2,
+    "log": "docs/evidence/native-adjacent-regressions.log",
+    "log_sha256": "2b62cb229947cf6206d6246a5bfaffa3d723dd92d6a152ec433c41e8ccab770a",
+    "passed_cases": 15,
+    "seconds": 21.9001,
+    "status": "FAIL"
+  },
+  "artifact": {
+    "import_root": "/tmp/cph-ai-artifact-install-v0.1.1-20261001/lib/python3.12/site-packages/cph_ai_companion",
+    "installed_python": "/tmp/cph-ai-artifact-install-v0.1.1-20261001/bin/python",
+    "package_evidence": "docs/evidence/v0.1.1/python-package.json",
+    "package_version": "0.1.1",
+    "python": "3.12.14",
+    "sdk": "3.22.1",
+    "source_and_installed_tests": 111,
+    "wheel_sha256": "44c4082d6290a1d55a728f3da803ef30c5e4d21c85e2ac15410d72e49e41e466"
+  },
+  "checked_outcomes": {
+    "actual_native_actor_and_item": "PASS: recruited native NPC sees a real ground rock; it receives exactly one rock and ground item is removed",
+    "native_cost": "PASS: gather consumes NPC action points; no avatar action-point grant",
+    "provider_contract": "PASS: SDK3.22.1 uses nonstreaming Chat Completions, at least one actual loopback call, no generated tools",
+    "receipt_memory": "PASS: native successful operation_id is recorded in installed AgentMemory, not fabricated by the synthetic endpoint",
+    "safe_handoff": "PASS: installed runtime requests stop; native detach becomes detached and queue is empty",
+    "waiting_input": "PASS: production input/communication path handles the response without game-time or actor/avatar AP change before queued action"
+  },
+  "compatibility": "Validatedpackage0.1.1 andnativea04 only for bounded localClang/native andsynthetic-provider scope; no GUI/realmodel/fullGNUgame/completecrashcampaign claim.",
+  "date": "2026-10-01",
+  "historical_first_run": "docs/evidence/native-installed-joint-first.json",
+  "historical_runs": [
+    "docs/evidence/native-installed-joint-first.json",
+    "docs/evidence/native-installed-joint-0047-wheel110.json",
+    "docs/evidence/v0.1.0-native-installed-joint.json"
+  ],
+  "hosted_ci": {
+    "evidence": "docs/evidence/github-companion-first-ci.json",
+    "final_documentation_head": "V011_PENDING_FINAL_COMMIT_AND_CI",
+    "head_sha": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "run": 36816213998,
+    "status": "HISTORICAL_IMPLEMENTATION_CI_ONLY",
+    "url": "https://github.com/oncehere/cph-ai-companion/actions/runs/36816213998"
+  },
+  "native_suite": {
+    "assertions": 1727,
+    "evidence": "docs/evidence/v0.1.1/native-acceptance.json",
+    "exit_code": 0,
+    "full_game_suite": "NOT_RUN",
+    "log": "docs/evidence/v0.1.1/native-gcc-helper-fix-20261001.log",
+    "log_sha256": "03cff9c391a3abfc26e06f549c0f45f2b7c8be1fbead0a55dce70a899e2ca467",
+    "official_cata_test_tiles_target": "NOT_RUN",
+    "seconds": 29.7351,
+    "source_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "source_identity_note": "Precommit63-case source hash equals committeda04 andGNU modulecheck; authoritativeidentity mapping in final-a04-identity-game-build-20261001.json",
+    "status": "PASS_FOCUSED_SCOPE",
+    "test_cases": 63
+  },
+  "not_run": {
+    "all_fifteen_personality_real_gameplay_scenes": "NOT_RUN",
+    "complete_multi_file_physical_crash_campaign": "NOT_RUN",
+    "cross_dimension_actual_journey": "NOT_RUN",
+    "graphical_input_and_dialogue": "NOT_RUN",
+    "live_multiplayer_host_client": "NOT_RUN",
+    "other_platforms": "NOT_RUN",
+    "player_death_and_replacement_GUI": "NOT_RUN",
+    "user_actual_game_environment": "NOT_RUN"
+  },
+  "provider_scope": {
+    "endpoint": "synthetic localhost HTTP only",
+    "model_quality": "NOT_RUN",
+    "paid_calls": false,
+    "real_provider": "NOT_RUN"
+  },
+  "run": {
+    "assertion_count_note": "Input-wait polling iterations vary between runs;1538 is this actual run, not a reuse of prior2021 assertions.",
+    "assertions": 1538,
+    "binary_sha256": "5e5d4ad5e8585924028eef01e522510385609536f94ed6e2a509089e2af6d72b",
+    "case": "actor_control_final_package_executes_real_npc_gather_and_records_memory",
+    "case_seconds": 1.57,
+    "cases": 1,
+    "catch2_session_seconds": 20.3972,
+    "execution_report": "docs/evidence/v0.1.1/native-installed-joint-v011-a04-20261001.json",
+    "exit_code": 0,
+    "exit_code_authority": "Recorded actual root command JSON and independently inspected Catch2 log",
+    "log": "docs/evidence/v0.1.1/native-installed-joint-v011-a04-20261001.log",
+    "log_sha256": "926fe00f1596866054edd9c238238be8a617f05f4397fcb645219109ed1e9b81",
+    "random_seed": 123456,
+    "session_seconds": 21.133
+  },
+  "schema_version": 1,
+  "scope": "One isolated Linux native/installed-package joint scenario using the official SDK against a synthetic loopback HTTP endpoint",
+  "source": {
+    "executed_native_head_owner_reported": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "executed_native_tree": "36e53590df0b3f56ab8c823016509d61145c4a47",
+    "joint_driver_sha256": "407683e6d5f050f87655ae22850bb46babcc272e036d9ebd46224f417c5f5436",
+    "native_final_compatibility_head": "a04e657dc009cc5dceacec20eb1acdc23068f248",
+    "native_test": "tests/actor_control_joint_test.cpp",
+    "native_test_sha256": "b83b4014e37251a0601294a3c423d10cffb4b9576e6d47294d0dae11b823a1f5",
+    "native_version_label_in_log": "1979-12-31-a04e657dc00",
+    "project_implementation_head": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "project_source_identity": "Package0.1.1 tested_source_sha256 records define final runtime/tool inputs; previousGitHub implementationCI doesnot certify this revision.",
+    "version_label_note": "Actual finala04 version and unchangedcontroller source map toGNU module/Clang63 records; new installed0.1.1 joint executed with exacta04 binary."
+  },
+  "status": "PASS",
+  "timezone": "America/Los_Angeles"
+}

@@ -1,0 +1,36 @@
+
+
+-----------------------------------------
+00:19:19.513 : Starting log.
+00:19:19.513 INFO : Cataclysm DDA version 1979-12-31-0047ae5b7ea
+00:19:19.513 INFO : Randomness seeded to: 123456
+
+00:19:19.513 INFO : Running Catch2 session:
+
+00:19:19.515 INFO : SDL render devices: software, opengl, opengles2, vulkan, gpu
+00:19:19.515 INFO : [options] C locale set to C
+00:19:19.515 INFO : [options] C++ locale set to CLua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+
+00:19:19.547 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Lua_First_Example/mod.lua
+00:19:19.548 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Migrated_Core/mod.lua
+00:19:22.301 INFO : /tmp/cph-ai-source-20260930/src/mod_tracker.h:68: Tried check if 'test_vit_override_and_extend' had a duplicate, but type 'vitamin' does not track object sources
+00:19:22.314 WARNING : Catharsis Covenant Basemodule pack load time:: 2646895us (avg: 2646895us) (count: 1)
+00:19:22.314 WARNING : TESTING DATA pack load time:: 103597us (avg: 103597us) (count: 1)
+00:19:41.013 INFO : Game data loaded
+0.088 s: actor_control_rejects_multiplayer_proxy_binding
+0.009 s: late plans and subjective preferences cannot control the partner
+0.051 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+0.009 s: a restored queue cannot use the proxy action budget
+0.049 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+0.011 s: cancel and stop preserve the partner native activity and markers
+0.052 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+Passed both 2 test cases with 96 assertions.
+
+
+00:19:41.254 INFO : Finished in 21.74 seconds
+00:19:41.254 INFO : Randomness seeded to: 123456
+

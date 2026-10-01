@@ -1,0 +1,313 @@
+{
+  "behaviors": [
+    {
+      "behavior": "refuse",
+      "boundary": "Recipient must be an available actual listener.",
+      "default_allowed": true,
+      "effect": "Speaks an actual refusal; consumes NPC moves and records last_social_action.",
+      "id": "P01",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "argue",
+      "boundary": "Prose cannot be guaranteed non-provocative when the intent is omitted.",
+      "default_allowed": true,
+      "effect": "Speaks argument; typed statement/receipt retains its declared intent.",
+      "id": "P02",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "propose_own_goals",
+      "boundary": "Proposal is cognition, not a grant of mission success or automatic physical progress.",
+      "default_allowed": true,
+      "effect": "Proposes a goal, stores proposed goal state and emits a receipt-backed goal event.",
+      "id": "P03",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "lie_in_dialogue",
+      "boundary": "No classifier can prove arbitrary generated prose true/false; accepted residual limitation.",
+      "default_allowed": true,
+      "effect": "Speaks declared deception and records the action/statement.",
+      "id": "P04",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "conceal_information",
+      "boundary": "Unknown or nonmatching text fails information_not_known.",
+      "default_allowed": true,
+      "effect": "Marks exact known statement/belief as concealed and consumes NPC moves.",
+      "id": "P05",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_information_requires_exact_known_record",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "false_promise",
+      "boundary": "Promise text does not settle effects or guarantee future performance.",
+      "default_allowed": true,
+      "effect": "Speaks a promise and records commitment_state=false_promise.",
+      "id": "P06",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "transaction_fraud",
+      "boundary": "Only human counterparty in this adapter; never fabricates another NPC consent. Decline leaves stock intact.",
+      "default_allowed": false,
+      "effect": "Makes a deceptive real stock offer through ordinary player trade confirmation.",
+      "id": "P07",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_fraud_is_a_real_reviewed_offer",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "break_commitment",
+      "boundary": "Missing/already-broken commitment fails no_active_commitment.",
+      "default_allowed": true,
+      "effect": "Marks an existing commitment broken and clears the matching active goal.",
+      "id": "P08",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_speech_and_goal_behaviors_have_effects",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "aid_conflicting_party",
+      "boundary": "Target must be a real conflicting NPC; actual selection/ownership/capacity still apply.",
+      "default_allowed": true,
+      "effect": "Transfers actual owned stock to a visible nearby NPC hostile to the player.",
+      "id": "P09",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "disclose_known_information",
+      "boundary": "Exact known record required; no undiscovered secrets or arbitrary memory fact channels.",
+      "default_allowed": true,
+      "effect": "Speaks exact known statement/belief to an actual listener.",
+      "id": "P10",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_information_requires_exact_known_record",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "leave_group",
+      "boundary": "Already outside group fails; fixed identity is retained, no replacement actor.",
+      "default_allowed": false,
+      "effect": "Calls native talk_function::leave and leaves the actual player faction.",
+      "id": "P11",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "misappropriate_items",
+      "boundary": "Player inventory theft is not supported; guessed private NPC stock is rejected.",
+      "default_allowed": false,
+      "effect": "Takes observed differently-owned ground stock; NPC stock requires a heard trade enquiry.",
+      "id": "P12",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "sabotage",
+      "boundary": "An attempt uses native bash results; does not guarantee destruction or reach distant terrain.",
+      "default_allowed": false,
+      "effect": "Bashes an observed adjacent native bashable terrain using NPC moves.",
+      "id": "P13",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "attack_player",
+      "boundary": "Target identity must match; generic attack cannot bypass this disabled switch.",
+      "default_allowed": false,
+      "effect": "Uses real NPC melee combat against the actual player with native action costs.",
+      "id": "P14",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_attacks_use_native_combat_and_target_constraints",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    },
+    {
+      "behavior": "attack_allies",
+      "boundary": "Target must be an actual allied NPC; ordinary target, perception and combat constraints apply.",
+      "default_allowed": false,
+      "effect": "Uses real NPC melee against an actual ally with native action costs.",
+      "id": "P15",
+      "native_execution": "PASS_FOCUSED_NATIVE_EFFECT_FIXTURE",
+      "native_test_ids": [
+        "npc_actor_social_attacks_use_native_combat_and_target_constraints",
+        "actor_control_generic_attack_cannot_bypass_personality_switches",
+        "actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in"
+      ],
+      "python_execution": "PASS_111_TEST_SUITE",
+      "python_test_ids": [
+        "test_personality.PersonalityTests.test_all_fifteen_behaviors_have_explicit_effective_permissions",
+        "test_personality.PersonalityTests.test_each_permission_can_be_enabled_and_parent_disable_wins",
+        "test_personality.PersonalityTests.test_disabled_leaf_cannot_hide_behind_enabled_parent"
+      ],
+      "real_model_graphical_scene": "NOT_RUN"
+    }
+  ],
+  "date": "2026-10-01",
+  "language_boundary": "Bounded/control-character validation plus explicit intent checks; unannotated natural prose is not semantically guaranteed truthful or peaceful. User accepted this boundary.",
+  "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "native_evidence": "docs/evidence/native-acceptance.json",
+  "python_evidence": "docs/evidence/python-package.json",
+  "python_suite_tests": 111,
+  "schema_version": 1,
+  "scope": "Fifteen independently configurable explicit behaviors; native effects in automated isolated fixtures andPython permission tests, not real-model graphical quality acceptance.",
+  "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+}

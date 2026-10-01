@@ -231,6 +231,12 @@ class ToolingRunnerTests(unittest.TestCase):
             )
         )
 
+    def test_active_tooling_policy_command_logs_are_unique(self):
+        policy = json.loads((ROOT / "project/check-policy.json").read_text())
+        tooling = policy["tooling"]
+        names = ["dependencies", *tooling["suites"], *tooling["checks"]]
+        self.assertEqual(len(names), len(set(names)))
+
 
 if __name__ == "__main__":
     unittest.main()

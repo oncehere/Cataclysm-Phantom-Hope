@@ -22,6 +22,11 @@ verify effects in both host and joining-player roles: a local EOC effect alone
 does not establish that its resulting state reaches the shared world. See the
 [multiplayer limitations](../../docs/project/multiplayer.md).
 
+ActorControl's companion dialogue menu and NPC task claimant use native C++
+interfaces and add no EOC operation names. The existing player dialogue/task
+path remains available. See [ActorControl](../../docs/project/actor-control.md)
+for the separate bounded Lua service and native claimant/reward lifecycle.
+
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 World advanced rules do not add EOC condition or effect names. EOCs that depend

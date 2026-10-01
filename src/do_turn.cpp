@@ -10,11 +10,13 @@
 
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
 #include <map>
 #include <memory>
 #include <optional>
 #include <ostream>
 #include <ratio>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -22,6 +24,8 @@
 #include <vector>
 
 #include "action.h"
+#include "actor_control.h"
+#include "actor_control_save.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -69,6 +73,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -130,25 +135,69 @@ bool cleanup_at_end()
 
     avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
-        // Put (non-hallucinations) into the overmap so they are not lost.
-        for( monster &critter : g->all_monsters() ) {
-            g->despawn_monster( critter );
+        if( cata::actor_control::save_transaction::active() ) {
+            // A nested transition owns its commit. Let that transition finish
+            // before death cleanup retires the avatar or deletes a world.
+            return false;
         }
-        // if player has "hunted" trait, remove their nemesis monster on death
-        if( u.has_trait( trait_HAS_NEMESIS ) ) {
-            overmap_buffer.remove_nemesis();
+        cata::actor_control::enable( false );
+        cata::actor_control::after_save( false );
+        const std::filesystem::path world_root = PATH_INFO::world_base_save_path().get_unrelative_path();
+        const std::string graveyard_stamp = g->timestamp_now();
+        std::string transaction_error;
+        if( !cata::actor_control::save_transaction::begin( world_root, transaction_error,
+                cata::actor_control::has_binding() ) ) {
+            g->uquit = QUIT_NOSAVED;
+            popup( _( "The final world save could not start. The world has been preserved: %s" ),
+                   transaction_error );
+            return cleanup_at_end();
         }
-        // Reset NPC factions and disposition
-        g->reset_npc_dispositions();
-        // Save the factions', missions and set the NPC's overmap coordinates
-        // Npcs are saved in the overmap.
-        g->save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
-
-        // and the overmap, and the local map.
-        g->save_maps(); //Omap also contains the npcs who need to be saved.
-
-        //save achievements entry
-        g->save_achievements();
+        on_out_of_scope rollback_death_save( []() {
+            std::string error;
+            if( !cata::actor_control::save_transaction::finish( false, error ) ) {
+                popup( _( "The final world save needs recovery: %s" ), error );
+            }
+        } );
+        try {
+            // Put (non-hallucinations) into the overmap so they are not lost.
+            for( monster &critter : g->all_monsters() ) {
+                g->despawn_monster( critter );
+            }
+            // if player has "hunted" trait, remove their nemesis monster on death
+            if( u.has_trait( trait_HAS_NEMESIS ) ) {
+                overmap_buffer.remove_nemesis();
+            }
+            // Reset NPC factions and disposition
+            g->reset_npc_dispositions();
+            // Save the factions', missions and set the NPC's overmap coordinates
+            // Npcs are saved in the overmap.
+            if( !g->save_factions_missions_npcs() || !g->save_maps() || !g->save_achievements() ) {
+                throw std::runtime_error( "death_world_save_failed" );
+            }
+            // Retire the actual avatar file with the new corpse/NPC generation.
+            // Map-memory directories are moved only after this transaction commits.
+            g->move_save_to_graveyard( game::graveyard_scope::regular_files, graveyard_stamp );
+            const auto avatar_file = ( PATH_INFO::player_base_save_path() +
+                                       SAVE_EXTENSION ).get_unrelative_path();
+            if( std::filesystem::exists( avatar_file ) ||
+                std::filesystem::exists( avatar_file.string() + std::string( zzip_suffix ) ) ) {
+                throw std::runtime_error( "death_avatar_retirement_failed" );
+            }
+            if( !cata::actor_control::save_transaction::finish( true, transaction_error ) ) {
+                throw std::runtime_error( transaction_error );
+            }
+            rollback_death_save.cancel();
+        } catch( const std::exception &error ) {
+            std::string rollback_error;
+            const bool restored = cata::actor_control::save_transaction::active() ?
+                                  cata::actor_control::save_transaction::finish( false, rollback_error ) :
+                                  cata::actor_control::save_transaction::recover( world_root, rollback_error );
+            rollback_death_save.cancel();
+            g->uquit = QUIT_NOSAVED;
+            popup( _( "The final world save failed. The world has been preserved for recovery: %s" ),
+                   restored ? error.what() : rollback_error );
+            return cleanup_at_end();
+        }
 
         // Notify connected clients before the death screen takes focus so they
         // see "partner died" instead of a raw socket-drop spam.
@@ -166,7 +215,7 @@ bool cleanup_at_end()
         std::chrono::seconds total_time_played = g->time_played_at_last_load + time_since_load;
         get_event_bus().send<event_type::game_over>( total_time_played );
         // Struck the save_player_data here to forestall Weirdness
-        g->move_save_to_graveyard();
+        g->move_save_to_graveyard( game::graveyard_scope::directories, graveyard_stamp );
         g->write_memorial_file( g->stats().value_of( event_statistic_last_words )
                                 .get<cata_variant_type::string>() );
         get_memorial().clear();

@@ -1,0 +1,4 @@
+[0/2] Re-checking globbed directories...
+[1/2] Linking CXX executable src/cataclysm-tiles
+/nix/store/31gnwsgag5qa14hfblqi5hyn71pyx7py-binutils-2.46/bin/ld.bfd: src/lua/libliblua.a(loslib.c.o): in function `os_tmpname':
+loslib.c:(.text+0x7de): warning: the use of `tmpnam' is dangerous, better use `mkstemp'

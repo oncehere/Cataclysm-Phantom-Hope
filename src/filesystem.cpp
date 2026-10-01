@@ -18,6 +18,9 @@
     #include <emscripten.h>
 #endif
 
+#ifndef CATA_IN_TOOL
+    #include "actor_control_save.h"
+#endif
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -161,6 +164,9 @@ bool remove_file( const std::filesystem::path &path )
 {
     setFsNeedsSync();
     std::error_code ec;
+#ifndef CATA_IN_TOOL
+    cata::actor_control::save_transaction::before_write( path );
+#endif
     return std::filesystem::remove( path, ec );
 }
 
@@ -179,6 +185,10 @@ bool rename_file( const std::filesystem::path &old_path, const std::filesystem::
     setFsNeedsSync();
     std::error_code ec;
     int attempts = 0;
+#ifndef CATA_IN_TOOL
+    cata::actor_control::save_transaction::before_write( old_path );
+    cata::actor_control::save_transaction::before_write( new_path );
+#endif
     do {
         std::filesystem::rename( old_path, new_path, ec );
     } while( ec && ++attempts < 3 );
@@ -204,6 +214,9 @@ bool remove_directory( const std::filesystem::path &path )
 {
     std::error_code ec;
     setFsNeedsSync();
+#ifndef CATA_IN_TOOL
+    cata::actor_control::save_transaction::before_write( path );
+#endif
     return std::filesystem::remove( path, ec );
 }
 

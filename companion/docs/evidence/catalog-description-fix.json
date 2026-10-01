@@ -1,0 +1,29 @@
+{
+  "after": {
+    "log": "docs/evidence/catalog-description-after-fix.log",
+    "status": "PASS",
+    "test_cases": 1
+  },
+  "before": {
+    "failed_cases": 1,
+    "log": "docs/evidence/catalog-description-before-fix.log",
+    "reason": "gather description becomesNone in the actual model payload",
+    "status": "FAIL",
+    "test_cases": 1
+  },
+  "behavior": "Only string description is forwarded, bounded to512 Unicode characters; gathered ground-item and melee semantics reach the prompt, unknown private fields are omitted, input catalog is unchanged.",
+  "date": "2026-10-01",
+  "joint_repeat": "PASS_FINAL85_WITH_INSTALLED111; docs/evidence/native-installed-joint.json",
+  "new_wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229",
+  "package_evidence": "docs/evidence/python-package.json",
+  "prior_wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194",
+  "real_provider": "NOT_RUN",
+  "schema_version": 1,
+  "scope": "Minimal runtime._compact_catalog description projection and one real build_messages regression",
+  "source_sha256": {
+    "src/cph_ai_companion/runtime.py": "1ed32b796927a843f5e8c8ba7f293e39b2d57461646fd03d00de077648ecacce",
+    "tests/test_runtime.py": "08e792603d3386d75d254aed1874747a18b1d0be6dd8fabae209d70975c4e5e7"
+  },
+  "status": "FIXED",
+  "test_id": "test_runtime.RuntimeTests.test_prompt_preserves_bounded_native_action_semantics_without_private_fields"
+}

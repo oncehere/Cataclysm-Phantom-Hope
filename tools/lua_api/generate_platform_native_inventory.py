@@ -229,6 +229,13 @@ INSTALLER_SPECS = (
         "namespace": "global",
     },
     {
+        "id": "shared.install_actor_control_api",
+        "function": "install_actor_control_api",
+        "path": "src/lua_platform_actor_control.cpp",
+        "signature": "void install_actor_control_api(",
+        "namespace": "global",
+    },
+    {
         "id": "shared.install_map_api",
         "function": "install_map_api",
         "path": "src/lua_platform_world.cpp",
@@ -349,6 +356,11 @@ INSTALLER_EDGE_SPECS = (
     ),
     (
         "platform_v1.install_runtime_api",
+        "shared.install_actor_control_api",
+        "install_actor_control_api(",
+    ),
+    (
+        "platform_v1.install_runtime_api",
         "shared.install_zone_api",
         "install_zone_api(",
     ),
@@ -390,6 +402,8 @@ EXPORT_SURFACES = (
 
 NATIVE_DOMAINS = (
     ("achievements", "Inspect achievement definitions and world progress."),
+    ("actor_control",
+     "Bind and manage the fixed externally planned NPC companion."),
     ("addictions", "Inspect and mutate character addictions."),
     ("bionics", "Inspect definitions and mutate installed bionics."),
     ("camps", "Inspect faction camps and their world locations."),

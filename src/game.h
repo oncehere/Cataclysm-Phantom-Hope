@@ -198,6 +198,7 @@ class game
         friend bool turn_handler::cleanup_at_end();
         friend global_variables &get_globals();
     public:
+        enum class graveyard_scope { all, regular_files, directories };
         game();
         ~game();
 
@@ -1229,7 +1230,8 @@ class game
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
         static std::string timestamp_now();
-        void move_save_to_graveyard();
+        void move_save_to_graveyard( graveyard_scope scope = graveyard_scope::all,
+                                     const std::string &timestamp = "" );
         bool save_player_data();
         bool save_achievements();
         // ########################## DATA ################################

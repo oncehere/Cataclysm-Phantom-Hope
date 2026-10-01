@@ -101,6 +101,7 @@ None
 
 
 <!-- CPH 继承原作 Creative Commons Attribution ShareAlike 3.0 许可及适用的
-第三方许可/署名要求。通过向本项目提交贡献，你同意该许可的条款，并同意你的
-贡献受同一许可覆盖；提交前请核对来源权利并保留原作者记录。详见 CONTRIBUTING.md。
+第三方许可/署名要求。通过提交贡献，你同意所修改组件的适用许可条款；
+companion/ 独立子项目按其 Apache-2.0 LICENSE 与 NOTICE。
+提交前请核对来源权利并保留原作者记录。详见 CONTRIBUTING.md。
 详见 https://creativecommons.org/licenses/by-sa/3.0/ 。 -->

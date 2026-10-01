@@ -2,6 +2,27 @@ schema_version: 1
 kind: test_matrix
 description: Acceptance-gate validation routing, not a per-edit execution mandate. Expensive commands may require platform dependencies.
 entries:
+  - id: actor-control-protocol
+    paths: [tools/actor_control/, companion/src/cph_ai_companion/resources/protocol/, src/actor_control_protocol_generated.h, tests/actor_control_protocol_test.cpp]
+    command: python3 tools/actor_control/generate_protocol.py --check && python3 -m unittest discover -s tools/actor_control -p 'test_*.py'
+    workdir: .
+    cost: fast
+  - id: companion-python
+    paths: [companion/]
+    command: uv run --locked python -m unittest discover -s tests
+    workdir: companion
+    cost: fast
+  - id: companion-package
+    paths: [companion/, '.github/workflows/project-companion.yml']
+    command: uv sync --locked --group build && uv build --python .venv/bin/python --no-build-isolation --out-dir dist && uv run --locked python tools/build_release.py --dist dist --candidate-only
+    workdir: companion
+    cost: medium
+  - id: companion-joint
+    paths: [companion/, tools/actor_control/, 'src/actor_control*', 'src/npc_execution_adapter*', tests/actor_control_joint_test.cpp]
+    description: Run with a source-matching native test binary and an isolated interpreter containing the exact built wheel; no real model is called.
+    command: 'CPH_COMPANION_JOINT_DRIVER="$PWD/companion/tools/joint_driver.py" CPH_COMPANION_PYTHON="${CPH_COMPANION_PYTHON:?Set the interpreter containing the installed wheel}" "${CPH_TEST_BINARY:?Set a source-matching native test binary}" "[.actor_control_joint]" --rng-seed 20261001'
+    workdir: .
+    cost: expensive
   - id: agent-context
     paths: [AGENTS.md, GOVERNANCE.md, ai/, tools/agent/]
     command: python3 -m unittest discover -s tools/agent -p 'test_*.py'

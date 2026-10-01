@@ -15,6 +15,7 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <filesystem>
 #include <functional>
 #include <iomanip>
 #include <iostream>
@@ -43,6 +44,8 @@
 
 #include "achievement.h"
 #include "action.h"
+#include "actor_control.h"
+#include "actor_control_save.h"
 #if defined(__ANDROID__)
     #include "android_hud.h"
 #endif
@@ -516,6 +519,10 @@ game::game() :
 
 game::~game()
 {
+    if( cata::actor_control::is_initialized() ) {
+        cata::actor_control::enable( false );
+        cata::actor_control::reset();
+    }
 #if defined(__ANDROID__)
     // Invalidate gameplay state before the main menu can observe the previous
     // input context or scene controls.
@@ -725,6 +732,7 @@ bool game::setup()
     // A full world setup replaces every finalized registry.  Retire the
     // previous world's Platform states while their world and native content
     // are still valid, before load_core_data() unloads those registries.
+    cata::actor_control::enable( false );
     cata::lua_platform::shutdown();
     {
         static_popup popup;
@@ -767,6 +775,7 @@ bool game::setup()
 // (quickload / snapshot restore) which deliberately skip JSON/mod reloading.
 void game::reset_game_state()
 {
+    cata::actor_control::reset();
     new_game = true;
     dimension_checkpoint_pending = false;
 
@@ -923,6 +932,24 @@ void game::legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_v
 // Set up all default values for a new game
 bool game::start_game()
 {
+    // New-game generation can read and write existing world data before the
+    // first avatar save. Recover a previous interrupted save under the same
+    // world lease used by the ordinary load path, without capturing new play.
+    const bool owns_world_lease = !cata::actor_control::save_transaction::active();
+    const std::filesystem::path world_root = PATH_INFO::world_base_save_path().get_unrelative_path();
+    std::string recovery_error;
+    if( owns_world_lease ? !cata::actor_control::save_transaction::begin(
+            world_root, recovery_error, false ) :
+        !cata::actor_control::save_transaction::owns_world( world_root ) ) {
+        popup( _( "Cannot recover the world save: %s" ), recovery_error );
+        return false;
+    }
+    on_out_of_scope release_world_lease( [owns_world_lease]() {
+        if( owns_world_lease ) {
+            std::string ignored;
+            cata::actor_control::save_transaction::finish( true, ignored );
+        }
+    } );
     if( !gamemode ) {
         gamemode = std::make_unique<special_game>();
     }
@@ -10410,143 +10437,235 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
+static void rollback_actor_dimension_transition( game &current,
+        const std::filesystem::path &world_root, bool owns_world_lease,
+        bool recovery_required, bool transit_started )
+{
+    bool recovered = true;
+    std::string rollback_error;
+    if( owns_world_lease ) {
+        recovered = cata::actor_control::save_transaction::finish( false, rollback_error );
+        if( !recovered || recovery_required ) {
+            recovered = cata::actor_control::save_transaction::recover( world_root, rollback_error );
+        }
+        cata::actor_control::after_save( false );
+    }
+    if( transit_started || !recovered ) {
+        // The caller can still own item/NPC pointers. Reloading here
+        // would leave those dangling, so discard live transit at the
+        // normal menu boundary after settling the world journal. A
+        // joined save also observes QUIT_NOSAVED and refuses to commit.
+        cata::actor_control::enable( false );
+        current.uquit = QUIT_NOSAVED;
+        if( owns_world_lease ) {
+            if( recovered ) {
+                popup( _( "Dimension travel failed. The world save is consistent; returning to the main menu without saving again." ) );
+            } else {
+                popup( _( "Dimension travel failed and world save recovery is required: %s" ), rollback_error );
+            }
+        }
+    }
+}
+
 bool game::travel_to_dimension( dimension_id dimension_destination,
                                 const std::vector<npc *> &npc_travellers,
                                 const std::vector<item_location> &item_travellers,
                                 const std::optional<tripoint_bub_ms> item_travellers_location,
                                 vehicle *veh )
 {
-    // Keep the last complete save before this trip writes source maps.  The
-    // later safety checkpoint must not replace the player's quickload target.
-    ensure_dimension_rollback_snapshot();
-    map &here = get_map();
-    avatar &player = get_avatar();
-    std::vector<npc_ptr> moving_npcs;
-    moving_npcs.reserve( npc_travellers.size() );
-    if( !npc_travellers.empty() ) {
-        int traveller_count = npc_travellers.size();
-        overmap &old_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
-        for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
-            // skip unloading a traveller
-            bool skip = false;
-            if( traveller_count > 0 ) {
-                for( npc *guy : npc_travellers ) {
-                    if( guy->getID() == ( *it )->getID() ) {
-                        skip = true;
-                        traveller_count--;
-                        break;
+    if( uquit == QUIT_NOSAVED ) {
+        return false;
+    }
+    const bool owns_world_lease = !cata::actor_control::save_transaction::active();
+    if( owns_world_lease ) {
+        // Preserve the user's last complete quickload target before opening
+        // the capturing lease. A joined save may already contain partial
+        // writes and must never turn them into a restorable snapshot.
+        ensure_dimension_rollback_snapshot();
+    }
+    const std::filesystem::path world_root = PATH_INFO::world_base_save_path().get_unrelative_path();
+    std::string transaction_error;
+    if( owns_world_lease ? !cata::actor_control::save_transaction::begin(
+            world_root, transaction_error, cata::actor_control::has_binding() ) :
+        ( !cata::actor_control::save_transaction::owns_world( world_root ) ||
+          ( cata::actor_control::has_binding() &&
+            !cata::actor_control::save_transaction::capturing() ) ) ) {
+        popup( _( "Cannot begin dimension travel: %s" ), transaction_error );
+        return false;
+    }
+    const bool capturing_transition = cata::actor_control::save_transaction::capturing();
+    bool transit_started = false;
+    bool recovery_required = false;
+    on_out_of_scope rollback_transition( [this, &world_root, owns_world_lease,
+          &recovery_required, &transit_started]() {
+        rollback_actor_dimension_transition( *this, world_root, owns_world_lease,
+                                             recovery_required, transit_started );
+    } );
+    try {
+        if( owns_world_lease && capturing_transition && !save() ) {
+            return false;
+        }
+        cata::actor_control::on_scene_change();
+        transit_started = true;
+        map &here = get_map();
+        avatar &player = get_avatar();
+        std::vector<npc_ptr> moving_npcs;
+        moving_npcs.reserve( npc_travellers.size() );
+        if( !npc_travellers.empty() ) {
+            int traveller_count = npc_travellers.size();
+            overmap &old_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
+            for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
+                // skip unloading a traveller
+                bool skip = false;
+                if( traveller_count > 0 ) {
+                    for( npc *guy : npc_travellers ) {
+                        if( guy->getID() == ( *it )->getID() ) {
+                            skip = true;
+                            traveller_count--;
+                            break;
+                        }
+                    }
+                }
+                if( !skip ) {
+                    ( *it )->on_unload();
+                    it = critter_tracker->active_npc.erase( it );
+                } else {
+                    if( const npc_ptr ptr = old_om.erase_npc( ( *it++ )->getID() ) ) {
+                        moving_npcs.push_back( ptr );
                     }
                 }
             }
-            if( !skip ) {
-                ( *it )->on_unload();
-                it = critter_tracker->active_npc.erase( it );
-            } else {
-                if( const npc_ptr ptr = old_om.erase_npc( ( *it++ )->getID() ) ) {
-                    moving_npcs.push_back( ptr );
-                }
+        } else {
+            unload_npcs();
+        }
+
+        std::vector<item> place_items;
+        place_items.reserve( item_travellers.size() );
+        for( item_location il : item_travellers ) {
+            item *it = il.get_item();
+            if( it ) {
+                place_items.push_back( *it );
+                il.remove_item();
             }
         }
-    } else {
-        unload_npcs();
-    }
 
-    std::vector<item> place_items;
-    place_items.reserve( item_travellers.size() );
-    for( item_location il : item_travellers ) {
-        item *it = il.get_item();
-        if( it ) {
-            place_items.push_back( *it );
-            il.remove_item();
+        for( monster &critter : all_monsters() ) {
+            despawn_monster( critter );
         }
-    }
-
-    for( monster &critter : all_monsters() ) {
-        despawn_monster( critter );
-    }
-    bool controlling_vehicle = player.controlling_vehicle;
-    if( player.in_vehicle ) {
-        here.unboard_vehicle( player.pos_bub() );
-    }
-    std::unique_ptr<vehicle> vehicle_ref;
-    if( veh != nullptr ) {
-        vehicle_ref = here.detach_vehicle( veh );
-    }
-    // Make sure we don't mess up savedata if for some reason maps can't be saved
-    if( !save_maps() || !save_dimension_data() ) {
-        return false;
-    }
-    player.save_map_memory();
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        here.clear_vehicle_list( z );
-    }
-    here.rebuild_vehicle_level_caches();
-    // Inputting an empty string to the text input EOC fails
-    // so i'm using 'default' as empty/main dimension
-    dimension_id previous_dimension = dimension_prefix;
-    dimension_prefix = dimension_destination;
-    // Clear the previous dimension before loading the destination's global state.
-    overmap_buffer.clear();
-    // Load in data specific to the dimension (like weather)
-    load_dimension_data();
-
-    // Clear the immediate game area around the player
-    MAPBUFFER.clear();
-    // hack to prevent crashes from temperature checks
-    // This returns to false in 'on_turn()' so it should be fine?
-    swapping_dimensions = true;
-    overmap_buffer.init_region_layout();
-    // load/create new overmap
-    overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
-    // insert travelled NPCs
-    for( const npc_ptr &guy : moving_npcs ) {
-        new_om.insert_npc( guy );
-    }
-    // clear map memory from the previous dimension
-    player.clear_map_memory();
-    // Load map memory in new dimension, if there is any
-    player.load_map_memory();
-    // Loads submaps and invalidate related caches
-    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-
-    here.invalidate_visibility_cache();
-    bool undo_shift = false;
-    if( vehicle_ref ) {
-        undo_shift = here.place_vehicle( std::move( vehicle_ref ) );
-    }
-    // Without this vehicles only load in after walking around a bit
-    here.reset_vehicles_sm_pos();
-    if( here.veh_at( player.pos_bub() ) ) {
-        here.board_vehicle( player.pos_bub(), &player );
-        player.controlling_vehicle = controlling_vehicle;
-    }
-    if( !place_items.empty() && !undo_shift ) {
-        tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
-        for( const item &it : place_items ) {
-            here.add_item_or_charges( item_center, it );
+        bool controlling_vehicle = player.controlling_vehicle;
+        if( player.in_vehicle ) {
+            here.unboard_vehicle( player.pos_bub() );
         }
-    }
-    load_npcs();
-    // Handle static monsters
-    here.spawn_monsters( true, true );
-    // updates the weather, if the weather settings are different in the new world
-    weather.weather_override = WEATHER_NULL;
-    weather.set_nextweather( calendar::turn );
-    update_overmap_seen();
-    if( undo_shift ) {
-        travel_to_dimension( previous_dimension, npc_travellers, {}, std::nullopt, veh );
-        if( !place_items.empty() ) {
+        std::unique_ptr<vehicle> vehicle_ref;
+        if( veh != nullptr ) {
+            vehicle_ref = here.detach_vehicle( veh );
+        }
+        // Make sure we don't mess up savedata if for some reason maps can't be saved
+        if( !save_maps() || !save_dimension_data() || !player.save_map_memory() ) {
+            return false;
+        }
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            here.clear_vehicle_list( z );
+        }
+        here.rebuild_vehicle_level_caches();
+        // Inputting an empty string to the text input EOC fails
+        // so i'm using 'default' as empty/main dimension
+        dimension_id previous_dimension = dimension_prefix;
+        dimension_prefix = dimension_destination;
+        // Clear the previous dimension before loading the destination's global state.
+        overmap_buffer.clear();
+        // Load in data specific to the dimension (like weather)
+        load_dimension_data();
+
+        // Clear the immediate game area around the player
+        MAPBUFFER.clear();
+        // hack to prevent crashes from temperature checks
+        // This returns to false in 'on_turn()' so it should be fine?
+        swapping_dimensions = true;
+        overmap_buffer.init_region_layout();
+        // load/create new overmap
+        overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
+        // insert travelled NPCs
+        for( const npc_ptr &guy : moving_npcs ) {
+            new_om.insert_npc( guy );
+        }
+        // clear map memory from the previous dimension
+        player.clear_map_memory();
+        // Load map memory in new dimension, if there is any
+        player.load_map_memory();
+        // Loads submaps and invalidate related caches
+        here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+
+        here.invalidate_visibility_cache();
+        bool undo_shift = false;
+        if( vehicle_ref ) {
+            undo_shift = here.place_vehicle( std::move( vehicle_ref ) );
+        }
+        // Without this vehicles only load in after walking around a bit
+        here.reset_vehicles_sm_pos();
+        if( here.veh_at( player.pos_bub() ) ) {
+            here.board_vehicle( player.pos_bub(), &player );
+            player.controlling_vehicle = controlling_vehicle;
+        }
+        if( !place_items.empty() && !undo_shift ) {
             tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
             for( const item &it : place_items ) {
                 here.add_item_or_charges( item_center, it );
             }
         }
+        load_npcs();
+        // Handle static monsters
+        here.spawn_monsters( true, true );
+        // updates the weather, if the weather settings are different in the new world
+        weather.weather_override = WEATHER_NULL;
+        weather.set_nextweather( calendar::turn );
+        update_overmap_seen();
+        if( undo_shift ) {
+            // The undo joins the outer world transaction; it must neither commit
+            // the destination half-way nor ignore a failed source restoration.
+            if( !travel_to_dimension( previous_dimension, npc_travellers, {}, std::nullopt, veh ) ) {
+                return false;
+            }
+            if( !place_items.empty() ) {
+                tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
+                for( const item &it : place_items ) {
+                    here.add_item_or_charges( item_center, it );
+                }
+            }
+        }
+        game::mon_info_update();
+        dimension_checkpoint_pending = true;
+        get_event_bus().send<event_type::dimension_travel>( player.getID(), previous_dimension,
+                dimension_prefix );
+        if( owns_world_lease ) {
+            // The source map no longer contains travelling NPCs/items. Commit it
+            // only together with their destination, the avatar and ActorControl.
+            if( capturing_transition && !save() ) {
+                return false;
+            }
+            if( !cata::actor_control::save_transaction::finish( true, transaction_error ) ) {
+                // finish may have released the lease with a pending journal. The
+                // failure guard still performs recovery before leaving gameplay.
+                std::string recovery_error;
+                recovery_required = true;
+                if( !cata::actor_control::save_transaction::recover( world_root, recovery_error ) ) {
+                    transaction_error = recovery_error;
+                } else {
+                    recovery_required = false;
+                }
+                popup( _( "Cannot commit dimension travel: %s" ), transaction_error );
+                return false;
+            }
+            if( capturing_transition ) {
+                cata::actor_control::after_save( true );
+            }
+        }
+        rollback_transition.cancel();
+        return true;
+    } catch( const std::exception &error ) {
+        popup( _( "Dimension travel failed: %s" ), error.what() );
+        return false;
     }
-    game::mon_info_update();
-    dimension_checkpoint_pending = true;
-    get_event_bus().send<event_type::dimension_travel>( player.getID(), previous_dimension,
-            dimension_prefix );
-    return true;
 }
 
 void game::start_hauling( const tripoint_bub_ms &pos )

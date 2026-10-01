@@ -1,0 +1,14 @@
+test_prompt_preserves_bounded_native_action_semantics_without_private_fields (test_runtime.RuntimeTests.test_prompt_preserves_bounded_native_action_semantics_without_private_fields) ... FAIL
+
+======================================================================
+FAIL: test_prompt_preserves_bounded_native_action_semantics_without_private_fields (test_runtime.RuntimeTests.test_prompt_preserves_bounded_native_action_semantics_without_private_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tests/test_runtime.py", line 335, in test_prompt_preserves_bounded_native_action_semantics_without_private_fields
+    self.assertEqual(actions[name].get("description"), description)
+AssertionError: None != 'Pick up observed ground items; this is not general harvesting.'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.013s
+
+FAILED (failures=1)

@@ -1,0 +1,85 @@
+{
+  "acceptance": {
+    "actual_user_environment": "NOT_RUN",
+    "artifact_install": "PASS",
+    "complete_physical_crash_campaign": "NOT_RUN",
+    "full_game_build": "PASS_CATACLYSM_TILES",
+    "full_native_suite": "NOT_RUN",
+    "gameplay": "PASS_RECORDED_ISOLATED_NATIVE_SCENARIOS",
+    "gui": "NOT_RUN",
+    "hosted_ci": "PASS_IMPLEMENTATION_AFB780_ONLY",
+    "installed_native_joint": "PASS_FINAL85_INSTALLED111",
+    "live_multiplayer": "NOT_RUN",
+    "native_tests": "PASS_FOCUSED_63_CASES",
+    "published": "NOT_RUN_AS_OF_PACKAGE_ASSEMBLY",
+    "python_tests": "PASS",
+    "real_provider": "NOT_RUN",
+    "save_reload": "PASS_FOCUSED_FAULT_FIXTURES; FULL_GUI_JOURNEYS_NOT_RUN"
+  },
+  "candidate": {
+    "joint_repeat": "PASS_FINAL85_INSTALLED111",
+    "native_base": "06db38942be4ba0647005c40e59c96c7dc8e67b8",
+    "native_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
+    "status": "EXPERIMENTAL_PRERELEASE_CANDIDATE",
+    "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+  },
+  "evidence": {
+    "adjacent_failures": "docs/evidence/native-controlled-baseline.json",
+    "joint": "docs/evidence/native-installed-joint.json",
+    "native": "docs/evidence/native-acceptance.json",
+    "personality": "docs/evidence/personality-coverage.json",
+    "python": "docs/evidence/python-package.json"
+  },
+  "evidence_as_of": "PACKAGE_ASSEMBLY_SNAPSHOT; final GitHub CI and public release state/digests are recorded in their actual GitHub metadata and outer report",
+  "formats": {
+    "checkpoint": 1,
+    "configuration": 1,
+    "memory": 1,
+    "native_extension": 1
+  },
+  "known_failures": {
+    "adjacent_native_regressions": "FAIL_2_OF_17_CASES; SAME_FAILURES_REPRODUCED_WITH_BASE_NPC_SOURCE_ONLY",
+    "evidence": "docs/evidence/native-controlled-baseline.json"
+  },
+  "openai_sdk": "3.22.1",
+  "package_version": "0.1.0",
+  "protocol_version": "1.0",
+  "python": ">=3.12,<3.13",
+  "schema_version": 1,
+  "target_platform": "linux-x86_64",
+  "validated_combinations": [
+    {
+      "evidence": "docs/evidence/native-installed-joint.json",
+      "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+      "native_source_url": "https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/85d161b424bc9e7d2349516c88eefe644c62d1f9",
+      "native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
+      "not_run": [
+        "full official native suite",
+        "GUI",
+        "real provider/model quality",
+        "actual user game environment",
+        "complete physical crash campaign",
+        "actual cross-dimension journey",
+        "death/replacement GUI",
+        "live multiplayer host/client",
+        "other platforms"
+      ],
+      "openai_sdk": "3.22.1",
+      "package_version": "0.1.0",
+      "platform": "linux-x86_64",
+      "protocol_version": "1.0",
+      "python": "3.12.14",
+      "schema_digest": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c",
+      "scope": [
+        "63-case focused native suite",
+        "installed111 package with real NPC ground pickup,actual native AP/receipts and local memory",
+        "input-wait processing without game-time or AP advance",
+        "safe native handoff",
+        "official SDK with synthetic localhost HTTP"
+      ],
+      "status": "PASS_RECORDED_JOINT_SCOPE",
+      "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+    }
+  ]
+}

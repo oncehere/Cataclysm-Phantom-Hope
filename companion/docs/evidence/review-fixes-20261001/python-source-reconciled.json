@@ -1,0 +1,50 @@
+{
+  "code_inputs": {
+    "src/cph_ai_companion/__init__.py": "9bd92ce0668e922a2970fbc8f1583ad3d8b078e63c4ce147d315feedda0a100a",
+    "src/cph_ai_companion/cli.py": "e337c3efc55baa2d83a32c59e071988ef20f471db37d675a6600b78abb759700",
+    "src/cph_ai_companion/config.py": "e0fe9df125aab1bf24afb51d8a765cc29199f865054857a55c98efdb7451fac4",
+    "src/cph_ai_companion/memory.py": "30f4eac4344bbcd72038136f6f833171bddba0b7d55fd9632e24d3050afb8399",
+    "src/cph_ai_companion/personality.py": "e0b6d159409b39ed8ad2c91a0661ceed1cba7c8cbaf00c92fd29c26aa1636779",
+    "src/cph_ai_companion/protocol.py": "533ca48ef4235ba6f2cb51801a2da3c04f770292736fdefc44f4c003bf9e9402",
+    "src/cph_ai_companion/provider.py": "7be0bae60726324ce9ac74d65c65aaa08b998f07f9df37c821def5fcf7e3b50d",
+    "src/cph_ai_companion/resources/mod/main.lua": "b90f81ef2dc1ad1bcbbec2172eafa64dcdcad25320e8360949d114b50b34d922",
+    "src/cph_ai_companion/resources/mod/mod.lua": "52eae9f72dc8354d9236570544e02b4d33bb766c79384844631c7d0c6f083b8e",
+    "src/cph_ai_companion/resources/protocol/fixtures.json": "1a504264a759526d3e9e63a5d258e90a856436d81e417dae49e29dab50537f67",
+    "src/cph_ai_companion/resources/protocol/protocol.json": "8a8e3f131065bf5eb82cec3233f5dc9c94d4ab2f97143627e49505d5726840a7",
+    "src/cph_ai_companion/resources/templates/background.md": "f2744c84c868016c48872f81ef447a6667e25fa8bdf5cc608dbdfe5106cf9e1d",
+    "src/cph_ai_companion/resources/templates/config.json": "237b94654d1dc7d664f5187fb63cd4fbd9c62bef10a951009ba716c62aa5c6f7",
+    "src/cph_ai_companion/runtime.py": "8ab5fd33c7cec5a770794189787703f0a0a36adfaee01d31750e0154382ff571",
+    "src/cph_ai_companion/transport.py": "03c83d09138884a2f6235f1b311c8b99ab9dbcf5704af98a791a299470daa5ce",
+    "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4",
+    "tests/test_config.py": "454235069951b6936f78d3b42caa09ee5f81437d26f3f0ff68b883bb88fa3223",
+    "tests/test_memory.py": "7acbe0ddf713300d8d405bf2a09500865f82495641882d81a039f26e7e8bfa6c",
+    "tests/test_personality.py": "bde6618544b74ea4cf3bbf8ee5acb0ece1c6af95a71de98167e5a6553733fadd",
+    "tests/test_protocol.py": "0ff9b051f63394c13e819a96d063fd2d07b54d8c330166e89130eddb5585d0a2",
+    "tests/test_provider.py": "bd28281c46ed39cf0a96b0fbf10236ddf80e58b8a0e80b1125704b6cf90a6233",
+    "tests/test_release.py": "3bdc5fd94891ccb9862bf1ff8c525e31c6a2f40c5cdae008ac223b57dc3b4286",
+    "tests/test_runtime.py": "fba117da4c72692e7cfecdfa1825f1db25ded333cb9178eccadf7e0d16637860",
+    "tests/test_transport.py": "029f9a7648e2a1ef234bd480a680c8245b7fcfceb6264d97e69832a29ef09eec",
+    "tools/build_release.py": "90d5e03a285da7e3acf999171bfe9980dd50f6d49069b58b30c42870d008f9a0",
+    "tools/export_cph_protocol.py": "9bc212a532d4271fe445a301e6ccf626c82d614cc1739427b02198695232fdd5",
+    "tools/joint_driver.py": "4bfc5c261b14f12e78f9c73c2ff5d0de5385efe9f87230bf84cfaecda126fb1a"
+  },
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src"
+  },
+  "exit_code": 0,
+  "log_sha256": "de3b9c669c97716f6c3fda6c29fca8efbd2c5f28cb2466449895967b505c6a69",
+  "python": "3.12.14",
+  "scope": "Python3.12 source tests including synthetic localhost SDK; no real-model or actual gameplay claim",
+  "status": "PASS",
+  "tests": 143
+}

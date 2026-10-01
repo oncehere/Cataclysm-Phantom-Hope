@@ -1,0 +1,179 @@
+{
+  "acceptance_boundaries": {
+    "gameplay": "NOT_RUN",
+    "gui": "NOT_RUN",
+    "hosted_ci": "NOT_RUN",
+    "native_tests": "NOT_RUN",
+    "other_platforms": "NOT_RUN",
+    "published": "NOT_RUN",
+    "save_reload": "NOT_RUN"
+  },
+  "archive_verification": {
+    "all_runtime_payloads_match_source_wheel_and_install": true,
+    "license_files_in_wheel": [
+      "LICENSE",
+      "NOTICE"
+    ],
+    "mod_files": [
+      "cph_ai_companion/main.lua",
+      "cph_ai_companion/mod.lua"
+    ],
+    "mod_resources_match_wheel_and_source": true,
+    "runtime_and_resource_files": 15,
+    "sdist_paths_safe_and_unique": true,
+    "sdist_required_materials_present": true,
+    "sdist_runtime_tests_tools_and_locks_match_source": true,
+    "wheel_entries": 21
+  },
+  "artifact_hash_authority": "dist/SHA256SUMS and dist/compatibility.json; this source evidence omits its self-referential sdist hash",
+  "date": "2026-09-30",
+  "historical_evidence": "docs/evidence/python-package-initial71.json; resolved earlier installation failure retained below",
+  "model_scope": {
+    "official_sdk_local_http": "PASS",
+    "paid_calls": false,
+    "real_provider": "NOT_RUN"
+  },
+  "notes": [
+    "Source and installed tests cover structured native receipt data, manual precedence, deleted-source suppression, interrupted deletion recovery, caution-source validation, reflection acceptance and bounded engine cognition projection",
+    "Local SDK tests contact only synthetic loopback HTTP; no paid or real-provider model calls",
+    "Native compatibility identity and acceptance remain unclaimed until the root supplies final exact native evidence"
+  ],
+  "openai_sdk": "3.22.1",
+  "python": "3.12.14",
+  "resolved_failures": [
+    {
+      "cause": "Installed previous wheel against the newly added runtime tests before the active build completed",
+      "duration_seconds": 7.769,
+      "exit_code": 1,
+      "failures": 3,
+      "installed_runtime_sha256": "fd8fb1ad80b2d3ff4e26679256ca2a779dd4b6b28be183f6f6cbede794afedb0",
+      "resolution": "Waited for successful build completion, forced non-editable wheel reinstall, verified every installed runtime/resource byte equals wheel and source, then all 74 tests passed",
+      "stage": "Outside-source installation while the rebuild was still in progress",
+      "status": "RESOLVED",
+      "tested_source_runtime_sha256": "62e59c851b9e6854f16e4f47b0369edf81cb03cac93ade32a95a70d59c24a57b",
+      "tests": 74
+    },
+    {
+      "cause": "Initial test fixture had 180000 zero values and its indented record remained below the 2 MiB boundary",
+      "failures": 1,
+      "resolution": "Changed fixture to 300000 values: compact payload stays below 1 MiB, indented record exceeds 2 MiB and is rejected atomically; all 33 memory tests and 91 full tests passed",
+      "stage": "Additional readable-record byte-boundary test",
+      "status": "RESOLVED",
+      "tests": 32
+    }
+  ],
+  "runs": [
+    {
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+      "duration_seconds": 9.05,
+      "exit_code": 0,
+      "log": "docs/evidence/python-tests-final-91.log",
+      "tests": 91
+    },
+    {
+      "command": "UV_CACHE_DIR=/tmp/cph-ai-artifact-uv-cache-20260930 uv build --python .venv/bin/python --no-build-isolation --out-dir dist",
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+      "exit_code": 0,
+      "log": "docs/evidence/python-build-final-91.log",
+      "wheel_built_from_sdist": true
+    },
+    {
+      "command": ".venv/bin/python tools/build_release.py --dist dist",
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+      "exit_code": 0,
+      "published": false
+    },
+    {
+      "command": "UV_CACHE_DIR=/tmp/cph-ai-artifact-uv-cache-20260930 uv pip install --python /tmp/cph-ai-artifact-install-20260930/bin/python --require-hashes -r requirements.lock",
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion",
+      "exit_code": 0,
+      "locked_dependencies": true
+    },
+    {
+      "command": "UV_CACHE_DIR=/tmp/cph-ai-artifact-uv-cache-20260930 uv pip install --python /tmp/cph-ai-artifact-install-20260930/bin/python --no-deps --reinstall-package cph-ai-companion /home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/dist/cph_ai_companion-0.1.0-py3-none-any.whl",
+      "cwd": "/tmp",
+      "editable": false,
+      "exit_code": 0
+    },
+    {
+      "command": "/tmp/cph-ai-artifact-install-20260930/bin/python -m unittest discover -s /home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tests -v",
+      "cwd": "/tmp",
+      "duration_seconds": 10.199,
+      "exit_code": 0,
+      "import_location": "/tmp/cph-ai-artifact-install-20260930/lib/python3.12/site-packages/cph_ai_companion/__init__.py",
+      "log": "docs/evidence/python-tests-installed-final-91.log",
+      "tests": 91
+    },
+    {
+      "command": "/tmp/cph-ai-artifact-install-20260930/bin/cph-ai-companion init --profile /tmp/cph-ai-artifact-final-profile-20260930 --actor-id 7 --install-mod --game-userdir /tmp/cph-ai-artifact-final-game-user-20260930",
+      "cwd": "/tmp",
+      "exit_code": 0,
+      "model_started": false
+    },
+    {
+      "command": "/tmp/cph-ai-artifact-install-20260930/bin/cph-ai-companion doctor --offline --profile /tmp/cph-ai-artifact-final-profile-20260930",
+      "credential_available": false,
+      "cwd": "/tmp",
+      "endpoint_configured": false,
+      "exit_code": 0,
+      "model_called": false
+    },
+    {
+      "command": "XDG_RUNTIME_DIR=/tmp/cph-ai-artifact-runtime-20260930 /tmp/cph-ai-artifact-install-20260930/bin/cph-ai-companion list-sessions",
+      "cwd": "/tmp",
+      "exit_code": 0,
+      "sessions": []
+    },
+    {
+      "all_listed_artifacts_match": true,
+      "command": "sha256sum --check SHA256SUMS",
+      "cwd": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/dist",
+      "exit_code": 0
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Python local tests, locked packaging, non-editable installation outside checkout, offline CLI, local synthetic SDK endpoint only",
+  "status": "PASS",
+  "temporary_paths": {
+    "artifact_environment": "/tmp/cph-ai-artifact-install-20260930",
+    "game_user_fixture": "/tmp/cph-ai-artifact-final-game-user-20260930",
+    "profile_fixture": "/tmp/cph-ai-artifact-final-profile-20260930",
+    "retention": "Isolated fixtures retained for pending native joint acceptance; no real saves or user configuration accessed",
+    "runtime_fixture": "/tmp/cph-ai-artifact-runtime-20260930",
+    "uv_cache": "/tmp/cph-ai-artifact-uv-cache-20260930"
+  },
+  "tested_source_sha256": {
+    "src/cph_ai_companion/__init__.py": "1663e77fc9abdd2a9bb84ed1b3e79f365c0c61ba8981e2182dbe33e2ab197f7f",
+    "src/cph_ai_companion/cli.py": "9e4ac86874cee39e7ceb9d6c5fcd3a72696062771c3728c4081485b08ed6528d",
+    "src/cph_ai_companion/config.py": "e0fe9df125aab1bf24afb51d8a765cc29199f865054857a55c98efdb7451fac4",
+    "src/cph_ai_companion/memory.py": "89e94a3d7cd88d96ce5bc8476e7fa3a47bd5ed3b4ab05f507519ea2a88ec15c9",
+    "src/cph_ai_companion/personality.py": "e0b6d159409b39ed8ad2c91a0661ceed1cba7c8cbaf00c92fd29c26aa1636779",
+    "src/cph_ai_companion/protocol.py": "9db8bd7134ddd2b844c48e7956b6565771f4b3b75bca0076d9c3cbf2c5882f81",
+    "src/cph_ai_companion/provider.py": "8a7efb197730e3d762b12874ed9cd2035b6d58ff00c0cb5ca0caa5dbfe91ebf1",
+    "src/cph_ai_companion/resources/mod/main.lua": "b90f81ef2dc1ad1bcbbec2172eafa64dcdcad25320e8360949d114b50b34d922",
+    "src/cph_ai_companion/resources/mod/mod.lua": "54c2b0fa140efb51663f1d958b6de0959c3494f26cb296805be564425b3af8a6",
+    "src/cph_ai_companion/resources/protocol/fixtures.json": "1ffb026e228e99854d6a36e69d3a148f6d6ff2927349b245f290801fd3290e89",
+    "src/cph_ai_companion/resources/protocol/protocol.json": "9a21f1b67a7b68b207e80b77dd37869e56cec7691e47c067ef1d849a9366018c",
+    "src/cph_ai_companion/resources/templates/background.md": "f2744c84c868016c48872f81ef447a6667e25fa8bdf5cc608dbdfe5106cf9e1d",
+    "src/cph_ai_companion/resources/templates/config.json": "237b94654d1dc7d664f5187fb63cd4fbd9c62bef10a951009ba716c62aa5c6f7",
+    "src/cph_ai_companion/runtime.py": "6d1b04f934498d075837a10f7e985b3cbb9f85c083a672363c044db6201c348e",
+    "src/cph_ai_companion/transport.py": "03c83d09138884a2f6235f1b311c8b99ab9dbcf5704af98a791a299470daa5ce",
+    "tests/test_cli.py": "3cbfc81b6d29335a46a19ba15f78f0925e381969a0976761fca31c9a68142626",
+    "tests/test_config.py": "454235069951b6936f78d3b42caa09ee5f81437d26f3f0ff68b883bb88fa3223",
+    "tests/test_memory.py": "b127f541e0571395a52ae598d17ad9967d426b69e75b48e1bda895f2c51bc7b0",
+    "tests/test_personality.py": "bde6618544b74ea4cf3bbf8ee5acb0ece1c6af95a71de98167e5a6553733fadd",
+    "tests/test_protocol.py": "0ff9b051f63394c13e819a96d063fd2d07b54d8c330166e89130eddb5585d0a2",
+    "tests/test_provider.py": "2d2c5ff53a01f6346b17cb2ce06ef21b541b73fefea733e29bdfbd9df0d82088",
+    "tests/test_release.py": "170579c7adf9df886b4d48bbaacc5f6eff47e7d788b2535114725ccaaffc6b3d",
+    "tests/test_runtime.py": "e0650f36aa67e102ba2f652d8fa85f2850de2932135bcec9bbcdfb32ed13a820",
+    "tests/test_transport.py": "029f9a7648e2a1ef234bd480a680c8245b7fcfceb6264d97e69832a29ef09eec",
+    "tools/build_release.py": "aa03a30d994698849c461d9d5aad07c5d28ea6e272452b6a7d6b46277de4fbf7",
+    "tools/export_cph_protocol.py": "0496de85b0d80e3ad1ce1660f7650fb81eb5b89d2e480258292f1533bb1fd0b3",
+    "tools/joint_driver.py": "407683e6d5f050f87655ae22850bb46babcc272e036d9ebd46224f417c5f5436"
+  },
+  "timezone": "America/Los_Angeles",
+  "uv": "0.12.17",
+  "wheel_sha256": "32464fa4997a69d6622ca64ba644265c62d487657d0c62d02e7d9c931b6f97cb",
+  "workdir": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion"
+}

@@ -1,0 +1,30 @@
+
+
+-----------------------------------------
+21:50:49.051 : Starting log.
+21:50:49.051 INFO : Cataclysm DDA version 1979-12-31-9915f0b6381
+21:50:49.051 INFO : Randomness seeded to: 123456
+
+21:50:49.051 INFO : Running Catch2 session:
+
+21:50:49.065 INFO : SDL render devices: software, opengl, opengles2, vulkan, gpu
+21:50:49.065 INFO : [options] C locale set to C
+21:50:49.065 INFO : [options] C++ locale set to CLua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+
+21:50:49.215 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Lua_First_Example/mod.lua
+21:50:49.216 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Migrated_Core/mod.lua
+21:50:59.039 INFO : /tmp/cph-ai-source-20260930/src/mod_tracker.h:68: Tried check if 'test_vit_override_and_extend' had a duplicate, but type 'vitamin' does not track object sources
+21:50:59.068 WARNING : Catharsis Covenant Basemodule pack load time:: 9488441us (avg: 9488441us) (count: 1)
+21:50:59.068 WARNING : TESTING DATA pack load time:: 304326us (avg: 304326us) (count: 1)
+21:51:33.863 INFO : Game data loaded
+5.246 s: actor_control_final_package_executes_real_npc_gather_and_records_memory
+Passed 1 test case with 5254 assertions.
+
+
+21:51:39.116 INFO : Finished in 50.061 seconds
+21:51:39.116 INFO : Randomness seeded to: 123456
+

@@ -7,7 +7,7 @@
 - `data/reference/json/ccb_eoc_effects.json`
 
 The current snapshots cover all 191 `DynamicDataLoader` registration calls
-(190 unique types), all 275 detected public condition keys, and all 306
+(190 unique types), all 275 detected public condition keys, and all 311
 detected public effect keys.  The inventory tests pin these counts until the source registries
 change intentionally.  These are parser-registry coverage figures, not a
 claim that every handler's field contract has been classified.

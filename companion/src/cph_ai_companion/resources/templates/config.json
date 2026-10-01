@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "profile_id": "ai_adventurer",
+  "actor_id": null,
+  "llm": {
+    "base_url": "",
+    "model": "",
+    "api_key_env": "CPH_LLM_API_KEY",
+    "max_output_tokens": 2048
+  },
+  "limits": {
+    "max_steps": 5,
+    "max_calls": 3,
+    "max_queries": 4,
+    "request_timeout": 30,
+    "episode_timeout": 90,
+    "cooldown": 10,
+    "max_input_tokens": 32768,
+    "session_max_calls": 100,
+    "session_max_tokens": 100000
+  },
+  "personality": {
+    "schema_version": 1,
+    "applies_to": "bound_companion_only",
+    "expression_policy": "natural_with_intent_checks",
+    "traits": {
+      "honesty": 0.45,
+      "self_interest": 0.65,
+      "commitment": 0.55,
+      "caution": 0.6
+    },
+    "social_behavior": {
+      "refuse": true,
+      "argue": true,
+      "propose_own_goals": true,
+      "deception": {
+        "enabled": true,
+        "lie_in_dialogue": true,
+        "conceal_information": true,
+        "false_promise": true,
+        "transaction_fraud": false
+      },
+      "betrayal": {
+        "enabled": true,
+        "break_commitment": true,
+        "aid_conflicting_party": true,
+        "disclose_known_information": true,
+        "leave_group": false,
+        "misappropriate_items": false,
+        "sabotage": false,
+        "attack_player": false,
+        "attack_allies": false
+      }
+    }
+  },
+  "memory": {
+    "continuity": {
+      "load_experiences": "checkpoint",
+      "load_personality_growth": "checkpoint",
+      "new_world_experiences": "none",
+      "new_world_personality_growth": "reset",
+      "selected_archives": [],
+      "knowledge_files": []
+    },
+    "cognition": {
+      "forgetting_enabled": true,
+      "subjective_interpretation_enabled": true,
+      "half_life_seconds": 604800,
+      "recall_threshold": 0.05
+    },
+    "provider_transmission": "relevant_context_only"
+  },
+  "paths": {
+    "background": "background.md",
+    "memory": "memory"
+  },
+  "binding": {
+    "world_id": null,
+    "branch_id": null
+  },
+  "debug": {
+    "enabled": false
+  }
+}
