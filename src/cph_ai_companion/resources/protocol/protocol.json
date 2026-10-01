@@ -1505,12 +1505,13 @@
   ],
   "requirement_decisions": {
     "identity": "player_chat detail.requirement_id is a stable native event ID scoped to world and branch.",
-    "step_link": "Work responding to a player requirement must include its requirement_id. Refuse requires a known pending or accepted requirement.",
+    "step_link": "While pending or refused player requirements exist, every step must name a known requirement_id, or explicitly declare independent work through action/intent propose_own_goals (subject to that permission). Refuse requires a known pending or accepted requirement. Untagged speech shorthand is unavailable in that state; use a linked talk step.",
     "states": [
       "pending",
       "accepted",
       "refused"
     ],
-    "contradictions": "A plan cannot refuse and perform another step linked to the same requirement. Persisted refused requirements cannot be revived by later plans or native daily fallback."
+    "contradictions": "A plan cannot refuse and perform another step linked to the same requirement. Persisted refused requirements cannot be revived by later plans or native daily fallback.",
+    "semantic_boundary": "The engine enforces typed task associations. An explicitly independent personal goal can overlap a refused request physically; arbitrary prose cannot prove that the declared purpose is truthful."
   }
 }
