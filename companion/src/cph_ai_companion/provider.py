@@ -49,7 +49,7 @@ def parse_model_json(content: Any) -> dict[str, Any]:
         raise ProviderError("invalid_model_json")
     try:
         value = json.loads(content, object_pairs_hook=_unique_pairs, parse_constant=_reject_constant)
-    except (ValueError, TypeError, RecursionError) as exc:
+    except (ValueError, TypeError, RecursionError):
         raise ProviderError("invalid_model_json") from None
     if not isinstance(value, dict):
         raise ProviderError("invalid_model_json")

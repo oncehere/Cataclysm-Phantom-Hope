@@ -10,7 +10,6 @@ import json
 import os
 from pathlib import Path
 import signal
-import stat
 import sys
 import time
 from typing import Any
@@ -20,7 +19,7 @@ from .config import ConfigError, default_config, load_config
 from .memory import MemoryStore, MemoryStoreError
 from .personality import PersonalityError
 from .protocol import PROTOCOL_VERSION, ProtocolError, schema_digest
-from .provider import ProcessProvider, ProviderConfig, ProviderError
+from .provider import ProviderConfig, ProviderError
 from .runtime import AgentRuntime, RuntimeErrorCode
 from .transport import (JsonRpcClient, SessionDescriptor, TransportError,
                         _read_private, discover_sessions, process_start, resolve_session, strict_json)

@@ -7,7 +7,7 @@ import generate_documentation_registry as registry
 
 
 class DocumentationRegistryTest(unittest.TestCase):
-    def test_companion_manuals_are_current_but_imported_evidence_is_history(self):
+    def test_companion_manuals_current_and_imported_evidence_historical(self):
         current = registry.classify("companion/README.md", {})
         self.assertEqual(current["stable_document_id"], "cph.companion")
         self.assertTrue(current["include_in_ai_index"])

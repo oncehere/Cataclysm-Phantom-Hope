@@ -402,7 +402,8 @@ EXPORT_SURFACES = (
 
 NATIVE_DOMAINS = (
     ("achievements", "Inspect achievement definitions and world progress."),
-    ("actor_control", "Bind and manage the fixed externally planned NPC companion."),
+    ("actor_control",
+     "Bind and manage the fixed externally planned NPC companion."),
     ("addictions", "Inspect and mutate character addictions."),
     ("bionics", "Inspect definitions and mutate installed bionics."),
     ("camps", "Inspect faction camps and their world locations."),

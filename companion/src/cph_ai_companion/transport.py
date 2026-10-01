@@ -199,8 +199,8 @@ class JsonRpcClient:
         try:
             self._socket = socket.create_connection((self.descriptor.host, self.descriptor.port), self.timeout)
             result = self.request("hello", {"credential": credential,
-                                           "protocol_version": PROTOCOL_VERSION,
-                                           "schema_digest": schema_digest()})
+                                            "protocol_version": PROTOCOL_VERSION,
+                                            "schema_digest": schema_digest()})
             if not isinstance(result, dict):
                 raise TransportError("invalid_handshake")
             if result.get("protocol_version") != PROTOCOL_VERSION:

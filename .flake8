@@ -14,10 +14,10 @@ ignore =
 # pre-existing lint debt explicitly.  Remove entries as the legacy tools are
 # modernized.
 per-file-ignores =
-    # Preserve the imported companion's line layout; syntax and Pyflakes
-    # checks still apply. Its source and installed-package suites run in the
+    # Preserve the companion's long lines and Black-style operator breaks;
+    # syntax and Pyflakes checks still apply. Its package suites run in the
     # independent companion validation route.
-    companion/*:E501
+    companion/*:E501,W503
     tools/decompose.py:E201,E202,E225,E275,E302,E501,W291
     tools/density_audit.py:E226,E302,E401,E501,F541,W391
     tools/gen_excel_v3.py:E117,E128,E129,E225,E226,E231,E302,E305,E401,E501,E701,E702,E722,F401

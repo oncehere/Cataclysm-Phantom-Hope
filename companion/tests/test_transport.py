@@ -1,6 +1,5 @@
 from contextlib import contextmanager
 import json
-import os
 from pathlib import Path
 import socket
 import tempfile
@@ -9,7 +8,7 @@ import unittest
 
 from cph_ai_companion.protocol import PROTOCOL_VERSION, schema_digest
 from cph_ai_companion.transport import (JsonRpcClient, SessionDescriptor, TransportError,
-                                       discover_sessions, strict_json)
+                                        discover_sessions, strict_json)
 
 
 @contextmanager
@@ -57,7 +56,7 @@ def session(directory, port):
     descriptor = path / "session.json"
     descriptor.write_text(json.dumps({"session_id": "instance", "host": "127.0.0.1", "port": port,
                                      "credential_file": "credential", "protocol_version": PROTOCOL_VERSION,
-                                     "schema_digest": schema_digest()}))
+                                      "schema_digest": schema_digest()}))
     descriptor.chmod(0o600)
     return SessionDescriptor.load(descriptor)
 
@@ -70,6 +69,7 @@ def handshake(request):
 class TransportTests(unittest.TestCase):
     def test_authenticated_explicit_descriptor_and_requests(self):
         received = []
+
         def handler(request):
             received.append(request)
             if request["method"] == "hello":

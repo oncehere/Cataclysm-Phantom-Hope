@@ -9,7 +9,7 @@ and does not delete the original independent repository.
 
 This checkout's **0.1.2.dev0 / protocol 1.1** is an unpublished candidate. It
 cannot be paired with the old native revision or wheel below. Imported
-review-fix evidence in `compatibility.json` belongs to its recorded inputs;
+review-fix evidence in `docs/evidence/pre-monorepo-compatibility.json` belongs to its recorded inputs;
 the monorepo candidate needs its own installed-package/native validation.
 
 ## Build the companion from a CPH source checkout

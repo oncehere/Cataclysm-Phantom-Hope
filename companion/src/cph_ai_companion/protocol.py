@@ -61,7 +61,7 @@ def _validate(value: Any, schema: dict[str, Any]) -> None:
     elif kind == "integer":
         if type(value) is not int:
             raise ProtocolError("integer_required")
-        if not schema.get("minimum", -2**63) <= value <= schema.get("maximum", 2**63-1):
+        if not schema.get("minimum", -2**63) <= value <= schema.get("maximum", 2**63 - 1):
             raise ProtocolError("integer_range")
     elif kind == "number":
         if type(value) not in (int, float) or not math.isfinite(value):

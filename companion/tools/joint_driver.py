@@ -54,11 +54,11 @@ def main() -> int:
                 observed = payload["observations"]["nearby"]["items"]
                 rock = next(item for item in observed if item["item_type"] == "rock")
                 candidate = {"steps": [{"id": "joint-gather-one", "action": "gather",
-                    "args": {**rock["position"], "item_type": "rock", "count": 1}}]}
+                                        "args": {**rock["position"], "item_type": "rock", "count": 1}}]}
                 response = {"id": "joint-fake", "object": "chat.completion", "created": 1,
-                    "model": "joint-fake", "choices": [{"index": 0, "finish_reason": "stop",
-                    "message": {"role": "assistant", "content": json.dumps(candidate)}}],
-                    "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2}}
+                            "model": "joint-fake", "choices": [{"index": 0, "finish_reason": "stop",
+                                                               "message": {"role": "assistant", "content": json.dumps(candidate)}}],
+                            "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2}}
                 data = json.dumps(response).encode()
                 self.send_response(200)
             except (ValueError, KeyError, StopIteration, TypeError):
@@ -116,11 +116,11 @@ def main() -> int:
                 stopped = runtime.run_once()
                 detach = stopped.get("detach", {})
                 result.update(state="passed", sdk_calls=len(calls), receipt_state=receipts[-1]["state"],
-                    memory_receipts=len(recorded), detach_state=detach.get("detach_state"),
-                    actor_id=status.get("actor_id"), non_streaming=all(call["stream"] is False for call in calls),
-                    no_tools=all(not call["has_tools"] for call in calls), checkpoint_prepared=True,
-                    checkpoint_projection_version=checkpoints[-1]["projection_version"],
-                    checkpoint_file_revision=checkpoints[-1]["revision"])
+                              memory_receipts=len(recorded), detach_state=detach.get("detach_state"),
+                              actor_id=status.get("actor_id"), non_streaming=all(call["stream"] is False for call in calls),
+                              no_tools=all(not call["has_tools"] for call in calls), checkpoint_prepared=True,
+                              checkpoint_projection_version=checkpoints[-1]["projection_version"],
+                              checkpoint_file_revision=checkpoints[-1]["revision"])
                 if result["detach_state"] != "detached":
                     raise ValueError("handoff_not_confirmed")
                 exit_code = 0

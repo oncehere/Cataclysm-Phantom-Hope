@@ -37,9 +37,10 @@
     "memory": 1,
     "native_extension": 1
   },
-  "known_failures": {
-    "adjacent_native_regressions": "HISTORICAL_FAIL_2_OF_17; NOT_RERUN_THIS_FIX; CURRENT_MISSION_3_OF_3_PASS",
-    "evidence": "docs/evidence/native-controlled-baseline.json"
+  "historical_context": {
+    "adjacent_native_regressions": "Older adjacent failures and focused reruns remain recorded with their original inputs.",
+    "evidence": "docs/evidence/pre-monorepo-compatibility.json",
+    "boundary": "No historical test result certifies this monorepo candidate."
   },
   "openai_sdk": "3.22.1",
   "package_version": "0.1.2.dev0",

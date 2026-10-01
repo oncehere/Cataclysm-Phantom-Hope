@@ -374,7 +374,7 @@ class AgentRuntime:
             raise RuntimeErrorCode("invalid_episode_journal")
         if self._episode is not None:
             self._episodes[self._episode["owner"]] = {key: self._episode[key] for key in
-                                                    ("key", "calls", "queries", "state", "code")}
+                                                      ("key", "calls", "queries", "state", "code")}
         if len(self._episodes) > 256:
             raise RuntimeErrorCode("episode_journal_full")
         descriptor, temporary = tempfile.mkstemp(prefix=".runtime-episodes-", dir=self.memory.memory_root)

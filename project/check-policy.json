@@ -146,7 +146,7 @@
       "workflow-inventory": [
         "tools/project/check_remote_workflows.py"
       ],
-      "actor-protocol": [
+      "actor-protocol-generated": [
         "tools/actor_control/generate_protocol.py",
         "--check"
       ]

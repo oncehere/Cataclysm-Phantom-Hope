@@ -298,6 +298,7 @@ class RuntimeTests(unittest.TestCase):
         source = self.memory.retrieve(self.context)[0]["id"]
         self.provider = FakeProvider([{"steps": [], "reflections": [{"kind": "growth", "text": "I should be cautious", "source_ids": [source]}]}])
         original = self.client.request
+
         def edit_after_acceptance(method, params=None):
             result = original(method, params)
             if method == "offer_plan":
@@ -365,7 +366,6 @@ class RuntimeTests(unittest.TestCase):
     def test_unexpected_disconnect_does_not_cancel_accepted_engine_queue(self):
         runtime = self.runtime()
         runtime.start()
-        original = self.client.request
         self.client.request = lambda *args, **kwargs: (_ for _ in ()).throw(TransportError("disconnected"))
         self.assertEqual(runtime.run()["state"], "disconnected")
         self.assertEqual([method for method, _ in self.client.calls if method == "cancel"], [])
@@ -417,6 +417,7 @@ class RuntimeTests(unittest.TestCase):
         self.config["limits"]["max_calls"] = 3
         runtime = self.runtime()
         calls = []
+
         def fail(messages, **kwargs):
             calls.append(messages)
             raise ProviderError("provider_timeout")
@@ -431,6 +432,7 @@ class RuntimeTests(unittest.TestCase):
 
     def test_uncertain_reserved_call_is_not_reissued_after_restart(self):
         runtime = self.runtime()
+
         def disconnect(messages, **kwargs):
             raise TransportError("disconnected")
         self.provider.complete = disconnect
@@ -446,6 +448,7 @@ class RuntimeTests(unittest.TestCase):
         self.config["limits"].update(max_calls=3, max_queries=1)
         self.provider = FakeProvider([{"queries": [{"query": "medicine", "limit": 1}]},
                                       {"steps": [{"id": "a", "action": "wait", "args": {}}]}])
+
         def invalidate_second_call():
             if len(self.provider.messages) == 2:
                 self.client.context["request_id"] = "synthetic-refresh"
@@ -482,8 +485,8 @@ class RuntimeTests(unittest.TestCase):
     def test_time_based_forgetting_resyncs_projection_without_file_revision_change(self):
         self.memory.cognition.update(half_life_seconds=1, recall_threshold=0.1)
         self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "danger"},
-                                         {"id": "lesson", "kind": "growth", "text": "caution",
-                                          "source_ids": ["heard"], "preferences": {"caution": 0.9}}])
+                                          {"id": "lesson", "kind": "growth", "text": "caution",
+                                           "source_ids": ["heard"], "preferences": {"caution": 0.9}}])
         runtime = self.runtime()
         first = runtime._sync(self.context)
         versions = [params["version"] for method, params in self.client.calls if method == "sync_memory"]
@@ -573,7 +576,7 @@ class RuntimeTests(unittest.TestCase):
         self.memory.ingest(self.context, [{"id": "heard", "kind": "statement", "text": "Player says cellar is safe"}])
         source = self.memory.retrieve(self.context)[0]["id"]
         self.provider = FakeProvider([{"steps": [], "reflections": [{"kind": "belief", "text": "perhaps safe",
-                                                                       "source_ids": [source]}]}])
+                                                                     "source_ids": [source]}]}])
         runtime = self.runtime()
         self.assertEqual(runtime.run_once()["state"], "submitted")
         self.now = 11
@@ -594,7 +597,7 @@ class RuntimeTests(unittest.TestCase):
         record = self.memory.retrieve(self.context)[0]
         self.assertEqual(record["kind"], "receipt")
         self.assertEqual(record["data"], {"requirement_id": "incoming", "decision": "refused",
-                                           "native_event_kind": "requirement_decision"})
+                                          "native_event_kind": "requirement_decision"})
 
     def test_prompt_preserves_stable_requirement_decisions_for_structured_refusal(self):
         decisions = [{"requirement_id": "incoming", "source_event_id": "incoming", "source_sequence": 1,
@@ -650,6 +653,7 @@ class RuntimeTests(unittest.TestCase):
         self.client.context["memory_version"] = "captured-projection"
         self.client.checkpoint_requested = True
         original = self.memory.checkpoint
+
         def edit_after_creation(context):
             checkpoint = original(context)
             (Path(self.directory.name) / "background.md").write_text("Human edit after checkpoint capture")

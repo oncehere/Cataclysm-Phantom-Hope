@@ -714,8 +714,8 @@ class MemoryStore:
             rel = f"memory/records/{rid}/{version}.json"
             digest = self._write_new(rel, record)
             self._state["files"][rel] = {"id": rid, "hash": digest,
-                                        "source_fingerprint": _event_fingerprint(record),
-                                        "source_ids": record["source_ids"]}
+                                         "source_fingerprint": _event_fingerprint(record),
+                                         "source_ids": record["source_ids"]}
             if rid in self._state["manual"]:
                 self._state["conflicts"].append({"id": rid, "paths": [self._state["heads"][rid], rel]})
             else:

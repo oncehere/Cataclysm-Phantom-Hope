@@ -1,4 +1,4 @@
-from contextlib import redirect_stdout, redirect_stderr
+from contextlib import redirect_stderr
 import io
 import json
 from pathlib import Path
@@ -16,12 +16,16 @@ from cph_ai_companion.transport import SessionDescriptor
 
 class FakeClient:
     safe = True
+
     def __init__(self, descriptor):
         pass
+
     def connect(self):
         return {}
+
     def request(self, method, params):
         return {"safe_to_remove": self.safe, "world_dependencies": []}
+
     def close(self):
         pass
 
@@ -71,7 +75,7 @@ class CliTests(unittest.TestCase):
             target = install_mod(user)
             (target / "user-notes.txt").write_text("keep")
             descriptor = SessionDescriptor(Path(directory) / "session.json", "s", "127.0.0.1", 1,
-                Path(directory) / "credential", PROTOCOL_VERSION, schema_digest(), user_dir=str(user))
+                                           Path(directory) / "credential", PROTOCOL_VERSION, schema_digest(), user_dir=str(user))
             with patch("cph_ai_companion.cli.JsonRpcClient", FakeClient):
                 FakeClient.safe = False
                 with self.assertRaisesRegex(CliError, "mod_removal_not_confirmed_safe"):
@@ -118,7 +122,7 @@ class CliTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as directory:
             descriptor = SessionDescriptor(Path(directory) / "session.json", "s", "127.0.0.1", 1,
-                Path(directory) / "credential", PROTOCOL_VERSION, schema_digest())
+                                           Path(directory) / "credential", PROTOCOL_VERSION, schema_digest())
             with patch("cph_ai_companion.cli.JsonRpcClient", StopClient):
                 result = stop_session(descriptor)
         self.assertEqual(calls, ["cancel", "stop"])
@@ -126,7 +130,7 @@ class CliTests(unittest.TestCase):
 
     def test_stop_signals_verified_process_handle_instead_of_reusable_pid(self):
         descriptor = SessionDescriptor(Path("/tmp/session.json"), "s", "127.0.0.1", 1,
-            Path("/tmp/credential"), PROTOCOL_VERSION, schema_digest())
+                                       Path("/tmp/credential"), PROTOCOL_VERSION, schema_digest())
         record = {"pid": 424242, "process_start": "original-start"}
         with patch("cph_ai_companion.cli._runtime_record", return_value=record), \
              patch("cph_ai_companion.cli.os.pidfd_open", return_value=17) as opened, \
@@ -152,7 +156,7 @@ class CliTests(unittest.TestCase):
                 return {"detach_state": "detached"}
 
         descriptor = SessionDescriptor(Path("/tmp/session.json"), "s", "127.0.0.1", 1,
-            Path("/tmp/credential"), PROTOCOL_VERSION, schema_digest())
+                                       Path("/tmp/credential"), PROTOCOL_VERSION, schema_digest())
         with patch("cph_ai_companion.cli._runtime_record", return_value={"pid": 424242, "process_start": "old"}), \
              patch("cph_ai_companion.cli.os.pidfd_open", return_value=17), \
              patch("cph_ai_companion.cli.process_start", return_value="replacement"), \

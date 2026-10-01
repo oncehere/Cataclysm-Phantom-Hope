@@ -8,7 +8,7 @@ import threading
 from unittest.mock import patch
 
 from cph_ai_companion.provider import (Completion, ProcessProvider, ProviderConfig,
-                                      ProviderError, decode_completion, parse_model_json)
+                                       ProviderError, decode_completion, parse_model_json)
 
 
 def sleeping_worker(*args):
@@ -124,9 +124,11 @@ class ProviderTests(unittest.TestCase):
     def test_official_sdk_against_loopback_http_and_no_implicit_retry(self):
         requests = []
         error_mode = threading.Event()
+
         class Handler(BaseHTTPRequestHandler):
             def log_message(self, *args):
                 pass
+
             def do_POST(self):
                 length = int(self.headers["Content-Length"])
                 requests.append((self.path, json.loads(self.rfile.read(length))))

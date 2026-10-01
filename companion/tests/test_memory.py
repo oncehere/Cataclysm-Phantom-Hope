@@ -156,7 +156,7 @@ class MemoryTests(unittest.TestCase):
         revision = store.revision
         with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_record"):
             store.ingest(CONTEXT, [{"id": "first", "kind": "observation", "text": "valid"},
-                                    {"id": "last", "kind": "belief", "text": 42}])
+                                   {"id": "last", "kind": "belief", "text": 42}])
         self.assertEqual(store.revision, revision)
         self.assertEqual(list((store.memory_root / "records").glob("*/*.json")), [])
         self.assertEqual(store.retrieve(CONTEXT), [])
@@ -203,7 +203,7 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(store.retrieve(other), [])
         store.close()
         store = self.open({"memory": {"continuity": {"new_world_experiences": "selected_archives",
-                                                       "selected_archives": [checkpoint["id"]]}}})
+                                                     "selected_archives": [checkpoint["id"]]}}})
         imported = store.retrieve(other)[0]
         self.assertEqual(imported["continuity"], "imported_experience_not_current_world_fact")
         self.assertEqual(imported["context"]["world_id"], "world-a")
@@ -211,14 +211,14 @@ class MemoryTests(unittest.TestCase):
     def test_new_world_growth_can_retain_without_importing_world_events(self):
         store = self.open({"memory": {"continuity": {"new_world_personality_growth": "retain"}}})
         store.ingest(CONTEXT, [{"id": "growth", "kind": "growth", "text": "学会谨慎"},
-                                {"id": "event", "kind": "observation", "text": "药柜的位置"}])
+                               {"id": "event", "kind": "observation", "text": "药柜的位置"}])
         self.assertEqual([r["text"] for r in store.retrieve({**CONTEXT, "world_id": "new-world"})], ["学会谨慎"])
 
     def test_foreign_growth_entry_is_frozen_across_updates_loads_and_restarts(self):
         config = {"memory": {"continuity": {"new_world_personality_growth": "retain"}}}
         store = self.open(config)
         store.ingest(CONTEXT, [{"id": "danger", "kind": "receipt", "text": "Saw danger"},
-                                {"id": "lesson", "kind": "growth", "text": "Entry lesson", "source_ids": ["danger"]}])
+                               {"id": "lesson", "kind": "growth", "text": "Entry lesson", "source_ids": ["danger"]}])
         other = {**CONTEXT, "world_id": "new-world"}
         first = store.snapshot(other)
         self.assertEqual([r["text"] for r in first["records"]], ["Entry lesson"])
@@ -348,7 +348,7 @@ class MemoryTests(unittest.TestCase):
     def test_pending_requirement_count_matches_native_limit_without_trimming_goal_text(self):
         store = self.open()
         receipt = store.ingest(CONTEXT, [{"id": "crafted", "kind": "receipt", "text": "crafted",
-                                        "data": {"detail": {"item_type": "bandages"}}}])[0]
+                                         "data": {"detail": {"item_type": "bandages"}}}])[0]
         rows = [{"requirement_id": f"ask-{i}", "decision": "pending", "text": "Wait here"}
                 for i in range(257)]
         rows[-1]["text"] = "Deliver bandages"
@@ -371,7 +371,7 @@ class MemoryTests(unittest.TestCase):
                             "requirement_id": requirement, "origin": "incoming_message",
                             "state": "failed", "code": "gather_stock_changed", "detail": {}}}
         events.extend([failure, {**failure, "id": "receipt.unrelated",
-                                "data": {**failure["data"], "requirement_id": "other.1"}}])
+                                 "data": {**failure["data"], "requirement_id": "other.1"}}])
         ids = store.ingest(CONTEXT, events)
         stale = store.ingest({**CONTEXT, "branch_id": "other-branch"},
                              [{**failure, "id": "receipt.other-branch"}])[0]
@@ -396,7 +396,7 @@ class MemoryTests(unittest.TestCase):
         requirement = "load-epoch.1"
         ids = store.ingest(CONTEXT, [{"id": f"receipt-{i}", "kind": "receipt", "text": "gather_stock_changed",
                                      "data": {"requirement_id": requirement}}
-                                    for i in range(MAX_MANDATORY_RECORDS)])
+                                     for i in range(MAX_MANDATORY_RECORDS)])
         request = {"events": [], "requirement_decisions": [
             {"requirement_id": requirement, "decision": "pending", "text": "请拿绷带"}]}
         self.assertEqual(set(store.snapshot(CONTEXT, request)["mandatory_record_ids"]), set(ids))
@@ -428,7 +428,7 @@ class MemoryTests(unittest.TestCase):
         archive = store.checkpoint(CONTEXT)
         store.close()
         store = self.open({"memory": {"continuity": {"new_world_experiences": "selected_archives",
-                                                       "selected_archives": [archive["id"]]}}})
+                                                     "selected_archives": [archive["id"]]}}})
         snapshot = store.snapshot({**CONTEXT, "world_id": "new-world"}, {"observations": {"goal": "Deliver bandages"}})
         self.assertEqual(snapshot["mandatory_record_ids"], [])
         self.assertTrue(all(record["continuity"] == "imported_experience_not_current_world_fact"
@@ -494,13 +494,13 @@ class MemoryTests(unittest.TestCase):
     def test_disabling_subjective_interpretation_excludes_beliefs_from_context(self):
         store = self.open({"memory": {"cognition": {"subjective_interpretation_enabled": False}}})
         store.ingest(CONTEXT, [{"id": "claim", "kind": "statement", "text": "玩家声称安全"},
-                                {"id": "guess", "kind": "belief", "text": "安全"}])
+                               {"id": "guess", "kind": "belief", "text": "安全"}])
         self.assertEqual([r["kind"] for r in store.retrieve(CONTEXT)], ["statement"])
 
     def test_invalid_manual_json_fails_closed_without_applying_other_deletions(self):
         store = self.open()
         ids = store.ingest(CONTEXT, [{"id": "a", "kind": "observation", "text": "a"},
-                                   {"id": "b", "kind": "observation", "text": "b"}])
+                                     {"id": "b", "kind": "observation", "text": "b"}])
         before = store.revision
         self.record_paths(store, ids[0])[0].unlink()
         damaged = self.record_paths(store, ids[1])[0]
@@ -545,7 +545,7 @@ class MemoryTests(unittest.TestCase):
     def test_personal_goals_are_typed_and_distinct_from_other_peoples_promises(self):
         store = self.open()
         store.ingest(CONTEXT, [{"id": "goal", "kind": "goal", "text": "我想学习制作药物", "status": "active"},
-                                {"id": "promise", "kind": "commitment", "text": "玩家许诺给我药物"}])
+                               {"id": "promise", "kind": "commitment", "text": "玩家许诺给我药物"}])
         goals = [record for record in store.retrieve(CONTEXT) if record["kind"] == "goal"]
         self.assertEqual([record["text"] for record in goals], ["我想学习制作药物"])
         self.assertEqual(goals[0]["status"], "active")
@@ -586,14 +586,14 @@ class MemoryTests(unittest.TestCase):
                 revision = store.revision
                 with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_data"):
                     store.ingest(CONTEXT, [{"id": "valid", "kind": "observation", "text": "first"},
-                                         {"id": "bad", "kind": "observation", "data": data}])
+                                           {"id": "bad", "kind": "observation", "data": data}])
                 self.assertEqual(store.revision, revision)
                 self.assertEqual(store.retrieve(CONTEXT), [])
         for kind in ("belief", "growth", "relationship", "summary"):
             with self.subTest(kind=kind):
                 with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_data_kind"):
                     store.ingest(CONTEXT, [{"id": "model", "kind": kind, "text": "imagined",
-                                         "data": {"state": "succeeded", "produced": "invented reward"}}])
+                                           "data": {"state": "succeeded", "produced": "invented reward"}}])
         with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_event"):
             store.ingest(CONTEXT, [{"id": "model", "kind": "belief", "provenance": "observed"}])
         self.assertEqual(list((store.memory_root / "records").glob("*/*.json")), [])
@@ -607,7 +607,7 @@ class MemoryTests(unittest.TestCase):
         revision = store.revision
         with self.assertRaisesRegex(MemoryStoreError, "memory_data_too_large"):
             store.ingest(CONTEXT, [{"id": "too-large", "kind": "receipt",
-                                 "data": {"payload": data["payload"] + "中"}}])
+                                   "data": {"payload": data["payload"] + "中"}}])
         self.assertEqual(store.revision, revision)
         path = self.record_paths(store, rid)[0]
         self.edit(path, data={"number": float("nan")})
@@ -625,9 +625,9 @@ class MemoryTests(unittest.TestCase):
         source_event["data"]["count"] = 2
         store.ingest(CONTEXT, [source_event])
         derived = store.ingest(CONTEXT, [{"id": "summary", "kind": "summary",
-                                       "text": "SENTINEL_DELETED_DATA", "source_ids": [source]}])[0]
+                                         "text": "SENTINEL_DELETED_DATA", "source_ids": [source]}])[0]
         unrelated = store.ingest(CONTEXT, [{"id": "independent", "kind": "belief",
-                                         "text": "Unrelated SENTINEL_DELETED_DATA"}])[0]
+                                           "text": "Unrelated SENTINEL_DELETED_DATA"}])[0]
         checkpoint = store.checkpoint(CONTEXT)
         head = store.memory_root / store._state["heads"][source].removeprefix("memory/")
         head.unlink()
@@ -685,7 +685,7 @@ class MemoryTests(unittest.TestCase):
             with self.subTest(kind=kind):
                 with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_preferences"):
                     store.ingest(CONTEXT, [{"id": f"invalid-{kind}", "kind": kind,
-                                         "preferences": {"caution": 0.5}}])
+                                           "preferences": {"caution": 0.5}}])
         for preference in (None, {}, {"honesty": 0.5}, {"caution": 0.5, "faction": "hostile"},
                            {"caution": True}, {"caution": -0.1}, {"caution": 1.1},
                            {"caution": float("nan")}, {"caution": float("inf")},
@@ -693,13 +693,13 @@ class MemoryTests(unittest.TestCase):
             with self.subTest(preference_type=type(preference).__name__):
                 with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_preferences"):
                     store.ingest(CONTEXT, [{"id": "invalid-preference", "kind": "growth",
-                                         "preferences": preference}])
+                                           "preferences": preference}])
         with self.assertRaisesRegex(MemoryStoreError, "memory_source_unavailable"):
             store.ingest(CONTEXT, [{"id": "unsupported", "kind": "growth",
-                                  "preferences": {"caution": 0.8}}])
+                                   "preferences": {"caution": 0.8}}])
         with self.assertRaisesRegex(MemoryStoreError, "memory_source_unavailable"):
             store.ingest(CONTEXT, [{"id": "invented", "kind": "relationship",
-                                  "preferences": {"caution": 0.8}, "source_ids": ["imagined"]}])
+                                   "preferences": {"caution": 0.8}, "source_ids": ["imagined"]}])
 
     def test_preference_changes_have_distinct_fingerprints_and_manual_revision_priority(self):
         store = self.open()
@@ -822,7 +822,7 @@ class MemoryTests(unittest.TestCase):
         event["data"]["count"] = 2
         store.ingest(CONTEXT, [event])
         derived = store.ingest(CONTEXT, [{"id": "summary", "kind": "summary",
-                                        "text": "DELETED_PRIVATE_TEXT", "source_ids": [source]}])[0]
+                                         "text": "DELETED_PRIVATE_TEXT", "source_ids": [source]}])[0]
         checkpoint = store.checkpoint(CONTEXT)
         (store.memory_root / store._state["heads"][source].removeprefix("memory/")).unlink()
         original = store._purge_audit_bodies
@@ -866,7 +866,7 @@ class MemoryTests(unittest.TestCase):
         later = {**CONTEXT, "game_time": 110, "event_watermark": 5}
         event = {"id": "receipt.request.gather", "kind": "receipt", "text": "gathered",
                  "game_time": 110, "data": {"operation_id": "request.gather", "state": "succeeded",
-                 "action": "gather", "detail": {"item_type": "bandages", "count": 1}}}
+                                            "action": "gather", "detail": {"item_type": "bandages", "count": 1}}}
         rid = store.ingest(later, [event])[0]
         original = {path: path.read_bytes() for path in self.record_paths(store, rid)}
         self.assertEqual(store.restore(later, checkpoint)["records"], [])
