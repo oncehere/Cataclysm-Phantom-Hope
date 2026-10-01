@@ -640,7 +640,14 @@ static void WinCreate()
 
     // Apply fullscreen after creation to preserve exclusive vs desktop distinction
     if( desired_fullscreen != FullscreenMode::windowed ) {
-        SetWindowFullscreen( ::window.get(), desired_fullscreen );
+        if( SetWindowFullscreen( ::window.get(), desired_fullscreen ) ) {
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+            // Complete the WM transition before SDL's software renderer caches its
+            // window surface while creating an accelerated framebuffer renderer.
+            printErrorIf( !SDL_SyncWindow( ::window.get() ),
+                          "SDL_SyncWindow failed while entering fullscreen" );
+#endif
+        }
     }
 
 #if !defined(__ANDROID__) && !defined(EMSCRIPTEN)

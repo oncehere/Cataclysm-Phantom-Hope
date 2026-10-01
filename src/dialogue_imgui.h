@@ -60,6 +60,9 @@ class dialogue_imgui_impl : public cataimgui::window
         std::unordered_map<std::string, std::string> sidebar_text_cache;
         int previous_response = -1;
         bool compact_sidebar = false;
+        bool sidebar_scroll_initialized = false;
+        bool history_scroll_initialized = false;
+        bool response_scroll_initialized = false;
         float viewport_width = -1.0F;
         float viewport_height = -1.0F;
 

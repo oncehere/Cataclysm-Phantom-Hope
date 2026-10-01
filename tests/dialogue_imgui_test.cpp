@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -928,3 +929,78 @@ TEST_CASE( "dialogue_imgui_avatar_driver_preserves_lua_hooks_and_context_lifetim
     frames.assert_no_errors();
 }
 #endif
+
+TEST_CASE( "dialogue_imgui_reopened_instance_shows_new_content_on_first_frame",
+           "[dialogue][imgui][scroll]" )
+{
+    dialogue_imgui_frame_fixture frames;
+    dialogue conversation = topic_conversation();
+    std::optional<dialogue_imgui_impl> window;
+    window.emplace( &conversation, false, true );
+    const void *const original_address = &*window;
+    std::vector<talk_data> responses;
+    for( int i = 0; i < 80; ++i ) {
+        responses.push_back( { c_white, "a", "Old response " + std::to_string( i ) } );
+    }
+    window->set_responses( responses );
+    window->sel_response = 79;
+    for( int i = 0; i < 100; ++i ) {
+        window->add_to_history( "Old history line " + std::to_string( i ) );
+    }
+    frames.settle( *window );
+    const ImGuiWindow *const old_history = frames.child( "##DIALOGUE_HISTORY" );
+    const ImGuiWindow *const old_responses = frames.child( "##DIALOGUE_RESPONSES" );
+    REQUIRE( old_history );
+    REQUIRE( old_responses );
+    REQUIRE( old_history->Scroll.y > 0 );
+    REQUIRE( old_responses->Scroll.y > 0 );
+
+    const auto visible_glyph_quads = []( const ImGuiWindow * child ) {
+        int count = 0;
+        const ImVec2 white = ImGui::GetIO().Fonts->TexUvWhitePixel;
+        const ImVector<ImDrawVert> &v = child->DrawList->VtxBuffer;
+        for( int i = 0; i + 3 < v.Size; i += 4 ) {
+            bool textured = false;
+            ImRect bounds( v[i].pos, v[i].pos );
+            for( int j = 0; j < 4; ++j ) {
+                textured = textured || v[i + j].uv.x != white.x || v[i + j].uv.y != white.y;
+                bounds.Add( v[i + j].pos );
+            }
+            if( textured && bounds.GetWidth() > 0 && bounds.GetHeight() > 0 &&
+                bounds.Overlaps( child->InnerClipRect ) ) {
+                ++count;
+            }
+        }
+        return count;
+    };
+    const auto assert_visible_content = [&]() {
+        const ImGuiWindow *const history = frames.child( "##DIALOGUE_HISTORY" );
+        const ImGuiWindow *const response = frames.child( "##DIALOGUE_RESPONSES" );
+        REQUIRE( history );
+        REQUIRE( response );
+        const int glyphs = visible_glyph_quads( history );
+        const std::vector<ImRect> buttons = frames.buttons( response );
+        int visible_buttons = 0;
+        for( const ImRect &button : buttons ) {
+            if( button.Overlaps( response->InnerClipRect ) ) {
+                ++visible_buttons;
+            }
+        }
+        CHECK( history->Scroll.y <= frames.scroll_tolerance() );
+        CHECK( response->Scroll.y <= frames.scroll_tolerance() );
+        CHECK( glyphs > 0 );
+        CHECK( visible_buttons == 1 );
+    };
+
+    window.reset();
+    window.emplace( &conversation, false, true );
+    REQUIRE( static_cast<const void *>( &*window ) == original_address );
+    window->add_to_history( "Fresh greeting must be visible" );
+    window->set_responses( { { c_white, "a", "First fresh response" } } );
+    frames.frame( *window );
+    assert_visible_content();
+    frames.frame( *window );
+    assert_visible_content();
+    frames.frame( *window );
+    assert_visible_content();
+}

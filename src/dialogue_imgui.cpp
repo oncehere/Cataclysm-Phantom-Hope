@@ -275,6 +275,10 @@ void dialogue_imgui_impl::draw_sidebar_information()
 
 void dialogue_imgui_impl::draw_dialogue_sidebar( const float width, const float height )
 {
+    if( !sidebar_scroll_initialized ) {
+        ImGui::SetNextWindowScroll( ImVec2( 0, 0 ) );
+        sidebar_scroll_initialized = true;
+    }
     // Children do not inherit NoNav; input_context owns keyboard and gamepad selection.
     if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", ImVec2( width, height ), ImGuiChildFlags_Borders,
                            ImGuiWindowFlags_NoNav ) ) {
@@ -285,6 +289,12 @@ void dialogue_imgui_impl::draw_dialogue_sidebar( const float width, const float 
 
 void dialogue_imgui_impl::draw_dialogue_history( const float width, const float height )
 {
+    // ImGui retains child state when a later dialogue reuses the same address.
+    // Reset before the first layout so its new greeting is immediately visible.
+    if( !history_scroll_initialized ) {
+        ImGui::SetNextWindowScroll( ImVec2( 0, 0 ) );
+        history_scroll_initialized = true;
+    }
     if( ImGui::BeginChild( "##DIALOGUE_HISTORY", ImVec2( width, height ), ImGuiChildFlags_Borders,
                            ImGuiWindowFlags_NoNav ) ) {
         draw_history();
@@ -295,6 +305,10 @@ void dialogue_imgui_impl::draw_dialogue_history( const float width, const float 
 
 void dialogue_imgui_impl::draw_dialogue_responses( const float width, const float height )
 {
+    if( !response_scroll_initialized ) {
+        ImGui::SetNextWindowScroll( ImVec2( 0, 0 ) );
+        response_scroll_initialized = true;
+    }
     if( ImGui::BeginChild( "##DIALOGUE_RESPONSES", ImVec2( width, height ),
                            ImGuiChildFlags_Borders,
                            ImGuiWindowFlags_NoNav ) ) {
