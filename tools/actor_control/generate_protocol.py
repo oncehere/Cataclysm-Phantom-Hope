@@ -62,21 +62,22 @@ def render_header(root: Path) -> str:
         "Do not edit.",
         "// SHA-256 values identify the authoritative input bytes.",
         "#pragma once",
-        "namespace cata::actor_control {",
-        'inline constexpr char protocol_source_path[] = "' +
-        protocol_path.as_posix() + '";',
-        'inline constexpr char protocol_fixtures_source_path[] = "' +
-        fixtures_path.as_posix() + '";',
+        "namespace cata::actor_control",
+        "{",
+        "inline constexpr char protocol_source_path[] =",
+        '    "' + protocol_path.as_posix() + '";',
+        "inline constexpr char protocol_fixtures_source_path[] =",
+        '    "' + fixtures_path.as_posix() + '";',
         'inline constexpr char protocol_version[] = "' +
         spec["protocol_version"] + '";',
-        'inline constexpr char protocol_digest[] = "' +
-        hashlib.sha256(raw).hexdigest() + '";',
-        'inline constexpr char protocol_fixtures_digest[] = "' +
-        hashlib.sha256(fixture_raw).hexdigest() + '";',
-        'inline constexpr char protocol_json[] = R"CPHAI(' +
-        encoded + ')CPHAI";',
-        'inline constexpr char protocol_fixtures_json[] = R"CPHAIFIX(' +
-        fixture_encoded + ')CPHAIFIX";',
+        "inline constexpr char protocol_digest[] =",
+        '    "' + hashlib.sha256(raw).hexdigest() + '";',
+        "inline constexpr char protocol_fixtures_digest[] =",
+        '    "' + hashlib.sha256(fixture_raw).hexdigest() + '";',
+        "inline constexpr char protocol_json[] =",
+        '    R"CPHAI(' + encoded + ')CPHAI";',
+        "inline constexpr char protocol_fixtures_json[] =",
+        '    R"CPHAIFIX(' + fixture_encoded + ')CPHAIFIX";',
         "}",
         "",
     ])
