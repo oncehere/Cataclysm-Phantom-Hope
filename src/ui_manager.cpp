@@ -1,3 +1,5 @@
+#include "mp_client_conn.h"
+#include "mp_gamestate.h"
 #include "ui_manager.h"
 
 #include <functional>
@@ -385,7 +387,13 @@ void ui_adaptor::redraw()
 
 void ui_adaptor::redraw_invalidated( )
 {
+    const bool mp_probe = cata_mp::is_client_mode() || cata_mp::is_hosting();
     if( test_mode || ui_stack.empty() ) {
+        if( mp_probe ) {
+            cata_mp::mp_log( std::string( "[cdda-mp] UI-REDRAW-SKIP: test_mode=" ) +
+                             ( test_mode ? "1" : "0" ) + " ui_stack_empty=" +
+                             ( ui_stack.empty() ? "1" : "0" ) );
+        }
         return;
     }
 #if defined(TILES)
@@ -401,6 +409,11 @@ void ui_adaptor::redraw_invalidated( )
     }
     display_buffer_draw_scope draw_scope;
     if( !draw_scope.should_draw() ) {
+        if( mp_probe ) {
+            cata_mp::mp_log( std::string( "[cdda-mp] UI-REDRAW-SKIP: draw_scope refused scope_invalid=" ) +
+                             ( display_buffer_scope_is_invalid() ? "1" : "0" ) +
+                             " abort_frame=" + ( renderer_should_abort_frame() ? "1" : "0" ) );
+        }
         // Return before the redraw callbacks clear their invalidation flags, so a
         // queued recovery, a failed bind, or a watcher race all leave invalidation
         // intact for the next drain to replay the full UI.

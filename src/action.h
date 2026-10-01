@@ -363,6 +363,8 @@ enum action_id : int {
     /** Interact with the current or nearby tile */
     ACTION_INTERACT,
     ACTION_COOP_CHAT,
+    /** Copy the host join address without displaying it. */
+    ACTION_COPY_JOIN_ADDRESS,
     ACTION_PASS_ITEM,
     ACTION_HIGH_FIVE,
     ACTION_MANAGE_ANDROID_EXTRA_BUTTONS,

@@ -39,6 +39,7 @@ class server
 
     private:
         void do_accept();
+        void arm_heartbeat();
         void on_client_connected( const std::shared_ptr<client_session> &session );
         void on_client_disconnected( const std::shared_ptr<client_session> &session );
         void on_message( const std::shared_ptr<client_session> &session, const std::string &msg );
@@ -53,6 +54,7 @@ class server
 
         std::vector<std::shared_ptr<client_session>> clients_;
         std::mutex clients_mutex_;
+        std::weak_ptr<client_session> active_session_;
 };
 
 // Start the server on the given port. Called from main() when --server flag is set.
@@ -61,7 +63,8 @@ void run_server( uint16_t port, const std::string &password,
                  const std::string &version = "" );
 
 // Returns the active server instance, or nullptr if not running.
-// Thread-safe: broadcast() on the returned pointer is mutex-protected.
+// The pointer is published atomically.  The game owner must stop and wait for
+// the listen thread before destroying a session; sends use post_broadcast().
 server *get_active_server();
 
 // True from the moment the (detached) listen thread enters run_server() until
@@ -70,6 +73,16 @@ server *get_active_server();
 // before allowing a re-host to re-bind the same port, so a second host session
 // in one launch can't race the first session's socket teardown.
 bool is_server_thread_running();
+
+// Non-loopback IPv4 addresses, with common VPN ranges first, for the host HUD.
+std::vector<std::string> mp_local_ipv4s();
+
+// The partner's heartbeat RTT, or -1 before a measurement.
+int mp_host_partner_rtt_ms();
+
+// Latest message from the current authenticated partner, including IO-thread
+// heartbeats, in steady_clock epoch milliseconds. Zero outside that session.
+int64_t mp_host_partner_last_message_ms();
 
 } // namespace cata_mp
 

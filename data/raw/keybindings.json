@@ -5664,5 +5664,12 @@
     "name": "High five partner",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "F", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "copy_join_address",
+    "name": "Copy join IP address to clipboard",
+    "category": "DEFAULTMODE",
+    "bindings": [  ]
   }
 ]

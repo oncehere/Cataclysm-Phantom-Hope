@@ -1,3 +1,5 @@
+#include "mp_client_conn.h"
+#include "mp_gamestate.h"
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
@@ -6476,8 +6478,13 @@ static void CheckMessages()
                     if( mode == keyboard_mode::keychar ) {
                         const int lc = sdl_keysym_to_curses( GetKeysym( ev ) );
                         if( lc <= 0 ) {
-                            // a key we don't know in curses and won't handle.
-                            break;
+                            // The co-op ImGui HUD can leave text input active;
+                            // numpad movement/aiming must still reach keycode bindings.
+                            if( cata_mp::is_client_mode() ) {
+                                last_input = sdl_keysym_to_keycode_evt( GetKeysym( ev ) );
+                            } else {
+                                break;
+                            }
                         } else if( add_alt_code( lc ) ) {
                             // key was handled
                         } else {
@@ -7565,12 +7572,32 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         try_sdl_update();
     }
 
+    // The host game thread also services its partner while a modal owns input.
+    // The timer/heartbeat live on the IO thread; this pump handles game events.
+    uint32_t mp_last_pump = 0;
+    static bool mp_modal_pump_logged = false;
+    const auto mp_pump_if_host = [&mp_last_pump]() {
+        if( !cata_mp::is_hosting() ) {
+            return;
+        }
+        const uint32_t now = GetTicks();
+        if( now - mp_last_pump >= 50 ) {
+            if( !mp_modal_pump_logged ) {
+                cata_mp::mp_log( "[cdda-mp] HOST-MODAL-PUMP: servicing MP inside a modal input wait" );
+                mp_modal_pump_logged = true;
+            }
+            mp_last_pump = now;
+            cata_mp::process_mp_events();
+        }
+    };
+
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
             if( last_input.type != input_event_t::error ) {
                 break;
             }
+            mp_pump_if_host();
             SDL_Delay( 1 );
         } while( last_input.type == input_event_t::error );
     } else if( inputdelay > 0 ) {
@@ -7583,6 +7610,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
             if( last_input.type != input_event_t::error ) {
                 break;
             }
+            mp_pump_if_host();
             SDL_Delay( 1 );
             timedout = endtime >= starttime + inputdelay;
             if( timedout ) {

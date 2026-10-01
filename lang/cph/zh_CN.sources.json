@@ -42,5 +42,843 @@
   ],
   "provenance_state": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/.pokeeper/zh_CN.state.json",
   "review_corrections": "https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/e1eb7141e200c2cb9369e51ad1cf5d7ce7b4b46a/cph-translation/review-corrections-20260929.json",
-  "scope": "Records this import, not an immutable checksum requirement for future contributor PO edits. No full linguistic or platform acceptance is inferred."
+  "scope": "Records this import, not an immutable checksum requirement for future contributor PO edits. No full linguistic or platform acceptance is inferred.",
+  "updates": [
+    {
+      "id": "mp-update-20261001",
+      "intent": "MP-0038",
+      "date": "2026-10-01",
+      "candidate_base": "df8fe8ead66bbdfe9efb307ea4367bc121138db1",
+      "upstream_repository": "busterbogheart/Cataclysm-DDA-multi",
+      "upstream_commit": "5cf9a79c66ec82ea6d5710fb277db5ac62a71681",
+      "upstream_path": "lang/fork/zh_CN.po",
+      "upstream_po_sha256": "dbbba76b0f011038c442c1f0859ff8cc375ef67a744c7920ef375126b7ff1b1e",
+      "upstream_author": "Schrodinger_Sig",
+      "upstream_pull_request": 22,
+      "upstream_translation_commits": [
+        "34568c1f3bf341a2b13e8eb1f591c91177ab8333",
+        "480c3d7afa1bee6d2a46811cd8c3a3fb1d69fe91",
+        "d9c3bf1ef2566bdec0763115649e57b2e2f71015"
+      ],
+      "license": "CC-BY-SA-3.0 with inherited notices",
+      "previous_entries": 117224,
+      "added_entries": 89,
+      "current_entries": 117313,
+      "previous_catalog_sha256": "a20d100c726f836a63b4709550c1c1d9f416ad13bedd6e5a24eb08bf42fe09be",
+      "previous_catalog_bytes": 32685601,
+      "previous_catalog_preservation": "Existing catalog retained byte-for-byte as the prefix, including the 251 protected CPH entries and all inherited translator attribution. No whole-PO upstream replacement.",
+      "current_catalog_sha256": "c6cc06a8e771a4327322d0cdb7c78c27576d4bbe371230ba5df4d692de8ee9bb",
+      "counts": {
+        "upstream-exact": 51,
+        "cph-new-translation": 21,
+        "upstream-translation-cph-correction": 17
+      },
+      "scope": "New or changed MP gettext identities extracted from selected MP-related native paths and related data tips, keybindings, and activity verbs against the fixed CPH base. Existing identities remain unchanged. This records provenance and extraction, not a full linguistic or GUI acceptance. CPH-specific item overflow/resync warning identities are included.",
+      "message_keys": [
+        {
+          "msgctxt": null,
+          "msgid": "%1$s: %2$d%%",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/do_turn.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Trade  (unavailable — their gear uses mods this world doesn't have)",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/game.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Save and disconnect?  Your character is saved locally for next time.  The host will also save the shared world when you leave, so your progress there stays in sync.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/handle_action.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Save and quit?  The shared co-op world will be saved and your partner disconnected.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/handle_action.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Connected to world \"%s\".\nPress a key to continue.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/main_menu.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Connected to %1$s's game.\nWorld: \"%2$s\"\nPress a key to continue.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/main_menu.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Joining \"%1$s\" — %2$s's game",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/main_menu.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "None of your saved characters can join this host.\n\nThey were made in worlds using mods this host isn't running:%s\n\nStart a new character instead, or ask the host to enable those mods.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/main_menu.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "(needs: %s)",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/main_menu.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "port %d",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "sleeping",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Partner not connected  (join IP address hidden, use keybind \"Copy co-op join address\")",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Partner not connected   %s",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Reconnecting to host…",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "kills ",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Join IP address copied to clipboard.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Couldn't copy to clipboard.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Clipboard copy isn't available in this build.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Only the host has a join address to share.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner is already connected.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner disconnected.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner is carrying items this world doesn't have (%s).  Their gear won't show correctly — their character was made with mods this world isn't running.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s reconnected.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s can't pulp corpses in co-op yet — not supported over the network.  The corpse is untouched.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s smashes the %2$s to pieces!",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s strikes the %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s can't damage the %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s takes control of the %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s can't start the %2$s's engine.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s loses control of %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s triggers the alarm!",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s finds the wire that starts the engine.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s finds a wire that looks like the right one.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You stop what you were doing.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You start sorting loot into the zones.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You can no longer reach %s and stop treating them.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "your patient",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Listen port (CDDA_MP_PORT env override active)",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Listen port (default 8080)",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Invalid port \"%1$s\" — keeping %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Hide join IP address on game screen? (was hidden last session)",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Hide join IP address on game screen?  (recommended for streaming. bindable during play as \"Copy co-op join address\" ",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "The game doesn't open the port until you're actually in the world, so anyone who tries before that just gets \"connection refused\", even if your address and port forwarding are perfectly correct.\n\nSo finish world and character creation first.  Once you're in the world your partner can join.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Can't join: the host is running mods you don't have installed:%s\n\nInstall the missing mod(s), then rejoin.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Couldn't prepare the co-op world.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Could not reach %1$s:%2$d ...\n\n1 Make sure the host is in-game and hosting\n2 Ensure both machines are on the same network or VPN.  A \"Connected\" status in Tailscale/Radmin does not guarantee routing, so try the host's other listed address, or toggle the VPN off/on to reset its route.\n3 Turn off any commercial VPN (NordVPN, ExpressVPN, Proton, etc).  It takes over your machine's routing and will send co-op traffic out through the VPN instead of to your partner.\n4 Check the address and check the port isn't firewalled.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Could not connect to %1$s:%2$d.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Co-op: hosting on port %d — waiting for partner",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You and your partner are close enough again.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner is getting far away (%d tiles).  Max safe range is about 60.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner is near the edge of the simulated zone (%d tiles)!  Brake or turn around.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner is past the edge (%d tiles)!  Vehicle physics will break — close the gap now.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner went silent (>%d s) — connection lost.  They'll rejoin automatically if they reconnect.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your partner has died.  Waiting for them to respawn...",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Connection to host lost — reconnecting… (up to ~15s)",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Reconnecting to host… (try %1$d/%2$d)",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Couldn't join: the connection dropped during char creation and could not be re-established.  You are NOT in the host's game.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "If either player is running a commercial VPN, turn it off and try again.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Couldn't reconnect to the host after several tries — connection lost.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Reconnected to the host — resuming.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You can't do that right now.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Direct your character",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Sort loot into zones",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Stop what they're doing",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "You pass the %1$s to %2$s.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s is busy %2$s and leaves you hanging.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Your magic reaches %s.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_magic.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%1$s has %2$d hostile nearby and %3$s takes about %4$d turns.  Cast anyway?",
+          "msgid_plural": "%1$s has %2$d hostiles nearby and %3$s takes about %4$d turns.  Cast anyway?",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_magic.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "CO-OP: NOT COMPATIBLE.  Aftershock's distinctive map specials (the exoplanet start pads, alien biomes) aren't streamed host->client; the joining player's world generates its own terrain at the same coordinates, so the two players stand on completely different maps.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/mp_mod_compat.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "CO-OP: EXPERIMENTAL.  Spells cast by the joining player resolve in their own world: direct damage reaches shared monsters, but summons, spawned items, terrain changes and buffs may not.  Teleport spells can move you outside the host's simulated area and strand you.  Both players must run the same mod list.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_mod_compat.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Co-op HUD panel position",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/options.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Which screen edge the co-op multiplayer partner HUD panel is drawn along.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/options.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Show co-op partner's intended move",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/options.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Draw a faint grey arrow on the tile your co-op partner is about to step onto, while they are still waiting for their turn.  Purely a display hint; it changes nothing about the game.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/options.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "%s isn't synced in co-op yet — ask your partner to toggle it.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/vehicle_use.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Door/curtain control isn't synced in co-op yet — ask your partner.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/vehicle_use.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Camera system isn't synced in co-op yet — ask your partner.",
+          "msgid_plural": "",
+          "provenance": "upstream-exact",
+          "source_locations": [
+            "src/vehicle_use.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Rack/unrack vehicles isn't synced in co-op yet",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/vehicle_use.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Ask your partner to rack or unrack vehicles for now.",
+          "msgid_plural": "",
+          "provenance": "upstream-translation-cph-correction",
+          "source_locations": [
+            "src/vehicle_use.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Bump into your partner to trade, pass an item, assist, or high-five.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "In-game chat is available: bind the `Co-op chat` action to message your partner… or you can yell…",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "\"Pause\" ('5' or '.') is crucial for co-op.  It gives your partner moves/AP. And vice versa.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "The host runs the entire world simulation… So host with the faster machine w/ the better connection.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "If you're both asleep or in long activities, the game will fast-forward so you're not stuck waiting in real time.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Passenger in a car?  Try \"waiting several turns\" (`|`) to give your driver better control.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/core/tips.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Copy join IP address to clipboard",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/raw/keybindings.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "pulping",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "data/json/player_activities.json"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Too many item updates arrived while a menu was open. Recent item actions were rolled back to the shared world; please try them again.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        },
+        {
+          "msgctxt": null,
+          "msgid": "Too many item updates arrived while a menu was open. Your partner's recent item actions will be rolled back to the shared world.",
+          "msgid_plural": "",
+          "provenance": "cph-new-translation",
+          "source_locations": [
+            "src/mp_gamestate.cpp"
+          ]
+        }
+      ]
+    }
+  ],
+  "current_catalog_entries": 117313,
+  "current_catalog_sha256": "c6cc06a8e771a4327322d0cdb7c78c27576d4bbe371230ba5df4d692de8ee9bb"
 }

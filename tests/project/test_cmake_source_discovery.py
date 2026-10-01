@@ -55,12 +55,15 @@ file(GENERATE OUTPUT "${CMAKE_BINARY_DIR}/engine-sources.txt"
         self.write("src/messages.cpp", "void fixture_messages() {}\n")
         self.write("src/anchor.cpp", "int engine_count = 0;\n")
         self.write("src/anchor.h", "#pragma once\n")
-        self.write("tests/main.cpp", """
+        self.write("tests/test_main.cpp", """
 #include <iostream>
 extern int engine_count;
 int test_count = 0;
 int main() { std::cout << engine_count << ':' << test_count << '\\n'; }
 """)
+        self.write("tests/mp_messages_test.cpp", "")
+        self.write("tests/mp_session_test.cpp", "")
+        self.write("tests/stringmaker.cpp", "")
 
     def write(self, relative, content):
         (self.source / relative).write_text(content, encoding="utf-8")
@@ -169,8 +172,9 @@ add_subdirectory(src)
                                             ("OFF", "OFF")):
                 with self.subTest(dynamic=dynamic, static=static_targets):
                     build = self.root / f"tiles-{dynamic}-{static_targets}"
-                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
-                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                    self.command(CMAKE, "-S", str(self.source),
+                                 "-B", str(build), "-G", "Ninja",
+                                 "-DCMAKE_BUILD_TYPE=Debug",
                                  "-DCMAKE_CXX_COMPILER=" + COMPILER,
                                  "-DDYNAMIC_LINKING=" + dynamic,
                                  "-DFIXTURE_STATIC_TARGETS=" + static_targets)
@@ -196,8 +200,8 @@ add_subdirectory(src)
         self.command(CMAKE, "-S", str(self.source), "-B", str(self.build),
                      "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
                      "-DCMAKE_CXX_COMPILER=" + COMPILER)
-        self.command(CMAKE, "--build", str(self.build), "--target", "cataclysm",
-                     "--parallel", "15")
+        self.command(CMAKE, "--build", str(self.build), "--target",
+                     "cataclysm", "--parallel", "15")
         self.command(str(self.build / "src/cataclysm"))
 
     def test_text_backends_link_sound_without_image_or_font_libraries(self):
@@ -234,8 +238,9 @@ add_subdirectory(src)
             for dynamic in ("ON", "OFF"):
                 with self.subTest(backend=backend, dynamic=dynamic):
                     build = self.root / f"audio-{backend}-{dynamic}"
-                    self.command(CMAKE, "-S", str(self.source), "-B", str(build),
-                                 "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug",
+                    self.command(CMAKE, "-S", str(self.source),
+                                 "-B", str(build), "-G", "Ninja",
+                                 "-DCMAKE_BUILD_TYPE=Debug",
                                  "-DCMAKE_CXX_COMPILER=" + COMPILER,
                                  "-D" + backend + "=ON",
                                  "-DDYNAMIC_LINKING=" + dynamic)
@@ -288,10 +293,12 @@ add_subdirectory(src)
                     make, "--no-print-directory", "prefix", "SDL3=0",
                     "TILES=" + tiles, "SOUND=" + sound,
                     "ASTYLE=0", "LINTJSON=0", "LOCALIZE=0", "PREFIX=/fixture",
-                ], cwd=self.source, capture_output=True, text=True, check=False)
+                ], cwd=self.source, capture_output=True, text=True,
+                    check=False)
                 if tiles == "1" or sound == "1":
                     self.assertNotEqual(result.returncode, 0)
-                    self.assertIn("SDL3=0 is no longer supported", result.stderr)
+                    self.assertIn("SDL3=0 is no longer supported",
+                                  result.stderr)
                     self.assertFalse((self.source / "src/prefix.h").exists())
                 else:
                     self.assertEqual(result.returncode, 0, result.stderr)
@@ -321,13 +328,15 @@ add_subdirectory(src)
         for goals in ([], ["prefix"], ["clean", "all"]):
             with self.subTest(goals=goals):
                 result = subprocess.run(command + goals, cwd=self.source,
-                                        env=env, capture_output=True, text=True)
+                                        env=env, capture_output=True,
+                                        text=True)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("NATIVE=emscripten is retired", result.stderr)
         for goal in ("clean-plan", "localization", "lang/mo_built.stamp"):
             with self.subTest(goal=goal):
                 result = subprocess.run(command + [goal], cwd=self.source,
-                                        env=env, capture_output=True, text=True)
+                                        env=env, capture_output=True,
+                                        text=True)
                 self.assertEqual(result.returncode, 0,
                                  result.stdout + result.stderr)
         self.assertTrue((self.source / "lang/localized.marker").is_file())

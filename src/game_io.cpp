@@ -892,6 +892,7 @@ bool game::save()
             // is called.
             EM_ASM( window.game_unsaved = false; );
 #endif
+            cata_mp::mp_after_world_save();
             dimension_checkpoint_pending = false;
             if constexpr( cata::lua_platform::is_enabled() ) {
                 cata::lua_platform::after_save( platform_state_saved,

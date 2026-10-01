@@ -1,3 +1,5 @@
+#include "mp_client_conn.h"
+#include "mp_gamestate.h"
 #include "input_context.h"
 
 #include <algorithm>
@@ -579,6 +581,14 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         const std::string &action = input_to_action( next_action );
+
+        if( cata_mp::is_client_mode() || cata_mp::is_hosting() ) {
+            cata_mp::mp_log( "[cdda-mp] CTXT-RESOLVE: cat=\"" + category +
+                             "\" evt_type=" + std::to_string( static_cast<int>( next_action.type ) ) +
+                             " pref_mode=" + std::to_string( static_cast<int>( preferred_keyboard_mode ) ) +
+                             " -> action=\"" + action + "\"" +
+                             ( action == CATA_ERROR ? " unresolved" : "" ) );
+        }
 
         //Special global key to toggle language to english and back
         if( action == "toggle_language_to_en" ) {

@@ -1,4 +1,7 @@
 #if defined(TILES)
+#include "mp_intent.h"
+#include "mp_client_conn.h"
+#include "mp_gamestate.h"
 #include "cata_tiles.h"
 #include "tileset_loader.h"
 #include "uistate.h"
@@ -1972,6 +1975,202 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
                                  tripoint_bub_ms( indicator_pos.xy(), center.z() ),
                                  0, 0, lit_level::LIT, false );
+        }
+    }
+
+    // MP partner direction indicator — when the partner is off-screen, draw an
+    // arrow at the edge of the play area pointing toward them, color-coded by
+    // separation tier. Works at any zoom level because player_to_screen and
+    // tile_width are already zoom-scaled.
+    if( npc *partner = cata_mp::get_partner_npc() ) {
+        // Complete the current CPH sprite pass before direct SDL geometry.
+        if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+            if( !vp->flush() ) {
+                draw_scope.abort_unbind();
+                display_buffer_scope_signal_recovery_required();
+                throw std::runtime_error( "cata_tiles::draw: variant_pass flush failed before MP overlay" );
+            }
+        }
+        // MP intent telegraph: the partner is locked out of acting and pressed a
+        // direction (or 5 to hold).  Draw a faint hint so we can see what they
+        // mean to do while we are the one deliberating.  Purely a display hint
+        // -- it never executes on their side.
+        //
+        // PICKED 2026-08-25: the thin open caret with no base bar -- what the
+        // SW slot drew in the eight-way A/B -- for every direction.  It was the
+        // quietest of the eight, which is the whole design goal; the solid and
+        // tile-filling heads read as an object sitting on the tile rather than
+        // as a hint.  mp_intent_style_id() and the other seven are gone.
+        //
+        // Alpha was the deliberately-untouched second dial during the A/B and
+        // is now turned down 20% from the comparison value (150 -> 120).
+        //
+        // Grey rather than the ally green: saturated ally-hue reads as "the
+        // partner is standing there", while desaturation is the established
+        // "this is hypothetical" signal (Frozen Synapse's grey ghosts).
+        // No animation of any kind -- motion is the most intrusive preattentive
+        // channel, which makes it exactly wrong for a cue meant to be subtle.
+        tripoint_bub_ms hint_pos;
+        point intent_off;
+        const cata_mp::intent_kind ik =
+            cata_mp::mp_partner_intent( center.z(), hint_pos, intent_off );
+        if( ik != cata_mp::intent_kind::none ) {
+            const point hs = player_to_screen( hint_pos.xy() );
+            SDL_BlendMode prev_blend = SDL_BLENDMODE_NONE;
+            SDL_GetRenderDrawBlendMode( renderer.get(), &prev_blend );
+            SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
+            const SDL_Color hint_base = curses_color_to_SDL( c_light_gray );
+            constexpr Uint8 hint_a = 120;
+            const float hw = static_cast<float>( tile_width );
+            const float hh = static_cast<float>( tile_height );
+            // Tile centre, plus the local frame: u along the intended step, p
+            // perpendicular to it.  Every variant below is built in this frame,
+            // so they all point correctly for all eight directions.
+            const float cx = static_cast<float>( hs.x ) + hw * 0.5f;
+            const float cy = static_cast<float>( hs.y ) + hh * 0.5f;
+            const float ilen = std::max( 1.0f, std::sqrt( static_cast<float>(
+                                             intent_off.x * intent_off.x +
+                                             intent_off.y * intent_off.y ) ) );
+            const float ux = intent_off.x / ilen;
+            const float uy = intent_off.y / ilen;
+            const float px = -uy;
+            const float py = ux;
+            const float unit = std::min( hw, hh );
+            const float stroke = std::max( 1.0f, unit / 16.0f );
+
+            // Thick line as a rotated quad, so the two caret strokes work at
+            // any of the eight angles.
+            const auto hint_line = [&]( float ax, float ay, float bx, float by, float thick ) {
+                const float ldx = bx - ax;
+                const float ldy = by - ay;
+                const float llen = std::max( 0.001f, std::sqrt( ldx * ldx + ldy * ldy ) );
+                const float lpx = -ldy / llen * thick * 0.5f;
+                const float lpy = ldx / llen * thick * 0.5f;
+                SDL_Color lc = hint_base;
+                lc.a = hint_a;
+                const SDL_FPoint pts[6] = {
+                    { ax + lpx, ay + lpy }, { bx + lpx, by + lpy }, { bx - lpx, by - lpy },
+                    { ax + lpx, ay + lpy }, { bx - lpx, by - lpy }, { ax - lpx, ay - lpy }
+                };
+                SDL_Vertex vs[6];
+                for( int k = 0; k < 6; ++k ) {
+                    vs[k].position = pts[k];
+                    vs[k].color = SDL_FColor{ lc.r / 255.0f, lc.g / 255.0f, lc.b / 255.0f, lc.a / 255.0f };
+                    vs[k].tex_coord = { 0.0f, 0.0f };
+                }
+                SDL_RenderGeometry( renderer.get(), nullptr, vs, 6, nullptr, 0 );
+            };
+            // Open caret ">" centred at (ox,oy): two strokes back from the tip,
+            // no base bar.  The whole indicator, now.
+            const auto caret = [&]( float ox, float oy, float len, float halfw, float thick ) {
+                const float tipx = ox + ux * len;
+                const float tipy = oy + uy * len;
+                hint_line( tipx, tipy, ox - ux * len + px * halfw, oy - uy * len + py * halfw,
+                           thick );
+                hint_line( tipx, tipy, ox - ux * len - px * halfw, oy - uy * len - py * halfw,
+                           thick );
+            };
+
+            caret( cx, cy, unit * 0.26f, unit * 0.26f, stroke );
+            SDL_SetRenderDrawBlendMode( renderer.get(), prev_blend );
+        }
+
+        const point partner_screen_topleft = player_to_screen( partner->pos_bub().xy() );
+        const SDL_FPoint partner_pt{
+            static_cast<float>( partner_screen_topleft.x + tile_width / 2 ),
+            static_cast<float>( partner_screen_topleft.y + tile_height / 2 )
+        };
+        const SDL_Rect view{ dest.x, dest.y, width, height };
+        // Fixed pixel dead-zone and edge inset so the arrow's position and
+        // padding from the screen edge stay constant across zoom levels.  The
+        // bottom inset is larger so the arrow clears the Co-op HUD that sits
+        // at the bottom of the map area.
+        constexpr float on_screen_margin = 32.0f;
+        constexpr float edge_inset = 30.0f;
+        constexpr float bottom_inset = 70.0f;
+        // Skip when partner is comfortably within the visible map area.
+        const bool on_screen =
+            partner_pt.x >= view.x + on_screen_margin &&
+            partner_pt.x <  view.x + view.w - on_screen_margin &&
+            partner_pt.y >= view.y + on_screen_margin &&
+            partner_pt.y <  view.y + view.h - on_screen_margin;
+        if( !on_screen ) {
+            const SDL_FPoint center_pt{
+                static_cast<float>( view.x + view.w * 0.5f ),
+                static_cast<float>( view.y + view.h * 0.5f )
+            };
+            float dx = partner_pt.x - center_pt.x;
+            float dy = partner_pt.y - center_pt.y;
+            const float dlen = std::sqrt( dx * dx + dy * dy );
+            if( dlen > 1.0f ) {
+                dx /= dlen;
+                dy /= dlen;
+                // Clip the ray from center toward partner against the view
+                // rect, inset by a fixed number of pixels so the arrow sits
+                // flush at the edge regardless of zoom.
+                const float left   = view.x + edge_inset;
+                const float right  = view.x + view.w - edge_inset;
+                const float top    = view.y + edge_inset;
+                const float bottom = view.y + view.h - bottom_inset;
+                float tmax = std::numeric_limits<float>::infinity();
+                if( dx > 1e-6f ) {
+                    tmax = std::min( tmax, ( right - center_pt.x ) / dx );
+                } else if( dx < -1e-6f ) {
+                    tmax = std::min( tmax, ( left - center_pt.x ) / dx );
+                }
+                if( dy > 1e-6f ) {
+                    tmax = std::min( tmax, ( bottom - center_pt.y ) / dy );
+                } else if( dy < -1e-6f ) {
+                    tmax = std::min( tmax, ( top - center_pt.y ) / dy );
+                }
+                const SDL_FPoint tip{
+                    center_pt.x + dx * tmax,
+                    center_pt.y + dy *tmax
+                };
+                // Arrow triangle: tip + two base vertices offset back and to
+                // the sides. Fixed pixel size so the arrow stays the same on
+                // screen regardless of zoom level.  Long/narrow for a sharp,
+                // pointy look.
+                constexpr float arrow_len = 20.4f;
+                constexpr float arrow_half_w = 5.4f;
+                const float bx = tip.x - dx * arrow_len;
+                const float by = tip.y - dy * arrow_len;
+                const float px = -dy;
+                const float py =  dx;
+                const SDL_FPoint b1{ bx + px * arrow_half_w, by + py * arrow_half_w };
+                const SDL_FPoint b2{ bx - px * arrow_half_w, by - py * arrow_half_w };
+                // Bright "ally green" — matches the color used for the
+                // partner @ glyph in the sidebar / nearby-creature listing.
+                const nc_color label_nc = c_light_green;
+                SDL_Color col = curses_color_to_SDL( label_nc );
+                col.a = 255;
+                SDL_Vertex verts[3];
+                verts[0].position = tip;
+                verts[1].position = b1;
+                verts[2].position = b2;
+                for( SDL_Vertex &v : verts ) {
+                    v.color = SDL_FColor{ col.r / 255.0f, col.g / 255.0f, col.b / 255.0f, col.a / 255.0f };
+                    v.tex_coord = { 0.0f, 0.0f };
+                }
+                SDL_RenderGeometry( renderer.get(), nullptr, verts, 3, nullptr, 0 );
+
+                // Distance label in tiles, drawn just inside the arrow base so
+                // it stays inside the view rect.  Same palette color as the
+                // arrow / partner @.
+                const tripoint_abs_ms me_abs = get_map().get_abs( get_avatar().pos_bub() );
+                const tripoint_abs_ms partner_abs = get_map().get_abs( partner->pos_bub() );
+                const int tiles = std::max( std::abs( me_abs.x() - partner_abs.x() ),
+                                            std::abs( me_abs.y() - partner_abs.y() ) );
+                const std::string label = std::to_string( tiles );
+                // Place the label just inside the arrow base, offset back
+                // toward the viewport center so it stays inside the view rect
+                // and doesn't overlap the arrow itself.
+                const point text_pos(
+                    static_cast<int>( bx - dx * 14.0f ) - static_cast<int>( label.size() ) * 4,
+                    static_cast<int>( by - dy * 14.0f ) - 6 );
+                overlay_strings.emplace( text_pos - dest,
+                                         formatted_text( label, label_nc.to_color_pair_index(), text_alignment::left ) );
+            }
         }
     }
 
@@ -4963,6 +5162,18 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
         }
         const Character *pl = dynamic_cast<const Character *>( &critter );
         if( pl != nullptr ) {
+            if( ( cata_mp::is_client_mode() || cata_mp::is_hosting() ) &&
+                pl == cata_mp::get_partner_npc() ) {
+                static std::string last_partner_identity;
+                const std::string identity = p.to_string() + "|" + pl->get_name() +
+                                             "|is_npc=" + std::to_string( pl->is_npc() ) +
+                                             "|is_avatar=" + std::to_string( pl->is_avatar() ) +
+                                             "|male=" + std::to_string( pl->male );
+                if( identity != last_partner_identity ) {
+                    last_partner_identity = identity;
+                    cata_mp::mp_log( "[cdda-mp] TILE-DRAW-IDENTITY: " + identity );
+                }
+            }
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;
             if( pl->is_avatar() ) {

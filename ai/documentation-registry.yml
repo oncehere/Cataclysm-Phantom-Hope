@@ -1,9 +1,9 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: f569fe71ab32a0da492180666ed86d2ee1b451d1
+source_commit: df8fe8ead66bbdfe9efb307ea4367bc121138db1
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
-entry_count: 258
+entry_count: 260
 entries:
 - id: repo.deepcode-plans-sim-render-decoupling-plan-md
   path: .deepcode/plans/sim-render-decoupling-plan.md
@@ -2622,6 +2622,28 @@ entries:
   include_in_ai_index: true
 - id: repo.docs-project-local-sync-md
   path: docs/project/local-sync.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.docs-project-multiplayer-sources-md
+  path: docs/project/multiplayer-sources.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.docs-project-multiplayer-md
+  path: docs/project/multiplayer.md
   category: maintained_document
   status: active
   authority: explanatory

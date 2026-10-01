@@ -833,6 +833,29 @@ bool map::place_vehicle( std::unique_ptr<vehicle> &&new_vehicle )
     return collision;
 }
 
+vehicle *map::add_vehicle_from_snapshot( std::unique_ptr<vehicle> &&new_vehicle )
+{
+    if( !new_vehicle || !inbounds( new_vehicle->pos_bub( *this ) ) ) {
+        return nullptr;
+    }
+    submap *place_on_submap = get_submap_at_grid( new_vehicle->sm_pos - get_abs_sub().xy() );
+    if( place_on_submap == nullptr ) {
+        return nullptr;
+    }
+    place_on_submap->ensure_nonuniform();
+    vehicle *placed = new_vehicle.get();
+    place_on_submap->vehicles.push_back( std::move( new_vehicle ) );
+    invalidate_max_populated_zlev( placed->sm_pos.z() );
+
+    level_cache &ch = get_cache( placed->sm_pos.z() );
+    ch.vehicle_list.insert( placed );
+    add_vehicle_to_cache( placed );
+    rebuild_vehicle_level_caches();
+    set_pathfinding_cache_dirty( placed->sm_pos.z() );
+    placed->place_zones( *this );
+    return placed;
+}
+
 void map::rebuild_vehicle_level_caches()
 {
     clear_vehicle_level_caches();

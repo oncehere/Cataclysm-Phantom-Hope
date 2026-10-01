@@ -69,6 +69,7 @@
 #include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
+#include "mp_gamestate.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -1579,6 +1580,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     }
 
     apply_damage( source, bp, total_damage );
+    cata_mp::mp_diag_damage_dealt( source, this,
+                                   total_damage );  // DIAG (temporary): see mp_gamestate.cpp
 
     if( wkpt != nullptr ) {
         wkpt->apply_effects( *this, total_damage, attack );

@@ -747,6 +747,9 @@ class Character : public Creature, public visitable
 
     protected:
 
+        // Avatar saves retain this field; NPC grab state is session-local.
+        object_type grab_type = object_type::NONE; // NOLINT(cata-serialize)
+
         // These accept values in calories, 1/1000s of kcals (or Calories)
         void mod_stored_calories( int ncal, bool ignore_weariness = false );
         void set_stored_calories( int cal );
@@ -3047,6 +3050,11 @@ class Character : public Creature, public visitable
         int mounted_creature_id = 0;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+
+        // Base grab state also supports the multiplayer NPC proxy.
+        virtual void grab( object_type grab_type,
+                           const tripoint_rel_ms &grab_point = tripoint_rel_ms::zero );
+        object_type get_grab_type() const;
 
         // Hauling items on the ground
         void toggle_hauling();

@@ -32,6 +32,7 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
+#include "mp_gamestate.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -917,6 +918,28 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     // TODO: More elegant code
     const bool is_veh_collision = !bash_floor && ovp && &ovp->vehicle() != this;
     const bool is_body_collision = !bash_floor && critter != nullptr;
+
+    // DIAG (phantom co-op collision): when the vehicle registers a body collision
+    // while hosting, dump WHAT it hit.  Chasing the "belted driver dies at ~4 mph
+    // with nothing around, random" report — prime suspect is the car colliding
+    // with its OWN client-proxy passenger during a transient boarding desync
+    // (the in_vehicle guard just above only clears a Character when in_vehicle is
+    // true, so a proxy briefly flagged in_vehicle=false reads as an obstacle).
+    // Logging in_vehicle + proxy/partner identity confirms or refutes it.
+    if( is_body_collision && cata_mp::is_hosting() ) {
+        std::string flags;
+        if( Character *cch = dynamic_cast<Character *>( critter ) ) {
+            flags = " char in_vehicle=" + std::to_string( cch->in_vehicle )
+                    + " is_proxy=" + std::to_string( cata_mp::is_remote_player( cch->getID() ) )
+                    + " is_partner=" + std::to_string( cata_mp::is_partner_npc( cch->getID() ) );
+        }
+        cata_mp::mp_log( "[veh-bodycoll] hit=\"" + critter->disp_name() + "\"" + flags
+                         + " veh=\"" + name + "\" velocity=" + std::to_string( velocity )
+                         + " coll_tile=" + std::to_string( p.x() ) + "," + std::to_string( p.y() )
+                         + "," + std::to_string( p.z() )
+                         + " veh_pos=" + std::to_string( pos_abs().x() ) + ","
+                         + std::to_string( pos_abs().y() ) );
+    }
 
     veh_collision ret;
     ret.type = veh_coll_nothing;
@@ -2568,7 +2591,23 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ),
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
+                if( cata_mp::is_hosting() ) {
+                    const bool is_proxy = cata_mp::is_remote_player( psg->getID() );
+                    const bool is_partner = cata_mp::is_partner_npc( psg->getID() );
+                    cata_mp::mp_log( "[veh-eject] rider=" + psg->name +
+                                     " is_proxy=" + std::to_string( is_proxy ) +
+                                     " is_partner=" + std::to_string( is_partner ) +
+                                     " in_vehicle_before=" + std::to_string( psg->in_vehicle ) +
+                                     " part_boarded_before=" +
+                                     std::to_string( veh.part( ps ).has_flag( vp_flag::passenger_flag ) ) );
+                }
                 unboard_vehicle( part_pos );
+                if( cata_mp::is_hosting() ) {
+                    cata_mp::mp_log( "[veh-eject] post-unboard rider=" + psg->name +
+                                     " in_vehicle_after=" + std::to_string( psg->in_vehicle ) +
+                                     " part_boarded_after=" +
+                                     std::to_string( veh.part( ps ).has_flag( vp_flag::passenger_flag ) ) );
+                }
             } else {
                 add_msg_if_player_sees( part_pos, m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),

@@ -1,10 +1,26 @@
 #include "mp_gamestate.h"
+#include "mp_intent.h"
+
+#include "uistate.h"   // uistate.consume_uistate (mp_prune_dead_item_ui_refs)
+#include <array>
+#include "mp_client_conn.h"
+#include "do_turn.h"
+#include "input.h"
+#include "mp_queue.h"
+#include "mp_server.h"
 
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
+#include "event.h"
+#include "event_bus.h"
+#include "event_subscriber.h"
+#include "character_martial_arts.h"
+#include "display.h"
+#include "mood_face.h"
+#include "martialarts.h"
 #include "calendar.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -12,7 +28,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_id.h"
-#include "character_martial_arts.h"
 #include "city.h"
 #include "clone_ptr.h"
 #include "color.h"
@@ -22,8 +37,6 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "dialogue_chatbin.h"
-#include "display.h"
-#include "do_turn.h"
 #include "effect.h"
 #include "enums.h"
 #include "field.h"
@@ -33,29 +46,31 @@
 #include "game_inventory.h"
 #include "gates.h"
 #include "get_version.h"
-#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "line.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
-#include "line.h"
+#include "monster.h"
+#include "mtype.h"
+#include "field_type.h"
+#include "lightmap.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "options.h"
+#include "submap.h"
+#include "move_mode.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mod_manager.h"
-#include "monster.h"
-#include "mp_client_conn.h"
 #include "mp_mod_compat.h"
-#include "mp_queue.h"
-#include "mp_server.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_opinion.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -68,6 +83,8 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "popup.h"
+#include "mp_magic.h"
 #include "string_input_popup.h"
 #include "tileray.h"
 #include "translation.h"
@@ -86,7 +103,6 @@
     #include "sdl_wrappers.h"
 #endif
 #include <algorithm>
-#include <array>
 #include <atomic>
 #include <cctype>
 #include <chrono>
@@ -112,6 +128,7 @@
 #include <system_error>
 #include <thread>
 #include <tuple>
+#include <locale>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -122,6 +139,49 @@
 // into smaller components.
 // NOLINTBEGIN(cata-no-long,cata-static-string_id-constants,cata-xy,misc-use-internal-linkage,performance-inefficient-string-concatenation)
 
+// ── ACT_PULP progress, host and client side ───────────────────────────────────
+// These four are members of pulp_activity_actor but live here rather than in
+// activity_actor.cpp on purpose: that file is the hottest upstream file in the
+// tree (150 commits in six months), so each body there is future merge-conflict
+// surface. Defined in an MP-only file, the whole feature costs four declaration
+// lines in activity_actor_definitions.h. They sit ABOVE `namespace cata_mp` —
+// they are members of an SP class, so they cannot be defined inside it.
+int pulp_activity_actor::mp_unfinished_count() const
+{
+    int n = 0;
+    for( const item_location &il : corpses ) {
+        const item *corpse = il.get_item();
+        if( corpse != nullptr && corpse->damage() < corpse->max_damage() ) {
+            ++n;
+        }
+    }
+    return n;
+}
+
+// Everything this activity took on: finished + still to do + given up on. Does
+// not shrink as corpses are abandoned, so the fraction cannot run backwards.
+int pulp_activity_actor::mp_pulp_total() const
+{
+    return num_corpses + mp_unfinished_count() + unpulped_corpses_qty;
+}
+
+// "Corpse N of total", counting the one being worked on — a fresh pile of two
+// reads 1/2, not 0/2. num_corpses alone is the FINISHED count, which is why the
+// first version sat at 0 until a corpse actually died.
+int pulp_activity_actor::mp_pulp_current() const
+{
+    return std::min( num_corpses + 1, mp_pulp_total() );
+}
+
+std::string pulp_activity_actor::get_progress_message( const player_activity & ) const
+{
+    const int total = mp_pulp_total();
+    if( total <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d/%d", mp_pulp_current(), total );
+}
+
 namespace cata_mp
 {
 
@@ -131,6 +191,9 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 void mp_log( const std::string &msg )
 {
+    // Game, socket and reconnect threads share the clock and log stream.
+    static std::mutex log_mutex;
+    const std::lock_guard<std::mutex> lock( log_mutex );
     // Wall-clock ms since the previous mp_log line — lets us read the log as a
     // timeline ("this step took 47ms") without having to add timing helpers
     // around every call site.  Reset each line: prefix shows the gap since the
@@ -163,32 +226,17 @@ void mp_log( const std::string &msg )
     const std::string line = std::string( tbuf ) + "[+" +
                              std::to_string( delta_ms ) + "ms] " + msg;
 
-    // Also append to /tmp/cdda-mp-{server,client}.log so log capture doesn't
-    // require launching via start-mp.sh's stdout-tee.  Opens lazily on the
-    // first call once the mode is known; truncates on first open so each
-    // session's log starts fresh.  Re-opens with truncation if the mode
-    // changes (e.g. SP→host via the in-game menu).
+    // Each --userdir owns its log, including native probes and parallel
+    // sessions. Preserve append/cap behavior without writing the real HOME.
     static std::ofstream log_file;
     static std::string current_path;
-    // Log directory: /tmp on unix (the stable path our tooling reads). Windows
-    // has no /tmp — an ofstream open on a nonexistent C:\tmp\ silently fails, so
-    // the client never wrote a log there. Use %USERPROFILE% (always present and
-    // writable): C:\Users\<name>\cdda-mp-client.log.
-    std::string log_dir = "/tmp/";
-#if defined(_WIN32)
-    if( const char *home = std::getenv( "USERPROFILE" ) ) {
-        log_dir = std::string( home ) + "\\";
-    } else if( const char *tmp = std::getenv( "TEMP" ) ) {
-        log_dir = std::string( tmp ) + "\\";
-    } else {
-        log_dir.clear();
-    }
-#endif
     std::string desired_path;
     if( is_client_mode() ) {
-        desired_path = log_dir + "cdda-mp-client.log";
+        desired_path = ( std::filesystem::u8path( PATH_INFO::user_dir() ) /
+                         "mp-client.log" ).u8string();
     } else if( is_host_mode() || is_server_mode() ) {
-        desired_path = log_dir + "cdda-mp-server.log";
+        desired_path = ( std::filesystem::u8path( PATH_INFO::user_dir() ) /
+                         "mp-server.log" ).u8string();
     }
     if( !desired_path.empty() && desired_path != current_path ) {
         if( log_file.is_open() ) {
@@ -230,9 +278,10 @@ void mp_log( const std::string &msg )
 // shows "not responding" — and until now left NO trace: the old breadcrumbs
 // went to std::cout, which never reaches the log file, so the log simply
 // stopped mid-apply with nothing naming the step (the 2026-06-26 Parallels
-// hang).  mp_apply_step records the active step + a heartbeat and logs a
-// START/DONE pair through mp_log (which flushes every line, so the START
-// survives a hang).  A background watchdog — started lazily on the first apply
+// hang).  mp_apply_step records the active step + a heartbeat for the watchdog.
+// (The per-step START/DONE breadcrumbs it used to log were trimmed 2026-06-28 —
+// ~10 flushed writes/turn of noise the watchdog makes redundant; only a stall is
+// worth a line.)  A background watchdog — started lazily on the first apply
 // step — reads the heartbeat and, if any step stays active past a threshold,
 // logs a line NAMING the stalled step.  That converts a silent beachball into a
 // labeled, attributable event, for this bug and any future one.  Critical
@@ -242,6 +291,18 @@ void mp_log( const std::string &msg )
 static std::mutex g_apply_step_mtx;
 static std::string g_apply_step_label;       // active step, "" when idle
 static std::chrono::steady_clock::time_point g_apply_step_started;
+
+// DIAG 2026-08-30 — second slot, same watchdog thread, for the HOST TURN phase.
+// The apply-step slot above only covers client state application, so it is
+// structurally blind to a host stalled mid-turn: measured on a host that fell
+// asleep, HOST-INPUT-GATE stopped at 18:32:22 and no HOST-DO-TURN-ENTRY, SRV-WAIT
+// or grant_client_turn followed, while the game thread kept resolving input —
+// alive, pumping, never starting another turn, and nothing in the log naming
+// where it parked.  mp_turn_phase() already marks every phase of the turn but
+// mp_turn_phase_flush() only prints them at turn END, which never arrives on a
+// stall.  Feeding the same marks to the watchdog makes the stall name itself.
+static std::string g_turn_phase_label;       // active phase, "" between turns
+static std::chrono::steady_clock::time_point g_turn_phase_started;
 
 static void mp_start_apply_watchdog()
 {
@@ -259,6 +320,12 @@ static void mp_start_apply_watchdog()
                     std::scoped_lock lk( g_apply_step_mtx );
                     label = g_apply_step_label;
                     started = g_apply_step_started;
+                    // An apply step is the more specific answer, so it wins; the
+                    // turn phase is the fallback that covers the rest of the turn.
+                    if( label.empty() && !g_turn_phase_label.empty() ) {
+                        label = "turn-phase=" + g_turn_phase_label;
+                        started = g_turn_phase_started;
+                    }
                 }
                 if( label.empty() ) {
                     warned_for = {};
@@ -294,23 +361,101 @@ struct mp_apply_step {
     explicit mp_apply_step( std::string label )
         : label_( std::move( label ) ), t0_( std::chrono::steady_clock::now() ) {
         mp_start_apply_watchdog();
-        {
-            std::scoped_lock lk( g_apply_step_mtx );
-            g_apply_step_label = label_;
-            g_apply_step_started = t0_;
-        }
-        mp_log( "[cdda-mp] STATE-APPLY: " + label_ + " start" );
+        std::lock_guard<std::mutex> lk( g_apply_step_mtx );
+        g_apply_step_label = label_;
+        g_apply_step_started = t0_;
     }
     ~mp_apply_step() {
-        const long ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            std::chrono::steady_clock::now() - t0_ ).count();
-        {
-            std::scoped_lock lk( g_apply_step_mtx );
-            g_apply_step_label.clear();
-        }
-        mp_log( "[cdda-mp] STATE-APPLY: " + label_ + " done dur=" + std::to_string( ms ) + "ms" );
+        std::lock_guard<std::mutex> lk( g_apply_step_mtx );
+        g_apply_step_label.clear();
     }
 };
+
+// Per-session turn-catchup trackers for mp_do_turn_update_body()/
+// mp_do_turn_process_turn() below. File-scope (not function-local) so
+// mp_reset_turn_catchup_state() can clear them on a fresh join — a
+// function-local static persists for the life of the process, so quitting to
+// the main menu and starting a brand-new world/character without relaunching
+// left a stale turn value from the PREVIOUS game in place. If the new game's
+// calendar::turn compared later than that stale leftover, the code took the
+// catch-up branch across the gap between two unrelated games' timelines —
+// potentially days of accumulated thirst/hunger applied in a single tick.
+static void mp_reset_deferred_item_state();
+static void mp_send_authoritative_item_resync();
+static bool g_mp_host_waiting_for_item_resync_ack = false;
+static unsigned long long g_mp_item_resync_epoch = 0;
+static bool g_mp_force_full_item_scan = false;
+
+static time_point s_last_update_body = calendar::before_time_starts;
+static time_point s_last_proc = calendar::before_time_starts;
+static time_point s_last_upkeep = calendar::before_time_starts;
+static time_point s_last_client_prefix = calendar::before_time_starts;
+
+// File-local: only the fresh-join reset path below (mp_gamestate.cpp) calls
+// this, and it resets the two static catch-up timers above. Marked static so
+// GCC's -Werror=missing-declarations (Linux CI) doesn't require a header decl
+// for a symbol nothing outside this TU uses; Apple Clang doesn't enforce it,
+// which is why this only failed on Linux.
+static void mp_reset_turn_catchup_state()
+{
+    s_last_update_body = calendar::before_time_starts;
+    s_last_proc = calendar::before_time_starts;
+    s_last_upkeep = calendar::before_time_starts;
+    s_last_client_prefix = calendar::before_time_starts;
+}
+
+// True once per GAME TURN, not once per do_turn() call.
+//
+// Measured 2026-08-25: with both players idle the host's calendar sat frozen at
+// turn 5220508 for over two minutes of wall clock while the client's do_turn()
+// kept cycling every ~11ms -- roughly 90 iterations of "per-turn" work for a
+// turn that never happened.  Everything at the tail of do_turn() that is not
+// calendar-gated therefore ran ~90x per turn on the client and once per turn on
+// the host: body temperature, wetness, wetness morale and weather effects.
+//
+// Two consequences, one cosmetic and one not.  Temperature drifts across a
+// message threshold and narrates every crossing, which is the "you feel your
+// right foot getting warm" pump (three identical lines inside a single
+// millisecond in the log).  And the client's body state diverges from the
+// host's continuously, which is a strong candidate for both the 2448
+// HP-AUTHORITY-BG drift events and the older "client takes freeze damage"
+// report noted on mp_do_turn_update_body().
+//
+// The invariant this restores: a frozen turn does no per-turn work at all.
+// Gated for host as well as client -- the host's clock also stops (separation
+// tier 3 pauses the world), and running upkeep against a stopped clock is
+// wrong for whoever is doing it.
+int mp_client_upkeep_ticks()
+{
+    if( !is_client_mode() ) {
+        return 1;
+    }
+    int ticks = 0;
+    if( s_last_upkeep == calendar::before_time_starts ) {
+        ticks = 1;
+    } else if( calendar::turn > s_last_upkeep ) {
+        ticks = std::min( 100, to_turns<int>( calendar::turn - s_last_upkeep ) );
+    }
+    s_last_upkeep = calendar::turn;
+    return ticks;
+}
+
+bool mp_should_run_per_turn_upkeep()
+{
+    return mp_client_upkeep_ticks() > 0;
+}
+
+bool mp_should_run_client_prefix()
+{
+    if( !is_client_mode() ) {
+        return true;
+    }
+    if( calendar::turn == s_last_client_prefix ) {
+        return false;
+    }
+    s_last_client_prefix = calendar::turn;
+    return true;
+}
 
 // Per-turn body update, called from do_turn.cpp. SP/host: one plain update.
 // Client: the host-driven calendar advances in JUMPS and do_turn spins while
@@ -324,15 +469,44 @@ void mp_do_turn_update_body( Character &u )
         u.update_body();
         return;
     }
-    static time_point s_last_update_body = calendar::before_time_starts;
     if( calendar::turn == s_last_update_body ) {
         return;
     }
+    // Cap the catch-up span exactly like mp_do_turn_process_turn()'s
+    // MAX_CATCHUP: a stale static (fixed above) isn't the only way this gap
+    // can balloon — a transient/interim calendar value seen mid-join, before
+    // the host-synced date settles in, can *also* look like a huge same-
+    // session jump to the very next call. Regardless of cause, update_body()
+    // must never be allowed to fast-forward needs across an unbounded span.
+    constexpr int MAX_BODY_CATCHUP_TURNS = 100;
     if( s_last_update_body != calendar::before_time_starts &&
-        calendar::turn > s_last_update_body ) {
+        calendar::turn > s_last_update_body &&
+        to_turns<int>( calendar::turn - s_last_update_body ) <= MAX_BODY_CATCHUP_TURNS ) {
+        // DIAGNOSTIC (2026-08-20, "client time runs faster / takes freeze damage"
+        // report): the per-call span is not the interesting number — the running
+        // total is. If the turns fed to update_body() ever exceed the host clock's
+        // own advance, the client is ageing its needs faster than the shared world
+        // and that difference is exactly the unexplained cold damage. drift should
+        // sit at 0; anything positive and growing is the bug.
+        const int span = to_turns<int>( calendar::turn - s_last_update_body );
+        static int s_body_turns_applied = 0;
+        static time_point s_body_first_turn = calendar::before_time_starts;
+        if( s_body_first_turn == calendar::before_time_starts ) {
+            s_body_first_turn = s_last_update_body;
+        }
+        s_body_turns_applied += span;
+        const int host_span = to_turns<int>( calendar::turn - s_body_first_turn );
+        mp_log( "[cdda-mp] mp_do_turn_update_body: RANGE catch-up from=" +
+                to_string( s_last_update_body ) + " to=" + to_string( calendar::turn ) +
+                " (turns=" + std::to_string( span ) + ")" +
+                " applied_total=" + std::to_string( s_body_turns_applied ) +
+                " host_span=" + std::to_string( host_span ) +
+                " drift=" + std::to_string( s_body_turns_applied - host_span ) );
         u.update_body( s_last_update_body, calendar::turn );
     } else {
-        u.update_body();  // first run / clock rewind — single turn
+        mp_log( "[cdda-mp] mp_do_turn_update_body: single-turn (first run/rewind/capped) turn=" +
+                to_string( calendar::turn ) + " prev_static=" + to_string( s_last_update_body ) );
+        u.update_body();  // first run / clock rewind / over-cap jump — single turn
     }
     s_last_update_body = calendar::turn;
 }
@@ -350,7 +524,6 @@ void mp_do_turn_process_turn( Character &u )
     if( !is_client_mode() ) {
         return;
     }
-    static time_point s_last_proc = calendar::before_time_starts;
     int dturns;
     if( s_last_proc == calendar::before_time_starts ) {
         dturns = 1;                                   // first call
@@ -368,7 +541,7 @@ void mp_do_turn_process_turn( Character &u )
     u.set_moves( pre_moves );
 }
 
-static bool server_mode_ = false;
+static std::atomic<bool> server_mode_{ false };
 
 bool is_server_mode()
 {
@@ -380,7 +553,7 @@ void set_server_mode( bool enabled )
     server_mode_ = enabled;
 }
 
-static bool host_mode_ = false;
+static std::atomic<bool> host_mode_{ false };
 
 bool is_host_mode()
 {
@@ -427,9 +600,226 @@ void host_queue_sfx( const std::string &id, const std::string &variant, int vol 
     g_host_sfx_queue.push_back( {id, variant, vol} );
 }
 
+// Locale-independent number→string for the JSON wire protocol.  std::to_string
+// (and sprintf "%f") honor the C locale set by setlocale() — CDDA sets it for
+// translations, so on a comma-decimal locale (EU: German/French/…) they emit
+// "0,000000", which is malformed JSON and CRASHES the receiver's parser
+// (log-confirmed 2026-06-30, "Break Me Polnostew").  Any float that goes on the
+// wire MUST route through this instead.  Imbuing classic() forces a '.' decimal
+// without touching the global locale, so the player's UI/translations are
+// unaffected — only the protocol changes.  See [[ROADMAP locale crash]].
+static std::string mp_json_num( double v )
+{
+    std::ostringstream os;
+    os.imbue( std::locale::classic() );
+    os << v;
+    return os.str();
+}
+
+// Heartbeat + stall detection (Increment 1.5), host side.  The client sends a
+// heartbeat every ~1.5s even while idle/locked; the host echoes its own.  Each
+// side tracks "time since last peer message" so a link that dies WHILE WAITING
+// (no traffic -> no TCP error) is still detected.  3s of no player action is
+// normal, so the threshold (8s) sits well above that and detection rides the
+// action-independent heartbeat, never player activity.
+static constexpr int64_t MP_CLIENT_STALL_MS = 8000;  // client silence -> disconnect
+static int64_t g_last_client_msg_ms = 0;             // last time any client msg arrived
+
+// AFK idle-flush (2026-07-11, "invisible schoolbus" GH follow-up).  The state
+// broadcast (vehicles, monsters, tiles, everything in serialize_remote_player_state)
+// normally only fires from host_broadcast_post_action() when the host's own
+// handle_action() actually consumes moves.  If the host provides zero input for
+// an extended stretch, anything queued behind that broadcast — most notably a
+// client's veh_snapshot_req resend — just sits stuck for as long as the host
+// stays idle, which is unbounded.  This ticks a flush on a wall-clock cadence
+// so idle-host broadcasts stop being starved by "did the host press anything."
+static constexpr int64_t MP_IDLE_BROADCAST_MS = 2000;
+static int64_t g_last_idle_broadcast_ms = 0;
+
+// Hide-IP option (2026-07-11, streaming-privacy request).  When set, the
+// "Partner not connected" HUD line omits the host's local addresses instead
+// of drawing them on screen every frame — a streamer sitting in the lobby
+// screen before their partner joins would otherwise broadcast their LAN/VPN
+// IP live.  The address is still available via the copy_join_address action
+// (clipboard only, never rendered), same pattern as g_host_port_menu below.
+static bool g_host_hide_ip = false;
+static bool g_host_hide_ip_loaded = false;
+
+static cata_path mp_host_hide_ip_path()
+{
+    return PATH_INFO::config_dir_path() / "mp_host_hide_ip.json";
+}
+
+static bool mp_host_hide_ip_load_disk()
+{
+    bool out = false;
+    read_from_file_optional_json( mp_host_hide_ip_path(), [&]( const JsonValue & jv ) {
+        JsonObject jo = jv.get_object();
+        out = jo.get_bool( "hide_ip", false );
+    } );
+    return out;
+}
+
+static void mp_host_hide_ip_save_disk( bool hide )
+{
+    write_to_file( mp_host_hide_ip_path(), [&]( std::ostream & fout ) {
+        JsonOut jo( fout );
+        jo.start_object();
+        jo.member( "hide_ip", hide );
+        jo.end_object();
+    }, "mp host hide ip" );
+}
+
+static bool mp_host_hide_ip()
+{
+    if( !g_host_hide_ip_loaded ) {
+        g_host_hide_ip = mp_host_hide_ip_load_disk();
+        g_host_hide_ip_loaded = true;
+    }
+    return g_host_hide_ip;
+}
+
+// Shared by the HUD "Partner not connected" line and copy_join_address —
+// the join address string a partner would type into the Join screen.
+static std::string mp_build_join_address_line()
+{
+    const std::vector<std::string> ips = mp_local_ipv4s();
+    const int port = static_cast<int>( mp_host_port() );
+    if( ips.empty() ) {
+        return string_format( _( "port %d" ), port );
+    }
+    std::string joined;
+    for( size_t i = 0; i < ips.size(); ++i ) {
+        if( i ) {
+            joined += " · ";
+        }
+        joined += ips[i] + ":" + std::to_string( port );
+    }
+    return joined;
+}
+
+static int64_t mp_now_ms()
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+               std::chrono::steady_clock::now().time_since_epoch() ).count();
+}
+
 // The character_id of the remote player's NPC. Invalid when no remote player is connected.
 static character_id remote_player_npc_id;
 static bool remote_player_connected = false;
+static std::string remote_player_name_;
+// True after a removal so the next spawn is announced as a RECONNECT ("X
+// reconnected.") rather than a first join.  Set in remove_remote_player, cleared
+// when the reconnect message shows.
+static bool g_partner_pending_reconnect = false;
+
+// One-shot: true for exactly the next serialize_remote_player_state() broadcast
+// after a genuine rejoin is recognized (the char_stats/name-rename branch below,
+// NOT the client's own auto-redial "reconnected":true, which is a different
+// scenario — manual quit+rejoin via the Join menu never goes through
+// reconnect_worker()). Tells the client to force a real re-teleport instead of
+// the "OUT OF BUBBLE, skip" no-chase guard in client_teleport_avatar() — see
+// the 2026-07-06 "client stuck at old position after host moved away" report.
+static bool g_client_rejoin_pending = false;
+
+// --- Co-op kill tally -----------------------------------------------------
+// Per-player kill counts shown in the co-op HUD — a little friendly rivalry.
+// HOST is authoritative: it subscribes to character_kills_monster, attributes
+// each kill to itself or the client's proxy, and wires both counts to the client
+// (which only DISPLAYS — never counts locally, to avoid double-counting).
+// Anticipates the kill-feed messages (ROADMAP) but is just the tally for now.
+static int g_host_kills = 0;
+static int g_client_kills = 0;
+
+struct mp_kill_counter : event_subscriber {
+    // Un-hide the base's 3-arg notify() overload — we only override the 1-arg one,
+    // which otherwise hides the other overload and trips GCC's -Werror=overloaded-
+    // virtual on the Linux CI build (clang on mac/win doesn't flag it).
+    using event_subscriber::notify;
+    void notify( const cata::event &e ) override {
+        if( !is_hosting() ) {
+            return;   // client displays wired counts; only the host attributes
+        }
+        if( e.type() != event_type::character_kills_monster ) {
+            return;
+        }
+        // Attribute to host avatar or the client's proxy.  Client kills reach here
+        // now that client_monster_hits credits the proxy via die(&m, proxy).
+        const character_id killer = e.get<character_id>( "killer" );
+        if( killer == get_avatar().getID() ) {
+            g_host_kills++;
+        } else if( remote_player_connected && killer == remote_player_npc_id ) {
+            g_client_kills++;
+        }
+    }
+};
+static mp_kill_counter g_kill_counter;
+static bool g_kill_counter_subscribed = false;
+static bool g_kill_tally_reset_pending = false;
+
+void mp_kill_tally_mark_new_character()
+{
+    g_kill_tally_reset_pending = true;
+}
+
+// Host-side sidecar file, world-tied (same pattern as mp_npc_cleanup_path) — the
+// kill tally is co-op progress like any other stat and belongs in the save, not
+// reset every session.  Client never reads/writes this: it receives both counts
+// fresh on every state broadcast per the "host = single source of truth" save
+// model (see ROADMAP.md "Co-op save model"), so restoring the host's copy alone
+// is sufficient for both players to see the right numbers on reconnect.
+static cata_path mp_kill_tally_path()
+{
+    return PATH_INFO::world_base_save_path() / "mp_kill_tally.json";
+}
+
+static void mp_save_kill_tally()
+{
+    write_to_file( mp_kill_tally_path(), [&]( std::ostream & fout ) {
+        JsonOut jo( fout );
+        jo.start_object();
+        jo.member( "host_kills", g_host_kills );
+        jo.member( "client_kills", g_client_kills );
+        jo.end_object();
+    }, "mp kill tally" );
+}
+
+// Subscribe once the host session is live.  Idempotent — safe to call every turn.
+// Loads any previously-saved tally for this world, UNLESS a New-character start
+// requested a reset (mp_kill_tally_mark_new_character) — a reused world can
+// already have a tally file from an earlier, unrelated playthrough.
+static void mp_kill_tally_subscribe()
+{
+    if( g_kill_counter_subscribed ) {
+        return;
+    }
+    g_host_kills = 0;
+    g_client_kills = 0;
+    if( g_kill_tally_reset_pending ) {
+        // Fresh playthrough (New character) — ignore any leftover tally file
+        // from a previous playthrough in this world and start clean.
+        g_kill_tally_reset_pending = false;
+        mp_save_kill_tally();
+    } else {
+        read_from_file_optional_json( mp_kill_tally_path(), [&]( const JsonValue & jv ) {
+            JsonObject jo = jv.get_object();
+            jo.allow_omitted_members();
+            g_host_kills = jo.get_int( "host_kills", 0 );
+            g_client_kills = jo.get_int( "client_kills", 0 );
+        } );
+    }
+    get_event_bus().subscribe( &g_kill_counter );
+    g_kill_counter_subscribed = true;
+}
+static void mp_kill_tally_unsubscribe()
+{
+    if( !g_kill_counter_subscribed ) {
+        return;
+    }
+    get_event_bus().unsubscribe( &g_kill_counter );
+    g_kill_counter_subscribed = false;
+}
+
 // Client-side: NPC representing the host player in the client's local world.
 static character_id client_host_npc_id;
 static bool client_host_npc_spawned = false;
@@ -468,6 +858,16 @@ static std::unordered_set<uint32_t> g_server_veh_live_nids;
 // radius. The client removes only these and never culls by absence, so a
 // transient short broadcast can't kill a live monster (the woodpecker bug).
 static std::unordered_set<uint32_t> g_server_mon_known_nids;
+
+// Host: per-nid last position seen while the monster was still alive in the
+// tracker. DIAGNOSTIC ONLY (GH#23 A/D). At the point removed_monsters is
+// computed the monster is already gone from the tracker, so "died right here"
+// and "the bubble moved away from it" are indistinguishable — both are just
+// absent. Keeping the last live position lets MON-REMOVED say which: a nid
+// whose last position is still inbounds when it vanishes died; one that is out
+// of bounds left the bubble. The same position also answers D — whether the
+// host actually has a corpse on that tile to send.
+static std::unordered_map<uint32_t, tripoint_abs_ms> g_server_mon_last_pos;
 
 // Host: per-nid last-broadcast monster record (the emitted JSON object). The
 // monster snapshot resent every monster, every turn — large and ~95% redundant
@@ -511,7 +911,7 @@ static bool g_pending_partner_swap = false;
 static bool g_pending_partner_push = false;
 
 // Server: monotonic message-append watermark at last forward — used to forward
-// only NEW messages.  Uses Messages::size() (never decremented) rather
+// only NEW messages.  Uses Messages::appended_total() (never decremented) rather
 // than size(), which is capped at MESSAGE_LIMIT and stalls once the log fills.
 static unsigned long long g_last_forwarded_msg_count = 0;
 
@@ -578,6 +978,23 @@ static uint32_t g_client_last_grant_seq = 0;
 // this turn.  Cleared by grant_client_turn(); checked by wait_for_client_action().
 static bool g_client_acted_this_turn = false;
 
+// MP 2026-08-30 — FF LEAD CONTROL.  Highest grant_seq the client says it has
+// applied, echoed as "cseq" on every action/wait.  0 = never reported (older
+// client), which makes mp_ff_lead_turns() return 0 and disables the window.
+static uint32_t g_client_reported_seq = 0;
+
+// Server: set whenever a client_stamina sync was just applied to the proxy
+// (handle_remote_action, run via process_mp_events() before grant_client_turn()
+// each host turn — see do_turn.cpp). Consumed and cleared by grant_client_turn()
+// to skip its own update_stamina(1) regen tick that turn: the client_stamina
+// value already reflects the real character's own regen/burn for that move, so
+// an extra independent tick on top of it is pure drift with nothing to
+// reconcile it against — GH #19, log-confirmed 2026-07-26 (ap_cost holding a
+// steady few points above the client's own calc even after the stamina_max fix,
+// worse the more the client got locked out waiting on a grant, since a locked
+// turn has no client_stamina message to correct the tick).
+static bool g_remote_stamina_synced_this_turn = false;
+
 // Server: elapsed wait time (ms) in the last wait_for_client_action() call.
 static int g_wait_elapsed_ms = 0;
 // Server: duration (ms) of the last monmove() (AI turn) call; set by do_turn.cpp.
@@ -599,9 +1016,29 @@ static std::string g_last_host_action_label = "\xe2\x80\x94";
 // activity ticks on the side that owns the player.  Used by the Co-op HUD and
 // transition-edge messages.
 static std::string g_partner_activity;
+// Defined further down next to should_fast_forward(); forward-declared here so the
+// activity_start handler can log the verdict alongside the id.
+static bool is_fast_forwardable_activity( const std::string &id );
+// Defined with the other FF helpers further down; forward-declared so the
+// SRV-WAIT probe can report the local side's FF activity.
+static std::string mp_local_ff_activity();
+// Remaining moves of the partner's current activity, forwarded alongside
+// g_partner_activity.  -1 = unknown (older peer, or no activity).  Read only by
+// should_fast_forward()'s duration floor — see FF_MIN_ACTIVITY_MOVES.
+static int g_partner_activity_moves = -1;
 // Progress % (0-100) of the partner's current activity.  Forwarded each
 // action/state packet alongside g_partner_activity.  Read by the Co-op panel.
 static int g_partner_activity_pct = 0;
+// Batch size of the partner's in-progress craft (1 = single item). Shown in the
+// Co-op panel as "crafting x5 12%" so a long batch is distinguishable from a
+// stalled single craft — the percentage is per-batch and otherwise identical.
+static int g_partner_activity_batch = 1;
+// What the partner is making ("bandage"), empty for non-crafts. See
+// mp_craft_result_name().
+static std::string g_partner_activity_name;
+// Pulp corpse progress packed as done*1000+total; 0 when the partner is not
+// pulping. See mp_pulp_progress_packed().
+static int g_partner_pulp_packed = 0;
 // Total moves required by the partner's current activity (act.moves_total).
 // Read by the bump-menu predicate to decide whether the "Help with task"
 // option should appear (gate: >= HELPER_MIN_MOVES_TOTAL).  Zero when idle.
@@ -620,28 +1057,11 @@ static int g_partner_morale = 0;
 static int g_partner_hp_cur = 0;
 static int g_partner_hp_max = 0;
 
-// Round-trip latency to the partner, in milliseconds; -1 until first measured.
-// Measured on the CLIENT via a stamp/echo on the existing packets (no clock
-// sync needed), then mirrored back to the host so both panels show the same
-// number.  Replaces the old dev-only calendar-drift indicator in the Co-op
-// panel.
-static int g_partner_ping_ms = -1;
-// Host-side: last client_ping stamp we received, to echo back next broadcast.
-static int64_t g_last_client_ping_stamp = -1;
-// Client-side: the stamp we're currently awaiting an echo for. RTT is measured
-// exactly once per round trip (when its echo returns), then this is cleared so
-// a host re-echoing the same stale stamp during idle can't keep inflating the
-// number. -1 = nothing outstanding (hold the last measured value).
-static int64_t g_pending_ping_stamp = -1;
-// Monotonic millisecond clock shared by the ping stamp/echo. Process-relative;
-// only differences on the SAME machine are used, so no cross-host clock sync.
-static int64_t mp_mono_ms()
-{
-    static const std::chrono::steady_clock::time_point start =
-        std::chrono::steady_clock::now();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-               std::chrono::steady_clock::now() - start ).count();
-}
+// Round-trip latency to the partner is now measured on the io thread via the
+// heartbeat ping/pong (mp_client_conn.cpp / mp_server.cpp), read for display via
+// mp_client_measured_rtt_ms() / mp_host_partner_rtt_ms().  The old action->state-
+// broadcast stamp/echo was removed 2026-07-20 — it read multi-second while idle
+// because it timed the turn/broadcast cadence, not the network.
 // Worst-hurt body part's real (current, max) HP for a character — the limb the
 // Co-op panel bar represents. Worst by fraction so one shredded limb still shows.
 // Computed on each side from its OWN avatar (real max), then synced.
@@ -670,6 +1090,9 @@ static std::pair<int, int> mp_worst_limb_hp( const Character &c )
 // both sides should always advance together; nonzero drift is a useful sanity
 // indicator for the player.
 static int g_partner_calendar_turn = 0;
+// Partner's own green/red state as they last reported it (mp_turn_show_green()
+// inverted).  Sent both directions.  See mp_partner_is_waiting().
+static bool g_partner_waiting = false;
 // Last name the partner reported.  Used by the Co-op panel as a fallback when
 // the local proxy NPC isn't (yet) resolvable — proxy spawn races the panel on
 // first connect; this lets the panel still show *something* instead of
@@ -734,12 +1157,61 @@ static std::string mp_partner_display_name()
 // for "<name> begins <X>." sentences.  Prefers the activity_type::verb()
 // translation maintained in JSON ("constructing a vehicle", "reading", etc.).
 // Falls back to a stripped/lowercased id when no verb is registered.
+// MP 2026-08-30 — SLEEP ON THE WIRE.
+//
+// Sleep is an EFFECT, not a player_activity.  The moment a character actually
+// falls asleep its activity empties, so the peer saw partner_act=(none) — read as
+// IDLE — and should_fast_forward() declined for the entire night.  Measured on the
+// ab907fad11 build: FF-DECLINED partner_idle with host_act=ACT_TRY_SLEEP, and
+// SRV-WAIT costing up to 4065ms of wall clock per single game turn, with neither
+// player able to interrupt (the sleeper has no activity, so there is no `5` to
+// press).  The 2026-07-10 fix put ACT_TRY_SLEEP in the passive allow-list, which
+// covers only the TRYING phase — 79ms in that log.
+//
+// Reporting a synthetic id makes sleep behave exactly like every other
+// FF-eligible activity, and needs no new predicate anywhere: is_passive_activity()
+// is a denylist, so any non-empty id absent from the interactive and blocking-UI
+// lists is passive and fast-forwardable by construction.  So one player crafting
+// while the other sleeps fast-forwards, both sleeping fast-forwards, and either
+// one waking drops the pair back to lockstep so the awake player can walk around
+// — the ordinary both-sides rule, with sleep as just another member of the set.
+//
+// Deliberately NOT named "ACT_SLEEP": no such activity id exists in the tree, and
+// the MP_ prefix cannot collide if upstream ever adds one.
+static const std::string MP_ASLEEP_ACT = "MP_ASLEEP";
+
+static bool mp_char_is_asleep( const Character &who )
+{
+    static const efftype_id eff_sleep( "sleep" );
+    return who.has_effect( eff_sleep );
+}
+
+// The activity id to put on the wire for `who`: their real activity, else the
+// synthetic sleep marker, else empty for genuinely idle.
+static std::string mp_wire_activity_id( const Character &who )
+{
+    if( who.activity ) {
+        return who.activity.id().str();
+    }
+    return mp_char_is_asleep( who ) ? MP_ASLEEP_ACT : std::string();
+}
+
 static std::string mp_activity_verb_phrase( const std::string &act_id )
 {
     if( act_id.empty() ) {
         return std::string();
     }
+    if( act_id == MP_ASLEEP_ACT ) {
+        return _( "sleeping" );   // synthetic; activity_id( "MP_ASLEEP" ) is not valid
+    }
     const activity_id aid( act_id );
+    // NOTE: ACT_PULP used to be special-cased here to say "pulping" because the SP
+    // JSON verb was "smashing". That produced a visible inconsistency — the local
+    // progress popup (which reads the JSON verb) said "smashing" while the co-op
+    // panel said "pulping", on screen at the same time. Fixed at the source
+    // instead: player_activities.json now says "pulping" for ACT_PULP, so both
+    // displays agree and this override is unnecessary. ACT_PULP was the ONLY verb
+    // override in this function; every other activity uses the JSON verb directly.
     if( aid.is_valid() ) {
         const std::string v = aid->verb().translated();
         if( !v.empty() ) {
@@ -777,6 +1249,22 @@ static void mp_partner_activity_transition_check()
         // finished reading." instead of the generic "<name> has finished."
         add_msg( m_info, _( "%1$s has finished %2$s." ), partner_name,
                  mp_activity_verb_phrase( g_partner_activity_prev ) );
+    } else {
+        // Non-empty -> a DIFFERENT non-empty.  The partner went straight from one
+        // activity into the next with no idle turn between them, which the two
+        // branches above both miss: the first wants an empty prev, the second an
+        // empty new.  Before this existed the transition was silently swallowed
+        // and BOTH messages were lost — measured on WAN 2026-08-27, where a
+        // client going ACT_PICKUP -> ACT_SPELLCASTING produced no message at all
+        // and the host never learned their partner had started casting.
+        //
+        // Emitted as the existing two sentences rather than a new "switches to"
+        // string on purpose: it keeps this change out of the .pot, so the six
+        // language catalogs that are already complete stay complete.
+        add_msg( m_info, _( "%1$s has finished %2$s." ), partner_name,
+                 mp_activity_verb_phrase( g_partner_activity_prev ) );
+        add_msg( m_info, _( "%1$s begins %2$s." ), partner_name,
+                 mp_activity_verb_phrase( g_partner_activity ) );
     }
     g_partner_activity_prev = g_partner_activity;
     // Partner's activity changed — if we were helping with the OLD one and
@@ -789,7 +1277,7 @@ static void mp_partner_activity_transition_check()
 // notable "You ..." message (e.g. "Now reading X", "You start crafting Y"),
 // we capture it here and tack it onto the next outgoing action so the host
 // sees a name-substituted version ("Roy now reads X") in their own log.
-// Monotonic append watermark (Messages::size()), not size() — see
+// Monotonic append watermark (Messages::appended_total()), not size() — see
 // g_last_forwarded_msg_count note.
 static unsigned long long g_client_msg_watermark = 0;
 static std::vector<std::string> g_client_msgs_pending;
@@ -820,6 +1308,7 @@ static float g_mp_host_luminance = 0.0f;
 static float g_mp_remote_player_luminance = 0.0f;
 
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_ridden( "ridden" );
 
 // ---------------------------------------------------------------------------
 // Info panel (bottom-left corner)
@@ -858,24 +1347,63 @@ struct mp_hud_t {
     int W = 56;
     static constexpr int H = 3;   // top border + status row + bottom border
 
+    // Geometry the window was last built for. on_screen_resize only fires on
+    // terminal/font changes, NOT when the player flips the position option or
+    // changes the sidebar width/layout in the menu — so we watch these and force
+    // a re-resize when any of them changes (see maybe_resize()), mirroring
+    // mp_edge_t. Without this the panel keeps its old width/edge until the next
+    // terminal resize.
+    std::string last_pos;
+    int last_left = -1, last_right = -1, last_termx = -1;
+
     mp_hud_t() {
         ui.on_screen_resize( [this]( ui_adaptor & ua ) {
             // Single window: any chat lines render INSIDE the top of the co-op
             // box, above the status row.  One stable window/area — the earlier
             // two-window overlay churned the ui_adaptor stack and made the panel
             // flicker / vanish on unrelated redraws (focus changes, turn-waits).
+            //
+            // Span only the map viewport, NOT the whole terminal: the sidebar can
+            // sit on EITHER side, so subtract both edges (get_width_left when the
+            // sidebar is on the left, get_width_right when on the right).  Mirrors
+            // mp_edge_t's [left_col, right_col] math so the panel lines up with the
+            // edge stripes instead of overrunning the sidebar and shoving the map
+            // off-screen.
             panel_manager &pm = panel_manager::get_manager();
-            W = std::max( 40, TERMX - pm.get_width_right() );
+            const int left_col = pm.get_width_left();
+            const int right_col = std::max( left_col, TERMX - pm.get_width_right() - 1 );
+            W = std::max( 40, right_col - left_col + 1 );
             const int ch = mp_chat_overlay_count();
             // border + chat lines + separator + status row + border
             const int height = ch > 0 ? ch + 4 : H;
-            win = catacurses::newwin( height, W, point( 0, TERMY - height ) );
+            // Player choice: top of screen (y = 0) or the default bottom edge.
+            last_pos = get_option<std::string>( "COOP_HUD_POSITION" );
+            const int y = last_pos == "top" ? 0 : TERMY - height;
+            win = catacurses::newwin( height, W, point( left_col, y ) );
+            last_left = pm.get_width_left();
+            last_right = pm.get_width_right();
+            last_termx = TERMX;
             ua.position_from_window( win );
         } );
         ui.on_redraw( [this]( const ui_adaptor & ) {
             draw();
         } );
         ui.mark_resize();
+    }
+
+    // Re-run the resize callback when the player flipped the position option OR
+    // changed the sidebar width/layout (side flip, layout switch, width change).
+    // ui_adaptor only re-runs on_screen_resize on its own for terminal/font
+    // changes, so without this the panel keeps its old edge and old width until
+    // the next terminal resize.  Mirrors mp_edge_t::maybe_resize().
+    void maybe_resize() {
+        panel_manager &pm = panel_manager::get_manager();
+        if( get_option<std::string>( "COOP_HUD_POSITION" ) != last_pos
+            || pm.get_width_left() != last_left
+            || pm.get_width_right() != last_right
+            || TERMX != last_termx ) {
+            ui.mark_resize();
+        }
     }
 
     void draw() const {
@@ -925,8 +1453,36 @@ struct mp_hud_t {
         }
 
         if( !remote_player_connected && is_hosting() ) {
+            // Show what the partner needs to type on the Join screen: every local
+            // address (physical LAN + each VPN — Tailscale 100.x, Radmin 26.x, …)
+            // with the listen port, VPN-range ones first.  We can't know which the
+            // partner will use, so list them all; public IP / DDNS is external
+            // config the partner already has.
+            //
+            // Hide-IP option: a streamer sitting in this screen before their
+            // partner joins would otherwise broadcast their address live.  When
+            // enabled, redact it here — the copy_join_address action still puts
+            // it on the clipboard (never rendered) for sharing out of band.
+            std::string line;
+            if( mp_host_hide_ip() ) {
+                line = _( "Partner not connected  (join IP address hidden, use keybind \"Copy co-op join address\")" );
+            } else {
+                line = string_format( _( "Partner not connected   %s" ),
+                                      mp_build_join_address_line().c_str() );
+            }
             mvwprintz( win, point( 2, crow ), c_dark_gray, "%s",
-                       _( "Partner not connected" ) );
+                       line.substr( 0, std::max( 0, W - 4 ) ).c_str() );
+            wnoutrefresh( win );
+            return;
+        }
+
+        // Client: a reconnect sweep is in progress — show a persistent status
+        // (the "Connection lost — reconnecting…" log/message is a one-shot; this
+        // stays up for the whole multi-second sweep so the player knows why the
+        // game is frozen and that it's recovering, not dead).
+        if( is_client_mode() && client_is_reconnecting() ) {
+            mvwprintz( win, point( 2, crow ), c_yellow, "%s",
+                       _( "Reconnecting to host…" ) );
             wnoutrefresh( win );
             return;
         }
@@ -969,13 +1525,19 @@ struct mp_hud_t {
         // synced morale level through the DEFAULT mood face's value table.
         {
             static const mood_face_id mood_face_DEFAULT( "DEFAULT" );
-            const std::pair<std::string, nc_color> mf =
-                display::morale_emotion( g_partner_morale, mood_face_DEFAULT.obj() );
-            const nc_color col = partner ? mf.second : c_dark_gray;
-            mvwprintz( win, point( x, crow ), col, "%s", mf.first.c_str() );
-            // Advance by the actual face width + 1 so the HP bar sits right up
-            // against the mood emoji instead of after a fixed reserved slot.
-            x += static_cast<int>( utf8_width( mf.first ) ) + 1;
+            // Guard with is_valid(): the HUD can redraw during the loading screen,
+            // before mood_faces.json is in the generic_factory. .obj() throws
+            // ("invalid mood_face id DEFAULT") in that window; is_valid() just
+            // returns false, so we skip the mood glyph until the data is loaded.
+            if( mood_face_DEFAULT.is_valid() ) {
+                const std::pair<std::string, nc_color> mf =
+                    display::morale_emotion( g_partner_morale, mood_face_DEFAULT.obj() );
+                const nc_color col = partner ? mf.second : c_dark_gray;
+                mvwprintz( win, point( x, crow ), col, "%s", mf.first.c_str() );
+                // Advance by the actual face width + 1 so the HP bar sits right up
+                // against the mood emoji instead of after a fixed reserved slot.
+                x += static_cast<int>( utf8_width( mf.first ) ) + 1;
+            }
         }
 
         // HP bar — the partner's WORST body part rendered with the game's native
@@ -1001,36 +1563,133 @@ struct mp_hud_t {
         // "constructing a vehicle") so the panel matches the begin/finish
         // sentences.  Empty when partner is idle.
         if( !g_partner_activity.empty() ) {
-            const std::string verb = mp_activity_verb_phrase( g_partner_activity );
+            std::string verb = mp_activity_verb_phrase( g_partner_activity );
+            // Name what they are making: "crafting bandage" beats a bare
+            // "crafting", which is identical for a hammer and a 40-item batch.
+            if( !g_partner_activity_name.empty() ) {
+                verb += " " + g_partner_activity_name;
+            }
+            // Batch crafts get an "xN" suffix. The percentage is per-BATCH, so a
+            // batch of 40 crawls through the low percentages for a very long time
+            // and is otherwise indistinguishable from a stuck single craft — the
+            // suffix is the only thing on screen that explains the wait.
+            if( g_partner_activity_batch > 1 ) {
+                verb += " x" + std::to_string( g_partner_activity_batch );
+            }
             // Compose "<verb> NN%" — clamp verb length so the % stays on row.
+            // Columns, not bytes: .size()/.substr() count UTF-8 bytes, so a
+            // Cyrillic verb (2 bytes/char) measured ~2x its real width, got
+            // truncated at half the room it actually had, and then advanced x
+            // by double — which is what shoved the "NN%" to the far right of
+            // the panel. substr() could also cut mid-codepoint and emit a
+            // broken glyph. utf8_width/utf8_truncate are codepoint-aware and
+            // are what the rest of this panel already uses.
             const int avail = W - x - 8; // reserve room for " NN%" + drift
             std::string vshown = verb;
-            if( static_cast<int>( vshown.size() ) > avail ) {
-                vshown = vshown.substr( 0, std::max( 0, avail - 2 ) ) + "..";
+            if( utf8_width( vshown ) > avail ) {
+                vshown = utf8_truncate( vshown, std::max( 0, avail - 2 ) ) + "..";
             }
             mvwprintz( win, point( x, crow ), c_yellow, "%s", vshown.c_str() );
-            x += static_cast<int>( vshown.size() ) + 1;
-            mvwprintz( win, point( x, crow ), c_light_blue, "%d%%",
-                       g_partner_activity_pct );
-            x += 5;
+            x += utf8_width( vshown ) + 1;
+            // ACT_PULP has no real progress fraction (moves_total == moves_left,
+            // see mp_compute_activity_pct) — it's an open-ended activity even in
+            // SP. Showing a permanent "0%" reads as broken sync; omit it instead.
+            static const activity_id ACT_PULP_ID_HUD( "ACT_PULP" );
+            if( activity_id( g_partner_activity ) == ACT_PULP_ID_HUD &&
+                g_partner_pulp_packed > 0 ) {
+                // "3/7" corpses instead of the suppressed percent. A percentage
+                // would be actively misleading here — corpses vary enormously in
+                // pulp time, so 3/7 can sit still for a long stretch legitimately.
+                const int cur = g_partner_pulp_packed / 1000;
+                const int total = g_partner_pulp_packed % 1000;
+                const std::string frac = std::to_string( cur ) + "/" + std::to_string( total );
+                mvwprintz( win, point( x, crow ), c_light_blue, "%s", frac.c_str() );
+                x += utf8_width( frac ) + 1;
+            } else if( activity_id( g_partner_activity ) != ACT_PULP_ID_HUD &&
+                       g_partner_activity != MP_ASLEEP_ACT ) {
+                // Sleep has no progress fraction either (it is an effect, not an
+                // activity with moves_total), so a permanent "0%" would read as
+                // broken sync exactly as it does for ACT_PULP.
+                // Advance by what was actually printed, not a hardcoded 5. "21%" is
+                // three columns, so the flat +5 left a two-space hole before
+                // whatever came next — visible now that the fast-forward marker
+                // sits there.
+                const std::string pct_s = std::to_string( g_partner_activity_pct ) + "%";
+                mvwprintz( win, point( x, crow ), c_light_blue, "%s", pct_s.c_str() );
+                x += utf8_width( pct_s ) + 1;
+            }
+            // FAST-FORWARD INDICATOR. Shown only while the pair is actually
+            // skipping ahead, which is a state players currently have no way to
+            // see: co-op crafting either flies or crawls with nothing on screen
+            // explaining which, and a fast-forward that silently DECLINES (one
+            // side in an unlisted activity) is indistinguishable from the game
+            // being slow. Local state on both sides — should_fast_forward() needs
+            // no protocol field.
+            //
+            if( should_fast_forward() ) {
+                static const std::string ff_mark = "▶▶";
+                if( x < W - utf8_width( ff_mark ) - 1 ) {
+                    mvwprintz( win, point( x, crow ), c_green, "%s", ff_mark.c_str() );
+                    x += utf8_width( ff_mark ) + 1;
+                }
+            }
         }
 
-        // Latency to the partner on the right edge — the player-facing replacement
-        // for the old dev calendar-drift indicator. Round-trip ms, colored
-        // green/yellow/red by how laggy the link feels. "--" until first measured.
+        // Right edge: latency + the co-op kill tally.  Ping is the round-trip ms
+        // colored green/yellow/red; tally is "kills <you>·<partner>", perspective-
+        // correct (my kills first), a little friendly rivalry counter.
         {
+            // True network RTT from the heartbeat ping/pong (io thread), not the
+            // old action->broadcast echo that read multi-second while idle. The
+            // client measures it directly; the host reads the value the client
+            // mirrors in its heartbeat.
+            const int ping = is_client_mode() ? mp_client_measured_rtt_ms()
+                             : mp_host_partner_rtt_ms();
             std::string ps;
             nc_color pc;
-            if( g_partner_ping_ms < 0 ) {
+            if( ping < 0 ) {
                 ps = "--";
                 pc = c_dark_gray;
             } else {
-                pc = g_partner_ping_ms < 120 ? c_green
-                     : g_partner_ping_ms < 300 ? c_yellow : c_red;
-                ps = std::to_string( g_partner_ping_ms ) + "ms";
+                // Thresholds tuned for the actual co-op use case (turn-based over
+                // cellular/tether/Tailscale), not LAN: normal mobile RTT sits
+                // ~80-180ms and read as constant yellow before.  Turn-based play
+                // is latency-tolerant, so green covers a healthy link, yellow
+                // means noticeably laggy, red means actually degraded.
+                pc = ping < 200 ? c_green
+                     : ping < 500 ? c_yellow : c_red;
+                ps = std::to_string( ping ) + "ms";
             }
-            mvwprintz( win, point( W - static_cast<int>( ps.size() ) - 1, crow ),
-                       pc, "%s", ps.c_str() );
+            const int ping_x = W - utf8_width( ps ) - 1;
+            mvwprintz( win, point( ping_x, crow ), pc, "%s", ps.c_str() );
+
+            const int my_kills = is_hosting() ? g_host_kills : g_client_kills;
+            const int partner_kills = is_hosting() ? g_client_kills : g_host_kills;
+            const std::string mk = std::to_string( my_kills );
+            const std::string pk = std::to_string( partner_kills );
+            //~ Label on the co-op panel's kill tally, drawn as "kills 3\u00b74"
+            //~ (your count, then your partner's).  KEEP THE TRAILING SPACE — it
+            //~ separates the label from the first number, which is printed
+            //~ immediately after it in a different color.
+            const std::string kills_label = _( "kills " );
+            const std::string tally = kills_label + mk + "·" + pk;
+            const int tally_x = ping_x - 2 - utf8_width( tally );
+            if( tally_x > x ) {   // draw only if it doesn't overrun the left content
+                // Color the two numbers apart so it's obvious which is which at a
+                // glance: partner's count in green to match their green '@' proxy
+                // glyph on the map; yours in white (your own '@' color), label +
+                // separator neutral gray.  The label's width must come from the
+                // TRANSLATED string, not the English literal, or the numbers land
+                // on top of it in any language whose word for "kills" is longer.
+                int tx = tally_x;
+                mvwprintz( win, point( tx, crow ), c_dark_gray, "%s", kills_label.c_str() );
+                tx += utf8_width( kills_label );
+                mvwprintz( win, point( tx, crow ), c_white, "%s", mk.c_str() );
+                tx += utf8_width( mk );
+                mvwprintz( win, point( tx, crow ), c_light_gray, "·" );
+                tx += 1;
+                mvwprintz( win, point( tx, crow ), c_light_green, "%s", pk.c_str() );
+            }
         }
 
         wnoutrefresh( win );
@@ -1054,13 +1713,16 @@ static std::chrono::steady_clock::time_point g_mp_last_go_time =
 static bool mp_turn_show_green()
 {
     const player_activity &pact = get_avatar().activity;
-    static const activity_id s_act_wait( "ACT_WAIT" );
-    static const activity_id s_act_wait_stamina( "ACT_WAIT_STAMINA" );
-    static const activity_id s_act_wait_weather( "ACT_WAIT_WEATHER" );
-    static const activity_id s_act_wait_npc( "ACT_WAIT_NPC" );
-    const bool in_wait_act = pact && (
-                                 pact.id() == s_act_wait || pact.id() == s_act_wait_stamina ||
-                                 pact.id() == s_act_wait_weather || pact.id() == s_act_wait_npc );
+    // Any activity owns the move budget — the player has no free turn until it
+    // finishes or is interrupted, so the indicator must stay red for all of
+    // them. This used to test only the four ACT_WAIT variants, which let every
+    // other activity through: moves are replenished at the top of the turn and
+    // the activity's do_turn() spends them a fraction of a second later, so the
+    // gap in between read as "you can act" and painted green. Confirmed on WAN
+    // 2026-07-30 — ACT_WORKOUT_LIGHT flashed green for 400-800ms per turn with
+    // grant_seq unchanged across the transition, i.e. purely this local
+    // replenish window, nothing to do with the grant/ack cycle.
+    const bool in_activity = static_cast<bool>( pact );
     // On the CLIENT, local moves>0 is NOT sufficient to act: the client must
     // also not be waiting on the host's grant/ack for the turn it already sent.
     // Without this, the bar paints green (we have stale local moves) while the
@@ -1069,16 +1731,30 @@ static bool mp_turn_show_green()
     // (moves>0 && !waiting_for_ack). On the host this term is false (host uses
     // g_host_waiting_for_client), so host behavior is unchanged.
     const bool client_blocked_on_ack = is_client_mode() && g_client_waiting_for_ack;
-    const bool go = get_avatar().get_moves() > 0 && !in_wait_act
+    const bool go = get_avatar().get_moves() > 0 && !in_activity
                     && !g_host_waiting_for_client && !client_blocked_on_ack;
     const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if( go ) {
         g_mp_last_go_time = now;
     }
-    const std::chrono::milliseconds::rep since_go_ms =
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - g_mp_last_go_time ).count();
-    return !in_wait_act && ( go || since_go_ms < 400 );
+    const auto since_go_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 now - g_mp_last_go_time ).count();
+    const bool shown = !in_activity && ( go || since_go_ms < 400 );
+
+    // Kept past the diagnosis above so the fix stays verifiable: a green
+    // transition logged with a non-none act= means the gate leaked again.
+    static bool s_last_shown = false;
+    if( shown != s_last_shown ) {
+        s_last_shown = shown;
+        const uint32_t gs = is_hosting() ? g_grant_seq : g_client_last_grant_seq;
+        mp_log( "[cdda-mp] TURN-GREEN: shown=" + std::to_string( shown ) +
+                " go=" + std::to_string( go ) +
+                " act=" + ( pact ? pact.id().str() : "none" ) +
+                " moves=" + std::to_string( get_avatar().get_moves() ) +
+                " grant_seq=" + std::to_string( gs ) +
+                " role=" + ( is_hosting() ? "host" : "client" ) );
+    }
+    return shown;
 }
 
 struct mp_edge_t {
@@ -1171,7 +1847,29 @@ void ensure_mp_hud()
         g_mp_hud = std::make_unique<mp_hud_t>();
         mp_log( "[cdda-mp] HUD: created mp_hud (fresh)" );
     }
+    g_mp_hud->maybe_resize();
     g_mp_hud->ui.invalidate_ui();
+
+    // The game's own main UI adaptor repositions w_terrain around the sidebar in
+    // its on_screen_resize (game.cpp: newwin at point(sidebar_left, 0)), but that
+    // only re-runs on a real terminal resize — NOT when the player flips
+    // SIDEBAR_POSITION or changes layout in the menu.  So after a side flip the
+    // terrain window keeps its old origin/width and a black band is left where the
+    // sidebar used to be (only a window resize fixes it).  We already poll sidebar
+    // geometry here every turn for our own panels, so feed the same change signal
+    // into the main UI resize — identical to what a terminal resize does — so the
+    // terrain window reflows too.  Fires only on an actual geometry change, so no
+    // per-turn churn and no reflow loop.
+    static int last_l = -1, last_r = -1, last_tx = -1, last_ty = -1;
+    panel_manager &pm = panel_manager::get_manager();
+    if( pm.get_width_left() != last_l || pm.get_width_right() != last_r
+        || TERMX != last_tx || TERMY != last_ty ) {
+        last_l = pm.get_width_left();
+        last_r = pm.get_width_right();
+        last_tx = TERMX;
+        last_ty = TERMY;
+        g->mark_main_ui_adaptor_resize();
+    }
 }
 
 static std::string json_escape_str( std::string_view s );   // defined below
@@ -1281,6 +1979,51 @@ void mp_open_chat()
     mp_chat_display( _( "You" ), text, host );   // local echo — own messages show as "You"
 }
 
+// Shared clipboard-copy body for the join address — used by both the manual
+// copy_join_address keybind (mp_copy_join_address(), guarded below) and the
+// hide-IP auto-copy at host-arm time (mp_menu_start_host_session()). The two
+// call sites need different feedback mechanisms: the keybind fires mid-game
+// with the message log on screen (add_msg), but the host-arm auto-copy fires
+// from the main menu before any world/avatar exists — add_msg has nothing to
+// render into there, so it needs a popup() instead, same as the port-picker
+// error a few lines below in mp_menu_start_host_session().
+static void mp_copy_join_address_now( bool notify_via_popup )
+{
+    const std::string line = mp_build_join_address_line();
+#if defined(TILES)
+    const bool ok = SetClipboardText( line );
+    const std::string msg = ok
+                            ? _( "Join IP address copied to clipboard." )
+                            : _( "Couldn't copy to clipboard." );
+#else
+    ( void )line;
+    const bool ok = false;
+    const std::string msg = _( "Clipboard copy isn't available in this build." );
+#endif
+    if( notify_via_popup ) {
+        popup( msg );
+    } else {
+        add_msg( ok ? m_info : m_warning, msg );
+    }
+}
+
+// Streaming-privacy hide-IP option: copy the join address to the clipboard
+// instead of ever drawing it on screen.  Works regardless of whether hide-IP
+// is currently on — a host may still prefer clipboard-to-DM over reading an
+// address off a redacted or unredacted HUD line either way.
+void mp_copy_join_address()
+{
+    if( !is_hosting() ) {
+        add_msg( m_info, _( "Only the host has a join address to share." ) );
+        return;
+    }
+    if( remote_player_connected ) {
+        add_msg( m_info, _( "Your partner is already connected." ) );
+        return;
+    }
+    mp_copy_join_address_now( false );
+}
+
 // Client: last confirmed position of the remote player (our avatar as seen by the server).
 // Used as the center of the monster sync region.
 static tripoint_abs_ms g_mp_remote_pos{ 0, 0, 0 };
@@ -1299,6 +2042,16 @@ static std::atomic<unsigned int> g_host_world_seed{ 0 };
 static std::string g_host_world_name;
 static std::mutex g_host_world_name_mtx;
 
+// Host: the world's active mod list (ordered), captured on the game thread for
+// the network thread's welcome. The client rebuilds its local co-op world with
+// this exact set + order: mods are data definitions (recipes, professions,
+// terrain types) that can't be streamed — only loaded. Without a match the
+// client silently diverges (vanilla character, missing recipes, void terrain
+// outside the streamed bubble — issue #18). Mutex-protected (set on the game
+// thread, read on the server io thread).
+static std::vector<std::string> g_host_active_mods;
+static std::mutex g_host_active_mods_mtx;
+
 // Client: world name received from host in 'welcome'.  Empty until the first
 // welcome is processed.  Exposed via mp_client_host_world_name().
 static std::string g_client_host_world_name;
@@ -1308,6 +2061,12 @@ static std::string g_client_host_world_name;
 // generated so the client's terrain matches the host's. 0 = not yet received.
 static unsigned int g_client_host_seed = 0;
 static bool g_client_host_seed_applied = false;
+
+// Client: the host's active mod list (ordered) received in 'welcome'. The client
+// builds its co-op scratch world with this exact set so its recipes, professions
+// and terrain definitions match the host's. Empty until a welcome is parsed (or
+// the host is an older build that advertises no mods).
+static std::vector<std::string> g_client_host_mods;
 
 // Client: the raw join 'welcome' stashed at connect time so start_game() can
 // adopt the host seed + spawn-omt BEFORE worldgen. The welcome's own arrival on
@@ -1370,6 +2129,49 @@ std::string mp_host_omt_welcome_field()
 unsigned int mp_host_world_seed()
 {
     return g_host_world_seed.load();
+}
+
+// Host: capture the active world's mod list (game thread) for the welcome. Order
+// is preserved — CDDA load order is significant. Called each host turn alongside
+// the world-name capture so it tracks a host that switches worlds mid-process.
+// Static: only grant_client_turn() (same TU) sets it, so it needn't touch the
+// mod_id type in the shared header.
+static void mp_set_host_active_mods( const std::vector<mod_id> &mods )
+{
+    std::lock_guard<std::mutex> lk( g_host_active_mods_mtx );
+    g_host_active_mods.clear();
+    g_host_active_mods.reserve( mods.size() );
+    for( const mod_id &m : mods ) {
+        g_host_active_mods.push_back( m.str() );
+    }
+}
+
+// Network-thread safe: returns ",\"mods\":[\"dda\",\"innawood\",...]" (ordered)
+// for the welcome, or "" if nothing captured yet. Mod ids are [a-z0-9_] by
+// convention, so no JSON escaping is needed.
+std::string mp_host_active_mods_field()
+{
+    std::lock_guard<std::mutex> lk( g_host_active_mods_mtx );
+    if( g_host_active_mods.empty() ) {
+        return std::string();
+    }
+    std::string out = ",\"mods\":[";
+    for( size_t i = 0; i < g_host_active_mods.size(); ++i ) {
+        if( i ) {
+            out += ",";
+        }
+        out += "\"" + g_host_active_mods[i] + "\"";
+    }
+    out += "]";
+    return out;
+}
+
+// Client: the host's active mod list received in 'welcome' (ordered). Empty on an
+// older host that advertises none. Static: only consumed by
+// mp_ensure_client_scratch_world() (same TU).
+static std::vector<std::string> mp_client_host_mods()
+{
+    return g_client_host_mods;
 }
 
 void mp_set_host_world_name( const std::string &name )
@@ -1471,6 +2273,18 @@ static void parse_welcome_fields( const std::string &msg, bool apply_seed_now )
                 mp_log( "[cdda-mp] welcome: host_omt=" + g_client_host_spawn_omt.to_string() );
             }
         }
+        // The host's active mod list — the client rebuilds its co-op world with
+        // this exact set + order so recipes/professions/terrain match (issue #18).
+        std::vector<std::string> mods;
+        if( jo.read( "mods", mods ) ) {
+            g_client_host_mods = mods;
+            std::string joined;
+            for( const std::string &m : mods ) {
+                joined += ( joined.empty() ? "" : "," ) + m;
+            }
+            mp_log( "[cdda-mp] welcome: host mods=[" + joined + "] (" +
+                    std::to_string( mods.size() ) + ")" );
+        }
     } catch( const JsonError & ) {}
     const std::string::size_type spos = msg.find( "\"seed\":" );
     if( spos != std::string::npos ) {
@@ -1522,6 +2336,43 @@ struct mp_tile_state {
     std::string partial_con_sig; // "construction:counter:ncomponents", empty = no build site
 };
 static std::unordered_map<tripoint_abs_ms, mp_tile_state> g_tile_baseline;
+// MP PERF 2026-08-15 — tiles already visited by an earlier build_tile_changes()
+// within the SAME broadcast. Reset by mp_reset_scan_dedup() at the top of the
+// scan sequence in serialize_remote_player_state(). See build_tile_changes().
+static std::unordered_set<tripoint_abs_ms> g_scan_visited_this_broadcast;
+// MP PERF 2026-08-15 — last "vehicles" block sent inside the state packet, used to
+// suppress byte-identical repeats. MUST be cleared on rejoin, or a reconnecting
+// client (which has no vehicles at all) would be told nothing changed and would
+// never receive them. See serialize_remote_player_state() and the REJOIN-RESYNC path.
+// MP PERF 2026-08-15 — fast-forward BATCHING.
+//
+// During held FF the host reached 118 turns/sec and began outrunning the client's
+// message loop: 6350 messages for 3063 turns (2/turn, ~236/sec). The client's
+// client_process_incoming() drains until the socket is empty, so it never exited
+// to redraw — CLI-DRAIN-END fired 20 times against 3070 grants, one drain swallowed
+// 3613 messages, and the UI froze for 15.6s mid-craft (the "stopped updating at
+// ~28%" report). Worse, while frozen and spending 100% of its budget on messages
+// the client still only processed ~75 grants/sec against the host's 118 — it was
+// falling behind even at full tilt, so simply bounding the drain would have traded
+// a visible freeze for silent drift.
+//
+// So cut the VOLUME: during FF emit one packet per FF_BATCH_TURNS turns carrying
+// that many turns' worth of AP, instead of one packet per turn.
+//
+// Bounded by the client's existing catch-up caps: mp_do_turn_process_turn() and
+// mp_do_turn_update_body() both cap at 100 turns, and the client is ALREADY built
+// for a jumping clock ("the host-driven calendar advances in JUMPS"). Keep the
+// batch well under that.
+static constexpr int FF_BATCH_TURNS = 10;
+// Turns represented by the packet currently being serialized. Set by
+// grant_client_turn() immediately before serialize_remote_player_state() and read
+// by the assembly; 1 means an ordinary single-turn grant.
+static int g_batch_turns_to_send = 1;
+static std::string g_last_state_vehicles_payload;
+static void mp_reset_vehicle_payload_cache()
+{
+    g_last_state_vehicles_payload.clear();
+}
 static mp_tile_state compute_tile_state( const tripoint_abs_ms &abs );
 // Partial-construction (in-progress build site) sync helpers — defined near
 // compute_tile_state, forward-declared here for the client_tile_changes applier.
@@ -1541,15 +2392,52 @@ static std::unordered_map<tripoint_abs_ms, std::string> g_client_trap_baseline;
 static std::unordered_map<tripoint_abs_ms, std::string> g_client_graffiti_baseline;
 static std::unordered_map<tripoint_abs_ms, std::string> g_client_field_baseline;
 static std::unordered_map<tripoint_abs_ms, std::string> g_client_partial_con_baseline;
-// Client→server vehicle cargo baseline.  Keyed by the absolute tile position
-// of the cargo vpart so the host can find the vehicle + part by tile lookup.
-// Mirrors the item baseline but for items stored inside vehicle cargo parts
-// (trunks, freezers, lockers, etc.).
-static std::unordered_map<tripoint_abs_ms, std::string> g_client_veh_cargo_baseline;
+// Client→server vehicle cargo baseline.  Keyed by the absolute tile position of
+// the cargo vpart.  Maps each item UID the client last synced with the host for
+// that part → that item's count() (charges for charge/ammo stacks, else 1).
+// build_client_veh_cargo_changes() diffs the live cart against this to send ONLY
+// what the client changed — items it dropped in (added), UIDs it picked up
+// (removed), AND stacks whose count changed while keeping their UID (a partial
+// pickup/deposit: emitted as remove-then-re-add so the host replaces the stack).
+// Tracking count (not just the UID set) is what closes the charge-stack dupe:
+// taking 10 of 20 arrows leaves the same UID with fewer charges, so a UID-set
+// diff saw no change and never told the host (host kept 20 → 10 duplicated).
+// Never a full snapshot: a snapshot from a client that trails the host would,
+// applied host-side as a replace, wipe items the host just dropped (GH#15), and
+// as a merge it duplicated them.
+//
+// KEYED BY VEHICLE IDENTITY (mp_net_id + part index), NOT by absolute position.
+// A position key is silently re-created EMPTY every time the cargo part moves —
+// and every part of a vehicle moves together, so one vehicle step orphans the
+// whole cart's baseline at once.  An empty baseline makes every item in the cart
+// miss the lookup below and get emitted as "brand-new item the client dropped
+// in", i.e. the client re-sends the ENTIRE cart as `added` and the host appends
+// a second copy of everything.  That is the 2026-07-28 vehicle item-dupe
+// (dayman-itemdupe log, build 4191c2b54f: host applied 6945 adds vs 1632
+// removes in one session, net +5313 phantom items; camera_pro alone x2761).
+// A vehicle-identity key survives both movement and any host/client position
+// drift for a parked vehicle.
+static std::unordered_map<uint64_t, std::map<int64_t, int>> g_client_veh_cargo_baseline;
+
+// Stable per-cargo-part baseline key: host-assigned vehicle net id in the high
+// 32 bits, part index in the low 32.  nid 0 (untagged / client-local vehicle)
+// never reaches here — see build_client_veh_cargo_changes().
+static uint64_t mp_cargo_baseline_key( uint32_t nid, size_t part_idx )
+{
+    return ( static_cast<uint64_t>( nid ) << 32 ) |
+           static_cast<uint32_t>( part_idx );
+}
 // Server→client vehicle cargo baseline.  Same keying as the client direction —
 // without this the client can't see items the host drops into trunks/seats/etc.,
 // and its stale snapshot would then overwrite the host on the next client drop.
 static std::unordered_map<tripoint_abs_ms, std::string> g_host_veh_cargo_baseline;
+// (Vehicle-cargo AND ground-tile UID-diff maps both removed: the 2026-07-11
+// UID-diff duplicated/retained items — item_uid regenerates on the add_item
+// copy so per-UID matching never converges, and it can't express a cross-owned
+// removal (host places, client takes).  Ground tiles reverted to i_clear+rebuild
+// 2026-07-19; vehicle cargo reverted to erase-all+rebuild 2026-07-20.  Both are
+// authoritative full replaces — the sender's list IS the truth — which round-trip
+// pickups/drops and item stacking that diffing could not.)
 // Client→server worn-list baseline.  When the worn signature changes (e.g.
 // drop_activity_actor peeled a worn garment off as part of a drop), we trigger
 // a client_resync_worn() so the host's proxy mirrors the new worn list.
@@ -1580,6 +2468,20 @@ static std::string json_escape_str( const std::string_view s )
 
 // Client: last known HP per net ID — used to synthesise combat hit/death messages.
 static std::unordered_map<uint32_t, int> g_last_monster_hp;
+
+// Client: HP value already reported to the host via client_monster_hits, per
+// net ID.  Distinct from g_last_monster_hp above (the host-broadcast resync
+// baseline) — this tracks what we've *told* the host, so a monster whose HP
+// stays below the broadcast baseline across several action messages (normal:
+// the client only resyncs from a host broadcast, not after every report)
+// doesn't get the same damage re-sent and re-applied on every subsequent
+// message. Reset in lockstep with g_last_monster_hp wherever that's set from
+// a host broadcast (the host's told-you-so value supersedes anything we
+// thought we'd already reported). Fixes a same-target concurrent-damage race
+// (2026-07-11): the host used to apply the client's report as an absolute
+// mon->set_hp(), which could clobber damage the host's own avatar dealt to
+// the same monster in the same window instead of the two adding up.
+static std::unordered_map<uint32_t, int> g_last_reported_monster_hp;
 
 // Client: last known HP per bodypart string ID — used to synthesise "you were hit" messages.
 static std::unordered_map<std::string, int> g_last_bodypart_hp;
@@ -1660,6 +2562,20 @@ static void mp_cleanup_stale_npcs()
     }
     mp_cleanup_done = true;
 
+    // DIAG (temporary, 2026-07-13): the is_active_proxy() guard added in
+    // 7b33f90bb2 isn't preventing every case of the orphan sweep destroying a
+    // still-connected partner's proxy (log-confirmed: no "spared active
+    // proxy" line before an ORPHAN-SWEEP removal, followed shortly by
+    // HOST-PROXY-NULL/DESTROYED for the SAME proxy). Log the actual flag/id
+    // state at sweep entry to tell apart "flag already false" (something
+    // resets it before this runs) from "flag true but id mismatched" (the
+    // proxy's tracked id drifted from its real one across the save/rejoin).
+    mp_log( "[cdda-mp] ORPHAN-SWEEP entry: client_host_npc_spawned=" +
+            std::to_string( client_host_npc_spawned ) + " client_host_npc_id=" +
+            std::to_string( client_host_npc_id.get_value() ) +
+            " remote_player_connected=" + std::to_string( remote_player_connected ) +
+            " remote_player_npc_id=" + std::to_string( remote_player_npc_id.get_value() ) );
+
     const cata_path path = mp_npc_cleanup_path();
     bool found_any = false;
     read_from_file_optional_json( path, [&]( const JsonValue & jv ) {
@@ -1724,9 +2640,34 @@ static void mp_cleanup_stale_npcs()
     // NPC is ever named after the currently-loaded player character.
     const std::string own_name = get_avatar().name;
 
+    // Never sweep the CURRENTLY active proxy. This function assumed it always
+    // runs before the current session spawns one ("the current session hasn't
+    // spawned any yet") — true on a genuine fresh launch, but mp_cleanup_done
+    // gets reset by mp_on_world_exit() on every quit-to-menu, including a
+    // rejoin of the SAME still-connected world. On that path this sweep can
+    // run again well after a live proxy already exists, indiscriminately
+    // matching it by the same mp_proxy tag / name a truly-dead one would have,
+    // and destroying the connected partner's visible NPC out from under them
+    // (log-confirmed: ORPHAN-SWEEP removed the live host-overlay proxy 92ms
+    // before HOST-PROXY-NULL reported it "gone; DESTROYED — no respawn path").
+    // NOTE: character_id()'s default/cleared sentinel is -1, which these
+    // proxies can legitimately carry as their REAL assigned id (see the
+    // "cleared/default sentinel" comment on get_partner_npc() above) — so
+    // this must guard on the liveness flag, not just compare against a
+    // possibly-still-default character_id().
+    auto is_active_proxy = [&]( const character_id & id ) {
+        return ( client_host_npc_spawned && id == client_host_npc_id ) ||
+               ( remote_player_connected && id == remote_player_npc_id );
+    };
+
     int orphans = 0;
     std::vector<character_id> orphan_ids;
     for( npc &candidate : g->all_npcs() ) {
+        if( is_active_proxy( candidate.getID() ) ) {
+            mp_log( "[cdda-mp] ORPHAN-SWEEP: spared active proxy id=" +
+                    std::to_string( candidate.getID().get_value() ) + " name=\"" + candidate.name + "\"" );
+            continue;
+        }
         if( candidate.maybe_get_value( "mp_proxy" )
             || candidate.name == "player2"
             || ( !own_name.empty() && candidate.name == own_name ) ) {
@@ -1754,8 +2695,9 @@ static void mp_cleanup_stale_npcs()
     int overmap_orphans = 0;
     std::vector<character_id> om_orphan_ids;
     for( const auto &ptr : overmap_buffer.get_npcs_near_player( 500 ) ) {
-        if( ptr && ( ptr->maybe_get_value( "mp_proxy" ) || ptr->name == "player2"
-                     || ( !own_name.empty() && ptr->name == own_name ) ) ) {
+        if( ptr && !is_active_proxy( ptr->getID() ) &&
+            ( ptr->maybe_get_value( "mp_proxy" ) || ptr->name == "player2"
+              || ( !own_name.empty() && ptr->name == own_name ) ) ) {
             om_orphan_ids.push_back( ptr->getID() );
         }
     }
@@ -1833,6 +2775,21 @@ static void mp_cull_local_npcs()
 void mp_on_world_exit()
 {
     mp_cleanup_done = false;
+    mp_reset_turn_catchup_state();
+    mp_reset_deferred_item_state();
+    mp_reset_intent_state();
+    // The host-overlay proxy is a WORLD-lifetime NPC, but these trackers are
+    // process-lifetime statics. On quit-to-menu the world (and the proxy NPC)
+    // unloads while client_host_npc_spawned stays true / client_host_npc_id
+    // keeps the old value. A rejoin in the SAME process then sees "spawned"
+    // but finds no critter, wedging update_client_host_npc() in its
+    // unrecoverable DESTROYED branch — the host renders invisible and the
+    // co-op HUD shows [?] / ---- forever (WAN-confirmed 2026-07-18: quit-to-
+    // menu then rejoin). Reset them so the next session's first state packet
+    // spawns a fresh proxy at the host's current position.
+    client_host_npc_spawned = false;
+    client_host_npc_id = character_id();
+    g_client_host_worn_sig.clear();
     // A world exit ends any co-op session.  Clear the host/client session mode so
     // the NEXT game started from the menu is treated as plain single-player.
     // set_client_mode(false) was previously only called on a *connect failure*, so
@@ -1845,6 +2802,10 @@ void mp_on_world_exit()
         mp_log( "[cdda-mp] WORLD-EXIT: clearing session mode (client=" +
                 std::to_string( is_client_mode() ) + " host=" +
                 std::to_string( is_host_mode() ) + ")" );
+        // Leaving the world is an intentional end — stop any auto-reconnect so a
+        // quit-to-menu doesn't trigger a pointless re-dial loop.
+        client_disable_reconnect();
+        mp_kill_tally_unsubscribe();   // stop counting; next host session resets
         set_client_mode( false );
         set_host_mode( false );
     }
@@ -2001,7 +2962,21 @@ static void spawn_remote_player( const std::string &name )
     remote_player_connected = true;
     g_remote_moves = rn ? rn->get_speed() : 100;  // grant first turn immediately
     g_client_acted_this_turn = false;
+    // MP DIAG (2026-07-29, rejoin resync scope): both resyncs below are bounded
+    // to the HOST'S CURRENT position — build_tile_changes(host_pos, 20) and
+    // build_map_sync_z's MAPSIZE bubble — neither replays changes to tiles the
+    // host has since walked away from. Logging the host's position here lets a
+    // repro compare it against the distance to whatever changed while the
+    // client was disconnected (e.g. a flag taken down, an item dropped).
+    {
+        const tripoint_abs_ms hp = u.pos_abs();
+        mp_log( "[cdda-mp] REJOIN-RESYNC: host_pos=" + std::to_string( hp.x() ) + "," +
+                std::to_string( hp.y() ) + "," + std::to_string( hp.z() ) );
+    }
     g_tile_baseline.clear();  // force full resync — client reloads from disk on connect
+    mp_reset_vehicle_payload_cache(); // else the "unchanged" suppression would starve
+    // a reconnecting client of vehicles entirely (it has none yet, but the host's
+    // last-sent cache still matches what it would send)
     mp_reset_overmap_sync();  // bulk-send the overmap region to the fresh client
     mp_reset_map_sync();      // re-stream submap terrain+furniture to the fresh client
     g_client_known_veh_nids.clear();  // re-snapshot every visible vehicle for the fresh client
@@ -2010,7 +2985,8 @@ static void spawn_remote_player( const std::string &name )
     g_server_mon_last_sent.clear();   // force full monster snapshot to the fresh client (delta cache)
     g_separation_tier = 0;
     g_separation_settled = false;
-    g_last_forwarded_msg_count = Messages::size();  // don't forward pre-connect history
+    g_last_forwarded_msg_count = Messages::appended_total();  // don't forward pre-connect history
+    g_last_client_msg_ms = mp_now_ms();  // arm the stall watchdog from connect, not 0
     mp_save_npc_ids();  // persist ID so next session can clean it up
 
     // Don't announce the join here — at spawn the only name we have is the
@@ -2034,7 +3010,9 @@ static void spawn_remote_player( const std::string &name )
     mp_templates_sync_on_join();
 }
 
-static void remove_remote_player()
+// announce=false suppresses the "other player has disconnected" message — used on
+// the reconnect re-admit path, where the player didn't leave, they came back.
+static void remove_remote_player( bool announce = true )
 {
     if( !remote_player_connected ) {
         return;
@@ -2044,6 +3022,16 @@ static void remove_remote_player()
 
     npc *remote = g->critter_by_id<npc>( remote_player_npc_id );
     if( remote ) {
+        // Purge the proxy from the avatar's seen-monster cache BEFORE deleting it.
+        // The partner is a follower, so it lives in mon_visible.unique_types[] as a
+        // green '@' in the compass widget. g->remove_npc() only erases the active_npc
+        // shared_ptr (destroying the npc) — it does NOT touch mon_visible, so the
+        // cached raw npc* dangles.  The host redraws its panels while blocked in
+        // wait_for_client_action(), and the compass then derefs the freed pointer
+        // -> use-after-free crash on disconnect (host hard-crash during a WAN blip,
+        // 2026-07-01).  SP does this exact purge in game::mon_info_update()'s dead-
+        // npc sweep (game.cpp:4104) — mirror it here.
+        get_avatar().get_mon_visible().remove_npc( remote );
         // Clean despawn — the partner quit/disconnected, they are NOT dead.
         // die() drops a corpse carrying all their gear (a pickup-able loot dupe).
         g->remove_npc( remote_player_npc_id );
@@ -2071,7 +3059,12 @@ static void remove_remote_player()
     // to 0 here caused a deadlock: client last_seq=N, server restarts at seq=1..N
     // which were all skipped as "old seq".
     mp_save_npc_ids();  // ID is now invalid — clears the cleanup file entry
-    add_msg( m_bad, _( "The other player has disconnected." ) );
+    if( announce ) {
+        add_msg( m_bad, _( "Your partner disconnected." ) );
+    }
+    // Whether announced or not, a removal means a following spawn is a comeback —
+    // so the join announcement says "reconnected" instead of "joined".
+    g_partner_pending_reconnect = true;
     std::cout << "[cdda-mp] Remote player removed from world." << std::endl;
 }
 
@@ -2239,7 +3232,7 @@ static void fix_you_verb( std::string &s )
 // messages that have no meaning on the client — they are skipped.
 static void flush_action_msgs( unsigned long long pre_msg, const std::string &npc_name )
 {
-    const unsigned long long cur = Messages::size();
+    const unsigned long long cur = Messages::appended_total();
     if( cur <= pre_msg ) {
         return;
     }
@@ -2265,6 +3258,7 @@ static void flush_action_msgs( unsigned long long pre_msg, const std::string &np
             text.find( "has nowhere to go" ) != std::string::npos ||
             text.find( "taps you on the shoulder" ) != std::string::npos ||
             text.rfind( "You tap ", 0 ) == 0 ||
+            text.rfind( "You pass ", 0 ) == 0 ||   // host-POV pass-item line; see host_capture_avatar_msgs
             text.find( "has connected and joined" ) != std::string::npos ) {
             continue;
         }
@@ -2309,7 +3303,7 @@ void host_capture_vehmove_msgs( unsigned long long pre_msg )
     if( !is_hosting() || !remote_player_connected ) {
         return;
     }
-    const unsigned long long cur = Messages::size();
+    const unsigned long long cur = Messages::appended_total();
     mp_log( "[veh-move] host_capture_vehmove_msgs: pre=" + std::to_string( pre_msg ) +
             " cur=" + std::to_string( cur ) +
             " delta=" + std::to_string( cur > pre_msg ? cur - pre_msg : 0 ) );
@@ -2397,19 +3391,111 @@ static void mp_addressee_to_you( std::string &s, const std::string &own_name )
     }
 }
 
+// Half-open [begin, end) ranges of Messages::appended_total() indices that must
+// never be relayed.  Ranges rather than a single floor so a scope suppresses
+// only what was emitted INSIDE it -- see the note in the header.  Drained by
+// the capture functions once they have passed the range.
+static std::vector<std::pair<unsigned long long, unsigned long long>> g_msg_suppress_ranges;
+
+static bool mp_msg_suppressed( unsigned long long idx )
+{
+    for( const auto &r : g_msg_suppress_ranges ) {
+        if( idx >= r.first && idx < r.second ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Drop ranges entirely below `idx`; the capture pass has moved past them.
+// Also hard-caps the list: a scope that somehow never gets drained (no partner
+// connected, say) must not grow it without bound.
+static void mp_msg_prune_suppressed( unsigned long long idx )
+{
+    g_msg_suppress_ranges.erase(
+        std::remove_if( g_msg_suppress_ranges.begin(), g_msg_suppress_ranges.end(),
+    [idx]( const std::pair<unsigned long long, unsigned long long> &r ) {
+        return r.second <= idx;
+    } ), g_msg_suppress_ranges.end() );
+    constexpr size_t MAX_RANGES = 64;
+    if( g_msg_suppress_ranges.size() > MAX_RANGES ) {
+        g_msg_suppress_ranges.erase( g_msg_suppress_ranges.begin(),
+                                     g_msg_suppress_ranges.end() - MAX_RANGES );
+    }
+}
+
+mp_local_msg_scope::mp_local_msg_scope()
+    : start( Messages::appended_total() )
+{
+}
+
+mp_local_msg_scope::~mp_local_msg_scope()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    const unsigned long long now = Messages::appended_total();
+    if( now > start ) {
+        mp_log( "[cdda-mp] MSG-SUPPRESS: [" + std::to_string( start ) + "," +
+                std::to_string( now ) + ") not relayed" );
+        g_msg_suppress_ranges.emplace_back( start, now );
+    }
+}
+
+void mp_hp_baseline_adjust( const std::string &bp_str, int delta )
+{
+    // The client just changed its own HP deliberately (blood magic cost, spell
+    // heal) and reported it to the host.  The host will apply it to the proxy
+    // and echo the new absolute value back.  Without moving our baseline the
+    // bodyparts applier compares that echo against the PRE-change value, sees a
+    // drop, and narrates our own spell cost as "You are hit for 10 damage!"
+    // (measured: BP-DELTA arm_l 87->77 matching HOST-HP-EVENT arm_l:87->77).
+    // Only shifts the narration baseline; it does not touch actual HP.
+    const auto it = g_last_bodypart_hp.find( bp_str );
+    if( it != g_last_bodypart_hp.end() ) {
+        it->second += delta;
+    }
+}
+
+std::string mp_activity_percent_suffix( int moves_total, int moves_left )
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return std::string();
+    }
+    if( moves_total <= 0 || moves_left < 0 || moves_left > moves_total ) {
+        return std::string();
+    }
+    const int64_t pct = ( ( static_cast<int64_t>( moves_total ) - moves_left ) * 100 ) /
+                        moves_total;
+    return " " + std::to_string( pct ) + "%";
+}
+
 void host_capture_avatar_msgs( unsigned long long pre_msg )
 {
     if( !is_hosting() || !remote_player_connected ) {
         return;
     }
-    const unsigned long long cur = Messages::size();
+    const unsigned long long cur = Messages::appended_total();
     if( cur <= pre_msg ) {
         return;
     }
     const std::string host_name = get_avatar().name;
     const auto new_msgs = Messages::recent_messages( static_cast<size_t>( cur - pre_msg ) );
+    // recent_messages(n) returns the last n, so the first corresponds to
+    // absolute index cur - n.  Used to drop anything below the relay floor.
+    unsigned long long msg_idx = cur - new_msgs.size();
     for( const auto &[time_str, text] : new_msgs ) {
         ( void )time_str;
+        if( mp_msg_suppressed( msg_idx++ ) ) {
+            continue;   // emitted inside an mp_local_msg_scope
+        }
+        // DIAG (2026-08-23): these gates match ENGLISH literals against text
+        // that add_msg has already TRANSLATED, so in a non-English UI the
+        // "You " gate rejects everything and the exclusions below never fire.
+        // Log every candidate and the decision until the relay is reworked to
+        // carry msgid + args instead of rendered text.  See ROADMAP.
+        mp_log( "[cdda-mp] host_capture_avatar_msgs: CANDIDATE text=\"" + text +
+                "\" you_gate=" + std::string( text.rfind( "You ", 0 ) == 0 ? "PASS" : "REJECT" ) );
         // Only forward messages that look like avatar combat ("You " prefix).
         // Inventory, UI, and ambient messages are excluded.
         if( text.rfind( "You ", 0 ) != 0 ) {
@@ -2422,6 +3508,14 @@ void host_capture_avatar_msgs( unsigned long long pre_msg )
             text.rfind( "You push ", 0 ) == 0 ) {
             continue;
         }
+        // High-five already has its own dedicated packet (mp_high_five() /
+        // mp_handle_high_five_recv()) that renders the correct attribution on
+        // each side; relaying the rendered text here double-displayed it (and
+        // produced "you high-fives you" once the name inside got substituted).
+        if( text.rfind( "You high-five ", 0 ) == 0 ) {
+            mp_log( "[cdda-mp] host_capture_avatar_msgs: EXCLUDED high-five text: \"" + text + "\"" );
+            continue;
+        }
         std::string out = text;
         // Convert first-person to third-person properly: subject substitution,
         // verb conjugation ("drop" → "drops"), AND possessive substitution
@@ -2430,8 +3524,11 @@ void host_capture_avatar_msgs( unsigned long long pre_msg )
         // — wrong subject.
         mp_rewrite_first_to_third( out, host_name );
         mp_addressee_to_you( out, host_name );   // partner's name → "you" (guarded)
+        mp_log( "[cdda-mp] host_capture_avatar_msgs: forwarding raw=\"" + text + "\" host_name=\"" +
+                host_name + "\" -> out=\"" + out + "\"" );
         g_host_action_msgs_pending.push_back( out );
     }
+    mp_msg_prune_suppressed( cur );
 }
 
 void host_broadcast_post_action()
@@ -2446,6 +3543,228 @@ void host_broadcast_post_action()
     mp_log( "[cdda-mp] HOST-ACK: post-action broadcast grant_seq="
             + std::to_string( g_grant_seq ) );
     srv->post_broadcast( serialize_remote_player_state() + "\n" );
+    g_last_idle_broadcast_ms = mp_now_ms();
+}
+
+// Call every do_turn iteration whether or not the host acted.  Flushes the
+// same broadcast as host_broadcast_post_action(), but only after
+// MP_IDLE_BROADCAST_MS has elapsed since the last one — so an idle host
+// (zero input) still periodically flushes queued state (e.g. a client's
+// veh_snapshot_req resend) instead of it stalling until the host does
+// something.  No-ops immediately (cheap) once a real action resets the timer.
+void host_broadcast_idle_tick()
+{
+    if( !is_hosting() || !remote_player_connected ) {
+        return;
+    }
+    const int64_t now_ms = mp_now_ms();
+    if( now_ms - g_last_idle_broadcast_ms < MP_IDLE_BROADCAST_MS ) {
+        return;
+    }
+    g_last_idle_broadcast_ms = now_ms;
+    server *srv = get_active_server();
+    if( !srv ) {
+        return;
+    }
+    mp_log( "[cdda-mp] HOST-IDLE-TICK: flush broadcast grant_seq="
+            + std::to_string( g_grant_seq ) );
+    srv->post_broadcast( serialize_remote_player_state() + "\n" );
+}
+
+// See mp_gamestate.h for the "why" — item_location-holding UI (pickup,
+// examine, advanced inventory) racing an incoming network message that
+// mutates the same map tile / vehicle cargo part.  Single-threaded, no
+// mutex needed: both process_mp_events() and client_process_incoming()
+// (the only writers) run synchronously on the main thread, and the guard's
+// scope always starts and ends there too.
+static int g_mp_ui_item_ref_depth = 0;
+
+// MP DIAGNOSTIC 2026-08-17 — see mp_inv_ui_probe in mp_gamestate.h. Tracks whether
+// an inventory selector is open so the item-apply sites can report mutating out
+// from under one. Deliberately does NOT defer anything yet — the point is to prove
+// the overlap happens before changing behavior.
+static int g_mp_inv_ui_depth = 0;
+mp_inv_ui_probe::mp_inv_ui_probe()
+{
+    ++g_mp_inv_ui_depth;
+    if( is_hosting() || is_client_mode() ) {
+        mp_log( "[cdda-mp] INV-UI-OPEN: depth=" + std::to_string( g_mp_inv_ui_depth ) +
+                " item_ref_guard_held=" + ( mp_ui_holds_item_refs() ? "1" : "0" ) );
+    }
+}
+mp_inv_ui_probe::~mp_inv_ui_probe()
+{
+    if( is_hosting() || is_client_mode() ) {
+        mp_log( "[cdda-mp] INV-UI-CLOSE: depth=" + std::to_string( g_mp_inv_ui_depth - 1 ) );
+    }
+    --g_mp_inv_ui_depth;
+}
+bool mp_inv_ui_open()
+{
+    return g_mp_inv_ui_depth > 0;
+}
+
+// Drop any item_location in global UI state whose target MP has just destroyed.
+//
+// item_locations stored in uistate outlive the menu that created them, and MP
+// replaces map-tile item stacks and proxy inventories wholesale on a ~10Hz sync.
+// Anything the UI cached is therefore unsound by construction across a sync — the
+// same shape of defect as the hand-picked item fingerprint: correctness resting on
+// two things staying in step with no mechanism keeping them there.
+//
+// Prunes only DEAD entries. get_item() returning nullptr is the safe validity test
+// (item_location handles a vanished target); dereferencing is what crashes, and
+// that is exactly what highlight_one_of() does with these.
+void mp_prune_dead_item_ui_refs()
+{
+    auto &sel = uistate.consume_uistate.consume_menu_selected_items;
+    if( sel.empty() ) {
+        return;
+    }
+    const size_t before = sel.size();
+    sel.erase( std::remove_if( sel.begin(), sel.end(),
+    []( const item_location & l ) {
+        return !l || l.get_item() == nullptr;
+    } ), sel.end() );
+    if( sel.size() != before ) {
+        mp_log( "[cdda-mp] UI-REF-PRUNE: dropped " + std::to_string( before - sel.size() ) +
+                " dead consume-menu item_location(s), " + std::to_string( sel.size() ) +
+                " left — MP replaced the items they pointed at" );
+    }
+}
+static std::vector<std::function<void()>> g_mp_deferred_item_applies;
+static bool g_mp_deferred_item_resync_pending = false;
+
+void mp_invalidate_deferred_item_batch()
+{
+    g_mp_deferred_item_applies.clear();
+    g_mp_deferred_item_resync_pending = false;
+}
+
+static void mp_reset_deferred_item_state()
+{
+    mp_invalidate_deferred_item_batch();
+    g_mp_host_waiting_for_item_resync_ack = false;
+    g_mp_force_full_item_scan = false;
+}
+
+mp_ui_item_ref_guard::mp_ui_item_ref_guard()
+{
+    ++g_mp_ui_item_ref_depth;
+}
+
+mp_ui_item_ref_guard::~mp_ui_item_ref_guard()
+{
+    --g_mp_ui_item_ref_depth;
+    mp_drain_deferred_item_applies_if_free();
+}
+
+// True while a SHORT activity is holding an item_location target.
+//
+// MP FIX 2026-08-17 — the "Item location/name to be consumed should not be null"
+// report. mp_ui_item_ref_guard only covers the seconds a MENU is open, but the
+// eating itself runs for several seconds AFTER the menu closes while
+// consume_activity_actor holds an item_location to the food. Tile applies run
+// freely in that window, m.i_clear(bub) destroys the ground stack the food lives
+// in, and finish() then finds its target gone: the meal silently fails, no
+// calories, food gone.
+//
+// Deliberately restricted to SHORT activities. The obvious version of this —
+// "any activity with non-empty targets" — is wrong and would be worse than the
+// bug: it would defer tile applies for the entire duration of a 40-minute craft,
+// growing the queue unboundedly while the partner's world changes never land.
+// Consume and first aid are seconds long, so the deferral is bounded and the
+// partner sees at most a moment's lag on ground items near an eating player.
+static bool mp_activity_holds_item_target()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return false;
+    }
+    const player_activity &act = get_avatar().activity;
+    if( !act ) {
+        return false;
+    }
+    // NOT gated on act.targets — that was wrong and silently disabled this for a
+    // build. These are ACTOR-based activities: consume_activity_actor keeps its
+    // item_location in its OWN member (consume_location), and assign_activity(
+    // consume_activity_actor( food ) ) never populates player_activity::targets.
+    // So targets is always empty here and the predicate always returned false.
+    // The id alone is sufficient — each of these holds an item reference by
+    // construction, which is the whole reason it is on this list.
+    static const std::set<std::string> short_item_acts = {
+        "ACT_CONSUME", "ACT_EAT", "ACT_DRINK", "ACT_FIRSTAID",
+    };
+    return short_item_acts.count( act.id().str() ) > 0;
+}
+
+bool mp_ui_holds_item_refs()
+{
+    const bool guard = g_mp_ui_item_ref_depth > 0;
+    const bool act = mp_activity_holds_item_target();
+    const bool held = guard || act;
+    // Log the EDGE, both directions. The previous version deduped on activity id,
+    // which hid the release — and the release is the half that was broken: 515
+    // applies deferred, ZERO drained, because this never went false.
+    static bool s_prev = false;
+    if( held != s_prev ) {
+        s_prev = held;
+        mp_log( std::string( "[cdda-mp] ITEM-REF-HOLD: " ) + ( held ? "ACQUIRED" : "RELEASED" ) +
+                " guard_depth=" + std::to_string( g_mp_ui_item_ref_depth ) +
+                " activity=" + ( get_avatar().activity ?
+                                 get_avatar().activity.id().str() : "(none)" ) +
+                " queued=" + std::to_string( g_mp_deferred_item_applies.size() ) );
+    }
+    return held;
+}
+
+// Runs any deferred item applies once nothing is holding item references.
+//
+// The guard destructor drains when its depth hits zero, but a SHORT-activity hold
+// (mp_activity_holds_item_target) ends when the ACTIVITY ends — no destructor
+// fires, so without this the queue would sit there forever and the partner's
+// ground-item changes would never land. Called once per turn from
+// process_mp_events(); cheap when the queue is empty, which is almost always.
+void mp_drain_deferred_item_applies_if_free()
+{
+    if( mp_ui_holds_item_refs() ) {
+        return;
+    }
+    if( g_mp_deferred_item_resync_pending ) {
+        g_mp_deferred_item_resync_pending = false;
+        g_mp_deferred_item_applies.clear();
+        // The host remains authoritative. Discard an incomplete delta batch
+        // and reconcile AFTER refs release, rather than replaying its prefix.
+        if( is_hosting() ) {
+            mp_send_authoritative_item_resync();
+        } else if( is_client_mode() ) {
+            client_send( R"({"type":"item_resync_request"})" );
+        }
+        return;
+    }
+    std::vector<std::function<void()>> pending;
+    pending.swap( g_mp_deferred_item_applies );
+    for( std::function<void()> &fn : pending ) {
+        fn();
+    }
+}
+
+void mp_defer_item_apply( std::function<void()> fn )
+{
+    constexpr size_t DEFER_CAP = 128;
+    if( g_mp_deferred_item_resync_pending ) {
+        return;
+    }
+    if( g_mp_deferred_item_applies.size() >= DEFER_CAP ) {
+        // No callback may mutate an item stack while a guard/activity owns
+        // references into it. Bound memory and request authoritative rollback
+        // once that hold releases; never trade memory safety for live sync.
+        g_mp_deferred_item_applies.clear();
+        g_mp_deferred_item_resync_pending = true;
+        mp_log( "[cdda-mp] DEFER-CAP: pending item updates discarded; "
+                "authoritative rollback required after refs release" );
+        return;
+    }
+    g_mp_deferred_item_applies.push_back( std::move( fn ) );
 }
 
 // Standard turn-ending broadcast for handlers in handle_remote_action.
@@ -2462,6 +3781,225 @@ void host_broadcast_post_action()
 // exposed the latent bug: subtracting less than the grant left moves > 0 and
 // the client interpreted the broadcast as a new grant instead of an ack-clear,
 // wedging lockstep.
+// ---------------------------------------------------------------------------
+// MP 2026-08-30 — HOST CRASH GUARD.  Wire item payloads can name an itype this
+// world does not define, and until now that KILLED THE HOST.
+//
+// Measured: a client loaded a character built in a Magiclysm world and joined a
+// host whose world was plain dda + no_npc_food + personal_portal_storms.  Its
+// worn_sync carried `rune_animist`; 1 ms after `worn_sync recv` the host logged
+//   ERROR item_factory.cpp:3080 Missing item definition: rune_animist
+// and aborted:  find_template -> realDebugmsg -> debug_error_prompt ->
+// ui_adaptor ctor -> SIGABRT.  Host dead mid-session, client fine.
+//
+// Two things made it fatal rather than cosmetic:
+//   1. The "Load existing character" client path is ungated (open since
+//      2026-07-19) — it loads the character from ITS OWN world, activating that
+//      world's mods, bypassing the host-mod matching that 407919d635 added for
+//      every other join path.  That entry predicted "phantom/dropped-item
+//      behavior"; the real consequence is a host crash.
+//   2. debugmsg hardening is ASYMMETRIC.  realDebugmsg early-returns for
+//      is_client_mode() (2026-06-17) but there is no host equivalent, so an
+//      unresolvable id off the wire is fatal to the host specifically.
+//
+// This guard is containment, not the fix — the root fix is the mod-subset check
+// on that load path.  But containment is worth having on its own: ANY future id
+// the host cannot resolve (version skew, a mod update, a third-party mod) takes
+// the same path, and the host must never die because of what a client sent it.
+// Per the architecture rules the host cannot trust client data.
+//
+// Scans the RAW message rather than the parsed JSON because the payload nests
+// (pockets contain items contain pockets) and every level writes "typeid".
+static std::set<std::string> mp_wire_missing_itypes( const std::string &msg )
+{
+    std::set<std::string> missing;
+    static const std::string key = "\"typeid\":\"";
+    size_t p = 0;
+    while( ( p = msg.find( key, p ) ) != std::string::npos ) {
+        p += key.size();
+        const size_t e = msg.find( '"', p );
+        if( e == std::string::npos ) {
+            break;
+        }
+        const std::string id = msg.substr( p, e - p );
+        p = e;
+        if( !id.empty() && !itype_id( id ).is_valid() ) {
+            missing.insert( id );
+        }
+    }
+    return missing;
+}
+
+// Tell the host player once per distinct id, not once per worn_sync — the sync
+// re-fires on every weight change and would otherwise spam.  Player-visible on
+// purpose: this is a screenshot-able explanation of why their partner looks
+// unarmed, which beats a silent skip.
+static void mp_report_missing_itypes( const std::set<std::string> &missing )
+{
+    static std::set<std::string> reported;
+    std::string fresh;
+    for( const std::string &id : missing ) {
+        if( reported.insert( id ).second ) {
+            fresh += ( fresh.empty() ? "" : ", " ) + id;
+        }
+    }
+    if( fresh.empty() ) {
+        return;   // every id here has already been reported; don't log an empty list
+    }
+    mp_log( "[cdda-mp] WIRE-ITEM-UNKNOWN: dropping partner items this world has no "
+            "definition for: " + fresh );
+    {
+        add_msg( m_bad,
+                 _( "Your partner is carrying items this world doesn't have (%s).  "
+                    "Their gear won't show correctly — their character was made with "
+                    "mods this world isn't running." ),
+                 fresh );
+    }
+}
+
+// MP 2026-08-30 (revised same day) — per-ITEM check, not per-packet.
+//
+// The first cut of this guard skipped the whole worn/inv/wielded block whenever
+// ANY id in the payload was unresolvable.  That was far too coarse: measured on
+// a live join, the partner arrived on the host with no clothes and no inventory
+// at all, because one `rune_animist` invalidated their entire kit.  The commit
+// message claimed the proxy would keep "stale gear" — which is wrong on a FIRST
+// join, where there is no previous state to keep, so it is simply empty.
+//
+// TextJsonObject::str() hands back the raw JSON for one item INCLUDING its
+// nested pockets, so each item can be screened on its own and only the genuinely
+// unrepresentable ones dropped.  A Magiclysm character now joins a vanilla host
+// wearing their clothes, minus the runes.
+static bool mp_wire_item_ok( const JsonObject &jo, std::set<std::string> &missing_acc )
+{
+    const std::set<std::string> missing = mp_wire_missing_itypes( jo.str() );
+    if( missing.empty() ) {
+        return true;
+    }
+    missing_acc.insert( missing.begin(), missing.end() );
+    return false;
+}
+
+// MP 2026-08-30 — see mp_world_mods_ok() in the header for why this exists.
+bool mp_world_mods_ok( const std::string &worldname, std::string &missing_out )
+{
+    missing_out.clear();
+    const std::vector<std::string> host_mods = mp_client_host_mods();
+    if( host_mods.empty() ) {
+        // Older host, or the welcome has not landed yet.  Permissive on purpose:
+        // refusing on absent information would block legitimate joins.
+        return true;
+    }
+    if( !world_generator ) {
+        return true;
+    }
+    WORLD *w = world_generator->get_world( worldname );
+    if( !w ) {
+        return true;
+    }
+    const std::set<std::string> host_set( host_mods.begin(), host_mods.end() );
+    for( const mod_id &m : w->active_mod_order ) {
+        if( host_set.count( m.str() ) == 0 ) {
+            missing_out += ( missing_out.empty() ? "" : ", " ) + m.str();
+        }
+    }
+    return missing_out.empty();
+}
+
+// Set by the worn_sync item screens when an id had to be dropped; cleared when a
+// packet comes through clean, so recovering (host enables the mod, client swaps
+// character) un-blocks trade without a reconnect.
+static bool g_partner_items_incomplete = false;
+
+bool mp_partner_items_incomplete()
+{
+    return g_partner_items_incomplete;
+}
+
+// ---------------------------------------------------------------------------
+// PEER MODAL INTERLOCK — see peer_modal_hold in mp_gamestate.h for why.
+static bool g_peer_modal_held = false;
+static int64_t g_peer_modal_since_ms = 0;
+static bool g_peer_modal_expiry_logged = false;
+static int g_local_modal_depth = 0;
+
+// A hold is released by the guard's destructor, so the only way one can be left
+// standing is the far side dying — which drops the connection and is already
+// handled by the remote_player_connected check at the top of every wait.  This
+// cap exists solely so a future UI path that somehow escapes the guard degrades
+// to today's behaviour instead of freezing the session.  60s is far longer than
+// any dialog a player actually reads, so it cannot fire on the case being fixed.
+static constexpr int64_t MP_PEER_MODAL_MAX_MS = 60000;
+
+bool mp_peer_modal_held()
+{
+    if( !g_peer_modal_held ) {
+        return false;
+    }
+    if( mp_now_ms() - g_peer_modal_since_ms > MP_PEER_MODAL_MAX_MS ) {
+        if( !g_peer_modal_expiry_logged ) {
+            g_peer_modal_expiry_logged = true;
+            mp_log( "[cdda-mp] PEER-MODAL: hold outlived " +
+                    std::to_string( MP_PEER_MODAL_MAX_MS ) +
+                    "ms — ignoring it; no release was ever received" );
+        }
+        return false;
+    }
+    return true;
+}
+
+// Host and client have different send paths; the message on the wire is the
+// same.  Both are posted to their io thread, so this is safe to call from the
+// main thread while it is blocked inside the modal loop.
+static void mp_send_local_modal_state( bool held )
+{
+    const std::string json = std::string( "{\"type\":\"peer_modal\",\"held\":" ) +
+                             ( held ? "1" : "0" ) + "}";
+    if( is_client_mode() ) {
+        client_send( json );
+    } else if( is_hosting() ) {
+        if( server *srv = get_active_server() ) {
+            srv->post_broadcast( json + "\n" );
+        }
+    }
+}
+
+static void mp_set_peer_modal_held( bool held )
+{
+    if( held == g_peer_modal_held ) {
+        return;
+    }
+    g_peer_modal_held = held;
+    g_peer_modal_since_ms = mp_now_ms();
+    g_peer_modal_expiry_logged = false;
+    mp_log( std::string( "[cdda-mp] PEER-MODAL: partner " ) +
+            ( held ? "entered" : "left" ) +
+            " a blocking modal — fast-forward " + ( held ? "held" : "resumed" ) );
+}
+
+peer_modal_hold::peer_modal_hold()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;   // main menu, SP, pre-join: nothing to tell anyone
+    }
+    counted = true;
+    if( ++g_local_modal_depth == 1 ) {
+        mp_send_local_modal_state( true );
+    }
+}
+
+peer_modal_hold::~peer_modal_hold()
+{
+    if( !counted ) {
+        return;
+    }
+    if( --g_local_modal_depth == 0 ) {
+        // Sent unconditionally on the closing edge, including when the session
+        // ended under us — mp_send_local_modal_state() no-ops off-session.
+        mp_send_local_modal_state( false );
+    }
+}
+
 static void srv_emit_ack( const char *action_name )
 {
     g_client_acted_this_turn = true;
@@ -2470,7 +4008,21 @@ static void srv_emit_ack( const char *action_name )
             + ") grant_seq=" + std::to_string( g_grant_seq ) );
     server *srv = get_active_server();
     if( srv ) {
-        srv->post_broadcast( serialize_remote_player_state() + "\n" );
+        // MP PERF 2026-08-15 — the "wait" ack is the ONLY caller here that mutates
+        // no world state (see the is_wait branch in handle_remote_action: it logs
+        // and acks, nothing else). It is also the overwhelming majority during a
+        // long activity — 942 of 945 acks in the measured craft session, the other
+        // 3 being "smash". Every other caller (pickup, drop, open/close, eat,
+        // control_vehicle, cruise, grab, …) has just changed the world and the
+        // client needs the resulting tile delta, so those keep the full scan.
+        //
+        // This is what made the host build 2.20 full state packets per game turn
+        // while only ONE of them was inside the TURN-PHASES `grant` bracket — the
+        // rest was hidden inside what the host recorded as `client_wait`, which is
+        // why ~170ms of that 230.9ms wait had no attribution. The client was never
+        // slow: it answers a grant in ~9ms.
+        const bool is_wait_ack = std::string( action_name ) == "wait";
+        srv->post_broadcast( serialize_remote_player_state( is_wait_ack ) + "\n" );
     }
     // The handler just mutated authoritative world state (positions, items,
     // doors, vehicle flags, etc.) but the host may be sitting in a blocking
@@ -2488,12 +4040,50 @@ static void mp_handle_shout_recv( const std::string &msg );
 // NOLINTNEXTLINE(readability-function-size)
 static void handle_remote_action( const std::string_view/*name*/, const std::string &msg )
 {
+    // Liveness: ANY message from the client (action, wait, or heartbeat) proves
+    // the link is alive — feeds the client-stall watchdog.  Stamp it before the
+    // guards so a heartbeat still counts even mid-respawn.
+    g_last_client_msg_ms = mp_now_ms();
+    // Heartbeat carries no body — it exists only to keep the link measurable.
+    if( msg.find( "\"type\":\"heartbeat\"" ) != std::string::npos ) {
+        return;
+    }
+
+    // Client entered/left a blocking modal — see peer_modal_hold.  Handled here,
+    // ahead of the connected/proxy guards, because it is pure link state: it must
+    // apply even mid-respawn, and a hold that failed to land would let the host
+    // burst through a dialog the client is still reading.
+    if( msg.find( "\"type\":\"peer_modal\"" ) != std::string::npos ) {
+        mp_set_peer_modal_held( msg.find( "\"held\":1" ) != std::string::npos );
+        return;
+    }
+
     if( !remote_player_connected ) {
         return;
     }
 
     npc *remote = g->critter_by_id<npc>( remote_player_npc_id );
     if( !remote ) {
+        return;
+    }
+
+    if( msg.find( R"("type":"item_resync_ack")" ) != std::string::npos ) {
+        try {
+            JsonObject ack = json_loader::from_string( msg ).get_object();
+            ack.allow_omitted_members();
+            if( ack.get_string( "epoch", "" ) == std::to_string( g_mp_item_resync_epoch ) ) {
+                g_mp_host_waiting_for_item_resync_ack = false;
+            }
+        } catch( const JsonError & ) {}
+        return;
+    }
+    if( msg.find( R"("type":"item_resync_request")" ) != std::string::npos ) {
+        mp_send_authoritative_item_resync();
+        return;
+    }
+    // TCP order puts pre-rollback actions before the acknowledgement. Ignore
+    // them so already-advanced client delta baselines cannot replay stale items.
+    if( g_mp_host_waiting_for_item_resync_ack ) {
         return;
     }
 
@@ -2545,7 +4135,34 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         return;
     }
 
-    if( msg.find( R"("type":"chat")" ) != std::string::npos ) {
+    // Client cast a summon spell.  Out-of-band with the other state packets:
+    // the summon is a side effect of a cast that is already being paid for by
+    // the client's own activity, so it must not consume a host turn or take
+    // part in the grant/ack cycle.  Body in mp_magic.cpp.
+    if( msg.find( "\"type\":\"client_summon\"" ) != std::string::npos ) {
+        mp_handle_client_summon( msg );
+        return;
+    }
+
+    // Deliberate client-side HP change (blood magic cost, spell heal).  Applied
+    // to the proxy HERE, which process_mp_events() drains before
+    // grant_client_turn() -- so the absolute HP the next state packet carries
+    // already includes it and the round-trip agrees with itself instead of
+    // reverting what the client just did.  Body in mp_magic.cpp.
+    if( msg.find( "\"type\":\"client_hp\"" ) != std::string::npos ) {
+        mp_handle_client_hp( msg );
+        return;
+    }
+
+    // Partner cast a support spell at us.  Symmetric packet -- both roles send
+    // and receive it.  Out-of-band: the caster already paid for it with their
+    // own turn.  Body in mp_magic.cpp.
+    if( msg.find( "\"type\":\"partner_spell\"" ) != std::string::npos ) {
+        mp_handle_partner_spell( msg );
+        return;
+    }
+
+    if( msg.find( "\"type\":\"chat\"" ) != std::string::npos ) {
         mp_handle_chat_msg( msg );
         return;
     }
@@ -2560,11 +4177,20 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         return;
     }
 
+    // Intent telegraph.  Deliberately handled up here with the other
+    // out-of-band packets, well before the generic action-name extraction
+    // below: it is a display hint, it is never acked, and it must not be able
+    // to fall into the turn-consuming path.
+    if( msg.find( "\"type\":\"intent\"" ) != std::string::npos ) {
+        mp_handle_intent_recv( msg );
+        return;
+    }
+
     map &m = get_map();
 
     // Snapshot message count before processing so we can forward ALL messages
     // generated during this action (hits, damage, kills, sounds) to the client.
-    const unsigned long long pre_action_msg = Messages::size();
+    const unsigned long long pre_action_msg = Messages::appended_total();
 
     // Give the NPC its current move budget before executing any action.
     // (monmove skips remote player NPCs, so we manage AP ourselves.)
@@ -2585,6 +4211,18 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
     if( jo.has_string( "client_activity" ) ) {
         g_partner_activity = jo.get_string( "client_activity" );
         mp_partner_activity_transition_check();
+        // Paired with the id: absent field leaves -1 = unknown, so a peer that
+        // predates client_activity_moves still fast-forwards as it used to.
+        g_partner_activity_moves = jo.get_int( "client_activity_moves", -1 );
+    }
+    if( jo.has_int( "client_pulp" ) ) {
+        g_partner_pulp_packed = jo.get_int( "client_pulp" );
+    }
+    if( jo.has_string( "client_activity_name" ) ) {
+        g_partner_activity_name = jo.get_string( "client_activity_name" );
+    }
+    if( jo.has_int( "client_activity_batch" ) ) {
+        g_partner_activity_batch = std::max( 1, jo.get_int( "client_activity_batch" ) );
     }
     if( jo.has_int( "client_activity_pct" ) ) {
         g_partner_activity_pct = jo.get_int( "client_activity_pct" );
@@ -2601,16 +4239,12 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
     if( jo.has_int( "client_hp_max" ) ) {
         g_partner_hp_max = jo.get_int( "client_hp_max" );
     }
-    // Ping: remember the client's stamp to echo back; adopt the client-measured
-    // RTT so the host panel shows the same latency the client computed.
-    if( jo.has_int( "client_ping" ) ) {
-        g_last_client_ping_stamp = jo.get_int( "client_ping" );
-    }
-    if( is_hosting() && jo.has_int( "client_rtt" ) ) {
-        g_partner_ping_ms = jo.get_int( "client_rtt" );
-    }
+    // (Ping now measured on the io thread via heartbeat — see mp_server.cpp.)
     if( jo.has_int( "client_calendar_turn" ) ) {
         g_partner_calendar_turn = jo.get_int( "client_calendar_turn" );
+    }
+    if( jo.has_bool( "client_waiting" ) ) {
+        g_partner_waiting = jo.get_bool( "client_waiting" );
     }
 
     // Explicit lifecycle markers for the client's passive activities.  These
@@ -2624,15 +4258,22 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         if( !id.empty() ) {
             g_partner_activity = id;
             mp_partner_activity_transition_check();
+            // Signal-only packet carries no duration; clear to unknown so the FF
+            // floor does not judge a NEW activity by the PREVIOUS one's remaining
+            // moves.  The next enriched action refreshes it with the real number.
+            g_partner_activity_moves = -1;
         }
         mp_log( "[cdda-mp] ACT-START RECV: id=" + id
-                + " g_partner_activity prev=" + prev + " now=" + g_partner_activity );
+                + " g_partner_activity prev=" + prev + " now=" + g_partner_activity
+                + " passive=" + std::to_string( is_passive_activity( id ) )
+                + " ff_eligible=" + std::to_string( is_fast_forwardable_activity( id ) ) );
         return;
     }
     if( msg.find( R"("action":"activity_end")" ) != std::string::npos ) {
         const std::string id = jo.get_string( "activity_id", "" );
         const std::string prev = g_partner_activity;
         g_partner_activity.clear();
+        g_partner_activity_moves = -1;
         mp_partner_activity_transition_check();
         mp_log( "[cdda-mp] ACT-END RECV: id=" + id
                 + " g_partner_activity prev=" + prev + " now=" + g_partner_activity );
@@ -2660,6 +4301,23 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         if( server *srv = get_active_server() ) {
             srv->post_broadcast( "{\"type\":\"save_done\"}\n" );
         }
+        return;
+    }
+
+    // Client is asking us to re-send a full snapshot for a vehicle it can't
+    // place (CLI-VEH-SKIP-UNKNOWN on its side).  The snapshot is normally only
+    // emitted once per nid per connection (see HOST-VEH-SNAPSHOT below); if
+    // that one packet is ever missed or superseded client-side before it's
+    // applied, the vehicle was invisible for the rest of the session with no
+    // recovery (2026-07-09 Discord report, Minerik: a parked SUV never
+    // appeared on the client at all).  Clearing the nid here just makes the
+    // host re-include the full snapshot on its next broadcast tick.
+    if( msg.find( "\"action\":\"veh_snapshot_req\"" ) != std::string::npos ) {
+        const auto nid = static_cast<uint32_t>( jo.get_int( "nid", 0 ) );
+        const bool was_known = g_client_known_veh_nids.erase( nid ) > 0;
+        mp_log( "[cdda-mp] HOST-VEH-SNAPSHOT-REQ RECV: nid=" + std::to_string( nid )
+                + " was_known=" + std::to_string( was_known )
+                + " — will re-snapshot next broadcast" );
         return;
     }
 
@@ -2699,7 +4357,23 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 // relayed "Niesha swaps places with Jeff" never converts Jeff→you.
                 g_partner_name_cached = cname;
                 if( was_placeholder ) {
-                    add_msg( m_good, _( "%s has connected and joined the game." ), cname );
+                    if( g_partner_pending_reconnect ) {
+                        add_msg( m_good, _( "%s reconnected." ), cname );
+                        g_partner_pending_reconnect = false;
+                        g_client_rejoin_pending = true;
+                    } else {
+                        add_msg( m_good, _( "%s has connected and joined the game." ), cname );
+                    }
+                    // Self-identifying log so who's-who is never ambiguous in a
+                    // dump: this machine is the HOST; state its own char + the
+                    // client's char + proxy id (which the KILL log keys on).
+                    mp_log( "[cdda-mp] IDENTITY: role=HOST self='" + get_avatar().name +
+                            "' (id=" + std::to_string( get_avatar().getID().get_value() ) +
+                            ") partner=CLIENT '" + cname + "' (proxy_id=" +
+                            std::to_string( remote_player_npc_id.get_value() ) + ")" );
+                    // One-shot: what does the proxy know about magic?  Expected
+                    // to be nothing — see ROADMAP B4.
+                    mp_log_proxy_magic_state();
                 }
             }
         }
@@ -2714,6 +4388,9 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         }
         if( cs.has_int( "per" ) ) {
             remote->set_per_base( cs.get_int( "per" ) );
+        }
+        if( cs.has_int( "cardio_acc" ) ) {
+            remote->set_cardio_acc( cs.get_int( "cardio_acc" ) );
         }
         if( cs.has_array( "skills" ) ) {
             for( const JsonValue &entry : cs.get_array( "skills" ) ) {
@@ -2772,19 +4449,35 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
     if( jo.has_array( "client_msgs" ) ) {
         for( const JsonValue &mv : jo.get_array( "client_msgs" ) ) {
             const std::string text = mv.get_string();
+            // DIAGNOSTIC 2026-08-26 — pairs with CRAFT-TOOL-SHORTFALL /
+            // client_capture_avatar_msgs's own "forwarding" line. If a message
+            // shows up on the host's screen and this line is ABSENT for it, the
+            // message did not arrive via this relay -- it was generated locally
+            // on the host's own side (see the hotplate-duplication report).
+            mp_log( "[cdda-mp] CLIENT-MSG-APPLIED: text=\"" + text + "\"" );
             add_msg( m_info, text );
         }
         // Loop-break: messages forwarded FROM the client must not be picked
         // up by the host's between-action forwarder (NPC-name substitution
         // path in serialize_remote_player_state) and sent back as msgs.
         // Otherwise we get an infinite ping-pong of the same notification.
-        g_last_forwarded_msg_count = Messages::size();
+        g_last_forwarded_msg_count = Messages::appended_total();
     }
 
     // Worn-item sync — client sends this once after joining (and after any
     // wear/take-off) so the remote NPC reflects the client's actual equipment.
     if( msg.find( R"("action":"worn_sync")" ) != std::string::npos ) {
-        mp_log( "[cdda-mp] worn_sync recv: " + msg.substr( 0, 120 ) );
+        mp_log( "[cdda-mp] worn_sync recv bytes=" + std::to_string( msg.size() ) );
+        // MP 2026-08-30 — see mp_wire_missing_itypes().  A single unresolvable
+        // itype in this payload used to abort the host inside item::deserialize.
+        // Skip only the ITEM blocks, not the whole packet: appearance/mutation/
+        // gender sync below is id-safe and still worth applying, so the partner
+        // keeps rendering as the right person with stale gear rather than
+        // desyncing entirely.
+        // Accumulates the ids actually dropped by the per-item screens below, so
+        // the player is told about real drops rather than about every unknown id
+        // that happened to appear anywhere in the packet.
+        std::set<std::string> dropped_ids;
         try {
             JsonValue jv = json_loader::from_string( msg );
             JsonObject jo = jv.get_object();
@@ -2794,13 +4487,26 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 remote->male = jo.get_bool( "male" );
             }
             if( jo.has_array( "worn" ) ) {
-                remote->clear_worn();
+                // Parse now; clear_worn()+wear_item() below destructively rebuilds
+                // remote->worn, which is exactly the mp_ui_item_ref_guard hazard
+                // (mp_gamestate.h) if the host has a UI open that holds
+                // item_locations into the proxy's worn/inv containers (e.g. AIM,
+                // or a nearby-NPC-aware pickup/examine menu) — defer the rebuild
+                // until that UI closes instead of mutating underneath it.
+                std::vector<item> worn_items;
                 for( const JsonValue &wv : jo.get_array( "worn" ) ) {
                     JsonObject wo = wv.get_object();
                     wo.allow_omitted_members();
                     // Full item deserialization — preserves pocket contents (items
                     // inside jacket, fanny pack, etc.) so trade menu and skill
                     // checks see the client's actual carried items.
+                    // MP 2026-08-30 — screen THIS item only.  An unresolvable
+                    // id anywhere in it (including its pockets) would abort the
+                    // host inside deserialize; dropping just this entry keeps the
+                    // rest of the outfit.
+                    if( !mp_wire_item_ok( wo, dropped_ids ) ) {
+                        continue;
+                    }
                     item worn_item;
                     try {
                         worn_item.deserialize( wo );
@@ -2818,28 +4524,47 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                                 + e.what() );
                     }
                     if( !worn_item.typeId().is_empty() && worn_item.typeId().is_valid() ) {
+                        worn_items.push_back( std::move( worn_item ) );
+                    }
+                }
+                auto do_worn_apply = [items = std::move( worn_items )]() mutable {
+                    npc *remote2 = g->critter_by_id<npc>( remote_player_npc_id );
+                    if( !remote2 )
+                    {
+                        return;
+                    }
+                    remote2->clear_worn();
+                    for( item &worn_item : items )
+                    {
                         // wear_item(who, item, interactive, do_calc_encumbrance, do_sort, quiet)
-                        auto result = remote->worn.wear_item( *remote, worn_item,
-                                                              false, false, true, true );
+                        auto result = remote2->worn.wear_item( *remote2, worn_item,
+                                                               false, false, true, true );
                         if( !result ) {
                             mp_log( "[cdda-mp] worn_sync: wear_item FAILED for "
                                     + worn_item.typeId().str() );
                         }
                     }
+                    std::vector<item *> applied_worn;
+                    remote2->worn.inv_dump( applied_worn );
+                    std::string worn_list;
+                    for( const item *wi : applied_worn )
+                    {
+                        worn_list += wi->typeId().str() + ' ';
+                    }
+                    mp_log( "[cdda-mp] worn_sync applied: [" + worn_list + "]" );
+                    // Log overlay IDs the NPC would generate (confirm tileset coverage).
+                    std::string ov_log;
+                    for( const auto &ov : remote2->get_overlay_ids() )
+                    {
+                        ov_log += ov.first + ' ';
+                    }
+                    mp_log( "[cdda-mp] worn_sync overlays: [" + ov_log + "]" );
+                };
+                if( mp_ui_holds_item_refs() ) {
+                    mp_defer_item_apply( std::move( do_worn_apply ) );
+                } else {
+                    do_worn_apply();
                 }
-                std::vector<item *> applied_worn;
-                remote->worn.inv_dump( applied_worn );
-                std::string worn_list;
-                for( const item *wi : applied_worn ) {
-                    worn_list += wi->typeId().str() + ' ';
-                }
-                mp_log( "[cdda-mp] worn_sync applied: [" + worn_list + "]" );
-                // Log overlay IDs the NPC would generate (confirm tileset coverage).
-                std::string ov_log;
-                for( const auto &ov : remote->get_overlay_ids() ) {
-                    ov_log += ov.first + ' ';
-                }
-                mp_log( "[cdda-mp] worn_sync overlays: [" + ov_log + "]" );
             }
             // Apply the client's wielded weapon to the remote NPC.
             // Prefer the full item serialization (carries ammo, mods, charges,
@@ -2847,10 +4572,18 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             std::string wielded_str;
             jo.read( "wielded", wielded_str );
             bool applied_full = false;
+            // MP 2026-08-30 — third deserialization site, gated for the same
+            // reason as worn/client_inv.  Falling through leaves applied_full
+            // false, so the "wielded" string fallback below still runs and it
+            // already validity-checks the id — the proxy ends up holding the base
+            // item if the host knows it, and empty-handed if it doesn't.
             if( jo.has_object( "wielded_obj" ) ) {
                 try {
                     JsonObject wo = jo.get_object( "wielded_obj" );
                     wo.allow_omitted_members();
+                    if( !mp_wire_item_ok( wo, dropped_ids ) ) {
+                        throw JsonError( "mp: wielded item type unknown to this world" );
+                    }
                     item tmp;
                     tmp.deserialize( wo );
                     remote->set_wielded_item( tmp );
@@ -2881,20 +4614,21 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     mp_log( "[cdda-mp] worn_sync: remove_weapon (client empty-handed)" );
                 }
             }
-            // Apply all mutations from the client's "appearance" array to the
-            // remote NPC proxy.  Full state sync: clear every mutation on the
-            // proxy first, then apply the client's list.  This covers chargen
-            // cosmetics AND physical mutations (Fangs, Sleek Fur, Spines, etc.)
-            // which the old per-type clearing missed.
+            // Apply the client's "appearance" mutations to the proxy as a DIFF.
+            //
+            // This used to clear every mutation and re-apply the whole list on
+            // each sync.  Measured 2026-08-25: 16 rebuilds in one short session
+            // client-side and 3 host-side, each one tearing down and rebuilding
+            // a set that had not changed.  Visible symptom was a stream of "All
+            // knowledge of Druid Rune leaves you." / "<name> learned Druid
+            // Rune!" pairs, because the DRUID class mutation carries
+            // spells_learned and every rebuild forgot then re-granted the
+            // spell.  The costlier part is invisible: any mutation carrying an
+            // enchantment was torn down and rebuilt every packet, invalidating
+            // the enchantment cache continuously.
             if( jo.has_array( "appearance" ) ) {
-                std::vector<trait_id> to_unset;
-                for( const trait_id &existing : remote->get_mutations() ) {
-                    to_unset.push_back( existing );
-                }
-                for( const trait_id &old : to_unset ) {
-                    remote->unset_mutation( old );
-                }
-                int applied = 0;
+                std::vector<std::pair<trait_id, const mutation_variant *>> want;
+                std::set<trait_id> want_ids;
                 for( const JsonValue &av : jo.get_array( "appearance" ) ) {
                     JsonObject ao = av.get_object();
                     ao.allow_omitted_members();
@@ -2908,15 +4642,38 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                         continue;
                     }
                     const std::string var_str = ao.get_string( "var", "" );
-                    const mutation_variant *var = var_str.empty()
-                                                  ? nullptr
-                                                  : tid.obj().variant( var_str );
-                    remote->set_mutation( tid, var );
-                    ++applied;
+                    want.emplace_back( tid, var_str.empty() ? nullptr : tid.obj().variant( var_str ) );
+                    want_ids.insert( tid );
                 }
-                mp_log( "[cdda-mp] worn_sync: appearance cleared "
-                        + std::to_string( to_unset.size() )
-                        + " applied " + std::to_string( applied ) );
+                int removed = 0;
+                int added = 0;
+                std::vector<trait_id> to_unset;
+                for( const trait_id &existing : remote->get_mutations() ) {
+                    if( !want_ids.count( existing ) ) {
+                        to_unset.push_back( existing );
+                    }
+                }
+                for( const trait_id &old : to_unset ) {
+                    remote->unset_mutation( old );
+                    ++removed;
+                }
+                for( const auto &[tid, var] : want ) {
+                    if( !remote->has_trait( tid ) ) {
+                        remote->set_mutation( tid, var );
+                        ++added;
+                    } else if( var != nullptr ) {
+                        // Already present: update the variant in place rather
+                        // than unset+set, which would re-fire the mutation's
+                        // side effects (spells_learned, enchantments) for a
+                        // purely cosmetic change.
+                        remote->set_mut_variant( tid, var );
+                    }
+                }
+                if( removed > 0 || added > 0 ) {
+                    mp_log( "[cdda-mp] worn_sync: appearance diff removed "
+                            + std::to_string( removed ) + " added " + std::to_string( added )
+                            + " (unchanged " + std::to_string( want.size() - added ) + ")" );
+                }
             }
             std::string ma_style_str;
             jo.read( "ma_style", ma_style_str );
@@ -2933,17 +4690,48 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             // available to host-side skill / activity checks.
             if( jo.has_array( "client_inv" ) ) {
                 try {
-                    remote->inv->clear();
+                    // Same defer-while-a-guarded-UI-is-open treatment as the worn
+                    // rebuild above — parse now, mutate remote->inv later if needed.
+                    std::vector<item> inv_items;
                     JsonArray inv_ja = jo.get_array( "client_inv" );
-                    remote->inv->json_load_items( inv_ja );
-                    mp_log( "[cdda-mp] worn_sync: inv rebuilt items=" +
-                            std::to_string( remote->inv->size() ) );
+                    inv_items.reserve( inv_ja.size() );
+                    for( JsonObject iobj : inv_ja ) {
+                        iobj.allow_omitted_members();
+                        if( !mp_wire_item_ok( iobj, dropped_ids ) ) {
+                            continue;   // see mp_wire_item_ok
+                        }
+                        item tmp;
+                        tmp.deserialize( iobj );
+                        inv_items.emplace_back( std::move( tmp ) );
+                    }
+                    auto do_inv_apply = [items = std::move( inv_items )]() mutable {
+                        npc *remote2 = g->critter_by_id<npc>( remote_player_npc_id );
+                        if( !remote2 )
+                        {
+                            return;
+                        }
+                        remote2->inv->clear();
+                        remote2->inv->add_items_bulk( std::move( items ), true, false );
+                        mp_log( "[cdda-mp] worn_sync: inv rebuilt items=" +
+                                std::to_string( remote2->inv->size() ) );
+                    };
+                    if( mp_ui_holds_item_refs() ) {
+                        mp_defer_item_apply( std::move( do_inv_apply ) );
+                    } else {
+                        do_inv_apply();
+                    }
                 } catch( const JsonError &e ) {
                     mp_log( std::string( "[cdda-mp] worn_sync: inv rebuild error: " ) + e.what() );
                 }
             }
         } catch( const JsonError &e ) {
             mp_log( std::string( "[cdda-mp] worn_sync parse error: " ) + e.what() );
+        }
+        // Report only what was ACTUALLY dropped, once per distinct id — worn_sync
+        // re-fires on every weight change, so per-packet reporting would spam.
+        g_partner_items_incomplete = !dropped_ids.empty();
+        if( !dropped_ids.empty() ) {
+            mp_report_missing_itypes( dropped_ids );
         }
         return;
     }
@@ -2973,11 +4761,27 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             jo.allow_omitted_members();
             if( jo.has_int( "client_stamina" ) ) {
                 remote->set_stamina( jo.get_int( "client_stamina" ) );
+                g_remote_stamina_synced_this_turn = true;
             }
         } catch( const JsonError & ) {}
     }
 
     // Sync client light level so the host lighting pass can inject it at the proxy NPC.
+    // MP 2026-08-30 — FF LEAD CONTROL: adopt the client's reported progress.
+    // Older clients omit "cseq"; the lead then reads 0 and the window never
+    // engages, so a version-skewed pair behaves exactly as it does today.
+    if( msg.find( "\"cseq\":" ) != std::string::npos ) {
+        try {
+            JsonValue jv = json_loader::from_string( msg );
+            JsonObject jo = jv.get_object();
+            jo.allow_omitted_members();
+            if( jo.has_int( "cseq" ) ) {
+                g_client_reported_seq = static_cast<uint32_t>( jo.get_int( "cseq" ) );
+            }
+        } catch( const JsonError & ) {
+            // Non-fatal: lead just stays stale for a packet.
+        }
+    }
     if( msg.find( "\"client_light\":" ) != std::string::npos ) {
         try {
             JsonValue jv = json_loader::from_string( msg );
@@ -3020,15 +4824,21 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             jo.allow_omitted_members();
             if( jo.has_array( "client_tile_changes" ) ) {
                 map &m = get_map();
+                int seen = 0;      // DIAG (2026-08-27): see TILE-APPLY-RESULT below.
+                int applied = 0;
+                int oob = 0;
                 for( const JsonValue &entry : jo.get_array( "client_tile_changes" ) ) {
                     JsonObject to = entry.get_object();
                     to.allow_omitted_members();
+                    ++seen;
                     const tripoint_abs_ms abs{
                         to.get_int( "x" ), to.get_int( "y" ), to.get_int( "z" )
                     };
                     if( !m.inbounds( abs ) ) {
+                        ++oob;
                         continue;
                     }
+                    ++applied;
                     const tripoint_bub_ms bub = m.get_bub( abs );
                     bool touched = false;
                     if( to.has_string( "ter" ) ) {
@@ -3059,11 +4869,21 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                         }
                     }
                     if( to.has_array( "items" ) ) {
-                        mp_log( "[cdda-mp] server apply client items @ " +
-                                std::to_string( abs.x() ) + "," +
-                                std::to_string( abs.y() ) + "," +
-                                std::to_string( abs.z() ) );
-                        m.i_clear( bub );
+                        // Ground-item apply = i_clear()+rebuild (REPLACE): the host
+                        // tile becomes exactly the client's reported set.  The
+                        // 2026-07-11 UID-diff (c8cd48032e) was a preventive
+                        // conversion that broke this path: item_uid regenerates on
+                        // add_item's internal copy, so the dedup could never match
+                        // (incoming_present=0, proven by ITEMDUP logs) → it only
+                        // ever ADDED → tiles ballooned to 5000+ items → client
+                        // main-thread stalls applying them → HOST-STALL disconnects
+                        // (issue #17/#18, the "duped by the hundreds" + "connection
+                        // unstable during busy activity").  Replace can't accumulate.
+                        // (The dangling-item_location risk the UID-diff guarded is no
+                        // longer rare — see mp_ui_item_ref_guard in mp_gamestate.h: if
+                        // the host's own pickup/examine/AIM UI is open on this exact
+                        // tile, the replace below is deferred until that UI closes.)
+                        std::vector<item> new_items;
                         for( const JsonValue &iv : to.get_array( "items" ) ) {
                             try {
                                 item new_item;
@@ -3071,9 +4891,22 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                                 io.allow_omitted_members();
                                 new_item.deserialize( io );
                                 if( !new_item.typeId().is_empty() && new_item.typeId().is_valid() ) {
-                                    m.add_item( bub, std::move( new_item ) );
+                                    new_items.push_back( std::move( new_item ) );
                                 }
                             } catch( const JsonError & ) {}
+                        }
+                        auto do_replace = [bub, items = std::move( new_items )]() mutable {
+                            map &m2 = get_map();
+                            m2.i_clear( bub );
+                            for( item &it : items )
+                            {
+                                m2.add_item( bub, std::move( it ) );
+                            }
+                        };
+                        if( mp_ui_holds_item_refs() ) {
+                            mp_defer_item_apply( std::move( do_replace ) );
+                        } else {
+                            do_replace();
                         }
                         touched = true;
                     }
@@ -3140,6 +4973,16 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                         g_tile_baseline[abs] = compute_tile_state( abs );
                     }
                 }
+                // DIAG (2026-08-27): B13 verification, host half.  The packet log
+                // above truncates before "client_tile_changes" ever appears, so
+                // arrival was previously unreadable from this side.  oob counts the
+                // entries dropped by the inbounds check — a silent `continue` that
+                // is the prime suspect for client-side ground changes that never
+                // land, since the reality bubble is centred on the HOST and a
+                // change made near a distant client can fall outside it.
+                mp_log( "[cdda-mp] TILE-APPLY-RESULT: seen=" + std::to_string( seen ) +
+                        " applied=" + std::to_string( applied ) +
+                        " out_of_bounds=" + std::to_string( oob ) );
             }
         } catch( const JsonError & ) {}
     }
@@ -3172,20 +5015,28 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                                 std::to_string( vp_abs.z() ) );
                         continue;
                     }
-                    vehicle &veh = cargo_vp->vehicle();
-                    vehicle_part &part = cargo_vp->part();
                     mp_log( "[cdda-mp] server apply veh cargo @ " +
                             std::to_string( vp_abs.x() ) + "," +
                             std::to_string( vp_abs.y() ) + "," +
                             std::to_string( vp_abs.z() ) );
-                    {
-                        vehicle_stack stack = veh.get_items( part );
-                        while( !stack.empty() ) {
-                            stack.erase( stack.begin() );
+
+                    // Apply the client's DELTA onto our authoritative cart: remove
+                    // (by uid) the items it picked up, then add the ones it dropped
+                    // in.  Items in neither list are the host's own and are left
+                    // untouched — a client snapshot must never wipe them (GH#15),
+                    // and a one-shot delta can't dupe on re-echo.  The removed uids
+                    // match because the client's cart mirrors ours with our uids
+                    // preserved (apply_vehicle_sync set_uid).
+                    std::vector<int64_t> removed_uids;
+                    if( co.has_array( "removed" ) ) {
+                        for( const JsonValue &rv : co.get_array( "removed" ) ) {
+                            removed_uids.push_back(
+                                std::strtoll( rv.get_string().c_str(), nullptr, 10 ) );
                         }
                     }
-                    if( co.has_array( "items" ) ) {
-                        for( const JsonValue &iv : co.get_array( "items" ) ) {
+                    std::vector<item> added_items;
+                    if( co.has_array( "added" ) ) {
+                        for( const JsonValue &iv : co.get_array( "added" ) ) {
                             try {
                                 item new_item;
                                 JsonObject io = iv.get_object();
@@ -3193,10 +5044,82 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                                 new_item.deserialize( io );
                                 if( !new_item.typeId().is_empty() &&
                                     new_item.typeId().is_valid() ) {
-                                    veh.add_item( m, part, new_item );
+                                    added_items.push_back( std::move( new_item ) );
                                 }
                             } catch( const JsonError & ) {}
                         }
+                    }
+                    // Re-resolve the cargo part at apply time rather than capturing
+                    // veh/part by reference — deferred applies (mp_ui_item_ref_guard)
+                    // can run one or more turns later, and the vehicle could have
+                    // moved in the interim.
+                    auto do_cargo_delta = [vp_bub, removed_uids,
+                            items = std::move( added_items )]() mutable {
+                        map &m2 = get_map();
+                        const std::optional<vpart_reference> vp2 = m2.veh_at( vp_bub ).cargo();
+                        if( !vp2 )
+                        {
+                            mp_log( "[cdda-mp] server veh cargo DELTA: cargo part gone by "
+                                    "apply time, dropped" );
+                            return;
+                        }
+                        vehicle &veh2 = vp2->vehicle();
+                        vehicle_part &part2 = vp2->part();
+                        std::string removed_log;
+                        for( int64_t ruid : removed_uids )
+                        {
+                            vehicle_stack stack = veh2.get_items( part2 );
+                            for( auto iter = stack.begin(); iter != stack.end(); ++iter ) {
+                                if( iter->uid().get_value() == ruid ) {
+                                    removed_log += iter->typeId().str() + ",";
+                                    stack.erase( iter );
+                                    break;
+                                }
+                            }
+                        }
+                        // AUTHORITY GATE (2026-07-28).  The comment above used to
+                        // assert "a one-shot delta can't dupe on re-echo" — the
+                        // dayman-itemdupe log disproved it: the client re-sent whole
+                        // carts as `added` and we appended a second copy every time
+                        // (6945 adds vs 1632 removes in one session).  We are the
+                        // authority, so validate instead of trusting: an item whose
+                        // UID we already hold in THIS cart is by definition a
+                        // re-echo of our own item (the client's cart mirrors our
+                        // UIDs via set_uid), never a new drop.  A genuine client
+                        // drop carries a UID we've never seen.
+                        //
+                        // Built AFTER the removals above so the charge-stack
+                        // remove-then-re-add path (same UID, changed count) still
+                        // lands — by then the old stack is gone from the cart.
+                        std::unordered_set<int64_t> present_uids;
+                        {
+                            vehicle_stack stack = veh2.get_items( part2 );
+                            for( const item &it : stack )
+                            {
+                                present_uids.insert( it.uid().get_value() );
+                            }
+                        }
+                        std::string added_log;
+                        std::string dupe_log;
+                        for( item &it : items )
+                        {
+                            const int64_t u = it.uid().get_value();
+                            if( u != 0 && present_uids.count( u ) ) {
+                                dupe_log += it.typeId().str() + ",";
+                                continue;
+                            }
+                            added_log += it.typeId().str() + ",";
+                            present_uids.insert( u );
+                            veh2.add_item( m2, part2, it );
+                        }
+                        mp_log( "[cdda-mp] server veh cargo DELTA (applied): added=" +
+                                added_log + " removed=" + removed_log +
+                                " dupe_rejected=" + dupe_log );
+                    };
+                    if( mp_ui_holds_item_refs() ) {
+                        mp_defer_item_apply( std::move( do_cargo_delta ) );
+                    } else {
+                        do_cargo_delta();
                     }
                 }
             }
@@ -3216,8 +5139,8 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     JsonObject ho = hv.get_object();
                     ho.allow_omitted_members();
                     const uint32_t nid = static_cast<uint32_t>( ho.get_int( "nid", 0 ) );
-                    const int new_hp   = ho.get_int( "hp", -1 );
-                    if( nid == 0 || new_hp < 0 ) {
+                    const int dealt    = ho.get_int( "dealt", -1 );
+                    if( nid == 0 || dealt <= 0 ) {
                         continue;
                     }
                     monster *mon = nullptr;
@@ -3233,19 +5156,33 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                         // so the host never applies it and keeps broadcasting the
                         // monster as alive.
                         mp_log( "[cdda-mp] HOST-HIT-MISS: nid=" + std::to_string( nid ) +
-                                " hp=" + std::to_string( new_hp ) +
+                                " dealt=" + std::to_string( dealt ) +
                                 ( mon ? " (host monster already dead)"
                                   : " (no host monster with this nid)" ) );
                         continue;
                     }
+                    // Subtract from the host's own CURRENT live HP, not an
+                    // absolute overwrite — so a same-target concurrent hit from
+                    // the host's own avatar (dealt via the normal SP combat
+                    // path in between broadcasts) adds up with this instead of
+                    // one side's write clobbering the other's (2026-07-11).
+                    const int new_hp = mon->get_hp() - dealt;
                     if( new_hp <= 0 ) {
-                        mon->die( &m, nullptr );
+                        // Credit the client's proxy NPC as the killer (not nullptr)
+                        // so the kill is ATTRIBUTED: character_kills_monster fires
+                        // with killer=proxy -> the co-op tally counts it as the
+                        // client's, and the host's kill-tracker/achievements record
+                        // the follower's kill (standard CDDA follower semantics).
+                        npc *proxy = remote_player_npc_id.is_valid()
+                                     ? g->critter_by_id<npc>( remote_player_npc_id )
+                                     : nullptr;
+                        mon->die( &m, proxy );
                         any_killed = true;
                     } else {
                         mon->set_hp( new_hp );
                     }
                     mp_log( "[cdda-mp] client hit: nid=" + std::to_string( nid )
-                            + " hp=" + std::to_string( new_hp ) );
+                            + " dealt=" + std::to_string( dealt ) + " new_hp=" + std::to_string( new_hp ) );
                 }
                 if( any_killed ) {
                     g->cleanup_dead();
@@ -3264,8 +5201,6 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         const tripoint_bub_ms proxy_pre = remote->pos_bub();
         mp_log( "[cdda-mp] SRV-SWAP-PRE: host=" + host_pre.to_string() +
                 " proxy=" + proxy_pre.to_string() );
-        mp_log( "[cdda-mp] DIAG swap-handler: remote.get_name()='" + remote->get_name() +
-                "' av='" + get_avatar().name + "'" );
         add_msg( _( "%s swaps places with you." ), remote->get_name() );
         g->swap_critters( host_av, *remote );
         mp_log( "[cdda-mp] SRV-SWAP-POST: host=" + host_av.pos_bub().to_string() +
@@ -3284,13 +5219,12 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         const tripoint_bub_ms proxy_pos = remote->pos_bub();
         mp_log( "[cdda-mp] SRV-PUSH-PRE: host=" + host_pos.to_string() +
                 " proxy=" + proxy_pos.to_string() );
-        const point d( ( host_pos.x() > proxy_pos.x() ) ? 1
-                       : ( host_pos.x() < proxy_pos.x() ) ? -1 : 0, ( host_pos.y() > proxy_pos.y() ) ? 1
-                       : ( host_pos.y() < proxy_pos.y() ) ? -1 : 0 );
-        const tripoint_bub_ms target = host_pos + tripoint_rel_ms( d.x, d.y, 0 );
-        mp_log( "[cdda-mp] DIAG push-handler: remote.get_name()='" + remote->get_name() +
-                "' av='" + get_avatar().name + "'" );
-        if( ( d.x != 0 || d.y != 0 ) && !m.impassable( target ) ) {
+        const int dx = ( host_pos.x() > proxy_pos.x() ) ? 1
+                       : ( host_pos.x() < proxy_pos.x() ) ? -1 : 0;
+        const int dy = ( host_pos.y() > proxy_pos.y() ) ? 1
+                       : ( host_pos.y() < proxy_pos.y() ) ? -1 : 0;
+        const tripoint_bub_ms target = host_pos + tripoint_rel_ms( dx, dy, 0 );
+        if( ( dx != 0 || dy != 0 ) && !m.impassable( target ) ) {
             host_av.setpos( m, target );
             add_msg( _( "%s pushes you out of the way." ), remote->get_name() );
         } else {
@@ -3342,26 +5276,36 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             JsonObject jo = jv.get_object();
             jo.allow_omitted_members();
             // Use NPC's server-side position — client coordinates may be out of sync.
-            map &here = get_map();
             const tripoint_bub_ms bub_pos = remote->pos_bub();
             if( jo.has_array( "items" ) ) {
+                std::vector<itype_id> tids;
                 for( const JsonValue &iv : jo.get_array( "items" ) ) {
                     JsonObject io = iv.get_object();
                     io.allow_omitted_members();
                     const itype_id tid( io.get_string( "t", "" ) );
-                    if( !tid.is_valid() ) {
-                        continue;
+                    if( tid.is_valid() ) {
+                        tids.push_back( tid );
                     }
-                    map_stack stack = here.i_at( bub_pos );
-                    for( item &it : stack ) {
-                        if( it.typeId() == tid ) {
-                            here.i_rem( bub_pos, &it );
-                            mp_log( "[cdda-mp] pickup: removed " + tid.str()
-                                    + " from " + std::to_string( bub_pos.x() ) + ","
-                                    + std::to_string( bub_pos.y() ) );
-                            break;
+                }
+                auto do_remove = [bub_pos, tids]() {
+                    map &here = get_map();
+                    for( const itype_id &tid : tids ) {
+                        map_stack stack = here.i_at( bub_pos );
+                        for( auto it = stack.begin(); it != stack.end(); ++it ) {
+                            if( it->typeId() == tid ) {
+                                here.i_rem( bub_pos, &*it );
+                                mp_log( "[cdda-mp] pickup: removed " + tid.str()
+                                        + " from " + std::to_string( bub_pos.x() ) + ","
+                                        + std::to_string( bub_pos.y() ) );
+                                break;
+                            }
                         }
                     }
+                };
+                if( mp_ui_holds_item_refs() ) {
+                    mp_defer_item_apply( do_remove );
+                } else {
+                    do_remove();
                 }
             }
         } catch( const JsonError &e ) {
@@ -3471,36 +5415,62 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 } else {
                     target_name = m.tername( bub );
                 }
-                auto bash_map = remote->smash_ability();
-                if( jo.has_int( "bash" ) ) {
-                    const int client_bash = jo.get_int( "bash" );
-                    const damage_type_id bash_type( "bash" );
-                    bash_map[bash_type] = client_bash;
+                // Corpse pulping isn't wired up for the co-op proxy yet (SP's
+                // avatar::smash checks this same i_at/can_revive and routes to
+                // pulp_activity_actor INSTEAD of bashing terrain — see ROADMAP.md
+                // "Co-op corpse pulping" for the real fix). Bypassing that check
+                // meant the tile's corpse was silently ignored and whatever
+                // terrain/furniture happened to be under it got bashed instead —
+                // reported 2026-07-02 as "can't pulp corpses with a partner, it
+                // just smashes the floor." Block it explicitly with a clear
+                // message instead of that confusing silent wrong-target bash.
+                bool has_pulpable_corpse = false;
+                for( const item &maybe_corpse : m.i_at( bub ) ) {
+                    if( maybe_corpse.can_revive() ) {
+                        has_pulpable_corpse = true;
+                        break;
+                    }
                 }
-                // destroy=false so normal bash strength checks apply.
-                const bash_params result = m.bash( bub, bash_map, false, false );
-                if( result.success ) {
-                    smash_result_str = "destroyed";
-                } else if( result.did_bash ) {
-                    smash_result_str = result.can_bash ? "hit" : "impossible";
+                if( has_pulpable_corpse ) {
+                    smash_result_str = "no_pulp";
+                    add_msg( m_info,
+                             _( "%s can't pulp corpses in co-op yet — not supported over the "
+                                "network.  The corpse is untouched." ), remote->get_name() );
+                } else {
+                    auto bash_map = remote->smash_ability();
+                    if( jo.has_int( "bash" ) ) {
+                        const int client_bash = jo.get_int( "bash" );
+                        const damage_type_id bash_type( "bash" );
+                        bash_map[bash_type] = client_bash;
+                    }
+                    // destroy=false so normal bash strength checks apply.
+                    const bash_params result = m.bash( bub, bash_map, false, false );
+                    if( result.success ) {
+                        smash_result_str = "destroyed";
+                    } else if( result.did_bash ) {
+                        smash_result_str = result.can_bash ? "hit" : "impossible";
+                    }
+                    // Generate a message so flush_action_msgs forwards it to the client.
+                    if( !target_name.empty() ) {
+                        if( smash_result_str == "destroyed" ) {
+                            //~ %1$s is the player smashing, %2$s is the monster name
+                            add_msg( m_good, _( "%1$s smashes the %2$s to pieces!" ),
+                                     remote->get_name(), target_name );
+                        } else if( smash_result_str == "hit" ) {
+                            //~ %1$s is the player smashing, %2$s is the monster name
+                            add_msg( _( "%1$s strikes the %2$s." ),
+                                     remote->get_name(), target_name );
+                        } else if( smash_result_str == "impossible" ) {
+                            //~ %1$s is the player smashing, %2$s is the monster name
+                            add_msg( m_info, _( "%1$s can't damage the %2$s." ),
+                                     remote->get_name(), target_name );
+                        }
+                    }
                 }
                 mp_log( "[cdda-mp] smash @ " +
                         std::to_string( abs_target.x() ) + "," +
                         std::to_string( abs_target.y() ) +
                         " result=" + smash_result_str );
-                // Generate a message so flush_action_msgs forwards it to the client.
-                if( !target_name.empty() ) {
-                    if( smash_result_str == "destroyed" ) {
-                        add_msg( m_good, _( "%s smashes the %s to pieces!" ),
-                                 remote->get_name(), target_name );
-                    } else if( smash_result_str == "hit" ) {
-                        add_msg( _( "%s strikes the %s." ),
-                                 remote->get_name(), target_name );
-                    } else if( smash_result_str == "impossible" ) {
-                        add_msg( m_info, _( "%s can't damage the %s." ),
-                                 remote->get_name(), target_name );
-                    }
-                }
             }
         } catch( const JsonError &e ) {
             std::cout << "[cdda-mp] smash parse error: " << e.what() << std::endl;
@@ -3627,7 +5597,8 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     remote->controlling_vehicle = true;
                     mp_log( "[cdda-mp] control_vehicle: proxy took/started+took control of " + veh.name );
                     // Host log: NPC-form. Client: direct push (correct grammar, first-person).
-                    add_msg( _( "%s takes control of the %s." ), remote->name, veh.name );
+                    //~ %1$s is the player, %2$s is the vehicle name
+                    add_msg( _( "%1$s takes control of the %2$s." ), remote->name, veh.name );
                     g_action_msgs_pending.push_back(
                         string_format( _( "You take control of the %s." ), veh.name ) );
                     if( engine_was_off ) {
@@ -3639,8 +5610,10 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     }
                 } else {
                     mp_log( "[cdda-mp] control_vehicle: engine failed to start" );
-                    add_msg( m_bad, _( "%s can't start the %s's engine." ), remote->name, veh.name );
+                    //~ %1$s is the player, %2$s is the vehicle name
+                    add_msg( m_bad, _( "%1$s can't start the %2$s's engine." ), remote->name, veh.name );
                     g_action_msgs_pending.push_back(
+                        //~ %s is the vehicle name
                         string_format( _( "You can't start the %s's engine." ), veh.name ) );
                 }
             } else {
@@ -3655,7 +5628,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         }
         // Don't use flush_action_msgs here — messages are pushed directly above
         // to avoid grammar issues from NPC-name→"You" substitution ("takes"→"take").
-        g_last_forwarded_msg_count = Messages::size();
+        g_last_forwarded_msg_count = Messages::appended_total();
         srv_emit_ack( "control_vehicle" );
         return;
     }
@@ -3769,7 +5742,9 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             if( veh.last_turn != 0_degrees &&
                 rng( 15, 60 ) * 100 < std::abs( veh.velocity ) ) {
                 veh.skidding = true;
-                add_msg( m_warning, _( "%s loses control of %s." ), remote->name, veh.name );
+                //~ %1$s is the player, %2$s is the vehicle name
+                add_msg( m_warning, _( "%1$s loses control of %2$s." ), remote->name, veh.name );
+                //~ %s is the vehicle name
                 g_action_msgs_pending.push_back( string_format( _( "You lose control of %s." ),
                                                  veh.name ) );
                 veh.turn( veh.last_turn > 0_degrees ? 60_degrees : -60_degrees );
@@ -3783,7 +5758,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 }
             }
         }
-        g_last_forwarded_msg_count = Messages::size();
+        g_last_forwarded_msg_count = Messages::appended_total();
         srv_emit_ack( "cruise" );
         return;
     }
@@ -3808,7 +5783,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         remote->controlling_vehicle = false;
         here.unboard_vehicle( bub );
         remote->in_vehicle = false;
-        g_last_forwarded_msg_count = Messages::size();
+        g_last_forwarded_msg_count = Messages::appended_total();
         srv_emit_ack( "stop_engine" );
         return;
     }
@@ -3829,7 +5804,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 g_action_msgs_pending.emplace_back( _( "You start the engine." ) );
             }
         }
-        g_last_forwarded_msg_count = Messages::size();
+        g_last_forwarded_msg_count = Messages::appended_total();
         srv_emit_ack( "toggle_engine" );
         return;
     }
@@ -3880,6 +5855,82 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         return;
     }
 
+    // Trigger the vehicle alarm — client selected "Trigger the alarm".
+    if( msg.find( "\"action\":\"trigger_alarm\"" ) != std::string::npos ) {
+        map &here = get_map();
+        const tripoint_bub_ms bub = remote->pos_bub();
+        if( const optional_vpart_position vp = here.veh_at( bub ) ) {
+            vehicle &veh = vp->vehicle();
+            veh.is_alarm_on = true;
+            add_msg( _( "%s triggers the alarm!" ), remote->name );
+            g_action_msgs_pending.push_back( _( "You trigger the alarm!" ) );
+        }
+        g_last_forwarded_msg_count = Messages::appended_total();
+        srv_emit_ack( "trigger_alarm" );
+        return;
+    }
+
+    // Smash the vehicle security system — client selected "Try to smash alarm".
+    // NOTE: vehicle::smash_security_system() reads get_player_character() for
+    // the mechanics-skill check internally (an existing SP-side limitation, not
+    // introduced here), so this currently rolls against the HOST's skill rather
+    // than the proxy's — same caveat as any other unparameterized SP helper.
+    if( msg.find( "\"action\":\"smash_alarm\"" ) != std::string::npos ) {
+        map &here = get_map();
+        const tripoint_bub_ms bub = remote->pos_bub();
+        if( const optional_vpart_position vp = here.veh_at( bub ) ) {
+            vehicle &veh = vp->vehicle();
+            veh.smash_security_system( here );
+        }
+        flush_action_msgs( pre_action_msg, remote->name );
+        srv_emit_ack( "smash_alarm" );
+        return;
+    }
+
+    // Hotwire finished — client's local ACT_HOTWIRE_CAR activity completed.
+    // Re-run the same skill check from hotwire_car_activity_actor::finish()
+    // (activity_actor.cpp) against the proxy NPC's synced mechanics skill and
+    // the host's authoritative vehicle, so the real is_locked/is_alarm_on state
+    // is set here rather than only on the client's local (non-authoritative)
+    // copy. Client's own local finish() also ran; any divergence is corrected
+    // by the next vehicle snapshot, same as vehicle_construct's approach.
+    if( msg.find( "\"action\":\"hotwire_done\"" ) != std::string::npos ) {
+        static const skill_id skill_mechanics_id( "mechanics" );
+        const int hx = jo.get_int( "x", 0 );
+        const int hy = jo.get_int( "y", 0 );
+        const int hz = jo.get_int( "z", 0 );
+        map &here = get_map();
+        const tripoint_abs_ms target_abs{ hx, hy, hz };
+        if( const optional_vpart_position vp = here.veh_at( here.get_bub( target_abs ) ) ) {
+            vehicle &veh = vp->vehicle();
+            const int skill = round( remote->get_average_skill_level( skill_mechanics_id ) );
+            if( skill > rng( 1, 6 ) ) {
+                add_msg( _( "%s finds the wire that starts the engine." ), remote->name );
+                g_action_msgs_pending.push_back( _( "You found the wire that starts the engine." ) );
+                veh.is_locked = false;
+            } else if( skill > rng( 0, 4 ) ) {
+                add_msg( _( "%s finds a wire that looks like the right one." ), remote->name );
+                g_action_msgs_pending.push_back( _( "You found a wire that looks like the right one." ) );
+                veh.is_alarm_on = veh.has_security_working( here );
+                veh.is_locked = false;
+            } else if( !veh.is_alarm_on ) {
+                g_action_msgs_pending.push_back(
+                    _( "The red wire always starts the engine, doesn't it?" ) );
+                veh.is_alarm_on = veh.has_security_working( here );
+            } else {
+                g_action_msgs_pending.push_back(
+                    _( "By process of elimination, you found the wire that starts the engine." ) );
+                veh.is_locked = false;
+            }
+        } else {
+            mp_log( "[cdda-mp] hotwire_done: no vehicle at target " + std::to_string( hx ) +
+                    "," + std::to_string( hy ) + "," + std::to_string( hz ) );
+        }
+        g_last_forwarded_msg_count = Messages::appended_total();
+        srv_emit_ack( "hotwire_done" );
+        return;
+    }
+
     // Client → host grab state sync.  Client runs its own SP grab() locally to
     // do the UI prompts, target validation, and add_msg calls; the resulting
     // grab_type + grab_point delta is forwarded here so the host's proxy NPC
@@ -3894,8 +5945,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             const int gt = jo.get_int( "grab_type", 0 );
             const tripoint delta( jo.get_int( "dx", 0 ), jo.get_int( "dy", 0 ),
                                   jo.get_int( "dz", 0 ) );
-            // MP-FIXME: npc::grab not available in CCB, grab sync stubbed
-            // remote->grab( static_cast<object_type>( gt ), tripoint_rel_ms( delta ) );
+            remote->grab( static_cast<object_type>( gt ), tripoint_rel_ms( delta ) );
             mp_log( "[cdda-mp] HOST-GRAB: proxy '" + remote->name + "' grab_type=" +
                     std::to_string( gt ) + " offset=(" + std::to_string( delta.x ) + "," +
                     std::to_string( delta.y ) + "," + std::to_string( delta.z ) + ")" );
@@ -3926,6 +5976,33 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                 std::to_string( remote->pos_bub().y() ) + ")" );
         flush_action_msgs( pre_action_msg, remote->name );
         srv_emit_ack( "toggle_haul" );
+        return;
+    }
+
+    // Client → host: direct the client's own proxy NPC to work a zone
+    // activity (e.g. "sort loot into zones").  Reuses talk_function::
+    // unmodified — the exact same call vanilla companion dialogue makes,
+    // since the proxy is a real npc.  Zones themselves stay host-authoritative
+    // and host-only-edited for now (no zone_sync yet — phase 0 of the
+    // loot-zones-in-coop design, ROADMAP 2026-07-25).  Text is queued directly
+    // via g_action_msgs_pending (not add_msg) so it never pollutes the host's
+    // own message log with narration about the client's character.
+    if( msg.find( "\"action\":\"zone_activity\"" ) != std::string::npos ) {
+        std::string activity_id;
+        if( jo.has_string( "activity" ) ) {
+            activity_id = jo.get_string( "activity" );
+        }
+        if( activity_id == "stop" ) {
+            talk_function::revert_activity( *remote );
+            g_action_msgs_pending.push_back( _( "You stop what you were doing." ) );
+        } else if( activity_id == "sort_loot" ) {
+            talk_function::sort_loot( *remote );
+            g_action_msgs_pending.push_back( _( "You start sorting loot into the zones." ) );
+        }
+        mp_log( "[cdda-mp] HOST-ZONE-ACTIVITY: proxy '" + remote->name + "' activity=" +
+                activity_id );
+        flush_action_msgs( pre_action_msg, remote->name );
+        srv_emit_ack( "zone_activity" );
         return;
     }
 
@@ -4002,7 +6079,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
     // must not lock the client — they get a "free":true response instead.
     bool acted = false;
 
-    // Move or attack, matching single-player bump-to-attack behaviour.
+    // Move or attack, matching single-player bump-to-attack behavior.
     // Check for a creature first — melee_attack applies regardless of tile passability.
     if( next != cur ) {
         const tripoint_abs_ms next_abs = m.get_abs( next );
@@ -4033,11 +6110,8 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
         // grabbed_*_move returns TRUE when the drag itself consumed the turn
         // and the player should NOT step (collision / shift / too heavy);
         // FALSE on a successful pull/push where the player should step.
-        // MP-FIXME: grab sync stubbed for CCB compatibility
-        // (npc::get_grab_type, game::grabbed_veh_move_helper, game::grabbed_furn_move not available)
         bool drag_handled_turn = false;
-#if 0
-        if( false /* remote->get_grab_type() != object_type::NONE && !target */ ) {
+        if( remote->get_grab_type() != object_type::NONE && !target ) {
             const tripoint_rel_ms drag_dp( offset.x, offset.y, offset.z );
             const tripoint_bub_ms proxy_pos = remote->pos_bub();
             const tripoint_bub_ms fpos = proxy_pos + remote->grab_point;
@@ -4058,6 +6132,13 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     std::to_string( drag_dp.y() ) + ")" +
                     " next_impassable_pre=" +
                     std::to_string( m.impassable( next ) ) );
+            // Generic helpers charge the acting proxy, not the host avatar.
+            // Keep the wire move budget in sync so the final set_moves does not
+            // erase the drag fee. Furniture activity time is paid once here.
+            if( remote->get_grab_type() == object_type::FURNITURE ||
+                remote->get_grab_type() == object_type::FURNITURE_ON_VEHICLE ) {
+                remote->mod_moves( -g->grabbed_furn_move_time( *remote, drag_dp ) );
+            }
             if( remote->get_grab_type() == object_type::VEHICLE ) {
                 drag_handled_turn =
                     g->grabbed_veh_move_helper( *remote, drag_dp, false );
@@ -4066,6 +6147,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             } else if( remote->get_grab_type() == object_type::FURNITURE_ON_VEHICLE ) {
                 drag_handled_turn = g->grabbed_furn_move( *remote, drag_dp );
             }
+            g_remote_moves = remote->get_moves();
             mp_log( "[cdda-mp] HOST-DRAG-POST: proxy '" + remote->name +
                     "' grab_type=" + std::to_string(
                         static_cast<int>( remote->get_grab_type() ) ) +
@@ -4075,7 +6157,6 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
                     " next_impassable_post=" +
                     std::to_string( m.impassable( next ) ) );
         }
-#endif
         if( target ) {
             // melee_attack() charges moves on the NPC internally; capture the result.
             remote->melee_attack( *target, true );
@@ -4091,7 +6172,19 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             const bool diag = ( std::abs( offset.x ) + std::abs( offset.y ) ) == 2;
             const int prev_moves = g_remote_moves;
             g_remote_moves -= remote->run_cost( mcost, diag );
-            remote->burn_move_stamina( prev_moves - g_remote_moves );
+            // GH #19 (host-vs-client move cadence): the client_stamina block
+            // earlier in this same handler already set remote's stamina to the
+            // client's own authoritative post-move value (client burns its own
+            // stamina locally before dispatching, every dispatch carries
+            // client_stamina). Burning again here double-charges the proxy —
+            // it compounds every move since the NEXT move's cost is computed
+            // from the artificially-depleted stamina. Only burn independently
+            // when this message has no client_stamina to trust (shouldn't
+            // happen for a client-originated move/drag, but stay correct for
+            // any other caller of this branch).
+            if( msg.find( "\"client_stamina\":" ) == std::string::npos ) {
+                remote->burn_move_stamina( prev_moves - g_remote_moves );
+            }
             acted = true;
             mp_log( "[cdda-mp] HOST-DRAG-NO-STEP: proxy held in place, "
                     "AP charged " + std::to_string( prev_moves - g_remote_moves ) );
@@ -4141,8 +6234,7 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             const bool haul_act_running = remote->activity &&
                                           remote->activity.id() == s_act_move_items;
             if( remote->is_hauling() && !haul_act_running ) {
-                /* MP-FIXME: g->start_hauling stubbed for CCB */
-                // g->start_hauling( *remote, cur );
+                g->start_hauling( *remote, cur );
                 mp_log( "[cdda-mp] HOST-HAUL-START: proxy '" + remote->name +
                         "' from pos=(" + std::to_string( cur.x() ) + "," +
                         std::to_string( cur.y() ) + ")" );
@@ -4159,8 +6251,61 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
             const int prev_moves = g_remote_moves;
             const int ap_cost = remote->run_cost( mcost, diag );
             g_remote_moves -= ap_cost;
+            // TEMP diag (GH #19, host-vs-client move cadence): mirrors the
+            // client's own CLI-MOVE-COST log (handle_action.cpp) for the same
+            // move, so the two can be diffed directly — same mcost/ap_cost here
+            // as the client computed locally would mean the SRV-ACK debt-carry
+            // cap is the whole story; a mismatch (esp. terrain id) would point
+            // at client-local-mapgen divergence (GH #10/#11) feeding a
+            // different, more expensive terrain into the host's authoritative
+            // combined_movecost than what the client saw on its own map.
+            mp_log( "[cdda-mp] SRV-MOVE-COST dir_offset=(" + std::to_string( offset.x ) + "," +
+                    std::to_string( offset.y ) + ") diag=" + std::to_string( diag ) +
+                    " mcost=" + std::to_string( mcost ) +
+                    " ap_cost=" + std::to_string( ap_cost ) +
+                    " remote_moves=" + std::to_string( prev_moves ) + "->" +
+                    std::to_string( g_remote_moves ) +
+                    " move_mode=" + remote->move_mode.str() +
+                    " stamina=" + std::to_string( remote->get_stamina() ) +
+                    " stamina_max=" + std::to_string( remote->get_stamina_max() ) +
+                    " can_run=" + std::to_string( remote->can_run() ) +
+                    " ter=" + m.ter( next ).id().str() );
+            // TEMP diag (GH #19, continued): the individual limb-score modifiers came
+            // back IDENTICAL between this proxy and the real client in the last test
+            // (and pain isn't referenced anywhere in run_cost_effects at all), so the
+            // ~20-point gap must be in one of the OTHER terms (No Shoes, enchantments,
+            // stamina/move-mode multipliers, Downed, etc.). Call the exact same
+            // function run_cost() used above and log every named effect it applied,
+            // to diff directly against the client's CLI-MOVE-COST-EFFECTS line.
+            {
+                float diag_movecost = static_cast<float>( mcost );
+                if( diag ) {
+                    diag_movecost /= M_SQRT2;
+                }
+                const std::vector<run_cost_effect> effects =
+                    remote->run_cost_effects( diag_movecost );
+                std::string eff_log;
+                for( const run_cost_effect &e : effects ) {
+                    eff_log += e.description + "(x" + std::to_string( e.times ) +
+                               "+" + std::to_string( e.plus ) + ") ";
+                }
+                mp_log( "[cdda-mp] SRV-MOVE-COST-EFFECTS final=" +
+                        std::to_string( diag_movecost ) + " [" + eff_log + "]" );
+            }
             // burn_move_stamina with the actual AP consumed, mirroring game.cpp:7776.
-            remote->burn_move_stamina( prev_moves - g_remote_moves );
+            // GH #19 (host-vs-client move cadence, log-confirmed 2026-07-26): the
+            // client_stamina block earlier in this same handler already set
+            // remote's stamina to the client's own authoritative post-move value
+            // (the client burns its own stamina locally before dispatching, and
+            // every dispatch carries client_stamina). Burning again here
+            // double-charges the proxy every single move — the run_cost_effects
+            // breakdown showed the entire host-vs-client ap_cost gap (e.g. 103 vs
+            // 123) traced to the "Stamina" multiplier alone, and it compounds
+            // because each move's cost depends on the (increasingly wrong)
+            // stamina left over from the double-charge on the move before it.
+            if( msg.find( "\"client_stamina\":" ) == std::string::npos ) {
+                remote->burn_move_stamina( prev_moves - g_remote_moves );
+            }
             // Auto-transition to walk when stamina runs out (mirrors game.cpp:8970).
             static const move_mode_id walk_id( "walk" );
             if( !remote->can_run() ) {
@@ -4685,6 +6830,9 @@ void grant_client_turn()
     mp_capture_host_omt( get_avatar().pos_abs_omt() );
     if( world_generator && world_generator->active_world ) {
         mp_set_host_world_name( world_generator->active_world->world_name );
+        // Advertise the host's mod set so a joining client loads identical data
+        // (recipes/professions/terrain can't be streamed, only loaded — #18).
+        mp_set_host_active_mods( world_generator->active_world->active_mod_order );
     }
     // Cache the host's character name for the join 'welcome' so the client's
     // join dialog can show whose game it is. Runs before the connected-check so
@@ -4693,7 +6841,15 @@ void grant_client_turn()
     if( !remote_player_connected ) {
         return;
     }
+    // MP DIAG 2026-08-30 — HOSTACT probe (host activity edge vs. sample rate).
+    mp_host_activity_tick();
+    // MP DIAGNOSTIC 2026-08-14 — bracket starts BEFORE critter_by_id. Placing it
+    // after was the third repeat of one error: naming a suspect, then instrumenting
+    // past it. Everything above the connected-check also runs solo-host (2ms turns),
+    // so this is the true start of the client-only work.
+    const auto grant_body_t0 = std::chrono::steady_clock::now();
     npc *remote = g->critter_by_id<npc>( remote_player_npc_id );
+    const auto grant_t_lookup = std::chrono::steady_clock::now();
     if( !remote ) {
         // If we previously had a live proxy and it's now gone, treat it as a
         // death (monsters on the host's side killed the NPC representing the
@@ -4722,6 +6878,47 @@ void grant_client_turn()
     // host's monmove() solo so the world keeps moving while the client pays off the
     // expensive move (SP-faithful: a costly step burns several turns).
     g_remote_moves += remote->get_speed();
+    // MP FIX 2026-08-15 — clamp the POSITIVE balance to a single turn's speed.
+    //
+    // Measured (CRAFT-HOST / CRAFT-CLIENT, same character, same recipe, 0%-loss
+    // link, identical 274-turn range): the host spent 27400 AP (100.0/turn) and
+    // the client spent 43200 AP (157.7/turn) — while per_ap was 32 on BOTH sides
+    // and the client ticked exactly once per calendar turn (274 ticks / 274
+    // distinct turns). Same progress per AP, same tick count, 1.58x the AP. The
+    // client crafted 1.58x faster purely because it was funded more.
+    //
+    // Cause: this accumulator adds a full turn's speed every host turn, and there
+    // is one grant per calendar turn (2403 grants / 2403 distinct turns), but the
+    // client drains the WHOLE balance in a single tick. Whenever an ack lags N
+    // turns the balance reaches N*speed and the client spends all of it inside one
+    // calendar turn — the clock advanced 1 turn, the character got N turns of AP.
+    // Observed climbing to 3800 before an ack landed and zeroed it. Every lag
+    // event permanently injects free AP, so the client outruns the host forever.
+    //
+    // This is why the 5GHz link fix (loss 35-50% -> 0%) shrank the gap from ~9x to
+    // 1.58x without closing it: the network sets the SIZE of each accumulation, not
+    // whether it happens. Acks always lag sometimes.
+    //
+    // Only the positive side is clamped. The NEGATIVE side is deliberate and stays
+    // untouched: an action costing more than one turn's speed drives the balance
+    // negative (see the `g_remote_moves = std::min( 0, g_remote_moves )` after the
+    // move handlers), and the following turns pay that debt off with no grant
+    // issued — SP-faithful, a costly step burns several turns. Expensive actions
+    // are funded by going into debt AFTER the fact, never by pre-accumulating, so
+    // capping the positive balance cannot make an expensive action unaffordable.
+    // MP 2026-08-15 — the invariant this clamp actually enforces is "AP per CALENDAR
+    // TURN <= speed", and it enforced that per-GRANT because until now there was
+    // exactly one grant per calendar turn. FF batching breaks that 1:1 assumption:
+    // one batched grant legitimately covers FF_BATCH_TURNS turns and must carry that
+    // many turns of AP, which the per-grant cap would clamp to a single turn's worth
+    // and silently starve the client's craft. So cap against the turns the next
+    // packet will actually represent. Outside FF that is 1 and the behavior is
+    // identical to before.
+    const bool ff_now_for_cap = should_fast_forward();
+    const int ap_cap = remote->get_speed() * ( ff_now_for_cap ? FF_BATCH_TURNS : 1 );
+    if( g_remote_moves > ap_cap ) {
+        g_remote_moves = ap_cap;
+    }
     g_granted_this_turn = ( g_remote_moves > 0 );
     if( g_granted_this_turn ) {
         ++g_grant_seq;
@@ -4736,9 +6933,20 @@ void grant_client_turn()
             " turn=" + std::to_string( to_turn<int>( calendar::turn ) ) +
             " host_act=" + ( ha ? ha.id().str() : "none" ) );
     // Proxy skips npcmove so never auto-regenerates stamina. Replicate the
-    // update_body() path that the real avatar gets each game turn.
-    remote->update_stamina( 1 );
+    // update_body() path that the real avatar gets each game turn — but only
+    // when a client_stamina sync hasn't ALREADY set the proxy's stamina to the
+    // real character's own authoritative value this turn (process_mp_events()
+    // runs before this in do_turn.cpp, so a sync earlier in the same turn is
+    // already reflected). Ticking regen independently on top of a fresh sync
+    // is redundant and drifts from what the real client experienced — GH #19.
+    if( g_remote_stamina_synced_this_turn ) {
+        g_remote_stamina_synced_this_turn = false;
+    } else {
+        remote->update_stamina( 1 );
+    }
+    const auto grant_t_stamina = std::chrono::steady_clock::now();
     check_separation_warning( get_avatar().pos_abs(), remote->pos_abs() );
+    const auto grant_t_separation = std::chrono::steady_clock::now();
     server *srv = get_active_server();
     if( srv ) {
         // NOTE: do NOT throttle this broadcast during fast-forward. The grant
@@ -4753,41 +6961,221 @@ void grant_client_turn()
         // by the time client_teleport_avatar fires update_map.  If map_sync
         // arrives after remote_player_state the client loads stale disk tiles
         // (t_open_air) first, gravity_check fires, and the client falls.
+        // MP DIAGNOSTIC 2026-08-14 — grant_client_turn() measured at a flat 120ms
+        // EVERY turn in a two-player craft (TURN-PHASES grant=120ms), which is the
+        // single largest per-turn cost on the host and is entirely our code. Split
+        // it into build vs send so we know whether to attack the radius-20 tile
+        // scan inside serialize_remote_player_state() or a blocking socket write.
+        using clk = std::chrono::steady_clock;
+        const auto g_t0 = clk::now();
         const std::string mapm = build_map_sync();
+        const auto g_t_map = clk::now();
         if( !mapm.empty() ) {
             srv->post_broadcast( mapm + "\n" );
         }
-        srv->post_broadcast( serialize_remote_player_state() + "\n" );
+        const auto g_t_map_send = clk::now();
+        // MP PERF 2026-08-15 — throttle the SCAN (not the grant) while fast-forward
+        // is held.
+        //
+        // Measured in a held-FF two-player craft: FF engaged once and stayed
+        // engaged, only 29 of 1013 turns had client_wait (2.9%, ~5.5ms amortized),
+        // and the turn still cost 66ms — of which ~58ms is this function's own tile
+        // scan. So the network round trip was never the fast-forward bottleneck;
+        // our own per-turn serialization is. The host is already free-running here
+        // (wait_for_client_action breaks out when should_fast_forward() is true).
+        //
+        // THE LANDMINE this is built around: the grant rides INSIDE the state
+        // packet, so the 2026-06-21 attempt to throttle FF broadcasts starved the
+        // client of grants and deadlocked both sides — "client waits for a grant
+        // that never comes; host waits for its ack" — and was reverted. The note
+        // left behind asked for a fix that "throttles only the heavy map/state
+        // delta while still delivering every grant". That is exactly this: a
+        // packet is emitted EVERY turn and always carries moves/grant_seq; only
+        // the 1681-tile scan is skipped, via the same skip_tile_scan path the
+        // wait-ack already uses.
+        //
+        // A full scan still happens every FF_SCAN_INTERVAL turns, and immediately
+        // on FF exit so nothing is stale when normal play resumes. Cost per turn
+        // drops from ~66ms toward the ~7ms floor (progress_ui + monmove).
+        //
+        // Staleness trade-off, stated plainly: host-side terrain changes can reach
+        // the client up to FF_SCAN_INTERVAL turns late — but only while BOTH
+        // players are in long passive activities and neither is moving, which is
+        // when the world around them is least likely to change. Any distraction
+        // (hostile in view, pain, sound, hunger) cancels the activity through SP's
+        // own activity_actor::do_turn, should_fast_forward() goes false, and the
+        // exit path below forces a full scan on that very turn.
+        // SUPERSEDES the scan-only throttle: skipping just the scan left the packet
+        // RATE at one per turn, and at 118 turns/sec that rate is itself what
+        // saturated the client (see FF_BATCH_TURNS). Batching cuts the rate, which
+        // fixes both the host's CPU and the client's drain.
+        static int s_ff_turns_pending = 0;
+        static bool s_was_ff = false;
+        const bool ff_now = should_fast_forward();
+        bool emit = true;
+        int batch_turns = 1;
+        if( ff_now ) {
+            // Accumulate. Emit only on a batch boundary, carrying every turn since
+            // the last emit. The grant is never STARVED — it arrives on a fixed,
+            // predictable cadence — which is what separates this from the
+            // 2026-06-21 throttle that deadlocked both sides by dropping grants
+            // indefinitely.
+            if( ++s_ff_turns_pending >= FF_BATCH_TURNS ) {
+                batch_turns = s_ff_turns_pending;
+                s_ff_turns_pending = 0;
+            } else {
+                emit = false;
+            }
+        } else if( s_was_ff ) {
+            // FF just ended (distraction, activity finished, partner stopped).
+            // Emit immediately with whatever turns are outstanding so the client is
+            // fully caught up and no accumulated AP is stranded.
+            //
+            // MP FIX 2026-08-17 — this MUST be an `else if` on the same chain. It
+            // used to be a separate `if( s_was_ff && !ff_now )` block sitting after
+            // an `else { s_ff_turns_pending = 0; }`, so the counter was already
+            // zeroed by the time the flush read it and batch_turns was ALWAYS 1 —
+            // the flush silently dropped every accumulated turn's AP.
+            emit = true;
+            batch_turns = s_ff_turns_pending > 0 ? s_ff_turns_pending : 1;
+            s_ff_turns_pending = 0;
+            mp_log( "[cdda-mp] FF-BATCH: fast-forward ended, flushing " +
+                    std::to_string( batch_turns ) + " turn(s)" );
+        } else {
+            s_ff_turns_pending = 0;
+        }
+        s_was_ff = ff_now;
+        std::string state;
+        if( emit ) {
+            // MP FIX 2026-08-15 — the AP a batch carries MUST correspond to the
+            // turns it claims. Deriving it from g_remote_moves did not, because
+            // srv_emit_ack("wait") zeroes that accumulator and the ack lands at an
+            // arbitrary point relative to the batch boundary: an ack arriving
+            // mid-batch reset it, so the next emit advertised batch_turns=10 while
+            // carrying only the turns accumulated since the reset. The client then
+            // ticked 10 times on a fraction of the AP.
+            //
+            // Measured: 288 of 308 batches carried the full 940 AP, but 20 carried
+            // 7426 total instead of 18800. The client received 278146 AP against
+            // the ~306278 needed and stalled at 90.8% while the host finished —
+            // the reported "host done, client at 90%".
+            //
+            // The previous commit claimed flow control "falls out for free" because
+            // the host would not open a new batch until the last was acked. That
+            // was never implemented and is not true; nothing kept the turn counter
+            // and the AP accumulator in step. Rather than add a stall, make the
+            // grant deterministic: the invariant is AP-per-calendar-turn == speed,
+            // so a batch of N turns carries exactly N * speed regardless of when
+            // acks arrive.
+            //
+            // The negative/debt case is untouched: a deficit turn issues no grant
+            // (g_granted_this_turn is false) and must keep paying itself off.
+            if( ff_now && batch_turns > 1 && g_remote_moves > 0 ) {
+                g_remote_moves = remote->get_speed() * batch_turns;
+            }
+            g_batch_turns_to_send = batch_turns;
+            state = serialize_remote_player_state();
+            g_batch_turns_to_send = 1;
+        }
+        const auto g_t_ser = clk::now();
+        if( emit ) {
+            srv->post_broadcast( state + "\n" );
+        }
+        const auto g_t_ser_send = clk::now();
+        {
+            const auto d = []( clk::time_point a, clk::time_point b ) {
+                return static_cast<long long>(
+                           std::chrono::duration_cast<std::chrono::milliseconds>( b - a ).count() );
+            };
+            const long long tot = d( grant_body_t0, g_t_ser_send );
+            if( tot >= 20 ) {
+                mp_log( "[cdda-mp] GRANT-BREAKDOWN: total=" + std::to_string( tot ) +
+                        "ms critter_lookup=" + std::to_string( d( grant_body_t0, grant_t_lookup ) ) +
+                        "ms stamina=" + std::to_string( d( grant_t_lookup, grant_t_stamina ) ) +
+                        "ms separation=" + std::to_string( d( grant_t_stamina, grant_t_separation ) ) +
+                        "ms build_map_sync=" + std::to_string( d( g_t0, g_t_map ) ) +
+                        "ms send_map=" + std::to_string( d( g_t_map, g_t_map_send ) ) +
+                        "ms serialize_state=" + std::to_string( d( g_t_map_send, g_t_ser ) ) +
+                        "ms send_state=" + std::to_string( d( g_t_ser, g_t_ser_send ) ) +
+                        "ms map_bytes=" + std::to_string( mapm.size() ) +
+                        " state_bytes=" + std::to_string( state.size() ) );
+            }
+        }
         // Stream the host's overmap region so the client's far-map (cities/
         // roads/biomes) matches instead of its own non-deterministic regen.
         // Returns "" unless this is the first sync or the host moved a step,
         // so it's cheap on the steady-state path.
+        const auto g_t_om0 = std::chrono::steady_clock::now();
         const std::string om = build_overmap_sync();
         if( !om.empty() ) {
             srv->post_broadcast( om + "\n" );
         }
+        {
+            // Last uncovered region in this function. Documented as returning ""
+            // except on first sync or host movement (so it should be free during a
+            // craft) — but that is a comment, not a measurement.
+            const long long d = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    std::chrono::steady_clock::now() - g_t_om0 ).count();
+            if( d >= 5 ) {
+                mp_log( "[cdda-mp] GRANT-OVERMAP: build+send took " + std::to_string( d ) +
+                        "ms bytes=" + std::to_string( om.size() ) );
+            }
+        }
     }
 }
+
+// ---------------------------------------------------------------------------
+// MP 2026-08-30 — FF LEAD CONTROL.
+//
+// How far ahead of the client the host has granted, in turns.  g_grant_seq
+// increments once per granted turn; the client echoes the highest one it has
+// applied as "cseq".  0 when the client has never reported (older build), which
+// disables the window rather than clamping a pair that cannot participate.
+static int mp_ff_lead_turns()
+{
+    if( g_client_reported_seq == 0 || g_grant_seq <= g_client_reported_seq ) {
+        return 0;
+    }
+    return static_cast<int>( g_grant_seq - g_client_reported_seq );
+}
+
+// The window.  Lockstep's natural lead is 0 — the host cannot outrun an ack it
+// is waiting for — and every dialog behaves correctly there because the partner
+// has nothing banked to keep going on.  Fast-forward is the ONLY regime that
+// breaks that invariant, so this restores it rather than inventing a new rule.
+// 30 turns is three FF batches: enough that bursting still pays, small enough
+// that a modal on either side stops the other within a second.
+static constexpr int MP_FF_MAX_LEAD_TURNS = 30;
+
+// Safety valve, and the reason this is not the 2026-06-21 mistake.  d1fdf8691e
+// throttled the BROADCAST during FF and deadlocked co-op, because the grant
+// rides inside serialize_remote_player_state and skipping the send skipped the
+// grant.  This does not touch the send path at all — it only declines to BURST,
+// falling through to the same blocking wait the non-FF path already uses.  But
+// if the lead accounting were ever wrong the host could hold forever, so cap the
+// hold: past this, burst anyway.  Worst case this degrades to exactly today's
+// behaviour instead of deadlocking.
+static constexpr int64_t MP_FF_HOLD_MAX_MS = 2000;
 
 void wait_for_client_action()
 {
     if( !remote_player_connected ) {
         return;
     }
+    // DIAG 2026-08-30 — "map_cache" is the mark immediately before this call, so a
+    // stall reported there is a stall somewhere in HERE, ahead of the
+    // "SRV-WAIT: entering" line.  Sub-marks so the next repro says which part.
+    mp_turn_phase( "cw:enter" );
 
-    // Sleep is the one true fast-forward case: 28800 ticks of strict lockstep
-    // would mean ~48 minutes wall-clock for 8 hours of game-sleep.  Host-side
-    // sleep effect bypasses the lockstep wait so the host can race through
-    // those turns at native do_turn speed.  Client-side sleep needs its own
-    // bypass once implemented — for now sleep is treated as host-only.
-    {
-        static const efftype_id eff_sleep( "sleep" );
-        if( get_avatar().has_effect( eff_sleep ) ) {
-            process_mp_events();
-            mp_log( "[cdda-mp] lockstep-skip: host_act=sleep" );
-            return;
-        }
-    }
+    // REMOVED 2026-08-30 — the host-only sleep bypass.  It skipped the lockstep
+    // wait whenever the HOST was asleep, regardless of what the client was doing:
+    // one-sided fast-forward, the one thing no other activity is allowed to do,
+    // and it left the client's sleep with no equivalent at all ("client-side sleep
+    // needs its own bypass once implemented").  Sleep now reports MP_ASLEEP_ACT on
+    // the wire and goes through the ordinary both-sides FF path below, which is
+    // what the roadmap's burst-mode spec has asked for since it was written:
+    // "the sleep bypass that already exists is a hard-coded special case of this.
+    // Generalize and remove the special case."
 
     // Both-passive fast-forward: when both sides are in passive activities
     // (both crafting, both eating, host crafting + client helping, etc.),
@@ -4805,13 +7193,107 @@ void wait_for_client_action()
                     + ( get_avatar().activity ? get_avatar().activity.id().str() : "?" )
                     + " partner_act=" + g_partner_activity );
         } else {
-            mp_log( "[cdda-mp] lockstep-resume: FAST-FORWARD exit" );
+            mp_log( std::string( "[cdda-mp] lockstep-resume: FAST-FORWARD exit reason=" )
+                    + mp_ff_decline_reason()
+                    + " host_act=" + ( get_avatar().activity ?
+                                       get_avatar().activity.id().str() : "(none)" )
+                    + " partner_act=" + ( g_partner_activity.empty() ?
+                                          "(none)" : g_partner_activity ) );
+            // MP FIX 2026-08-17 — DEADLOCK. Flush the pending FF batch HERE, before
+            // this function starts blocking on the client.
+            //
+            // grant_client_turn() accumulates turns during FF and only puts a packet
+            // on the wire every FF_BATCH_TURNS. Its flush-on-FF-end branch can only
+            // run the NEXT time grant_client_turn() is called — and when the host's
+            // own activity is what ended FF, that call never comes: the host falls
+            // straight into this wait and blocks. The client is left at moves=0
+            // inside a long activity, waiting for a grant that is sitting unsent in
+            // the host's accumulator, and neither side times out. Measured
+            // 2026-08-17: 26.25s of mutual wait broken only by the player cancelling
+            // the craft, with FF-BATCH appearing ZERO times in the whole log — the
+            // flush had never once executed.
+            //
+            // Calling it on the FF-exit EDGE (this branch runs once per transition)
+            // hits that flush branch while s_was_ff is still true, so the
+            // outstanding turns go out before we wait on them. The host must never
+            // begin waiting for the client while holding the client's grant.
+            //
+            // Trigger is NOT a near-simultaneous finish: any time the host's
+            // activity ends first while the client is still in a long one. The
+            // client gains less craft progress per AP, so that is the common case.
+            if( is_hosting() && !g_partner_activity.empty() ) {
+                grant_client_turn();
+            }
         }
         ff_was_active = ff_now;
     }
+
+    // Log WHY fast-forward is being declined, deduped so it fires once per change of
+    // reason rather than every turn. Without this a declined FF is silent and a slow
+    // co-op action gives no clue whether the activity is unlisted, the partner is
+    // idle, or the pair simply never qualified. Idle/idle is skipped — that is just
+    // two players standing around, not a diagnosis worth a line.
+    {
+        static std::string last_reason;
+        const std::string reason = ff_now ? std::string() : mp_ff_decline_reason();
+        // Dedupe on the reason with any "@<moves>" suffix stripped: the duration
+        // reasons carry a number that changes every turn, which would otherwise
+        // defeat the once-per-change gate and log a line per turn.
+        const std::string key = reason.substr( 0, reason.find( '@' ) );
+        if( key != last_reason ) {
+            if( !reason.empty() && reason != "self_idle" && reason != "not_mp" ) {
+                mp_log( "[cdda-mp] FF-DECLINED: " + reason
+                        + " (host_act=" + ( get_avatar().activity ?
+                                            get_avatar().activity.id().str() : "(none)" )
+                        + " partner_act=" + ( g_partner_activity.empty() ?
+                                              "(none)" : g_partner_activity ) + ")" );
+            }
+            last_reason = key;
+        }
+    }
+    mp_turn_phase( "cw:ff_decided" );
     if( ff_now ) {
-        process_mp_events();
-        return;
+        // MP 2026-08-30 — FF LEAD CONTROL.  Bursting unconditionally is what let
+        // the host grant ~4000 turns ahead; the client then kept playing for
+        // seconds after the host froze on a "Keep practicing?" modal, and the
+        // roles inverted when the client hit its own.  Hold the burst while the
+        // client is more than a window behind, so FF keeps lockstep's property
+        // that neither player can run away from the other.
+        //
+        // Held here rather than by skipping the grant: the client must still
+        // RECEIVE its grants promptly (see the do-not-throttle note in
+        // grant_client_turn), it just must not be handed unbounded turns.
+        static int64_t s_hold_start_ms = 0;
+        const int lead = mp_ff_lead_turns();
+        if( lead >= MP_FF_MAX_LEAD_TURNS ) {
+            const int64_t now_ms = mp_now_ms();
+            if( s_hold_start_ms == 0 ) {
+                s_hold_start_ms = now_ms;
+                mp_log( "[cdda-mp] FF-LEAD: holding burst, client " +
+                        std::to_string( lead ) + " turns behind (window " +
+                        std::to_string( MP_FF_MAX_LEAD_TURNS ) + ")" );
+            }
+            if( now_ms - s_hold_start_ms < MP_FF_HOLD_MAX_MS ) {
+                // Fall through to the ordinary blocking wait below — proven code
+                // that pumps events and returns as soon as the client acks.
+            } else {
+                mp_log( "[cdda-mp] FF-LEAD: hold exceeded " +
+                        std::to_string( MP_FF_HOLD_MAX_MS ) + "ms with lead=" +
+                        std::to_string( lead ) + " — bursting anyway (safety valve)" );
+                s_hold_start_ms = 0;
+                mp_turn_phase( "cw:ff_valve_events" );
+                process_mp_events();
+                return;
+            }
+        } else {
+            if( s_hold_start_ms != 0 ) {
+                mp_log( "[cdda-mp] FF-LEAD: released, lead=" + std::to_string( lead ) );
+                s_hold_start_ms = 0;
+            }
+            mp_turn_phase( "cw:ff_events" );
+            process_mp_events();
+            return;
+        }
     }
 
     // FIX #2/#3: deficit turn — the client is still paying off an expensive move's
@@ -4876,7 +7358,6 @@ void wait_for_client_action()
     std::string prev_wait_host_act = get_avatar().activity
                                      ? get_avatar().activity.id().str() : "";
     // Log the partner-interactive skip (below) once per wait, not per-iter.
-    bool logged_partner_interactive_skip = false;
     while( remote_player_connected ) {
         // Host requested quit (save&quit / suicide / die) while waiting for the
         // client: stop waiting immediately so do_turn can return and the game
@@ -4899,7 +7380,30 @@ void wait_for_client_action()
         // bail out and let do_turn race through both crafts at SP speed.
         // Without this, the client (also in FF) won't dispatch waits, so
         // g_client_acted_this_turn never flips and we deadlock both ends.
-        if( should_fast_forward() ) {
+        // DIAG 2026-08-30 — this loop has NO per-iteration logging, so a host
+        // spinning here is indistinguishable in the log from a host that is
+        // hard-hung: measured, the host received "ACT-START RECV: id=ACT_CRAFT
+        // passive=1 ff_eligible=1" at 20:15:08.212 and then emitted nothing for 33s
+        // while the watchdog counted up.  With the host asleep (MP_ASLEEP) and the
+        // partner crafting, this re-check SHOULD bail.  Say once a second why it
+        // does not.  Throttled by wall clock, so a healthy short wait stays silent.
+        const bool ff_mid = should_fast_forward();
+        {
+            static int64_t s_last_probe_ms = 0;
+            const int64_t now_probe = mp_now_ms();
+            if( now_probe - s_last_probe_ms >= 1000 ) {
+                s_last_probe_ms = now_probe;
+                mp_log( "[cdda-mp] SRV-WAIT-PROBE: ff=" + std::to_string( ff_mid ? 1 : 0 ) +
+                        " reason=" + ( ff_mid ? std::string( "(would bail)" ) : mp_ff_decline_reason() ) +
+                        " acted=" + std::to_string( g_client_acted_this_turn ? 1 : 0 ) +
+                        " self=" + mp_local_ff_activity() +
+                        " partner=" + ( g_partner_activity.empty() ? "(none)" : g_partner_activity ) +
+                        " partner_moves=" + std::to_string( g_partner_activity_moves ) +
+                        " held=" + std::to_string( mp_peer_modal_held() ? 1 : 0 ) +
+                        " granted=" + std::to_string( g_granted_this_turn ? 1 : 0 ) );
+            }
+        }
+        if( ff_mid ) {
             mp_log( "[cdda-mp] SRV-WAIT: FAST-FORWARD engaged mid-wait, bailing" );
             break;
         }
@@ -4930,12 +7434,14 @@ void wait_for_client_action()
         // helping).  Drop the 16ms throttle so the shared clock advances as fast
         // as the host's CPU can serialize ticks — turns an 8-hour craft from
         // minutes of staring at the wait popup into seconds.
-        const std::chrono::milliseconds step = mp_in_burst_mode()
-                                               ? std::chrono::milliseconds( 0 )
-                                               : std::chrono::milliseconds( 16 );
-        const std::chrono::steady_clock::time_point t_iter0 = std::chrono::steady_clock::now();
+        const auto step = mp_in_burst_mode()
+                          ? std::chrono::milliseconds( 0 )
+                          : std::chrono::milliseconds( 16 );
+        const auto t_iter0 = std::chrono::steady_clock::now();
+        mp_turn_phase( "cw:loop_queuewait" );
         get_mp_queue().wait_for_event( step );
-        const std::chrono::steady_clock::time_point t_after_wait = std::chrono::steady_clock::now();
+        const auto t_after_wait = std::chrono::steady_clock::now();
+        mp_turn_phase( "cw:loop_events" );
         process_mp_events();
         const std::chrono::steady_clock::time_point t_after_drain = std::chrono::steady_clock::now();
         // The drain above may have just set g_client_acted_this_turn (the
@@ -4956,18 +7462,26 @@ void wait_for_client_action()
         // get_avatar().activity (prev attempt) missed the COMMON case — the host
         // sits here with host_act=none most of the time, so input was starved
         // ("5/zoom/map only occasionally caught").
-        inp_mngr.pump_events();
+        mp_turn_phase( "cw:loop_pump" );
+        if( mp_char_is_asleep( get_avatar() ) ) {
+            inp_mngr.pump_events();
+        }
         // Block up to 16ms for an event (not a non-blocking poll). DIAG proved the
         // non-blocking poll ran 57x/sec but caught ZERO keys — the SRV-WAIT sub-loop
         // doesn't deliver SDL events to handle_input(0) the way the main loop does.
         // Blocking (like the monster-interrupt popup, which IS responsive) catches
         // them reliably. 16ms ≈ the loop's step, so it adds no real latency.
-        handle_key_blocking_activity( 16 );
+        mp_turn_phase( "cw:loop_input" );
+        if( !mp_char_is_asleep( get_avatar() ) ) {
+            g->mp_poll_input();
+        }
         if( g_client_acted_this_turn ) {
             break;
         }
         ensure_mp_hud();
-        inp_mngr.pump_events();
+        if( mp_char_is_asleep( get_avatar() ) ) {
+            inp_mngr.pump_events();
+        }
         const std::chrono::steady_clock::time_point t_after_pump = std::chrono::steady_clock::now();
         // Redraw the side strip + Co-op panel ~10x/sec while we're blocked so
         // the host's HUD actually flips to red while locked, instead of staying
@@ -4977,6 +7491,7 @@ void wait_for_client_action()
             std::chrono::steady_clock::now();
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         if( std::chrono::duration_cast<std::chrono::milliseconds>( now - last_redraw ).count() > 100 ) {
+            mp_turn_phase( "cw:loop_redraw" );
             ui_manager::redraw();
             last_redraw = now;
         }
@@ -4993,40 +7508,8 @@ void wait_for_client_action()
         // client_just_acted TIMEOUT escape in get_player_input breaks out of
         // the input poll the moment the client acts.  Net result: host gets
         // full SP-style input access AND the wait still exits on client ack.
-        // Only run the (blocking) host input poll once we've genuinely been
-        // waiting a while. For a normal move the client acks in tens of ms and
-        // the drain-break above exits the loop long before this threshold — so
-        // mp_poll_input never runs and can't pace the host or flicker the turn
-        // signal red (root cause of the residual movement flicker, 2026-06-03:
-        // max_input=76-442ms on host_act=none waits even after the drain-break,
-        // because handle_action's internal client-acted escape is unreliable
-        // and blocks up to ~440ms). Past the threshold it's a real long wait
-        // (client crafting/sleeping) where the host wants menu access, so
-        // engage the full poll then. SDL still gets pumped every iter via
-        // inp_mngr.pump_events() above, so no beachball during the tight phase.
-        const long wait_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                         std::chrono::steady_clock::now() - t_start ).count();
-        // No-activity host wait: the blocking input poll stays gated behind 100ms
-        // so it can't pace normal moves / flicker the turn signal. The in-activity
-        // case is now polled non-blocking every iteration above (before the
-        // drain-break), so it's not repeated here.
-        // Partner in an interactive activity (ACT_AIM/FIRSTAID/AUTOATTACK/
-        // AUTODRIVE) runs its UI locally and won't send a wait until it resolves.
-        // mp_poll_input() blocks until a host keypress OR client_acted_this_turn()
-        // — neither happens while the partner aims, so it would sit here for the
-        // ENTIRE aim (the 10s+ "input=" SRV-WAIT phases / host beachball). Skip the
-        // blocking poll then: the non-blocking handle_key_blocking_activity(16)
-        // above still gives the host zoom/menu access, and the loop keeps spinning
-        // every ~16ms (SDL pumped), so the host stays responsive — the mirror of
-        // the client staying responsive while the host aims (ranged.cpp:2988).
-        const bool partner_interactive = partner_in_interactive_activity();
-        if( wait_elapsed_ms > 100 && !get_avatar().activity && !partner_interactive ) {
-            /* MP-FIXME: g->mp_poll_input stubbed for CCB */
-        } else if( partner_interactive && !logged_partner_interactive_skip ) {
-            mp_log( "[cdda-mp] SRV-WAIT: partner interactive (" + g_partner_activity +
-                    ") — skipping blocking host poll to stay responsive" );
-            logged_partner_interactive_skip = true;
-        }
+        // The ready-input dispatcher above runs once per iteration. Neither
+        // idle nor active hosts enter a blocking key poll here.
         const std::chrono::steady_clock::time_point t_after_input =
             std::chrono::steady_clock::now();
         const int waitev_ms = static_cast<int>(
@@ -5125,39 +7608,262 @@ bool host_is_in_wait_activity()
 
 bool should_advance_calendar()
 {
-    // SP / host: always advance.  Client: only advance when moves > 0 — that
-    // means a grant just landed and the current do_turn iteration represents
-    // an actual game turn.  Without this guard, calendar::turn would tick at
-    // every main-loop iteration (~10/sec) regardless of whether the client
-    // had been granted a turn, racing past the host's authoritative time.
-    return !is_client_mode() || get_avatar().get_moves() > 0;
+    // The client receives calendar_turn with every authoritative state packet.
+    // Local moves are an action budget, not permission to invent another turn:
+    // an unspent grant (especially sleep) otherwise advances time on each poll.
+    return !is_client_mode();
 }
 
 bool is_passive_activity( const std::string &activity_id_str )
 {
-    // Activities where the avatar is committed turn-after-turn without
-    // per-turn user input.  Once entered, SP's activity_actor::do_turn ticks
-    // the activity on every game turn at machine speed.  Excludes:
-    //  - ACT_FIRSTAID, ACT_AIM, ACT_AUTOATTACK, ACT_AUTODRIVE — interactive
-    //  - ACT_NULL / empty — not in an activity
-    static const std::set<std::string> passive = {
-        "ACT_CRAFT", "ACT_LONG_CRAFT", "ACT_DISASSEMBLE", "ACT_DISMEMBER",
-        "ACT_READ",
-        "ACT_EAT", "ACT_DRINK", "ACT_CONSUME", "ACT_CONSUME_DRINK_MENU",
-        "ACT_CONSUME_FOOD_MENU", "ACT_CONSUME_MEDS_MENU",
-        "ACT_BUTCHER", "ACT_BUTCHER_FULL", "ACT_FIELD_DRESS",
-        "ACT_SKIN", "ACT_DISSECT", "ACT_QUARTER",
-        "ACT_CONSTRUCTION", "ACT_BUILD",
-        "ACT_VEHICLE", "ACT_VEHICLE_REPAIR",
-        "ACT_WORKOUT_LIGHT", "ACT_WORKOUT_MODERATE", "ACT_WORKOUT_ACTIVE",
-        "ACT_WORKOUT_HARD", "ACT_WORKOUT",
-        "ACT_FORAGE", "ACT_FISH",
-        "ACT_FILL_LIQUID", "ACT_PICKUP", "ACT_MOVE_ITEMS",
-        "ACT_WAIT", "ACT_WAIT_STAMINA", "ACT_WAIT_WEATHER", "ACT_WAIT_NPC",
-        "ACT_SLEEP",
-        "ACT_HELP_PARTNER",
+    // Passive = the avatar is committed turn-after-turn without per-turn user
+    // input, so the client may tick it once per host grant from inside
+    // client_process_incoming (see CLI-GRANT-ACT-ACK) instead of waiting for the
+    // main input loop.  SP's activity_actor::do_turn then runs at machine speed.
+    //
+    // INVERTED 2026-08-26 — this was a hand-maintained ALLOW-list of 49 ids, and
+    // the fork paid for the gap three times: ACT_FIRSTAID stranded the client at
+    // moves=0 forever (2026-07-19), ACT_HOTWIRE_CAR + 10 others crawled at one
+    // network round trip per game turn (2026-08-16), and ACT_RELOAD / ACT_BASH /
+    // ACT_UNLOAD / ACT_DROP did the same on the 2026-08-23 stream (server log
+    // dayman-cdda-mp-server.log: FF-DECLINED self_not_ff_eligible:ACT_RELOAD,
+    // fast-forward engaged exactly once in 67 minutes, 30-second SRV-WAIT blocks
+    // during a two-player reload).  data/json defines 157 ACT_ ids; the allow-list
+    // covered 49, so 108 activities defaulted to the wrong answer and each one was
+    // a latent crawl or stall waiting for a player to try it.
+    //
+    // The deny-list below is derived, not remembered.  Every per-turn hook in the
+    // tree was scanned: 61 `X_activity_actor::do_turn` bodies in activity_actor.cpp
+    // plus 3 `activity_handlers::*_do_turn` legacy handlers.  Two classes must NOT
+    // be ticked from the network-recv path:
+    //
+    //  (a) BLOCKING UI in do_turn — ticking it inside client_process_incoming runs
+    //      the UI re-entrantly and crashes (target_ui::run / ~display_buffer_draw_scope).
+    //      Scan hits: aim_activity_actor (avatar_action::fire), atm_activity_actor
+    //      (popup), craft_activity_actor (query_yn).  ACT_CRAFT stays passive by an
+    //      earlier deliberate decision — its query_yn only fires on practice recipes
+    //      crossing a proficiency threshold, tracked separately.  ACT_AUTOATTACK and
+    //      ACT_AUTODRIVE have no actor here but drive a local UI/route the same way.
+    //
+    //  (b) The activity MOVES THE CHARACTER on its own.  In MP the client's position
+    //      only reaches the host through an explicit "move" action; an activity that
+    //      walks the avatar from the recv path would desync the proxy silently.
+    //      Scan hits: glide_activity_actor (move_to), find_mount_activity_actor and
+    //      multi_zone_activity_actor (route_to_destination) — the latter backing all
+    //      15 subclasses' ids, see below — plus zone_activity_actor's two subclasses
+    //      (zone_sort = ACT_MOVE_LOOT, unload_loot = ACT_UNLOAD_LOOT, both via
+    //      stage_think), plus ACT_TRAVELLING (activity_handlers::travel_do_turn).
+    //
+    // CORRECTED 2026-08-26 — the first pass of this scan matched do_turn bodies by
+    // literal text and missed two things it should not have: (1) a do_turn that
+    // DELEGATES to a base-class method or a stage_think/stage_do helper doesn't
+    // contain the keyword itself, so multi_zone's 15 subclasses were undercounted at
+    // first (2 of 15 ids were briefly absent from this set before a second, callgraph
+    // pass caught them) and zone_activity_actor's two subclasses were missed entirely
+    // the same way; (2) "all 61 do_turn bodies" was the wrong count to begin with —
+    // ACT_UNLOAD_LOOT's move happens in stage_think(), a non-do_turn method, so it was
+    // never in scope of a do_turn-only scan.  Re-audited by following the call graph
+    // instead of grepping method bodies: is_passive_activity() reflects that, not the
+    // narrower original text-match pass.  This class of miss is real and repeatable —
+    // it is exactly the kind of gap that produced the ACT_SPELLCASTING finding one
+    // commit later.  Trust the current set below, not the literal wording above it.
+    //
+    // Anything else is a timer.  ~93 of the 130 real (registered) activity ids have
+    // no per-turn hook that touches UI or movement at all.
+    // Getting a NEW id wrong now costs an activity that ticks slightly too eagerly,
+    // which is recoverable; under the allow-list it cost a crawl or a hard stall.
+    if( activity_id_str.empty() || activity_id_str == "ACT_NULL" ) {
+        return false;
+    }
+    static const std::set<std::string> interactive = {
+        // (a) blocking UI in do_turn.  ACT_AUTOATTACK was here too but is not a
+        // registered activity_id anywhere in this tree (no
+        // `static const activity_id ACT_AUTOATTACK(...)` exists) -- dropped as dead,
+        // 2026-08-26, rather than imply a live mechanic that no longer exists.
+        "ACT_AIM", "ACT_ATM", "ACT_AUTODRIVE",
+        // (a2) blocking UI in FINISH.  Same hazard, later in the activity: a
+        //      passive activity is ticked from client_process_incoming once per
+        //      grant, so the tick that COMPLETES it runs finish() in the recv
+        //      path — no fast-forward required.  Excluding these from FF alone
+        //      (the no_ff set below) is therefore not enough; they must never be
+        //      ticked from that path at all.
+        //      Scanning all 83 X_activity_actor::finish bodies found exactly
+        //      four: consume and firstaid (already handled, and already passive
+        //      by earlier deliberate decisions — see no_ff), plus these two.
+        //      ACT_SPELLCASTING's finish calls spell::select_target(), which is
+        //      target_handler::mode_spell + query_yn (magic.cpp:768).
+        //      ACT_HAIRCUT's finish opens a uilist.
+        //      Both were already non-passive under the old allow-list, so this
+        //      keeps their behaviour exactly as it shipped rather than changing
+        //      it. The earlier "only FOUR actors have blocking UI" audit missed
+        //      these two because neither id was passive then, so both were out
+        //      of that audit's scope.
+        "ACT_SPELLCASTING", "ACT_HAIRCUT",
+        // (b) moves the character on its own
+        "ACT_TRAVELLING", "ACT_GLIDE", "ACT_FIND_MOUNT",
+        // zone_activity_actor's two subclasses (both move via stage_think)
+        "ACT_MOVE_LOOT", "ACT_UNLOAD_LOOT",
+        // multi_zone_activity_actor's full 15-id subclass family (all move via the
+        // shared do_turn/simulate_turn -> route_to_destination path). Confirmed
+        // complete by enumerating "class X : public multi_zone_activity_actor" in
+        // activity_actor_definitions.h, not by re-deriving it from data/json — most
+        // of these ids are never spelled out as a JSON string, so a data/json scan
+        // silently drops them (that is how ACT_VEHICLE_DECONSTRUCTION / _REPAIR and
+        // ACT_UNLOAD_LOOT were first missed here).
+        "ACT_FETCH_REQUIRED",
+        "ACT_MULTIPLE_BUTCHER", "ACT_MULTIPLE_CHOP_PLANKS", "ACT_MULTIPLE_CHOP_TREES",
+        "ACT_MULTIPLE_CONSTRUCTION", "ACT_MULTIPLE_CRAFT", "ACT_MULTIPLE_DIS",
+        "ACT_MULTIPLE_FARM", "ACT_MULTIPLE_FISH", "ACT_MULTIPLE_MINE",
+        "ACT_MULTIPLE_MOP", "ACT_MULTIPLE_READ", "ACT_MULTIPLE_STUDY",
+        "ACT_VEHICLE_DECONSTRUCTION", "ACT_VEHICLE_REPAIR",
     };
-    return passive.count( activity_id_str ) > 0;
+    return interactive.count( activity_id_str ) == 0;
+}
+
+// Fast-forward is for genuinely LONG actions (sleep, crafting) where bursting
+// turns saves the other player minutes of waiting.  Some passive activities are
+// too SHORT to benefit — and FF-ing them is actively harmful: first aid is only
+// a few turns, and bursting ~300 grants for it built a move backlog the client
+// couldn't resync when the activity abruptly ended → permanent lockstep deadlock
+// (2026-07-19).  These stay passive (normal one-grant-per-turn lockstep) but are
+// excluded from FF.  Keeping the exclusion separate from is_passive_activity so
+// the grant handler / LOCKED-DISPATCH / partner-interactive logic still treat
+// them as the passive activities they are.
+// Fast-forward is worth a batch only for activities long enough that the other
+// player would otherwise sit and wait.  Bursting a SHORT one is actively harmful:
+// first aid is a few turns, and bursting ~300 grants for it built a move backlog
+// the client could not resync when the activity abruptly ended (2026-07-19).
+//
+// That used to be handled by naming short activities in the no_ff set below, which
+// has the same "remembered, not derived" failure mode the passive allow-list had —
+// and inverting is_passive_activity() widened FF's reach from 49 ids to ~140, so a
+// list would now have to be complete to be safe.  Measure the duration instead: an
+// activity only fast-forwards while it still has FF_MIN_ACTIVITY_MOVES of work left.
+//
+// 3000 moves = 30 turns at speed 100.  Below that, normal lockstep costs the other
+// player well under a minute even at stream-grade latency, so there is nothing to
+// win and a backlog to lose.  The check is applied to BOTH sides from the same
+// number: each side forwards its own activity's moves_left as
+// client_activity_moves / host_activity_moves, so host and client reach the same
+// verdict instead of one bursting while the other stays in lockstep.
+static constexpr int FF_MIN_ACTIVITY_MOVES = 3000;
+
+// -1 means the partner never sent a duration (older peer, or the field was dropped
+// from a packet).  Treat unknown as "long enough" so a missing field degrades to the
+// pre-2026-08-26 behaviour rather than silently disabling fast-forward.
+static bool ff_duration_ok( int moves_left )
+{
+    return moves_left < 0 || moves_left >= FF_MIN_ACTIVITY_MOVES;
+}
+
+static bool is_fast_forwardable_activity( const std::string &id )
+{
+    if( !is_passive_activity( id ) ) {
+        return false;
+    }
+    // Passive (so the grant handler keeps ticking them) but NOT fast-forwardable,
+    // because their actor opens a blocking UI in finish().
+    //
+    // AUDIT 2026-08-17 — the earlier eligibility test only asked whether do_turn
+    // opens UI. That test structurally cannot catch this class, and the comment
+    // above still claims ACT_FIRSTAID has "no UI (heal applies in finish())" — it
+    // does not: firstaid_activity_actor::finish calls eat_or_use / game_menus::inv
+    // and sets uistate.open_menu, exactly like consume does. FIRSTAID was excluded
+    // for the right reason and documented with the wrong one.
+    //
+    // Re-audited by inverting the search: of every actor in activity_actor.cpp,
+    // only FOUR have blocking UI in do_turn or finish, and only these two plus
+    // ACT_CRAFT are FF-eligible. So this list is complete, not a sample.
+    //
+    // ACT_CONSUME is evidence-backed: under FF the client ticks its activity from
+    // inside apply_one_state_message, so finish() ran in the network-recv path,
+    // hit "Item location/name to be consumed should not be null", warned WITHOUT
+    // returning, then still armed uistate.open_menu — and reopening the consume
+    // menu on a dead item_location SIGSEGV'd in inventory_selector::process_input
+    // (crash.log 2026-08-17). Same shape as f5a0eb5c77, which had to defer the
+    // smash prompt out of this same recv path.
+    //
+    // ACT_CRAFT stays FF-eligible: its query_yn only fires on practice recipes
+    // crossing a proficiency threshold, tracked separately.
+    //
+    // PRUNED 2026-08-26 — ACT_EAT, ACT_DRINK, ACT_EAT_MENU, ACT_CONSUME_FOOD_MENU,
+    // ACT_CONSUME_DRINK_MENU and ACT_CONSUME_MEDS_MENU used to be here as
+    // "precautionary." None of the six is a real activity id today: the four *_MENU
+    // ids are listed in player_activity::deserialize's obs_activities
+    // (savegame_json.cpp, "Remove after 0.J") and deserialize to a null activity, and
+    // ACT_EAT / ACT_DRINK have no `static const activity_id` declaration anywhere in
+    // the tree — food and drink both consume through consume_activity_actor, which
+    // registers only as ACT_CONSUME. u.activity.id().str() can never equal any of the
+    // six, so leaving them cost nothing functionally, but it implied six live
+    // mechanics that do not exist. Confirmed dead by checking every other reference to
+    // each string in the tree (mp_gamestate.cpp:3496's short_item_acts set carries the
+    // same three fossils and should be pruned in the same pass — not done here, out of
+    // scope for this file's activity classification).
+    static const std::set<std::string> no_ff = {
+        "ACT_FIRSTAID", "ACT_CONSUME",
+    };
+    return no_ff.count( id ) == 0;
+}
+
+// Why fast-forward is NOT engaging, "" when it is. Mirrors should_fast_forward()'s
+// checks in the same order.
+//
+// Added 2026-08-16: a declined FF logged NOTHING, so "I hotwired a car and it was
+// slow" was indistinguishable from "the activity is not on the passive list" —
+// which is exactly what it turned out to be. Because the gate is a pure AND of two
+// INDEPENDENT per-side predicates, naming the side and the activity is a complete
+// explanation; there is no pairwise term to consider.
+// MP 2026-08-30 (same day, second cut) — the LOCAL side needs the same treatment
+// the wire got.  Reporting MP_ASLEEP to the peer was only half of it: these two
+// predicates read get_avatar().activity directly, which is empty while asleep, so
+// the SLEEPING side declined FF as "self_idle" while the AWAKE side — which had
+// been told MP_ASLEEP and was itself crafting — accepted it.  Asymmetric FF is the
+// documented deadlock: the side in FF stops dispatching waits, the side in lockstep
+// blocks on an ack that never comes.  Measured: client crafting + host asleep, no
+// movement on either screen until the client cancelled its craft (client log
+// "HOSTACT RECV prev=ACT_TRY_SLEEP now=MP_ASLEEP" with the host still self_idle).
+static std::string mp_local_ff_activity()
+{
+    return mp_wire_activity_id( get_avatar() );
+}
+
+// Moves left of the local activity, or -1 when there is none to read (asleep).
+// ff_duration_ok() treats -1 as "unknown, long enough", which is right for sleep.
+static int mp_local_ff_moves()
+{
+    const player_activity &act = get_avatar().activity;
+    return act ? act.moves_left : -1;
+}
+
+std::string mp_ff_decline_reason()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return "not_mp";
+    }
+    if( mp_peer_modal_held() ) {
+        return "partner_modal";
+    }
+    const std::string mine = mp_local_ff_activity();
+    if( mine.empty() ) {
+        return "self_idle";
+    }
+    if( !is_fast_forwardable_activity( mine ) ) {
+        return "self_not_ff_eligible:" + mine;
+    }
+    if( !ff_duration_ok( mp_local_ff_moves() ) ) {
+        return "self_too_short:" + mine + "@" + std::to_string( mp_local_ff_moves() );
+    }
+    if( g_partner_activity.empty() ) {
+        return "partner_idle";
+    }
+    if( !is_fast_forwardable_activity( g_partner_activity ) ) {
+        return "partner_not_ff_eligible:" + g_partner_activity;
+    }
+    if( !ff_duration_ok( g_partner_activity_moves ) ) {
+        return "partner_too_short:" + g_partner_activity + "@" +
+               std::to_string( g_partner_activity_moves );
+    }
+    return "";
 }
 
 bool should_fast_forward()
@@ -5167,15 +7873,34 @@ bool should_fast_forward()
     if( !is_hosting() && !is_client_mode() ) {
         return false;
     }
-    // Local avatar must be in a passive activity.
-    const player_activity &av_act = get_avatar().activity;
-    if( !av_act || !is_passive_activity( av_act.id().str() ) ) {
+    // Partner is sitting in a blocking modal and cannot consume grants.  Fall
+    // back to ordinary lockstep rather than adding a second timing rule: its
+    // lead is 0 by construction, which is the very property that makes every
+    // non-FF dialog stop both players correctly.  Kept in the same order as
+    // mp_ff_decline_reason() so the logged reason always matches the verdict.
+    if( mp_peer_modal_held() ) {
         return false;
     }
-    // Partner's reported activity must also be passive.  g_partner_activity is
-    // set by the heartbeat / per-action enrich on the other side — empty when
+    // Local avatar must be in a fast-forwardable (long, passive) activity — or
+    // asleep, which mp_local_ff_activity() reports as MP_ASLEEP.  Read through that
+    // helper, never off get_avatar().activity: the two must agree or FF goes
+    // asymmetric and deadlocks.
+    const std::string mine = mp_local_ff_activity();
+    if( mine.empty() || !is_fast_forwardable_activity( mine ) ) {
+        return false;
+    }
+    // Duration floor — see FF_MIN_ACTIVITY_MOVES.  Kept in the same order as
+    // mp_ff_decline_reason() so the logged reason always matches the verdict.
+    if( !ff_duration_ok( mp_local_ff_moves() ) ) {
+        return false;
+    }
+    // Partner's reported activity must also be fast-forwardable.  g_partner_activity
+    // is set by the heartbeat / per-action enrich on the other side — empty when
     // partner is idle (input loop) which means strict lockstep applies.
-    if( g_partner_activity.empty() || !is_passive_activity( g_partner_activity ) ) {
+    if( g_partner_activity.empty() || !is_fast_forwardable_activity( g_partner_activity ) ) {
+        return false;
+    }
+    if( !ff_duration_ok( g_partner_activity_moves ) ) {
         return false;
     }
     // No explicit combat-mode gate here: SP's activity_actor::do_turn already
@@ -5183,6 +7908,184 @@ bool should_fast_forward()
     // etc.).  When that fires, av_act becomes null, this returns false on the
     // next call, and the next do_turn returns to strict lockstep naturally.
     return true;
+}
+
+// MP DIAGNOSTIC 2026-08-14 — per-turn phase timing, see mp_gamestate.h.
+namespace
+{
+struct mp_turn_mark {
+    const char *name;
+    std::chrono::steady_clock::time_point t;
+};
+std::vector<mp_turn_mark> g_turn_marks;
+} // namespace
+
+void mp_turn_phase_begin()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    g_turn_marks.clear();
+    g_turn_marks.push_back( { "begin", std::chrono::steady_clock::now() } );
+}
+
+void mp_turn_phase( const char *name )
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    // Only record if a begin() happened this turn — otherwise an early return
+    // path would accumulate marks with no matching flush.
+    if( g_turn_marks.empty() ) {
+        return;
+    }
+    const auto now = std::chrono::steady_clock::now();
+    g_turn_marks.push_back( { name, now } );
+    // Publish for the stall watchdog — see g_turn_phase_label.
+    mp_start_apply_watchdog();
+    {
+        std::lock_guard<std::mutex> lk( g_apply_step_mtx );
+        g_turn_phase_label = name;
+        g_turn_phase_started = now;
+    }
+}
+
+void mp_turn_phase_flush( int threshold_ms )
+{
+    {
+        // Turn finished — nothing is stalled, so retire the watchdog label.
+        std::lock_guard<std::mutex> lk( g_apply_step_mtx );
+        g_turn_phase_label.clear();
+    }
+    if( g_turn_marks.size() < 2 ) {
+        g_turn_marks.clear();
+        return;
+    }
+    const auto ms_between = []( const mp_turn_mark & a, const mp_turn_mark & b ) {
+        return std::chrono::duration_cast<std::chrono::milliseconds>( b.t - a.t ).count();
+    };
+    const auto total = ms_between( g_turn_marks.front(), g_turn_marks.back() );
+    if( total < threshold_ms ) {
+        g_turn_marks.clear();
+        return;
+    }
+    std::string line = "[cdda-mp] TURN-PHASES: total=" + std::to_string( total ) + "ms";
+    for( size_t i = 1; i < g_turn_marks.size(); ++i ) {
+        const auto d = ms_between( g_turn_marks[i - 1], g_turn_marks[i] );
+        // Only print segments that actually cost something — a turn has many
+        // phases and the zero ones are noise.
+        if( d > 0 ) {
+            line += std::string( " " ) + g_turn_marks[i].name + "=" + std::to_string( d ) + "ms";
+        }
+    }
+    mp_log( line );
+    g_turn_marks.clear();
+}
+
+bool mp_progress_redraw_gate( bool first_redraw, bool &due )
+{
+    due = false;
+    if( !is_hosting() && !is_client_mode() ) {
+        // SP: caller keeps its own calendar gate.  SP already free-runs long
+        // actions and redraws every 5 in-game minutes, which is why an SP craft
+        // finishes in seconds.
+        return false;
+    }
+    // A WALL-CLOCK cap, deliberately not a calendar gate.  The calendar gate ties
+    // redraw rate to simulation rate; MP used to force it to 1_turns whenever
+    // fast-forward was off, which meant a full frame every single game turn.
+    // Measured solo-host on 2026-08-14: ui_manager::redraw() 9.94ms +
+    // refresh_display() 4.23ms = 14.20ms of a 16ms turn — ~87% of the turn spent
+    // drawing, capping MP at ~62 turns/sec against SP's ~600.  Note the cost is
+    // the redraw WORK (tiles, sidebar widgets, ImGui), not vsync blocking, so the
+    // only fix is to not perform it.  Decoupling the two lets turns race at CPU
+    // speed while the popup still updates smoothly at ~10 Hz.
+    //
+    // This supersedes the old 1_turns override in every regime rather than
+    // special-casing: in true lockstep (client connected, ~1 turn/sec) more than
+    // 100ms elapses per turn anyway, so the gate fires every turn exactly as
+    // before; when the simulation can outrun the display, it throttles.
+    constexpr std::chrono::milliseconds REDRAW_INTERVAL( 100 );
+    static std::chrono::steady_clock::time_point s_last_redraw{};
+    const auto now = std::chrono::steady_clock::now();
+    if( first_redraw ||
+        std::chrono::duration_cast<std::chrono::milliseconds>( now - s_last_redraw ) >=
+        REDRAW_INTERVAL ) {
+        s_last_redraw = now;
+        due = true;
+    }
+    return true;
+}
+
+// MP DIAGNOSTIC 2026-08-14 — see the ROADMAP entry "MP crafting is ~10x slower
+// than SP".  Emits one line per progress-UI pass plus a rolling average every 100
+// passes, so the 16ms/turn can be attributed to a specific call rather than
+// inferred from cadence.  Downsamples after 3000 lines so a long session can't
+// blow the 10MB log cap on this alone.
+void mp_log_progress_ui( bool wait_redraw, bool gate_fired, int rate_turns,
+                         double ms_redraw_gated, double ms_redraw_popup,
+                         double ms_refresh, double ms_total )
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    // Idle turns (no activity, nothing to wait for) are the overwhelming majority
+    // of a normal session and carry no signal — skip them so the log stays a
+    // record of the long-action path only.
+    if( !wait_redraw ) {
+        return;
+    }
+    static long long calls = 0;
+    static double sum_total = 0.0;
+    static double sum_gated = 0.0;
+    static double sum_popup = 0.0;
+    static double sum_refresh = 0.0;
+    static long long gate_fires = 0;
+    calls++;
+    sum_total += ms_total;
+    sum_gated += ms_redraw_gated;
+    sum_popup += ms_redraw_popup;
+    sum_refresh += ms_refresh;
+    if( gate_fired ) {
+        gate_fires++;
+    }
+    const bool ff = should_fast_forward();
+    // Full detail for the first 3000 passes, then 1-in-20.  A craft the user
+    // aborts after ~15s at 62 turns/sec lands well inside the detailed window.
+    const bool verbose = calls <= 3000 || ( calls % 20 ) == 0;
+    if( verbose ) {
+        char buf[256];
+        std::snprintf( buf, sizeof( buf ),
+                       "[cdda-mp] PROGRESS-UI: gate=%d ff=%d rate=%dt "
+                       "redraw_gated=%.2fms redraw_popup=%.2fms refresh=%.2fms total=%.2fms",
+                       gate_fired ? 1 : 0, ff ? 1 : 0, rate_turns,
+                       ms_redraw_gated, ms_redraw_popup, ms_refresh, ms_total );
+        mp_log( buf );
+    }
+    if( ( calls % 100 ) == 0 ) {
+        char buf[256];
+        std::snprintf( buf, sizeof( buf ),
+                       "[cdda-mp] PROGRESS-UI-AVG: n=%lld gate_fired=%lld avg_total=%.2fms "
+                       "avg_gated=%.2fms avg_popup=%.2fms avg_refresh=%.2fms "
+                       "=> %.1f progress-UI passes/sec",
+                       calls, gate_fires, sum_total / calls, sum_gated / calls,
+                       sum_popup / calls, sum_refresh / calls,
+                       sum_total > 0.0 ? 1000.0 / ( sum_total / calls ) : 0.0 );
+        mp_log( buf );
+    }
+}
+
+void mp_log_do_turn_exit()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    // Only meaningful while a long action is running — otherwise the turn is
+    // paced by player input and the gap carries no information.
+    if( !get_avatar().activity ) {
+        return;
+    }
+    mp_log( "[cdda-mp] DO-TURN-EXIT" );
 }
 
 void mp_log_safemode_check( int newseen, int mostseen, int safe_mode )
@@ -5232,6 +8135,103 @@ void mp_log_safemode_check( int newseen, int mostseen, int safe_mode )
                                       ( nearest_synced ? "(synced)" : "(PHANTOM)" ) ) ) );
 }
 
+// Radius the parity diagnostic reports on.  Matches SP's own "dangerously close"
+// framing in mon_info_update rather than the whole 84-tile bubble: a zombie 60
+// tiles away is not what cancels a cast, and counting it would make every line
+// look like a disagreement.
+static constexpr int DISTRACT_PARITY_RADIUS = 20;
+
+// Count live hostiles within `radius` (chebyshev) of an absolute tile, as seen by
+// THIS side's simulation.  Presence, not visibility: the host has every monster in
+// the bubble, the client has the ones the host has synced, and both already share
+// that list — so asking "is something hostile near my partner" needs no protocol.
+// Shared by the distraction-parity diagnostic and mp_confirm_long_cast().
+int mp_count_hostiles_near( const tripoint_abs_ms &around, int radius )
+{
+    if( radius <= 0 ) {
+        return 0;
+    }
+    avatar &u = get_avatar();
+    int n = 0;
+    for( const auto &ptr : get_creature_tracker().get_monsters_list() ) {
+        monster *mon = ptr.get();
+        if( !mon || mon->is_dead() ) {
+            continue;
+        }
+        if( u.attitude_to( *mon ) != Creature::Attitude::HOSTILE ) {
+            continue;
+        }
+        const tripoint_abs_ms mp = mon->pos_abs();
+        if( mp.z() != around.z() ) {
+            continue;
+        }
+        const int d = std::max( std::abs( mp.x() - around.x() ), std::abs( mp.y() - around.y() ) );
+        if( d <= radius ) {
+            ++n;
+        }
+    }
+    return n;
+}
+
+void mp_log_distraction_check( const Character &who,
+                               const std::map<distraction_type, std::string> &dists )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    if( !who.activity ) {
+        return;
+    }
+    const tripoint_abs_ms apos = who.pos_abs();
+    const int mine = mp_count_hostiles_near( apos, DISTRACT_PARITY_RADIUS );
+    const npc *partner = get_partner_npc();
+    const int theirs = partner
+                       ? mp_count_hostiles_near( partner->pos_abs(), DISTRACT_PARITY_RADIUS )
+                       : -1;
+
+    // Emit when there is something to compare: a distraction fired, or a hostile is
+    // in range of either player.  Silence otherwise — an activity ticking in an
+    // empty field is not a parity question and would flood the log under FF.
+    if( dists.empty() && mine == 0 && theirs <= 0 ) {
+        return;
+    }
+    // One line per (turn, verdict) at most: an activity is ticked more than once per
+    // turn on some paths, and a 200-turn/sec fast-forward would otherwise bury the
+    // log in restatements of the same frame.
+    const int turn = to_turn<int>( calendar::turn );
+    const std::string verdict = std::to_string( dists.size() ) + "/" + std::to_string( mine )
+                                + "/" + std::to_string( theirs );
+    static int s_last_turn = -1;
+    static std::string s_last_verdict;
+    if( turn == s_last_turn && verdict == s_last_verdict ) {
+        return;
+    }
+    s_last_turn = turn;
+    s_last_verdict = verdict;
+
+    // Distraction TYPES are logged as the enum's integer values, not their messages:
+    // the messages are translated, so a French client and an English host would look
+    // like a parity failure when they agree perfectly.
+    std::string types;
+    for( const std::pair<const distraction_type, std::string> &d : dists ) {
+        if( !types.empty() ) {
+            types += ",";
+        }
+        types += std::to_string( static_cast<int>( d.first ) );
+    }
+
+    mp_log( "[cdda-mp] ACT-DISTRACT: side=" + std::string( is_hosting() ? "HOST" : "CLIENT" )
+            + " turn=" + std::to_string( turn )
+            + " act=" + who.activity.id().str()
+            + " moves_left=" + std::to_string( who.activity.moves_left )
+            + " n=" + std::to_string( dists.size() )
+            + " types=[" + types + "]"
+            + " hostiles_near_me=" + std::to_string( mine )
+            + " hostiles_near_partner=" + std::to_string( theirs )
+            + " partner=" + ( partner ? "yes" : "no" ) );
+}
+
+
 void set_last_monmove_ms( int ms )
 {
     g_last_monmove_ms = ms;
@@ -5273,6 +8273,33 @@ bool partner_in_interactive_activity()
     return !g_partner_activity.empty() && !is_passive_activity( g_partner_activity );
 }
 
+// (The "hold the target during first aid" feature was removed 2026-07-19 — it was
+// scope creep found during testing that spawned an arming bug + churn.  First aid
+// stays passive + excluded from fast-forward so it completes cleanly in normal
+// lockstep; the target simply isn't held.  See ROADMAP for the design if revived.)
+
+// Instead of holding the patient, we cancel the heal if they walk off (SP first
+// aid has no range check — its do_turn is empty — because NPC patients hold still).
+void mp_firstaid_cancel_if_partner_out_of_range( player_activity &act, Character &who,
+        character_id patient )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;  // SP: no-op
+    }
+    // Only the co-op partner proxy.  Self-heals (patient == self) and any real
+    // companion NPC keep SP behavior (no range cancel).
+    if( !is_partner_npc( patient ) ) {
+        return;
+    }
+    npc *p = g->critter_by_id<npc>( patient );
+    if( p && rl_dist( who.pos_abs(), p->pos_abs() ) <= 1 ) {
+        return;  // still within melee reach — keep treating
+    }
+    add_msg( m_warning, _( "You can no longer reach %s and stop treating them." ),
+             p ? p->get_name() : _( "your patient" ) );
+    act.set_to_null();
+}
+
 bool is_partner_in_wait_activity()
 {
     // g_partner_activity is the activity id string last broadcast from the
@@ -5282,6 +8309,11 @@ bool is_partner_in_wait_activity()
            g_partner_activity == "ACT_WAIT_STAMINA" ||
            g_partner_activity == "ACT_WAIT_WEATHER" ||
            g_partner_activity == "ACT_WAIT_NPC";
+}
+
+bool mp_partner_is_waiting()
+{
+    return g_partner_waiting;
 }
 
 bool is_partner_helping_us()
@@ -5322,6 +8354,95 @@ int partner_activity_pct()
     return g_partner_activity_pct;
 }
 
+// ---------------------------------------------------------------------------
+// MP DIAG 2026-08-30 — HOSTACT probe.  Full rationale + how to read the output
+// is in mp_gamestate.h above mp_log_host_activity_start().
+//
+// QUESTION: can a HOST activity begin and end between two state broadcasts, so
+// the client never observes the transition?  host->client activity is sampled
+// (a "host_activity" field on each packet), unlike client->host which is edge
+// driven, so a short host activity could in principle slip through unseen.
+//
+// This tracks one INSTANCE at a time: opened on the first sighting from any of
+// the three call sites, closed when the id changes, and reported as DROPPED if
+// no broadcast ever carried it.
+// ---------------------------------------------------------------------------
+static const char *HOSTACT_TAG = "[cdda-mp] HOSTACT[edge-vs-sample] ";
+
+static std::string g_hostact_cur;        // instance currently being tracked
+static int     g_hostact_open_turn = 0;  // calendar turn it opened
+static int     g_hostact_sends     = 0;  // broadcasts that carried it
+static int64_t g_hostact_open_ms   = 0;  // wall clock of the open
+
+// Open/close bookkeeping shared by all three entry points, so whichever one
+// notices the change first is the one that reports it.
+static void hostact_transition( const std::string &now, const char *src )
+{
+    if( now == g_hostact_cur ) {
+        return;
+    }
+    const int turn = to_turn<int>( calendar::turn );
+    if( !g_hostact_cur.empty() ) {
+        const int lived = turn - g_hostact_open_turn;
+        // sends == 0 is the whole point of this probe: the activity existed on
+        // the host and no packet ever carried it, so the client's HUD and the
+        // begins/finished announcements could not have seen it.
+        mp_log( std::string( HOSTACT_TAG ) +
+                ( g_hostact_sends == 0 ? "DROPPED" : "CLOSE" ) +
+                " id=" + g_hostact_cur +
+                " turn=" + std::to_string( turn ) +
+                " lived_turns=" + std::to_string( lived ) +
+                " lived_ms=" + std::to_string( mp_now_ms() - g_hostact_open_ms ) +
+                " sends=" + std::to_string( g_hostact_sends ) );
+    }
+    g_hostact_cur = now;
+    g_hostact_open_turn = turn;
+    g_hostact_sends = 0;
+    g_hostact_open_ms = mp_now_ms();
+    if( !now.empty() ) {
+        mp_log( std::string( HOSTACT_TAG ) + "OPEN id=" + now +
+                " turn=" + std::to_string( turn ) + " src=" + src );
+    }
+}
+
+void mp_log_host_activity_start( const std::string &activity_id_str )
+{
+    if( !is_hosting() || !remote_player_connected ) {
+        return;
+    }
+    hostact_transition( activity_id_str, "assign" );
+}
+
+void mp_host_activity_tick()
+{
+    if( !is_hosting() || !remote_player_connected ) {
+        return;
+    }
+    const player_activity &act = get_avatar().activity;
+    hostact_transition( act ? act.id().str() : std::string(), "poll" );
+}
+
+void mp_note_host_activity_sent( const std::string &activity_id_str )
+{
+    if( !is_hosting() || !remote_player_connected ) {
+        return;
+    }
+    // A broadcast can be built before the poll has seen a brand-new activity,
+    // so adopt here too rather than dropping the send on the floor.
+    hostact_transition( activity_id_str, "send" );
+    if( g_hostact_cur.empty() ) {
+        return;
+    }
+    if( ++g_hostact_sends == 1 ) {
+        // Latency from the activity opening to the first packet that carried
+        // it — the number that says how coarse the sampling actually is.
+        mp_log( std::string( HOSTACT_TAG ) + "SENT id=" + g_hostact_cur +
+                " turn=" + std::to_string( to_turn<int>( calendar::turn ) ) +
+                " first_send_after_ms=" +
+                std::to_string( mp_now_ms() - g_hostact_open_ms ) );
+    }
+}
+
 bool mp_in_burst_mode()
 {
     // Both sides committed to non-interactive activities (neither needs
@@ -5330,8 +8451,14 @@ bool mp_in_burst_mode()
     if( !is_hosting() && !is_client_mode() ) {
         return false;
     }
-    if( !get_avatar().activity ) {
+    // A partner in a modal is not "non-interactive" — it is stopped.  Bursting
+    // here is what dropped the 16ms pump and let the host spin turns out while
+    // the other player read a dialog.
+    if( mp_peer_modal_held() ) {
         return false;
+    }
+    if( mp_local_ff_activity().empty() ) {
+        return false;   // idle — and asleep is NOT idle, see mp_wire_activity_id()
     }
     if( g_partner_activity.empty() ) {
         return false;
@@ -5344,6 +8471,132 @@ bool mp_in_burst_mode()
 // moves_total at 0 and track progress elsewhere.  This helper hides those
 // special cases so the wire field `*_activity_pct` reflects what the player
 // sees in their wait popup, not 0%.
+// MP DIAGNOSTIC 2026-08-15 — crafting progress does NOT live in moves_left; for a
+// craft that field reads as the INT_MAX sentinel 21474836 the whole way through,
+// which is why every log so far showed "moves_left 21474836->21474836" and told us
+// nothing. Real progress is the craft item's item_counter, 100,000 per percent.
+//
+// Same character, same recipe (belly wrap), clean 0%-loss link: client finished in
+// 21.6s, host was at 6% after 12s and still going at 58s — ~9x. Time and bytes are
+// both measured now and neither explains it, so measure the thing that actually
+// diverges: progress gained per unit of AP spent, on each side.
+// MP DIAGNOSTIC 2026-08-15 — the client gains 2285 counter/turn against the host's
+// 3265 while BOTH spend exactly 100 AP: per_ap 22.85 vs 32.65, so the client's
+// craft is 70% as efficient per unit of AP. Not an AP bug (the clamp holds,
+// ap_spent=100 on all 1641 client ticks, 1641 ticks across 1641 distinct turns) and
+// not position or lighting (both sides logged center_abs=5437,7740, outside=1,
+// light 3 in the session where they MATCHED at 32 and the one where they diverged).
+//
+// Crafting speed is a product of ~7 independent multipliers plus helper count, and
+// two guesses at which one (vehicle-mounted workbench, then lost vehicle sync) were
+// both wrong — vehicles still reach the client (11 CLI-VEH-CREATE) and no workbench
+// is involved. So log every factor on both sides instead of guessing a third time.
+// Change-gated: emits only when the composite actually changes, so a steady craft
+// produces one line per side rather than one per turn.
+static void mp_log_craft_multipliers( const Character &who, const player_activity &act,
+                                      const char *side )
+{
+    if( !act || act.targets.empty() || !act.targets[0] ) {
+        return;
+    }
+    const item *craft = act.targets[0].get_item();
+    if( !craft || !craft->is_craft() ) {
+        return;
+    }
+    const recipe &rec = craft->get_making();
+    const std::vector<Character *> helpers = who.get_crafting_helpers();
+    const std::string line =
+        std::string( "[cdda-mp] CRAFT-MULT " ) + side +
+        ": total=" + std::to_string( who.crafting_speed_multiplier( rec ) ) +
+        " morale=" + std::to_string( who.morale_crafting_speed_multiplier( rec ) ) +
+        " light=" + std::to_string( who.lighting_craft_speed_multiplier( rec ) ) +
+        " bench=" + std::to_string( who.workbench_crafting_speed_multiplier( *craft, std::nullopt ) ) +
+        " limb=" + std::to_string( who.limb_score_crafting_speed_multiplier( rec ) ) +
+        " pain=" + std::to_string( who.pain_crafting_speed_multiplier( rec ) ) +
+        " mut=" + std::to_string( who.mut_crafting_speed_multiplier( rec ) ) +
+        " helpers=" + std::to_string( helpers.size() ) +
+        " skill=" + std::to_string( who.get_skill_level( rec.skill_used ) ) +
+        " morale_lvl=" + std::to_string( who.get_morale_level() ) +
+        " focus=" + std::to_string( who.get_focus() );
+    static std::map<std::string, std::string> s_last;
+    std::string &prev = s_last[side];
+    if( prev != line ) {
+        prev = line;
+        mp_log( line );
+    }
+}
+
+static long long mp_craft_counter( const player_activity &act )
+{
+    if( !act || act.targets.empty() || !act.targets[0] ) {
+        return -1;
+    }
+    const item *it = act.targets[0].get_item();
+    return ( it && it->is_craft() ) ? static_cast<long long>( it->item_counter ) : -1;
+}
+
+// Batch size of an in-progress craft, or 1 for a single item / non-craft.
+//
+// The Co-op panel showed a bare "crafting NN%", which is the same display whether
+// the partner is making one bandage or forty. The percentage is per-BATCH, so a
+// batch of 40 sits at low percentages for a very long time and reads as a stall
+// with nothing on screen to explain it. Reads the craft item the same way
+// mp_craft_counter does (act.targets[0]) rather than the wielded item, so it stays
+// correct if the craft is ever not in hand.
+static int mp_craft_batch_size( const player_activity &act )
+{
+    if( !act || act.targets.empty() || !act.targets[0] ) {
+        return 1;
+    }
+    const item *it = act.targets[0].get_item();
+    if( !it || !it->is_craft() ) {
+        return 1;
+    }
+    return std::max( 1, it->get_making_batch_size() );
+}
+
+// Name of what the partner is actually making, e.g. "bandage". "crafting 12%" is
+// the same line whether they are two minutes from a hammer or forty minutes into a
+// batch of bandages; the name plus the batch count is what makes the wait legible.
+// Empty for non-crafts, which keeps the panel unchanged for every other activity.
+static std::string mp_craft_result_name( const player_activity &act )
+{
+    if( !act || act.targets.empty() || !act.targets[0] ) {
+        return std::string();
+    }
+    const item *it = act.targets[0].get_item();
+    if( !it || !it->is_craft() ) {
+        return std::string();
+    }
+    return it->get_making().result_name();
+}
+
+// Pulp progress as "pulped/total corpses", encoded as done*1000+total so it rides
+// a single int field. ACT_PULP has no usable percent — moves_left never drops
+// below moves_total, so the standard path yields a permanent 0% that reads as
+// broken sync, which is why the panel suppresses the percent for it entirely.
+// The corpse counts ARE the real progress and are already serialized on the
+// actor; they were just never exposed. Returns 0 for anything else.
+static int mp_pulp_progress_packed( const player_activity &act )
+{
+    static const activity_id ACT_PULP_ID( "ACT_PULP" );
+    if( !act || act.id() != ACT_PULP_ID ) {
+        return 0;
+    }
+    const pulp_activity_actor *pa = act.actor
+                                    ? dynamic_cast<const pulp_activity_actor *>( act.actor.get() )
+                                    : nullptr;
+    if( !pa ) {
+        return 0;
+    }
+    const int total = pa->mp_pulp_total();
+    if( total <= 0 ) {
+        return 0;
+    }
+    return std::min( pa->mp_pulp_current(), 999 ) * 1000 + std::min( total, 999 );
+}
+
+
 static int mp_compute_activity_pct( const player_activity &act )
 {
     if( !act ) {
@@ -5393,7 +8646,6 @@ static int mp_compute_activity_pct( const player_activity &act )
         if( const build_construction_activity_actor *bca =
                 dynamic_cast<const build_construction_activity_actor *>( act.actor.get() ) ) {
             map &m = get_map();
-#if 0 // MP-FIXME: get_construction_location private in CCB
             if( partial_con *pc = m.partial_con_at( m.get_bub( bca->get_construction_location() ) ) ) {
                 const int pct = std::clamp( pc->counter / 100000, 0, 100 );
                 static int s_last_build_pct = -1;
@@ -5404,9 +8656,7 @@ static int mp_compute_activity_pct( const player_activity &act )
                 }
                 return pct;
             }
-#endif
-            ( void )m;
-            ( void )bca;
+
         }
     }
     return 0;
@@ -5467,7 +8717,8 @@ npc *get_partner_npc()
             result = n;
         }
     }
-    if( !result && is_client_mode() && client_host_npc_id.get_value() != 0 ) {
+    if( !result && is_client_mode() && client_host_npc_spawned &&
+        client_host_npc_id.get_value() != 0 ) {
         if( npc *n = g->critter_by_id<npc>( client_host_npc_id ) ) {
             result = n;
         }
@@ -5489,6 +8740,14 @@ bool is_partner_npc( character_id id )
     return is_client_mode() &&
            client_host_npc_id.get_value() != 0 &&
            id == client_host_npc_id;
+}
+
+bool mp_partner_shares_friendly( const Character &guy )
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return false;   // single player: SP behavior untouched
+    }
+    return guy.is_npc() && is_partner_npc( guy.getID() );
 }
 
 bool is_client_host_at( const tripoint_abs_ms &abs )
@@ -5541,6 +8800,14 @@ void mp_after_quicksave()
                  _( "Saved your character locally.  Asking the host to save the shared world so you stay in sync…" ) );
         client_send( R"({"type":"action","action":"save_request"})" );
     }
+}
+
+void mp_after_world_save()
+{
+    if( !is_host_mode() || !is_hosting() ) {
+        return;   // host-only: see "Co-op save model" in ROADMAP.md
+    }
+    mp_save_kill_tally();
 }
 
 void mp_notify_session_ending()
@@ -5751,6 +9018,63 @@ static void mp_handle_template_data( const std::string &msg )
 static bool g_pending_host_start = false;
 static bool g_host_thread_actually_started = false;
 
+// --- Host listen port (custom-port feature) -------------------------------
+// Three sites used to hardcode 8080 (the run_server() call, the arm-log, and
+// the status text) and could drift.  They now all route through mp_host_port().
+// Precedence (decided 2026-06-29): CDDA_MP_PORT env (Option A) → menu/persisted
+// field (Option B) → 8080 floor.  Env wins because exporting it is deliberate
+// work, so it outranks a GUI value that may have been typed once and forgotten.
+// The port is a pure transport detail — it never enters the JSON protocol.
+static uint16_t g_host_port_menu = 0;       // 0 = unset (no menu/persisted value)
+static bool g_host_port_loaded = false;     // disk-load happens lazily, once
+
+static cata_path mp_host_port_path()
+{
+    return PATH_INFO::config_dir_path() / "mp_host_port.json";
+}
+
+static uint16_t mp_host_port_load_disk()
+{
+    uint16_t out = 0;
+    read_from_file_optional_json( mp_host_port_path(), [&]( const JsonValue & jv ) {
+        JsonObject jo = jv.get_object();
+        int v = jo.get_int( "port", 0 );
+        if( v > 0 && v < 65536 ) {
+            out = static_cast<uint16_t>( v );
+        }
+    } );
+    return out;
+}
+
+static void mp_host_port_save_disk( uint16_t port )
+{
+    write_to_file( mp_host_port_path(), [&]( std::ostream & fout ) {
+        JsonOut jo( fout );
+        jo.start_object();
+        jo.member( "port", static_cast<int>( port ) );
+        jo.end_object();
+    }, "mp host port" );
+}
+
+uint16_t mp_host_port()
+{
+    if( const char *e = std::getenv( "CDDA_MP_PORT" ) ) {
+        int v = atoi( e );
+        if( v > 0 && v < 65536 ) {
+            return static_cast<uint16_t>( v );
+        }
+        // Invalid env value: ignore and fall through to the menu/default.
+    }
+    if( !g_host_port_loaded ) {
+        g_host_port_menu = mp_host_port_load_disk();
+        g_host_port_loaded = true;
+    }
+    if( g_host_port_menu != 0 ) {
+        return g_host_port_menu;
+    }
+    return 8080;
+}
+
 // Called from process_mp_events() on the host's first turn after the world
 // has loaded.  Spawns the listen-server thread iff the menu armed it and we
 // haven't already started it.  No-op when the server was started via the
@@ -5769,10 +9093,12 @@ static void mp_start_pending_host_thread()
     mp_log( "[cdda-mp] HOST-THREAD-CHECK: pending=" + std::to_string( g_pending_host_start ) +
             " already_started=" + std::to_string( g_host_thread_actually_started ) +
             " host_mode=" + std::to_string( is_host_mode() ) );
-    std::thread( []() {
-        run_server( 8080, std::string(), getVersionString() );
+    const uint16_t listen_port = mp_host_port();
+    std::thread( [listen_port]() {
+        run_server( listen_port, std::string(), getVersionString() );
     } ).detach();
     g_host_thread_actually_started = true;
+    mp_kill_tally_subscribe();   // start counting kills for the co-op tally
     mp_log( "[cdda-mp] MENU: host thread started (post-world-load)" );
 }
 
@@ -5796,19 +9122,98 @@ bool mp_menu_start_host_session()
     mp_log( "[cdda-mp] HOST-ARM: arming (host_mode was " +
             std::to_string( is_host_mode() ) + ", live_server=" +
             std::to_string( is_hosting() ) + ") — re-arm restarts the thread" );
+    // Option B: let the host pick a listen port (mirrors the client's :port
+    // suffix on the Join side).  Default shown is the *effective* port
+    // (mp_host_port(): env override → last persisted/menu value → 8080), so the
+    // field never silently disagrees with what will bind.  When CDDA_MP_PORT is
+    // set (Option A) it wins by precedence, so we show it but don't let a typed
+    // value override it — flagging that in the title to avoid confusion.
+    {
+        const bool env_pinned = std::getenv( "CDDA_MP_PORT" ) != nullptr;
+        const std::string def = std::to_string( mp_host_port() );
+        const std::string title = env_pinned
+                                  ? _( "Listen port (CDDA_MP_PORT env override active)" )
+                                  : _( "Listen port (default 8080)" );
+        const std::string in = string_input_popup()
+                               .title( title )
+                               .width( 8 )
+                               .text( def )
+                               .query_string();
+        if( in.empty() && !env_pinned ) {
+            // Blank submission reads as "use the default" (the title says so),
+            // not "leave whatever was persisted" — force back to 8080 rather
+            // than silently keeping a stale g_host_port_menu/mp_host_port.json
+            // value from an earlier session (reported 2026-07-06: blanking the
+            // field kept port 1111 instead of defaulting).
+            g_host_port_menu = 8080;
+            g_host_port_loaded = true;
+            mp_host_port_save_disk( g_host_port_menu );
+        } else if( !in.empty() && !env_pinned ) {
+            const int v = atoi( in.c_str() );
+            if( v > 0 && v < 65536 ) {
+                g_host_port_menu = static_cast<uint16_t>( v );
+                g_host_port_loaded = true;
+                mp_host_port_save_disk( g_host_port_menu );
+            } else {
+                //~ %1$s is the wrong port, %2$s is original one entered
+                popup( _( "Invalid port \"%1$s\" — keeping %2$s." ), in, def );
+            }
+        }
+    }
+    {
+        // Streaming-privacy option: default to the last choice (persisted), so
+        // a streamer who enables it once doesn't have to re-enable it every
+        // session — but always ask, since silently carrying "hidden" forward
+        // could also surprise a non-streaming host who can't find their address.
+        const bool prev = mp_host_hide_ip();
+        const bool hide = query_yn(
+                              prev
+                              ? _( "Hide join IP address on game screen? (was hidden last session)" )
+                              : _( "Hide join IP address on game screen?  (recommended for streaming. bindable during play as \"Copy co-op join address\" " ) );
+        if( hide != g_host_hide_ip || !g_host_hide_ip_loaded ) {
+            g_host_hide_ip = hide;
+            g_host_hide_ip_loaded = true;
+            mp_host_hide_ip_save_disk( hide );
+        }
+        if( hide ) {
+            // Auto-copy immediately: the address is about to stop being drawn
+            // on screen, and the reveal keybind ships unbound by default, so
+            // without this a host has no way to get it out at all unless they
+            // already went and bound "Copy co-op join address" beforehand.
+            mp_copy_join_address_now( true );
+        }
+    }
+    // "Armed" is not "listening".  The listen thread is deliberately deferred to
+    // the host's first do_turn (below) so there's a world for arrivals to spawn
+    // into — but the host has the address in hand RIGHT NOW and will send it to
+    // their partner immediately, who then gets connection-refused for the whole
+    // of worldgen + character creation + the scenario intro.  Measured windows:
+    // 3m58s locally, 22m48s in a reported case where the host was (correctly)
+    // certain their port forward was fine — there was simply nothing behind it
+    // yet.  Say so before they share it.  Gated on the listen thread genuinely
+    // not being up, so a re-arm over a live server doesn't nag.
+    if( !is_server_thread_running() ) {
+        popup( _( "The game doesn't open the port until you're actually in the world, so "
+                  "anyone who tries before that just gets \"connection refused\", even if "
+                  "your address and port forwarding are perfectly correct.\n\n"
+                  "So finish world and character creation first.  Once you're in the world "
+                  "your partner can join." ) );
+    }
     set_host_mode( true );
     // Server thread starts on the host's first do_turn (see
     // mp_start_pending_host_thread) so we don't end up listening before
     // there's a world for incoming clients to spawn into.
     g_pending_host_start = true;
     g_host_thread_actually_started = false;
-    mp_log( "[cdda-mp] MENU: host armed on port 8080 (thread deferred to do_turn)" );
+    mp_log( "[cdda-mp] MENU: host armed on port " + std::to_string( mp_host_port() ) +
+            " (thread deferred to do_turn)" );
     mp_update_window_title();
     return true;
 }
 
 void mp_menu_cancel_host()
 {
+    g_kill_tally_reset_pending = false;  // don't leak into a later "Load saved world"
     if( !g_pending_host_start && !is_host_mode() ) {
         return;
     }
@@ -5876,13 +9281,8 @@ std::string mp_game_report_section()
              + ( g_partner_name_cached.empty() ? std::string( "<none connected>" )
                  : g_partner_name_cached ) + "\n";
     }
-#if defined(_WIN32)
-    s += "- Co-op Logs (attach to bug reports): %USERPROFILE%\\cdda-mp-server.log (host) / "
-         "%USERPROFILE%\\cdda-mp-client.log (client)\n";
-#else
-    s += "- Co-op Logs (attach to bug reports): /tmp/cdda-mp-server.log (host) / "
-         "/tmp/cdda-mp-client.log (client)\n";
-#endif
+    s += "- Co-op Logs (attach to bug reports): " + PATH_INFO::user_dir() +
+         "mp-server.log (host) / " + PATH_INFO::user_dir() + "mp-client.log (client)\n";
     s += "- Co-op Note: both players must run the SAME Game Version listed above; "
          "mismatched builds are rejected at join.\n";
     return s;
@@ -5896,14 +9296,95 @@ WORLD *mp_ensure_client_scratch_world()
     // the host.  Named to make it obvious in the world menu that it's internal
     // and must not be hand-selected.  (ASCII only — this becomes a directory.)
     static const std::string SCRATCH_NAME = "Co-op (auto) - DO NOT SELECT";
-    if( world_generator->has_world( SCRATCH_NAME ) ) {
-        return world_generator->get_world( SCRATCH_NAME );
+
+    // Build the mod set from the host's advertised list (received in 'welcome').
+    // Mods are data definitions — recipes, professions, terrain types — that
+    // can't be streamed, only loaded. The client MUST load the host's exact set
+    // or its character/recipes/terrain silently diverge (vanilla character,
+    // missing recipes, void terrain outside the streamed bubble — issue #18).
+    // Fall back to plain dda if the host advertised nothing (older host, or the
+    // per-turn capture hasn't run yet).
+    std::vector<std::string> host_mods = mp_client_host_mods();
+    if( host_mods.empty() ) {
+        host_mods = { "ccb" };
+        mp_log( "[cdda-mp] MENU: host advertised no mods — scratch world = ccb only" );
     }
-    const std::vector<mod_id> default_mods = { mod_id( "ccb" ) };
-    WORLD *neww = world_generator->make_new_world( SCRATCH_NAME, default_mods );
+
+    // Hard-refuse the join if the client is missing any host mod on disk.
+    // Spawning anyway is exactly the void / vanilla-nun bug (#18); tell the
+    // player precisely which mod(s) to install instead.
+    std::vector<mod_id> mods;
+    std::vector<std::string> missing;
+    for( const std::string &id : host_mods ) {
+        const mod_id m( id );
+        if( m.is_valid() ) {
+            mods.push_back( m );
+        } else {
+            missing.push_back( id );
+        }
+    }
+    if( !missing.empty() ) {
+        std::string list;
+        for( const std::string &id : missing ) {
+            list += "\n  - " + id;
+        }
+        popup( _( "Can't join: the host is running mods you don't have installed:%s\n\n"
+                  "Install the missing mod(s), then rejoin." ), list );
+        mp_log( "[cdda-mp] MENU: REFUSED join — missing host mods:" + list );
+        return nullptr;
+    }
+
+    // Names alone never establish ownership: an old or user-created world
+    // with this name must remain intact. Reuse only our explicitly marked
+    // internal world with the exact host mod order, otherwise create a new one.
+    static const std::string SCRATCH_MARKER = "mp_client_scratch.json";
+    for( const std::string &name : world_generator->all_worldnames() ) {
+        WORLD *existing = world_generator->get_world( name );
+        if( !existing || existing->active_mod_order != mods ||
+            !existing->world_saves.empty() ) {
+            continue;
+        }
+        bool owned = false;
+        read_from_file_optional_json( existing->folder_path() / SCRATCH_MARKER,
+        [&]( const JsonValue & jv ) {
+            JsonObject jo = jv.get_object();
+            owned = jo.get_string( "kind", "" ) == "cph-mp-client-scratch" &&
+                    jo.get_int( "version", 0 ) == 1;
+        } );
+        if( owned ) {
+            return existing;
+        }
+    }
+
+    std::string scratch_name = SCRATCH_NAME;
+    for( unsigned int suffix = 2;
+         world_generator->has_world( scratch_name ) ||
+         file_exist( PATH_INFO::savedir_path() / scratch_name ); ++suffix ) {
+        scratch_name = SCRATCH_NAME + " - " + std::to_string( suffix );
+    }
+    WORLD *neww = world_generator->make_new_world( scratch_name, mods );
+    if( neww && !write_to_file( neww->folder_path() / SCRATCH_MARKER,
+    []( std::ostream & fout ) {
+    JsonOut jo( fout );
+        jo.start_object();
+        jo.member( "kind", "cph-mp-client-scratch" );
+        jo.member( "version", 1 );
+        jo.end_object();
+    }, "mp client scratch marker" ) ) {
+        // Preserve even a partially prepared world. Without its marker it is
+        // simply ineligible for automatic reuse on a subsequent join.
+        mp_log( "[cdda-mp] MENU: failed to mark client scratch world" );
+        return nullptr;
+    }
     if( neww ) {
-        mp_log( "[cdda-mp] MENU: created client scratch world '" + SCRATCH_NAME + "'" );
+        std::string ids;
+        for( const mod_id &m : mods ) {
+            ids += ( ids.empty() ? "" : "," ) + m.str();
+        }
+        mp_log( "[cdda-mp] MENU: created client scratch world '" + scratch_name +
+                "' mods=[" + ids + "]" );
     } else {
+        popup( _( "Couldn't prepare the co-op world." ) );
         mp_log( "[cdda-mp] MENU: failed to create client scratch world" );
     }
     return neww;
@@ -6248,11 +9729,35 @@ bool mp_menu_join_session()
     if( !mp_parse_address( entered, host, port ) ) {
         return false;
     }
+    // Log the attempt BEFORE the probe.  "I can't connect" is the single most
+    // common thing a player reports, and until now that path wrote nothing at
+    // all to the client log — probe fails, popup, return.  So the log a player
+    // sends us had no trace they had even tried, which is precisely what made
+    // the 2026-07-31 investigation take a full session.  Now the log shows the
+    // address dialled and, below, why it failed.
+    mp_log( "[cdda-mp] MENU: join attempt -> " + host + ":" + std::to_string( port ) );
     // Pre-flight TCP probe so a typo'd IP returns in ~3 s instead of hanging
     // on macOS's 75 s default SYN retry.  Only on success do we commit to
     // setting client_mode and running the real connect handshake.
     if( !tcp_probe( host, port, 3000 ) ) {
-        popup( _( "Could not reach %s:%d.\n\nCheck the address, the host is running, and the port (default 8080) isn't blocked." ),
+        mp_log( "[cdda-mp] MENU: join FAILED — no TCP route to " + host + ":" +
+                std::to_string( port ) + " within 3s (host not listening yet, wrong "
+                "address, firewall, or VPN routing)" );
+        // Couldn't even open a TCP connection — a network/route/firewall problem,
+        // NOT a version/password one (that surfaces later with its own message).
+        // Name the VPN-route gotcha explicitly: a "Connected" status in the VPN
+        // app does NOT mean apps can route to the peer, and the host now shows
+        // both its LAN and VPN addresses so the partner can try the other one.
+        //~ %1$s is the host address, %2$d is the port number
+        popup( _( "Could not reach %1$s:%2$d ...\n\n"
+                  "1 Make sure the host is in-game and hosting\n"
+                  "2 Ensure both machines are on the same network or VPN.  A \"Connected\" "
+                  "status in Tailscale/Radmin does not guarantee routing, so try the host's "
+                  "other listed address, or toggle the VPN off/on to reset its route.\n"
+                  "3 Turn off any commercial VPN (NordVPN, ExpressVPN, Proton, etc).  "
+                  "It takes over your machine's routing and will send co-op traffic "
+                  "out through the VPN instead of to your partner.\n"
+                  "4 Check the address and check the port isn't firewalled." ),
                host.c_str(), static_cast<int>( port ) );
         return false;
     }
@@ -6260,7 +9765,8 @@ bool mp_menu_join_session()
     if( !client_connect( host, port, "player2", std::string(), getVersionString() ) ) {
         const std::string err = client_connect_error();
         popup( "%s", err.empty()
-               ? string_format( _( "Could not connect to %s:%d." ), host, static_cast<int>( port ) ).c_str()
+               //~ %1$s is the host address, %2$d is the port number
+               ? string_format( _( "Could not connect to %1$s:%2$d." ), host, static_cast<int>( port ) ).c_str()
                : err.c_str() );
         set_client_mode( false );
         return false;
@@ -6291,7 +9797,8 @@ std::string mp_menu_coop_status_text()
         if( g_pending_host_start && !g_host_thread_actually_started ) {
             return std::string( _( "Co-op: armed — re-enter Host to pick world / character" ) );
         }
-        return std::string( _( "Co-op: hosting on port 8080 — waiting for partner" ) );
+        return string_format( _( "Co-op: hosting on port %d — waiting for partner" ),
+                              static_cast<int>( mp_host_port() ) );
     }
     if( is_client_mode() ) {
         return std::string( _( "Co-op: connected to host — re-enter Join to pick character" ) );
@@ -6337,15 +9844,22 @@ static void check_separation_warning( const tripoint_abs_ms &a, const tripoint_a
     }
     if( g_separation_tier != prev ) {
         if( g_separation_tier == 0 ) {
-            add_msg( m_good, "You and your partner are close enough again." );
+            add_msg( m_good, _( "You and your partner are close enough again." ) );
         } else if( g_separation_tier == 1 ) {
-            add_msg( m_warning, "Your partner is getting far away (%d tiles). Max safe range is ~80.", dist );
+            //~ %d is the current separation in tiles.  60 is the tier-2 threshold
+            //~ above, and is the number the README quotes as the safe range.
+            add_msg( m_warning,
+                     _( "Your partner is getting far away (%d tiles).  Max safe range is about 60." ),
+                     dist );
         } else if( g_separation_tier == 2 ) {
+            //~ %d is the current separation in tiles.
             add_msg( m_bad,
-                     "Your partner is near the edge of the simulated zone (%d tiles)! Brake or turn around.", dist );
+                     _( "Your partner is near the edge of the simulated zone (%d tiles)!  Brake or turn around." ),
+                     dist );
         } else {
+            //~ %d is the current separation in tiles.
             add_msg( m_bad,
-                     "Your partner is past the edge (%d tiles)! Vehicle physics will break — close the gap now.",
+                     _( "Your partner is past the edge (%d tiles)!  Vehicle physics will break — close the gap now." ),
                      dist );
         }
     }
@@ -6359,6 +9873,11 @@ void process_mp_events()
     // be spawned into a world.  No-op for --host CLI launches.
     mp_start_pending_host_thread();
 
+    // Release any item applies that were deferred while a menu or a short
+    // item-target activity held references. The guard destructor covers the menu
+    // case; this covers the activity case, which ends with no destructor to fire.
+    mp_drain_deferred_item_applies_if_free();
+
     // Client: drain a budget of queued overmap-sync cells this turn (no-op when
     // nothing is pending). Keeps the ~32k-cell apply off the single-frame hot path.
     mp_drain_pending_omsync();
@@ -6370,47 +9889,112 @@ void process_mp_events()
     // Draining the whole queue in a loop caused unexpected back-to-back move
     // execution when network timing let two packets arrive before
     // process_mp_events() ran.
-    // State-sync messages (worn_sync, note_sync, trade_delta, templates_list,
-    // resync_request, tile_changes) are protocol bookkeeping, not game turns —
-    // they always drain regardless of depth. Only actions that advance the
-    // lockstep turn count toward the depth-1 limit.
+    // Bookkeeping drains independently of the one lockstep action. An action
+    // may also carry tile/item deltas; those fields do not make its move or wait
+    // bookkeeping. Classify the top-level operation rather than its payload.
     // TODO(roadmap): real multi-depth queue for lockstep relaxation / input
     // buffering — see ROADMAP.md "Action queue depth"
-    auto is_state_sync = []( const std::string_view data ) {
-        return data.find( R"("action":"worn_sync")" ) != std::string::npos
-               || data.find( R"("type":"trade_delta")" ) != std::string::npos
-               || data.find( R"("type":"note_sync")" ) != std::string::npos
-               || data.find( R"("type":"chat")" ) != std::string::npos
-               || data.find( R"("type":"templates_list")" ) != std::string::npos
-               || data.find( R"("type":"resync_request")" ) != std::string::npos
-               || data.find( "\"client_tile_changes\":" ) != std::string::npos;
+    auto is_state_sync = []( const std::string & data ) {
+        try {
+            JsonObject packet = json_loader::from_string( data ).get_object();
+            packet.allow_omitted_members();
+            const std::string type = packet.get_string( "type", "" );
+            const std::string action = packet.get_string( "action", "" );
+            return action.empty() || ( !type.empty() && type != "action" ) ||
+                   action == "worn_sync" || action == "activity_start" ||
+                   action == "activity_end" || action == "session_ending" ||
+                   action == "save_request" || action == "veh_snapshot_req";
+        } catch( const JsonError & ) {
+            return false;
+        }
     };
     mp_event event;
     bool turn_action_processed = false;
     while( get_mp_queue().pop( event ) ) {
+        const bool sync = event.evt_type == mp_event::type::action && is_state_sync( event.data );
         if( event.evt_type == mp_event::type::action ) {
-            const bool sync = is_state_sync( event.data );
+            // A pre-rollback turn action is discarded by the epoch guard. It
+            // must not occupy this drain's one action slot: the matching ACK
+            // and the peer's fresh wait can already be queued behind it.
+            if( !sync && g_mp_host_waiting_for_item_resync_ack ) {
+                continue;
+            }
             if( !sync && turn_action_processed ) {
                 mp_log( "[cdda-mp] process_mp_events: unexpected queued turn-action dropped: " +
                         event.data.substr( 0, 60 ) );
                 continue;
             }
-            mp_log( "[cdda-mp] process_mp_events: " + event.data.substr( 0, 60 ) );
+            // Heartbeats arrive every ~1.5s — don't spam the log with them.
+            if( event.data.find( "\"type\":\"heartbeat\"" ) == std::string::npos ) {
+                mp_log( "[cdda-mp] process_mp_events: " + event.data.substr( 0, 60 ) );
+            }
         }
         switch( event.evt_type ) {
             case mp_event::type::connect:
+                // Reconnect that beat the stall watchdog: we still think the old
+                // session is live, so spawn_remote_player() would early-return and
+                // the fresh client would get no re-spawn/resync.  Tear the stale
+                // proxy down first (quietly — they didn't leave), so the JOIN gets
+                // a clean spawn + full resync.  (Server-side active-session
+                // tracking already stops the old socket's death from evicting us.)
+                if( remote_player_connected ) {
+                    mp_log( "[cdda-mp] connect: already connected — reconnect, re-admitting with fresh resync" );
+                    remove_remote_player( false );
+                }
+                mp_reset_deferred_item_state();
+                mp_reset_intent_state();
                 spawn_remote_player( event.session_id );
                 break;
             case mp_event::type::disconnect:
                 remove_remote_player();
                 break;
-            case mp_event::type::action:
+            case mp_event::type::action: {
+                // DIAG 2026-08-30 — the host stall hunt reached "turn-phase=map_cache",
+                // whose only statement is wait_for_client_action(), yet no
+                // "SRV-WAIT: entering" was ever logged — so it parks BEFORE that,
+                // and the only work on those paths is process_mp_events().  This
+                // breadcrumb names the exact client message being applied when the
+                // main thread stops, the same way the client apply steps do.
+                mp_apply_step step( "host-apply:" + event.data.substr( 0, 60 ) );
                 handle_remote_action( event.session_id, event.data );
-                if( !is_state_sync( event.data ) ) {
-                    turn_action_processed = true;
-                }
-                break;
+            }
+            if( !sync ) {
+                turn_action_processed = true;
+            }
+            break;
         }
+    }
+
+    // Client-stall watchdog (host).  Runs every host do_turn AND every SRV-WAIT
+    // iteration (both call process_mp_events), so a link that dies while the host
+    // is blocked waiting for the client is caught in ~MP_CLIENT_STALL_MS instead
+    // of hanging RED indefinitely (observed 108s, 2026-06-30).  remove_remote_
+    // player() clears remote_player_connected, which the SRV-WAIT loop's
+    // `while( remote_player_connected )` checks — so the host drops the wait, shows
+    // "the other player has disconnected", and continues solo.  (The host->client
+    // heartbeat itself is sent by the server's io-thread timer, not here, so it
+    // keeps beating through host modals — see mp_server::arm_heartbeat.)
+    const int64_t last_peer_message = std::max<int64_t>( g_last_client_msg_ms,
+                                      mp_host_partner_last_message_ms() );
+    if( remote_player_connected && last_peer_message > 0 &&
+        mp_now_ms() - last_peer_message > MP_CLIENT_STALL_MS ) {
+        // 2026-07-03: correlate against FF/activity state so a report like "host
+        // crafting -> server times out" can be confirmed/refuted from logs instead
+        // of theorized — pairs with mp_server.cpp's HOST-WRITE-BEGIN/DONE (a
+        // heartbeat queued behind a huge in-flight FF broadcast would explain a
+        // stall that isn't a real dropped link).
+        const player_activity &host_act = get_avatar().activity;
+        mp_log( "[cdda-mp] HOST-STALL: client silent >" +
+                std::to_string( MP_CLIENT_STALL_MS ) + "ms — treating as disconnected" +
+                " ff_active=" + std::to_string( should_fast_forward() ) +
+                " host_act=" + ( host_act ? host_act.id().str() : "none" ) +
+                " partner_act=" + ( g_partner_activity.empty() ? "none" : g_partner_activity ) );
+        // Tailored message for the silent-watchdog case; suppress remove_remote_
+        // player()'s generic "Your partner disconnected." to avoid a double line.
+        add_msg( m_bad,
+                 _( "Your partner went silent (>%d s) — connection lost.  They'll rejoin automatically if they reconnect." ),
+                 static_cast<int>( MP_CLIENT_STALL_MS / 1000 ) );
+        remove_remote_player( false );
     }
 }
 
@@ -6421,6 +10005,7 @@ void process_session_turn()
     if( is_client_mode() ) {
         client_process_incoming();
         client_resolve_pending_ui();
+        mp_log_lighting_sample();
     }
 
     if( is_hosting() ) {
@@ -6435,6 +10020,145 @@ void process_session_turn()
 static void apply_monster_sync( JsonObject &jo );
 static void apply_tile_changes( JsonObject &jo );
 static void apply_vehicle_sync( JsonObject &jo );
+
+void mp_log_craft_possession_lost( bool item_missing, const tripoint_abs_ms &craft_pos,
+                                   const tripoint_abs_ms &crafter_pos )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    mp_log( std::string( "[cdda-mp] CRAFT-LOST: reason=" ) +
+            ( item_missing ? "item_gone" : "out_of_range" ) +
+            " craft_abs=" + std::to_string( craft_pos.x() ) + "," +
+            std::to_string( craft_pos.y() ) + "," + std::to_string( craft_pos.z() ) +
+            " crafter_abs=" + std::to_string( crafter_pos.x() ) + "," +
+            std::to_string( crafter_pos.y() ) + "," + std::to_string( crafter_pos.z() ) +
+            " dist=" + std::to_string( item_missing ? -1 : square_dist( craft_pos, crafter_pos ) ) +
+            " in_veh=" + std::to_string( get_avatar().in_vehicle ) );
+}
+
+void mp_log_craft_tool_shortfall( const Character &crafter, const item &craft,
+                                  const itype_id &tool_type, int count_needed,
+                                  const char *from )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    const tripoint_abs_ms cpos = crafter.pos_abs();
+    // is_avatar() tells us whether THIS side's simulation thinks the LOCAL
+    // player (not the proxy) is the one advancing the craft -- the crux of the
+    // duplication question: if both sides log is_avatar=1 for the SAME recipe
+    // at the SAME abs position around the same wall-clock moment, that's a
+    // shared craft being independently advanced by both local simulations.
+    mp_log( "[cdda-mp] CRAFT-TOOL-SHORTFALL: side=" +
+            std::string( is_hosting() ? "HOST" : "CLIENT" ) +
+            " from=" + std::string( from ) +
+            " crafter='" + crafter.get_name() + "' is_avatar=" +
+            std::to_string( crafter.is_avatar() ) +
+            " crafter_abs=" + std::to_string( cpos.x() ) + "," +
+            std::to_string( cpos.y() ) + "," + std::to_string( cpos.z() ) +
+            " recipe='" + craft.get_making().result_name() + "'" +
+            " tool='" + tool_type.str() + "' count_needed=" + std::to_string( count_needed ) +
+            " count_have=" + std::to_string( crafter.charges_of( tool_type ) ) +
+            " in_veh=" + std::to_string( crafter.in_vehicle ) );
+}
+
+// Shared prefix for the step-tool diagnostics below: the identity question.
+// avatar_id vs crafter_id is the whole point — if both sides log the same
+// crafter_id AND each resolves it to its own avatar, one craft is being
+// advanced twice.
+static std::string mp_step_identity( Character &who, const item &craft )
+{
+    const tripoint_abs_ms wpos = who.pos_abs();
+    return std::string( " side=" ) + ( is_hosting() ? "HOST" : "CLIENT" ) +
+           " who='" + who.get_name() + "' is_avatar=" + std::to_string( who.is_avatar() ) +
+           " avatar_id=" + std::to_string( get_avatar().getID().get_value() ) +
+           " crafter_id=" + std::to_string( craft.get_crafter_id().get_value() ) +
+           " who_abs=" + std::to_string( wpos.x() ) + "," + std::to_string( wpos.y() ) +
+           "," + std::to_string( wpos.z() ) +
+           " recipe='" + craft.get_making().result_name() + "'" +
+           " in_veh=" + std::to_string( who.in_vehicle );
+}
+
+// Where the step is sourcing charges from, and how far the payer is from it.
+// dist > radius is the "the craft outlived its tool's reach" answer.
+static std::string mp_step_source_fields( Character &who, const tripoint_bub_ms &origin,
+        int radius, bool pin_to_map )
+{
+    const tripoint_abs_ms oabs = get_map().get_abs( origin );
+    return " origin_abs=" + std::to_string( oabs.x() ) + "," + std::to_string( oabs.y() ) +
+           "," + std::to_string( oabs.z() ) +
+           " radius=" + std::to_string( radius ) +
+           " dist=" + std::to_string( rl_dist( who.pos_abs(), oabs ) ) +
+           " pin_to_map=" + std::to_string( pin_to_map );
+}
+
+void mp_log_step_tool_shortfall( Character &who, const item &craft,
+                                 const itype_id &tool_type, int needed, int which,
+                                 int have_player, int have_map, bool pin_to_map,
+                                 const tripoint_bub_ms &origin, int radius,
+                                 const char *site )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    const char *src = which == 0 ? "player" : ( which == 1 ? "map" : "both" );
+    mp_log( "[cdda-mp] STEP-TOOL-SHORTFALL:" + mp_step_identity( who, craft ) +
+            " site=" + std::string( site ) +
+            " from=" + std::string( src ) +
+            " tool='" + tool_type.str() + "'" +
+            " needed=" + std::to_string( needed ) +
+            " have_player=" + std::to_string( have_player ) +
+            " have_map=" + std::to_string( have_map ) +
+            mp_step_source_fields( who, origin, radius, pin_to_map ) );
+}
+
+void mp_log_step_tool_missing( Character &who, const item &craft,
+                               const itype_id &tool_type, bool pin_to_map,
+                               const tripoint_bub_ms &origin, int radius,
+                               const char *site )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    mp_log( "[cdda-mp] STEP-TOOL-MISSING:" + mp_step_identity( who, craft ) +
+            " site=" + std::string( site ) +
+            " tool='" + tool_type.str() + "'" +
+            mp_step_source_fields( who, origin, radius, pin_to_map ) );
+}
+
+void mp_log_step_source( const item &craft, const item_location &loc,
+                         const Character *consumer, const Character *present_char,
+                         const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+{
+    if( !is_client_mode() && !is_hosting() ) {
+        return;
+    }
+    const tripoint_abs_ms oabs = get_map().get_abs( origin );
+    const auto who_str = []( const Character * c ) -> std::string {
+        if( c == nullptr )
+        {
+            return "(null)";
+        }
+        return "'" + c->get_name() + "'/id=" + std::to_string( c->getID().get_value() ) +
+        "/is_avatar=" + std::to_string( c->is_avatar() );
+    };
+    // loc.where() distinguishes a held craft (character) from one sitting in a
+    // vehicle or on the ground — the vehicle-cargo case is the hotplate repro.
+    mp_log( "[cdda-mp] STEP-SOURCE: side=" + std::string( is_hosting() ? "HOST" : "CLIENT" ) +
+            " recipe='" + craft.get_making().result_name() + "'" +
+            " crafter_id=" + std::to_string( craft.get_crafter_id().get_value() ) +
+            " avatar_id=" + std::to_string( get_avatar().getID().get_value() ) +
+            " loc_where=" + std::to_string( static_cast<int>( loc.where() ) ) +
+            " consumer=" + who_str( consumer ) +
+            " present=" + who_str( present_char ) +
+            " origin_abs=" + std::to_string( oabs.x() ) + "," + std::to_string( oabs.y() ) +
+            "," + std::to_string( oabs.z() ) +
+            " radius=" + std::to_string( radius ) +
+            " pin_to_map=" + std::to_string( pin_to_map ) +
+            " cur_step=" + std::to_string( craft.get_current_step() ) +
+            " tools_to_continue=" + std::to_string( craft.has_tools_to_continue() ) );
+}
 
 // Move the client avatar to an absolute position, loading the map chunk if needed.
 static void client_teleport_avatar( const tripoint_abs_ms &abs_pos )
@@ -6473,13 +10197,36 @@ static void client_teleport_avatar( const tripoint_abs_ms &abs_pos )
 
     const tripoint_bub_ms new_pos = m.get_bub( abs_pos );
     if( new_pos != u.pos_bub() ) {
+        // DIAGNOSTIC (GH#23 C, direction 1): is the AVATAR being teleported onto a
+        // tile a monster already occupies?  The host's "pos" and its monster list
+        // ride the SAME state packet, and the monster list is a delta — a monster
+        // that didn't move is omitted, so the client holds its old position while
+        // this teleport walks the avatar across it.  SP's setpos has no occupancy
+        // check (nothing in SP can move a character onto a creature), so nothing
+        // stops the stack.  Pairs with MON-SYNC-ONTO-PLAYER below: exactly one of
+        // the two should fire for a given d0, and which one names the culprit.
+        if( const monster *sitting = get_creature_tracker().creature_at<monster>( abs_pos, true ) ) {
+            mp_log( "[cdda-mp] TELE-ONTO-MONSTER: avatar teleport to " +
+                    std::to_string( abs_pos.x() ) + "," + std::to_string( abs_pos.y() ) +
+                    "," + std::to_string( abs_pos.z() ) + " lands on " +
+                    sitting->type->id.str() + " nid=" + std::to_string( sitting->mp_net_id ) +
+                    " (from " + std::to_string( u.pos_abs().x() ) + "," +
+                    std::to_string( u.pos_abs().y() ) + ", step=" +
+                    std::to_string( std::max( std::abs( abs_pos.x() - u.pos_abs().x() ),
+                                              std::abs( abs_pos.y() - u.pos_abs().y() ) ) ) + ")" );
+        }
         // DIAGNOSTIC (resurrection #2): count live synced monsters before/after the
         // map reload to prove whether update_map silently unloads them (the suspected
         // source of MON-RESPAWN-DROPPED). Logs only when the count drops.
+        // GH#23 B: also capture WHICH nids, so the invisibility window of a dropped
+        // monster can be measured against its later MON-RESPAWN-DROPPED line — the
+        // count alone can't tell you whether the same monster keeps falling out.
         int mons_before = 0;
+        std::unordered_set<uint32_t> nids_before;
         for( const auto &p : get_creature_tracker().get_monsters_list() ) {
             if( p && p->mp_net_id != 0 && !p->is_dead() ) {
                 ++mons_before;
+                nids_before.insert( p->mp_net_id );
             }
         }
         if( new_pos.z() != u.pos_bub().z() ) {
@@ -6501,12 +10248,17 @@ static void client_teleport_avatar( const tripoint_abs_ms &abs_pos )
         for( const auto &p : get_creature_tracker().get_monsters_list() ) {
             if( p && p->mp_net_id != 0 && !p->is_dead() ) {
                 ++mons_after;
+                nids_before.erase( p->mp_net_id );   // survived the shift
             }
         }
         if( mons_after < mons_before ) {
+            std::string lost;
+            for( const uint32_t n : nids_before ) {
+                lost += std::to_string( n ) + ' ';
+            }
             mp_log( "[cdda-mp] TELE-MON-DROP: synced monsters " + std::to_string( mons_before ) +
                     " -> " + std::to_string( mons_after ) + " across update_map (delta=" +
-                    std::to_string( mons_before - mons_after ) + ")" );
+                    std::to_string( mons_before - mons_after ) + ") lost_nids=[" + lost + "]" );
         }
     } else {
         mp_log( "[cdda-mp] teleport: -> already at target" );
@@ -6534,6 +10286,24 @@ static void remove_client_host_npc()
     mp_save_npc_ids();
 }
 
+// DIAG (temporary, 2026-07-02) — see declaration in mp_gamestate.h. No-op unless
+// target is specifically the client's host-overlay proxy.
+void mp_diag_damage_dealt( Creature *source, Creature *target, int amount )
+{
+    if( !is_client_mode() || !client_host_npc_spawned || !client_host_npc_id.is_valid() ) {
+        return;
+    }
+    npc *proxy = g->critter_by_id<npc>( client_host_npc_id );
+    if( !proxy || target != static_cast<Creature *>( proxy ) ) {
+        return;
+    }
+    const std::string src_desc = source ? source->get_name() : std::string( "<null source>" );
+    mp_log( "[cdda-mp] HOST-PROXY-DAMAGE: source='" + src_desc +
+            "' amount=" + std::to_string( amount ) +
+            " hp_after=" + std::to_string( proxy->get_hp() ) +
+            "/" + std::to_string( proxy->get_hp_max() ) );
+}
+
 static void update_client_host_npc( const tripoint_abs_ms &abs_pos, const std::string &name,
                                     bool host_in_vehicle, bool host_ctrl_veh )
 {
@@ -6545,6 +10315,18 @@ static void update_client_host_npc( const tripoint_abs_ms &abs_pos, const std::s
 
         shared_ptr_fast<npc> host_npc = make_shared_fast<npc>();
         host_npc->normalize();
+        // make_shared_fast<npc>() + normalize() never calls setID() — without
+        // this, getID() below returns the invalid/default sentinel (-1),
+        // which then poisons is_active_proxy()'s guard in
+        // mp_cleanup_stale_npcs(): client_host_npc_spawned reads true but
+        // client_host_npc_id stays -1 forever, and the real proxy's actual
+        // (non -1) id never equals it, so the orphan sweep's identity check
+        // silently fails to protect a genuinely live proxy. Mirrors the
+        // identical, already-fixed pattern in spawn_remote_player() (the
+        // host-side equivalent of this function).
+        if( !host_npc->getID().is_valid() ) {
+            host_npc->setID( g->assign_npc_id() );
+        }
         host_npc->name = name.empty() ? "host" : name;
         host_npc->spawn_at_precise( abs_pos );
         overmap_buffer.insert_npc( host_npc );
@@ -6576,6 +10358,25 @@ static void update_client_host_npc( const tripoint_abs_ms &abs_pos, const std::s
         // NPC left the reality bubble — still in overmap buffer, just not loaded.
         // Don't reset spawned state or we'll create a duplicate on the next tick.
         // If they're far enough to load, request a map reload in their direction.
+        //
+        // DIAG (temporary): the critter is gone.  find_npc() distinguishes the two
+        // causes — present in the overmap buffer means it merely left the bubble
+        // (recoverable via load_npcs); ABSENT means it was DESTROYED (killed by
+        // friendly fire, or culled), which this branch canNOT recover from (nothing
+        // to reload), so the host proxy stays gone + the HUD shows [?] forever.
+        // That's the 2026-07-02 "host vanished from client screen" bug.
+        {
+            const bool in_omb = static_cast<bool>( overmap_buffer.find_npc( client_host_npc_id ) );
+            static std::string last_null;
+            const std::string s = "in_overmap_buffer=" + std::to_string( in_omb ) +
+                                  " inbounds=" + std::to_string( m.inbounds( abs_pos ) );
+            if( s != last_null ) {
+                last_null = s;
+                mp_log( "[cdda-mp] HOST-PROXY-NULL: critter gone; " + s +
+                        ( in_omb ? " (out-of-bubble — recoverable)"
+                          : " (DESTROYED — killed/culled; no respawn path, proxy stays gone)" ) );
+            }
+        }
         if( m.inbounds( abs_pos ) ) {
             // Back in bounds — the game will load_npcs() on the next do_turn pass.
             g->load_npcs();
@@ -6603,9 +10404,15 @@ static void update_client_host_npc( const tripoint_abs_ms &abs_pos, const std::s
         // broken; if recv_abs stops changing, the host isn't broadcasting movement;
         // if inbounds=0, the host left the client's bubble and the overlay freezes.
         static std::string last_overlay;
+        // DIAG (temporary): include the proxy's HP so friendly-fire damage on the
+        // host proxy is visible BEFORE it drops to 0 and the critter is destroyed —
+        // a falling hp here right before a HOST-PROXY-NULL(DESTROYED) confirms the
+        // friendly-fire cause of the 2026-07-02 vanish bug.
         const std::string s = "recv_abs=" + abs_pos.to_string() +
                               " inbounds=" + std::to_string( host_inb ) +
-                              " cur_bub=" + host_npc->pos_bub().to_string();
+                              " cur_bub=" + host_npc->pos_bub().to_string() +
+                              " hp=" + std::to_string( host_npc->get_hp() ) +
+                              "/" + std::to_string( host_npc->get_hp_max() );
         if( s != last_overlay ) {
             last_overlay = s;
             mp_log( "[cdda-mp] HOST-OVERLAY: " + s );
@@ -6644,11 +10451,21 @@ static void update_client_host_npc( const tripoint_abs_ms &abs_pos, const std::s
 // NOLINTNEXTLINE(readability-function-size)
 static bool apply_one_state_message( const std::string &msg )
 {
-    // Log a preview of every received packet so we can confirm moves=90 packets arrive.
-    {
-        const size_t preview_len = std::min( msg.size(), static_cast<size_t>( 120 ) );
-        mp_log( "[cdda-mp] recv-packet: " + msg.substr( 0, preview_len ) );
+    // Heartbeat from the host — liveness only (mp_client_conn already stamped its
+    // recv clock for the stall watchdog).  Drop it first, before the per-packet
+    // log, so the ~1.5s cadence doesn't spam the log or get parsed as state.
+    if( msg.find( "\"type\":\"heartbeat\"" ) != std::string::npos ) {
+        return true;
     }
+    // Host entered/left a blocking modal — see peer_modal_hold.  Dropped up here
+    // with the heartbeat: link state, not world state, and it must not be parsed
+    // as a state packet.
+    if( msg.find( "\"type\":\"peer_modal\"" ) != std::string::npos ) {
+        mp_set_peer_modal_held( msg.find( "\"held\":1" ) != std::string::npos );
+        return true;
+    }
+    // Record receipt without copying player text or serialized item contents.
+    mp_log( "[cdda-mp] recv-packet bytes=" + std::to_string( msg.size() ) );
     // Server rejected our join — show the error and flag disconnect.
     if( msg.find( R"("type":"error")" ) != std::string::npos ) {
         const std::string::size_type mpos = msg.find( R"("message":")" );
@@ -6676,6 +10493,71 @@ static bool apply_one_state_message( const std::string &msg )
         // the same welcome earlier via mp_store_pending_welcome() so start_game
         // can act on it before worldgen.
         parse_welcome_fields( msg, /*apply_seed_now=*/true );
+        return true;
+    }
+
+    if( msg.find( R"("type":"item_resync")" ) != std::string::npos ) {
+        if( mp_ui_holds_item_refs() ) {
+            mp_defer_item_apply( [msg]() {
+                apply_one_state_message( msg );
+            } );
+            return true;
+        }
+        try {
+            JsonObject jo = json_loader::from_string( msg ).get_object();
+            jo.allow_omitted_members();
+            avatar &av = get_avatar();
+            av.cancel_activity();
+            g_client_turn_activity = mp_local_ff_activity();
+            av.inv->clear();
+            for( JsonObject io : jo.get_array( "inventory" ) ) {
+                io.allow_omitted_members();
+                item it;
+                it.deserialize( io );
+                av.inv->add_item( it );
+            }
+            av.clear_worn();
+            for( JsonObject io : jo.get_array( "worn" ) ) {
+                io.allow_omitted_members();
+                item it;
+                it.deserialize( io );
+                av.worn.wear_item( av, it, false, false, false, true );
+            }
+            if( jo.has_object( "weapon" ) ) {
+                item weapon;
+                JsonObject io = jo.get_object( "weapon" );
+                io.allow_omitted_members();
+                weapon.deserialize( io );
+                av.set_wielded_item( weapon );
+            } else {
+                av.remove_weapon();
+            }
+            g_client_item_baseline.clear();
+            g_client_terfurn_baseline.clear();
+            g_client_trap_baseline.clear();
+            g_client_graffiti_baseline.clear();
+            g_client_field_baseline.clear();
+            g_client_partial_con_baseline.clear();
+            g_client_veh_cargo_baseline.clear();
+            g_client_worn_baseline.clear();
+            g_client_host_worn_sig.clear();
+            g_client_waiting_for_ack = false;
+            g_client_last_grant_seq = 0;
+            // This full state primes tile/cargo baselines with what was actually
+            // restored. Never re-send the client's discarded cargo delta.
+            apply_one_state_message( jo.get_string( "state_json" ) );
+            av.set_moves( 0 );
+            client_send( R"({"type":"item_resync_ack","epoch":")" +
+                         json_escape_str( jo.get_string( "epoch" ) ) + "\"}" );
+            client_dispatch_wait_for_activity( activity_id::NULL_ID(), true );
+            const mp_local_msg_scope no_relay;
+            add_msg( m_warning, _( "Too many item updates arrived while a menu was open. "
+                                   "Recent item actions were rolled back to the shared world; "
+                                   "please try them again." ) );
+        } catch( const JsonError &e ) {
+            mp_log( "[cdda-mp] item resync parse error: " + std::string( e.what() ) );
+            client_send( R"({"type":"item_resync_request"})" );
+        }
         return true;
     }
 
@@ -6938,7 +10820,7 @@ static bool apply_one_state_message( const std::string &msg )
         if( !g_server_died ) {
             g_server_died = true;
             remove_client_host_npc();
-            add_msg( m_bad, _( "Your partner has died.  Waiting for them to respawn…" ) );
+            add_msg( m_bad, _( "Your partner has died.  Waiting for them to respawn..." ) );
         }
         return true;
     }
@@ -6950,6 +10832,8 @@ static bool apply_one_state_message( const std::string &msg )
     // disconnect handler takes over from there.
     if( msg.find( R"("type":"session_ending")" ) != std::string::npos ) {
         mp_log( "[cdda-mp] SESSION-END RECV: host is leaving" );
+        // Intentional end — don't auto-reconnect when the socket closes next.
+        client_disable_reconnect();
         add_msg( m_warning, _( "Your partner is leaving.  The session will end shortly." ) );
         return true;
     }
@@ -6998,8 +10882,22 @@ static bool apply_one_state_message( const std::string &msg )
         return true;
     }
 
-    if( msg.find( R"("type":"high_five")" ) != std::string::npos ) {
+    // Partner cast a support spell at us.  Symmetric with the host-side handler
+    // in handle_remote_action.  Body in mp_magic.cpp.
+    if( msg.find( "\"type\":\"partner_spell\"" ) != std::string::npos ) {
+        mp_handle_partner_spell( msg );
+        return true;
+    }
+
+    if( msg.find( "\"type\":\"high_five\"" ) != std::string::npos ) {
         mp_handle_high_five_recv( msg );
+        return true;
+    }
+
+    // Intent telegraph — display hint only, never acked.  See the twin clause
+    // in handle_remote_action().
+    if( msg.find( "\"type\":\"intent\"" ) != std::string::npos ) {
+        mp_handle_intent_recv( msg );
         return true;
     }
 
@@ -7057,11 +10955,83 @@ static bool apply_one_state_message( const std::string &msg )
         return true;
     }
 
-    const bool is_state = msg.find( R"("type":"state")" ) != std::string::npos ||
-                          msg.find( R"("type": "state")" ) != std::string::npos;
+    const bool is_state = msg.find( "\"type\":\"state\"" ) != std::string::npos ||
+                          msg.find( "\"type\": \"state\"" ) != std::string::npos;
     if( !is_state ) {
-        std::cout << "[cdda-mp] " << msg << std::endl;
+        mp_log( "[cdda-mp] unrecognized packet type" );
         return false;
+    }
+    // Auto-reconnect status (from mp_client_conn's reconnect sweep).  NOT
+    // terminal — do not set g_server_died; the avatar/world stay loaded and the
+    // grant/wait loop simply waits until the host re-grants after a successful
+    // re-dial.  Tells the player why they're briefly frozen.
+    if( msg.find( "\"reconnecting\":true" ) != std::string::npos ) {
+        mp_log( "[cdda-mp] RECONNECT: link dropped — reconnecting (client)" );
+        add_msg( m_warning, _( "Connection to host lost — reconnecting… (up to ~15s)" ) );
+        return true;
+    }
+    // Per-attempt progress from reconnect_worker (on its own thread) so the sweep
+    // isn't a silent gap between "reconnecting…" and the outcome.
+    if( msg.find( "\"reconnect_attempt\":" ) != std::string::npos ) {
+        const auto grab = [&msg]( const char *key ) -> int {
+            const std::string k = key;
+            const auto p = msg.find( k );
+            return p == std::string::npos ? 0 : atoi( msg.c_str() + p + k.size() );
+        };
+        const int n = grab( "\"reconnect_attempt\":" );
+        const int tot = grab( "\"reconnect_total\":" );
+        mp_log( "[cdda-mp] RECONNECT: narrate attempt " + std::to_string( n ) + "/" +
+                std::to_string( tot ) );
+        //~ %1$d is the current attempt number, %2$d is the total or max attempts, like 1/5
+        add_msg( m_warning, _( "Reconnecting to host… (try %1$d/%2$d)" ), n, tot );
+        return true;
+    }
+    // The join itself never landed — the link died during character creation and
+    // the re-dials couldn't bring it back.  Say so plainly: before this, the
+    // player was dropped into a solo world with no indication anything had gone
+    // wrong (2026-07-31).
+    if( msg.find( "\"join_failed\":true" ) != std::string::npos ) {
+        mp_log( "[cdda-mp] JOIN: narrating join failure to player" );
+        add_msg( m_bad, _( "Couldn't join: the connection dropped during char creation "
+                           "and could not be re-established.  You are NOT in the "
+                           "host's game." ) );
+        // The one question that would have short-circuited a whole session of
+        // diagnosis: a commercial VPN on either end silently reroutes the traffic
+        // and reaps idle connections.  Ask it here, where the failure is felt.
+        add_msg( m_bad, _( "If either player is running a commercial VPN, turn it off and try again." ) );
+        return true;
+    }
+    if( msg.find( "\"reconnect_failed\":true" ) != std::string::npos ) {
+        mp_log( "[cdda-mp] RECONNECT: gave up — narrating to player" );
+        add_msg( m_bad, _( "Couldn't reconnect to the host after several tries — connection lost." ) );
+        return true;
+    }
+    if( msg.find( "\"reconnected\":true" ) != std::string::npos ) {
+        mp_log( "[cdda-mp] RECONNECT: re-joined host — resuming (client)" );
+        add_msg( m_good, _( "Reconnected to the host — resuming." ) );
+        // Clear stale grant/ack state so the host's re-sent grant is accepted.
+        // reconnect_worker() calls client_send_join() directly, bypassing the
+        // game loop's join reset (which only fires on the not-sent->sent
+        // transition at first join), so g_client_last_grant_seq still holds the
+        // pre-disconnect value.  The host re-sends the grant with the SAME seq
+        // (it doesn't bump on re-admit), so `grant_seq > g_client_last_grant_seq`
+        // is false, the grant is dropped as a stale replay, the client's moves
+        // stay negative, and both ends deadlock (2026-07-01).  Mirror the initial
+        // join reset here — the reconnected client is a fresh grant consumer.
+        g_client_waiting_for_ack = false;
+        g_client_last_grant_seq = 0;
+        // Force a real re-teleport on the next state packet instead of the
+        // "OUT OF BUBBLE, skip" no-chase path in client_teleport_avatar(). If
+        // the host moved (or was moved) far enough while we were gone that
+        // their new position is outside our stale bubble, that guard leaves
+        // our avatar stuck at the pre-disconnect spot forever — reported
+        // 2026-07-06 (host teleported to another map tile while client was
+        // disconnected; client rejoined still showing the old location while
+        // the host's own view had the proxy correctly placed). Clearing this
+        // makes the reconnect re-run the same place_player_overmap path as an
+        // initial join, which is already proven to land correctly.
+        g_initial_teleport_done = false;
+        return true;
     }
     if( msg.find( "\"connected\":false" ) != std::string::npos ) {
         if( !g_server_died ) {
@@ -7073,15 +11043,44 @@ static bool apply_one_state_message( const std::string &msg )
     }
 
     try {
-        mp_log( "[cdda-mp] STATE-APPLY: parse (" + std::to_string( msg.size() ) + " bytes) start" );
         JsonValue jv = json_loader::from_string( msg );
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
-        mp_log( "[cdda-mp] STATE-APPLY: parse done" );
 
         // Sync host's calendar turn so the client sees the correct time, lighting, and weather.
         if( jo.has_int( "calendar_turn" ) ) {
             calendar::turn = time_point( jo.get_int( "calendar_turn" ) );
+        }
+        // Adopt the host's game-start anchors so survival/date-since-start math
+        // measures from the host's world, not the client's scratch world (the
+        // "survived 218 days" achievement bug, 2026-07-19).  Applied every state
+        // so it self-heals and can't be clobbered by start_game's own init.
+        if( jo.has_int( "start_of_game" ) ) {
+            calendar::start_of_game = time_point( jo.get_int( "start_of_game" ) );
+        }
+        if( jo.has_int( "start_of_cata" ) ) {
+            calendar::start_of_cataclysm = time_point( jo.get_int( "start_of_cata" ) );
+        }
+
+        if( jo.get_bool( "client_rejoin", false ) ) {
+            // Host recognized this as a genuine rejoin (manual quit + rejoin via
+            // the Join menu, not the auto-redial path) — force the next teleport
+            // below to re-run the proven initial-join placement instead of
+            // "OUT OF BUBBLE, skip" if the host moved out of our stale bubble
+            // while we were away. See g_client_rejoin_pending.
+            mp_log( "[cdda-mp] CLIENT-REJOIN: host confirms rejoin — forcing re-teleport" );
+            g_initial_teleport_done = false;
+            // Same staleness class as the "reconnected":true handler above
+            // (acb949fb77, 2026-07-01) — this client process kept running
+            // through the drop, so it can still be holding a pre-drop
+            // g_client_last_grant_seq/ack guard that blocks every input from
+            // taking effect once rejoined (reported 2026-07-06: RIGHT/DOWN
+            // keys registered and decremented moves, but the avatar never
+            // actually moved). That fix only fires on the auto-redial path;
+            // a manual quit+rejoin never set "reconnected":true, so it never
+            // got the reset. Mirror it here.
+            g_client_waiting_for_ack = false;
+            g_client_last_grant_seq = 0;
         }
 
         if( jo.has_object( "pos" ) ) {
@@ -7111,12 +11110,32 @@ static bool apply_one_state_message( const std::string &msg )
             const bool host_ctrl_v  = jo.has_bool( "host_ctrl_veh" )
                                       ? jo.get_bool( "host_ctrl_veh" ) : false;
             update_client_host_npc( host_pos, host_name, host_in_veh, host_ctrl_v );
+        } else {
+            static bool s_warned_missing_host_pos = false;
+            if( !s_warned_missing_host_pos ) {
+                mp_log( "[cdda-mp] STATE PACKET has no host_pos field! client_host_npc_spawned=" +
+                        std::to_string( client_host_npc_spawned ) + " host_name=\"" + host_name + "\"" );
+                s_warned_missing_host_pos = true;
+            }
         }
 
         // Track the host's current activity for HUD + partner-notice display.
         if( jo.has_string( "host_activity" ) ) {
-            g_partner_activity = jo.get_string( "host_activity" );
+            // MP DIAG 2026-08-30 — HOSTACT probe, client half.  Logs only on a
+            // CHANGE, so the count of these is the number of host-activity
+            // transitions the client actually observed.  Compare against the
+            // host's OPEN count: a shortfall means broadcasts are too coarse to
+            // carry every host activity.  See mp_gamestate.h.
+            const std::string hostact_now = jo.get_string( "host_activity" );
+            if( hostact_now != g_partner_activity ) {
+                mp_log( "[cdda-mp] HOSTACT[edge-vs-sample] RECV prev=" +
+                        ( g_partner_activity.empty() ? "(none)" : g_partner_activity ) +
+                        " now=" + ( hostact_now.empty() ? "(none)" : hostact_now ) +
+                        " turn=" + std::to_string( to_turn<int>( calendar::turn ) ) );
+            }
+            g_partner_activity = hostact_now;
             mp_partner_activity_transition_check();
+            g_partner_activity_moves = jo.get_int( "host_activity_moves", -1 );
         }
         if( jo.has_int( "host_activity_pct" ) ) {
             const int new_pct = jo.get_int( "host_activity_pct" );
@@ -7127,6 +11146,15 @@ static bool apply_one_state_message( const std::string &msg )
                         std::to_string( new_pct ) );
             }
             g_partner_activity_pct = new_pct;
+        }
+        if( jo.has_int( "host_pulp" ) ) {
+            g_partner_pulp_packed = jo.get_int( "host_pulp" );
+        }
+        if( jo.has_string( "host_activity_name" ) ) {
+            g_partner_activity_name = jo.get_string( "host_activity_name" );
+        }
+        if( jo.has_int( "host_activity_batch" ) ) {
+            g_partner_activity_batch = std::max( 1, jo.get_int( "host_activity_batch" ) );
         }
         if( jo.has_int( "host_activity_moves_total" ) ) {
             g_partner_activity_moves_total = jo.get_int( "host_activity_moves_total" );
@@ -7140,24 +11168,16 @@ static bool apply_one_state_message( const std::string &msg )
         if( jo.has_int( "host_hp_max" ) ) {
             g_partner_hp_max = jo.get_int( "host_hp_max" );
         }
-        // Ping (CLIENT ONLY — the host adopts the mirrored client_rtt instead,
-        // since subtracting our stamp against the host's clock would be garbage).
-        // Measure RTT only when the echo matches the stamp we're currently
-        // awaiting, then clear it: a host re-echoing the same stamp during idle
-        // must not keep growing the number against an ever-advancing clock.
-        if( is_client_mode() && jo.has_int( "host_ping_echo" ) ) {
-            const int64_t stamp = jo.get_int( "host_ping_echo" );
-            if( stamp >= 0 && stamp == g_pending_ping_stamp ) {
-                g_partner_ping_ms = static_cast<int>( mp_mono_ms() - stamp );
-                g_pending_ping_stamp = -1; // consumed; hold this value until next send
-            }
-        }
+        // (Ping now measured on the io thread via heartbeat — see mp_client_conn.cpp.)
         // Snapshot host's calendar BEFORE the local sync above overwrites it,
         // so the panel can show drift = local - last_received_partner.  Since
         // the client sets local = host on every state packet, drift here is
         // the gap between packets — useful sanity indicator.
         if( jo.has_int( "calendar_turn" ) ) {
             g_partner_calendar_turn = jo.get_int( "calendar_turn" );
+        }
+        if( jo.has_bool( "host_waiting" ) ) {
+            g_partner_waiting = jo.get_bool( "host_waiting" );
         }
 
         // Host→client tap-on-shoulder: cancel local wait activity if the
@@ -7202,8 +11222,6 @@ static bool apply_one_state_message( const std::string &msg )
                     host_name = hnpc->get_name();
                 }
             }
-            mp_log( "[cdda-mp] DIAG cli-render: proxy='" + host_name + "' own_av='" +
-                    get_avatar().name + "'" );
             if( jo.has_bool( "partner_swapped" ) && jo.get_bool( "partner_swapped" ) ) {
                 add_msg( _( "%s swaps places with you." ), host_name );
             }
@@ -7215,9 +11233,26 @@ static bool apply_one_state_message( const std::string &msg )
         if( jo.has_float( "host_light" ) || jo.has_int( "host_light" ) ) {
             g_mp_host_luminance = static_cast<float>( jo.get_float( "host_light" ) );
         }
+        // Co-op kill tally — host is authoritative; client just stores the counts
+        // for the HUD (both mapped to "You"/partner perspective at draw time).
+        if( jo.has_int( "host_kills" ) ) {
+            g_host_kills = jo.get_int( "host_kills" );
+        }
+        if( jo.has_int( "client_kills" ) ) {
+            g_client_kills = jo.get_int( "client_kills" );
+        }
 
         // Dress the host NPC with the items the host player is wearing and apply
         // all appearance mutations. Signature-gated to avoid redoing every tick.
+        {
+            static bool s_logged_first_worn_check = false;
+            if( !s_logged_first_worn_check ) {
+                mp_log( "[cdda-mp] FIRST host_worn check: has_array=" +
+                        std::to_string( jo.has_array( "host_worn" ) ) +
+                        " client_host_npc_spawned=" + std::to_string( client_host_npc_spawned ) );
+                s_logged_first_worn_check = true;
+            }
+        }
         if( jo.has_array( "host_worn" ) ) {
             // Fingerprint: worn list + appearance array raw string + wielded.
             std::string sig;
@@ -7242,6 +11277,16 @@ static bool apply_one_state_message( const std::string &msg )
                 sig += "|w" + std::to_string( jo.get_int( "host_weight" ) );
             }
 
+            static int s_worn_sig_log_count = 0;
+            if( s_worn_sig_log_count < 15 ) {
+                ++s_worn_sig_log_count;
+                mp_log( "[cdda-mp] host_worn sig check #" + std::to_string( s_worn_sig_log_count ) +
+                        ": sig_len=" + std::to_string( sig.size() ) + " prev_sig_len=" +
+                        std::to_string( g_client_host_worn_sig.size() ) + " changed=" +
+                        std::to_string( sig != g_client_host_worn_sig ) + " spawned=" +
+                        std::to_string( client_host_npc_spawned ) );
+            }
+
             if( sig != g_client_host_worn_sig && client_host_npc_spawned ) {
                 mp_apply_step _dress( "dress-host-npc" );
                 g_client_host_worn_sig = sig;
@@ -7250,8 +11295,11 @@ static bool apply_one_state_message( const std::string &msg )
                     if( jo.has_bool( "host_male" ) ) {
                         host_npc->male = jo.get_bool( "host_male" );
                     }
-                    host_npc->clear_worn();
-                    std::string applied_log;
+                    // Parse now; defer the destructive clear_worn()+rebuild if the
+                    // client's own pickup/examine/AIM UI is open — same
+                    // mp_ui_item_ref_guard hazard as the host-side worn_sync
+                    // handler (mp_gamestate.h).
+                    std::vector<item> worn_items;
                     for( const JsonValue &wv : jo.get_array( "host_worn" ) ) {
                         JsonObject wo = wv.get_object();
                         wo.allow_omitted_members();
@@ -7271,27 +11319,51 @@ static bool apply_one_state_message( const std::string &msg )
                                     + e.what() );
                         }
                         if( !worn_item.typeId().is_empty() && worn_item.typeId().is_valid() ) {
-                            applied_log += worn_item.typeId().str() + ' ';
-                            host_npc->worn.wear_item( *host_npc, worn_item,
-                                                      false, false, true, true );
+                            worn_items.push_back( std::move( worn_item ) );
                         }
                     }
-                    mp_log( "[cdda-mp] host_worn applied: [" + applied_log + "]" );
+                    auto do_worn_apply = [items = std::move( worn_items )]() mutable {
+                        npc *host_npc2 = g->critter_by_id<npc>( client_host_npc_id );
+                        if( !host_npc2 )
+                        {
+                            return;
+                        }
+                        // MP DIAGNOSTIC 2026-08-17 — same exposure as host_inv below:
+                        // an open inventory selector lists worn containers and their
+                        // contents, so clearing worn dangles its item_locations too.
+                        if( mp_inv_ui_open() )
+                        {
+                            mp_log( "[cdda-mp] INV-APPLY-WHILE-UI-OPEN: host_worn "
+                                    "clear+rewear with an inventory selector OPEN" );
+                        }
+                        host_npc2->clear_worn();
+                        std::string applied_log;
+                        for( item &worn_item : items )
+                        {
+                            applied_log += worn_item.typeId().str() + ' ';
+                            host_npc2->worn.wear_item( *host_npc2, worn_item,
+                                                       false, false, true, true );
+                        }
+                        mp_log( "[cdda-mp] host_worn applied: [" + applied_log + "]" );
+                    };
+                    if( mp_ui_holds_item_refs() ) {
+                        mp_defer_item_apply( std::move( do_worn_apply ) );
+                    } else {
+                        do_worn_apply();
+                    }
                     // Apply all mutations from the host_appearance array.  Full
                     // state sync: clear every mutation on the proxy first, then
                     // apply the host's list.  Earlier per-type clearing missed
                     // physical mutations (Fangs, Sleek Fur, Spines, etc.) since
                     // they have different type tags than the chargen cosmetics.
                     if( jo.has_array( "host_appearance" ) ) {
-                        // Snapshot then clear — modifying the set while iterating crashes.
-                        std::vector<trait_id> to_unset;
-                        for( const trait_id &existing : host_npc->get_mutations() ) {
-                            to_unset.push_back( existing );
-                        }
-                        for( const trait_id &old : to_unset ) {
-                            host_npc->unset_mutation( old );
-                        }
-                        int applied = 0;
+                        // DIFF, not clear-and-reapply.  This side is the worse
+                        // of the two: it runs on every state packet carrying
+                        // host_appearance with no signature guard, so the old
+                        // code rebuilt the host proxy's entire mutation set
+                        // every turn.  See the matching note in worn_sync.
+                        std::vector<std::pair<trait_id, const mutation_variant *>> want;
+                        std::set<trait_id> want_ids;
                         for( const JsonValue &av : jo.get_array( "host_appearance" ) ) {
                             JsonObject ao = av.get_object();
                             ao.allow_omitted_members();
@@ -7304,15 +11376,36 @@ static bool apply_one_state_message( const std::string &msg )
                                 continue;
                             }
                             const std::string var_str = ao.get_string( "var", "" );
-                            const mutation_variant *var = var_str.empty()
-                                                          ? nullptr
-                                                          : tid.obj().variant( var_str );
-                            host_npc->set_mutation( tid, var );
-                            ++applied;
+                            want.emplace_back( tid,
+                                               var_str.empty() ? nullptr : tid.obj().variant( var_str ) );
+                            want_ids.insert( tid );
                         }
-                        mp_log( "[cdda-mp] host_appearance: cleared "
-                                + std::to_string( to_unset.size() )
-                                + " applied " + std::to_string( applied ) );
+                        int removed = 0;
+                        int added = 0;
+                        // Snapshot then unset — modifying the set while iterating crashes.
+                        std::vector<trait_id> to_unset;
+                        for( const trait_id &existing : host_npc->get_mutations() ) {
+                            if( !want_ids.count( existing ) ) {
+                                to_unset.push_back( existing );
+                            }
+                        }
+                        for( const trait_id &old : to_unset ) {
+                            host_npc->unset_mutation( old );
+                            ++removed;
+                        }
+                        for( const auto &[tid, var] : want ) {
+                            if( !host_npc->has_trait( tid ) ) {
+                                host_npc->set_mutation( tid, var );
+                                ++added;
+                            } else if( var != nullptr ) {
+                                host_npc->set_mut_variant( tid, var );
+                            }
+                        }
+                        if( removed > 0 || added > 0 ) {
+                            mp_log( "[cdda-mp] host_appearance: diff removed "
+                                    + std::to_string( removed ) + " added " + std::to_string( added )
+                                    + " (unchanged " + std::to_string( want.size() - added ) + ")" );
+                        }
                         std::string ov_log;
                         for( const auto &ov : host_npc->get_overlay_ids() ) {
                             ov_log += ov.first + ' ';
@@ -7349,13 +11442,47 @@ static bool apply_one_state_message( const std::string &msg )
                         }
                     }
                     // Rebuild the host NPC's main inventory from the serialized blob.
+                    // Parse now; defer the destructive clear()+rebuild the same way
+                    // as host_worn above.
                     if( jo.has_array( "host_inv" ) ) {
                         try {
-                            host_npc->inv->clear();
+                            std::vector<item> inv_items;
                             JsonArray inv_ja = jo.get_array( "host_inv" );
-                            host_npc->inv->json_load_items( inv_ja );
-                            mp_log( "[cdda-mp] host_inv applied: items=" +
-                                    std::to_string( host_npc->inv->size() ) );
+                            inv_items.reserve( inv_ja.size() );
+                            for( JsonObject iobj : inv_ja ) {
+                                item tmp;
+                                tmp.deserialize( iobj );
+                                inv_items.emplace_back( std::move( tmp ) );
+                            }
+                            auto do_inv_apply = [items = std::move( inv_items )]() mutable {
+                                npc *host_npc2 = g->critter_by_id<npc>( client_host_npc_id );
+                                if( !host_npc2 )
+                                {
+                                    return;
+                                }
+                                // MP DIAGNOSTIC 2026-08-17 — this clear()+rebuild is the
+                                // prime suspect for the inventory_selector SIGSEGV. The
+                                // mp_ui_holds_item_refs() gate below does not know about
+                                // inventory selectors (the guard is only instantiated at
+                                // four handle_action call sites), so this can fire while a
+                                // selector is holding item_locations into the very stack
+                                // being destroyed.
+                                if( mp_inv_ui_open() )
+                                {
+                                    mp_log( "[cdda-mp] INV-APPLY-WHILE-UI-OPEN: host_inv "
+                                            "clear+rebuild with an inventory selector OPEN "
+                                            "— every item_location it holds is now dangling" );
+                                }
+                                host_npc2->inv->clear();
+                                host_npc2->inv->add_items_bulk( std::move( items ), true, false );
+                                mp_log( "[cdda-mp] host_inv applied: items=" +
+                                        std::to_string( host_npc2->inv->size() ) );
+                            };
+                            if( mp_ui_holds_item_refs() ) {
+                                mp_defer_item_apply( std::move( do_inv_apply ) );
+                            } else {
+                                do_inv_apply();
+                            }
                         } catch( const JsonError &e ) {
                             mp_log( std::string( "[cdda-mp] host_inv rebuild error: " )
                                     + e.what() );
@@ -7443,17 +11570,35 @@ static bool apply_one_state_message( const std::string &msg )
             }
         }
 
-        {
+        // Each world-state sync helper is isolated in its own try/catch: a throw
+        // in one (e.g. a malformed/large vehicle snapshot) must NOT abort the rest
+        // of this state message — most critically the moves/ack-clear HANDSHAKE
+        // below.  When they shared the outer try/catch, apply_vehicle_sync throwing
+        // on a bundled 41 KB snapshot swallowed the moves=0 ACK, left
+        // g_client_waiting_for_ack stuck true, and the next grant was CLI-SKIP'd
+        // (reason=ack-pending) -> host+client deadlocked red/red until a manual
+        // quit (grasssnek report, #16, 2026-07-18).  World-state application is
+        // best-effort; the turn handshake is the deliverable and must survive it.
+        try {
             mp_apply_step _s( "monster" );
             apply_monster_sync( jo );
+        } catch( const std::exception &e ) {
+            mp_log( "[cdda-mp] apply_monster_sync threw (isolated, handshake preserved): "
+                    + std::string( e.what() ) );
         }
-        {
+        try {
             mp_apply_step _s( "tile" );
             apply_tile_changes( jo );
+        } catch( const std::exception &e ) {
+            mp_log( "[cdda-mp] apply_tile_changes threw (isolated, handshake preserved): "
+                    + std::string( e.what() ) );
         }
-        {
+        try {
             mp_apply_step _s( "vehicle" );
             apply_vehicle_sync( jo );
+        } catch( const std::exception &e ) {
+            mp_log( "[cdda-mp] apply_vehicle_sync threw (isolated, handshake preserved): "
+                    + std::string( e.what() ) );
         }
 
         // Apply per-bodypart HP to the client avatar so the sidebar stays accurate.
@@ -7505,6 +11650,46 @@ static bool apply_one_state_message( const std::string &msg )
                     }
                     ++n_dropped;
                 }
+                // MAGIC diagnostic (ROADMAP B2): the host's proxy HP is
+                // authoritative and overwrites whatever this client did
+                // locally, so a self-heal or an HP-cost (Animist blood magic)
+                // spell round-trips away — the heal is reverted, the HP cost is
+                // refunded.  Ordinary combat damage produces the same
+                // "host is lower than us" signal, so log how far we are from
+                // the last resolved cast to tell the two apart.  The reverse
+                // case (host RAISING our HP) can't come from combat at all, so
+                // always log that one.
+                const int local_hp = av.get_part_hp_cur( bp );
+                if( local_hp != new_hp ) {
+                    const int since = mp_turns_since_last_cast();
+                    if( since >= 0 && since <= 3 ) {
+                        mp_log( "[cdda-mp] MAGIC-HP-AUTHORITY: bp=" + bp_str +
+                                " client_local=" + std::to_string( local_hp ) +
+                                " host_says=" + std::to_string( new_hp ) +
+                                " delta=" + std::to_string( new_hp - local_hp ) +
+                                " since_cast=" + std::to_string( since ) +
+                                " last_spell=" + mp_last_cast_spell() );
+                    } else {
+                        // Background divergence, counted rather than printed.
+                        // Measured 2026-08-25: this fires CONSTANTLY (2448 lines
+                        // in one session, deltas of +1..+5) because the client's
+                        // avatar and the host's proxy each run their own natural
+                        // regen and the host wins.  Printing every one buried the
+                        // two lines that actually correlated with a cast.  The
+                        // periodic summary keeps the signal that the overwrite
+                        // mechanism is live -- which is exactly the mechanism a
+                        // heal or an HP-cost spell rides -- without the flood.
+                        static int s_bg_diverge = 0;
+                        static int s_bg_total = 0;
+                        s_bg_total += std::abs( new_hp - local_hp );
+                        if( ++s_bg_diverge % 250 == 0 ) {
+                            mp_log( "[cdda-mp] HP-AUTHORITY-BG: " + std::to_string( s_bg_diverge ) +
+                                    " silent overwrites so far, cumulative |delta|=" +
+                                    std::to_string( s_bg_total ) +
+                                    " (client-local regen diverging from the host proxy)" );
+                        }
+                    }
+                }
                 g_last_bodypart_hp[bp_str] = new_hp;
                 av.set_part_hp_cur( bp, new_hp );
             }
@@ -7519,6 +11704,7 @@ static bool apply_one_state_message( const std::string &msg )
             const bool recompute_sig = n_dropped == n_parts && n_dropped >= 6 && uniform_drop;
             if( total_damage > 0 && !recompute_sig ) {
                 mp_log( "[cdda-mp] BP-DAMAGE-SYNTH: total=" + std::to_string( total_damage ) );
+                //~ %d is the total damage taken across all body parts this tick.
                 add_msg( m_bad, _( "You are hit for %d damage!" ), total_damage );
             } else if( recompute_sig ) {
                 mp_log( "[cdda-mp] BP-DAMAGE-SYNTH: suppressed uniform recompute (all "
@@ -7573,7 +11759,8 @@ static bool apply_one_state_message( const std::string &msg )
                         " last_seq=" + std::to_string( g_client_last_grant_seq ) );
                 g_client_waiting_for_ack = false;
                 get_avatar().set_moves( srv_moves );
-            } else if( ( !g_client_waiting_for_ack || get_avatar().activity ) &&
+            } else if( ( !g_client_waiting_for_ack || get_avatar().activity ||
+                         mp_char_is_asleep( get_avatar() ) ) &&
                        ( grant_seq == 0 || grant_seq > g_client_last_grant_seq ) ) {
                 // New grant: seq is fresh AND (no pending ack OR avatar is in an
                 // activity).  The activity-override bypasses the ack guard so
@@ -7591,7 +11778,7 @@ static bool apply_one_state_message( const std::string &msg )
                         " override_ack=" + std::to_string( ca && g_client_waiting_for_ack ) );
                 // If we overrode the ack guard for an activity, clear it now so
                 // the next dispatch isn't suppressed by stale state.
-                if( ca && g_client_waiting_for_ack ) {
+                if( ( ca || mp_char_is_asleep( get_avatar() ) ) && g_client_waiting_for_ack ) {
                     g_client_waiting_for_ack = false;
                 }
                 get_avatar().set_moves( srv_moves );
@@ -7604,8 +11791,10 @@ static bool apply_one_state_message( const std::string &msg )
                 // here also causes subsequent grants in the same drain to take
                 // the CLI-SKIP branch, providing proper backpressure so the
                 // host advances at the client's pace.
-                if( ca && !is_passive_activity( ca.id().str() ) ) {
-                    // Interactive activity (ACT_AIM, ACT_FIRSTAID, ACT_AUTOATTACK,
+                if( mp_client_consume_sleep_grant() ) {
+                    // The synthetic sleep activity consumed and acknowledged it.
+                } else if( ca && !is_passive_activity( ca.id().str() ) ) {
+                    // Interactive activity (ACT_AIM, ACT_AUTOATTACK,
                     // ACT_AUTODRIVE): its do_turn opens a BLOCKING UI (e.g. aiming's
                     // target_ui via mode_fire).  Ticking it here — inside
                     // client_process_incoming, during network-message processing —
@@ -7625,7 +11814,42 @@ static bool apply_one_state_message( const std::string &msg )
                     const std::string pre_tick_id = ca.id().str();
                     const int pre_tick_moves = get_avatar().get_moves();
                     const int pre_tick_moves_left = ca.moves_left;
-                    get_avatar().activity.do_turn( get_avatar() );
+                    // MP DIAGNOSTIC 2026-08-15 — see mp_craft_counter(). This is the
+                    // ONE tick the client gives its activity per grant; capture the
+                    // progress it actually buys so it can be compared against the
+                    // host's per-game-turn rate (CRAFT-HOST below).
+                    const long long pre_tick_counter = mp_craft_counter( ca );
+                    const int pre_tick_turn = to_turn<int>( calendar::turn );
+                    mp_log_craft_multipliers( get_avatar(), ca, "CLIENT" );
+                    // MP 2026-08-15 — FF batching: one packet can represent several
+                    // calendar turns, and the activity must be ticked once PER TURN
+                    // or the client silently under-crafts by the batch factor. The
+                    // host sends the whole batch's AP in "moves" (its clamp caps at
+                    // speed*FF_BATCH_TURNS), so give each tick one turn's share.
+                    //
+                    // A tick can end the activity mid-batch (distraction: hostile in
+                    // view, pain, sound — SP's own activity_actor::do_turn decides,
+                    // exactly as in single-player). Stop immediately when that
+                    // happens; the remaining turns are simply not crafted, which is
+                    // correct — a distracted character stops while the world's clock
+                    // keeps running.
+                    const int batch_turns = jo.has_int( "batch_turns" )
+                                            ? std::max( 1, jo.get_int( "batch_turns" ) ) : 1;
+                    const int per_tick_moves = batch_turns > 1
+                                               ? std::max( 1, srv_moves / batch_turns )
+                                               : srv_moves;
+                    int ticks_done = 0;
+                    for( int bt = 0; bt < batch_turns; ++bt ) {
+                        if( !get_avatar().activity ) {
+                            break;  // ended mid-batch — see above
+                        }
+                        if( batch_turns > 1 ) {
+                            get_avatar().set_moves( per_tick_moves );
+                        }
+                        get_avatar().activity.do_turn( get_avatar() );
+                        ++ticks_done;
+                    }
+                    const long long post_tick_counter = mp_craft_counter( get_avatar().activity );
                     const int post_tick_moves = get_avatar().get_moves();
                     const player_activity &post_ca = get_avatar().activity;
                     const int post_tick_moves_left = post_ca ? post_ca.moves_left : 0;
@@ -7645,6 +11869,20 @@ static bool apply_one_state_message( const std::string &msg )
                                 post_tick_moves_left )
                             + " ended=" + std::to_string( !get_avatar().activity )
                             + " grant_seq=" + std::to_string( grant_seq ) );
+                    if( pre_tick_counter >= 0 || post_tick_counter >= 0 ) {
+                        const int ap_spent = pre_tick_moves - post_tick_moves;
+                        const long long gained = post_tick_counter - pre_tick_counter;
+                        mp_log( "[cdda-mp] CRAFT-CLIENT: turn=" + std::to_string( pre_tick_turn ) +
+                                " counter " + std::to_string( pre_tick_counter ) + "->" +
+                                std::to_string( post_tick_counter ) +
+                                " gained=" + std::to_string( gained ) +
+                                " pct=" + std::to_string( post_tick_counter / 100000 ) +
+                                " ap_spent=" + std::to_string( ap_spent ) +
+                                " per_ap=" + std::to_string( ap_spent > 0 ? gained / ap_spent : 0 ) +
+                                " ticks_this_grant=" + std::to_string( ticks_done ) +
+                                " batch_turns=" + std::to_string( batch_turns ) +
+                                " grant_seq=" + std::to_string( grant_seq ) );
+                    }
                     client_send( client_enrich_action(
                                      R"({"type":"action","action":"wait"})" ) );
                     g_client_waiting_for_ack = true;
@@ -7770,7 +12008,7 @@ static bool apply_one_state_message( const std::string &msg )
             // sends "Name X" back → host adds → host re-substitutes to "You X"
             // → forwards back forever.  Advancing the watermark past these
             // messages keeps them local-display-only.
-            g_client_msg_watermark = Messages::size();
+            g_client_msg_watermark = Messages::appended_total();
         }
 
         // Play sfx events forwarded from the host's turn.
@@ -7791,9 +12029,15 @@ static bool apply_one_state_message( const std::string &msg )
         std::cout << "[cdda-mp] state applied ok" << std::endl;
 
     } catch( const std::exception &e ) {
-        std::cout << "[cdda-mp] exception in state processing: " << e.what() << std::endl;
+        // mp_log (not std::cout): this backstop firing means a state message was
+        // aborted mid-apply — potentially skipping the moves/ack-clear handshake
+        // and deadlocking the turn.  It MUST land in cdda-mp-client.log so it can
+        // be diagnosed; routing it to stdout is why the #16 vehicle-sync throw was
+        // invisible across every prior log dump.
+        mp_log( "[cdda-mp] exception in state processing (handshake may be skipped!): "
+                + std::string( e.what() ) );
     } catch( ... ) {
-        std::cout << "[cdda-mp] unknown exception in state processing" << std::endl;
+        mp_log( "[cdda-mp] unknown exception in state processing (handshake may be skipped!)" );
     }
     return true;
 }
@@ -7822,6 +12066,19 @@ void client_process_incoming()
         return;
     }
 
+    // Self-identifying log (mirrors the host's IDENTITY line) so a client-log dump
+    // plainly states who's who.  Fires once, once we're joined and know the host's
+    // name (which only arrives after they've picked a real char, not "player2").
+    static bool s_client_identity_logged = false;
+    if( !s_client_identity_logged && is_client_mode() && client_join_is_sent() ) {
+        const std::string hostname = mp_client_host_player_name();
+        if( !hostname.empty() ) {
+            mp_log( "[cdda-mp] IDENTITY: role=CLIENT self='" + get_avatar().name +
+                    "' partner=HOST '" + hostname + "'" );
+            s_client_identity_logged = true;
+        }
+    }
+
     mp_cull_local_npcs();   // drop client-local phantom NPCs (keep only host proxy)
 
     // Send the join message on the first tick — the save is loaded by now.
@@ -7832,6 +12089,13 @@ void client_process_incoming()
         // so the server's first move grant isn't silently ignored after reconnect.
         g_client_waiting_for_ack = false;
         g_client_last_grant_seq = 0;
+        // Same reason: clear the turn-catchup trackers so a leftover calendar
+        // turn from a previous game (quit to menu, new world, same process)
+        // can't be diffed against this fresh game's turn 0 and fast-forward
+        // needs across two unrelated timelines.
+        mp_reset_turn_catchup_state();
+        mp_reset_deferred_item_state();
+        mp_reset_intent_state();
         // Immediately follow with our worn-item list and skin tone.
         client_resync_worn();
         // Templates wire-sync: send local template list so the host can request
@@ -7914,11 +12178,13 @@ void client_process_incoming()
         // is ~236ms on the slow client and exceeds any useful throttle). The
         // real fix is the client's render speed, not the render frequency.
         // CLI-RENDER timing kept so we can measure that.
-        const std::chrono::steady_clock::time_point r0 = std::chrono::steady_clock::now();
-        g->invalidate_main_ui_adaptor();
-        const std::chrono::steady_clock::time_point r1 = std::chrono::steady_clock::now();
-        ui_manager::redraw();
-        const std::chrono::steady_clock::time_point r2 = std::chrono::steady_clock::now();
+        const auto r0 = std::chrono::steady_clock::now();
+        // Throttled here rather than inside ui_manager::redraw(). This is THE call
+        // site the ~1Hz cap was written for; keeping it global starved modal
+        // dialogs of their one and only redraw and wedged the client.
+        mp_client_repaint_throttled();
+        const auto r1 = std::chrono::steady_clock::now();
+        const auto r2 = r1;   // invalidate+redraw are inside the helper now
         refresh_display();
         const std::chrono::steady_clock::time_point r3 = std::chrono::steady_clock::now();
         auto ms = []( auto a, auto b ) {
@@ -7936,9 +12202,51 @@ void client_process_incoming()
     }
 }
 
+// How far the next tile scan must reach, in tiles, because a spell we just cast
+// could have changed ground further out than the default box.  Set by
+// mp_note_spell_tile_reach() at spellcasting_finish, consumed by the next scan.
+static int g_spell_tile_reach = 0;
+
+// The scan is O(r^2) with a full item serialize per tile, so a 60-tile spell
+// would mean 121x121 = 14641 tiles against the usual 21x21 = 441.  Cap it: past
+// this we accept losing the outermost ground rather than stalling the client's
+// turn.  Raise it if a real spell is observed losing terrain inside the cap.
+static constexpr int MAX_SPELL_TILE_REACH = 40;
+
+void mp_note_spell_tile_reach( int reach )
+{
+    if( !is_client_mode() ) {
+        return;
+    }
+    g_spell_tile_reach = std::max( g_spell_tile_reach, std::min( reach, MAX_SPELL_TILE_REACH ) );
+}
+
+// Returns the radius the next scan should use and clears the pending bump, so a
+// widened scan happens exactly once per cast rather than for the rest of the
+// session.  Never narrower than the default.
+static int mp_take_spell_tile_reach()
+{
+    const int r = std::max( 10, g_spell_tile_reach );
+    if( g_spell_tile_reach > 0 ) {
+        mp_log( "[cdda-mp] TILE-SCAN-WIDEN: radius=" + std::to_string( r ) +
+                " tiles=" + std::to_string( ( 2 * r + 1 ) * ( 2 * r + 1 ) ) +
+                " (default would scan 441)" );
+        g_spell_tile_reach = 0;
+    }
+    return r;
+}
+
 // Scan tiles around the client avatar for field changes (blood, etc.) since the
 // last action was sent.  Returns a JSON array of changed tile entries suitable
 // for inclusion as "client_tile_changes" in an action packet.
+//
+// The default 10 is a 21x21 box centred on the CLIENT's avatar, and anything it
+// misses is invisible to the host forever — the host's map is authoritative and
+// never learns the change happened.  That is fine for walking around, where the
+// client only ever alters ground it is standing on or next to, but 114 Magiclysm
+// spells have a numeric max_range greater than 10, so a spell that transforms
+// terrain at range 18 silently did nothing as far as the shared world is
+// concerned.  Callers pass a wider radius on the turn such a spell resolves.
 static std::string build_client_tile_changes( int radius = 10 )
 {
     const avatar &av = get_avatar();
@@ -7946,6 +12254,7 @@ static std::string build_client_tile_changes( int radius = 10 )
     map &m = get_map();
     std::string out = "[";
     bool first = true;
+    int emitted = 0;   // DIAG (2026-08-27): see TILE-SCAN-RESULT at the return.
 
     for( int dy = -radius; dy <= radius; ++dy ) {
         for( int dx = -radius; dx <= radius; ++dx ) {
@@ -8101,9 +12410,22 @@ static std::string build_client_tile_changes( int radius = 10 )
                 }
             }
             out += "}";
+            ++emitted;
         }
     }
     out += ']';
+    // DIAG (2026-08-27): B13 verification.  TILE-SCAN-WIDEN proves the radius was
+    // applied, but not that the scan FOUND anything, and the host truncates logged
+    // packets before "client_tile_changes" so its arrival cannot be read there
+    // either.  This line splits send-side from apply-side: entries=0 on a widened
+    // scan means the scan produced nothing (look at ordering — did the terrain
+    // transform land before the scan ran?), while entries>0 with nothing applied
+    // host-side moves the problem to the applier's inbounds check.
+    if( radius > 10 || emitted > 0 ) {
+        mp_log( "[cdda-mp] TILE-SCAN-RESULT: radius=" + std::to_string( radius ) +
+                " entries=" + std::to_string( emitted ) +
+                " bytes=" + std::to_string( out.size() ) );
+    }
     return out;
 }
 
@@ -8132,6 +12454,15 @@ static std::string build_client_veh_cargo_changes( int radius = 12 )
             v->pos_abs().z() != center.z() ) {
             continue;
         }
+        // Untagged = the host has never told us about this vehicle, so it is a
+        // client-local mapgen phantom with no host counterpart.  Reporting cargo
+        // for it is meaningless at best: the host resolves our message by
+        // POSITION, so a phantom's delta lands on whatever real vehicle happens
+        // to occupy that tile host-side.  Say nothing about vehicles we don't
+        // share.
+        if( v->mp_net_id == 0 ) {
+            continue;
+        }
         for( const vpart_reference &vp : v->get_any_parts( VPFLAG_CARGO ) ) {
             const tripoint_bub_ms vp_bub = vp.pos_bub( m );
             const tripoint_abs_ms vp_abs = m.get_abs( vp_bub );
@@ -8139,29 +12470,81 @@ static std::string build_client_veh_cargo_changes( int radius = 12 )
                 std::abs( vp_abs.y() - center.y() ) > radius ) {
                 continue;
             }
-            std::string items_sig;
-            std::string items_json = "[";
-            bool ifirst = true;
+            // Delta vs the last-synced baseline: send only what the CLIENT
+            // changed — items it dropped in (added, full json) and UIDs it
+            // picked up (removed).  Never a full snapshot: a snapshot from a
+            // client trailing the host wipes host-dropped items on replace and
+            // dupes them on merge (see g_client_veh_cargo_baseline).
+            std::map<int64_t, int> current;   // uid -> count() (charges for stacks)
+            std::unordered_map<int64_t, std::string> uid_json;
             for( const item &it : v->get_items( vp.part() ) ) {
-                const std::string item_json = serialize( it );
-                items_sig += item_json + ',';
-                if( !ifirst ) {
-                    items_json += ',';
+                const int64_t u = it.uid().get_value();
+                current[u] = it.count();
+                uid_json[u] = serialize( it );
+            }
+            const uint64_t bkey = mp_cargo_baseline_key( v->mp_net_id, vp.part_index() );
+            const bool baseline_known = g_client_veh_cargo_baseline.count( bkey ) > 0;
+            std::map<int64_t, int> &baseline = g_client_veh_cargo_baseline[bkey];
+            std::string added_json = "[";
+            std::string removed_json = "[";
+            bool afirst = true;
+            bool rfirst = true;
+            auto emit_added = [&]( const std::string & j ) {
+                if( !afirst ) {
+                    added_json += ',';
                 }
-                ifirst = false;
-                items_json += item_json;
+                afirst = false;
+                added_json += j;
+            };
+            auto emit_removed = [&]( int64_t u ) {
+                if( !rfirst ) {
+                    removed_json += ',';
+                }
+                rfirst = false;
+                removed_json += "\"" + std::to_string( u ) + "\"";   // string: UIDs are int64
+            };
+            for( const auto &cu : current ) {
+                const int64_t u = cu.first;
+                const auto bit = baseline.find( u );
+                if( bit == baseline.end() ) {
+                    emit_added( uid_json[u] );      // brand-new item the client dropped in
+                } else if( bit->second != cu.second ) {
+                    // Same UID, changed count — a partial pickup or deposit on a
+                    // charge stack.  Model it as remove-then-re-add so the host
+                    // erases the old stack and rebuilds it at the new count.  The
+                    // host applier processes removed before added and preserves the
+                    // UID, so the stack keeps its identity at the corrected count.
+                    emit_removed( u );
+                    emit_added( uid_json[u] );
+                }
+                // else unchanged — leave it alone (host owns its baseline copy)
             }
-            items_json += "]";
-            auto &baseline = g_client_veh_cargo_baseline[vp_abs];
-            if( baseline == items_sig ) {
-                continue; // no change since last send
+            for( const auto &bu : baseline ) {
+                if( !current.count( bu.first ) ) {
+                    emit_removed( bu.first );       // stack fully picked up / gone
+                }
             }
-            baseline = items_sig;
-            mp_log( "[cdda-mp] client veh cargo @ " +
+            added_json += "]";
+            removed_json += "]";
+            if( afirst && rfirst ) {
+                continue;   // this cargo part unchanged by the client
+            }
+            const size_t baseline_n_before = baseline.size();
+            baseline = current;
+            // Diagnostic for the 2026-07-28 dupe: baseline_known=0 on a cart that
+            // already holds items means we are about to re-send the whole cart as
+            // `added` — the dupe signature.  With the identity key that should now
+            // only ever happen once per cargo part per session.
+            mp_log( "[cdda-mp] client veh cargo DELTA @ " +
                     std::to_string( vp_abs.x() ) + "," +
                     std::to_string( vp_abs.y() ) + "," +
                     std::to_string( vp_abs.z() ) +
-                    " items_sig_len=" + std::to_string( items_sig.size() ) );
+                    " nid=" + std::to_string( v->mp_net_id ) +
+                    " part=" + std::to_string( vp.part_index() ) +
+                    " baseline_known=" + std::to_string( baseline_known ) +
+                    " baseline_n=" + std::to_string( baseline_n_before ) +
+                    " cart_n=" + std::to_string( current.size() ) +
+                    " added=" + added_json + " removed=" + removed_json );
             if( !first ) {
                 out += ',';
             }
@@ -8169,15 +12552,20 @@ static std::string build_client_veh_cargo_changes( int radius = 12 )
             out += "{\"x\":" + std::to_string( vp_abs.x() )
                    + ",\"y\":" + std::to_string( vp_abs.y() )
                    + ",\"z\":" + std::to_string( vp_abs.z() )
-                   + ",\"items\":" + items_json + "}";
+                   + ",\"added\":" + added_json
+                   + ",\"removed\":" + removed_json + "}";
         }
     }
     out += ']';
     return out;
 }
 
-// Build JSON array of monsters the client damaged since the last server sync.
-// Uses g_last_monster_hp (last server-reported HP) as the baseline.
+// Build JSON array of damage the client has dealt, since the last report, to
+// monsters the host is authoritative for.  Reports an incremental DELTA
+// (not an absolute HP) so the host can apply it as a subtraction from its
+// own *current* live HP — see g_last_reported_monster_hp above for why: a
+// same-target concurrent hit from the host's own avatar must add up with
+// this, not get clobbered by it.
 static std::string build_client_monster_hits()
 {
     std::string hits;
@@ -8200,8 +12588,13 @@ static std::string build_client_monster_hits()
             continue;
         }
         const int client_hp = mon->is_dead() ? 0 : mon->get_hp();
-        if( client_hp >= it->second ) {
-            continue;
+        // last_reported defaults to the broadcast baseline the first time we
+        // ever report this nid (g_last_reported_monster_hp has no entry yet).
+        const auto rit = g_last_reported_monster_hp.find( mon->mp_net_id );
+        const int last_reported = rit != g_last_reported_monster_hp.end() ? rit->second : it->second;
+        const int dealt = last_reported - client_hp;
+        if( dealt <= 0 ) {
+            continue;  // no new damage since our last report
         }
         if( client_hp <= 0 ) {
             // Client killed this synced monster locally. Mark it so the next few
@@ -8209,12 +12602,13 @@ static std::string build_client_monster_hits()
             // don't respawn it — see apply_monster_sync's spawn guard (GH#1).
             g_client_pending_kill[mon->mp_net_id] = CLIENT_PENDING_KILL_SYNCS;
         }
+        g_last_reported_monster_hp[mon->mp_net_id] = client_hp;
         if( !first ) {
             hits += ',';
         }
         first = false;
         hits += "{\"nid\":" + std::to_string( mon->mp_net_id )
-                + ",\"hp\":" + std::to_string( client_hp ) + "}";
+                + ",\"dealt\":" + std::to_string( dealt ) + "}";
     }
     return first ? std::string() : ( "[" + hits + "]" );
 }
@@ -8255,7 +12649,7 @@ static void add_third_person_s( std::string &s )
 // Drains into the enriched action payload below.
 static void client_capture_avatar_msgs()
 {
-    const unsigned long long cur = Messages::size();
+    const unsigned long long cur = Messages::appended_total();
     if( cur <= g_client_msg_watermark ) {
         g_client_msg_watermark = cur;
         return;
@@ -8264,17 +12658,35 @@ static void client_capture_avatar_msgs()
                           g_client_msg_watermark ) );
     g_client_msg_watermark = cur;
     const std::string client_name = get_avatar().name;
+    // See the matching note in host_capture_avatar_msgs(): first entry is at
+    // absolute index cur - n, so the relay floor can be applied by position.
+    unsigned long long msg_idx = cur - new_msgs.size();
     for( const auto &[time_str, text] : new_msgs ) {
         ( void )time_str;
+        if( mp_msg_suppressed( msg_idx++ ) ) {
+            continue;   // emitted inside an mp_local_msg_scope
+        }
         if( text.rfind( "You ", 0 ) != 0 && text.rfind( "Now ", 0 ) != 0 ) {
             continue;  // skip ambient/UI/inventory chatter
         }
+        // DIAG (2026-08-23): English-literal matching against translated text
+        // — see the matching note in host_capture_avatar_msgs().  Note this
+        // side has NO "You " gate at all, so in a non-English UI every message
+        // falls through to the else-branch below and gets forwarded.
+        mp_log( "[cdda-mp] client_capture_avatar_msgs: CANDIDATE text=\"" + text +
+                "\" you_prefix=" + std::string( text.rfind( "You ", 0 ) == 0 ? "yes" : "no" ) );
         // Swap and push are already shown on the host by their dedicated
         // handlers ("<client> swaps places with you" / "pushes you out of the
         // way"); relaying the client's own "You swap/push <host>" too would
         // duplicate them on the host.
         if( text.find( "swap places" ) != std::string::npos ||
             text.find( "You push " ) != std::string::npos ) {
+            continue;
+        }
+        // High-five already has its own dedicated packet; see the matching
+        // exclusion in host_capture_avatar_msgs().
+        if( text.rfind( "You high-five ", 0 ) == 0 ) {
+            mp_log( "[cdda-mp] client_capture_avatar_msgs: EXCLUDED high-five text: \"" + text + "\"" );
             continue;
         }
         std::string out = text;
@@ -8290,8 +12702,11 @@ static void client_capture_avatar_msgs()
             out.insert( 0, client_name + " is " );
         }
         mp_addressee_to_you( out, client_name );   // partner's name → "you" (guarded)
+        mp_log( "[cdda-mp] client_capture_avatar_msgs: forwarding raw=\"" + text + "\" client_name=\"" +
+                client_name + "\" -> out=\"" + out + "\"" );
         g_client_msgs_pending.push_back( out );
     }
+    mp_msg_prune_suppressed( cur );
 }
 
 std::string client_enrich_action( const std::string &json )
@@ -8315,7 +12730,7 @@ std::string client_enrich_action( const std::string &json )
     bleed_json += "]";
 
     const float cl = av.active_light();
-    const std::string tile_changes = build_client_tile_changes();
+    const std::string tile_changes = build_client_tile_changes( mp_take_spell_tile_reach() );
     const std::string veh_cargo_changes = build_client_veh_cargo_changes();
 
     // Worn-list baseline check: if the avatar's worn list (or wielded item)
@@ -8371,6 +12786,12 @@ std::string client_enrich_action( const std::string &json )
     char_stats += ",\"dex\":" + std::to_string( av.get_dex_base() );
     char_stats += ",\"int\":" + std::to_string( av.get_int_base() );
     char_stats += ",\"per\":" + std::to_string( av.get_per_base() );
+    // GH #19: without this the proxy's own (unsynced, default-initialized)
+    // cardio_acc feeds get_cardiofit() -> get_stamina_max(), producing a
+    // stamina ceiling that has nothing to do with the real client's actual
+    // fitness — same root class as the is_npc() shortcut fix in
+    // character_health.cpp's get_cardiofit().
+    char_stats += ",\"cardio_acc\":" + std::to_string( av.get_cardio_acc() );
     char_stats += ",\"skills\":[";
     bool first_s = true;
     for( const auto &[sid, slevel] : av.get_all_skills() ) {
@@ -8398,7 +12819,16 @@ std::string client_enrich_action( const std::string &json )
     std::string enriched = json;
     if( !enriched.empty() && enriched.back() == '}' ) {
         enriched.pop_back();
-        enriched += ",\"client_light\":" + std::to_string( cl );
+        // MP 2026-08-30 — FF LEAD CONTROL.  The host had no way to know how far
+        // behind the client was: nothing in the client's action/wait payload
+        // reported its progress, so the host granted blind.  Measured 2026-08-30:
+        // lead is 0 in lockstep (the host cannot outrun an ack it waits for) but
+        // reached 3931 turns during fast-forward, which is what let one player
+        // keep crafting for ~7s while the other sat frozen on a modal.
+        // Echo the highest grant we have actually applied; the host subtracts.
+        enriched += ",\"cseq\":" + std::to_string(
+                        static_cast<unsigned long long>( g_client_last_grant_seq ) );
+        enriched += ",\"client_light\":" + mp_json_num( cl );
         enriched += ",\"client_bleed\":" + bleed_json;
         enriched += ",\"client_tile_changes\":" + tile_changes;
         if( veh_cargo_changes != "[]" ) {
@@ -8421,14 +12851,35 @@ std::string client_enrich_action( const std::string &json )
         // is reflected here too.
         if( av.activity ) {
             g_client_turn_activity = av.activity.id().str();
+        } else if( mp_char_is_asleep( av ) ) {
+            // Sleep is an effect with no activity — see MP_ASLEEP_ACT.  There is no
+            // activity_start to carry it, so this sampled field IS the signal.
+            g_client_turn_activity = MP_ASLEEP_ACT;
+        } else if( g_client_turn_activity == MP_ASLEEP_ACT ) {
+            // Woke up.  No activity_end fires for an effect either, so clear it
+            // here or the host would believe we were asleep forever.
+            g_client_turn_activity.clear();
         }
         const std::string client_act_id = g_client_turn_activity;
-        enriched += R"(,"client_activity":")" + client_act_id + "\"";
+        enriched += ",\"client_activity\":\"" + client_act_id + "\"";
+        // Remaining work, so the host applies the same FF duration floor we do
+        // (FF_MIN_ACTIVITY_MOVES).  -1 when idle = "unknown", which the floor
+        // treats as long enough; the id check above already gates that case.
+        enriched += ",\"client_activity_moves\":" + std::to_string(
+                        av.activity ? av.activity.moves_left : -1 );
         // Progress percentage of the live activity, for the host's Co-op panel.
         // mp_compute_activity_pct handles crafting (item_counter-based) as
         // well as standard moves_total-based activities.
         enriched += ",\"client_activity_pct\":" + std::to_string(
                         mp_compute_activity_pct( av.activity ) );
+        // Batch size, so the host's panel can say "crafting x5" instead of leaving
+        // a 40-item batch looking like a stuck single craft.
+        enriched += ",\"client_activity_batch\":" + std::to_string(
+                        mp_craft_batch_size( av.activity ) );
+        enriched += ",\"client_activity_name\":\"" +
+                    json_escape_str( mp_craft_result_name( av.activity ) ) + "\"";
+        enriched += ",\"client_pulp\":" + std::to_string(
+                        mp_pulp_progress_packed( av.activity ) );
         // Total moves of the live activity, so the host's bump menu can gate
         // the "Help with task" option on "long enough to warrant it".
         enriched += ",\"client_activity_moves_total\":" + std::to_string(
@@ -8436,6 +12887,10 @@ std::string client_enrich_action( const std::string &json )
         // Local calendar turn so the host can show a sync-drift indicator.
         enriched += ",\"client_calendar_turn\":" + std::to_string(
                         to_turn<int>( calendar::turn ) );
+        // Green/red, so the host knows whether a staged intent hint is still
+        // live.  Cannot be inferred host-side: lockstep slaves our calendar to
+        // theirs, so both clocks advance together regardless of who can act.
+        enriched += ",\"client_waiting\":" + std::string( mp_turn_show_green() ? "false" : "true" );
         // Morale level for the host's Co-op panel mood indicator.
         enriched += ",\"client_morale\":" + std::to_string( av.get_morale_level() );
         // Worst-limb real cur/max HP so the host's panel bar matches our sidebar.
@@ -8444,15 +12899,7 @@ std::string client_enrich_action( const std::string &json )
             enriched += ",\"client_hp_cur\":" + std::to_string( wl.first );
             enriched += ",\"client_hp_max\":" + std::to_string( wl.second );
         }
-        // Ping: stamp now (client clock) for the host to echo, and remember it
-        // as the outstanding round-trip we're timing. Mirror the last RTT we
-        // measured so the host's panel shows the same latency number.
-        {
-            const int64_t stamp = mp_mono_ms();
-            g_pending_ping_stamp = stamp;
-            enriched += ",\"client_ping\":" + std::to_string( stamp );
-            enriched += ",\"client_rtt\":" + std::to_string( g_partner_ping_ms );
-        }
+        // (Ping now measured on the io thread via heartbeat — see mp_client_conn.cpp.)
         if( !g_client_msgs_pending.empty() ) {
             std::string msgs = "[";
             bool first_m = true;
@@ -8528,6 +12975,44 @@ void mp_client_dispatch_hauling_if_changed( bool pre_hauling )
         av.set_moves( 0 );
         client_mark_action_sent();
     }
+}
+
+// Client-side "direct your character" menu.  Phase 0 of the loot-zones-in-coop
+// design (ROADMAP 2026-07-25) — the host stays the only zone editor; this only
+// lets the client tell their own proxy NPC to act on zones the host has
+// already drawn, via the same talk_function:: calls the host's companion
+// dialogue already uses.  No activity is ever assigned to the client's own
+// local avatar/map — that would run against the client's non-authoritative
+// local zone_manager and do nothing real.
+void mp_client_request_zone_activity()
+{
+    if( !is_client_mode() ) {
+        return;
+    }
+    avatar &av = get_avatar();
+    const bool had_grant = av.get_moves() > 0 && !is_client_waiting_for_ack();
+    if( !had_grant ) {
+        add_msg( m_bad, _( "You can't do that right now." ) );
+        return;
+    }
+
+    uilist menu;
+    menu.title = _( "Direct your character" );
+    constexpr int RET_SORT_LOOT = 1;
+    constexpr int RET_STOP = 2;
+    menu.entries.emplace_back( RET_SORT_LOOT, true, 'l', _( "Sort loot into zones" ) );
+    menu.entries.emplace_back( RET_STOP, true, '-', _( "Stop what they're doing" ) );
+    menu.query();
+    if( menu.ret != RET_SORT_LOOT && menu.ret != RET_STOP ) {
+        return;
+    }
+    const std::string activity_id = menu.ret == RET_STOP ? "stop" : "sort_loot";
+    const std::string json = "{\"type\":\"action\",\"action\":\"zone_activity\",\"activity\":\"" +
+                             activity_id + "\"}";
+    mp_log( "[cdda-mp] CLI-ZONE-ACTIVITY-SEND: activity=" + activity_id );
+    client_send( client_enrich_action( json ) );
+    av.set_moves( 0 );
+    client_mark_action_sent();
 }
 
 void set_client_turn_activity( const std::string &activity_id_str )
@@ -8660,6 +13145,30 @@ bool is_client_waiting_for_ack()
     return g_client_waiting_for_ack;
 }
 
+bool mp_client_consume_sleep_grant()
+{
+    if( !is_client_mode() || !mp_char_is_asleep( get_avatar() ) ) {
+        return false;
+    }
+    // Sleep has no player_activity to consume the grant or ack it. Apply
+    // elapsed host turns once, even if effects wake us during this grant.
+    mp_do_turn_update_body( get_avatar() );
+    mp_do_turn_process_turn( get_avatar() );
+    const bool still_asleep = mp_char_is_asleep( get_avatar() );
+    get_avatar().set_moves( 0 );
+    g_client_turn_activity = still_asleep ? MP_ASLEEP_ACT : std::string();
+    if( !still_asleep ) {
+        client_send_activity_end( MP_ASLEEP_ACT );
+    }
+    // As with a passive player_activity, acknowledge even an FF grant: its
+    // cseq/progress heartbeat bounds the host's lead while both players sleep.
+    if( !g_client_waiting_for_ack ) {
+        client_send( client_enrich_action( R"({"type":"action","action":"wait"})" ) );
+        client_mark_action_sent();
+    }
+    return true;
+}
+
 void mp_client_post_action( int pre_moves )
 {
     if( !is_client_mode() ) {
@@ -8684,6 +13193,45 @@ int ms_since_last_grant()
 bool client_render_can_throttle()
 {
     return is_client_mode() && static_cast<bool>( get_avatar().activity );
+}
+
+// Rate-capped main-view repaint for the CLIENT during a long activity (~1Hz).
+//
+// This throttle used to sit inside ui_manager::redraw() itself (52d18726d8), which
+// applied it to EVERY caller — including modal dialogs that drive their own input
+// loop and redraw only once before blocking. Swallowing that one redraw left the
+// dialog's on_screen_resize callback unrun and its input_context default-built, so
+// no key resolved, ESC could not close it, nothing rendered, and the host stalled
+// behind the silent client until its watchdog force-reconnected. See the note left
+// in ui_manager::redraw().
+//
+// Scoped here instead: only the per-turn main-view repaint is capped, which is all
+// the original commit was ever aiming at. The cap interval must exceed the draw
+// cost to actually skip anything — the slow Intel client measured ~317ms/draw, so
+// 1000ms leaves real headroom.
+void mp_client_repaint_throttled()
+{
+    // invalidate ALWAYS, throttle only the paint — this split is deliberate and
+    // matches what the original in-ui_manager throttle did by accident of where it
+    // sat. Folding the invalidate inside the throttle looks equivalent and is not:
+    // the progress-UI path runs its own gated ui_manager::redraw() ~10Hz, and
+    // ui_manager::redraw() only repaints adaptors that are INVALIDATED. Skip the
+    // invalidate and those redraws still cost their 16-22ms but paint stale
+    // content, so the client's craft percentage visibly stops advancing while the
+    // logs show the redraws happening. (Regression introduced and caught in
+    // testing 2026-08-17 — the symptom was "progress on the client doesn't
+    // update" with a perfectly healthy-looking PROGRESS-UI gate.)
+    g->invalidate_main_ui_adaptor();
+    if( client_render_can_throttle() ) {
+        static auto last_draw = std::chrono::steady_clock::now() - std::chrono::seconds( 10 );
+        const auto now = std::chrono::steady_clock::now();
+        if( std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - last_draw ).count() < 1000 ) {
+            return;
+        }
+        last_draw = now;
+    }
+    ui_manager::redraw();
 }
 
 bool client_ctrl_veh()
@@ -8750,11 +13298,90 @@ void client_send_activity_start( const std::string &activity_id_str )
     const std::string json = "{\"type\":\"action\",\"action\":\"activity_start\","
                              "\"activity_id\":\"" + activity_id_str + "\"}";
     const player_activity &cur = get_avatar().activity;
+    // Classification is the single most common cause of "co-op felt slow" reports
+    // (ACT_FIRSTAID 2026-07-19, ACT_HOTWIRE_CAR 2026-08-16, ACT_RELOAD 2026-08-23),
+    // and until now a player log showed the activity but never the verdict on it.
+    // One line per activity start answers it without a repro.
     mp_log( "[cdda-mp] ACT-START SEND: id=" + activity_id_str
             + " g_client_turn_activity=" + g_client_turn_activity
             + " av.activity=" + ( cur ? cur.id().str() : "none" )
-            + " moves=" + std::to_string( get_avatar().get_moves() ) );
+            + " moves=" + std::to_string( get_avatar().get_moves() )
+            + " passive=" + std::to_string( is_passive_activity( activity_id_str ) )
+            + " ff_eligible=" + std::to_string( is_fast_forwardable_activity( activity_id_str ) )
+            + " moves_left=" + std::to_string( cur ? cur.moves_left : -1 ) );
     client_send( json );
+}
+
+// Diagnostic for issue #10 (client renders indoor tiles fully lit while the
+// host shows them correctly dark). Dumps, for a small window around the local
+// avatar, each tile's is_outside flag + light level, tagged HOST/CLIENT and
+// keyed by absolute coords so a host-vs-client diff is a straight line-up. The
+// discriminator: if the client reports outside=1 (open to sky → sunlit) where
+// the host reports outside=0 (roofed → dark) for the same abs tile, the
+// client's local roof (z+1) diverges and isn't being synced — that's the
+// lighting bug's root. If is_outside matches but the light level differs, it's
+// a pure client-side light-computation issue instead. Behavioral mods (the
+// only ones that differed in the report) can't cause either, so this pins it.
+// Heavily throttled + capped so a frozen/idle session can't flood the log.
+void mp_log_lighting_sample()
+{
+    if( !is_hosting() && !is_client_mode() ) {
+        return;
+    }
+    static int dumps = 0;
+    if( dumps >= 20 ) {
+        return;
+    }
+    static std::chrono::steady_clock::time_point last;
+    const auto now = std::chrono::steady_clock::now();
+    if( dumps > 0 &&
+        std::chrono::duration_cast<std::chrono::seconds>( now - last ).count() < 8 ) {
+        return;
+    }
+    last = now;
+    ++dumps;
+
+    map &here = get_map();
+    const tripoint_bub_ms center = get_avatar().pos_bub();
+    const char *role = is_hosting() ? "HOST" : "CLIENT";
+    const int R = 4;
+    for( int dy = -R; dy <= R; ++dy ) {
+        std::string row;
+        for( int dx = -R; dx <= R; ++dx ) {
+            const tripoint_bub_ms p = center + point( dx, dy );
+            if( !here.inbounds( p ) ) {
+                row += " --";
+                continue;
+            }
+            // Cell = 'o' (outside/open to sky) or 'i' (inside/roofed) + light level.
+            const bool out = here.is_outside( p );
+            const int light = static_cast<int>( here.light_at( p ) );
+            row += std::string( " " ) + ( out ? "o" : "i" ) + std::to_string( light );
+        }
+        const tripoint_abs_ms left = here.get_abs( center + point( -R, dy ) );
+        mp_log( std::string( "[cdda-mp] LIGHT-SAMPLE " ) + role +
+                " x0=" + std::to_string( left.x() ) +
+                " y=" + std::to_string( left.y() ) +
+                " z=" + std::to_string( left.z() ) +
+                " |" + row );
+    }
+    const tripoint_abs_ms cabs = here.get_abs( center );
+    // Stale-vs-live discriminator: does forcing a fresh lightmap rebuild at
+    // this z-level change the reading? If light_pre != light_post, the
+    // client's cache was stale (something patched geometry in without
+    // invalidating the lightmap) — points at the map_sync apply path missing
+    // a cache invalidation. If they match, it's a live computation
+    // divergence instead (different light-source visibility), not a caching
+    // bug, and needs a different follow-up.
+    const int light_pre = static_cast<int>( here.light_at( center ) );
+    here.build_map_cache( center.z() );
+    const int light_post = static_cast<int>( here.light_at( center ) );
+    mp_log( std::string( "[cdda-mp] LIGHT-SAMPLE " ) + role + " dump#" +
+            std::to_string( dumps ) + " center_abs=" + std::to_string( cabs.x() ) +
+            "," + std::to_string( cabs.y() ) + "," + std::to_string( cabs.z() ) +
+            " center_outside=" + std::to_string( here.is_outside( center ) ) +
+            " center_light_pre=" + std::to_string( light_pre ) +
+            " center_light_post_rebuild=" + std::to_string( light_post ) );
 }
 
 void client_send_activity_end( const std::string &activity_id_str )
@@ -8897,9 +13524,33 @@ static mp_tile_state compute_tile_state( const tripoint_abs_ms &abs )
 // Server: scan the sync area and emit tile entries whose ter/furn/items changed since last broadcast.
 static std::string build_tile_changes( const tripoint_abs_ms &center, int radius )
 {
+    // Per-batch delta counters — see the note at the item/field checks below.
+    int dbg_delta_items = 0;
+    int dbg_delta_fields = 0;
     std::string out = "[";
     bool first = true;
     map &m = get_map();
+
+    // MP DIAGNOSTIC 2026-08-15 — split the per-tile cost. The scan measures 57.6ms
+    // for 1681 tiles = ~34us PER TILE, which is roughly 100x what two std::string
+    // constructions, seven string compares and a hash lookup should cost. The first
+    // scan of an area emits 128KB across 1681 tiles (~76 bytes/tile), i.e. most
+    // tiles are bare terrain with no items, so the standing assumption that
+    // serialize() dominates is probably wrong.
+    //
+    // The untested alternative: each tile does ~8 INDEPENDENT map queries
+    // (inbounds, get_bub, ter, furn, i_at, field_at, tr_at, has_graffiti_at,
+    // mp_partial_con_sig), each walking the submap indirection separately. Eight of
+    // those at ~4us lands right on 34us. If that is where it goes, the fix is to
+    // resolve the submap once per 12x12 block instead of 1681*8 lookups — a much
+    // bigger and more structural win than shaving string allocations.
+    //
+    // DIAGNOSTIC ONLY this session; the optimisation itself is deliberately
+    // deferred so today's fast-forward testing is not complicated by it.
+    using tsclk = std::chrono::steady_clock;
+    long long ns_coord = 0, ns_terfurn = 0, ns_items = 0, ns_rest = 0, ns_diff = 0;
+    long long n_tiles = 0, n_with_items = 0, n_items_serialized = 0;
+    const auto ts_fn0 = tsclk::now();
 
     for( int dy = -radius; dy <= radius; ++dy ) {
         for( int dx = -radius; dx <= radius; ++dx ) {
@@ -8907,9 +13558,40 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
             if( !m.inbounds( abs ) ) {
                 continue;
             }
+            // MP PERF 2026-08-15 — serialize_remote_player_state() runs this scan up
+            // to 8 times per broadcast: radius 20 at the client's position, the same
+            // at the host's, and ROOF_SYNC_LEVELS=3 z-levels above each. When the two
+            // players are within 40 tiles the client and host areas OVERLAP, and
+            // every tile in that overlap is fully recomputed by the second scan —
+            // ter/furn id strings, a full serialize() of every item on the tile,
+            // field/trap/graffiti/partial-con signatures, plus an unordered_map
+            // lookup — only to compare equal and emit nothing, because the first scan
+            // already refreshed the baseline for that exact tile.
+            //
+            // Skipping a tile a previous scan already visited THIS broadcast is
+            // therefore output-identical, not an approximation: the second visit can
+            // only ever produce "no change". Sensitivity is unchanged — every tile is
+            // still examined once per broadcast with the same full serialize()-based
+            // fingerprint. Nothing is cached ACROSS broadcasts and no change signal is
+            // inferred, so a dropped item or an opened door cannot be missed. (That is
+            // why submap::last_touched was rejected for this: it is written only by
+            // mapgen, submap save and actualize(), so it would have silently missed
+            // exactly those edits.)
+            //
+            // Measured before this change: 114.4ms per broadcast for all 8 scans, of
+            // which scan #1 alone was 56.6ms — the two ground scans are essentially
+            // the whole cost and the 6 roof scans total ~1.8ms (open air, no items to
+            // serialize). 677 of 685 scans produced an empty "[]" (2 bytes).
+            if( !g_scan_visited_this_broadcast.insert( abs ).second ) {
+                continue;
+            }
+            const auto ts_a = tsclk::now();
             const tripoint_bub_ms bub = m.get_bub( abs );
+            const auto ts_b = tsclk::now();
             const std::string ter_str  = m.ter( bub ).id().str();
             const std::string furn_str = m.furn( bub ).id().str();
+            const auto ts_c = tsclk::now();
+            ++n_tiles;
 
             // Build item fingerprint and JSON simultaneously.
             // Full item serialize() is used so nested pocket contents are included.
@@ -8917,9 +13599,11 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
             std::string items_json = "[]";
             map_stack items = m.i_at( bub );
             if( !items.empty() ) {
+                ++n_with_items;
                 items_json = "[";
                 bool ifirst = true;
                 for( const item &it : items ) {
+                    ++n_items_serialized;
                     const std::string item_json = serialize( it );
                     items_sig += item_json + ',';
                     if( !ifirst ) {
@@ -8930,6 +13614,8 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
                 }
                 items_json += "]";
             }
+
+            const auto ts_d = tsclk::now();
 
             // Build field fingerprint and JSON.
             std::string fields_sig;
@@ -8971,6 +13657,12 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
             const std::string partial_con_sig = mp_partial_con_sig( bub );
             const bool has_pc = m.partial_con_at( bub ) != nullptr;
 
+            const auto ts_e = tsclk::now();
+            ns_coord   += std::chrono::duration_cast<std::chrono::nanoseconds>( ts_b - ts_a ).count();
+            ns_terfurn += std::chrono::duration_cast<std::chrono::nanoseconds>( ts_c - ts_b ).count();
+            ns_items   += std::chrono::duration_cast<std::chrono::nanoseconds>( ts_d - ts_c ).count();
+            ns_rest    += std::chrono::duration_cast<std::chrono::nanoseconds>( ts_e - ts_d ).count();
+
             auto &baseline = g_tile_baseline[abs];
             if( baseline.ter == ter_str && baseline.furn == furn_str &&
                 baseline.items_sig == items_sig && baseline.fields_sig == fields_sig &&
@@ -8979,6 +13671,15 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
                 continue; // Nothing changed — skip this tile.
             }
             const bool had_pc = !baseline.partial_con_sig.empty();
+            // MP DIAG (2026-07-29, rejoin resync scope): capture BEFORE
+            // overwriting so a ter/furn change (e.g. taking down a flag) gets
+            // its own log line the way items/fields already do — that log
+            // previously only fired for items/fields, which is what made an
+            // earlier read of this code look like furniture had no delta path
+            // at all (it does; it just wasn't logged). Distance from `center`
+            // (this scan's radius-20 anchor) settles whether the change was
+            // in-scope for THIS resync at the moment it was recorded.
+            const bool ter_furn_changed = baseline.ter != ter_str || baseline.furn != furn_str;
             baseline.ter          = ter_str;
             baseline.furn         = furn_str;
             baseline.items_sig    = items_sig;
@@ -8987,17 +13688,26 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
             baseline.graffiti_sig = graffiti_sig;
             baseline.partial_con_sig = partial_con_sig;
 
+            // MP LOG VOLUME 2026-08-17 — these were one line PER CHANGED TILE and
+            // became the top talker once HOST-MODAL-PUMP was silenced: 15,805 lines
+            // of a 3.6MB log in a single cross-OS session. The per-tile coordinate
+            // was only ever useful for "did this specific tile sync", which the
+            // apply_tile_changes lines on the receiving side already answer.
+            // Counted here and reported once per batch below instead.
             if( !items_sig.empty() ) {
-                mp_log( "tile_delta items @ " +
-                        std::to_string( abs.x() ) + "," +
-                        std::to_string( abs.y() ) + "," +
-                        std::to_string( abs.z() ) );
+                ++dbg_delta_items;
             }
             if( !fields_sig.empty() ) {
-                mp_log( "tile_delta fields @ " +
+                ++dbg_delta_fields;
+            }
+            if( ter_furn_changed ) {
+                const int dist = square_dist( abs, center );
+                mp_log( "[cdda-mp] tile_delta terfurn @ " +
                         std::to_string( abs.x() ) + "," +
                         std::to_string( abs.y() ) + "," +
-                        std::to_string( abs.z() ) + " : " + fields_sig );
+                        std::to_string( abs.z() ) + " ter=" + ter_str +
+                        " furn=" + furn_str + " dist_from_scan_center=" +
+                        std::to_string( dist ) );
             }
 
             if( !first ) {
@@ -9029,6 +13739,28 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
         }
     }
     out += ']';
+    {
+        const long long total_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                                       tsclk::now() - ts_fn0 ).count();
+        // 10ms threshold matches the existing TILE-SCAN line so the two pair up per scan.
+        if( total_us >= 10000 && n_tiles > 0 ) {
+            ns_diff = total_us * 1000 - ( ns_coord + ns_terfurn + ns_items + ns_rest );
+            mp_log( "[cdda-mp] TILE-SCAN-SPLIT: total=" + std::to_string( total_us / 1000 ) +
+                    "ms tiles=" + std::to_string( n_tiles ) +
+                    " us_per_tile=" + std::to_string( total_us / n_tiles ) +
+                    " | coord=" + std::to_string( ns_coord / 1000 ) +
+                    "us terfurn=" + std::to_string( ns_terfurn / 1000 ) +
+                    "us items=" + std::to_string( ns_items / 1000 ) +
+                    "us rest=" + std::to_string( ns_rest / 1000 ) +
+                    "us baseline_and_emit=" + std::to_string( ns_diff / 1000 ) +
+                    "us | tiles_with_items=" + std::to_string( n_with_items ) +
+                    " items_serialized=" + std::to_string( n_items_serialized ) );
+        }
+    }
+    if( dbg_delta_items > 0 || dbg_delta_fields > 0 ) {
+        mp_log( "[cdda-mp] tile_delta: items=" + std::to_string( dbg_delta_items ) +
+                " fields=" + std::to_string( dbg_delta_fields ) + " tiles changed" );
+    }
     return out;
 }
 
@@ -9039,16 +13771,8 @@ static std::string build_monster_list( const tripoint_abs_ms &center, int radius
     // missed the on-connect clear, a dropped packet) without per-turn cost the
     // rest of the time. Cheap: monsters that haven't changed simply re-serialize.
     constexpr int KEYFRAME_INTERVAL = 120;
-    // MP diagnostic toggle: CDDA_MP_NO_DELTA=1 forces a full monster snapshot
-    // every broadcast (disables delta-encoding). Lets us isolate the client
-    // load-in hard-hang (2026-06-26) to the delta path without rebuilding
-    // between test runs — set the env on the host and restart.
-    static const bool s_force_keyframe = [] {
-        const char *e = std::getenv( "CDDA_MP_NO_DELTA" );
-        return e && *e && *e != '0';
-    }();
     static int s_keyframe_ctr = 0;
-    const bool keyframe = s_force_keyframe || ( s_keyframe_ctr++ % KEYFRAME_INTERVAL ) == 0;
+    const bool keyframe = ( s_keyframe_ctr++ % KEYFRAME_INTERVAL ) == 0;
     if( keyframe ) {
         g_server_mon_last_sent.clear();
     }
@@ -9087,13 +13811,30 @@ static std::string build_monster_list( const tripoint_abs_ms &center, int radius
         const uint32_t nid = mon_ptr->mp_net_id;
         seen_nids.insert( nid );
         const int mon_facing = ( mon_ptr->facing == FacingDirection::LEFT ) ? 0 : 1;
+        // Ridden-mount sync: tag who rides so the client can re-establish the
+        // effect_ridden + mounted_player link and drive the SP rid_ draw path.
+        // "host" = the host avatar rides (client links it to the host proxy NPC);
+        // "client" = the client proxy rides (already linked locally client-side).
+        std::string rider_field;
+        if( mon_ptr->has_effect( effect_ridden ) && mon_ptr->mounted_player ) {
+            rider_field = mon_ptr->mounted_player->is_avatar()
+                          ? ",\"rider\":\"host\"" : ",\"rider\":\"client\"";
+        }
         std::string rec = "{\"nid\":" + std::to_string( nid )
                           + R"(,"id":")" + mon_ptr->type->id.str() + "\""
                           + ",\"x\":" + std::to_string( mp.x() )
                           + ",\"y\":" + std::to_string( mp.y() )
                           + ",\"z\":" + std::to_string( mp.z() )
                           + ",\"hp\":" + std::to_string( mon_ptr->get_hp() )
-                          + ",\"facing\":" + std::to_string( mon_facing ) + "}";
+                          // Friendliness.  Without this every monster arrives on the client
+                          // as a default instance of its mtype — i.e. hostile — so summons,
+                          // tamed pets and anything else with friendly != 0 read as enemies
+                          // over there (measured 2026-08-25: a client-summoned zombie the
+                          // host placed came back hostile on the client's own screen).
+                          // Part of the record string, so the delta gate re-sends a monster
+                          // whose friendliness changes.
+                          + ",\"fr\":" + std::to_string( mon_ptr->friendly )
+                          + ",\"facing\":" + std::to_string( mon_facing ) + rider_field + "}";
         // Delta gate: emit only if new or changed since last broadcast. nid + id
         // are stable, so an identical record string means x/y/z/hp/facing are all
         // unchanged → the client already holds this exact state, omit it.
@@ -9208,21 +13949,15 @@ static void apply_tile_changes( JsonObject &jo )
         }
 
         if( to.has_array( "items" ) ) {
-            // Log any items that currently exist locally but are about to be
-            // cleared — these are client-only drops that the server doesn't know
-            // about and will erase.
-            map_stack existing = m.i_at( bub );
-            if( !existing.empty() ) {
-                std::string had;
-                for( const item &it : existing ) {
-                    had += it.typeId().str() + ' ';
-                }
-                mp_log( "[cdda-mp] apply_tile_changes: clearing local items @ " +
-                        std::to_string( abs.x() ) + "," +
-                        std::to_string( abs.y() ) + "," +
-                        std::to_string( abs.z() ) + " had=[" + had + "]" );
-            }
-            m.i_clear( bub );
+            // Ground-item apply = i_clear()+rebuild (REPLACE): mirror of the
+            // host-side path.  The 2026-07-11 UID-diff (c8cd48032e) broke this —
+            // item_uid regenerates on add_item's copy so the dedup never matched
+            // and only ever ADDED, ballooning tiles to thousands of items and
+            // stalling the client (issue #17/#18).  Replace can't accumulate.
+            // If the client's own pickup/examine/AIM UI is open on this exact
+            // tile, defer the replace until it closes — see mp_ui_item_ref_guard
+            // in mp_gamestate.h.
+            std::vector<item> new_items;
             std::string applied;
             for( const JsonValue &iv : to.get_array( "items" ) ) {
                 try {
@@ -9232,9 +13967,22 @@ static void apply_tile_changes( JsonObject &jo )
                     new_item.deserialize( io );
                     if( !new_item.typeId().is_empty() && new_item.typeId().is_valid() ) {
                         applied += new_item.typeId().str() + ' ';
-                        m.add_item( bub, std::move( new_item ) );
+                        new_items.push_back( std::move( new_item ) );
                     }
                 } catch( const JsonError & ) {}
+            }
+            auto do_replace = [bub, items = std::move( new_items )]() mutable {
+                map &m2 = get_map();
+                m2.i_clear( bub );
+                for( item &it : items )
+                {
+                    m2.add_item( bub, std::move( it ) );
+                }
+            };
+            if( mp_ui_holds_item_refs() ) {
+                mp_defer_item_apply( std::move( do_replace ) );
+            } else {
+                do_replace();
             }
             if( !applied.empty() ) {
                 mp_log( "[cdda-mp] apply_tile_changes: set items @ " +
@@ -9358,11 +14106,30 @@ static void apply_tile_changes( JsonObject &jo )
                 "  (ter_diff>0 => host terrain differs from our local world-gen)" );
     }
 
+
     // Run detection so newly synced traps show the warning tile immediately,
     // mirroring the search_surroundings() call that SP makes after every move.
     if( any_new_trap ) {
         get_avatar().search_surroundings();
     }
+}
+
+// Find the client's copy of a host vehicle by its network id — a stable
+// identity the host assigns and the client mirrors onto vehicle::mp_net_id.
+// This replaces the old position/name guessing, which was ambiguous across
+// multiple same-type vehicles (three spawned carts collapsed into one) and
+// broke whenever a vehicle drifted off its reported tile.
+static vehicle *find_client_veh_by_nid( const VehicleList &vehs, uint32_t nid )
+{
+    if( nid == 0 ) {
+        return nullptr;
+    }
+    for( const wrapped_vehicle &wv : vehs ) {
+        if( wv.v && wv.v->mp_net_id == nid ) {
+            return wv.v;
+        }
+    }
+    return nullptr;
 }
 
 // Client: apply vehicle position, facing, and velocity from the server state packet.
@@ -9382,27 +14149,23 @@ static void apply_vehicle_sync( JsonObject &jo )
     // collide with its successor at the same tile.
     if( jo.has_array( "removed_vehicles" ) ) {
         for( const JsonValue &rv : jo.get_array( "removed_vehicles" ) ) {
-            const uint32_t rnid = static_cast<uint32_t>( rv.get_int() );
-            auto pos_it = g_client_veh_pos.find( rnid );
-            if( pos_it == g_client_veh_pos.end() ) {
+            const auto rnid = static_cast<uint32_t>( rv.get_int() );
+            g_client_veh_pos.erase( rnid );
+            // Destroy by network id — the stable identity — so we never tear
+            // down an unrelated same-type vehicle that happens to sit at a stale
+            // tracked tile.  Re-fetch the list each iteration since a prior
+            // destroy invalidates it.
+            vehicle *dveh = find_client_veh_by_nid( m.get_vehicles(), rnid );
+            if( !dveh ) {
                 continue;
             }
-            const tripoint_abs_ms rabs = pos_it->second;
-            g_client_veh_pos.erase( pos_it );
-            if( !m.inbounds( rabs ) ) {
-                continue;
-            }
-            const optional_vpart_position vp = m.veh_at( m.get_bub( rabs ) );
-            if( !vp ) {
-                continue;
-            }
-            vehicle &dveh = vp->vehicle();
+            const tripoint_abs_ms rabs = dveh->pos_abs();
             mp_log( "[cdda-mp] CLI-VEH-REMOVE: nid=" + std::to_string( rnid )
                     + " abs=" + std::to_string( rabs.x() )
                     + "," + std::to_string( rabs.y() )
                     + "," + std::to_string( rabs.z() )
-                    + " name=\"" + dveh.name + "\"" );
-            m.destroy_vehicle( &dveh );
+                    + " name=\"" + dveh->name + "\"" );
+            m.destroy_vehicle( dveh );
         }
     }
 
@@ -9441,35 +14204,23 @@ static void apply_vehicle_sync( JsonObject &jo )
         // deserialize-and-place.  The snapshot is complete state, so we skip
         // the slim per-part / cargo apply that follows and move on.
         if( vo.has_object( "snapshot" ) && m.inbounds( new_abs ) ) {
-            // Tear down the previous local instance (if any) so a structural
-            // change doesn't end up with two overlapping vehicles at the same
-            // tile.  Look up by tracked position; fall back to scanning by name.
-            auto prev_it = g_client_veh_pos.find( nid );
-            tripoint_abs_ms prev_abs = ( prev_it != g_client_veh_pos.end() )
-                                       ? prev_it->second
-                                       : new_abs;
-            vehicle *prev = nullptr;
-            if( m.inbounds( prev_abs ) ) {
-                if( const optional_vpart_position vp = m.veh_at( m.get_bub( prev_abs ) ) ) {
-                    prev = &vp->vehicle();
-                }
-            }
-            if( !prev && !vname.empty() ) {
-                for( const wrapped_vehicle &wv : vehs ) {
-                    if( wv.v && wv.v->name == vname ) {
-                        prev = wv.v;
-                        break;
-                    }
-                }
-            }
-            if( prev ) {
+            // Tear down the previous local instance of THIS nid (if any) before
+            // re-placing it.  Match ONLY by network id — the old position/name
+            // fallback destroyed unrelated same-type vehicles (three spawned
+            // carts collapsed into one, because a new nid's position lookup
+            // grabbed a different cart).  A never-before-seen nid has no prior
+            // instance, so nothing is torn down and we simply create it below.
+            if( vehicle *prev = find_client_veh_by_nid( vehs, nid ) ) {
+                const tripoint_abs_ms pabs = prev->pos_abs();
                 mp_log( "[cdda-mp] CLI-VEH-REPLACE: nid=" + std::to_string( nid )
-                        + " name=\"" + prev->name + "\"" );
+                        + " name=\"" + prev->name + "\""
+                        + " prev_mp_net_id=" + std::to_string( prev->mp_net_id )
+                        + " prev_abs=" + std::to_string( pabs.x() )
+                        + "," + std::to_string( pabs.y() )
+                        + "," + std::to_string( pabs.z() ) );
                 m.destroy_vehicle( prev );
             }
-            if( prev_it != g_client_veh_pos.end() ) {
-                g_client_veh_pos.erase( prev_it );
-            }
+            g_client_veh_pos.erase( nid );
 
             JsonObject snap = vo.get_object( "snapshot" );
             snap.allow_omitted_members();
@@ -9497,13 +14248,44 @@ static void apply_vehicle_sync( JsonObject &jo )
             // appearing at the wrong location on the client after load.
             veh_up->precalc_mounts( 0, veh_up->pivot_rotation[0],
                                     veh_up->pivot_anchor[0] );
-            // MP-FIXME: add_vehicle_from_snapshot stubbed for CCB
-            ( void )std::move( veh_up );
-            /* vehicle *placed = m.add_vehicle_from_snapshot(std::move(veh_up)); */
-            mp_log( "[cdda-mp] CLI-VEH-CREATE-SKIPPED: nid=" + std::to_string( nid )
+            vehicle *placed = m.add_vehicle_from_snapshot( std::move( veh_up ) );
+            if( !placed ) {
+                mp_log( "[cdda-mp] CLI-VEH-CREATE-FAIL: nid=" + std::to_string( nid )
+                        + " abs=" + std::to_string( new_abs.x() )
+                        + "," + std::to_string( new_abs.y() )
+                        + "," + std::to_string( new_abs.z() ) );
+                continue;
+            }
+            placed->mp_net_id = nid;   // stable identity for later matching
+            g_client_veh_pos[nid] = placed->pos_abs();
+            mp_log( "[cdda-mp] CLI-VEH-CREATE: nid=" + std::to_string( nid )
                     + " abs=" + std::to_string( new_abs.x() )
                     + "," + std::to_string( new_abs.y() )
-                    + "," + std::to_string( new_abs.z() ) );
+                    + "," + std::to_string( new_abs.z() )
+                    + " name=\"" + placed->name + "\"" );
+            // ROOT FIX (2026-07-29, vehicle cargo dupe #3, same class as the
+            // CLI-VEH-ADOPT fix above but a DIFFERENT trigger): item_uid's
+            // copy constructor regenerates a fresh uid on every copy
+            // (item_uid.h) — deserializing this vehicle from the host's
+            // snapshot does not guarantee its items keep the host's original
+            // uids, so the very next cargo scan sees an empty baseline for
+            // this newly-tagged identity and reports items that are freshly
+            // real (correct types/counts, just non-host uids) as "added".
+            // Log-proven: nid=22 "Electric SUV" via CLI-VEH-CREATE, then
+            // server veh cargo DELTA (applied) with dupe_rejected= empty for
+            // toolbox_empty/sm_extinguisher/hose/manual_mechanics_car_owner —
+            // the host's UID gate can't catch a uid it has genuinely never
+            // seen. Seed the baseline from what the snapshot just placed so
+            // the next scan reports it as unchanged, not new.
+            for( const vpart_reference &pvp : placed->get_any_parts( VPFLAG_CARGO ) ) {
+                std::map<int64_t, int> existing;
+                for( const item &it : placed->get_items( pvp.part() ) ) {
+                    existing[it.uid().get_value()] = it.count();
+                }
+                g_client_veh_cargo_baseline[
+                mp_cargo_baseline_key( nid, pvp.part_index() ) ] = std::move( existing );
+            }
+            // Snapshot is fully authoritative — no need to re-apply slim deltas.
             continue;
         }
 
@@ -9515,10 +14297,34 @@ static void apply_vehicle_sync( JsonObject &jo )
                                            ? pos_it->second
                                            : new_abs;
 
-        if( m.inbounds( search_abs ) ) {
+        // Identity match first: if this host vehicle was already tagged with its
+        // network id (on a prior snapshot or adopt), use that copy directly — no
+        // position/name guessing, which is what collapsed multiple same-type
+        // carts and lost drifted ones.
+        found = find_client_veh_by_nid( vehs, nid );
+
+        // Position-based matches are a guess, not a confirmed identity — an
+        // independently-mapgen'd static vehicle (e.g. a parking-lot special)
+        // can coincidentally sit at the exact tile the host's vehicle
+        // occupies on both sides (shared world seed), so a bare position hit
+        // can silently glue the host's sync data onto an unrelated,
+        // differently-typed local vehicle. (2026-07-09 Discord report,
+        // Minerik: host's "Electric Sports Car" was replaced client-side by a
+        // visibly bigger, different car — this is the likely mechanism.)
+        // Require the name to agree too; a mismatch is logged and the match
+        // rejected so it falls through to SKIP-UNKNOWN (request a fresh
+        // authoritative snapshot) instead of corrupting an unrelated vehicle.
+        if( !found && m.inbounds( search_abs ) ) {
             for( const wrapped_vehicle &wv : vehs ) {
                 if( wv.v && wv.v->pos_abs() == search_abs ) {
-                    found = wv.v;
+                    if( vname.empty() || wv.v->name == vname ) {
+                        found = wv.v;
+                    } else {
+                        mp_log( "[cdda-mp] CLI-VEH-POS-NAME-MISMATCH: nid=" + std::to_string( nid )
+                                + " abs=" + std::to_string( search_abs.x() ) + ","
+                                + std::to_string( search_abs.y() )
+                                + " expected=\"" + vname + "\" found=\"" + wv.v->name + "\"" );
+                    }
                     break;
                 }
             }
@@ -9526,35 +14332,132 @@ static void apply_vehicle_sync( JsonObject &jo )
         if( !found && m.inbounds( new_abs ) ) {
             for( const wrapped_vehicle &wv : vehs ) {
                 if( wv.v && wv.v->pos_abs() == new_abs ) {
-                    found = wv.v;
+                    if( vname.empty() || wv.v->name == vname ) {
+                        found = wv.v;
+                    } else {
+                        mp_log( "[cdda-mp] CLI-VEH-POS-NAME-MISMATCH: nid=" + std::to_string( nid )
+                                + " abs=" + std::to_string( new_abs.x() ) + ","
+                                + std::to_string( new_abs.y() )
+                                + " expected=\"" + vname + "\" found=\"" + wv.v->name + "\"" );
+                    }
                     break;
                 }
             }
         }
-        if( !found && !vname.empty() ) {
-            for( const wrapped_vehicle &wv : vehs ) {
-                if( wv.v && wv.v->name == vname ) {
-                    found = wv.v;
-                    break;
+        // NOTE (2026-07-29): a third fallback used to match by NAME ALONE, with
+        // no position bound at all — grabs the first same-named vehicle
+        // anywhere on the map. Log-confirmed to silently mismatch: a host
+        // vehicle's nid got adopted onto an unrelated "Rolling Trash Can" 30
+        // tiles from the host's real one (same session that produced the
+        // 2026-07-09 Minerik report this file already warned about above).
+        // Removed rather than bounded — the existing CLI-VEH-SKIP-UNKNOWN +
+        // veh_snapshot_req path below already handles "no safe match yet"
+        // correctly (request a fresh authoritative snapshot); a same-machine
+        // repro should confirm previously-name-adopted vehicles now either
+        // position-match correctly or wait one round-trip instead of
+        // silently attaching to the wrong object.
+
+        // Adopt: tag whatever we matched by position with this nid so every
+        // future lookup is pure identity (and the cull leaves it alone).
+        if( found && found->mp_net_id == 0 ) {
+            const tripoint_abs_ms aabs = found->pos_abs();
+            mp_log( "[cdda-mp] CLI-VEH-ADOPT: nid=" + std::to_string( nid )
+                    + " name=\"" + found->name + "\""
+                    + " via=position"
+                    + " abs=" + std::to_string( aabs.x() )
+                    + "," + std::to_string( aabs.y() )
+                    + "," + std::to_string( aabs.z() ) );
+            found->mp_net_id = nid;
+            // ROOT FIX (2026-07-29, vehicle cargo dupe #3, log-confirmed): an
+            // adopted vehicle is the client's OWN pre-existing local mapgen
+            // instance — it can already hold items from its own independent
+            // item-spawn roll (same JSON entry, same chance, rolled twice on
+            // two machines). The very next cargo scan sees an empty baseline
+            // for this newly-tagged identity and reports those pre-existing
+            // items as "added", carrying uids the host has never seen (they
+            // were rolled locally, not received from the host) — so the
+            // host's UID dupe-gate can't catch them; it genuinely can't tell
+            // a locally-rolled duplicate from a real client drop. Log-proven:
+            // nid=51 part=73 baseline_known=0 baseline_n=0 cart_n=5 on first
+            // sight, host ended up with 2x toolbox_empty/extinguisher/
+            // survival_kit_box/plastic_sheet/hose. Seed the baseline with
+            // what's ALREADY here at adopt time so the next scan reports it
+            // as unchanged, not new.
+            for( const vpart_reference &avp : found->get_any_parts( VPFLAG_CARGO ) ) {
+                std::map<int64_t, int> existing;
+                for( const item &it : found->get_items( avp.part() ) ) {
+                    existing[it.uid().get_value()] = it.count();
                 }
+                g_client_veh_cargo_baseline[
+                mp_cargo_baseline_key( nid, avp.part_index() ) ] = std::move( existing );
             }
+        }
+
+        // First sighting of this nid resolving to an existing local vehicle
+        // (as opposed to CLI-VEH-CREATE) was previously silent — there was no
+        // way to tell from the log which fallback matched, or whether it was
+        // a real re-acquire vs. a coincidental match.  Log it once per nid.
+        if( found && first_encounter ) {
+            mp_log( "[cdda-mp] CLI-VEH-FOUND-EXISTING: nid=" + std::to_string( nid )
+                    + " name=\"" + found->name + "\" via=position"
+                    + " abs=" + std::to_string( new_abs.x() ) + "," + std::to_string( new_abs.y() ) );
         }
 
         if( !found ) {
             // No local vehicle and no snapshot in this packet (slim
             // vehicle_step before first state, or out-of-bounds).  Skip and
             // wait for the next full state broadcast which will carry one.
-            // Log once per nid — this fires every frame for an unplaceable
-            // vehicle and used to flood ~23% of the client log.
-            static std::unordered_set<uint32_t> s_logged_skip_nids;
-            if( s_logged_skip_nids.insert( nid ).second ) {
+            // Log at most once per nid per 10s (not once-ever) — this fires every
+            // frame for an unplaceable vehicle and used to flood ~23% of the
+            // client log, but a once-ever cap hid repeat/rejoin occurrences within
+            // one client process (2026-07-03 "took 4 tries for a car to appear"
+            // report needs to see EACH attempt, not just the first).
+            static std::unordered_map<uint32_t, int64_t> s_last_logged_skip_ms;
+            const int64_t now_ms = mp_now_ms();
+            auto &last_ms = s_last_logged_skip_ms[nid];
+            if( now_ms - last_ms > 10000 ) {
+                last_ms = now_ms;
                 mp_log( "[cdda-mp] CLI-VEH-SKIP-UNKNOWN: nid=" + std::to_string( nid )
                         + " new_abs=" + std::to_string( new_abs.x() )
                         + "," + std::to_string( new_abs.y() )
                         + "," + std::to_string( new_abs.z() )
                         + " name=\"" + vname + "\""
                         + " first_encounter=" + std::to_string( first_encounter )
-                        + " (further skips for this nid suppressed)" );
+                        + " (further skips for this nid suppressed 10s)" );
+                // DIAG (veh-thrash root): dump every client vehicle within 12
+                // tiles of new_abs so we can tell whether the cart drifted off
+                // its tracked/reported tile (present nearby, match failed) or is
+                // genuinely absent (culled/destroyed).  Fresh list — not the
+                // pre-loop `vehs` snapshot the match used — to catch a stale-list
+                // miss too.
+                {
+                    std::string near;
+                    for( const wrapped_vehicle &wv : m.get_vehicles() ) {
+                        if( !wv.v ) {
+                            continue;
+                        }
+                        const tripoint_abs_ms p = wv.v->pos_abs();
+                        if( p.z() == new_abs.z() &&
+                            std::abs( p.x() - new_abs.x() ) <= 12 &&
+                            std::abs( p.y() - new_abs.y() ) <= 12 ) {
+                            near += "\"" + wv.v->name + "\"@" +
+                                    std::to_string( p.x() ) + "," +
+                                    std::to_string( p.y() ) + " ";
+                        }
+                    }
+                    mp_log( "[cdda-mp] CLI-VEH-SKIP-DIAG: nid=" + std::to_string( nid ) +
+                            " tracked=" + std::to_string( search_abs.x() ) + "," +
+                            std::to_string( search_abs.y() ) +
+                            " nearby=[ " + near + "]" );
+                }
+                // Ask the host to re-include a full snapshot for this nid on its
+                // next broadcast — closes the "invisible forever" gap where the
+                // one-shot snapshot was missed/superseded before this client
+                // ever applied it (2026-07-09 Discord report).  Rate-limited by
+                // the same 10s window as the log line above.
+                client_send( "{\"type\":\"action\",\"action\":\"veh_snapshot_req\",\"nid\":"
+                             + std::to_string( nid ) + "}" );
+                mp_log( "[cdda-mp] CLI-VEH-SNAPSHOT-REQ SENT: nid=" + std::to_string( nid ) );
             }
             continue;
         }
@@ -9723,19 +14626,33 @@ static void apply_vehicle_sync( JsonObject &jo )
                             std::to_string( vp_abs.z() ) );
                     continue;
                 }
-                vehicle &veh = cargo_vp->vehicle();
-                vehicle_part &part = cargo_vp->part();
                 mp_log( "[cdda-mp] client apply veh cargo @ " +
                         std::to_string( vp_abs.x() ) + "," +
                         std::to_string( vp_abs.y() ) + "," +
                         std::to_string( vp_abs.z() ) );
-                {
-                    vehicle_stack stack = veh.get_items( part );
-                    while( !stack.empty() ) {
-                        stack.erase( stack.begin() );
-                    }
-                }
-                std::string items_sig;
+                // Authoritative full replace — restores the pre-c8cd48032e
+                // behavior (mirrors d6232daffa's ground-tile revert).  The host's
+                // list IS the cargo: erase everything, rebuild from the wire.  The
+                // UID-diff that briefly replaced this could not round-trip
+                // cross-owned pickups/drops or item stacking — it duplicated and
+                // retained items (the cart dup).  A full replace can't desync.
+                //
+                // Mirror the host's authoritative cargo, preserving each item's
+                // host UID across add_item's copy so the client cart carries the
+                // SAME uids the host has.  That lets a later client pickup be
+                // reported to the host as a removal it can match by uid, and lets
+                // the next client scan recognise these as host-owned (baseline)
+                // rather than re-sending them as client-"added" items.
+                //
+                // Parse now (cheap, no map mutation); apply now unless the
+                // client's own pickup/examine/AIM UI is open on this exact cargo
+                // part, in which case the erase+rebuild is deferred until it
+                // closes — see mp_ui_item_ref_guard in mp_gamestate.h.  The
+                // baseline is set immediately regardless: it reflects the target
+                // authoritative state build_client_veh_cargo_changes() should
+                // converge on, independent of when the actual mutation lands.
+                std::vector<item> mirror_items;
+                std::map<int64_t, int> mirror_uids;   // uid -> count() (charge-aware baseline)
                 if( co.has_array( "items" ) ) {
                     for( const JsonValue &iv : co.get_array( "items" ) ) {
                         try {
@@ -9745,17 +14662,54 @@ static void apply_vehicle_sync( JsonObject &jo )
                             new_item.deserialize( io );
                             if( !new_item.typeId().is_empty() &&
                                 new_item.typeId().is_valid() ) {
-                                veh.add_item( m, part, new_item );
-                                items_sig += serialize( new_item ) + ',';
+                                mirror_uids[new_item.uid().get_value()] = new_item.count();
+                                mirror_items.push_back( std::move( new_item ) );
                             }
                         } catch( const JsonError & ) {}
                     }
                 }
-                // Resync the client→host baseline to the post-apply state so the
-                // next build_client_veh_cargo_changes() doesn't immediately
-                // re-send the host's authoritative contents back as a "client
-                // delta" (which would be a no-op but pollutes the wire).
-                g_client_veh_cargo_baseline[vp_abs] = items_sig;
+                // Same vehicle-identity key the send side uses — a position key
+                // here would be orphaned by the next vehicle step and the whole
+                // cart would look client-"added" (2026-07-28 dupe).  An untagged
+                // vehicle has no host counterpart, so there is nothing to
+                // baseline; the send side skips it too.
+                if( cargo_vp->vehicle().mp_net_id != 0 ) {
+                    g_client_veh_cargo_baseline[
+                    mp_cargo_baseline_key( cargo_vp->vehicle().mp_net_id,
+                                               cargo_vp->part_index() ) ] = mirror_uids;
+                }
+                auto do_cargo_replace = [vp_bub, items = std::move( mirror_items )]() mutable {
+                    map &m2 = get_map();
+                    const std::optional<vpart_reference> vp2 = m2.veh_at( vp_bub ).cargo();
+                    if( !vp2 )
+                    {
+                        mp_log( "[cdda-mp] client veh cargo replace: cargo part gone by "
+                                "apply time, dropped" );
+                        return;
+                    }
+                    vehicle &veh2 = vp2->vehicle();
+                    vehicle_part &part2 = vp2->part();
+                    {
+                        vehicle_stack stack = veh2.get_items( part2 );
+                        while( !stack.empty() )
+                        {
+                            stack.erase( stack.begin() );
+                        }
+                    }
+                    for( item &it : items )
+                    {
+                        const int64_t hu = it.uid().get_value();
+                        if( std::optional<vehicle_stack::iterator> added =
+                            veh2.add_item( m2, part2, it ) ) {
+                            ( *added )->set_uid( hu );
+                        }
+                    }
+                };
+                if( mp_ui_holds_item_refs() ) {
+                    mp_defer_item_apply( std::move( do_cargo_replace ) );
+                } else {
+                    do_cargo_replace();
+                }
             }
         }
     }
@@ -9780,6 +14734,12 @@ static void apply_vehicle_sync( JsonObject &jo )
             if( !v || v == av_veh ) {
                 continue;
             }
+            // Never cull a vehicle we've tagged with a host network id — it's a
+            // real host vehicle, removed only via the removed_vehicles path.
+            // Only untagged (client-local phantom) vehicles are cull candidates.
+            if( v->mp_net_id != 0 ) {
+                continue;
+            }
             const tripoint_abs_ms vp = v->pos_abs();
             int best = INT_MAX;
             for( const tripoint_abs_ms &hp : host_veh_positions ) {
@@ -9789,6 +14749,31 @@ static void apply_vehicle_sync( JsonObject &jo )
                 best = std::min( best,
                                  std::max( std::abs( hp.x() - vp.x() ),
                                            std::abs( hp.y() - vp.y() ) ) );
+            }
+            // Also check every nid this client has ever synced from the host,
+            // not just this tick's broadcast. vehicle_step can omit a
+            // stationary/distant vehicle on a given tick (bandwidth), and
+            // treating that single-tick omission as "doesn't exist" was
+            // destroying real host vehicles: the client re-requests a full
+            // snapshot next broadcast, recreates it, then culls it again a
+            // tick later it's dropped from the broadcast — a repeating
+            // create/destroy loop rather than a one-time miss. g_client_veh_pos
+            // is cleaned up by the removed_vehicles path above whenever the
+            // host actually says a vehicle is gone, so it's safe to treat as
+            // "still alive" here.
+            if( best > CULL_MIN_DIST ) {
+                for( const auto &kv : g_client_veh_pos ) {
+                    const tripoint_abs_ms &hp = kv.second;
+                    if( hp.z() != vp.z() ) {
+                        continue;
+                    }
+                    best = std::min( best,
+                                     std::max( std::abs( hp.x() - vp.x() ),
+                                               std::abs( hp.y() - vp.y() ) ) );
+                    if( best <= CULL_MIN_DIST ) {
+                        break;
+                    }
+                }
             }
             if( best > CULL_MIN_DIST ) {
                 local_cull.push_back( v );
@@ -9970,6 +14955,19 @@ static void apply_monster_sync( JsonObject &jo )
 
         matched.insert( best );
 
+        // Host is authoritative on friendliness, for spawned and matched alike.
+        // "friendly" is per-instance state, not part of the mtype, so a monster
+        // rebuilt from its id alone is always hostile until told otherwise.
+        if( mo.has_int( "fr" ) ) {
+            const int fr = mo.get_int( "fr" );
+            if( best->friendly != fr ) {
+                mp_log( "[cdda-mp] MON-FRIENDLY: nid=" + std::to_string( nid ) +
+                        " " + best->type->id.str() +
+                        " " + std::to_string( best->friendly ) + " -> " + std::to_string( fr ) );
+                best->friendly = fr;
+            }
+        }
+
         // Silent-drop diagnostic: remember live nids; forget ones the host reports
         // dead (server_hp<=0) so a later revival re-spawn isn't mis-flagged.
         if( nid != 0 ) {
@@ -9983,6 +14981,29 @@ static void apply_monster_sync( JsonObject &jo )
         // Correct position if the server disagrees.
         if( best->pos_abs() != target && m.inbounds( target ) ) {
             const shared_ptr_fast<monster> occupant = ct.find( target );
+            // DIAGNOSTIC (GH#23 C, direction 2): ct.find() returns only a monster
+            // (creature_tracker.h), so this guard is blind to the client's avatar
+            // and to the host proxy NPC — a synced monster can be dropped straight
+            // onto a person.  Log it BEFORE deciding, so the counts stay honest:
+            // this records what the host asked us to do, not what we did.  If the
+            // d0 samples show up here, the host is reporting the monster on the
+            // player's tile; if they show up in TELE-ONTO-MONSTER instead, the
+            // player is being walked onto a stale delta-omitted monster.
+            const Creature *person = get_creature_tracker().creature_at<Creature>( target, true );
+            if( person != nullptr && !person->is_monster() ) {
+                mp_log( "[cdda-mp] MON-SYNC-ONTO-PLAYER: host places " +
+                        best->type->id.str() + " nid=" + std::to_string( nid ) + " at " +
+                        std::to_string( target.x() ) + "," + std::to_string( target.y() ) +
+                        "," + std::to_string( target.z() ) + " — occupied by '" +
+                        person->get_name() + "' (avatar=" +
+                        std::to_string( person->is_avatar() ) + ") | from " +
+                        std::to_string( best->pos_abs().x() ) + "," +
+                        std::to_string( best->pos_abs().y() ) + " avatar_at=" +
+                        std::to_string( get_avatar().pos_abs().x() ) + "," +
+                        std::to_string( get_avatar().pos_abs().y() ) + " proxy_at=" +
+                        std::to_string( region_center.x() ) + "," +
+                        std::to_string( region_center.y() ) );
+            }
             if( !occupant || occupant.get() == best ) {
                 best->setpos( target, false );
             }
@@ -9994,6 +15015,10 @@ static void apply_monster_sync( JsonObject &jo )
         // the dumb HP-delta version creates confusing duplicates.
         if( nid != 0 && server_hp >= 0 ) {
             g_last_monster_hp[nid] = server_hp;
+            // The host's authoritative value supersedes anything we thought
+            // we'd already reported — reset in lockstep so build_client_monster_hits
+            // computes deltas against a fresh baseline, not a stale reported-to point.
+            g_last_reported_monster_hp[nid] = server_hp;
         }
 
         // Apply server HP. Kill locally if the server says it's dead.
@@ -10009,6 +15034,40 @@ static void apply_monster_sync( JsonObject &jo )
         if( mo.has_int( "facing" ) ) {
             best->facing = mo.get_int( "facing" ) == 0
                            ? FacingDirection::LEFT : FacingDirection::RIGHT;
+        }
+
+        // Ridden-mount sync: re-establish SP's mount link so cata_tiles' rid_
+        // path hides the rider and draws it on the mount (mirrors SP
+        // Character::mount_creature / forced_dismount). effect_ridden is
+        // permanent (the delta gate skips a stationary mount, so a timed effect
+        // would expire mid-ride). Only the "host" direction is applied here; a
+        // client-ridden mount is already linked locally (the client ran its own
+        // mount action), so we leave its own avatar link untouched.
+        std::string rider;
+        mo.read( "rider", rider );
+        if( rider == "host" ) {
+            // get_partner_npc() resolves the host proxy on the client and handles
+            // the negative-proxy-id case that character_id::is_valid() rejects.
+            npc *proxy = get_partner_npc();
+            if( proxy ) {
+                if( !best->has_effect( effect_ridden ) ) {
+                    best->add_effect( effect_ridden, 1_turns, true );
+                    mp_log( "[cdda-mp] MOUNT-APPLY: nid=" + std::to_string( nid ) +
+                            " host rider -> proxy '" + proxy->get_name() + "' on " +
+                            best->type->id.str() );
+                }
+                best->mounted_player = proxy;
+                proxy->mounted_creature = ct.find( best->pos_abs() );
+            }
+        } else if( rider.empty() && best->has_effect( effect_ridden ) &&
+                   best->mounted_player && !best->mounted_player->is_avatar() ) {
+            // Host dismounted: tear down the proxy link both ways. Guard on the
+            // rider being the proxy (non-avatar) so we never disturb a mount the
+            // client's own avatar is riding.
+            best->mounted_player->mounted_creature = nullptr;
+            best->mounted_player = nullptr;
+            best->remove_effect( effect_ridden );
+            mp_log( "[cdda-mp] MOUNT-APPLY: nid=" + std::to_string( nid ) + " host dismount" );
         }
     }
 
@@ -10035,7 +15094,13 @@ static void apply_monster_sync( JsonObject &jo )
             }
         }
         for( monster *mon : local_cull ) {
-            culled_log += mon->type->id.str() + "(local) ";
+            // Tag summons explicitly (ROADMAP B1): a spell-summoned monster on
+            // the client has mp_net_id == 0 because net ids are only ever
+            // assigned host-side, so it lands in this cull the turn it appears.
+            // Without the tag it's indistinguishable in the log from an
+            // ordinary local-mapgen critter.
+            culled_log += mon->type->id.str() +
+                          ( mp_is_summoned( *mon ) ? "(local,SUMMON) " : "(local) " );
             ++n_culled;
             g->remove_zombie( *mon );
         }
@@ -10091,7 +15156,8 @@ static void apply_monster_sync( JsonObject &jo )
         }
         s_phantom_strikes.swap( seen_now );   // drop keys not seen this sync
         for( monster *mon : phantom_cull ) {
-            culled_log += mon->type->id.str() + "(phantom) ";
+            culled_log += mon->type->id.str() +
+                          ( mp_is_summoned( *mon ) ? "(phantom,SUMMON) " : "(phantom) " );
             ++n_culled;
             g->remove_zombie( *mon );          // clean despawn, no corpse
         }
@@ -10297,7 +15363,8 @@ void mp_handle_pass_item()
     mp_post_trade( *partner, give_list, take_list );
 
     av.mod_moves( -100 );
-    add_msg( _( "You pass the %s to %s." ), given.tname(), partner->get_name() );
+    //~ %1$s is the item to pass, %2$s is the partner's name
+    add_msg( _( "You pass the %1$s to %2$s." ), given.tname(), partner->get_name() );
 
     if( is_client_mode() ) {
         mp_client_post_action();
@@ -10340,6 +15407,8 @@ static bool mp_partner_is_busy()
 
 void mp_high_five()
 {
+    mp_log( "[cdda-mp] mp_high_five() called: is_hosting=" + std::to_string( is_hosting() ) +
+            " is_client_mode=" + std::to_string( is_client_mode() ) );
     if( !is_hosting() && !is_client_mode() ) {
         return;
     }
@@ -10349,6 +15418,10 @@ void mp_high_five()
         return;
     }
     avatar &av = get_avatar();
+    mp_log( "[cdda-mp] mp_high_five() identity check: partner_id=" +
+            std::to_string( partner->getID().get_value() ) + " partner->name=\"" + partner->name +
+            "\" | avatar_id=" + std::to_string( av.getID().get_value() ) + " avatar.name=\"" +
+            av.name + "\" avatar.get_name()=\"" + av.get_name() + "\"" );
     if( rl_dist( av.pos_bub().raw(), partner->pos_bub().raw() ) > 1 ) {
         add_msg( m_warning, _( "You need to be adjacent to your partner to high-five." ) );
         return;
@@ -10358,10 +15431,11 @@ void mp_high_five()
     if( mp_partner_is_busy() ) {
         const std::string verb = mp_activity_verb_phrase( g_partner_activity );
         if( verb.empty() ) {
-            add_msg( m_info, _( "%s is busy and leaves you hanging." ), partner->get_name() );
+            add_msg( m_info, _( "%s is busy and leaves you hanging." ), partner->name );
         } else {
-            add_msg( m_info, _( "%s is busy %s and leaves you hanging." ),
-                     partner->get_name(), verb );
+            //~ %1$s is partner name, %2$s is the verb/activity they are doing
+            add_msg( m_info, _( "%1$s is busy %2$s and leaves you hanging." ),
+                     partner->name, verb );
         }
         return;
     }
@@ -10373,19 +15447,25 @@ void mp_high_five()
 
     // Local effect on the initiator; the peer applies its own on receipt.
     mp_apply_high_five( av );
-    add_msg( m_good, _( "You high-five %s!" ), partner->get_name() );
+    // .name (raw), not .get_name() — the partner proxy's get_name() is not
+    // reliable for this (see the identical footgun documented at the
+    // ACT_HELP_PARTNER call site in game.cpp).
+    add_msg( m_good, _( "You high-five %s!" ), partner->name );
 
     // The name rides in the packet so the receiver renders the correct
     // attribution itself (avoids the "You"->name substitution path that the
     // yell feature mis-uses).
     const std::string payload = R"({"type":"high_five","name":")" +
                                 av.get_name() + "\"}";
+    mp_log( "[cdda-mp] mp_high_five() sending payload: " + payload );
     if( is_hosting() || is_server_mode() ) {
         if( server *s = get_active_server() ) {
             s->post_broadcast( payload + "\n" );
+            mp_log( "[cdda-mp] mp_high_five() broadcast via server" );
         }
     } else if( is_client_mode() ) {
         client_send( payload );
+        mp_log( "[cdda-mp] mp_high_five() sent via client_send" );
     }
 
     if( is_client_mode() ) {
@@ -10447,7 +15527,9 @@ static void mp_handle_shout_recv( const std::string &msg )
 
 static void mp_handle_high_five_recv( const std::string &msg )
 {
+    mp_log( "[cdda-mp] mp_handle_high_five_recv() entered, raw msg: " + msg );
     std::string from = mp_partner_display_name();
+    mp_log( "[cdda-mp] mp_handle_high_five_recv() fallback from mp_partner_display_name(): " + from );
     try {
         JsonValue jv = json_loader::from_string( msg );
         JsonObject jo = jv.get_object();
@@ -10458,9 +15540,10 @@ static void mp_handle_high_five_recv( const std::string &msg )
                 from = n;
             }
         }
-    } catch( const std::exception & ) {
-        // malformed packet — fall back to the looked-up partner name
+    } catch( const std::exception &e ) {
+        mp_log( std::string( "[cdda-mp] mp_handle_high_five_recv() parse error: " ) + e.what() );
     }
+    mp_log( "[cdda-mp] mp_handle_high_five_recv() resolved from=\"" + from + "\", about to add_msg" );
     mp_apply_high_five( get_avatar() );
     add_msg( m_good, _( "%s high-fives you!" ), from );
 }
@@ -10578,7 +15661,7 @@ static void mp_handle_note_sync( const std::string &msg )
     }
 }
 
-std::string serialize_remote_player_state()
+std::string serialize_remote_player_state( bool skip_tile_scan )
 {
     if( !remote_player_connected ) {
         return R"({"type":"state","connected":false})";
@@ -10596,13 +15679,25 @@ std::string serialize_remote_player_state()
     const avatar &host = get_avatar();
     tripoint_abs_ms host_pos = host.pos_abs();
 
+    // MP DIAGNOSTIC 2026-08-15 — GRANT-BREAKDOWN attributes the entire 115ms host
+    // turn to serialize_state, but TILE-SCAN only accounts for ~57ms of it while
+    // emitting 2 bytes. The other ~58ms and ALL of the 74-235KB state_bytes are
+    // unattributed. That byte volume (~800KB/s at 7.8 turns/sec) is what saturates
+    // the link, backs the write queue to 107, pushes RTT past 1000ms and strands
+    // the client's wait acks — which is what lets g_remote_moves run to 13900.
+    // So the bytes matter as much as the milliseconds here: measure both, per
+    // component, instead of narrowing to a suspect the way the last four passes did.
+    using srpclk = std::chrono::steady_clock;
+    const auto srp_all_t0 = srpclk::now();
     std::string viewport = build_viewport( pos_bub );
+    const auto srp_t_viewport = srpclk::now();
     // Broadcast every monster in the reality bubble the client can see (~84-tile
     // view radius), not just 40 — at 40, host monsters in the 40–84 band weren't
     // sent (the EXCLUDED-NEAR diag) and the client filled the gap with its own
     // divergent local-mapgen monsters.  Must match the client's cull radius in
     // apply_monster_sync.
     std::string monsters     = build_monster_list( pos, 84 );
+    const auto srp_t_monsters = srpclk::now();
 
     // Death-based monster removal (mirrors removed_vehicles, but glitch-proof).
     // A monster is "removed" only if it had a net id last broadcast and is no
@@ -10615,6 +15710,8 @@ std::string serialize_remote_player_state()
     for( const auto &mon_ptr : get_creature_tracker().get_monsters_list() ) {
         if( mon_ptr && mon_ptr->mp_net_id != 0 && !mon_ptr->is_dead() ) {
             mon_alive_now.insert( mon_ptr->mp_net_id );
+            // GH#23 A/D diagnostic: remember where it was while it was still here.
+            g_server_mon_last_pos[mon_ptr->mp_net_id] = mon_ptr->pos_abs();
         }
     }
     std::string removed_monsters_json = "[";
@@ -10629,27 +15726,131 @@ std::string serialize_remote_player_state()
             }
             rmfirst = false;
             removed_monsters_json += std::to_string( old_nid );
-            mp_log( "[cdda-mp] MON-REMOVED: nid=" + std::to_string( old_nid ) +
-                    " (died/left bubble)" );
+            // GH#23 A/D: classify the removal instead of shrugging at it. A monster
+            // whose last live position is still inside the host's map died there;
+            // one whose last position has fallen out of bounds was unloaded when the
+            // bubble moved, and is alive — the client must NOT bury that one.
+            // corpse_here answers D: the client only ever receives a corpse through
+            // tile_changes, and last session it got one on 8 tiles in two hours, so
+            // check whether the host even has a corpse to send at the death tile.
+            std::string why = " reason=UNKNOWN(no-last-pos)";
+            const auto lp = g_server_mon_last_pos.find( old_nid );
+            if( lp != g_server_mon_last_pos.end() ) {
+                const tripoint_abs_ms &last = lp->second;
+                const bool in = get_map().inbounds( last );
+                int corpses = 0;
+                if( in ) {
+                    for( const item &it : get_map().i_at( get_map().get_bub( last ) ) ) {
+                        if( it.is_corpse() ) {
+                            ++corpses;
+                        }
+                    }
+                }
+                why = " last_pos=" + std::to_string( last.x() ) + "," +
+                      std::to_string( last.y() ) + "," + std::to_string( last.z() ) +
+                      " inbounds=" + std::to_string( in ) +
+                      " corpses_here=" + std::to_string( corpses ) +
+                      " reason=" + ( in ? "DIED" : "LEFT_BUBBLE" );
+            }
+            mp_log( "[cdda-mp] MON-REMOVED: nid=" + std::to_string( old_nid ) + why );
         }
     }
     removed_monsters_json += ']';
     g_server_mon_known_nids = std::move( mon_alive_now );
+    // Prune the diagnostic position map to the still-known set so it can't grow
+    // without bound over a long session.
+    if( g_server_mon_last_pos.size() > g_server_mon_known_nids.size() ) {
+        for( auto it = g_server_mon_last_pos.begin(); it != g_server_mon_last_pos.end(); ) {
+            it = g_server_mon_known_nids.count( it->first ) ? std::next( it )
+                 : g_server_mon_last_pos.erase( it );
+        }
+    }
 
     // Scan for tile changes around both the remote player AND the host so that
     // doors/terrain the host interacts with also reach the client.
-    std::string tile_changes = build_tile_changes( pos, 20 );
-    if( host_pos != pos ) {
-        std::string host_tc = build_tile_changes( host_pos, 20 );
-        if( host_tc.size() > 2 ) { // not just "[]"
-            if( tile_changes == "[]" ) {
-                tile_changes = host_tc;
-            } else {
-                tile_changes = tile_changes.substr( 0, tile_changes.size() - 1 )
-                               + "," + host_tc.substr( 1 );
-            }
+    //
+    // MP PERF 2026-08-15 — clear the per-broadcast visited set BEFORE the first
+    // scan. This must happen on every broadcast: the set exists only to stop the
+    // 2nd..8th scan of THIS broadcast re-walking tiles the 1st already did. If it
+    // ever persisted across broadcasts it would suppress genuine changes on the
+    // next turn — the one failure mode that would cost tile sync — so the reset is
+    // paired with the scans here rather than left to any caller.
+    g_scan_visited_this_broadcast.clear();
+    const auto srp_t0 = std::chrono::steady_clock::now();
+    // MP PERF 2026-08-15 — the "wait" ack passes skip_tile_scan. Measured: the host
+    // builds 2.20 full state packets per game turn (1832 SRP-BREAKDOWN vs 831
+    // CRAFT-HOST), because srv_emit_ack() rebroadcasts the ENTIRE world state just
+    // to carry moves=0. 942 of 945 acks in a long activity are "wait", which mutates
+    // nothing. tile_scans_all (58.7ms) is essentially the whole packet build cost
+    // (grant 58.4ms), so skipping it on the ack removes ~70ms per game turn.
+    //
+    // Only the SCAN is skipped, never a field the client needs: tile_changes is
+    // emitted as an empty array, which apply_tile_changes() iterates to a no-op, and
+    // unlike "monsters"/"vehicles" it has no companion removal field nested behind an
+    // early return, so nothing can be swallowed.
+    //
+    // Not a sync risk: the grant broadcast still runs the full scan every single
+    // turn. A change landing between the grant scan and the ack is now picked up by
+    // the NEXT turn's grant scan instead of the ack's — delayed by at most one turn
+    // (~120ms), never dropped, because build_tile_changes() diffs against the
+    // persistent g_tile_baseline rather than against "what happened since the last
+    // scan".
+    const int scan_radius = g_mp_force_full_item_scan ? 40 : 20;
+    std::string tile_changes = skip_tile_scan ? "[]" : build_tile_changes( pos, scan_radius );
+    {
+        // Radius-20 scan = ~1681 tiles, each computing item/field/trap/graffiti
+        // signatures. Suspect for the 120ms grant cost; measure rather than assume.
+        const long long d = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::steady_clock::now() - srp_t0 ).count();
+        if( d >= 10 ) {
+            mp_log( "[cdda-mp] TILE-SCAN: build_tile_changes(r=20) took " +
+                    std::to_string( d ) + "ms bytes=" + std::to_string( tile_changes.size() ) );
         }
     }
+    auto merge_tile_changes = [&tile_changes]( const std::string & extra ) {
+        if( extra.size() <= 2 ) { // just "[]" — nothing to merge
+            return;
+        }
+        if( tile_changes == "[]" ) {
+            tile_changes = extra;
+        } else {
+            tile_changes = tile_changes.substr( 0, tile_changes.size() - 1 )
+                           + "," + extra.substr( 1 );
+        }
+    };
+    if( !skip_tile_scan && host_pos != pos ) {
+        merge_tile_changes( build_tile_changes( host_pos, scan_radius ) );
+    }
+    // Also stream the levels directly overhead (the roof, and whatever's above
+    // it) at both positions. The client runs its own local worldgen for the
+    // join scaffold (GH #10/#11 — client-local-mapgen divergence), so an
+    // un-synced roof above can differ from the host's real one even when the
+    // room underneath is fully in sync, which flips the client's
+    // is_outside/light calc for that room. A single z+1 isn't always enough —
+    // a stairwell/shaft can open straight through several floors before
+    // reaching a real roof or the sky (e.g. a basement at z=-1 needs z=0, 1,
+    // 2… synced, not just z=0), so scan a few levels up, not just one.
+    // Interim fix: send the host's real tiles for those levels so the
+    // client's light calc uses real data instead of its own possibly-
+    // divergent local geometry. Does not fix the underlying worldgen
+    // divergence (tracked separately, needs the join-handshake redesign),
+    // only its visible lighting symptom. map::inbounds() harmlessly no-ops
+    // this once dz runs past the map's real z range.
+    static constexpr int ROOF_SYNC_LEVELS = 3;
+    for( int dz = 1; !skip_tile_scan && dz <= ROOF_SYNC_LEVELS; ++dz ) {
+        merge_tile_changes( build_tile_changes(
+                                tripoint_abs_ms( pos.x(), pos.y(), pos.z() + dz ), 20 ) );
+        if( host_pos != pos ) {
+            merge_tile_changes( build_tile_changes(
+                                    tripoint_abs_ms( host_pos.x(), host_pos.y(), host_pos.z() + dz ), 20 ) );
+        }
+    }
+
+    // MP DIAGNOSTIC 2026-08-15 — srp_t0 (above) starts the FIRST radius-20 scan;
+    // this closes after the host-pos scan and the ROOF_SYNC_LEVELS=3 z-levels at
+    // both positions, i.e. up to 8 scans of 1681 tiles each per turn. TILE-SCAN
+    // only ever logged the first, so the other seven have never been measured.
+    const auto srp_t_scans = srpclk::now();
 
     // Per-bodypart HP for accurate client sidebar display.
     std::string bparts_json = "[";
@@ -10819,6 +16020,11 @@ std::string serialize_remote_player_state()
 
     // 1b. Host avatar combat messages forwarded with "You" → host name attribution.
     for( const std::string &text : g_host_action_msgs_pending ) {
+        // DIAG (2026-08-23): every string that reaches the wire "msgs" array,
+        // logged at the serialization point rather than the producer, so a
+        // message arriving on the client with no matching producer log is
+        // immediately visible as coming from somewhere else.
+        mp_log( "[cdda-mp] msgs-wire: host_action \"" + text + "\"" );
         append_msg( text );
     }
     g_host_action_msgs_pending.clear();
@@ -10832,7 +16038,7 @@ std::string serialize_remote_player_state()
             driving_veh_name = vp_pos->vehicle().name;
         }
     }
-    const unsigned long long current_msg_count = Messages::size();
+    const unsigned long long current_msg_count = Messages::appended_total();
     if( current_msg_count > g_last_forwarded_msg_count ) {
         const size_t new_count = static_cast<size_t>( current_msg_count - g_last_forwarded_msg_count );
         g_last_forwarded_msg_count = current_msg_count;
@@ -10855,6 +16061,21 @@ std::string serialize_remote_player_state()
             // the You-substitution would garble it to "you hear You yells").
             if( text.find( " yells" ) != std::string::npos ) {
                 mp_log( "[cdda-mp] between-action: suppressed relayed-yell echo: " + text );
+                continue;
+            }
+            // High-five already has its own dedicated packet (mp_high_five() /
+            // mp_handle_high_five_recv()); this independent forwarder — separate
+            // from host_capture_avatar_msgs's exclusion of the same text — was
+            // still picking up the host's local "You high-five <name>!" message
+            // (host-initiated) and substituting the remote player's name back to
+            // "You", producing "You high-five You!" on the client. The other
+            // shape — mp_handle_high_five_recv()'s "<name> high-fives you!",
+            // added to the host's own log when the CLIENT initiates — hits the
+            // exact same substitution bug from the other direction, so both
+            // shapes need excluding here.
+            if( text.rfind( "You high-five ", 0 ) == 0 ||
+                text.find( "high-fives you!" ) != std::string::npos ) {
+                mp_log( "[cdda-mp] between-action: suppressed high-five relay: " + text );
                 continue;
             }
             const bool has_npc    = !npc_name.empty() && text.find( npc_name ) != std::string::npos;
@@ -11105,38 +16326,99 @@ std::string serialize_remote_player_state()
     }
     host_hp_json += "]";
 
-    return "{\"type\":\"state\","
-           "\"calendar_turn\":" + std::to_string( to_turn<int>( calendar::turn ) ) + ","
-           "\"host_name\":\"" + host.name + "\","
-           "\"pos\":{\"x\":" + std::to_string( pos.x() ) +
-           ",\"y\":" + std::to_string( pos.y() ) +
-           ",\"z\":" + std::to_string( pos.z() ) + "},"
-           "\"host_pos\":{\"x\":" + std::to_string( host_pos.x() ) +
-           ",\"y\":" + std::to_string( host_pos.y() ) +
-           ",\"z\":" + std::to_string( host_pos.z() ) + "},"
-           "\"host_worn\":" + host_worn_json + ","
-           "\"host_wielded\":\"" + host_wielded_type + "\","
-           "\"host_wielded_obj\":" + host_wielded_obj_json + ","
-           "\"host_inv\":" + host_inv_json + ","
-           "\"host_weight\":" + std::to_string( host.weight_carried().value() ) + ","
-           "\"host_male\":" + host_male_str + ","
-           "\"host_appearance\":" + host_appearance_json + ","
-           "\"host_move_mode\":\"" + host.move_mode.str() + "\","
-           "\"host_facing\":" + std::to_string( host.facing == FacingDirection::LEFT ? 0 : 1 ) + ","
-           "\"host_light\":" + std::to_string( host.active_light() ) + ","
-           "\"host_in_vehicle\":" + std::string( host.in_vehicle ? "true" : "false" ) + ","
-           "\"host_ctrl_veh\":" + std::string( host.controlling_vehicle ? "true" : "false" ) + ","
-           "\"host_activity\":\"" + ( host.activity ? host.activity.id().str() : "" ) + "\","
-           "\"host_activity_pct\":" + std::to_string(
-               mp_compute_activity_pct( host.activity ) ) + ","
-           "\"host_activity_moves_total\":" + std::to_string(
-               host.activity ? host.activity.moves_total : 0 ) + ","
-           "\"host_morale\":" + std::to_string( host.get_morale_level() ) + ","
-           "\"host_hp_cur\":" + std::to_string( mp_worst_limb_hp( host ).first ) + ","
-           "\"host_hp_max\":" + std::to_string( mp_worst_limb_hp( host ).second ) + ","
-           "\"host_ping_echo\":" + std::to_string( g_last_client_ping_stamp ) + ","
-           "\"host_effects\":" + host_effects_json + ","
-           "\"host_hp\":" + host_hp_json + ","
+    // One-shot flag riding the very next broadcast after a recognized rejoin —
+    // consumed immediately so it doesn't leak into subsequent packets.
+    const bool client_rejoin = g_client_rejoin_pending;
+    g_client_rejoin_pending = false;
+
+    // MP DIAGNOSTIC 2026-08-15 — the packet is assembled by one ~80-operand
+    // operator+ chain that materializes a 74-235KB string. Each operand appends to
+    // (and may reallocate + copy) the whole accumulating buffer, so the assembly
+    // itself is a real cost candidate and has never been on a clock. Capture into
+    // a local so it can be timed and so the components can be sized at the point
+    // where they're actually spent.
+    // MP DIAGNOSTIC 2026-08-15 — host-side counterpart to CRAFT-CLIENT. This
+    // function runs several times per game turn (the grant plus every ack), so gate
+    // on calendar turn to get one honest sample per turn. Host gained-per-turn set
+    // against the client's gained-per-grant is the comparison that settles the ~9x,
+    // and per_ap on each side separates "more ticks" from "more progress per tick".
+    {
+        static int s_last_craft_turn = -1;
+        static long long s_last_craft_counter = -1;
+        const long long hc = mp_craft_counter( host.activity );
+        const int now_turn = to_turn<int>( calendar::turn );
+        mp_log_craft_multipliers( host, host.activity, "HOST" );
+        if( hc >= 0 && now_turn != s_last_craft_turn ) {
+            const long long gained = ( s_last_craft_counter >= 0 && s_last_craft_turn >= 0 )
+                                     ? hc - s_last_craft_counter : 0;
+            const int turns = ( s_last_craft_turn >= 0 ) ? now_turn - s_last_craft_turn : 0;
+            mp_log( "[cdda-mp] CRAFT-HOST: turn=" + std::to_string( now_turn ) +
+                    " counter=" + std::to_string( hc ) +
+                    " pct=" + std::to_string( hc / 100000 ) +
+                    " gained=" + std::to_string( gained ) +
+                    " turns_elapsed=" + std::to_string( turns ) +
+                    " per_turn=" + std::to_string( turns > 0 ? gained / turns : 0 ) +
+                    " host_moves=" + std::to_string( host.get_moves() ) +
+                    " host_speed=" + std::to_string( host.get_speed() ) );
+            s_last_craft_turn = now_turn;
+            s_last_craft_counter = hc;
+        }
+    }
+
+    // MP DIAG 2026-08-30 — HOSTACT probe: record that this broadcast is about to
+    // carry the host's current activity id, so an instance that never reached
+    // the wire can be told from one that did.
+    mp_note_host_activity_sent( host.activity ? host.activity.id().str() : std::string() );
+
+    const auto srp_t_prebuild = srpclk::now();
+    std::string srp_out = "{\"type\":\"state\","
+                          "\"client_rejoin\":" + std::string( client_rejoin ? "true" : "false" ) + ","
+                          "\"calendar_turn\":" + std::to_string( to_turn<int>( calendar::turn ) ) + ","
+                          "\"host_waiting\":" + std::string( mp_turn_show_green() ? "false" : "true" ) + ","
+                          // Host's game-start anchors so the client's "survived N days" (and any
+                          // date-since-start math) measure from the HOST's world start, not the
+                          // client's throwaway scratch world — otherwise survival is inflated by
+                          // the gap between the two start dates (2026-07-19: 218 days vs ~1h).
+                          "\"start_of_game\":" + std::to_string( to_turn<int>( calendar::start_of_game ) ) + ","
+                          "\"start_of_cata\":" + std::to_string( to_turn<int>( calendar::start_of_cataclysm ) ) + ","
+                          "\"host_name\":\"" + host.name + "\","
+                          "\"pos\":{\"x\":" + std::to_string( pos.x() ) +
+                          ",\"y\":" + std::to_string( pos.y() ) +
+                          ",\"z\":" + std::to_string( pos.z() ) + "},"
+                          "\"host_pos\":{\"x\":" + std::to_string( host_pos.x() ) +
+                          ",\"y\":" + std::to_string( host_pos.y() ) +
+                          ",\"z\":" + std::to_string( host_pos.z() ) + "},"
+                          "\"host_worn\":" + host_worn_json + ","
+                          "\"host_wielded\":\"" + host_wielded_type + "\","
+                          "\"host_wielded_obj\":" + host_wielded_obj_json + ","
+                          "\"host_inv\":" + host_inv_json + ","
+                          "\"host_weight\":" + std::to_string( host.weight_carried().value() ) + ","
+                          "\"host_male\":" + host_male_str + ","
+                          "\"host_appearance\":" + host_appearance_json + ","
+                          "\"host_move_mode\":\"" + host.move_mode.str() + "\","
+                          "\"host_facing\":" + std::to_string( host.facing == FacingDirection::LEFT ? 0 : 1 ) + ","
+                          "\"host_light\":" + mp_json_num( host.active_light() ) + ","
+                          "\"host_kills\":" + std::to_string( g_host_kills ) + ","
+                          "\"client_kills\":" + std::to_string( g_client_kills ) + ","
+                          "\"host_in_vehicle\":" + std::string( host.in_vehicle ? "true" : "false" ) + ","
+                          "\"host_ctrl_veh\":" + std::string( host.controlling_vehicle ? "true" : "false" ) + ","
+                          "\"host_activity\":\"" + mp_wire_activity_id( host ) + "\","
+                          "\"host_activity_moves\":" + std::to_string(
+                              host.activity ? host.activity.moves_left : -1 ) + ","
+                          "\"host_activity_pct\":" + std::to_string(
+                              mp_compute_activity_pct( host.activity ) ) + ","
+                          "\"host_activity_batch\":" + std::to_string(
+                              mp_craft_batch_size( host.activity ) ) + ","
+                          "\"host_activity_name\":\"" +
+                          json_escape_str( mp_craft_result_name( host.activity ) ) + "\","
+                          "\"host_pulp\":" + std::to_string( mp_pulp_progress_packed( host.activity ) ) + ","
+                          "\"host_activity_moves_total\":" + std::to_string(
+                              host.activity ? host.activity.moves_total : 0 ) + ","
+                          "\"host_morale\":" + std::to_string( host.get_morale_level() ) + ","
+                          "\"host_hp_cur\":" + std::to_string( mp_worst_limb_hp( host ).first ) + ","
+                          "\"host_hp_max\":" + std::to_string( mp_worst_limb_hp( host ).second ) + ","
+                          "\"host_effects\":" + host_effects_json + ","
+                          "\"host_hp\":" + host_hp_json + ","
     + ( []() -> std::string {
         // One-shot wake_client signal — emit on this broadcast then clear.
         if( g_pending_wake_client )
@@ -11163,6 +16445,10 @@ std::string serialize_remote_player_state()
         return s;
     }() ) +
     "\"bodyparts\":" + bparts_json +
+    // MP 2026-08-15 — turns this packet represents. 1 for an ordinary grant;
+    // FF_BATCH_TURNS for a batched fast-forward grant, telling the client to
+    // tick its activity that many times rather than once.
+    ",\"batch_turns\":" + std::to_string( g_batch_turns_to_send ) +
     ",\"moves\":" + std::to_string( g_remote_moves ) +
     ",\"speed\":" + std::to_string( remote->get_speed() ) +
     R"(,"client_move_mode":")" + remote->move_mode.str() + "\""
@@ -11173,8 +16459,7 @@ std::string serialize_remote_player_state()
     // Client mirrors these onto its local avatar each tick so the
     // local SP grab/haul code (and its move-cost gating) reads the
     // same values the host is enforcing.
-    // MP-FIXME: npc::get_grab_type stubbed for CCB
-    ",\"client_grab_type\":0 /* static_cast<int>(remote->get_grab_type()) */" +
+    ",\"client_grab_type\":" + std::to_string( static_cast<int>( remote->get_grab_type() ) ) +
     ",\"client_grab_dx\":" + std::to_string( remote->grab_point.x() ) +
     ",\"client_grab_dy\":" + std::to_string( remote->grab_point.y() ) +
     ",\"client_grab_dz\":" + std::to_string( remote->grab_point.z() ) +
@@ -11198,8 +16483,34 @@ std::string serialize_remote_player_state()
     ",\"monsters\":" + monsters +
     ",\"removed_monsters\":" + removed_monsters_json +
     ",\"tile_changes\":" + tile_changes +
-    ",\"vehicles\":" + vehicles_json +
-    ",\"removed_vehicles\":" + removed_vehicles_json +
+    // MP PERF 2026-08-15 — suppress the vehicles block when it is
+    // byte-identical to the one we last sent. Measured at 57,321 bytes
+    // repeated unchanged on EVERY turn, in packets whose tile delta was 2
+    // bytes; at 8.18 turns/sec that is ~466KB/s of pure repetition, and
+    // client_wait is now the larger half of the turn budget.
+    //
+    // Safe because apply_vehicle_sync() early-returns on a missing
+    // "vehicles" array, so an absent block is a no-op on the client rather
+    // than a clear.
+    //
+    // BUT "removed_vehicles" is parsed INSIDE apply_vehicle_sync(), AFTER
+    // that early return — so dropping "vehicles" would silently swallow any
+    // removal riding the same packet (a folded, destroyed, or out-of-bubble
+    // vehicle would never be torn down on the client). Hence both fields are
+    // suppressed together and ONLY when there is no removal to deliver;
+    // whenever removed_vehicles is non-empty the full block is sent.
+    // The cache is reset on rejoin (see mp_reset_vehicle_payload_cache) so a
+    // reconnecting client always receives a full block.
+    [&]() -> std::string {
+        const bool has_removals = removed_vehicles_json != "[]";
+        if( !has_removals && vehicles_json == g_last_state_vehicles_payload )
+        {
+            return "";
+        }
+        g_last_state_vehicles_payload = vehicles_json;
+        return ",\"vehicles\":" + vehicles_json +
+        ",\"removed_vehicles\":" + removed_vehicles_json;
+    }() +
     ",\"msgs\":" + msgs_json +
     ",\"grant_seq\":" + std::to_string( g_grant_seq ) +
     ",\"sfx\":" + [&]() -> std::string {
@@ -11224,6 +16535,36 @@ std::string serialize_remote_player_state()
         return j;
     }() +
     ",\"map\":" + viewport + "}";
+
+    // MP DIAGNOSTIC 2026-08-15 — component sizes AND timings in one line. The
+    // total is already on the wire as GRANT-BREAKDOWN's state_bytes, so this only
+    // needs to say where those bytes and milliseconds come from. Threshold matches
+    // GRANT-BREAKDOWN's 20ms so the two lines pair up per turn.
+    {
+        const auto srp_t_end = srpclk::now();
+        const auto ms = []( srpclk::time_point a, srpclk::time_point b ) {
+            return static_cast<long long>(
+                       std::chrono::duration_cast<std::chrono::milliseconds>( b - a ).count() );
+        };
+        const long long srp_total = ms( srp_all_t0, srp_t_end );
+        if( srp_total >= 20 ) {
+            mp_log( "[cdda-mp] SRP-BREAKDOWN: total=" + std::to_string( srp_total ) +
+                    "ms viewport=" + std::to_string( ms( srp_all_t0, srp_t_viewport ) ) +
+                    "ms monsters=" + std::to_string( ms( srp_t_viewport, srp_t_monsters ) ) +
+                    "ms tile_scans_all=" + std::to_string( ms( srp_t0, srp_t_scans ) ) +
+                    "ms rest_build=" + std::to_string( ms( srp_t_scans, srp_t_prebuild ) ) +
+                    "ms assemble=" + std::to_string( ms( srp_t_prebuild, srp_t_end ) ) +
+                    "ms | BYTES out=" + std::to_string( srp_out.size() ) +
+                    " viewport=" + std::to_string( viewport.size() ) +
+                    " monsters=" + std::to_string( monsters.size() ) +
+                    " tile_changes=" + std::to_string( tile_changes.size() ) +
+                    " vehicles=" + std::to_string( vehicles_json.size() ) +
+                    " host_inv=" + std::to_string( host_inv_json.size() ) +
+                    " bodyparts=" + std::to_string( bparts_json.size() ) +
+                    " msgs=" + std::to_string( msgs_json.size() ) );
+        }
+    }
+    return srp_out;
 }
 
 void client_wait_for_initial_position()
@@ -11238,6 +16579,64 @@ void client_wait_for_initial_position()
         client_process_incoming();
         std::this_thread::sleep_for( 50ms );
     }
+}
+
+
+
+
+static void mp_send_authoritative_item_resync()
+{
+    // Every rollback supersedes pending deltas, including a request received
+    // from the client while the host's item menu still holds references.
+    mp_invalidate_deferred_item_batch();
+    server *srv = get_active_server();
+    npc *remote = g->critter_by_id<npc>( remote_player_npc_id );
+    if( !srv || !remote ) {
+        return;
+    }
+    g_tile_baseline.clear();
+    g_client_known_veh_nids.clear();
+    mp_reset_vehicle_payload_cache();
+    g_mp_force_full_item_scan = true;
+    // A recovery snapshot cannot grant an action before its epoch is acked.
+    // In particular, a sleeping client must not send an early wait which the
+    // host will discard while awaiting item_resync_ack.
+    std::string state;
+    {
+        const restore_on_out_of_scope<int> restore_moves( g_remote_moves );
+        g_remote_moves = 0;
+        state = serialize_remote_player_state();
+    }
+    g_mp_force_full_item_scan = false;
+    g_mp_host_waiting_for_item_resync_ack = true;
+    ++g_mp_item_resync_epoch;
+    std::ostringstream out;
+    JsonOut jo( out );
+    jo.start_object();
+    jo.member( "type", "item_resync" );
+    jo.member( "epoch", std::to_string( g_mp_item_resync_epoch ) );
+    jo.member( "state_json", state );
+    jo.member( "inventory" );
+    remote->inv->json_save_items( jo );
+    jo.member( "worn" );
+    jo.start_array();
+    std::vector<const item *> worn;
+    remote->worn.inv_dump( worn );
+    for( const item *it : worn ) {
+        it->serialize( jo );
+    }
+    jo.end_array();
+    jo.member( "weapon" );
+    const item_location weapon = remote->get_wielded_item();
+    if( weapon ) {
+        weapon->serialize( jo );
+    } else {
+        jo.write_null();
+    }
+    jo.end_object();
+    srv->post_broadcast( out.str() + "\n" );
+    add_msg( m_warning, _( "Too many item updates arrived while a menu was open. "
+                           "Your partner's recent item actions will be rolled back to the shared world." ) );
 }
 
 } // namespace cata_mp

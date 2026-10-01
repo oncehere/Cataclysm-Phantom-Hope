@@ -56,6 +56,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mp_magic.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "npc.h"
@@ -578,6 +579,11 @@ static void damage_targets( const spell &sp, Creature &caster,
             continue;
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
+
+        // Apply support to the actual partner instead of the local proxy.
+        if( cr != nullptr && cata_mp::mp_dispatch_spell_at_partner( sp, caster, *cr ) ) {
+            continue;
+        }
 
         if( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && cr && !touch_required_hit( caster, *cr ) ) {
             caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
@@ -1400,6 +1406,10 @@ static bool add_summoned_mon( const tripoint_bub_ms &pos, const time_duration &t
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
     spawned_mon.set_summoner( &caster );
+    // This removes the client's local copy, so it must be the last use.
+    if( caster.is_avatar() ) {
+        cata_mp::mp_on_summon_placed( spawned_mon, to_turns<int>( time ), permanent );
+    }
     return true;
 }
 
@@ -1986,8 +1996,8 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
     spell_effect::override_parameters params( sp, caster );
     params.range = sp.aoe( caster );
     const std::set<tripoint_bub_ms> hit_area = spell_effect_cone_range_override( params,
-        here.get_bub( source_abs ),
-        far_target );
+            here.get_bub( source_abs ),
+            far_target );
     damage_targets( sp, caster, hit_area );
 }
 

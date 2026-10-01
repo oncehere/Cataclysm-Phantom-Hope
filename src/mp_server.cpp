@@ -1,48 +1,37 @@
-// Standalone Asio — no Boost dependency
-#define ASIO_STANDALONE
-
 #include "mp_server.h"
-
-#include <asio.hpp> // IWYU pragma: keep
-#include <asio/associated_cancellation_slot.hpp>
-#include <asio/async_result.hpp>
-#include <asio/buffer.hpp>
-#include <asio/detail/bind_handler.hpp>
-#include <asio/detail/handler_cont_helpers.hpp>
-#include <asio/detail/handler_invoke_helpers.hpp>
-#include <asio/detail/impl/reactive_socket_service_base.ipp>
-#include <asio/detail/impl/scheduler.ipp>
-#include <asio/detail/impl/service_registry.hpp>
-#include <asio/execution/context_as.hpp>
-#include <asio/execution/prefer_only.hpp>
-#include <asio/impl/any_io_executor.ipp>
-#include <asio/impl/execution_context.hpp>
-#include <asio/impl/handler_alloc_hook.ipp>
-#include <asio/impl/io_context.hpp>
-#include <asio/impl/io_context.ipp>
-#include <asio/impl/read_until.hpp>
-#include <asio/impl/write.hpp>
-#include <asio/io_context.hpp>
-#include <asio/ip/detail/impl/endpoint.ipp>
-#include <asio/ip/tcp.hpp>
-#include <asio/post.hpp>
-#include <asio/streambuf.hpp>
-#include <zstd/zstd.h>
-#include <algorithm>
-#include <atomic>
-#include <cstddef>
-#include <deque>
-#include <functional>
-#include <initializer_list>
-#include <iostream>
-#include <new>
-#include <string_view>
-#include <system_error>
-
-#include "catacharset.h"   // base64_encode — only pulls std headers, asio-safe
 #include "mp_queue.h"
 
+#include <atomic>
+#include <chrono>
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+#include <string_view>
+#include <vector>
+#include <deque>
+#include <functional>
+#include <cstdlib>
+#include <system_error>
 #include <utility>
+
+#include <zstd/zstd.h>
+#include "catacharset.h"   // base64_encode — only pulls std headers, asio-safe
+
+// Standalone Asio — no Boost dependency
+#define ASIO_STANDALONE
+#include <asio.hpp>
+
+// Local-interface enumeration for the host "hosting at:" hint (mp_local_ipv4s).
+// MUST follow asio.hpp on Windows (it pulls in winsock2.h; iphlpapi.h has to come
+// after that, not before, or the legacy winsock1 ordering trips a redefinition).
+#ifdef _WIN32
+    #include <iphlpapi.h>   // GetAdaptersAddresses — links -liphlpapi (see Makefile)
+#else
+    #include <ifaddrs.h>
+    #include <net/if.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+#endif
 
 using asio::ip::tcp;
 
@@ -57,20 +46,144 @@ unsigned int mp_host_world_seed(); // NOLINT(cata-static-declarations)
 std::string mp_get_host_world_name(); // NOLINT(cata-static-declarations)
 std::string mp_get_host_player_name(); // NOLINT(cata-static-declarations)
 std::string mp_host_omt_welcome_field(); // NOLINT(cata-static-declarations)
+std::string mp_host_active_mods_field(); // NOLINT(cata-static-declarations)
+
+// Heartbeat-based RTT: the client measures the true network round-trip (its
+// heartbeat -> our immediate io-thread echo -> back) and mirrors that number to
+// us in each heartbeat's "rtt" field, so the host's co-op panel shows the same
+// latency.  Set on the io thread (do_read), read on the game thread.
+static std::atomic<int> g_host_partner_rtt_ms{ -1 };
+static std::atomic<int64_t> g_host_partner_last_message_ms{ 0 };
+int mp_host_partner_rtt_ms()
+{
+    return g_host_partner_rtt_ms.load();
+}
+
+int64_t mp_host_partner_last_message_ms()
+{
+    return g_host_partner_last_message_ms.load();
+}
 
 // Escape a string for embedding in a JSON double-quoted value (host names can
 // contain quotes/backslashes). Minimal — covers the chars that break parsing.
-static std::string mp_json_escape( const std::string_view s )
+static std::string mp_json_escape( const std::string &value )
 {
     std::string out;
-    out.reserve( s.size() + 2 );
-    for( const char c : s ) {
-        if( c == '"' || c == '\\' ) {
-            out += '\\';
+    for( const unsigned char c : value ) {
+        switch( c ) {
+            case '\"':
+                out += "\\\"";
+                break;
+            case '\\':
+                out += "\\\\";
+                break;
+            case '\n':
+                out += "\\n";
+                break;
+            case '\r':
+                out += "\\r";
+                break;
+            case '\t':
+                out += "\\t";
+                break;
+            default:
+                if( c < 0x20 ) {
+                    static constexpr char hex[] = "0123456789abcdef";
+                    out += "\\u00";
+                    out += hex[c >> 4];
+                    out += hex[c & 15];
+                } else {
+                    out += static_cast<char>( c );
+                }
+                break;
+        }
+    }
+    return out;
+}
+
+// The small protocol's string fields are emitted as UTF-8 with JSON escapes.
+// Decode escapes so a quoted player name/password round-trips the handshake.
+static std::string json_get_str( const std::string &json, const std::string &key )
+{
+    size_t pos = json.find( "\"" + key + "\"" );
+    if( pos == std::string::npos ) {
+        return {};
+    }
+    pos = json.find( ':', pos + key.size() + 2 );
+    if( pos == std::string::npos ) {
+        return {};
+    }
+    ++pos;
+    while( pos < json.size() && ( json[pos] == ' ' || json[pos] == '\t' ) ) {
+        ++pos;
+    }
+    if( pos >= json.size() || json[pos++] != '\"' ) {
+        return {};
+    }
+    std::string out;
+    while( pos < json.size() ) {
+        char c = json[pos++];
+        if( c == '\"' ) {
+            return out;
+        }
+        if( c == '\\' ) {
+            if( pos == json.size() ) {
+                return {};
+            }
+            c = json[pos++];
+            switch( c ) {
+                case 'n':
+                    c = '\n';
+                    break;
+                case 'r':
+                    c = '\r';
+                    break;
+                case 't':
+                    c = '\t';
+                    break;
+                case 'b':
+                    c = '\b';
+                    break;
+                case 'f':
+                    c = '\f';
+                    break;
+                case 'u': {
+                    if( json.size() - pos < 4 ) {
+                        return {};
+                    }
+                    uint32_t codepoint = 0;
+                    for( int digit = 0; digit < 4; ++digit ) {
+                        const char h = json[pos++];
+                        codepoint <<= 4;
+                        if( h >= '0' && h <= '9' ) {
+                            codepoint += h - '0';
+                        } else if( h >= 'a' && h <= 'f' ) {
+                            codepoint += h - 'a' + 10;
+                        } else if( h >= 'A' && h <= 'F' ) {
+                            codepoint += h - 'A' + 10;
+                        } else {
+                            return {};
+                        }
+                    }
+                    // Protocol producers emit non-ASCII as UTF-8 directly.
+                    // Reject isolated surrogates rather than emitting invalid UTF-8.
+                    if( codepoint >= 0xd800 && codepoint <= 0xdfff ) {
+                        return {};
+                    }
+                    out += utf32_to_utf8( codepoint );
+                    continue;
+                }
+                case '\"':
+                case '\\':
+                case '/':
+                    break;
+                default:
+                    return {};
+            }
         }
         out += c;
     }
-    return out;
+    return {};
 }
 
 // Normalize a build-version string to its commit identity for the join
@@ -92,6 +205,32 @@ static std::string mp_version_commit_id( const std::string &v )
         s.erase( p );
     }
     return s;
+}
+
+// True if two version strings name the same commit, tolerant of different hash
+// abbreviation LENGTHS. A full clone and a shallow clone of the SAME commit
+// abbreviate the short hash differently (e.g. host "648cb8a6f9" vs client
+// "648cb8a"), so a plain != on the stripped ids falsely rejects them (the
+// 2026-06-28 M4↔Linux-VM mismatch). git abbreviations are unambiguous within
+// each repo, so comparing the shorter id as a prefix of the longer is safe.
+static bool mp_version_commit_match( const std::string &a, const std::string &b )
+{
+    const std::string ca = mp_version_commit_id( a );
+    const std::string cb = mp_version_commit_id( b );
+    if( ca == cb ) {
+        return true;
+    }
+    const std::string::size_type n = std::min( ca.size(), cb.size() );
+    const auto is_hash = []( const std::string & id ) {
+        return std::all_of( id.begin(), id.end(), []( unsigned char c ) {
+            return ( c >= '0' && c <= '9' ) || ( c >= 'a' && c <= 'f' ) ||
+                   ( c >= 'A' && c <= 'F' );
+        } );
+    };
+    if( n < 7 || !is_hash( ca ) || !is_hash( cb ) ) {
+        return false;
+    }
+    return ca.compare( 0, n, cb, 0, n ) == 0;
 }
 
 // Host→client wire compression.  The per-turn state broadcast (monster/map
@@ -124,18 +263,34 @@ static std::string mp_compress_frame( const std::string &msg )
         // Compression failed or didn't help — send the original plaintext.
         return msg;
     }
-    return R"({"z":")" + base64_encode( std::string_view( comp.data(), n ) ) + "\"}\n";
+    return "{\"z\":\"" + base64_encode( std::string_view( comp.data(), n ) ) + "\"}\n";
 }
 
 // ---------------------------------------------------------------------------
 // client_session — owns one TCP connection
 // ---------------------------------------------------------------------------
 
+// A connection that never sends a version_probe isn't a co-op client — it's an
+// internet port scanner (8080 is one of the most-scanned ports there is, and a
+// host with a router port-forward is reachable by all of them).  Drop those so
+// they can't sit in clients_ forever holding a player slot.  Generous vs. the
+// real client, which probes microseconds after connecting.
+static constexpr int MP_PROBE_DEADLINE_S = 20;
+
 struct client_session : public std::enable_shared_from_this<client_session> {
         tcp::socket socket;
-        asio::streambuf read_buf;
+        asio::streambuf read_buf{ 64 * 1024 * 1024 };
         std::string name;
         bool authenticated = false;
+        // "ip:port" of the far end, captured at construction — remote_endpoint() is
+        // gone once the socket closes, and every diagnostic here wants to name who
+        // it was talking to.  Without this the host log couldn't distinguish a
+        // partner's failed join from a scanner (cost a full round-trip with a
+        // tester, 2026-07-31).
+        std::string peer;
+        // Set the moment a valid version_probe arrives; gates the deadline below.
+        bool probed = false;
+        asio::steady_timer probe_timer;
 
         std::function<void( std::shared_ptr<client_session>, const std::string & )> on_message;
         std::function<void( std::shared_ptr<client_session> )> on_disconnect;
@@ -143,23 +298,84 @@ struct client_session : public std::enable_shared_from_this<client_session> {
         // Outgoing write queue — only one async_write may be in flight at a time.
         // All send() / do_write() calls happen on the single Asio thread so no mutex needed.
         std::deque<std::string> write_queue_;
+        // MP DIAG 2026-08-30 — HB probe.  Wall-clock ms at which the OLDEST unflushed
+        // heartbeat entered write_queue_, or 0 when none is queued.  See the block
+        // above do_write() for what this is diagnosing.
+        int64_t hb_enqueued_ms_ = 0;
         bool writing_ = false;
+        bool closing_ = false;
+        bool disconnected_ = false;   // see disconnect()
 
         explicit client_session( tcp::socket sock )
-            : socket( std::move( sock ) ) {}
+            : socket( std::move( sock ) ), probe_timer( socket.get_executor() ) {
+            std::error_code pec;
+            const auto ep = socket.remote_endpoint( pec );
+            peer = pec ? std::string( "unknown" )
+                   : ( ep.address().to_string() + ":" + std::to_string( ep.port() ) );
+        }
+
+        // Close a session that connected but never spoke the protocol.  Checked
+        // against `probed`, NOT `authenticated`: authentication legitimately takes
+        // minutes (the client is in character creation between PROBE and JOIN), so
+        // an auth-based deadline would kill every real join.
+        void arm_probe_deadline() {
+            probe_timer.expires_after( std::chrono::seconds( MP_PROBE_DEADLINE_S ) );
+            auto self = shared_from_this();
+            probe_timer.async_wait( [self]( const std::error_code & ec ) {
+                if( ec || self->probed ) {
+                    return;   // cancelled, or the peer identified itself in time
+                }
+                mp_log( "[cdda-mp] ACCEPT: dropping " + self->peer + " — no version_probe within " +
+                        std::to_string( MP_PROBE_DEADLINE_S ) + "s (not a co-op client)" );
+                self->disconnect();
+            } );
+        }
 
         void start() {
             // Disable Nagle — see client_connect(). The host's grant packets are
             // tiny and must not be batched on a high-latency link or the lockstep
             // turn cycle wedges (works on LAN, hangs over the internet).
             std::error_code nd_ec;
-            nd_ec = socket.set_option( tcp::no_delay( true ), nd_ec );
+            socket.set_option( tcp::no_delay( true ), nd_ec );
+            // SO_KEEPALIVE backstop (see client_connect) — reaps a dead idle peer
+            // socket even if the app-level heartbeat/stall path misses it.
+            std::error_code ka_ec;
+            socket.set_option( asio::socket_base::keep_alive( true ), ka_ec );
             send( "{\"type\":\"hello\",\"protocol\":\"cdda-mp\",\"version\":\"0.1\"}\n" );
+            arm_probe_deadline();
             do_read();
         }
 
         void send( const std::string &msg ) {
-            write_queue_.push_back( mp_compress_frame( msg ) );
+            if( disconnected_ || closing_ ) {
+                return;
+            }
+            const std::string framed = mp_compress_frame( msg );
+            // MP DIAG 2026-08-30 — HB probe, half 1 of 2: prove the beat is even
+            // ENQUEUED.  The 2026-08-29 health-restore host log contains zero
+            // heartbeat evidence, and we cannot currently tell "the timer never
+            // fired" from "the beat was queued but never reached the wire".  Absence
+            // of HB-SEND => arm_heartbeat() is not running for this session.
+            const bool is_hb = msg.find( "\"type\":\"heartbeat\"" ) != std::string::npos;
+            if( is_hb ) {
+                const int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                           std::chrono::steady_clock::now().time_since_epoch() ).count();
+                if( hb_enqueued_ms_ == 0 ) {
+                    hb_enqueued_ms_ = now_ms;
+                }
+                mp_log( "[cdda-mp] HB-SEND: enqueued writing_in_flight=" +
+                        std::to_string( static_cast<int>( writing_ ) ) +
+                        " queue_depth=" + std::to_string( write_queue_.size() ) );
+            }
+            // MP DIAG 2026-08-30 — reconcile SRP-BREAKDOWN's uncompressed "BYTES out="
+            // against what actually hits the socket.  Compression happens HERE, before
+            // the queue, which is why a >64KB gate on the post-compression size never
+            // fired for a 1.16MB broadcast.
+            if( msg.size() > 65536 ) {
+                mp_log( "[cdda-mp] HOST-FRAME: raw=" + std::to_string( msg.size() ) +
+                        " wire=" + std::to_string( framed.size() ) );
+            }
+            write_queue_.push_back( framed );
             if( !writing_ ) {
                 do_write();
             }
@@ -168,6 +384,9 @@ struct client_session : public std::enable_shared_from_this<client_session> {
         void do_write() {
             if( write_queue_.empty() ) {
                 writing_ = false;
+                if( closing_ ) {
+                    disconnect();
+                }
                 return;
             }
             writing_ = true;
@@ -184,9 +403,76 @@ struct client_session : public std::enable_shared_from_this<client_session> {
             for( const std::string &m : write_queue_ ) {
                 buf->append( m );
             }
+            const size_t buf_bytes = buf->size();
+            // MP DIAG 2026-08-30 — HB probe, half 2 of 2.  do_write() coalesces the
+            // ENTIRE queue into one buffer, so any heartbeat sitting in the queue right
+            // now is in THIS buffer; that makes "how long did the beat wait" exactly
+            // measurable.  Answers the open question from the 2026-08-29 health-restore
+            // entry: the client reconnected because it saw >8s of host silence, which
+            // respawned its proxy at full HP.  Five beats should have landed in that
+            // window and reset the client's g_last_recv_ms.  None did.
+            //   HB-SEND absent            => arm_heartbeat() is not firing at all.
+            //   HB-SEND present, HB-FLUSH queued_ms large => beat stuck behind a write
+            //                                (the 2026-07-03 write-queue hypothesis).
+            //   Both present and prompt    => the beat left the host; look client-side.
+            bool buf_has_hb = false;
+            for( const std::string &m : write_queue_ ) {
+                if( m.find( "\"type\":\"heartbeat\"" ) != std::string::npos ) {
+                    buf_has_hb = true;
+                    break;
+                }
+            }
+            const int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                       std::chrono::steady_clock::now().time_since_epoch() ).count();
+            const int64_t hb_queued_ms = ( buf_has_hb && hb_enqueued_ms_ != 0 )
+                                         ? now_ms - hb_enqueued_ms_ : 0;
+            if( buf_has_hb ) {
+                hb_enqueued_ms_ = 0;
+            }
             write_queue_.clear();
+            // Diagnostic for the 2026-07-03 "host crafting -> server times out" report:
+            // a heartbeat enqueued behind a huge FF-broadcast buffer can't reach the
+            // wire until this async_write completes.
+            //
+            // ⚠ 2026-08-30 — the old gate was `buf_bytes > 65536` and NEVER FIRED, not
+            // once in a 226k-line host log containing a broadcast that SRP-BREAKDOWN
+            // reported as 1,158,697 bytes.  Cause: mp_compress_frame() runs in send(),
+            // BEFORE the queue, so buf_bytes here is the COMPRESSED size and a gate
+            // written against the uncompressed figure is unreachable in practice.  The
+            // hypothesis this instrument exists to test has therefore been shipped as
+            // "instrumented" since a987453742 while being structurally unable to fire.
+            // Threshold lowered to a post-compression-realistic value, and any buffer
+            // carrying a heartbeat is always tracked regardless of size.
+            static constexpr size_t MP_WRITE_LOG_BYTES = 8192;
+            const bool track_flush = buf_bytes > MP_WRITE_LOG_BYTES || buf_has_hb;
+            const auto flush_start = track_flush ? std::chrono::steady_clock::now()
+                                     : std::chrono::steady_clock::time_point{};
+            if( track_flush ) {
+                mp_log( "[cdda-mp] HOST-WRITE-BEGIN: bytes=" + std::to_string( buf_bytes ) );
+            }
             asio::async_write( socket, asio::buffer( *buf ),
-            [self, buf]( std::error_code ec, std::size_t ) {
+                               [self, buf, buf_bytes, track_flush, flush_start, buf_has_hb,
+                  hb_queued_ms]( std::error_code ec, std::size_t ) {
+                if( track_flush ) {
+                    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                std::chrono::steady_clock::now() - flush_start ).count();
+                    mp_log( "[cdda-mp] HOST-WRITE-DONE: bytes=" + std::to_string( buf_bytes ) +
+                            " elapsed_ms=" + std::to_string( elapsed_ms ) +
+                            " ec=" + ec.message() +
+                            " has_hb=" + std::to_string( static_cast<int>( buf_has_hb ) ) +
+                            " queued_after=" + std::to_string( self->write_queue_.size() ) );
+                    // MP DIAG 2026-08-30 — HB probe: queued_ms is how long the beat sat
+                    // behind other traffic; write_ms is how long the socket write took.
+                    // Either one exceeding the client's 8s MP_STALL_MS explains a
+                    // spurious "host silent" reconnect.
+                    if( buf_has_hb ) {
+                        mp_log( "[cdda-mp] HB-FLUSH: on the wire queued_ms=" +
+                                std::to_string( hb_queued_ms ) +
+                                " write_ms=" + std::to_string( elapsed_ms ) +
+                                " bytes=" + std::to_string( buf_bytes ) +
+                                " ec=" + ec.message() );
+                    }
+                }
                 if( ec ) {
                     self->disconnect();
                     return;
@@ -195,9 +481,33 @@ struct client_session : public std::enable_shared_from_this<client_session> {
             } );
         }
 
+        // Error/goodbye packets must flush before closing.  Closing immediately
+        // after send() cancelled the async write and hid the rejection reason.
+        void close_after_write() {
+            closing_ = true;
+            if( !writing_ && write_queue_.empty() ) {
+                disconnect();
+            }
+        }
+
         void disconnect() {
+            // One disconnect per session.  Closing the socket makes the pending
+            // async_read (and any in-flight async_write) complete with an error, and
+            // those handlers call disconnect() too — so every close fired two
+            // on_disconnect callbacks.  Visible as duplicate CLOSED: lines in the
+            // 2026-08-02 probe-deadline test.  Harmless there because an
+            // unauthenticated session takes no action, and on an authenticated one
+            // the second pass was stopped only incidentally by active_session_ having
+            // already been reset — a real drop that trips both a read and a write
+            // error takes exactly that path, so don't rely on the accident.
+            if( disconnected_ ) {
+                return;
+            }
+            disconnected_ = true;
+            std::error_code tec;
+            probe_timer.cancel( tec );
             std::error_code ec;
-            ec = socket.close( ec );
+            socket.close( ec );
             if( on_disconnect ) {
                 on_disconnect( shared_from_this() );
             }
@@ -205,6 +515,9 @@ struct client_session : public std::enable_shared_from_this<client_session> {
 
     private:
         void do_read() {
+            if( disconnected_ || closing_ ) {
+                return;
+            }
             auto self = shared_from_this();
             asio::async_read_until( socket, read_buf, '\n',
             [self]( std::error_code ec, std::size_t ) {
@@ -215,8 +528,24 @@ struct client_session : public std::enable_shared_from_this<client_session> {
                 std::istream stream( &self->read_buf );
                 std::string line;
                 std::getline( stream, line );
-                if( !line.empty() && self->on_message ) {
-                    self->on_message( self, line );
+                if( !line.empty() ) {
+                    // Heartbeat RTT (io thread): echo the client's ping stamp
+                    // IMMEDIATELY so the measured round-trip is pure network
+                    // latency, not game-loop cadence; and adopt the client's
+                    // measured RTT for the host's own co-op panel.  Client
+                    // heartbeats are sent uncompressed, so parse straight off
+                    // the raw line.
+                    if( line.find( "\"type\":\"heartbeat\"" ) != std::string::npos ) {
+                        const size_t cp = line.find( "\"cp\":" );
+                        if( cp != std::string::npos ) {
+                            const long long stamp = std::strtoll( line.c_str() + cp + 5, nullptr, 10 );
+                            self->send( "{\"type\":\"heartbeat\",\"pong\":" +
+                                        std::to_string( stamp ) + "}\n" );
+                        }
+                    }
+                    if( self->on_message ) {
+                        self->on_message( self, line );
+                    }
                 }
                 self->do_read();
             } );
@@ -230,8 +559,9 @@ struct client_session : public std::enable_shared_from_this<client_session> {
 struct server::impl {
     asio::io_context io_ctx;
     tcp::acceptor acceptor;
+    asio::steady_timer hb_timer{ io_ctx };   // host->client heartbeat cadence
 
-    explicit impl( uint16_t port )
+    impl( uint16_t port )
         : acceptor( io_ctx, tcp::endpoint( tcp::v4(), port ) ) {}
 };
 
@@ -243,14 +573,64 @@ server::server( uint16_t port, std::string password, std::string version )
     : port_( port )
     , password_( std::move( password ) )
     , version_( std::move( version ) )
-    , impl_( std::make_unique<impl>( port ) ) {}
+    , impl_( std::make_unique<impl>( port ) )
+{
+    port_ = impl_->acceptor.local_endpoint().port();
+    g_host_partner_rtt_ms.store( -1 );
+    g_host_partner_last_message_ms.store( 0 );
+}
 
-server::~server() = default;
+server::~server()
+{
+    g_host_partner_rtt_ms.store( -1 );
+    g_host_partner_last_message_ms.store( 0 );
+}
+
+void server::arm_heartbeat()
+{
+    impl_->hb_timer.expires_after( std::chrono::milliseconds( 1500 ) );
+    impl_->hb_timer.async_wait( [this]( const std::error_code & ec ) {
+        if( ec ) {
+            return;   // cancelled (server stopping)
+        }
+        // Beat to EVERY session, authenticated or not.  On the io thread, so it
+        // fires even when the host's game thread is parked in a modal.  Clients
+        // drop it after stamping their liveness clock.
+        //
+        // Pre-auth sessions get one too, and that is the whole point: the window
+        // between PROBE and JOIN is the joining player's character creation,
+        // which routinely runs for MINUTES, and both ends are otherwise silent
+        // across it (client heartbeat is gated on g_client_joined; the host had
+        // nothing to say to a session with no proxy yet).  A NAT or firewall on
+        // the path reaps a TCP flow that carries zero bytes for that long — a
+        // tester's partner lost six consecutive joins at ~60s each on a router
+        // port-forward, while both joins that completed in under a second
+        // succeeded (2026-07-31).  Tunnel users (Tailscale/ZeroTier) never saw
+        // it because the tunnel keepalives its own outer flow.
+        //
+        // Safe against the 2bc3067620 cascade this replaces: that was the CLIENT
+        // beating pre-auth into a host that used to disconnect unauthenticated
+        // senders.  The host has tolerated stray pre-auth messages since that
+        // same commit, and this direction can't trip the client's stall watchdog
+        // — that watchdog is itself gated on g_client_joined.
+        //
+        // Bonus: writing to a socket whose peer has gone away errors out and
+        // disconnects it, which reaps dead scanner sessions out of clients_.
+        {
+            std::lock_guard<std::mutex> lock( clients_mutex_ );
+            for( auto &c : clients_ ) {
+                c->send( "{\"type\":\"heartbeat\"}\n" );
+            }
+        }
+        arm_heartbeat();
+    } );
+}
 
 void server::run()
 {
     std::cout << "[cdda-mp] Server listening on port " << port_ << std::endl;
     do_accept();
+    arm_heartbeat();
     impl_->io_ctx.run();
 }
 
@@ -261,9 +641,12 @@ void server::stop()
 
 void server::broadcast( const std::string &msg )
 {
-    std::scoped_lock lock( clients_mutex_ );
+    std::lock_guard<std::mutex> lock( clients_mutex_ );
+    const std::shared_ptr<client_session> active = active_session_.lock();
     for( auto &c : clients_ ) {
-        c->send( msg );
+        if( c->authenticated && c == active ) {
+            c->send( msg );
+        }
     }
 }
 
@@ -291,90 +674,106 @@ void server::do_accept()
             on_client_connected( session );
             session->start();
         }
-        do_accept();
+        if( !impl_->io_ctx.stopped() && impl_->acceptor.is_open() ) {
+            do_accept();
+        }
     } );
 }
 
 void server::on_client_connected( const std::shared_ptr<client_session> &session )
 {
+    size_t total = 0;
     {
-        std::scoped_lock lock( clients_mutex_ );
+        std::lock_guard<std::mutex> lock( clients_mutex_ );
         clients_.push_back( session );
+        total = clients_.size();       // read under the lock (was racy)
     }
-    std::cout << "[cdda-mp] Client connected.  Total: " << clients_.size() << std::endl;
-
-    if( clients_.size() > 2 ) {
-        session->send( "{\"type\":\"error\",\"message\":\"Server is full (max 2 players)\"}\n" );
-        session->disconnect();
-    }
+    std::cout << "[cdda-mp] Client connected. Total: " << total << std::endl;
+    mp_log( "[cdda-mp] ACCEPT: " + session->peer + " connected (open sockets: " +
+            std::to_string( total ) + ")" );
+    // NO player-cap check here.  It used to reject the 3rd *socket*, counting
+    // every unauthenticated connection — so two lingering port scanners could
+    // permanently lock out the real partner, and the rejection was std::cout
+    // only, invisible in the log players send us.  The cap now lives in the JOIN
+    // handler where it can count actual players; scanners are handled by the
+    // probe deadline instead.
 }
 
 void server::on_client_disconnected( const std::shared_ptr<client_session> &session )
 {
     {
-        std::scoped_lock lock( clients_mutex_ );
+        std::lock_guard<std::mutex> lock( clients_mutex_ );
         clients_.erase(
             std::remove( clients_.begin(), clients_.end(), session ),
             clients_.end()
         );
     }
     std::string name = session->name.empty() ? "unknown" : session->name;
-    std::cout << "[cdda-mp] Client '" << name << "' disconnected.  Total: " <<
+    std::cout << "[cdda-mp] Client '" << name << "' disconnected. Total: " <<
               clients_.size() << std::endl;
+    mp_log( "[cdda-mp] CLOSED: " + session->peer + " ('" + name + "', authenticated=" +
+            ( session->authenticated ? "1" : "0" ) + ", probed=" +
+            ( session->probed ? "1" : "0" ) + ")" );
 
     if( session->authenticated ) {
-        broadcast( R"({"type":"player_left","name":")" + name + "\"}\n" );
-        get_mp_queue().push( { cata_mp::mp_event::type::disconnect, name, "" } );
-    }
-}
-
-// Extract a string value from a simple JSON message, tolerating optional spaces
-// around the colon (handles both "key":"val" and "key": "val").
-static std::string json_get_str( const std::string_view json, const std::string &key )
-{
-    for( const std::string &sep : {
-             std::string( "\":\"" ), std::string( "\": \"" )
-         } ) {
-        std::string needle = "\"";
-        needle += key;
-        needle += sep;
-        std::string_view::size_type pos = json.find( needle );
-        if( pos != std::string::npos ) {
-            pos += needle.size();
-            const std::string_view::size_type end = json.find( '"', pos );
-            if( end != std::string::npos ) {
-                return std::string( json.substr( pos, end - pos ) );
-            }
+        // Only the CURRENT active session ending is a real disconnect.  If this is
+        // a superseded/stale session (an old socket dying after the client already
+        // reconnected on a new one), do NOT push a disconnect — that would evict
+        // the reconnected player.  Order-independent: the active session is whoever
+        // JOINed most recently.
+        if( active_session_.lock() == session ) {
+            active_session_.reset();
+            g_host_partner_rtt_ms.store( -1 );
+            g_host_partner_last_message_ms.store( 0 );
+            broadcast( "{\"type\":\"player_left\",\"name\":\"" + mp_json_escape( name ) + "\"}\n" );
+            get_mp_queue().push( { cata_mp::mp_event::type::disconnect, name, "" } );
+        } else {
+            mp_log( "[cdda-mp] disconnect: superseded/stale session for '" + name +
+                    "' closed — not ending the co-op session (reconnect in progress)" );
         }
     }
-    return "";
 }
 
 void server::on_message( const std::shared_ptr<client_session> &session, const std::string &msg )
 {
-    std::cout << "[cdda-mp] recv: " << msg << std::endl;
+    // Never log the raw handshake: it may contain the session password.
+    const std::string message_type = json_get_str( msg, "type" );
+    if( message_type != "heartbeat" ) {
+        mp_log( "[cdda-mp] recv type='" + message_type + "' peer=" + session->peer );
+    }
 
     const std::string type = json_get_str( msg, "type" );
+    if( session->authenticated && active_session_.lock() == session ) {
+        g_host_partner_last_message_ms.store( std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now().time_since_epoch() ).count() );
+        if( type == "heartbeat" ) {
+            const size_t rtt = msg.find( "\"rtt\":" );
+            if( rtt != std::string::npos ) {
+                g_host_partner_rtt_ms.store( static_cast<int>(
+                                                 std::strtol( msg.c_str() + rtt + 6, nullptr, 10 ) ) );
+            }
+        }
+    }
 
     // Lightweight pre-join probe: validate version + password immediately
     // without spawning the proxy NPC or queuing a connect event.  Lets the
     // client surface a version mismatch before the character creation UI.
     if( type == "version_probe" ) {
         const std::string probe_ver = json_get_str( msg, "version" );
-        mp_log( "[cdda-mp] PROBE recv: client_ver='" +
+        mp_log( "[cdda-mp] PROBE recv from " + session->peer + ": client_ver='" +
                 ( probe_ver.empty() ? std::string( "(none)" ) : probe_ver ) +
                 "' host_ver='" + version_ + "' -> client_commit=" +
                 mp_version_commit_id( probe_ver ) + " host_commit=" +
                 mp_version_commit_id( version_ ) );
         if( !version_.empty() ) {
             const std::string client_ver = json_get_str( msg, "version" );
-            if( mp_version_commit_id( client_ver ) != mp_version_commit_id( version_ ) ) {
-                const std::string errmsg = "Version mismatch.  Host: " + version_ +
+            if( !mp_version_commit_match( client_ver, version_ ) ) {
+                const std::string errmsg = "Version mismatch. Host: " + version_ +
                                            " Client: " + ( client_ver.empty() ? "(unknown)" : client_ver );
-                session->send( R"({"type":"error","message":")" + errmsg + "\"}\n" );
+                session->send( "{\"type\":\"error\",\"message\":\"" + mp_json_escape( errmsg ) + "\"}\n" );
                 mp_log( "[cdda-mp] PROBE REJECTED — version mismatch. " + errmsg +
                         " (host and client are on different builds; both must run the same release)" );
-                session->disconnect();
+                session->close_after_write();
                 return;
             }
         }
@@ -383,10 +782,13 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
             if( provided != password_ ) {
                 session->send( "{\"type\":\"error\",\"message\":\"Wrong password\"}\n" );
                 mp_log( "[cdda-mp] PROBE REJECTED — wrong password" );
-                session->disconnect();
+                session->close_after_write();
                 return;
             }
         }
+        session->probed = true;
+        asio::error_code timer_ec;
+        session->probe_timer.cancel( timer_ec );
         // Probe accepted — send world name + seed + host OMT so the client can
         // display "Joining <world>" AND adopt the seed + spawn location before
         // character creation runs (client start_game() needs both before it
@@ -397,11 +799,12 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
         mp_log( "[cdda-mp] PROBE accepted — version OK; sending welcome (world='" +
                 mp_get_host_world_name() + "')" );
         session->send( "{\"type\":\"welcome\",\"player_id\":\"probe\""
-                       ",\"world\":\"" + mp_get_host_world_name() + "\""
+                       ",\"world\":\"" + mp_json_escape( mp_get_host_world_name() ) + "\""
                        ",\"host_name\":\"" + mp_json_escape( mp_get_host_player_name() ) + "\""
                        ",\"current_turn\":0,\"seed\":" +
                        std::to_string( mp_host_world_seed() ) +
-                       mp_host_omt_welcome_field() + "}\n" );
+                       mp_host_omt_welcome_field() +
+                       mp_host_active_mods_field() + "}\n" );
         return;
     }
 
@@ -412,20 +815,32 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
             name = "player";
         }
 
+        // Two players means the host and ONE remote proxy. A same-name socket
+        // may replace that partner on reconnect; a different name cannot take
+        // over the single proxy while its current session is still active.
+        const std::shared_ptr<client_session> active = active_session_.lock();
+        if( active && active->name != name ) {
+            session->send( "{\"type\":\"error\",\"message\":\"Server is full (host plus one partner)\"}\n" );
+            mp_log( "[cdda-mp] JOIN REJECTED — partner already connected (name='" + name +
+                    "', peer=" + session->peer + ")" );
+            session->close_after_write();
+            return;
+        }
+
         // Check version compatibility — reject mismatched binaries. Compare
         // commit identity only (mp_version_commit_id), so two builds of the
         // same commit connect even if one tree was dirty / built at a
         // different time / uses a different render backend.
         if( !version_.empty() ) {
             const std::string client_ver = json_get_str( msg, "version" );
-            if( mp_version_commit_id( client_ver ) != mp_version_commit_id( version_ ) ) {
-                const std::string errmsg = "Version mismatch.  Host: " + version_ +
+            if( !mp_version_commit_match( client_ver, version_ ) ) {
+                const std::string errmsg = "Version mismatch. Host: " + version_ +
                                            " Client: " + ( client_ver.empty() ? "(unknown)" : client_ver );
-                session->send( R"({"type":"error","message":")" + errmsg + "\"}\n" );
+                session->send( "{\"type\":\"error\",\"message\":\"" + mp_json_escape( errmsg ) + "\"}\n" );
                 mp_log( "[cdda-mp] JOIN REJECTED — version mismatch. " + errmsg +
                         " client_commit=" + mp_version_commit_id( client_ver ) +
                         " host_commit=" + mp_version_commit_id( version_ ) );
-                session->disconnect();
+                session->close_after_write();
                 return;
             }
         }
@@ -436,28 +851,42 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
             if( provided != password_ ) {
                 session->send( "{\"type\":\"error\",\"message\":\"Wrong password\"}\n" );
                 mp_log( "[cdda-mp] JOIN REJECTED — wrong password (name='" + name + "')" );
-                session->disconnect();
+                session->close_after_write();
                 return;
             }
         }
 
         session->name = name;
         session->authenticated = true;
+        session->probed = true;
+        asio::error_code timer_ec;
+        session->probe_timer.cancel( timer_ec );
+        // This session is now the active one.  A prior session for the same player
+        // (a reconnect's old socket) is hereby superseded — its later close won't
+        // end the co-op session (see on_client_disconnected).
+        const std::shared_ptr<client_session> previous = active_session_.lock();
+        active_session_ = session;
+        if( previous && previous != session && previous->name == name ) {
+            previous->disconnect();
+        }
+        g_host_partner_rtt_ms.store( -1 );
+        g_host_partner_last_message_ms.store( 0 );
 
         // Include the host's worldgen seed so the client adopts it before
         // generating the host-area overmap — otherwise it renders its own
         // randomly-seeded terrain outside the tile-synced bubble.
         const std::string wname = mp_get_host_world_name();
-        session->send( R"({"type":"welcome","player_id":")" + name +
-                       R"(","world":")" + wname +
-                       R"(","host_name":")" + mp_json_escape( mp_get_host_player_name() ) +
-                       R"(","current_turn":0,"seed":)" +
+        session->send( "{\"type\":\"welcome\",\"player_id\":\"" + mp_json_escape( name ) +
+                       "\",\"world\":\"" + mp_json_escape( wname ) +
+                       "\",\"host_name\":\"" + mp_json_escape( mp_get_host_player_name() ) +
+                       "\",\"current_turn\":0,\"seed\":" +
                        std::to_string( mp_host_world_seed() ) +
-                       mp_host_omt_welcome_field() + "}\n" );
+                       mp_host_omt_welcome_field() +
+                       mp_host_active_mods_field() + "}\n" );
         mp_log( "[cdda-mp] SEED: welcome sent host seed " +
                 std::to_string( mp_host_world_seed() ) + " to '" + name + "'" );
 
-        broadcast( R"({"type":"player_joined","name":")" + name + "\"}\n" );
+        broadcast( "{\"type\":\"player_joined\",\"name\":\"" + mp_json_escape( name ) + "\"}\n" );
         mp_log( "[cdda-mp] JOIN accepted — player '" + name + "' authenticated and connected" );
 
         // Notify game loop to spawn this player's character
@@ -465,21 +894,27 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
 
     } else if( type == "quit" ) {
         session->send( "{\"type\":\"goodbye\"}\n" );
-        session->disconnect();
+        session->close_after_write();
 
-    } else if( session->authenticated ) {
+    } else if( session->authenticated && active_session_.lock() == session && type != "heartbeat" ) {
         // Route action to game loop
         get_mp_queue().push( { cata_mp::mp_event::type::action, session->name, msg } );
 
-    } else {
+    } else if( !session->authenticated ) {
         // Unauthenticated session sent something that isn't version_probe / join /
-        // quit. Almost always a protocol/version skew (e.g. a client on a build
-        // that predates the version_probe handshake). Log it instead of silently
-        // dropping the message, then close so the client doesn't hang.
-        mp_log( "[cdda-mp] HANDSHAKE: unexpected pre-auth message type='" +
-                ( type.empty() ? std::string( "(none)" ) : type ) +
-                "' — likely a different/old client build.  Closing." );
-        session->disconnect();
+        // quit — e.g. a heartbeat, or a straggler (chat/state/action) still in the
+        // client's send queue when it reconnects mid-game.  IGNORE it (do NOT
+        // close): the version_probe handshake already validated the build, so an
+        // unexpected type here is a buffered/interleaved message on a reconnect,
+        // not an incompatible client.  Closing here dropped the reconnecting
+        // socket the instant a buffered 'chat' arrived, forcing the client to
+        // sweep again — the reconnect-flapping half of the 2026-07-01 bug.  (An
+        // older client that truly predates version_probe simply never gets a
+        // welcome and times out on its own end; we don't need to force-close it.)
+        // Log peer/type only: malformed raw lines can still contain a password.
+        mp_log( "[cdda-mp] HANDSHAKE: ignoring stray pre-auth message from " + session->peer +
+                " type='" + ( type.empty() ? std::string( "(none)" ) : type ) +
+                "' (pre-JOIN) — waiting for join." );
     }
 }
 
@@ -487,17 +922,105 @@ void server::on_message( const std::shared_ptr<client_session> &session, const s
 // Entry point called from main()
 // ---------------------------------------------------------------------------
 
-static server *active_server_ = nullptr;
+static std::atomic<server *> active_server_{ nullptr };
 static std::atomic<bool> server_thread_running_{ false };
 
 server *get_active_server()
 {
-    return active_server_;
+    return active_server_.load();
 }
 
 bool is_server_thread_running()
 {
     return server_thread_running_.load();
+}
+
+// True for address ranges commonly handed out by mesh/VPN software — Tailscale
+// (100.64.0.0/10 CGNAT), Radmin (26/8), Hamachi (25/8).  Surfaced FIRST in the
+// host hint because that's usually the address a remote partner actually uses;
+// the physical-LAN address only helps a same-network partner.  Best-effort sort
+// key, not exhaustive (ZeroTier etc. vary) — we never DROP an address, only order.
+static bool mp_ip_is_vpn_like( const std::string &ip )
+{
+    int a = 0, b = 0;
+    if( std::sscanf( ip.c_str(), "%d.%d", &a, &b ) < 2 ) {
+        return false;
+    }
+    if( a == 26 || a == 25 ) {
+        return true;                          // Radmin / Hamachi
+    }
+    if( a == 100 && b >= 64 && b <= 127 ) {
+        return true;                          // Tailscale CGNAT 100.64.0.0/10
+    }
+    return false;
+}
+
+std::vector<std::string> mp_local_ipv4s()
+{
+    // Cache: interfaces don't change within a session and the HUD asks ~10x/sec.
+    static std::vector<std::string> cached;
+    static bool resolved = false;
+    if( resolved ) {
+        return cached;
+    }
+    resolved = true;
+
+    auto add = [&]( const std::string & ip ) {
+        if( ip.empty() || ip == "0.0.0.0" ) {
+            return;
+        }
+        if( ip.rfind( "127.", 0 ) == 0 || ip.rfind( "169.254.", 0 ) == 0 ) {
+            return;                            // loopback / link-local APIPA — useless to share
+        }
+        if( std::find( cached.begin(), cached.end(), ip ) == cached.end() ) {
+            cached.push_back( ip );
+        }
+    };
+
+#ifdef _WIN32
+    ULONG buf_len = 16384;
+    std::vector<char> buf( buf_len );
+    auto *addrs = reinterpret_cast<IP_ADAPTER_ADDRESSES *>( buf.data() );
+    if( GetAdaptersAddresses( AF_INET,
+                              GAA_FLAG_SKIP_ANYCAST | GAA_FLAG_SKIP_MULTICAST | GAA_FLAG_SKIP_DNS_SERVER,
+                              nullptr, addrs, &buf_len ) == NO_ERROR ) {
+        for( auto *a = addrs; a; a = a->Next ) {
+            if( a->OperStatus != IfOperStatusUp ) {
+                continue;
+            }
+            for( auto *u = a->FirstUnicastAddress; u; u = u->Next ) {
+                auto *sa = reinterpret_cast<sockaddr_in *>( u->Address.lpSockaddr );
+                char ipbuf[INET_ADDRSTRLEN] = { 0 };
+                inet_ntop( AF_INET, &sa->sin_addr, ipbuf, sizeof( ipbuf ) );
+                add( ipbuf );
+            }
+        }
+    }
+#else
+    ifaddrs *ifs = nullptr;
+    if( getifaddrs( &ifs ) == 0 ) {
+        for( ifaddrs *ifa = ifs; ifa; ifa = ifa->ifa_next ) {
+            if( !ifa->ifa_addr || ifa->ifa_addr->sa_family != AF_INET ) {
+                continue;
+            }
+            if( !( ifa->ifa_flags & IFF_UP ) || ( ifa->ifa_flags & IFF_LOOPBACK ) ) {
+                continue;
+            }
+            auto *sa = reinterpret_cast<sockaddr_in *>( ifa->ifa_addr );
+            char ipbuf[INET_ADDRSTRLEN] = { 0 };
+            inet_ntop( AF_INET, &sa->sin_addr, ipbuf, sizeof( ipbuf ) );
+            add( ipbuf );
+        }
+        freeifaddrs( ifs );
+    }
+#endif
+
+    // VPN-like addresses first (most likely the share target); stable otherwise.
+    std::stable_sort( cached.begin(), cached.end(),
+    []( const std::string & x, const std::string & y ) {
+        return mp_ip_is_vpn_like( x ) && !mp_ip_is_vpn_like( y );
+    } );
+    return cached;
 }
 
 void run_server( uint16_t port, const std::string &password, const std::string &version )
@@ -510,15 +1033,22 @@ void run_server( uint16_t port, const std::string &password, const std::string &
         // hid this failure: a thrown ctor leaves active_server_ null, so
         // is_hosting() stays false and the whole host turn body is skipped.
         server srv( port, password, version );
-        active_server_ = &srv;
-        srv.run();
+        active_server_.store( &srv );
+        try {
+            srv.run();
+        } catch( ... ) {
+            // Clear before stack unwinding destroys the published server.
+            active_server_.store( nullptr );
+            throw;
+        }
+        active_server_.store( nullptr );
     } catch( const std::exception &e ) {
         mp_log( std::string( "[cdda-mp] SERVER-ERROR: " ) + e.what() );
         std::cerr << "[cdda-mp] Server error: " << e.what() << std::endl;
         // Never call exit() from a background thread — it runs SDL atexit handlers
         // on the wrong thread, which crashes on macOS (EXC_BREAKPOINT in Cocoa).
     }
-    active_server_ = nullptr;
+    active_server_.store( nullptr );
     // Cleared last: the server object above has now destructed and released the
     // listen socket, so a waiter on this flag knows the port is free.
     server_thread_running_.store( false );

@@ -16,6 +16,12 @@ change can refresh fingerprints and source locations without changing the
 available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
 A trap avoidance change updates the fingerprint but requires native trap validation.
 
+The multiplayer content update refreshes these inventory fingerprints while
+retaining the existing condition and effect registrations. Mod authors should
+verify effects in both host and joining-player roles: a local EOC effect alone
+does not establish that its resulting state reaches the shared world. See the
+[multiplayer limitations](../../docs/project/multiplayer.md).
+
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 World advanced rules do not add EOC condition or effect names. EOCs that depend

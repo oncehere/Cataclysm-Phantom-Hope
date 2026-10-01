@@ -33,6 +33,8 @@ void add_msg( const game_message_params &params, std::string msg );
 void clear_messages();
 void deactivate();
 size_t size();
+// Session-local append watermark, unaffected by MESSAGE_LIMIT or log clearing.
+unsigned long long appended_total();
 bool has_undisplayed_messages();
 void display_messages();
 void display_messages( const catacurses::window &ipk_target, int left, int top, int right,

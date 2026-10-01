@@ -43,6 +43,16 @@ void client_send( const std::string &json );
 // Used by mp_gamestate::client_process_incoming() to apply server state.
 bool client_recv_pop( std::string &out );
 
+// True while a dropped in-game connection is being re-established.
+bool client_is_reconnecting();
+
+// Cancel automatic retries on an intentional session end.  A later JOIN
+// enables retries again; the initial PROBE never does.
+void client_disable_reconnect();
+
+// Heartbeat round-trip measured on the IO thread, or -1 before a measurement.
+int mp_client_measured_rtt_ms();
+
 } // namespace cata_mp
 
 #endif // CATA_SRC_MP_CLIENT_CONN_H

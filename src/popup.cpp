@@ -1,3 +1,4 @@
+#include "mp_gamestate.h"
 #include "popup.h"
 
 #include <algorithm>
@@ -399,6 +400,9 @@ std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
 query_popup::result query_popup::query()
 {
     std::shared_ptr<query_popup_impl> ui = create_or_get_impl();
+
+    // Keep the partner stopped while this modal owns the local input loop.
+    cata_mp::peer_modal_hold mp_hold;
 
     result res;
     do {

@@ -33,6 +33,7 @@
     #include "cata_imgui.h"
 #endif
 #include "cata_variant.h"
+#include "cata_scope_helpers.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -256,6 +257,45 @@ bool cleanup_at_end()
 
 } // namespace turn_handler
 
+// MP DIAGNOSTIC 2026-08-17 — brackets every blocking modal this function can open
+// on the CLIENT. Each one runs its own input loop that never pumps the MP loop, so
+// for as long as it is open the client stops answering the host and the host sits
+// in wait_for_client_action(). Confirmed for "messages" (263s host stall, watchdog
+// force-reconnect, proxy lost its worn items); these lines establish whether the
+// other five behave identically, which decides whether the fix is per-branch or a
+// single client-side pump mirroring the host's in sdltiles.cpp.
+//
+// Note the host is already immune here: get_input_event() pumps MP every 50ms
+// while is_hosting(), added 2026-07-01. The client never got the equivalent.
+namespace
+{
+// Fires for BOTH roles as of the 2026-08-17 afternoon round: `v` (morale) and F1
+// (help) opened on the HOST during a dual craft pause BOTH players, which the
+// host's 50ms pump in sdltiles.cpp is supposed to prevent and which `@`
+// (player_data) does not do. So the host is not actually immune for every dialog
+// and the role has to be in the log line to tell the two failure modes apart.
+struct mp_client_modal_probe {
+    const char *name;
+    bool active;
+    const char *role;
+    explicit mp_client_modal_probe( const char *n )
+        : name( n ),
+          active( cata_mp::is_client_mode() || cata_mp::is_hosting() ),
+          role( cata_mp::is_client_mode() ? "CLIENT" : "HOST" ) {
+        if( active ) {
+            cata_mp::mp_log( std::string( "[cdda-mp] MP-MODAL-ENTER: role=" ) + role +
+                             " ui=" + name + " — MP loop is not pumped from inside this dialog" );
+        }
+    }
+    ~mp_client_modal_probe() {
+        if( active ) {
+            cata_mp::mp_log( std::string( "[cdda-mp] MP-MODAL-EXIT: role=" ) + role +
+                             " ui=" + name );
+        }
+    }
+};
+} // namespace
+
 void handle_key_blocking_activity( int timeout )
 {
     if( test_mode ) {
@@ -269,8 +309,11 @@ void handle_key_blocking_activity( int timeout )
     // inventory, see messages, etc. while waiting for the client to act.
     if( has_unfinished_activity || u.has_destination()
         || cata_mp::is_host_waiting_for_client() ) {
+        const auto mp_t0 = std::chrono::steady_clock::now();
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( timeout );
+        const int mp_input_ms = static_cast<int>( std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    std::chrono::steady_clock::now() - mp_t0 ).count() );
         if( cata_mp::is_hosting() && cata_mp::is_host_waiting_for_client() &&
             !action.empty() && action != "ANY_INPUT" && action != "TIMEOUT" ) {
             cata_mp::mp_log( "[cdda-mp] HOST-LOCKED-INPUT: action=\"" + action + "\"" );
@@ -314,6 +357,18 @@ void handle_key_blocking_activity( int timeout )
         if( refresh ) {
             ui_manager::redraw();
             refresh_display();
+        }
+        if( cata_mp::is_hosting() || cata_mp::is_client_mode() ) {
+            const int mp_total_ms = static_cast<int>(
+                                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                                            std::chrono::steady_clock::now() - mp_t0 ).count() );
+            // Total overran while the INPUT wait itself was short => the time went
+            // into handling the action below, not into waiting for a key.
+            if( mp_total_ms > 1000 && mp_total_ms - mp_input_ms > 250 ) {
+                cata_mp::mp_log( "[cdda-mp] KBA-SLOW-HANDLE: total=" +
+                                 std::to_string( mp_total_ms ) + "ms input=" +
+                                 std::to_string( mp_input_ms ) + "ms action=\"" + action + "\"" );
+            }
         }
     } else {
         refresh_display();
@@ -611,6 +666,19 @@ void game::handle_progress_ui()
 {
     avatar &u = get_avatar();
 
+    // MP DIAGNOSTIC 2026-08-14 — "MP crafting is ~10x slower than SP" (ROADMAP).
+    // MP forces wait_refresh_rate to 1_turns whenever FF is off (below), so this
+    // function runs a full redraw + refresh_display() EVERY game turn.  Server log
+    // shows a rock-steady 16ms/turn — exactly one 60Hz vsync frame — capping MP at
+    // ~62 turns/sec against SP's ~600.  These timers prove (or refute) that the
+    // 16ms is spent here rather than elsewhere in the turn tail.  Emission is a
+    // named callout in mp_gamestate.cpp so this SP file stays thin (merge rule 4).
+    const auto t_pui0 = std::chrono::steady_clock::now();
+    double ms_redraw_gated = 0.0;
+    double ms_redraw_popup = 0.0;
+    double ms_refresh = 0.0;
+    bool gate_fired = false;
+
     // handle activity/progress/waiting UI
     const bool player_is_sleeping = u.has_effect( effect_sleep );
     bool wait_redraw = false;
@@ -628,7 +696,7 @@ void game::handle_progress_ui()
         // doesn't track the actual craft/build/etc the partner is doing.
         if( ( cata_mp::is_client_mode() || cata_mp::is_hosting() ) &&
             u.activity.id().str() == "ACT_HELP_PARTNER" ) {
-            wait_message = string_format( _( "%s: %d%%" ),
+            wait_message = string_format( _( "%1$s: %2$d%%" ),
                                           u.activity.get_verb().translated(),
                                           cata_mp::partner_activity_pct() );
         }
@@ -642,41 +710,21 @@ void game::handle_progress_ui()
         } else {
             wait_refresh_rate = 5_minutes;
         }
-        // In lockstep MP, cap to 1_turns so the progress bar updates every grant
-        // cycle.  In FF mode turns race at CPU speed — don't cap here, handled below.
-        if( cata_mp::is_client_mode() || cata_mp::is_hosting() ) {
-            if( !cata_mp::should_fast_forward() ) {
-                wait_refresh_rate = 1_turns;
-            }
-        }
     }
     if( wait_redraw ) {
-        // FF mode: bypass the calendar gate entirely and use a wall-clock cap
-        // (~100ms = ~10 Hz).  This lets thousands of game turns race through
-        // per second while the progress popup still updates smoothly.
-        static std::chrono::steady_clock::time_point s_last_ff_redraw =
-            std::chrono::steady_clock::time_point {};
-        const bool ff_active = cata_mp::should_fast_forward();
-        const bool ff_redraw_due = [&] {
-            if( !ff_active )
-            {
-                return false;
-            }
-            const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-            if( first_redraw_since_waiting_started ||
-                std::chrono::duration_cast<std::chrono::milliseconds>( now - s_last_ff_redraw ).count() >= 100 )
-            {
-                s_last_ff_redraw = now;
-                return true;
-            }
-            return false;
-        }();
-        if( ff_redraw_due ||
-            ( !ff_active && ( first_redraw_since_waiting_started ||
-                              calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) ) ) {
-            if( ff_redraw_due || first_redraw_since_waiting_started ||
+        bool mp_redraw_due = false;
+        const bool mp_session = cata_mp::mp_progress_redraw_gate(
+                                    first_redraw_since_waiting_started, mp_redraw_due );
+        if( mp_redraw_due ||
+            ( !mp_session && ( first_redraw_since_waiting_started ||
+                               calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) ) ) {
+            gate_fired = true;
+            if( mp_redraw_due || first_redraw_since_waiting_started ||
                 calendar::once_every( wait_refresh_rate ) ) {
+                const auto t_rg = std::chrono::steady_clock::now();
                 ui_manager::redraw();
+                ms_redraw_gated = std::chrono::duration<double, std::milli>(
+                                      std::chrono::steady_clock::now() - t_rg ).count();
             }
 
             // Avoid redrawing the main UI every time due to invalidation
@@ -692,8 +740,13 @@ void game::handle_progress_ui()
                 wait_popup = std::make_unique<static_popup>();
             }
             wait_popup->on_top( true ).wait_message( "%s", wait_message );
+            const auto t_rp = std::chrono::steady_clock::now();
             ui_manager::redraw();
+            const auto t_rf = std::chrono::steady_clock::now();
             refresh_display();
+            const auto t_rf_end = std::chrono::steady_clock::now();
+            ms_redraw_popup = std::chrono::duration<double, std::milli>( t_rf - t_rp ).count();
+            ms_refresh = std::chrono::duration<double, std::milli>( t_rf_end - t_rf ).count();
             first_redraw_since_waiting_started = false;
         }
     } else {
@@ -701,6 +754,12 @@ void game::handle_progress_ui()
         wait_popup_reset();
         first_redraw_since_waiting_started = true;
     }
+
+    cata_mp::mp_log_progress_ui( wait_redraw, gate_fired,
+                                 to_turns<int>( wait_refresh_rate ),
+                                 ms_redraw_gated, ms_redraw_popup, ms_refresh,
+                                 std::chrono::duration<double, std::milli>(
+                                     std::chrono::steady_clock::now() - t_pui0 ).count() );
 }
 
 bool game::do_turn()
@@ -722,6 +781,9 @@ bool game::do_turn()
 
     drain_renderer_recovery();
 
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase_begin();
+    }
     simulate_turn_prefix();
 
     // Keep multiplayer entirely outside the single-player turn path.  The
@@ -729,15 +791,24 @@ bool game::do_turn()
     // cheap for the CPU to predict and no MP queue, cleanup, logging or UI
     // synchronization function is entered.
     if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "grant" );
         cata_mp::process_session_turn();
     }
 
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "pre_input" );
+    }
     if( do_avatar_action_loop() ) {
         return turn_handler::cleanup_at_end();
     }
     simulate_turn_suffix();
     save_pending_dimension_checkpoint();
     present_turn();
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "tail" );
+        cata_mp::mp_turn_phase_flush( 20 );
+        cata_mp::mp_log_do_turn_exit();
+    }
 
     return false;
 }
@@ -746,13 +817,16 @@ void game::simulate_turn_prefix()
 {
     CATA_PROFILE_SCOPE();
     weather_manager &weather = get_weather();
+    const bool world_tick_due = cata_mp::mp_should_run_client_prefix();
 
     // Increment game turn
     if( new_game ) {
         new_game = false;
         weather.on_game_start();
     } else {
-        gamemode->per_turn();
+        if( world_tick_due ) {
+            gamemode->per_turn();
+        }
         // MP callout: client-mode locks the calendar until a grant brings
         // moves > 0; otherwise the clock races forward ~10 turns/sec while
         // waiting and diverges from the host.
@@ -760,87 +834,94 @@ void game::simulate_turn_prefix()
             calendar::turn += 1_turns;
         }
     }
-    if constexpr( cata::lua_platform::is_enabled() ) {
-        cata::lua_platform::on_turn();
-    }
-    //used for dimension swapping
-    if( swapping_dimensions ) {
-        swapping_dimensions = false;
-    }
-    play_music( music::get_music_id_string() );
-
-    // starting a new turn, clear out temperature cache
-    weather.temperature_cache.clear();
-
-    if( npcs_dirty ) {
-        load_npcs();
-    }
-
-    timed_event_manager &timed_events = get_timed_events();
-    timed_events.process();
-    get_item_wakeups().process( calendar::turn );
-    mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
-    if( calendar::once_every( 1_days ) && !u.in_sleep_state() ) {
-        u.maybe_gain_insensitivity();
-    }
-    // If controlling a vehicle that is owned by someone else
-    if( calendar::once_every( 1_minutes ) ) {
-        if( u.in_vehicle && u.controlling_vehicle ) {
-            vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
-            if( veh && !veh->handle_potential_theft( u, true ) ) {
-                veh->handle_potential_theft( u, false, false );
+    if( world_tick_due ) {
+        if constexpr( cata::lua_platform::is_enabled() ) {
+            cata::lua_platform::on_turn();
+        }
+        //used for dimension swapping
+        if( swapping_dimensions ) {
+            swapping_dimensions = false;
+        }
+        play_music( music::get_music_id_string() );
+
+        // starting a new turn, clear out temperature cache
+        weather.temperature_cache.clear();
+
+        if( npcs_dirty ) {
+            load_npcs();
+        }
+
+        timed_event_manager &timed_events = get_timed_events();
+        timed_events.process();
+        get_item_wakeups().process( calendar::turn );
+        mission::process_all();
+        if( calendar::once_every( 1_days ) && !u.in_sleep_state() ) {
+            u.maybe_gain_insensitivity();
+        }
+        // If controlling a vehicle that is owned by someone else
+        if( calendar::once_every( 1_minutes ) ) {
+            if( u.in_vehicle && u.controlling_vehicle ) {
+                vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
+                if( veh && !veh->handle_potential_theft( u, true ) ) {
+                    veh->handle_potential_theft( u, false, false );
+                }
             }
         }
-    }
 
-    // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    // In client MP mode the server is authoritative for position.
-    if( !cata_mp::is_client_mode() &&
-        ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
-        !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
-        u.stagger();
-    }
-
-    // If riding a horse - chance to spook
-    if( u.is_mounted() ) {
-        u.check_mount_is_spooked();
-    }
-    if( calendar::once_every( 1_days ) ) {
-        overmap_buffer.process_mongroups();
-    }
-
-    // Move hordes every turn, move_hordes has its own rate limiting
-    overmap_buffer.move_hordes();
-    if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
-        if( u.has_trait( trait_HAS_NEMESIS ) ) {
-            overmap_buffer.move_nemesis();
+        // If you're inside a wall or something and haven't been telefragged, let's get you out.
+        // In client MP mode the server is authoritative for position.
+        if( !cata_mp::is_client_mode() &&
+            ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
+            !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
+            u.stagger();
         }
+
+        // If riding a horse - chance to spook
+        if( u.is_mounted() ) {
+            u.check_mount_is_spooked();
+        }
+        if( calendar::once_every( 1_days ) ) {
+            overmap_buffer.process_mongroups();
+        }
+
+        // Move hordes every turn, move_hordes has its own rate limiting
+        overmap_buffer.move_hordes();
+        if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
+            if( u.has_trait( trait_HAS_NEMESIS ) ) {
+                overmap_buffer.move_nemesis();
+            }
+        }
+
+        debug_hour_timer.print_time();
+
+        // Per-turn body update. In SP this is one turn; in MP-client it must catch
+        // up the host-driven calendar's jumps.
+        if( cata_mp::is_session_active() ) {
+            cata_mp::mp_turn_phase( "body" );
+        }
+        cata_mp::mp_do_turn_update_body( u );
+
+        // Auto-save if autosave is enabled (suppressed in client mode — server owns saves)
+        if( !cata_mp::is_client_mode() &&
+            get_option<bool>( "AUTOSAVE" ) &&
+            calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
+            !u.is_dead_state() ) {
+            autosave();
+        }
+        cata_mp::mp_turn_phase( "autosave" );
+
+        weather.update_weather();
+
+        reset_light_level();
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            m.set_lightmap_cache_dirty( z );
+        }
+
+        perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
+
     }
-
-    debug_hour_timer.print_time();
-
-    // Per-turn body update. In SP this is one turn; in MP-client it must catch
-    // up the host-driven calendar's jumps.
-    cata_mp::mp_do_turn_update_body( u );
-
-    // Auto-save if autosave is enabled (suppressed in client mode — server owns saves)
-    if( !cata_mp::is_client_mode() &&
-        get_option<bool>( "AUTOSAVE" ) &&
-        calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
-        !u.is_dead_state() ) {
-        autosave();
-    }
-
-    weather.update_weather();
-
-    reset_light_level();
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        m.set_lightmap_cache_dirty( z );
-    }
-
-    perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
 
     // In server mode the avatar is a simulation host, not a controllable player.
     if( cata_mp::is_server_mode() ) {
@@ -903,7 +984,9 @@ bool game::do_avatar_action_loop()
 
     // Capture pre-loop state for MP client dispatch.
     const int pre_act_moves = u.get_moves();
+    const activity_id pre_act_id = u.activity ? u.activity.id() : activity_id::NULL_ID();
     const bool pre_act_had_activity = static_cast<bool>( u.activity );
+    bool mp_activity_end_sent = false;
 
     // avatar processes human input through handle_action()
     if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
@@ -939,7 +1022,7 @@ bool game::do_avatar_action_loop()
                 }
 
                 {
-                    const unsigned long long pre_msg = cata_mp::is_hosting() ? Messages::size() :
+                    const unsigned long long pre_msg = cata_mp::is_hosting() ? Messages::appended_total() :
                                                        0;
                     save_pending_dimension_checkpoint();
                     if( handle_action() ) {
@@ -949,6 +1032,8 @@ bool game::do_avatar_action_loop()
                             cata_mp::host_capture_avatar_msgs( pre_msg );
                             cata_mp::host_broadcast_post_action();
                         }
+                    } else if( cata_mp::is_hosting() ) {
+                        cata_mp::host_broadcast_idle_tick();
                     }
                 }
 
@@ -980,6 +1065,7 @@ bool game::do_avatar_action_loop()
                     const std::string ended_id = iter_pre_act ? iter_pre_act.str() : mid_iter_act;
                     cata_mp::set_client_turn_activity( std::string() );
                     cata_mp::client_send_activity_end( ended_id );
+                    mp_activity_end_sent = true;
                     if( !cata_mp::is_client_waiting_for_ack() ) {
                         u.set_moves( 0 );
                         cata_mp::client_dispatch_wait_for_activity(
@@ -992,9 +1078,8 @@ bool game::do_avatar_action_loop()
             const bool post_orphan = !post_loop_act.empty() && !u.activity;
             const bool activity_just_ended = ( pre_act_had_activity || post_orphan ) && !u.activity;
             const bool moves_consumed = pre_act_moves > 0 && u.get_moves() <= 0;
-            if( cata_mp::is_client_mode() && activity_just_ended ) {
-                const std::string ended_id = pre_act_had_activity ? u.activity ?
-                                             activity_id::NULL_ID().str() : "" : post_loop_act;
+            if( cata_mp::is_client_mode() && activity_just_ended && !mp_activity_end_sent ) {
+                const std::string ended_id = pre_act_had_activity ? pre_act_id.str() : post_loop_act;
                 cata_mp::set_client_turn_activity( std::string() );
                 if( !ended_id.empty() ) {
                     cata_mp::client_send_activity_end( ended_id );
@@ -1019,11 +1104,12 @@ bool game::do_avatar_action_loop()
                                  std::chrono::steady_clock::now() );
             if( ( now - start ).count() > 100 ) {
                 // Client: detect activity cancellation during passive wait.
+                const activity_id locked_act_id = u.activity ? u.activity.id() : activity_id::NULL_ID();
                 const bool had_act_pre = cata_mp::is_client_mode() && u.activity;
                 handle_key_blocking_activity( 0 );
                 if( cata_mp::is_client_mode() && had_act_pre && !u.activity ) {
                     cata_mp::set_client_turn_activity( std::string() );
-                    cata_mp::client_send_activity_end( "" );
+                    cata_mp::client_send_activity_end( locked_act_id.str() );
                     if( !cata_mp::is_client_waiting_for_ack() ) {
                         cata_mp::client_dispatch_wait_for_activity(
                             activity_id(), /*force_idle=*/true );
@@ -1038,7 +1124,9 @@ bool game::do_avatar_action_loop()
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
             if( u.activity ) {
-                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+                const auto distractions = u.activity.get_distractions();
+                cata_mp::mp_log_distraction_check( u, distractions );
+                for( const std::pair<const distraction_type, std::string> &dist : distractions ) {
                     if( cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
                         break;
                     }
@@ -1055,6 +1143,16 @@ void game::simulate_turn_suffix()
     avatar &u = get_avatar();
     map &m = get_map();
 
+    const bool client_mode = cata_mp::is_client_mode();
+    const int upkeep_ticks = client_mode ? cata_mp::mp_client_upkeep_ticks() : 1;
+    const bool mp_upkeep_due = upkeep_ticks > 0;
+    const time_point authoritative_turn = calendar::turn;
+    const on_out_of_scope restore_calendar( [client_mode, authoritative_turn]() {
+        if( client_mode ) {
+            calendar::turn = authoritative_turn;
+        }
+    } );
+
     if( driving_view_offset.x() != 0 || driving_view_offset.y() != 0 ) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
@@ -1064,29 +1162,45 @@ void game::simulate_turn_suffix()
         calc_driving_offset( veh );
     }
 
-    scent_map &scent = get_scent();
-    // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_flag( json_flag_NO_SCENT ) ) {
-        scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
-        overmap_buffer.set_scent( u.pos_abs_omt(),  u.scent );
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "fields_items" );
     }
-    scent.update( u.pos_bub(), m );
+    for( int tick = 0; tick < upkeep_ticks; ++tick ) {
+        if( client_mode ) {
+            calendar::turn = authoritative_turn - ( upkeep_ticks - tick - 1 ) * 1_turns;
+        }
+        scent_map &scent = get_scent();
+        // No-scent debug mutation has to be processed here or else it takes time to start working
+        if( !u.has_flag( json_flag_NO_SCENT ) ) {
+            scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
+            overmap_buffer.set_scent( u.pos_abs_omt(),  u.scent );
+        }
+        scent.update( u.pos_bub(), m );
 
-    // We need floor cache before checking falling 'n stuff
-    m.build_floor_caches();
+        // We need floor cache before checking falling 'n stuff
+        m.build_floor_caches();
 
-    m.process_falling();
-    m.vehmove();
-    m.process_fields();
-    m.process_items();
-    explosion_handler::process_explosions();
-    m.creature_in_field( u );
+        m.process_falling();
+        if( !cata_mp::is_client_mode() ) {
+            m.vehmove();
+            m.process_fields();
+        }
+        m.process_items();
+        explosion_handler::process_explosions();
+        m.creature_in_field( u );
 
-    // Apply sounds from previous turn to monster and NPC AI.
-    sounds::process_sounds();
+        // Apply sounds from previous turn to monster and NPC AI.
+        sounds::process_sounds();
+    }
+    if( client_mode ) {
+        calendar::turn = authoritative_turn;
+    }
     const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "map_cache" );
+    }
     m.build_map_cache( levz, true );
 
     // Eagerly compute reachability zones for all creatures in parallel so
@@ -1096,24 +1210,30 @@ void game::simulate_turn_suffix()
     // process monster and npc turn
     // Lockstep: wait for the client to ack this turn before running monster AI.
     if( cata_mp::is_hosting() ) {
+        cata_mp::mp_turn_phase( "client_wait" );
         cata_mp::wait_for_client_action();
+        cata_mp::mp_turn_phase( "monmove" );
         // Skip monmove when fast-forwarding through a wait activity.
         if( !cata_mp::host_is_in_wait_activity() ) {
             monmove();
         }
-    } else {
+    } else if( !cata_mp::is_client_mode() ) {
         monmove();
     }
 
-    if( calendar::once_every( time_between_npc_OM_moves ) ) {
+    if( !cata_mp::is_client_mode() && calendar::once_every( time_between_npc_OM_moves ) ) {
         overmap_npc_move();
     }
-    m.furniture_terrain_emit_fields();
+    if( mp_upkeep_due ) {
+        m.furniture_terrain_emit_fields();
+    }
     // required after monsters move and fields emit
     mon_info_update();
 
-    // replenish avatar moves
-    u.process_turn();
+    // Client move/effect processing is host-grant driven in the prefix.
+    if( !cata_mp::is_client_mode() ) {
+        u.process_turn();
+    }
 
     // Update player map memory from the current field of view.  This used to
     // happen lazily inside the tiles draw path; running it here in the sim loop
@@ -1136,30 +1256,32 @@ void game::simulate_turn_suffix()
     // Per-turn world-state updates previously ran inside present_turn().
     // Moving them here keeps simulation advancing every tick regardless of
     // whether the renderer is gated.
-    if( levz >= 0 && !u.is_underwater() ) {
-        handle_weather_effects( get_weather().weather_id );
-    }
-
-    m.invalidate_visibility_cache();
-
-    u.update_bodytemp();
-    {
+    for( int tick = 0; tick < upkeep_ticks; ++tick ) {
+        if( client_mode ) {
+            calendar::turn = authoritative_turn - ( upkeep_ticks - tick - 1 ) * 1_turns;
+        }
+        if( levz >= 0 && !u.is_underwater() ) {
+            handle_weather_effects( get_weather().weather_id );
+        }
+        u.update_bodytemp();
         weather_manager &weather = get_weather();
         u.update_body_wetness( *weather.weather_precise );
         u.apply_wetness_morale( weather.temperature );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-        for( npc &guy : all_npcs() ) {
-            guy.update_morale();
-            guy.check_and_recover_morale();
+        if( calendar::once_every( 1_minutes ) ) {
+            u.update_morale();
+            for( npc &guy : all_npcs() ) {
+                guy.update_morale();
+                guy.check_and_recover_morale();
+            }
+        }
+        if( calendar::once_every( 9_turns ) ) {
+            u.check_and_recover_morale();
         }
     }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
+    if( client_mode ) {
+        calendar::turn = authoritative_turn;
     }
+    m.invalidate_visibility_cache();
 
     // reset player noise
     u.volume = 0;
@@ -1179,6 +1301,9 @@ void game::present_turn()
         refresh_display();
     }
 
+    if( cata_mp::is_session_active() ) {
+        cata_mp::mp_turn_phase( "progress_ui" );
+    }
     handle_progress_ui();
 
     if( !u.is_deaf() ) {

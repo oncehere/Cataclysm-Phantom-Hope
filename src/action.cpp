@@ -390,6 +390,8 @@ std::string action_ident( action_id act )
             return "high_five";
         case ACTION_COOP_CHAT:
             return "coop_chat";
+        case ACTION_COPY_JOIN_ADDRESS:
+            return "copy_join_address";
         case ACTION_MANAGE_ANDROID_EXTRA_BUTTONS:
             return "manage_android_extra_buttons";
         case ACTION_ITEMACTION:
@@ -1101,6 +1103,7 @@ action_id handle_action_menu( map &here )
             REGISTER_ACTION( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == "interact" ) {
+            REGISTER_ACTION( ACTION_COOP_CHAT );
             REGISTER_ACTION( ACTION_EXAMINE );
             REGISTER_ACTION( ACTION_EXAMINE_AND_PICKUP );
             REGISTER_ACTION( ACTION_SMASH );

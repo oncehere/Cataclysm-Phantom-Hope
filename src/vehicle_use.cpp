@@ -51,6 +51,8 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mp_client_conn.h"
+#include "mp_gamestate.h"
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
@@ -74,6 +76,21 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+
+// Vehicle menu callbacks use the same client action budget as the main input
+// dispatcher. Do not advance delta baselines when there is no grant to send.
+static void veh_mp_dispatch( const std::string &base_json )
+{
+    Character &pc = get_player_character();
+    if( pc.get_moves() <= 0 || cata_mp::is_client_waiting_for_ack() ) {
+        return;
+    }
+    const std::string full = base_json.substr( 0, base_json.size() - 1 ) +
+                             ",\"move_mode\":\"" + pc.move_mode.str() + "\"}";
+    cata_mp::client_send( cata_mp::client_enrich_action( full ) );
+    pc.set_moves( 0 );
+    cata_mp::client_mark_action_sent();
+}
 
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -298,7 +315,12 @@ static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, cons
     .enable( allow )
     .hotkey( action )
     .keep_menu_open()
-    .on_submit( [found, state] {
+    .on_submit( [found, name, state] {
+        if( cata_mp::is_client_mode() )
+        {
+            add_msg( m_warning, _( "%s isn't synced in co-op yet — ask your partner to toggle it." ), name );
+            return;
+        }
         for( const vpart_reference &vp : found )
         {
             vehicle_part &e = vp.part();
@@ -321,7 +343,16 @@ void vehicle::build_electronics_menu( map &here, veh_menu &menu )
     if( has_part( "DOOR_MOTOR" ) ) {
         menu.add( _( "Control doors and curtains" ) )
         .hotkey( "TOGGLE_DOORS" )
-        .on_submit( [this, &here] { control_doors( here ); } );
+        .on_submit( [this, &here] {
+            // Not synced in co-op yet — see add_electronic_toggle for why.
+            if( cata_mp::is_client_mode() )
+            {
+                add_msg( m_warning,
+                         _( "Door/curtain control isn't synced in co-op yet — ask your partner." ) );
+                return;
+            }
+            control_doors( here );
+        } );
     }
 
     if( camera_on || has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) {
@@ -332,6 +363,13 @@ void vehicle::build_electronics_menu( map &here, veh_menu &menu )
         .hotkey( "TOGGLE_CAMERA" )
         .keep_menu_open()
         .on_submit( [&] {
+            // Not synced in co-op yet — see add_electronic_toggle for why.
+            if( cata_mp::is_client_mode() )
+            {
+                add_msg( m_warning,
+                         _( "Camera system isn't synced in co-op yet — ask your partner." ) );
+                return;
+            }
             if( camera_on )
             {
                 add_msg( _( "Camera system disabled" ) );
@@ -1981,6 +2019,14 @@ void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 
 void vehicle::build_bike_rack_menu( map &here, veh_menu &menu, int part )
 {
+    // Not synced in co-op yet — see add_electronic_toggle for why. Blocked
+    // wholesale rather than threading a guard into each rack/unrack entry below.
+    if( cata_mp::is_client_mode() ) {
+        menu.add( _( "Rack/unrack vehicles isn't synced in co-op yet" ) )
+        .enable( false )
+        .desc( _( "Ask your partner to rack or unrack vehicles for now." ) );
+        return;
+    }
     // prevent racking two vehicles with same name on single vehicle
     // @returns true if vehicle already has a vehicle with this name racked
     const auto has_veh_name_racked = [this]( const std::string & name ) {
@@ -2538,6 +2584,11 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .skip_locked_check()
             .hotkey( "TOGGLE_ALARM" )
             .on_submit( [this] {
+                if( cata_mp::is_client_mode() )
+                {
+                    veh_mp_dispatch( "{\"type\":\"action\",\"action\":\"trigger_alarm\"}" );
+                    return;
+                }
                 is_alarm_on = true;
                 add_msg( _( "You trigger the alarm!" ) );
             } );
@@ -2548,7 +2599,14 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         menu.add( _( "Try to smash alarm" ) )
         .skip_locked_check()
         .hotkey( "TOGGLE_ALARM" )
-        .on_submit( [this, here] { smash_security_system( *here ); } );
+        .on_submit( [this, here] {
+            if( cata_mp::is_client_mode() )
+            {
+                veh_mp_dispatch( "{\"type\":\"action\",\"action\":\"smash_alarm\"}" );
+                return;
+            }
+            smash_security_system( *here );
+        } );
     }
     for( const vpart_reference &vp : this->get_avail_parts( "EOC_ACTIVATION" ) ) {
         vehicle_part &part = vp.part();

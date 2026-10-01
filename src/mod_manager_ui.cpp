@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "lua_platform_loader.h"
+#include "mp_mod_compat.h"
 #include "output.h"
 #include "string_formatter.h"
 
@@ -79,6 +80,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     if( !mod->description.empty() ) {
         info += mod->description + "\n";
     }
+    info += cata_mp::mod_coop_info_suffix( mod->ident.str() );
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";

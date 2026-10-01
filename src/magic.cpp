@@ -57,6 +57,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mp_magic.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -1665,6 +1666,10 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid || ( cr_att == Creature::Attitude::FRIENDLY &&
                            is_valid_target( spell_target::ally ) &&
                            p != caster.pos_bub() );
+        // Co-op diagnostics distinguish partner attitude from range failures.
+        cata_mp::mp_log_ally_target_check( caster, *cr, id().str(),
+                                           static_cast<int>( cr_att ),
+                                           is_valid_target( spell_target::ally ), valid );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos_bub() );
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
@@ -1875,7 +1880,11 @@ static void blood_magic( Character *you, int cost )
     while( action < 0 ) {
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
-    you->mod_part_hp_cur( parts[action], - cost );
+    {
+        // Report deliberate spell costs separately from natural regeneration.
+        cata_mp::mp_hp_event_scope hp_scope( "blood_magic" );
+        you->mod_part_hp_cur( parts[action], - cost );
+    }
     you->mod_pain( std::max( 1, cost / 3 ) );
 }
 
@@ -2229,6 +2238,7 @@ int spell::heal( const tripoint_bub_ms &target, Creature &caster ) const
     }
     Character *const p = creatures.creature_at<Character>( target );
     if( p ) {
+        cata_mp::mp_hp_event_scope hp_scope( "spell_heal" );
         p->healall( -damage( caster ) );
         return -damage( caster );
     }

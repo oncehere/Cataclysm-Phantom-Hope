@@ -610,6 +610,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
+    grab_type = object_type::NONE;
     grab_point = tripoint_rel_ms::zero;
     hauling = false;
     set_focus( 100 );
@@ -638,6 +639,19 @@ Character::Character() :
 // *INDENT-ON*
 
 Character::~Character() = default;
+
+void Character::grab( object_type new_grab_type, const tripoint_rel_ms &new_grab_point )
+{
+    grab_type = new_grab_type;
+    grab_point = new_grab_point;
+    path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
+}
+
+object_type Character::get_grab_type() const
+{
+    return grab_type;
+}
+
 Character::Character( Character && ) noexcept( map_is_noexcept ) = default;
 Character &Character::operator=( Character && ) noexcept( list_is_noexcept ) = default;
 
@@ -5611,6 +5625,9 @@ void Character::assign_activity( const player_activity &act )
     if( is_avatar() && cata_mp::is_client_mode() && activity ) {
         cata_mp::set_client_turn_activity( activity.id().str() );
         cata_mp::client_send_activity_start( activity.id().str() );
+    }
+    if( is_avatar() && cata_mp::is_hosting() && activity ) {
+        cata_mp::mp_log_host_activity_start( activity.id().str() );
     }
 #endif
 

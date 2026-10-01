@@ -1352,6 +1352,19 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
 
+    // MP client: dispatch to the host so it re-runs the same skill check against
+    // the proxy NPC (synced skills) and the host's authoritative vehicle. Client
+    // still runs the local roll/mutation below too — mirrors vehicle_construct's
+    // finish(): any divergence gets corrected by the next vehicle snapshot.
+    if( cata_mp::is_client_mode() && who.is_avatar() ) {
+        const std::string action_json =
+            "{\"type\":\"action\",\"action\":\"hotwire_done\","
+            "\"x\":" + std::to_string( target.x() ) +
+            ",\"y\":" + std::to_string( target.y() ) +
+            ",\"z\":" + std::to_string( target.z() ) + "}";
+        cata_mp::client_send( cata_mp::client_enrich_action( action_json ) );
+    }
+
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( here.get_bub( target ) );
     if( !vp ) {
@@ -6404,6 +6417,11 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
 
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft || square_dist( craft_item.pos_abs(), crafter.pos_abs() ) > 1 ) {
+        // MP diagnostic: these two conditions share one message, which made a
+        // player report indistinguishable. Record which fired. No-op in SP.
+        cata_mp::mp_log_craft_possession_lost( !craft,
+                                               craft ? craft_item.pos_abs() : crafter.pos_abs(),
+                                               crafter.pos_abs() );
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -7754,11 +7772,18 @@ void move_furniture_on_vehicle_activity_actor::start( player_activity &act, Char
 bool move_furniture_on_vehicle_activity_actor::can_move_furn_on_veh_to( map &here,
         const tripoint_bub_ms &dest ) const
 {
+    return can_move_furn_on_veh_to( here, dest, get_avatar() );
+}
+
+bool move_furniture_on_vehicle_activity_actor::can_move_furn_on_veh_to( map &here,
+        const tripoint_bub_ms &dest, Character &who ) const
+{
     if( !here.passable( dest ) ) {
         return false;
     }
 
-    if( get_creature_tracker().creature_at<npc>( dest ) != nullptr ||
+    const npc *npc_at = get_creature_tracker().creature_at<npc>( dest );
+    if( ( npc_at != nullptr && npc_at->getID() != who.getID() ) ||
         get_creature_tracker().creature_at<monster>( dest ) != nullptr ) {
         return false;
     }
@@ -7767,7 +7792,7 @@ bool move_furniture_on_vehicle_activity_actor::can_move_furn_on_veh_to( map &her
         return false;
     }
 
-    if( !g->can_move_furniture( dest, dp ) ) {
+    if( !g->can_move_furniture( dest, dp, who ) ) {
         return false;
     }
 
@@ -7789,11 +7814,7 @@ static void transfer_furniture( vpart_position &from, vpart_position &to )
 
 static void stop_grab( Character &who )
 {
-    if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
-        a->grab( object_type::NONE );
-    } else {
-        debugmsg( "who in grabbing is not an avatar??" );
-    }
+    who.grab( object_type::NONE );
 }
 
 bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) const
@@ -7808,7 +7829,7 @@ bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) 
     }
 
     tripoint_bub_ms dest = pos + dp;
-    if( !can_move_furn_on_veh_to( here, dest ) ) {
+    if( !can_move_furn_on_veh_to( here, dest, who ) ) {
         add_msg( m_warning, _( "Can't drag to there." ) );
         return true;
     }
@@ -7822,9 +7843,7 @@ bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) 
         transfer_furniture( *vp, *vp_dest );
     } else {
         vp->part_with_feature( "FURNITURE_TIEDOWN", true )->part().unload_furniture( here, dest );
-        if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
-            a->grab( object_type::FURNITURE, who.grab_point );
-        }
+        who.grab( object_type::FURNITURE, who.grab_point );
     }
     if( shifting ) {
         tripoint_rel_ms d_sum = who.grab_point + dp;
@@ -10839,6 +10858,14 @@ void firstaid_activity_actor::start( player_activity &act, Character & )
     act.moves_total = moves;
     act.moves_left = moves;
     act.name = name;
+}
+
+void firstaid_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // SP: no-op (patient is a still NPC).  Co-op: cancel if the partner proxy
+    // walks out of reach — see the MP callout.  Passes patientID directly so
+    // the actor needn't expose it.
+    cata_mp::mp_firstaid_cancel_if_partner_out_of_range( act, who, patientID );
 }
 
 void firstaid_activity_actor::finish( player_activity &act, Character &who )

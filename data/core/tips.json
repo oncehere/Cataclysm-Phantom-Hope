@@ -150,5 +150,32 @@
       "Some items are worn at your side, like sheathes and holsters, and can have the side they're worn on switched in the armor menu.",
       "Just because a location is filled with zombies or well protected doesn't mean it has good loot for you in the Cataclysm.  Bank vaults full of cash and gold in the old world are filled with kindling in the new one."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "coop_tip",
+    "text": [
+      { "text": "Bump into your partner to trade, pass an item, assist, or high-five.", "weight": 20 },
+      {
+        "text": "In-game chat is available: bind the `Co-op chat` action to message your partner… or you can yell…",
+        "weight": 20
+      },
+      {
+        "text": "\"Pause\" ('5' or '.') is crucial for co-op.  It gives your partner moves/AP. And vice versa.",
+        "weight": 20
+      },
+      {
+        "text": "The host runs the entire world simulation… So host with the faster machine w/ the better connection.",
+        "weight": 20
+      },
+      {
+        "text": "If you're both asleep or in long activities, the game will fast-forward so you're not stuck waiting in real time.",
+        "weight": 20
+      },
+      {
+        "text": "Passenger in a car?  Try \"waiting several turns\" (`|`) to give your driver better control.",
+        "weight": 15
+      }
+    ]
   }
 ]
