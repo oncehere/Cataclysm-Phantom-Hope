@@ -99,23 +99,27 @@ class control_fixture
             std::filesystem::remove_all( directory, error );
         }
         npc &companion() {
-            npc &result = spawn_npc( get_avatar().pos_bub().xy() + point::east, "test_talker" );
+            npc &result = spawn_npc( get_avatar().pos_bub().xy() + point( ++companions, 0 ),
+                                     "test_talker" );
             clear_character( result );
             result.set_attitude( NPCATT_FOLLOW );
             result.set_fac( faction_id( "your_followers" ) );
             REQUIRE( result.is_player_ally() );
+            REQUIRE( result.is_active() );
             return result;
         }
     private:
         bool had_runtime = false;
         std::string old_runtime;
         std::filesystem::path directory;
+        int companions = 0;
 };
 
 JsonObject response( const std::string &method, const std::string &params = "{}" )
 {
     std::string error;
     const std::string result = control::dispatch( method, params, error );
+    INFO( method << ": " << error );
     REQUIRE( error.empty() );
     return snapshot( result );
 }
@@ -706,7 +710,7 @@ TEST_CASE( "actor_control_scene_change_invalidates_plans_without_restoring_memor
     }
     SECTION( "accepted source-scene commands are cancelled" ) {
         response( "offer_plan", plan( request,
-                                      R"([{"id":"first","action":"wait","args":{"turns":10}},{"id":"next","action":"wait","args":{}}])" ) );
+                                      R"([{"id":"first","action":"wait","args":{"turns":1}},{"id":"next","action":"wait","args":{}}])" ) );
         actor.set_moves( 100 );
         REQUIRE( control::act( actor, false ) );
         control::on_scene_change();

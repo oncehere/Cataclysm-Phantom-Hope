@@ -85,6 +85,7 @@ tcp::endpoint bridge_address( const loopback_bridge &bridge )
 {
     const JsonObject descriptor = json_loader::from_string(
                                       read_fixture_file( bridge.descriptor_path() ) ).get_object();
+    descriptor.allow_omitted_members();
     REQUIRE( descriptor.get_string( "host" ) == "127.0.0.1" );
     const int port = descriptor.get_int( "port" );
     REQUIRE( port > 0 );
@@ -151,6 +152,7 @@ TEST_CASE( "actor_control_bridge_advertises_private_loopback_and_preserves_calen
     require_permissions( descriptor_path.parent_path() / "credential", 0600 );
     const JsonObject descriptor = json_loader::from_string( read_fixture_file(
                                       descriptor_path ) ).get_object();
+    descriptor.allow_omitted_members();
     CHECK( descriptor.get_string( "session_id" ) == bridge.session_id() );
     CHECK( descriptor.get_string( "credential_file" ) == "credential" );
     CHECK( descriptor.get_string( "protocol_version" ) == cata::actor_control::protocol_version );

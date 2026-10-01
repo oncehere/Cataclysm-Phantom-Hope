@@ -1494,6 +1494,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             std::string known = "[";
             std::string goal;
             for( const JsonObject &record : snapshot.get_array( "records" ) ) {
+                record.allow_omitted_members();
                 if( !record.has_object( "context" ) || !record.has_string( "kind" ) ||
                     !record.has_string( "text" ) || record.get_string( "text" ).size() > 65536 ) {
                     error = "invalid_memory_record";
@@ -1501,7 +1502,6 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 }
                 const JsonObject scope = record.get_object( "context" );
                 scope.allow_omitted_members();
-                record.allow_omitted_members();
                 if( !matches_actor( scope ) ) {
                     error = "memory_actor_mismatch";
                     return "null";
@@ -2039,6 +2039,7 @@ void deserialize( const JsonObject &object )
             state.decision_trigger = true;
         }
         for( const JsonObject &entry : object.get_array( "queue" ) ) {
+            entry.allow_omitted_members();
             if( state.queue.size() >= 6 ) {
                 throw std::runtime_error( "saved_queue_limit" );
             }
@@ -2051,6 +2052,7 @@ void deserialize( const JsonObject &object )
                 entry.get_string( "from_step", "" ), started, started } );
         }
         for( const JsonObject &entry : object.get_array( "receipts" ) ) {
+            entry.allow_omitted_members();
             if( state.receipts.size() >= maximum_history ) {
                 throw std::runtime_error( "saved_receipt_limit" );
             }

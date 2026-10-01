@@ -87,6 +87,7 @@ bool knows_information( const npc &actor, const JsonObject &args )
         const JsonArray records = json_loader::from_string( value( actor,
                                   "known_information" ) ).get_array();
         for( const JsonObject record : records ) {
+            record.allow_omitted_members();
             const std::string kind = record.get_string( "kind", "" );
             if( ( kind == "statement" || kind == "belief" ) &&
                 record.get_string( "text", "" ) == text &&
@@ -143,12 +144,26 @@ void write_inventory( JsonOut &out, const Character &actor )
     out.end_array();
 }
 
+bool observes( const npc &actor, const map &here, const tripoint_bub_ms &pos )
+{
+    // Native sees() permits adjacent creatures even without sight, and its
+    // minimum terrain sight range is one.  Neither shortcut conveys visual
+    // knowledge to the companion.  Preserve actual clairvoyance when present.
+    const bool clairvoyant = rl_dist( actor.pos_bub( here ), pos ) < actor.clairvoyance();
+    return ( !actor.is_blind() || clairvoyant ) && actor.sees( here, pos );
+}
+
+bool observes( const npc &actor, const map &here, const Creature &creature )
+{
+    return observes( actor, here, creature.pos_bub( here ) ) && actor.sees( here, creature );
+}
+
 Character *visible_character( npc &actor, int id )
 {
     Character *target = get_avatar().getID() == character_id( id ) ?
                         static_cast<Character *>( &get_avatar() ) : g->find_npc( character_id( id ) );
     return target && target != &actor && !target->is_dead_state() &&
-           actor.sees( get_map(), *target ) ? target : nullptr;
+           observes( actor, get_map(), *target ) ? target : nullptr;
 }
 
 bool near( const npc &actor, const Character &target )
@@ -159,7 +174,7 @@ bool near( const npc &actor, const Character &target )
 execution_result move_towards( npc &actor, const tripoint_bub_ms &target, int distance )
 {
     map &here = get_map();
-    if( !here.inbounds( target ) || !actor.sees( here, target ) ) {
+    if( !here.inbounds( target ) || !observes( actor, here, target ) ) {
         return result( execution_state::failed, "target_not_observed" );
     }
     if( rl_dist( actor.pos_bub(), target ) <= distance ) {
@@ -400,7 +415,7 @@ execution_result gather( npc &actor, const action_step &step, const JsonObject &
     const itype_id id( args.get_string( "item_type" ) );
     const int count = args.get_int( "count", 1 );
     if( !id.is_valid() || count < 1 || count > 1000 || !here.inbounds( target ) ||
-        !actor.sees( here, target ) || !here.sees_some_items( target, actor ) ) {
+        !observes( actor, here, target ) || !here.sees_some_items( target, actor ) ) {
         return result( execution_state::failed, "gather_target_not_observed" );
     }
     std::vector<std::pair<item *, int>> selected;
@@ -484,7 +499,7 @@ execution_result attack( npc &actor, const JsonObject &args )
         if( get_map().inbounds( pos ) ) {
             monster *candidate = get_creature_tracker().creature_at<monster>( pos );
             if( candidate && candidate->type->id.str() == args.get_string( "monster_type" ) &&
-                actor.sees( get_map(), *candidate ) ) {
+                observes( actor, get_map(), *candidate ) ) {
                 target = candidate;
             }
         }
@@ -601,6 +616,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
         try {
             for( const JsonObject record : json_loader::from_string(
                      value( actor, "known_information" ) ).get_array() ) {
+                record.allow_omitted_members();
                 const std::string kind = record.get_string( "kind", "" );
                 known |= ( kind == "statement" || kind == "belief" ) &&
                          !record.get_string( "text", "" ).empty();
@@ -615,7 +631,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
     if( action == "sabotage" || action == "gather" || action == "misappropriate_items" ) {
         for( const tripoint_bub_ms &pos : here.points_in_radius( actor.pos_bub(),
                 action == "sabotage" ? 1 : 12 ) ) {
-            if( !here.inbounds( pos ) || !actor.sees( here, pos ) ) {
+            if( !here.inbounds( pos ) || !observes( actor, here, pos ) ) {
                 continue;
             }
             if( action == "sabotage" && here.is_bashable( pos ) ) {
@@ -636,7 +652,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
         for( const mission *task : mission::get_all_active() ) {
             const npc *issuer = g->find_npc( task->get_npc_id() );
             if( !task->supports_npc_assignment() || !issuer || issuer->is_dead_state() ||
-                !near( actor, *issuer ) || !actor.sees( here, *issuer ) ) {
+                !near( actor, *issuer ) || !observes( actor, here, *issuer ) ) {
                 continue;
             }
             if( action == "accept_mission" && !task->is_assigned() &&
@@ -655,7 +671,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
         return false;
     }
     for( const Creature &creature : g->all_creatures() ) {
-        if( &creature == &actor || creature.is_dead_state() || !actor.sees( here, creature ) ) {
+        if( &creature == &actor || creature.is_dead_state() || !observes( actor, here, creature ) ) {
             continue;
         }
         const Character *person = creature.as_character();
@@ -802,7 +818,7 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
     int trade_offer_count = 0;
     for( const Creature &creature : g->all_creatures() ) {
         if( &creature == &actor || ( !creature.is_avatar() && !creature.is_npc() ) ||
-            !actor.sees( here, creature ) ) {
+            !observes( actor, here, creature ) ) {
             continue;
         }
         if( character_count++ == 32 ) {
@@ -872,7 +888,7 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
     out.start_array();
     int monster_count = 0;
     for( const monster &creature : g->all_monsters() ) {
-        if( !actor.sees( here, creature ) ) {
+        if( !observes( actor, here, creature ) ) {
             continue;
         }
         if( monster_count++ == 64 ) {
@@ -893,7 +909,8 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
         if( item_count >= 128 ) {
             break;
         }
-        if( !here.inbounds( pos ) || !actor.sees( here, pos ) || !here.sees_some_items( pos, actor ) ) {
+        if( !here.inbounds( pos ) || !observes( actor, here, pos ) ||
+            !here.sees_some_items( pos, actor ) ) {
             continue;
         }
         for( const item &it : here.i_at( pos ) ) {
@@ -938,6 +955,9 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
             return result( execution_state::failed, "actor_dead" );
         }
         const JsonObject args = json_loader::from_string( step.args_json ).get_object();
+        // The protocol validates the entire action schema before admission;
+        // this execution branch intentionally reads only its relevant fields.
+        args.allow_omitted_members();
         if( step.action == "move" ) {
             return move_towards( actor, position_arg( args ), 0 );
         }
@@ -1235,7 +1255,7 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
         }
         if( step.action == "sabotage" ) {
             const tripoint_bub_ms target = position_arg( args );
-            if( !get_map().inbounds( target ) || !actor.sees( get_map(), target ) ||
+            if( !get_map().inbounds( target ) || !observes( actor, get_map(), target ) ||
                 rl_dist( actor.pos_bub(), target ) > 1 || !get_map().is_bashable( target ) ) {
                 return result( execution_state::failed, "sabotage_target_unavailable" );
             }
@@ -1280,6 +1300,7 @@ execution_result NpcExecutionAdapter::resolve_player_trade( npc &actor, bool acc
         const action_step step { id, "trade", offer, {},
                                  value( actor, "pending_trade_source_operation" ) };
         const JsonObject args = json_loader::from_string( offer ).get_object();
+        args.allow_omitted_members();
         if( args.get_int( "target" ) != get_avatar().getID().get_value() ) {
             return result( execution_state::failed, "player_offer_target_mismatch" );
         }

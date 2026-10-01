@@ -20,6 +20,7 @@
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "mission.h"
 #include "npc.h"
@@ -46,7 +47,7 @@ struct native_fixture {
         mission::clear_all();
         clear_map();
         clear_avatar();
-        calendar::turn = calendar::turn_zero + 12_hours;
+        set_time( calendar::turn_zero + 12_hours );
         map &here = get_map();
         get_avatar().setpos( here, tripoint_bub_ms( 59, 60, 0 ) );
         get_avatar().worn.wear_item( get_avatar(), item( itype_id( "debug_backpack" ) ), false, false );
@@ -65,12 +66,15 @@ struct native_fixture {
         other->set_attitude( NPCATT_NULL );
         other->worn.wear_item( *other, item( itype_id( "debug_backpack" ) ), false, false );
         other->recalc_sight_limits();
+        // Spawning a doctor can drop its generated stock before we clear the
+        // character.  Only items explicitly placed by a scenario belong here.
+        clear_items( 0 );
     }
 
     ~native_fixture() {
         mission::clear_all();
         clear_npcs();
-        calendar::turn = previous_turn;
+        set_time( previous_turn );
     }
 
     execution_result act( const std::string &action, const std::string &args,
@@ -138,6 +142,25 @@ int sourced_amount( Character &actor, const char *id, const std::string &source_
     return count;
 }
 
+JsonObject inspected_object( JsonObject object )
+{
+    // These assertions inspect selected fields of a complete native snapshot.
+    object.allow_omitted_members();
+    return object;
+}
+
+std::string ground_contents( const tripoint_bub_ms &pos )
+{
+    std::ostringstream serialized;
+    JsonOut out( serialized );
+    out.start_array();
+    for( const item &on_ground : get_map().i_at( pos ) ) {
+        on_ground.serialize( out );
+    }
+    out.end_array();
+    return serialized.str();
+}
+
 } // namespace
 
 TEST_CASE( "npc_actor_native_gather_uses_actual_stock_and_moves", "[actor_control][native]" )
@@ -153,7 +176,9 @@ TEST_CASE( "npc_actor_native_gather_uses_actual_stock_and_moves", "[actor_contro
     CHECK( amount( *f.actor, "rock" ) == 1 );
     CHECK( get_map().i_at( pos ).empty() );
     CHECK( f.actor->get_moves() < before );
-    CHECK( f.act( "gather", args, "another-step" ).code == "gather_stock_changed" );
+    const int after_pickup = f.actor->get_moves();
+    CHECK( f.act( "gather", args, "another-step" ).code == "gather_target_not_observed" );
+    CHECK( f.actor->get_moves() == after_pickup );
     CHECK( amount( *f.actor, "rock" ) == 1 );
 }
 
@@ -178,12 +203,13 @@ TEST_CASE( "npc_actor_gather_dependency_selects_only_actual_source_output",
         CHECK( sourced_amount( *f.actor, "rock", "required-gather" ) == 1 );
         REQUIRE( get_map().i_at( pos ).size() == 1 );
         CHECK( get_map().i_at( pos ).begin()->get_var( "cph_ai_produced_step", "" ) == "other-craft" );
-        const JsonObject detail = json_loader::from_string( gathered.detail_json );
+        const JsonObject detail = inspected_object( json_loader::from_string( gathered.detail_json ) );
         const JsonArray produced = detail.get_array( "produced" );
         REQUIRE( produced.size() == 1 );
-        CHECK( produced.get_object( 0 ).get_string( "item_type" ) == "rock" );
-        CHECK( produced.get_object( 0 ).get_int( "count" ) == 1 );
-        CHECK( produced.get_object( 0 ).get_string( "location" ) == "actor" );
+        const JsonObject output = inspected_object( produced.get_object( 0 ) );
+        CHECK( output.get_string( "item_type" ) == "rock" );
+        CHECK( output.get_int( "count" ) == 1 );
+        CHECK( output.get_string( "location" ) == "actor" );
     }
     SECTION( "missing output neither consumes moves nor takes equivalent stock" ) {
         const int before = f.actor->get_moves();
@@ -200,17 +226,20 @@ TEST_CASE( "npc_actor_observation_is_limited_to_own_senses", "[actor_control][na
     native_fixture f;
     add_owned( *f.other, "panacea" );
     mission *task = f.offer();
-    const JsonObject observation = json_loader::from_string( NpcExecutionAdapter::observe( *f.actor ) );
-    CHECK( observation.get_object( "actor" ).get_array( "inventory" ).size() <= 128 );
-    CHECK( observation.get_object( "actor" ).get_array( "skills" ).size() <= 128 );
-    CHECK( observation.get_object( "actor" ).get_array( "body" ).size() <= 128 );
-    CHECK( observation.get_object( "actor" ).get_int( "hp" ) == f.actor->get_hp() );
-    CHECK( observation.get_object( "actor" ).get_int( "stamina" ) == f.actor->get_stamina() );
-    CHECK( observation.get_object( "nearby" ).get_array( "characters" ).size() <= 32 );
-    CHECK( observation.get_object( "nearby" ).get_array( "monsters" ).size() <= 64 );
-    CHECK( observation.get_object( "nearby" ).get_array( "items" ).size() <= 128 );
-    CHECK( observation.get_object( "actor" ).get_array( "known_recipes" ).size() <= 128 );
-    CHECK( observation.get_object( "actor" ).get_array( "craftable_recipes" ).size() <= 128 );
+    const JsonObject observation = inspected_object( json_loader::from_string(
+                                       NpcExecutionAdapter::observe( *f.actor ) ) );
+    const JsonObject actor_state = inspected_object( observation.get_object( "actor" ) );
+    const JsonObject nearby = inspected_object( observation.get_object( "nearby" ) );
+    CHECK( actor_state.get_array( "inventory" ).size() <= 128 );
+    CHECK( actor_state.get_array( "skills" ).size() <= 128 );
+    CHECK( actor_state.get_array( "body" ).size() <= 128 );
+    CHECK( actor_state.get_int( "hp" ) == f.actor->get_hp() );
+    CHECK( actor_state.get_int( "stamina" ) == f.actor->get_stamina() );
+    CHECK( nearby.get_array( "characters" ).size() <= 32 );
+    CHECK( nearby.get_array( "monsters" ).size() <= 64 );
+    CHECK( nearby.get_array( "items" ).size() <= 128 );
+    CHECK( actor_state.get_array( "known_recipes" ).size() <= 128 );
+    CHECK( actor_state.get_array( "craftable_recipes" ).size() <= 128 );
     CHECK_FALSE( NpcExecutionAdapter::available( *f.actor, "accept_mission" ) );
     CHECK( NpcExecutionAdapter::observe( *f.actor ).find( "panacea" ) == std::string::npos );
     CHECK( NpcExecutionAdapter::observe( *f.actor ).find( "MISSION_GET_ANTIBIOTICS" ) ==
@@ -224,10 +253,21 @@ TEST_CASE( "npc_actor_observation_is_limited_to_own_senses", "[actor_control][na
     CHECK( stored( *f.actor, "heard_mission." + std::to_string( task->get_id() ) ) == target );
     CHECK( NpcExecutionAdapter::available( *f.actor, "accept_mission" ) );
     f.actor->add_effect( efftype_id( "blind" ), 1_hours );
+    REQUIRE( f.actor->is_blind() );
     f.actor->recalc_sight_limits();
-    const JsonObject blind = json_loader::from_string( NpcExecutionAdapter::observe( *f.actor ) );
-    CHECK( blind.get_object( "nearby" ).get_array( "characters" ).empty() );
+    const JsonObject blind = inspected_object( json_loader::from_string(
+                                 NpcExecutionAdapter::observe( *f.actor ) ) );
+    const JsonObject blind_nearby = inspected_object( blind.get_object( "nearby" ) );
+    CHECK( blind_nearby.get_array( "characters" ).empty() );
+    CHECK( blind_nearby.get_array( "items" ).empty() );
     CHECK_FALSE( NpcExecutionAdapter::available( *f.actor, "attack_player" ) );
+    const int moves = f.actor->get_moves();
+    const int player_hp = get_avatar().get_hp();
+    CHECK( f.act( "attack_player", "{\"target\":" +
+                  std::to_string( get_avatar().getID().get_value() ) + "}" ).state ==
+           execution_state::failed );
+    CHECK( f.actor->get_moves() == moves );
+    CHECK( get_avatar().get_hp() == player_hp );
 }
 
 TEST_CASE( "npc_actor_craft_completion_is_native_and_interruption_does_not_award_output",
@@ -307,11 +347,12 @@ TEST_CASE( "npc_actor_player_confirmation_preserves_output_dependency",
         CHECK( sourced_amount( get_avatar(), "rock", "required-craft" ) == 1 );
         CHECK( sourced_amount( *f.actor, "2x4", "source-exchange" ) == 1 );
         CHECK( stored( *f.actor, "pending_trade_source_operation" ).empty() );
-        const JsonArray produced = json_loader::from_string(
-                                       exchanged.detail_json ).get_object().get_array( "produced" );
+        const JsonObject detail = inspected_object( json_loader::from_string( exchanged.detail_json ) );
+        const JsonArray produced = detail.get_array( "produced" );
         REQUIRE( produced.size() == 1 );
-        CHECK( produced.get_object( 0 ).get_string( "item_type" ) == "2x4" );
-        CHECK( produced.get_object( 0 ).get_int( "count" ) == 1 );
+        const JsonObject output = inspected_object( produced.get_object( 0 ) );
+        CHECK( output.get_string( "item_type" ) == "2x4" );
+        CHECK( output.get_int( "count" ) == 1 );
         CHECK( f.act( "trade", args, "source-exchange",
                       "required-craft" ).detail_json == exchanged.detail_json );
         CHECK( f.act( "trade", args, "source-exchange", "wrong-craft" ).code == "receipt_conflict" );
@@ -425,10 +466,21 @@ TEST_CASE( "npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world",
     SECTION( "bash an observed native door" ) {
         const tripoint_bub_ms pos( 60, 61, 0 );
         get_map().ter_set( pos, ter_str_id( "t_door_c" ) );
-        f.actor->set_str_base( 100 );
+        f.actor->set_str_base( 20 );
+        const int damage_before = get_map().get_map_damage( pos );
         const int before = f.actor->get_moves();
         REQUIRE( f.act( "sabotage", f.position( pos ) ).state == execution_state::succeeded );
         CHECK( f.actor->get_moves() == before - 100 );
+        CHECK( get_map().get_map_damage( pos ) > damage_before );
+        // A native bash accumulates damage; success records an attempt, rather
+        // than forcing a door to disappear on the first hit.
+        for( int attempt = 1; attempt < 32 &&
+             get_map().ter( pos ) == ter_str_id( "t_door_c" ).id(); ++attempt ) {
+            f.actor->set_moves( 100 );
+            REQUIRE( f.act( "sabotage", f.position( pos ),
+                            "bash-" + std::to_string( attempt ) ).code == "native_sabotage_attempt" );
+            CHECK( f.actor->get_moves() == 0 );
+        }
         CHECK( get_map().ter( pos ) != ter_str_id( "t_door_c" ).id() );
     }
 }
@@ -571,11 +623,12 @@ TEST_CASE( "npc_actor_npc_trade_uses_required_output_and_receipts_real_received_
     CHECK( sourced_amount( *f.actor, "2x4", "required-output" ) == 0 );
     CHECK( sourced_amount( *f.other, "2x4", "required-output" ) == 1 );
     CHECK( sourced_amount( *f.actor, "rock", "dependent-trade" ) == 1 );
-    const JsonArray produced = json_loader::from_string(
-                                   exchanged.detail_json ).get_object().get_array( "produced" );
+    const JsonObject detail = inspected_object( json_loader::from_string( exchanged.detail_json ) );
+    const JsonArray produced = detail.get_array( "produced" );
     REQUIRE( produced.size() == 1 );
-    CHECK( produced.get_object( 0 ).get_string( "item_type" ) == "rock" );
-    CHECK( produced.get_object( 0 ).get_int( "count" ) == 1 );
+    const JsonObject output = inspected_object( produced.get_object( 0 ) );
+    CHECK( output.get_string( "item_type" ) == "rock" );
+    CHECK( output.get_int( "count" ) == 1 );
     const int before = f.actor->get_moves();
     CHECK( f.act( "trade", args, "missing-output-trade",
                   "absent-output" ).code == "source_output_unavailable" );
@@ -614,13 +667,15 @@ TEST_CASE( "npc_actor_batch_capacity_projection_does_not_mutate_inventory",
 {
     native_fixture f;
     const int before = amount( *f.actor, "2x4" );
+    get_map().add_item_or_charges( f.actor->pos_bub(), item( itype_id( "rock" ), calendar::turn ) );
+    const std::string ground_before = ground_contents( f.actor->pos_bub() );
     std::vector<item> goods;
     for( int i = 0; i < 1000; ++i ) {
         goods.emplace_back( itype_id( "2x4" ), calendar::turn );
     }
     CHECK_FALSE( NpcExecutionAdapter::can_receive_items( *f.actor, goods ) );
     CHECK( amount( *f.actor, "2x4" ) == before );
-    CHECK( get_map().i_at( f.actor->pos_bub() ).empty() );
+    CHECK( ground_contents( f.actor->pos_bub() ) == ground_before );
 }
 
 TEST_CASE( "npc_actor_dialogue_limits_count_unicode_characters_and_keep_percent_literal",
@@ -650,11 +705,14 @@ TEST_CASE( "npc_actor_native_enquiries_require_real_two_way_hearing",
     REQUIRE( task );
     f.other->chatbin.missions.push_back( task );
     SECTION( "companion cannot hear" ) {
-        f.actor->add_effect( efftype_id( "deaf" ), 1_minutes, false, 3 );
+        // Native int_dur_factor overrides an explicitly supplied intensity.
+        f.actor->add_effect( efftype_id( "deaf" ), 5_minutes );
+        REQUIRE( f.actor->get_effect_int( efftype_id( "deaf" ) ) == 3 );
         REQUIRE( f.actor->is_deaf() );
     }
     SECTION( "partner cannot hear" ) {
-        f.other->add_effect( efftype_id( "deaf" ), 1_minutes, false, 3 );
+        f.other->add_effect( efftype_id( "deaf" ), 5_minutes );
+        REQUIRE( f.other->get_effect_int( efftype_id( "deaf" ) ) == 3 );
         REQUIRE( f.other->is_deaf() );
     }
     const std::string target = std::to_string( f.other->getID().get_value() );
@@ -672,9 +730,10 @@ TEST_CASE( "npc_actor_native_enquiries_require_real_two_way_hearing",
     CHECK( stored( *f.actor, "heard_mission." + std::to_string( task->get_id() ) ).empty() );
     const std::string observation = NpcExecutionAdapter::observe( *f.actor );
     CHECK( observation.find( "TALK_TEST_PRIVATE_UNHEARD_STATE" ) == std::string::npos );
-    const JsonObject nearby = json_loader::from_string(
-                                  observation ).get_object().get_object( "nearby" );
+    const JsonObject observed = inspected_object( json_loader::from_string( observation ) );
+    const JsonObject nearby = inspected_object( observed.get_object( "nearby" ) );
     for( const JsonObject &person : nearby.get_array( "characters" ) ) {
+        person.allow_omitted_members();
         if( person.get_int( "id" ) == f.other->getID().get_value() ) {
             CHECK( person.get_string( "topic" ) == "TALK_FIRST_TOPIC" );
             CHECK( person.get_array( "available_missions" ).size() == 0 );

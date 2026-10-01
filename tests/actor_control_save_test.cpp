@@ -72,8 +72,10 @@ std::filesystem::path first_backup( const save_fixture &fixture, std::size_t ind
 {
     const JsonObject manifest = json_loader::from_string(
                                     get( fixture.root / ".cph-actor-save/manifest.json" ) ).get_object();
-    return fixture.root / ".cph-actor-save" /
-           manifest.get_array( "files" ).get_object( index ).get_string( "backup" );
+    manifest.allow_omitted_members();
+    const JsonObject file = manifest.get_array( "files" ).get_object( index );
+    file.allow_omitted_members();
+    return fixture.root / ".cph-actor-save" / file.get_string( "backup" );
 }
 
 void crash_after_inventory_save( const save_fixture &fixture )
@@ -307,6 +309,8 @@ TEST_CASE( "actor_control_save_read_lease_excludes_a_second_process_without_jour
     CHECK( transaction::active() );
     CHECK_FALSE( transaction::capturing() );
     CHECK( transaction::owns_world( fixture.root / "." ) );
+    CHECK( transaction::owns_world( fixture.root / "" ) );
+    CHECK( transaction::owns_world( fixture.root / "unused" / ".." ) );
     CHECK_FALSE( transaction::owns_world( fixture.root.parent_path() ) );
     transaction::before_write( fixture.root / "not-captured" );
     CHECK_FALSE( std::filesystem::exists( fixture.root / ".cph-actor-save/manifest.json" ) );

@@ -83,7 +83,13 @@ std::unique_ptr<journal> current;
 
 std::filesystem::path absolute_path( const std::filesystem::path &path )
 {
-    return std::filesystem::absolute( path ).lexically_normal();
+    auto result = std::filesystem::absolute( path ).lexically_normal();
+    // Lexical normalization preserves a trailing separator from paths such as
+    // world/., but the world lease identifies the directory itself.
+    if( result != result.root_path() && result.filename().empty() ) {
+        result = result.parent_path();
+    }
+    return result;
 }
 
 bool safe_relative( const std::filesystem::path &path )

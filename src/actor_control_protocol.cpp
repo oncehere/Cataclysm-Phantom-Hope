@@ -41,7 +41,10 @@ std::string quote( const std::string &text )
 std::string stringify( const JsonValue &value )
 {
     if( value.test_object() ) {
-        return value.get_object().str();
+        const JsonObject object = value.get_object();
+        // Serialization retains every member; it is not a partial schema read.
+        object.allow_omitted_members();
+        return object.str();
     }
     if( value.test_array() ) {
         std::string result = "[";
@@ -176,14 +179,18 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
     }
     try {
         const JsonValue parsed = json_loader::from_string( text );
-        if( !validate_schema( parsed, contract().get_object( "schemas" ).get_member( "plan" ),
+        const JsonObject schemas = contract().get_object( "schemas" );
+        schemas.allow_omitted_members();
+        if( !validate_schema( parsed, schemas.get_member( "plan" ),
                               error ) ) {
             return false;
         }
         const JsonObject plan = parsed.get_object();
+        plan.allow_omitted_members();
         std::set<std::string> seen;
         std::vector<action_step> candidate;
         for( const JsonObject &entry : plan.get_array( "steps" ) ) {
+            entry.allow_omitted_members();
             const std::string id = entry.get_string( "id" );
             if( seen.count( id ) ) {
                 return fail( error, "duplicate_step" );
@@ -195,6 +202,7 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
             const std::string action = entry.get_string( "action" );
             bool found = false;
             for( const JsonObject &definition : contract().get_array( "actions" ) ) {
+                definition.allow_omitted_members();
                 if( definition.get_string( "name" ) == action ) {
                     found = true;
                     if( !validate_schema( entry.get_member( "args" ), definition.get_member( "args" ),
@@ -208,6 +216,7 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
                 return fail( error, "unknown_action" );
             }
             const JsonObject arguments = entry.get_object( "args" );
+            arguments.allow_omitted_members();
             if( action == "attack" ) {
                 const bool character = arguments.has_int( "target" );
                 const bool monster = arguments.has_int( "x" ) && arguments.has_int( "y" ) &&
