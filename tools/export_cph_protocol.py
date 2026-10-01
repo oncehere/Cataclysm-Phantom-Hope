@@ -22,7 +22,8 @@ def main() -> None:
     if changed:
         parser.error("commit the authoritative protocol before exporting")
     destination = args.cph_root.resolve() / "data/reference/actor_control"
-    meta = {"schema_version": 1, "protocol_version": "1.0", "source_project": "cph-ai-companion",
+    version = json.loads((RESOURCE / "protocol.json").read_text())["protocol_version"]
+    meta = {"schema_version": 1, "protocol_version": version, "source_project": "cph-ai-companion",
             "source_revision": revision, "files": {}}
     for name in ("protocol.json", "fixtures.json"):
         data = (RESOURCE / name).read_bytes()
@@ -37,7 +38,7 @@ def main() -> None:
     if args.check:
         existing = json.loads((destination / "source.json").read_text())
         # Later independent commits need not replace a matching immutable snapshot.
-        if existing["files"] != meta["files"] or existing["protocol_version"] != "1.0":
+        if existing["files"] != meta["files"] or existing["protocol_version"] != version:
             parser.error("CPH source metadata differs")
     else:
         (destination / "source.json").write_bytes(encoded)

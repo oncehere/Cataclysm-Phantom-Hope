@@ -309,5 +309,96 @@
         }
       ]
     }
+  },
+  {
+    "name": "refusal_has_stable_requirement",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "I will not gather that."
+          },
+          "requirement_id": "world-A:branch-A:event-1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_without_requirement",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "No."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_and_work_for_same_requirement",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "No."
+          },
+          "requirement_id": "r1"
+        },
+        {
+          "id": "gather-2",
+          "action": "gather",
+          "args": {
+            "x": 1,
+            "y": 2,
+            "z": 0,
+            "item_type": "rock"
+          },
+          "requirement_id": "r1"
+        }
+      ]
+    }
   }
 ]

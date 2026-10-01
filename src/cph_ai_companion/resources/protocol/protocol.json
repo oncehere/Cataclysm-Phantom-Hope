@@ -1,5 +1,5 @@
 {
-  "protocol_version": "1.0",
+  "protocol_version": "1.1",
   "schema_version": 1,
   "max_message_bytes": 1048576,
   "methods": [
@@ -155,6 +155,11 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 256
+        },
+        "requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
         }
       },
       "required": [
@@ -288,6 +293,11 @@
                 ]
               },
               "from_step": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "requirement_id": {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 256
@@ -670,7 +680,7 @@
     {
       "name": "refuse",
       "permission": "refuse",
-      "description": "Explicit social behavior: refuse. Requires its per-companion permission and native preconditions.",
+      "description": "Reject the known player requirement identified by step.requirement_id. Persist the decision; never execute work tied to this requirement later.",
       "args": {
         "type": "object",
         "properties": {
@@ -1492,5 +1502,15 @@
         "additionalProperties": false
       }
     }
-  ]
+  ],
+  "requirement_decisions": {
+    "identity": "player_chat detail.requirement_id is a stable native event ID scoped to world and branch.",
+    "step_link": "Work responding to a player requirement must include its requirement_id. Refuse requires a known pending or accepted requirement.",
+    "states": [
+      "pending",
+      "accepted",
+      "refused"
+    ],
+    "contradictions": "A plan cannot refuse and perform another step linked to the same requirement. Persisted refused requirements cannot be revived by later plans or native daily fallback."
+  }
 }
