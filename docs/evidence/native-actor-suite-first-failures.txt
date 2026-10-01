@@ -1,0 +1,23 @@
+20:28:41.391 INFO : Cataclysm DDA version 1979-12-31-9915f0b6381
+/tmp/cph-ai-source-20260930/tests/actor_control_save_test.cpp:309: failed: transaction::owns_world( fixture.root / "." ) for: false
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:161: failed: error == "fixed_binding_conflict" for: "living_recruited_npc_required"
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:119: failed: error.empty() for: false
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:724: failed: after.get_string( "request_id" ) != before.get_string( "request_id" ) for: "4daab2d899124975e9e94de33fc8e32e"
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:156: failed: f.act( "gather", args, "another-step" ).code == "gather_stock_changed" for: "gather_target_not_observed"
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:229: failed: blind.get_object( "nearby" ).get_array( "characters" ).empty() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:230: failed: !(NpcExecutionAdapter::available( *f.actor, "attack_player" )) for: !true
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:432: failed: get_map().ter( pos ) != ter_str_id( "t_door_c" ).id() for: int_id( "t_door_c" )
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:623: failed: get_map().i_at( f.actor->pos_bub() ).empty() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:654: failed: f.actor->is_deaf() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:658: failed: f.other->is_deaf() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:667: failed: enquiry.state == execution_state::failed for: 1 == 2
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:668: failed: enquiry.code == "listener_unavailable" for: "native_trade_offers_heard"
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:667: failed: enquiry.state == execution_state::failed for: 1 == 2
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:668: failed: enquiry.code == "listener_unavailable" for: "native_mission_offers_heard"
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:670: failed: f.actor->get_moves() == moves for: 800 (0x320) == 1000 (0x3e8)
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:671: failed: stored( *f.actor, "heard_trade." + target ).empty() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:672: failed: stored( *f.actor, "heard_mission." + std::to_string( task->get_id() ) ).empty() for: false
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:680: failed: person.get_array( "available_missions" ).size() == 0 for: 1 == 0
+/tmp/cph-ai-source-20260930/tests/npc_execution_adapter_test.cpp:681: failed: person.get_array( "trade_offers" ).size() == 0 for: 2 == 0
+Failed 8 test cases, failed 20 assertions.
+20:29:16.779 INFO : Finished in 35.2039 seconds

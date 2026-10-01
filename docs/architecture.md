@@ -16,6 +16,9 @@ The loopback bridge authenticates one external client per instance. Instance
 descriptors and credentials are private files; explicit session selection avoids
 cross-instance control. The model does not receive arbitrary state setters,
 code execution, movement-point mutation or hidden world information.
+Ordinary recruited NPCs are eligible; multiplayer player proxies are excluded
+from new bindings and restored control. Safe stop retires controller work while
+preserving a proxy's native activity, action-point budget and own state.
 
 Model candidates pass schema and personality validation, then native validation.
 The native executor handles urgent reactions, current activity, queued steps and
@@ -83,8 +86,15 @@ not proof that those game files committed together. An interrupted save must
 preserve the journal and pause uncertain work for reconciliation rather than
 replay a physical effect using an older queue or memory checkpoint. Memory
 restoration and deletion cannot restore spent materials, pay rewards or repair
-game files. Native journal and multi-file crash acceptance remain `NOT_RUN`
-until the exact CPH candidate has recorded native and joint recovery evidence.
+game files. Focused native fault tests passed for journal rollback/commit,
+beforeimages, native file writers and gameplay snapshot boundaries. They are
+automated isolated fixtures; a complete physical crash campaign spanning all
+game files and graphical save/load journeys remain `NOT_RUN`.
+
+The initial action catalog gathers actual ground items and executes queued
+melee attacks. Broader harvesting and model-directed ranged attacks require
+additional native adapters. Native NPC fallback retains its ordinary combat
+logic, including ranged behavior when the game permits it.
 
 ## Disconnect and detach
 

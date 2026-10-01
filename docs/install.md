@@ -1,8 +1,61 @@
 # Install, configure and safely stop
 
-The first candidate targets Linux x86_64 with Python 3.12. Obtain the exact
-adapted CPH build listed with acceptance evidence in the compatibility manifest.
-An ordinary CPH build without ActorControl cannot provide the required service.
+The experimental prerelease targets Linux x86_64 with Python 3.12. An ordinary
+CPH build without ActorControl cannot provide the required service. The release
+contains the Python program and MOD, not an adapted CPH binary.
+
+## Obtain and build the adapted CPH source
+
+Use [oncehere/Cataclysm-Phantom-Hope](https://github.com/oncehere/Cataclysm-Phantom-Hope)
+and its `codex/actor-control-20260930` branch. Check out the exact commit in the
+downloaded release's `compatibility.json`; the moving branch alone is not a
+compatibility guarantee. Run these commands from that release directory:
+
+```sh
+CPH_NATIVE_COMMIT="$(python3.12 -c 'import json; print(json.load(open("compatibility.json"))["validated_combinations"][0]["native_commit"])')"
+git clone --branch codex/actor-control-20260930 \
+  https://github.com/oncehere/Cataclysm-Phantom-Hope.git cph-source
+git -C cph-source checkout --detach "$CPH_NATIVE_COMMIT"
+git -C cph-source rev-parse HEAD
+```
+
+The native candidate is
+[`85d161b424bc9e7d2349516c88eefe644c62d1f9`](https://github.com/oncehere/Cataclysm-Phantom-Hope/commit/85d161b424bc9e7d2349516c88eefe644c62d1f9).
+Use the manifest's tested combination when choosing the package to install.
+The adapted changes are available for review in
+[CPH draft PR #25](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/25).
+They have not been merged into ordinary CPH `main` or deployed to the user's
+installed game by this package.
+
+Install a C++17 compiler, CMake, Ninja and the native dependencies described in
+CPH's [CMake build guide](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/85d161b424bc9e7d2349516c88eefe644c62d1f9/doc/c++/COMPILING-CMAKE.md).
+Tiles require SDL3. The repository's
+[flake.nix](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/85d161b424bc9e7d2349516c88eefe644c62d1f9/flake.nix)
+also declares its development dependencies. The Linux candidate was built with
+the following configuration; sound, translations and backtraces are disabled
+in this particular tested build:
+
+```sh
+cmake -S cph-source -B cph-build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release '-DCMAKE_CXX_FLAGS_RELEASE=-O1 -DNDEBUG' \
+  -DCATA_ENABLE_LUA_PLATFORM=ON -DTILES=ON -DCURSES=OFF -DHEADLESS=OFF \
+  -DSOUND=OFF -DLOCALIZE=OFF -DBACKTRACE=OFF -DLIBBACKTRACE=OFF \
+  -DBUILD_TESTING=ON
+cmake --build cph-build --target cataclysm-tiles --parallel 2
+```
+
+Keep the build outside the source tree. Run it with explicit absolute source
+and user directories, using that same user directory when installing the MOD:
+
+```sh
+/absolute/cph-build/src/cataclysm-tiles \
+  --basepath /absolute/cph-source/ --datadir /absolute/cph-source/data/ \
+  --userdir /absolute/game-userdir/
+```
+
+This source-build path does not replace the system's installed CPH. Build
+success and the automated native integration scenario do not establish a GUI
+session or the user's real saves; those remain separate acceptance entries.
 
 ## Install the final artifacts
 
@@ -62,8 +115,11 @@ credential does not belong in those descriptors.
 
 Edit record JSON files under the configured memory directory to correct
 cognition. To delete a record, remove its current record body. The next refresh
-invalidates dependent summaries and managed history. Invalid partial JSON pauses
-memory processing until the edit is valid; it is not silently replaced.
+invalidates dependent summaries and managed history. Invalid partial JSON causes
+the running program to close its provider and connection and exit; it is not
+silently replaced. Correct the file and explicitly run the program again.
+Changes to the endpoint, paths or memory-continuity policy require a restart;
+personality permissions, limits and debug settings can update while running.
 
 Unexpected connection loss permits already accepted valid work to continue.
 To deliberately hand control back, use:
@@ -87,5 +143,7 @@ After an interrupted game save, retain the native operation journal and all
 game files. A local memory checkpoint marked `prepared` does not confirm a
 successful game save, and deleting memory is not a way to retry physical work.
 Use the recovery status reported by the adapted CPH build; uncertain operations
-must pause instead of automatically replaying. Multi-file crash recovery for
-the release candidate is still `NOT_RUN` pending its native acceptance evidence.
+must pause instead of automatically replaying. Focused native fault scenarios
+passed for the operation journal, beforeimages, native writers and gameplay
+snapshot boundaries. A complete physical crash campaign and graphical save/load
+journeys remain `NOT_RUN`; see [the acceptance record](acceptance.md).

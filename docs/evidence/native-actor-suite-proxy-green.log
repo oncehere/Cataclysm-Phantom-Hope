@@ -1,0 +1,160 @@
+
+
+-----------------------------------------
+00:19:41.872 : Starting log.
+00:19:41.872 INFO : Cataclysm DDA version 1979-12-31-0047ae5b7ea
+00:19:41.872 INFO : Randomness seeded to: 123456
+
+00:19:41.872 INFO : Running Catch2 session:
+
+00:19:41.873 INFO : SDL render devices: software, opengl, opengles2, vulkan, gpu
+00:19:41.874 INFO : [options] C locale set to C
+00:19:41.874 INFO : [options] C++ locale set to CLua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+
+00:19:41.901 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Lua_First_Example/mod.lua
+00:19:41.902 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Migrated_Core/mod.lua
+00:19:44.219 INFO : /tmp/cph-ai-source-20260930/src/mod_tracker.h:68: Tried check if 'test_vit_override_and_extend' had a duplicate, but type 'vitamin' does not track object sources
+00:19:44.226 WARNING : Catharsis Covenant Basemodule pack load time:: 2228893us (avg: 2228893us) (count: 1)
+00:19:44.226 WARNING : TESTING DATA pack load time:: 79587us (avg: 79587us) (count: 1)
+00:20:02.526 INFO : Game data loaded
+0.007 s: actor_control_bridge_advertises_private_loopback_and_preserves_calendar
+0.006 s: actor_control_bridge_instances_are_distinct_and_admit_one_active_client
+0.003 s: No delimiter can grow incoming memory without a bound
+0.006 s: actor_control_bridge_rejects_oversized_incoming_and_outgoing_messages
+0.003 s: A delimited oversized message cannot reach the handler
+0.005 s: actor_control_bridge_rejects_oversized_incoming_and_outgoing_messages
+0.000 s: An oversized reply drops the connection
+0.002 s: actor_control_bridge_rejects_oversized_incoming_and_outgoing_messages
+0.002 s: Exactly the maximum payload excludes its line delimiter
+0.005 s: actor_control_bridge_rejects_oversized_incoming_and_outgoing_messages
+0.002 s: actor_control_shared_protocol_fixtures_match_native_validity
+0.081 s: actor_control_save_recovers_inventory_ground_and_task_as_one_generation
+0.073 s: actor_control_save_rollback_is_reentrant_and_preserves_unknown_files
+0.008 s: actor_control_save_keeps_first_beforeimage_and_removes_only_recorded_creations
+0.009 s: actor_control_save_commits_new_files_and_ignores_external_paths
+0.069 s: actor_control_save_corrupt_late_backup_restores_nothing_and_retains_evidence
+0.068 s: actor_control_save_committed_cleanup_never_rolls_back_or_removes_unknown_files
+0.068 s: future schema preserves every file
+0.069 s: actor_control_save_rejects_unknown_schema_traversal_and_symlink_targets
+0.071 s: manifest cannot escape world
+0.071 s: actor_control_save_rejects_unknown_schema_traversal_and_symlink_targets
+0.006 s: symlink cannot redirect beforeimage
+0.006 s: actor_control_save_rejects_unknown_schema_traversal_and_symlink_targets
+0.003 s: symlink parent is rejected
+0.004 s: actor_control_save_rejects_unknown_schema_traversal_and_symlink_targets
+0.060 s: actor_control_save_read_lease_excludes_a_second_process_without_journaling
+0.094 s: actor_control_save_native_writers_are_captured_without_manual_hooks
+0.006 s: actor_control_gameplay_snapshots_keep_live_journal_authority
+0.104 s: actor_control_fixed_binding_preserves_native_character
+0.041 s: actor_control_rejects_multiplayer_proxy_binding
+0.009 s: late plans and subjective preferences cannot control the partner
+0.054 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+0.010 s: a restored queue cannot use the proxy action budget
+0.058 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+0.011 s: cancel and stop preserve the partner native activity and markers
+0.054 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+0.058 s: actor_control_request_ack_covers_only_observed_events
+0.051 s: actor_control_plan_retry_returns_real_receipts_without_reexecution
+0.053 s: actor_control_generic_attack_cannot_bypass_personality_switches
+0.053 s: actor_control_explicit_stop_cancels_queue_and_keeps_binding
+0.075 s: actor_control_load_epoch_rejects_old_reply_and_unknown_started_work
+0.042 s: actor_control_future_schema_is_preserved_without_takeover
+0.053 s: actor_control_native_activity_retains_its_execution_slot
+0.047 s: actor_control_memory_is_subjective_scoped_and_deletable
+0.055 s: actor_control_idle_world_does_not_trigger_periodic_model_work
+0.052 s: actor_control_fallback_preferences_change_spacing_without_world_mutation
+0.187 s: actor_control_wire_window_limits_bytes_and_acknowledges_only_its_prefix
+0.058 s: actor_control_receipt_event_identity_and_goal_source_match_runtime_journal
+0.066 s: actor_control_offline_restore_redelivers_acknowledged_checkpoint_delta
+0.060 s: actor_control_unconfirmed_native_save_freezes_queue_without_a_memory_checkpoint
+0.058 s: actor_control_speech_uses_a_plan_slot_and_debug_is_opt_in
+0.043 s: actor_control_mod_removal_contract_reports_actual_dependency_blockers
+0.043 s: actor_control_cancel_revokes_pending_native_trade_references
+0.044 s: actor_control_stopped_off_bubble_identity_does_not_pause_native_work
+0.054 s: actor_control_unknown_off_bubble_activity_waits_for_safe_handoff_even_when_disabled
+0.061 s: actor_control_confirmed_native_death_ends_control_without_replacement
+0.008 s: late model reply is rejected
+0.058 s: actor_control_scene_change_invalidates_plans_without_restoring_memory
+0.000 s: accepted source-scene commands are cancelled
+0.053 s: actor_control_scene_change_invalidates_plans_without_restoring_memory
+0.054 s: actor_control_scene_change_retains_native_craft_progress
+0.060 s: actor_control_prepared_checkpoint_marker_is_rolled_back_without_retiring_events
+0.043 s: actor_control_imports_subjective_growth_without_importing_physical_facts
+[sol2] An exception occurred: write callback required
+[sol2] An exception occurred: write callback required
+[sol2] An exception occurred: write callback required
+[sol2] An exception occurred: write callback required
+[sol2] An exception occurred: write callback required
+[sol2] An exception occurred: write callback required
+0.002 s: lua_platform_actor_control_has_only_bounded_management_operations
+0.000 s: read again after loading another world
+0.000 s: lua_platform_actor_control_binding_rejects_stale_typed_handles
+0.000 s: same runtime owner with a different generation
+0.000 s: lua_platform_actor_control_binding_rejects_stale_typed_handles
+0.000 s: another Mod runtime cannot use this handle
+0.000 s: lua_platform_actor_control_binding_rejects_stale_typed_handles
+0.000 s: retired entity identity
+0.000 s: lua_platform_actor_control_binding_rejects_stale_typed_handles
+
+00:20:05.004 WARNING : Executing Lua-first Platform Mod entry as trusted executable code (with access to the player system): /tmp/cata-lua-platform-loader-1/main.lua[sol2] An exception occurred: Platform domain mutations is only available after world_ready
+[sol2] An exception occurred: Platform domain services is only available after world_ready
+[sol2] An exception occurred: Platform domain mutations are only available inside a runtime callback
+[sol2] An exception occurred: Platform domain services is only available after world_ready
+0.046 s: lua_platform_actor_control_world_callbacks_use_the_sole_ccb_surface
+0.194 s: npc_actor_native_gather_uses_actual_stock_and_moves
+0.000 s: same type from another operation cannot substitute
+0.188 s: npc_actor_gather_dependency_selects_only_actual_source_output
+0.000 s: missing output neither consumes moves nor takes equivalent stock
+0.186 s: npc_actor_gather_dependency_selects_only_actual_source_output
+0.188 s: npc_actor_observation_is_limited_to_own_senses
+0.000 s: native activity finishes
+0.189 s: npc_actor_craft_completion_is_native_and_interruption_does_not_award_output
+0.000 s: cancel leaves actual in-progress craft
+0.188 s: npc_actor_craft_completion_is_native_and_interruption_does_not_award_output
+0.189 s: npc_actor_player_trade_requires_review_and_deduplicates_real_exchange
+0.000 s: human confirmation exchanges the required source and tags real output
+0.184 s: npc_actor_player_confirmation_preserves_output_dependency
+0.000 s: consuming required stock before confirmation cannot consume other stock
+0.191 s: npc_actor_player_confirmation_preserves_output_dependency
+0.181 s: npc_actor_social_speech_and_goal_behaviors_have_effects
+0.183 s: npc_actor_social_speech_and_goal_behaviors_have_effects
+0.184 s: npc_actor_social_speech_and_goal_behaviors_have_effects
+0.184 s: npc_actor_social_speech_and_goal_behaviors_have_effects
+0.182 s: npc_actor_social_speech_and_goal_behaviors_have_effects
+0.184 s: npc_actor_social_information_requires_exact_known_record
+0.183 s: npc_actor_social_information_requires_exact_known_record
+0.185 s: npc_actor_fraud_is_a_real_reviewed_offer
+0.000 s: aid a party hostile to the player
+0.189 s: npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world
+0.000 s: misappropriate another faction's observed ground item
+0.185 s: npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world
+
+00:20:08.753 INFO : npc::set_omt_destination - new goal for NPC [Mozella Gallardo] with [need_weapon] is [s_sports] in (-33,10,0).0.005 s: leave the real player faction
+0.209 s: npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world
+0.001 s: bash an observed native door
+0.196 s: npc_actor_social_aid_theft_leave_and_sabotage_mutate_native_world
+0.199 s: npc_actor_social_attacks_use_native_combat_and_target_constraints
+0.233 s: npc_actor_social_attacks_use_native_combat_and_target_constraints
+0.211 s: npc_assigned_antibiotics_task_consumes_only_claimant_medicine_and_preserves_reward
+0.235 s: npc_assigned_antibiotics_task_consumes_only_claimant_medicine_and_preserves_reward
+0.195 s: npc_assigned_antibiotics_task_consumes_only_claimant_medicine_and_preserves_reward
+0.187 s: npc_assigned_task_deadline_failure_retains_claimant_and_never_uses_player_inventory
+0.193 s: npc_actor_npc_dialogue_and_trade_use_real_stock_and_options
+0.189 s: npc_actor_npc_trade_uses_required_output_and_receipts_real_received_stock
+0.188 s: npc_actor_guessing_mission_id_cannot_assign_without_hearing_offer
+0.209 s: npc_actor_batch_capacity_projection_does_not_mutate_inventory
+0.185 s: npc_actor_dialogue_limits_count_unicode_characters_and_keep_percent_literal
+0.000 s: companion cannot hear
+0.191 s: npc_actor_native_enquiries_require_real_two_way_hearing
+0.000 s: partner cannot hear
+0.225 s: npc_actor_native_enquiries_require_real_two_way_hearing
+Passed all 63 test cases with 1727 assertions.
+
+
+00:20:11.608 INFO : Finished in 29.7351 seconds
+00:20:11.608 INFO : Randomness seeded to: 123456
+

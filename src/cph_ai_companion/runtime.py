@@ -134,6 +134,8 @@ def _compact_catalog(catalog: list[Any]) -> dict[str, Any]:
         if entry.get("available") is False or entry.get("allowed") is False or entry.get("implemented") is False:
             continue
         result = {key: entry[key] for key in ("name", "permission", "available", "allowed", "implemented") if key in entry}
+        if isinstance(entry.get("description"), str):
+            result["description"] = entry["description"][:512]
         schema = _compact_schema(entry.get("args", {}))
         digest = _revision(schema)
         if digest not in schema_keys:
@@ -152,7 +154,8 @@ def build_messages(request: Mapping[str, Any], snapshot: Mapping[str, Any],
 
 UTF-8 byte length plus framing is a conservative tokenizer-independent upper
 bound for the common byte-based compatible models; no provider token query is
-needed. The action catalog and current observations are never silently sliced.
+needed. Actions, argument schemas and current observations are never silently
+sliced; native action descriptions are bounded to 512 characters.
 """
     limit = config["limits"].get("max_input_tokens", 32768)
     events = deepcopy(request.get("events", []))

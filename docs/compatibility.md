@@ -1,6 +1,6 @@
 # Compatibility record
 
-The first candidate is package `0.1.0`, Python `>=3.12,<3.13`, Linux x86_64,
+The experimental prerelease candidate is package `0.1.0`, Python `>=3.12,<3.13`, Linux x86_64,
 OpenAI SDK `3.22.1`, wire protocol `1.0`, and schema version `1` for profile,
 memory, checkpoint and native extension state.
 
@@ -8,7 +8,16 @@ memory, checkpoint and native extension state.
 `validated_combinations` list contains only package/native combinations backed
 by joint acceptance evidence. A candidate based on an adapted tree is recorded
 separately under `candidate`; base HEAD alone is not a validated native revision.
-No validated combination is claimed until that evidence is recorded.
+The recorded combination is adapted CPH
+`85d161b424bc9e7d2349516c88eefe644c62d1f9` with the installed 111-test wheel whose
+SHA-256 begins `14caa4ffe867`. It passed the focused native suite and the real
+NPC/installed-runtime integration using synthetic localhost HTTP. The exact
+digests, tested scope and unrun boundaries are in `compatibility.json`. Package
+assembly preserves this evidence level and does not infer broader acceptance.
+The adapted CPH source is reviewed separately in
+[draft PR #25](https://github.com/oncehere/Cataclysm-Phantom-Hope/pull/25);
+its ordinary mainline and the user's installed game are separate from this
+tested source-build combination.
 
 Handshake checks protocol version and exact protocol digest. CPH consumes a fixed
 snapshot exported from this project's resources. A matching version string is
@@ -16,6 +25,14 @@ insufficient when the digest differs. Future native changes need joint tests
 before addition to the validated list.
 
 The Python platform tag describes packaging, not tested operating-system support.
-Windows, macOS, Android, real-provider quality and remote CI remain unclaimed
-unless separately recorded. Import/diagnostic success does not establish game
-action, save recovery or removal acceptance.
+Windows, macOS, Android and real-provider quality remain unclaimed unless
+separately recorded. Import/diagnostic success does not establish game action,
+save recovery or removal acceptance. The focused native runner is not the full
+official test target; the two adjacent failures and their controlled source
+comparison remain visible in the [acceptance report](acceptance.md).
+
+Compatibility and acceptance fields are a snapshot as of package assembly.
+The recorded implementation-commit CI result does not certify later source or
+documentation commits. Final hosted CI, publication status and asset digests
+belong to the corresponding GitHub run/release metadata and dated outer report;
+assembly does not rewrite these fields to imply publication or complete testing.

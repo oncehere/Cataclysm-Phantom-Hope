@@ -1,0 +1,113 @@
+{
+  "adjacent_regressions": {
+    "boundary": "These actual failures remain FAIL; reproducing them with base npc.cpp does not convert them to PASS or establish a full baseline build.",
+    "cases": 17,
+    "controlled_comparison": "docs/evidence/native-controlled-baseline.json",
+    "exit_code": 3,
+    "failed_assertions": 3,
+    "failed_case_ids": [
+      "crafting_with_a_companion",
+      "on_load-sane-values"
+    ],
+    "failed_cases": 2,
+    "log": "docs/evidence/native-adjacent-regressions.log",
+    "log_sha256": "2b62cb229947cf6206d6246a5bfaffa3d723dd92d6a152ec433c41e8ccab770a",
+    "passed_cases": 15,
+    "seconds": 21.9001,
+    "status": "FAIL"
+  },
+  "artifact": {
+    "import_root": "/tmp/cph-ai-artifact-install-111-20261001/lib/python3.12/site-packages/cph_ai_companion",
+    "installed_python": "/tmp/cph-ai-artifact-install-111-20261001/bin/python",
+    "package_evidence": "docs/evidence/python-package.json",
+    "package_version": "0.1.0",
+    "python": "3.12.14",
+    "sdk": "3.22.1",
+    "source_and_installed_tests": 111,
+    "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+  },
+  "checked_outcomes": {
+    "actual_native_actor_and_item": "PASS: recruited native NPC sees a real ground rock; it receives exactly one rock and ground item is removed",
+    "native_cost": "PASS: gather consumes NPC action points; no avatar action-point grant",
+    "provider_contract": "PASS: SDK3.22.1 uses nonstreaming Chat Completions, at least one actual loopback call, no generated tools",
+    "receipt_memory": "PASS: native successful operation_id is recorded in installed AgentMemory, not fabricated by the synthetic endpoint",
+    "safe_handoff": "PASS: installed runtime requests stop; native detach becomes detached and queue is empty",
+    "waiting_input": "PASS: production input/communication path handles the response without game-time or actor/avatar AP change before queued action"
+  },
+  "compatibility": "Validated final85 + installed111 wheel only for the recorded bounded native and synthetic-provider integration scope. This does not claim complete graphical play, real-model quality or every crash journey.",
+  "date": "2026-10-01",
+  "historical_first_run": "docs/evidence/native-installed-joint-first.json",
+  "historical_runs": [
+    "docs/evidence/native-installed-joint-first.json",
+    "docs/evidence/native-installed-joint-0047-wheel110.json"
+  ],
+  "hosted_ci": {
+    "evidence": "docs/evidence/github-companion-first-ci.json",
+    "final_documentation_head": "PENDING_FINAL_PUSH_AND_CI",
+    "head_sha": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "run": 36816213998,
+    "status": "PASS_FOR_IMPLEMENTATION_HEAD",
+    "url": "https://github.com/oncehere/cph-ai-companion/actions/runs/36816213998"
+  },
+  "native_suite": {
+    "assertions": 1727,
+    "evidence": "docs/evidence/native-acceptance.json",
+    "exit_code": 0,
+    "full_game_suite": "NOT_RUN",
+    "log": "docs/evidence/native-actor-suite-proxy-green.log",
+    "log_sha256": "c0e045dac48f18f25f63ab024bd251e98deaddfc102b1d1ad1b49e6f3e2f9a90",
+    "official_cata_test_tiles_target": "NOT_RUN",
+    "seconds": 29.7351,
+    "source_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "source_identity_note": "63-test GREEN used the exact3-path final85 source patch immediately beforecommit; final85 identity relink reuses those source bytes.",
+    "status": "PASS_FOCUSED_SCOPE",
+    "test_cases": 63
+  },
+  "not_run": {
+    "all_fifteen_personality_real_gameplay_scenes": "NOT_RUN",
+    "complete_multi_file_physical_crash_campaign": "NOT_RUN",
+    "cross_dimension_actual_journey": "NOT_RUN",
+    "graphical_input_and_dialogue": "NOT_RUN",
+    "live_multiplayer_host_client": "NOT_RUN",
+    "other_platforms": "NOT_RUN",
+    "player_death_and_replacement_GUI": "NOT_RUN",
+    "user_actual_game_environment": "NOT_RUN"
+  },
+  "provider_scope": {
+    "endpoint": "synthetic localhost HTTP only",
+    "model_quality": "NOT_RUN",
+    "paid_calls": false,
+    "real_provider": "NOT_RUN"
+  },
+  "run": {
+    "assertions": 2021,
+    "binary_sha256": "beae37b354de67b8af170f30b93498c180fdc37622d12ae51b0669f5ad7cac43",
+    "case": "actor_control_final_package_executes_real_npc_gather_and_records_memory",
+    "case_seconds": 2.124,
+    "cases": 1,
+    "catch2_session_seconds": 30.2069,
+    "execution_report": "docs/evidence/native-installed-joint-final85-wheel111.json",
+    "exit_code": 0,
+    "exit_code_authority": "Recorded actual root command JSON and independently inspected Catch2 log",
+    "log": "docs/evidence/native-installed-joint-final85-wheel111.log",
+    "log_sha256": "135c703a9f0d6ae250e3c05f33f822a334764253428b7d74b3d9d23bdd9b91d0",
+    "random_seed": 123456,
+    "session_seconds": 31.278
+  },
+  "schema_version": 1,
+  "scope": "One isolated Linux native/installed-package joint scenario using the official SDK against a synthetic loopback HTTP endpoint",
+  "source": {
+    "executed_native_head_owner_reported": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "executed_native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
+    "joint_driver_sha256": "407683e6d5f050f87655ae22850bb46babcc272e036d9ebd46224f417c5f5436",
+    "native_final_compatibility_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "native_test": "tests/actor_control_joint_test.cpp",
+    "native_test_sha256": "b83b4014e37251a0601294a3c423d10cffb4b9576e6d47294d0dae11b823a1f5",
+    "native_version_label_in_log": "1979-12-31-85d161b424b",
+    "project_implementation_head": "afb780e2f6160be7575331afd75e86d4845c5e41",
+    "project_source_identity": "Final runtime source hashes are in python-package.json; the earlier implementation CI commit is not a hash of this final working tree.",
+    "version_label_note": "The final85 version relink and actual installed111 joint execution bind the native commit,tree,binary and wheel explicitly."
+  },
+  "status": "PASS",
+  "timezone": "America/Los_Angeles"
+}

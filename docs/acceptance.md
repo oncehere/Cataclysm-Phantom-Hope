@@ -23,7 +23,48 @@ saves or prove GUI/native gameplay acceptance. Native tests, real game scenarios
 GUI, real-provider work, hosted execution and actual release each require their
 own command, platform, exact identity and result.
 
-Native operation journal and multi-file save/crash scenarios are currently
-`NOT_RUN`. Python memory, provider and package tests do not establish those
-native recovery results. Final compatibility records must bind the actual
-tested CPH commit and built package before claiming a jointly supported pair.
+The candidate is an experimental prerelease. The recorded outcomes have bounded
+scope; the compatibility manifest binds the release package to the tested native
+commit `85d161b424bc9e7d2349516c88eefe644c62d1f9` and the installed 111-test wheel.
+
+The first focused native execution failed 8 cases / 20 assertions. Its
+[failure history and assertion excerpt](evidence/native-failure-history.json)
+are retained alongside the passing rerun, including the observation fix and
+fixture/JSON diagnostic corrections.
+
+| Recorded check | Outcome and scope |
+| --- | --- |
+| Python source and installed package | **PASS**, 111 tests in each environment; installed non-editable wheel tested outside the source checkout |
+| Installed MOD loading | **PASS**, actual native `--check-mods` after fixing the metadata filename; original failure and an undiagnosed intermediate run remain in [the report](evidence/install-manifest-fix.json) |
+| Focused native suite | **PASS**, 63 cases / 1,727 assertions from canonical engine objects and selected real test objects; [native report](evidence/native-acceptance.json) |
+| Multiplayer proxy exclusion | **PASS**, two native regression cases / 96 assertions after reproducing the prior gap; live multiplayer host/client session remains **NOT_RUN** |
+| Native journal/recovery fixtures | **PASS** within that focused suite: rollback/commit, beforeimages, native writers, checkpoint markers and gameplay snapshot boundaries |
+| Installed/native integration | **PASS**, final native85 / installed111 wheel, one case / 2,021 assertions: real NPC ground-item gather, native action-point cost, receipt, local memory and safe handoff; [joint report](evidence/native-installed-joint.json) |
+| Full native game build | **PASS**, final native85 `cataclysm-tiles`; this is compilation, not GUI execution |
+| Adjacent native regressions | **FAIL**, 15 of 17 cases pass; `crafting_with_a_companion` and `on_load-sane-values` fail three assertions; [raw log](evidence/native-adjacent-regressions.log) |
+| Hosted independent-project CI | **PASS for implementation commit only**, [run 36816213998](https://github.com/oncehere/cph-ai-companion/actions/runs/36816213998); final documentation CI is recorded separately |
+| Full official native suite | **NOT_RUN**; the focused runner is not the full `cata_test-tiles` target |
+| GUI, real provider and actual user environment | **NOT_RUN** |
+| Complete physical crash campaign, graphical save/load, actual cross-dimension journey and death/replacement GUI | **NOT_RUN** |
+| Other operating systems and publication | Recorded separately; not established by local package assembly |
+
+The two adjacent failures also reproduce in a
+[controlled base-source comparison](evidence/native-controlled-baseline.json):
+only `npc.cpp` is replaced with the `06db38942be4` source, while the listed ABI,
+test and helper inputs are identical. This supports the recorded inherited
+behavior under those controlled inputs. It is not a complete baseline build,
+does not turn the failures into passes, and does not prove that all regressions
+have been excluded.
+
+The joint scenario processes replies through the native input-wait path without
+advancing game time or granting NPC/avatar action points before execution. It
+uses the official SDK against synthetic loopback HTTP, with no paid call or
+real-model quality claim. Native social fixtures exercise the 15 configurable
+permissions and their effects; 15 personality scenes driven by a real model in
+ordinary graphical play remain `NOT_RUN`. The
+[15-behavior coverage matrix](evidence/personality-coverage.json) maps each
+permission to its tested effects, defaults and limitations.
+
+The gathering action is ground pickup, and the queued attack is melee. Broader
+harvesting and model-directed ranged attacks are outside this candidate's
+implemented catalog; native NPC fallback keeps its normal combat behavior.

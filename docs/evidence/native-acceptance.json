@@ -1,0 +1,79 @@
+{
+  "adjacent_regressions": "docs/evidence/native-controlled-baseline.json",
+  "date": "2026-10-01",
+  "final_native_identity_build": {
+    "binary_sha256": "beae37b354de67b8af170f30b93498c180fdc37622d12ae51b0669f5ad7cac43",
+    "compile": "PASS",
+    "configuration": "PASS",
+    "link": "PASS",
+    "original_build_report_sha256": "1b039aeec0452f726dbe10469d8c862008f3f4c6f07df01dba32f2097aad662f",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "source_status": [],
+    "source_tree": "1928b4a7eefdbd614126155fbbff02ddda355778"
+  },
+  "full_game_build": {
+    "exit_code": 0,
+    "exit_code_authority": "root actual final85 build report; final linking log retained",
+    "gui_execution": "NOT_RUN",
+    "log": "docs/evidence/final85-game-build.log",
+    "log_sha256": "163ffd89216d1f7abc0f5c42723982dfb91dffd4d830b543b94d44854226387e",
+    "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+    "status": "PASS",
+    "target": "cataclysm-tiles"
+  },
+  "full_official_native_suite": "NOT_RUN",
+  "generated_metadata_checks": "docs/evidence/release-native-metadata-checks.json",
+  "installed111_joint": {
+    "assertions": 2021,
+    "binary_sha256": "beae37b354de67b8af170f30b93498c180fdc37622d12ae51b0669f5ad7cac43",
+    "cases": 1,
+    "evidence": "docs/evidence/native-installed-joint.json",
+    "status": "PASS",
+    "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+  },
+  "native_commit": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "native_test_suite": {
+    "assertions": 1727,
+    "cases": 63,
+    "elapsed_seconds": 30.71,
+    "exit_code": 0,
+    "json_errors": 0,
+    "log": "docs/evidence/native-actor-suite-proxy-green.log",
+    "log_sha256": "c0e045dac48f18f25f63ab024bd251e98deaddfc102b1d1ad1b49e6f3e2f9a90",
+    "status": "PASS"
+  },
+  "native_tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
+  "original_failure_history": "docs/evidence/native-failure-history.json",
+  "original_green_report_sha256": "f5fc20869e36274a7a27ac4a617cfa7210f5b829e1eecb3df98f01250f1c7b0a",
+  "proxy_regression": {
+    "after": {
+      "assertions": 96,
+      "cases": 2,
+      "elapsed_seconds": 22.369,
+      "exit_code": 0,
+      "json_errors": 0,
+      "log": "docs/evidence/native-proxy-green.log",
+      "log_sha256": "6b6cee1193df10a3557f3c5d6d7ed683459a1697ea1feb81b6f27d3c9f9765c0",
+      "status": "PASS"
+    },
+    "before": {
+      "cases": 2,
+      "exit_code": 13,
+      "failed_assertions": 13,
+      "log": "docs/evidence/native-proxy-red.log",
+      "log_sha256": "756d689792c5ad4c5d0e8960800e26fecb84197733ac98955f0eb680cd166d75",
+      "status": "FAIL"
+    },
+    "live_host_client_session": "NOT_RUN",
+    "scope": "Real NPC entities carrying existing multiplayer proxy tags exercise public binding, restored queues, perception, stop/cancel and protected native state; no live host/client session was started."
+  },
+  "schema_version": 1,
+  "source_identity_note": "Tests ran immediately before commit as0047 plus the exact three-path patch; root confirms those bytes are identical to85. Final85 version relink and111 installed joint repeat are separate records.",
+  "source_sha256": {
+    "docs/project/actor-control.md": "aba750bbff069bd687b80e85473e5970f6dcea49b2d0eea3c4863908fb0c9615",
+    "src/actor_control.cpp": "6d4e115d84e4b1141cd6ceac8e7be8fb48d0bf02627eb782c556c88a4c61b1f6",
+    "tests/actor_control_test.cpp": "135529b021276c85bcf24eff7d793e3463fb883f09b6914e8a41a4909011ce48"
+  },
+  "status": "PASS_FOCUSED_NATIVE_SCOPE"
+}

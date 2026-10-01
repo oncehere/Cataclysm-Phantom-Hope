@@ -1,0 +1,54 @@
+
+
+-----------------------------------------
+00:14:25.052 : Starting log.
+00:14:25.052 INFO : Cataclysm DDA version 1979-12-31-0047ae5b7ea
+00:14:25.052 INFO : Randomness seeded to: 123456
+
+00:14:25.053 INFO : Running Catch2 session:
+
+00:14:25.054 INFO : SDL render devices: software, opengl, opengles2, vulkan, gpu
+00:14:25.054 INFO : [options] C locale set to C
+00:14:25.054 INFO : [options] C++ locale set to CLua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+
+00:14:25.111 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Lua_First_Example/mod.lua
+00:14:25.112 WARNING : Executing Lua-first Platform Mod metadata as trusted executable code (with access to the player system): /home/oncehere/文档/ChatGPT/CPH/cph-actor-control-20260930/data/mods/Migrated_Core/mod.lua
+00:14:27.911 INFO : /tmp/cph-ai-source-20260930/src/mod_tracker.h:68: Tried check if 'test_vit_override_and_extend' had a duplicate, but type 'vitamin' does not track object sources
+00:14:27.919 WARNING : Catharsis Covenant Basemodule pack load time:: 2683436us (avg: 2683436us) (count: 1)
+00:14:27.919 WARNING : TESTING DATA pack load time:: 99518us (avg: 99518us) (count: 1)
+00:14:45.393 INFO : Game data loaded
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:197: failed: !(control::bind( proxy, "test-profile", error )) for: !true
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:198: failed: error == "multiplayer_proxy_not_supported" for: "" == "multiplayer_proxy_not_supported"
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:199: failed: !(control::has_binding()) for: !true
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:200: failed: !(proxy.maybe_get_value( "cph_ai.bound" )) for: !0x000072bbf03c6088
+Log messages during failed test:
+12:00:00AM: You eat your holy SPAM of debugging (fresh).
+12:00:00AM: You start walking.
+12:00:00PM: Rafael Arriaga, Tester eats a holy SPAM of debugging (fresh).
+0.096 s: actor_control_rejects_multiplayer_proxy_binding
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:239: failed: json_loader::from_string( unavailable ).test_null() for: false
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:242: failed: error == "stale_request" for: "" == "stale_request"
+0.011 s: late plans and subjective preferences cannot control the partner
+0.055 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:253: failed: !(control::act( proxy, false )) for: !true
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:254: failed: !(control::pauses_offline_work( proxy )) for: !true
+0.010 s: a restored queue cannot use the proxy action budget
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:286: failed: proxy.get_moves() == moves for: 0 == 100
+0.055 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:277: failed: proxy.get_value( "cph_ai.bound" ) == "true" for: {?} == "true"
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:278: failed: proxy.get_value( "cph_ai.pending_trade" ) == "partner-owned-offer" for: {?} == "partner-owned-offer"
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:279: failed: proxy.get_value( "cph_ai.pending_trade_id" ) == "partner-owned-operation" for: {?} == "partner-owned-operation"
+/tmp/cph-ai-source-20260930/tests/actor_control_test.cpp:280: failed: proxy.get_value( "cph_ai.pending_trade_source_operation" ) == "partner-owned-source" for: {?} == "partner-owned-source"
+0.011 s: cancel and stop preserve the partner native activity and markers
+0.057 s: actor_control_restored_binding_never_controls_multiplayer_proxy
+Failed both 2 test cases, failed 13 assertions.
+
+
+00:14:45.846 INFO : Test world Test World 测试世界 4 left for inspection.
+00:14:45.846 INFO : Finished in 20.6032 seconds
+00:14:45.846 INFO : Randomness seeded to: 123456
+

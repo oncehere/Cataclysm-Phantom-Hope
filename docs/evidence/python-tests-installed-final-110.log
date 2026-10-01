@@ -93,7 +93,6 @@ test_native_projection_preserves_subjective_origin_and_imported_experience_label
 test_plan_is_proposal_with_engine_context_and_unknown_usage_reserves_budget (test_runtime.RuntimeTests.test_plan_is_proposal_with_engine_context_and_unknown_usage_reserves_budget) ... ok
 test_preference_reflection_is_bounded_and_world_setters_are_rejected (test_runtime.RuntimeTests.test_preference_reflection_is_bounded_and_world_setters_are_rejected) ... ok
 test_prompt_omits_duplicate_raw_observation_but_preserves_real_receipt (test_runtime.RuntimeTests.test_prompt_omits_duplicate_raw_observation_but_preserves_real_receipt) ... ok
-test_prompt_preserves_bounded_native_action_semantics_without_private_fields (test_runtime.RuntimeTests.test_prompt_preserves_bounded_native_action_semantics_without_private_fields) ... ok
 test_queries_only_retrieve_local_memory_and_share_call_budget (test_runtime.RuntimeTests.test_queries_only_retrieve_local_memory_and_share_call_budget) ... ok
 test_reflection_with_invented_source_or_fact_kind_is_rejected (test_runtime.RuntimeTests.test_reflection_with_invented_source_or_fact_kind_is_rejected) ... ok
 test_retained_growth_sync_uses_current_binding_without_rewriting_its_origin (test_runtime.RuntimeTests.test_retained_growth_sync_uses_current_binding_without_rewriting_its_origin) ... ok
@@ -111,6 +110,6 @@ test_remote_error_body_is_never_exposed (test_transport.TransportTests.test_remo
 test_world_read_permissions_and_symlinks_rejected (test_transport.TransportTests.test_world_read_permissions_and_symlinks_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 111 tests in 4.994s
+Ran 110 tests in 4.739s
 
 OK

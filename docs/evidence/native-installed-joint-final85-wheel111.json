@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "head": "85d161b424bc9e7d2349516c88eefe644c62d1f9",
+  "tree": "1928b4a7eefdbd614126155fbbff02ddda355778",
+  "argv": [
+    "/home/oncehere/文档/ChatGPT/CPH/build/actor-control-20260930/tests/cata_test-actor-control",
+    "[.actor_control_joint]",
+    "--user-dir",
+    "/tmp/cph-ai-joint-suite-final85-wheel111-user-20261001",
+    "--rng-seed",
+    "123456",
+    "--reporter",
+    "compact",
+    "--durations",
+    "yes"
+  ],
+  "environment": {
+    "CPH_COMPANION_PYTHON": "/tmp/cph-ai-artifact-install-111-20261001/bin/python",
+    "CPH_COMPANION_JOINT_DRIVER": "/home/oncehere/文档/ChatGPT/CPH/cph-ai-companion/tools/joint_driver.py"
+  },
+  "exit_code": 0,
+  "seconds": 31.278,
+  "cases": 1,
+  "assertions": 2021,
+  "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229",
+  "binary_sha256": "beae37b354de67b8af170f30b93498c180fdc37622d12ae51b0669f5ad7cac43",
+  "log": "/home/oncehere/文档/ChatGPT/CPH/evidence/actor-control-implementation-20260930/native-installed-joint-final85-wheel111.log",
+  "log_sha256": "135c703a9f0d6ae250e3c05f33f822a334764253428b7d74b3d9d23bdd9b91d0",
+  "scope": "Actual CPH NPC/game/input-wait execution plus installed Python111 wheel/SDK loopback synthetic HTTP; no GUI backend or real model"
+}

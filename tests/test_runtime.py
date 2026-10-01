@@ -319,6 +319,25 @@ class RuntimeTests(unittest.TestCase):
         self.assertIn('"item_type":"bandages"', messages[1]["content"])
         self.assertEqual(request["events"][0]["data"], {"unique_full_raw": "duplicate"})
 
+    def test_prompt_preserves_bounded_native_action_semantics_without_private_fields(self):
+        import json
+        descriptions = {"gather": "Pick up observed ground items; this is not general harvesting.",
+                        "attack": "Use native melee against a sensed target; no ranged attack."}
+        catalog = [{**entry, "description": descriptions[entry["name"]],
+                    "engine_private_state": "unauthorized_hidden_state"}
+                   for entry in action_catalog() if entry["name"] in descriptions]
+        catalog.append({"name": "wait", "args": {}, "description": "中" * 600})
+        original = deepcopy(catalog)
+        request = {"context": self.context, "observations": {}, "action_catalog": catalog}
+        messages = build_messages(request, {"records": [], "revision": "r"}, self.config)
+        actions = {entry["name"]: entry for entry in json.loads(messages[1]["content"])["action_catalog"]["actions"]}
+        for name, description in descriptions.items():
+            self.assertEqual(actions[name].get("description"), description)
+            self.assertNotIn("engine_private_state", actions[name])
+        self.assertEqual(actions["wait"].get("description"), "中" * 512)
+        self.assertNotIn("unauthorized_hidden_state", messages[1]["content"])
+        self.assertEqual(request["action_catalog"], original)
+
     def test_terminal_native_receipts_are_stored_during_cooldown_without_new_model_call(self):
         runtime = self.runtime()
         runtime.run_once()

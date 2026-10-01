@@ -1,0 +1,6 @@
+Lua Mods are executable programs with access to your files and system.  CCB does not sandbox them or protect your system from their actions.
+
+Reading the Mod list can already execute mod.lua metadata, before a Mod is selected for a world.  Only install Mods you choose to trust.  Native libraries can also crash the game.
+
+Continuing will scan the installed Lua Mods.  This notice appears once per game session.
+Checking mod CPH AI companion / AI 同伴 [cph_ai_companion]

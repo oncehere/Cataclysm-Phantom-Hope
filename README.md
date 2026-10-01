@@ -11,10 +11,19 @@ executes actions, consumes resources and time, produces receipts, and runs local
 NPC behavior between plans. Readable local files hold background and cognition;
 human edits and deletions take precedence over automatic updates.
 
-This checkout is a **0.1.0 release candidate**. Compatibility and actual
+This checkout is a **0.1.0 experimental prerelease candidate**. Compatibility and actual
 acceptance are recorded in [docs/compatibility.md](docs/compatibility.md) and
-[docs/acceptance.md](docs/acceptance.md). A package build does not establish game,
-GUI, save, real-provider or remote CI acceptance.
+[docs/acceptance.md](docs/acceptance.md). The tested integration uses a real
+native NPC and installed Python package with a synthetic local model endpoint.
+Graphical interaction, real-model quality and the user's actual game environment
+have separate, unrun acceptance entries.
+
+The first gathering action picks up actual ground items; it does not implement
+general plant harvesting, logging or mining. Queued attacks use native melee.
+Ordinary NPC behavior may use its existing ranged-combat logic between plans.
+Only an adapted CPH build exposes this project's control interface; this release
+does not bundle that game binary. The adapted source requires SDL3 for tiles;
+see [installation and source build instructions](docs/install.md).
 
 ## Installation and explicit startup
 

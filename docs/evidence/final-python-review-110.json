@@ -33,12 +33,6 @@
       "evidence": "docs/evidence/install-manifest-fix.json",
       "id": "install-metadata-json-scan",
       "status": "FIXED_PACKAGE; ACTUAL_INSTALLED_MOD_LOADING_PASS"
-    },
-    {
-      "behavior": "Bounded native descriptions reach actual model messages without copying private action-catalog fields.",
-      "evidence": "docs/evidence/catalog-description-fix.json",
-      "id": "catalog-action-semantics",
-      "status": "FIXED_SOURCE_AND_INSTALLED_PACKAGE"
     }
   ],
   "historical_review": "docs/evidence/final-python-review-109.json",
@@ -48,22 +42,21 @@
     "tests": 99,
     "wheel_sha256": "7be0f1f0e1a06d5cedcb2c4689c1bec5dc64015e339cf1f0bbc7738383e570fb"
   },
-  "joint_evidence": "docs/evidence/native-installed-joint.json",
   "native_save_journal": {
     "complete_physical_crash_campaign": "NOT_RUN",
     "evidence": "docs/evidence/native-installed-joint.json#native_suite",
     "focused_native_fault_tests": "PASS",
     "graphical_save_load": "NOT_RUN"
   },
-  "packaging_state": "111 SOURCE AND INSTALLED PASS; finalnative85/installed111 joint PASS for recorded scope; final GitHub CI/publication metadata separate",
+  "packaging_state": "110 SOURCE AND INSTALLED PASS; focused native suite and installed joint path PASS; final native compatibility binding pending last source review",
   "post_fix_installed_package": {
     "evidence": "docs/evidence/python-package.json",
-    "import_location": "/tmp/cph-ai-artifact-install-111-20261001/lib/python3.12/site-packages/cph_ai_companion",
+    "import_location": "/tmp/cph-ai-artifact-install-20260930/lib/python3.12/site-packages/cph_ai_companion",
     "runtime_source_wheel_installed_bytes_equal": true,
-    "seconds": 5.827,
+    "seconds": 4.739,
     "status": "PASS",
-    "tests": 111,
-    "wheel_sha256": "14caa4ffe86792615947a5584a43dcd6eeef0cf63dffadcd1d040158ad26a229"
+    "tests": 110,
+    "wheel_sha256": "0f4072229830c0ba3440b2c9301f32b6ca72adb9046363fb849c267615fef194"
   },
   "reviewed_boundaries": [
     "Provider watchdog deadline/cancel remains independent of bounded observer RPC callbacks. Late output is rejected.",
@@ -78,16 +71,16 @@
     "src/cph_ai_companion/cli.py": "d9db0b310660958d973a147943dcdeff5ffd37f6c50dbdbfb246ebcbb643adba",
     "src/cph_ai_companion/memory.py": "0a6a34eac12e94428e83d6fea8ee1cc499e5d11351b356af0f19208b2d55c49b",
     "src/cph_ai_companion/provider.py": "7be0bae60726324ce9ac74d65c65aaa08b998f07f9df37c821def5fcf7e3b50d",
-    "src/cph_ai_companion/runtime.py": "1ed32b796927a843f5e8c8ba7f293e39b2d57461646fd03d00de077648ecacce",
+    "src/cph_ai_companion/runtime.py": "ae1dbf4fccbbb0c1af181e762b3b77b112e13817f76a09afd3d5975cbeaa4156",
     "tests/test_cli.py": "21fd61561c6a898c93bff5b6c06c03f3107fad3779a2f09d6c69625b1dd591f4",
     "tests/test_memory.py": "a8e8f9327af761692e258a49c0b83154ed5e2776ab2ed5935a95d28817cf1889",
-    "tests/test_runtime.py": "08e792603d3386d75d254aed1874747a18b1d0be6dd8fabae209d70975c4e5e7"
+    "tests/test_runtime.py": "8660e12bf9dd75ccae83aef02fb0278d687dc4da8545777fdb0d77e16391ed09"
   },
   "source_tests": {
     "log": "docs/evidence/python-tests-final.log",
-    "seconds": 4.994,
+    "seconds": 6.323,
     "status": "PASS",
-    "tests": 111
+    "tests": 110
   },
   "update_date": "2026-10-01"
 }
