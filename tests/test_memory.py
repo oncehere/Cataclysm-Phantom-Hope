@@ -345,6 +345,20 @@ class MemoryTests(unittest.TestCase):
                 with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_request"):
                     store.snapshot(CONTEXT, request)
 
+    def test_pending_requirement_count_matches_native_limit_without_trimming_goal_text(self):
+        store = self.open()
+        receipt = store.ingest(CONTEXT, [{"id": "crafted", "kind": "receipt", "text": "crafted",
+                                        "data": {"detail": {"item_type": "bandages"}}}])[0]
+        rows = [{"requirement_id": f"ask-{i}", "decision": "pending", "text": "Wait here"}
+                for i in range(257)]
+        rows[-1]["text"] = "Deliver bandages"
+        snapshot = store.snapshot(CONTEXT, {"events": [], "requirement_decisions": rows})
+        self.assertEqual(snapshot["mandatory_record_ids"], [receipt])
+        rows.extend({"requirement_id": f"extra-{i}", "decision": "pending", "text": "Wait here"}
+                    for i in range(4097 - len(rows)))
+        with self.assertRaisesRegex(MemoryStoreError, "invalid_memory_request"):
+            store.snapshot(CONTEXT, {"events": [], "requirement_decisions": rows})
+
     def test_goal_relevance_keeps_recalled_personality_growth_without_relearning_its_raw_source(self):
         store = self.open()
         ids = store.ingest(CONTEXT, [

@@ -26,6 +26,7 @@ SUBJECTIVE = frozenset({"belief", "relationship", "growth", "summary", "goal"})
 _MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_EVENT_DATA_BYTES = 1024 * 1024
 MAX_MANDATORY_RECORDS = 256
+MAX_PENDING_REQUIREMENTS = 4096
 _DATA_KINDS = frozenset({"observation", "statement", "receipt", "commitment", "goal"})
 _RECORD_FIELDS = frozenset({"schema_version", "id", "source_event_id", "kind", "context", "text",
                             "source_ids", "importance", "confidence", "provenance", "status",
@@ -917,7 +918,7 @@ class MemoryStore:
                 if isinstance(value, str) and value:
                     texts.append(value)
             requirements = request.get("requirement_decisions", [])
-            if not isinstance(requirements, list) or len(requirements) > 256:
+            if not isinstance(requirements, list) or len(requirements) > MAX_PENDING_REQUIREMENTS:
                 raise MemoryStoreError("invalid_memory_request")
             pending = set()
             for item in requirements:
