@@ -183,8 +183,7 @@
     "max_damage": 3,
     "min_range": 3,
     "min_aoe": 2,
-    "max_aoe": 6,
-    "min_duration": 9999999999999999999
+    "max_aoe": 6
   },
   {
     "id": "delete_nullifying_fields_monster",
