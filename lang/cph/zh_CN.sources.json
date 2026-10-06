@@ -877,8 +877,260 @@
           ]
         }
       ]
+    },
+    {
+      "id": "menu-hotkeys-20261005",
+      "date": "2026-10-05",
+      "candidate_base": "801ce0e6374c323d438d43d41fb2ceb06842a445",
+      "scope": "Correct all 34 existing Main Menu Chinese labels to place a separate parenthesized shortcut hint before the complete label, as requested by the user. Preserve every gettext identity, shortcut alternative, inherited attribution and all other entries.",
+      "license": "CC-BY-SA-3.0 with inherited notices",
+      "added_entries": 0,
+      "changed_entries": 34,
+      "current_entries": 117313,
+      "previous_catalog_sha256": "c6cc06a8e771a4327322d0cdb7c78c27576d4bbe371230ba5df4d692de8ee9bb",
+      "current_catalog_sha256": "17081a55309b6e3dd085d8fb886d65d1a37c01402dfc380b40d9f2c53b3e84ae",
+      "message_keys": [
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<N|n>ew Game",
+          "msgid_plural": "",
+          "previous_msgstr": "<N|n>新建游戏",
+          "msgstr": "(<N|n>) 新建游戏"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "Co-<O|o>p",
+          "msgid_plural": "",
+          "previous_msgstr": "联<O|o>机",
+          "msgstr": "(<O|o>) 联机"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "Lo<a|A>d",
+          "msgid_plural": "",
+          "previous_msgstr": "<a|A>读取",
+          "msgstr": "(<a|A>) 读取"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<W|w>orld",
+          "msgid_plural": "",
+          "previous_msgstr": "<W|w>世界",
+          "msgstr": "(<W|w>) 世界"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "Se<t|T>tings",
+          "msgid_plural": "",
+          "previous_msgstr": "<t|T>设置",
+          "msgstr": "(<t|T>) 设置"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "Oth<e|E>r",
+          "msgid_plural": "",
+          "previous_msgstr": "其<e|E>他",
+          "msgstr": "(<e|E>) 其他"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<Q|q>uit",
+          "msgid_plural": "",
+          "previous_msgstr": "<Q|q>退出",
+          "msgstr": "(<Q|q>) 退出"
+        },
+        {
+          "msgctxt": "Main Menu|New Game",
+          "msgid": "C<u|U>stom Character",
+          "msgid_plural": "",
+          "previous_msgstr": "自<u|U>定义角色",
+          "msgstr": "(<u|U>) 自定义角色"
+        },
+        {
+          "msgctxt": "Main Menu|New Game",
+          "msgid": "<P|p>reset Character",
+          "msgid_plural": "",
+          "previous_msgstr": "<P|p>预设角色",
+          "msgstr": "(<P|p>) 预设角色"
+        },
+        {
+          "msgctxt": "Main Menu|New Game",
+          "msgid": "<R|r>andom Character",
+          "msgid_plural": "",
+          "previous_msgstr": "<R|r>随机角色",
+          "msgstr": "(<R|r>) 随机角色"
+        },
+        {
+          "msgctxt": "Main Menu|New Game",
+          "msgid": "Play Now!  (<D|d>efault Scenario)",
+          "msgid_plural": "",
+          "previous_msgstr": "马上开始！  (<D|d>默认剧本)",
+          "msgstr": "(<D|d>) 马上开始！  (默认剧本)"
+        },
+        {
+          "msgctxt": "Main Menu|New Game",
+          "msgid": "Play N<o|O>w!",
+          "msgid_plural": "",
+          "previous_msgstr": "立即开始游戏<o|O>！",
+          "msgstr": "(<o|O>) 立即开始游戏！"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<T|t>utorial",
+          "msgid_plural": "",
+          "previous_msgstr": "<T|t>教程",
+          "msgstr": "(<T|t>) 教程"
+        },
+        {
+          "msgctxt": "Main Menu|Co-op",
+          "msgid": "<H|h>ost a session",
+          "msgid_plural": "",
+          "previous_msgstr": "<H|h>创建联机",
+          "msgstr": "(<H|h>) 创建联机"
+        },
+        {
+          "msgctxt": "Main Menu|Co-op",
+          "msgid": "<J|j>oin a session",
+          "msgid_plural": "",
+          "previous_msgstr": "<J|j>加入联机",
+          "msgstr": "(<J|j>) 加入联机"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Sh<o|O>w World Mods",
+          "msgid_plural": "",
+          "previous_msgstr": "显示世界模组(<o|O>)",
+          "msgstr": "(<o|O>) 显示世界模组"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Copy World Sett<i|I>ngs",
+          "msgid_plural": "",
+          "previous_msgstr": "复制世界设置(<i|I>)",
+          "msgstr": "(<i|I>) 复制世界设置"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Character to Tem<p|P>late",
+          "msgid_plural": "",
+          "previous_msgstr": "角色转为模板(<p|P>)",
+          "msgstr": "(<p|P>) 角色转为模板"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Toggle World <C|c>ompression",
+          "msgid_plural": "",
+          "previous_msgstr": "切换世界压缩(<C|c>)",
+          "msgstr": "(<C|c>) 切换世界压缩"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "S<n|N>apshots",
+          "msgid_plural": "",
+          "previous_msgstr": "<n|N>快照",
+          "msgstr": "(<n|N>) 快照"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "<D|d>elete World",
+          "msgid_plural": "",
+          "previous_msgstr": "删除世界(<D|d>)",
+          "msgstr": "(<D|d>) 删除世界"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "<R|r>eset World",
+          "msgid_plural": "",
+          "previous_msgstr": "重置世界(<R|r>)",
+          "msgstr": "(<R|r>) 重置世界"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Cop<y|Y> Personal Zones",
+          "msgid_plural": "",
+          "previous_msgstr": "复制个人区域(<y|Y>)",
+          "msgstr": "(<y|Y>) 复制个人区域"
+        },
+        {
+          "msgctxt": "Main Menu|World",
+          "msgid": "Past<e|E> Personal Zones",
+          "msgid_plural": "",
+          "previous_msgstr": "粘贴个人区域(<e|E>)",
+          "msgstr": "(<e|E>) 粘贴个人区域"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "<O|o>ptions",
+          "msgid_plural": "",
+          "previous_msgstr": "选<O|o>项",
+          "msgstr": "(<O|o>) 选项"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "Ke<y|Y>bindings",
+          "msgid_plural": "",
+          "previous_msgstr": "键<y|Y>位设置",
+          "msgstr": "(<y|Y>) 键位设置"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "A<u|U>topickup",
+          "msgid_plural": "",
+          "previous_msgstr": "自动拾<u|U>取",
+          "msgstr": "(<u|U>) 自动拾取"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "Sa<f|F>emode",
+          "msgid_plural": "",
+          "previous_msgstr": "安<f|F>全模式",
+          "msgstr": "(<f|F>) 安全模式"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "Colo<r|R>s",
+          "msgid_plural": "",
+          "previous_msgstr": "颜<r|R>色",
+          "msgstr": "(<r|R>) 颜色"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "ImGui <S|s>tyles",
+          "msgid_plural": "",
+          "previous_msgstr": "ImGui 风<S|s>格",
+          "msgstr": "(<S|s>) ImGui 风格"
+        },
+        {
+          "msgctxt": "Main Menu|Settings",
+          "msgid": "<I|i>mGui Demo Screen",
+          "msgid_plural": "",
+          "previous_msgstr": "<I|i>mGui演示屏幕",
+          "msgstr": "(<I|i>) ImGui演示屏幕"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<M|m>OTD",
+          "msgid_plural": "",
+          "previous_msgstr": "<M|m>每日寄语",
+          "msgstr": "(<M|m>) 每日寄语"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "H<e|E|?>lp",
+          "msgid_plural": "",
+          "previous_msgstr": "<e|E|?>帮助",
+          "msgstr": "(<e|E|?>) 帮助"
+        },
+        {
+          "msgctxt": "Main Menu",
+          "msgid": "<C|c>redits",
+          "msgid_plural": "",
+          "previous_msgstr": "<C|c>制作人员",
+          "msgstr": "(<C|c>) 制作人员"
+        }
+      ]
     }
   ],
   "current_catalog_entries": 117313,
-  "current_catalog_sha256": "c6cc06a8e771a4327322d0cdb7c78c27576d4bbe371230ba5df4d692de8ee9bb"
+  "current_catalog_sha256": "17081a55309b6e3dd085d8fb886d65d1a37c01402dfc380b40d9f2c53b3e84ae"
 }

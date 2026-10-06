@@ -4,9 +4,12 @@
 
 `lang/cph/zh_CN.po` contains 117,313 messages: the complete 117,224-message catalog
 extracted from CPH `a43a8f2f270994dad716ab067c48aad7c2eeaee3`, plus 89 multiplayer
-entries reviewed for the 2026-10-01 update. The original catalog remains an exact
-byte prefix, including all 251 previously
-maintained world-generation translations unchanged. Exact reuse follows
+entries reviewed for the 2026-10-01 update. That import retained the original
+catalog as an exact byte prefix. The 2026-10-05 menu correction subsequently
+updated 34 existing labels to display shortcut hints in separate parentheses
+before the complete label,
+preserving all shortcut alternatives. All 251 previously maintained
+world-generation translations remain unchanged. Exact reuse follows
 protected project edits, CDDA, CCB, then existing translations; reviewed model
 proposals fill the remaining gaps. Coverage refers to that extracted template,
 not every dynamically constructed string or a full linguistic review.
