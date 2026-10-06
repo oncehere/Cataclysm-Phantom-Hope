@@ -78,6 +78,7 @@
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
