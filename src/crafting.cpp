@@ -1,4 +1,5 @@
 #include "crafting.h"
+#include "mp_client_conn.h"
 
 #include <item_wakeup.h>
 
@@ -2019,7 +2020,14 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
                     add_msg_if_player_sees( pos_bub(), m_info, _( "%s assists with crafting…" ), helper->get_name() );
                 }
             }
-            if( batch_size == 1 && one_in( 300 ) ) {
+            // MP: suppressed in co-op. This is SP flavour nudging you to batch so a
+            // helper NPC becomes worthwhile — but in co-op the "helper" is a real
+            // player who is already actively assisting, so it fires repeatedly and
+            // reads as if the game has not noticed them. The batch_size > 1 line
+            // above ("assists with crafting…") is the correct message for that case
+            // and still fires. Condition addition only; the SP text is untouched.
+            if( batch_size == 1 && one_in( 300 ) &&
+                !cata_mp::is_hosting() && !cata_mp::is_client_mode() ) {
                 if( is_avatar() ) {
                     add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
                 } else {
@@ -3889,6 +3897,26 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
             switch( tool_sel.use_from ) {
                 case usage_from::player:
                     if( !has_charges( type, count ) ) {
+                        // MP DIAGNOSTIC 2026-08-26 — a player-visible "You have
+                        // insufficient X charges" for a SHARED (vehicle-cargo)
+                        // craft appeared verbatim first-person on BOTH host and
+                        // client screens for what looked like the same craft,
+                        // with no matching line in either side's message-relay
+                        // log — meaning it did not travel through the relay.
+                        // Leading theory: unattended/passive craft advancement
+                        // picks "the nearest eligible character" independently
+                        // on each side's own local simulation (see Rule 1 /
+                        // Rule 2 in CLAUDE.md — there is no single shared-world
+                        // authority for this path today), so host and client can
+                        // each believe THEY are the one advancing the same craft
+                        // and each run out of THEIR OWN local copy of the tool's
+                        // charges. This line settles it: if both sides log the
+                        // same craft (by recipe + abs position) as "mine" at
+                        // roughly the same moment, that confirms the duplication;
+                        // named callout kept in mp_gamestate.cpp since
+                        // crafting.cpp is not an upstream-hot file but is still
+                        // an SP file — see ROADMAP "message-relay/hotplate" entry.
+                        cata_mp::mp_log_craft_tool_shortfall( *this, craft, type, count, "player" );
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting." ),
                             _( "<npcname> has insufficient %s charges and can't continue crafting." ),
@@ -3899,6 +3927,9 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                     break;
                 case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
+                        // The branch the 2026-08-27 hotplate repro actually takes:
+                        // a tool in vehicle cargo is map inventory, not carried.
+                        cata_mp::mp_log_craft_tool_shortfall( *this, craft, type, count, "map" );
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting." ),
                             _( "<npcname> has insufficient %s charges and can't continue crafting." ),
@@ -3909,6 +3940,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                     break;
                 case usage_from::both:
                     if( !crafting_inventory().has_charges( type, count ) ) {
+                        cata_mp::mp_log_craft_tool_shortfall( *this, craft, type, count, "both" );
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting." ),
                             _( "<npcname> has insufficient %s charges and can't continue crafting." ),
@@ -4068,6 +4100,9 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
             : which == 1 ? get_map_inv().has_charges( n.first, n.second )
             : crafting_inventory().has_charges( n.first, n.second );
             if( !ok ) {
+                cata_mp::mp_log_step_tool_shortfall( *this, craft, n.first, n.second, which,
+                                                     charges_of( n.first ), get_map_inv().charges_of( n.first ),
+                                                     pin_to_map, origin, radius, "consume_step_tool_targets" );
                 if( report_shortfall ) {
                     add_msg_player_or_npc(
                         _( "You have insufficient %s charges and can't continue crafting." ),
@@ -4086,6 +4121,8 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         const bool present = pin_to_map ? get_map_inv().has_tools( p.type, 1 )
                              : crafting_inventory().has_tools( p.type, 1 );
         if( !present ) {
+            cata_mp::mp_log_step_tool_missing( *this, craft, p.type, pin_to_map, origin, radius,
+                                               "consume_step_tool_targets/presence" );
             if( report_shortfall ) {
                 add_msg_player_or_npc(
                     _( "You no longer have the %s and can't continue crafting." ),
@@ -4144,6 +4181,8 @@ bool Character::verify_step_tools( item &craft, int step_idx,
         const bool present = pin_to_map ? get_map_inv().has_tools( alloc.sel.comp.type, 1 )
                              : crafting_inventory().has_tools( alloc.sel.comp.type, 1 );
         if( !present ) {
+            cata_mp::mp_log_step_tool_missing( *this, craft, alloc.sel.comp.type, pin_to_map,
+                                               origin, radius, "verify_step_tools" );
             if( report_shortfall ) {
                 add_msg_player_or_npc(
                     _( "You no longer have the %s and can't continue crafting." ),
@@ -4355,6 +4394,8 @@ bool Character::craft_consume_passive_step_tools( item &craft, time_point now,
         }
     }
     const step_source_context src = resolve_step_source( craft, loc );
+    cata_mp::mp_log_step_source( craft, loc, this, src.present_char, src.origin, src.radius,
+                                 src.present_char == nullptr );
     return consume_step_tool_targets( craft, targets, src.origin, src.radius,
                                       /*pin_to_map=*/src.present_char == nullptr, report_shortfall );
 }

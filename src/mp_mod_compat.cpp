@@ -62,12 +62,6 @@ const std::map<std::string, coop_entry> &coop_table()
             }
         },
         {
-            "magiclysm", {
-                mod_coop::incompatible,
-                translate_marker( "CO-OP: NOT COMPATIBLE.  Leans heavily on teleport spells and scripted (effect-on-condition) effects that don't apply to the remote player, and long-range teleports break the shared map." )
-            }
-        },
-        {
             "mindovermatter", {
                 mod_coop::incompatible,
                 translate_marker( "CO-OP: NOT COMPATIBLE.  Psionic powers are scripted and run only on your own client; teleportation powers break the shared map and self-heals desync from the host." )
@@ -83,6 +77,33 @@ const std::map<std::string, coop_entry> &coop_table()
             "xedra_evolved", {
                 mod_coop::incompatible,
                 translate_marker( "CO-OP: NOT COMPATIBLE.  Paraclesian, vampire and dream powers are scripted and run only on your own client, and several mechanics teleport you to separate maps (dream realm, pocket dungeons)." )
+            }
+        },
+        {
+            "aftershock_exoplanet", {
+                mod_coop::incompatible,
+                translate_marker( "CO-OP: NOT COMPATIBLE.  Aftershock's distinctive map specials (the exoplanet start pads, alien biomes) aren't streamed host->client; the joining player's world generates its own terrain at the same coordinates, so the two players stand on completely different maps." )
+            }
+        },
+
+        // -- Note only: informational, no popup and no host-time gate. ------
+        //    `ok` here is deliberate, not an oversight.  mod_coop_note() and
+        //    mod_coop_info_suffix() ignore the status and still render the text
+        //    in the mod description panel, so the player is told what to expect.
+        //    Only the INTERRUPTING paths key off `warn` — the create-screen
+        //    CONFIRM popup and the "--- may break in co-op" list label
+        //    (worldfactory.cpp), and mp_world_coop_block()'s "Host it anyway?"
+        //    prompt — and those go quiet for `ok`.
+        {
+            // 2026-08-25: incompatible -> warn -> ok, all in one day, on
+            // purpose.  Blocking it made the real behavior unmeasurable, and
+            // then warning on every single host of a world we are actively
+            // developing against was pure friction.  This is an open work item
+            // with a written spec, not an unknown — see ROADMAP "MAGICLYSM IN
+            // CO-OP".  Revisit the status when the summon / HP-authority /
+            // effect-sync work lands or is abandoned.
+            "magiclysm", { mod_coop::ok,
+                translate_marker( "CO-OP: EXPERIMENTAL.  Spells cast by the joining player resolve in their own world: direct damage reaches shared monsters, but summons, spawned items, terrain changes and buffs may not.  Teleport spells can move you outside the host's simulated area and strand you.  Both players must run the same mod list." )
             }
         },
 
@@ -191,7 +212,7 @@ std::string mod_coop_note( const std::string &ident )
 
 std::string mod_coop_info_suffix( const std::string &ident )
 {
-    if( !is_mp_mode() ) {
+    if( !is_session_active() ) {
         return std::string();
     }
     const std::string note = mod_coop_note( ident );

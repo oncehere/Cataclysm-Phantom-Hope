@@ -1,4 +1,5 @@
 #include "character.h"
+#include "mp_magic.h"
 
 #define MP_ENABLED
 #include <algorithm>
@@ -358,6 +359,11 @@ void Character::set_part_hp_cur( const bodypart_id &id, int set )
 
 void Character::mod_part_hp_cur( const bodypart_id &id, int set )
 {
+    // MP: report only while a cata_mp::mp_hp_event_scope is armed.  Natural
+    // regen reaches this same function via heal(), so an unarmed hook would
+    // report the client's regen to a host already computing its own and the
+    // character would double-heal.  Body in mp_magic.cpp; no-op in SP.
+    cata_mp::mp_note_hp_event( *this, id, set );
     bool is_broken_before = get_part_hp_cur( id ) <= 0;
     Creature::mod_part_hp_cur( id, set );
     bool is_broken_after = get_part_hp_cur( id ) <= 0;
@@ -2568,7 +2574,15 @@ void Character::update_stamina( int turns )
 
 int Character::get_cardiofit() const
 {
-    if( is_npc() ) {
+    // GH #19 (host-vs-client move cadence, log-confirmed 2026-07-26): mirrors the
+    // same is_remote_player() exception get_stamina_max() (above) already has —
+    // get_stamina_max() calls this function, so without the same exception here
+    // a remote player's host-side proxy took the flat NPC shortcut below instead
+    // of the real fitness-based formula, computing a stamina_max wildly different
+    // from the real client's (13500 vs 8500 in the confirmed repro) even with
+    // otherwise-identical synced stats. That single mismatch was the entire
+    // source of the host-vs-client movement-cost/cadence gap.
+    if( is_npc() && !cata_mp::is_remote_player( getID() ) ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
         return 2 * get_cardio_acc_base();
     }

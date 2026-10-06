@@ -1,4 +1,6 @@
 #include "game.h" // IWYU pragma: associated
+#include "mp_intent.h"
+#include "mp_magic.h"
 
 #include <coordinates.h>
 #include <creature.h>
@@ -62,6 +64,7 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input_context.h"
+#include "input_replay.h"
 #include "input_enums.h"
 #include "input_popup.h"
 #include "inventory_ui.h"
@@ -2169,14 +2172,18 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    std::map<magic_type_id, bool> success_tracker = {};
-    if( !player_character.magic->can_cast_any_spell( player_character, success_tracker ) ) {
-        for( auto const& [m_type, any_success] : success_tracker ) {
-            if( !any_success && m_type->cannot_cast_message.has_value() ) {
-                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                         m_type->cannot_cast_message.value() );
+    {
+        cata_mp::mp_local_msg_scope mp_no_relay;
+        std::map<magic_type_id, bool> success_tracker = {};
+        if( !player_character.magic->can_cast_any_spell( player_character, success_tracker ) ) {
+            for( auto const& [m_type, any_success] : success_tracker ) {
+                if( !any_success && m_type->cannot_cast_message.has_value() ) {
+                    add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                             m_type->cannot_cast_message.value() );
+                }
             }
         }
+
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {
@@ -2192,6 +2199,13 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
     player_character.magic->last_spell = sp.id();
+    // MP: a long cast commits this character for minutes of co-op wall clock, and
+    // SP's own safe-mode only ever warns about danger near YOU.  Ask once if the
+    // PARTNER has hostiles closing on them.  Body in mp_magic.cpp; no-op in SP and
+    // for short casts.  Returns false only when the player chose to back out.
+    if( !cata_mp::mp_confirm_long_cast( sp, player_character ) ) {
+        return;
+    }
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
@@ -2600,6 +2614,8 @@ static const std::set<action_id> host_ui_actions = {
     ACTION_EXPORT_BUG_REPORT_ARCHIVE,
     ACTION_MANAGE_ANDROID_EXTRA_BUTTONS,
     ACTION_COOP_CHAT,
+    ACTION_COPY_JOIN_ADDRESS,
+    ACTION_DEBUG,
 };
 #endif
 
@@ -2924,7 +2940,31 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                                      std::to_string( player_character.get_moves() ) +
                                      " stam=" + std::to_string( pre_stam ) + "->" +
                                      std::to_string( player_character.get_stamina() ) +
+                                     " stamina_max=" + std::to_string( player_character.get_stamina_max() ) +
                                      " ter=" + here.ter( next_pos ).id().str() );
+                    // TEMP diag (GH #19, continued): the individual limb-score modifiers
+                    // (limb_run_cost_mod/footing/speed) came back IDENTICAL between this
+                    // client and the host's proxy in the last test, so the ~20-point gap
+                    // must be in one of the OTHER run_cost_effects() terms (No Shoes,
+                    // enchantments, stamina/move-mode multipliers, Downed, etc.). Call the
+                    // same function run_cost() uses internally and log every named effect
+                    // it applied, so the full breakdown can be diffed against the host's
+                    // SRV-MOVE-COST-EFFECTS line for the same move.
+                    {
+                        float diag_movecost = static_cast<float>( mcost );
+                        if( diag ) {
+                            diag_movecost /= M_SQRT2;
+                        }
+                        const std::vector<run_cost_effect> effects =
+                            player_character.run_cost_effects( diag_movecost );
+                        std::string eff_log;
+                        for( const run_cost_effect &e : effects ) {
+                            eff_log += e.description + "(x" + std::to_string( e.times ) +
+                                       "+" + std::to_string( e.plus ) + ") ";
+                        }
+                        cata_mp::mp_log( "[cdda-mp] CLI-MOVE-COST-EFFECTS final=" +
+                                         std::to_string( diag_movecost ) + " [" + eff_log + "]" );
+                    }
                     player_character.set_activity_level(
                         player_character.current_movement_mode()->exertion_level() );
                     if( player_character.is_running() && !player_character.can_run() ) {
@@ -2948,6 +2988,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     ramp_dz = -1;
                 }
             }
+            cata_mp::mp_stage_intent_action( act );
             const std::string json = ramp_dz == 0
                                      ? R"({"type":"action","action":"move","dir":")" + dir + "\"}"
                                      : R"({"type":"action","action":"move","dir":")" + dir + R"(","dz":)"
@@ -2960,6 +3001,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 g->cancel_activity_query( _( "Confirm:" ) );
                 return true;
             }
+            cata_mp::mp_stage_intent_action( act );
             mp_dispatch( R"({"type":"action","action":"wait"})" );
             return true;
         }
@@ -3032,11 +3074,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             return true;
         }
 
-        if( act == ACTION_SLEEP ) {
-            add_msg( m_info, _( "Sleep is not yet available in multiplayer." ) );
-            return false;
-        }
-
         if( act == ACTION_LOOK ) {
             const int moves_before = player_character.get_moves();
             g->look_around();
@@ -3056,10 +3093,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 before_types.push_back( it.typeId().str() );
             }
 
-            if( act == ACTION_PICKUP_ALL ) {
-                pickup_all();
-            } else {
-                pickup();
+            {
+                cata_mp::mp_ui_item_ref_guard mp_pickup_ui_guard;
+                if( act == ACTION_PICKUP_ALL ) {
+                    pickup_all();
+                } else {
+                    pickup();
+                }
             }
 
             {
@@ -3223,8 +3263,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     }
 
     // Host waiting for client action: allow pure UI actions, block everything else.
-    if( cata_mp::is_hosting() && player_character.get_moves() <= 0 ) {
+    if( cata_mp::is_hosting() && ( player_character.get_moves() <= 0 ||
+                                   cata_mp::is_host_waiting_for_client() ) ) {
         if( !host_ui_actions.count( act ) ) {
+            cata_mp::mp_stage_intent_action( act );
             cata_mp::mp_log( "[cdda-mp] HOST-LOCKED-BLOCK: act=" + std::to_string( act ) );
             return false;
         }
@@ -3658,31 +3700,47 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_EXAMINE:
-        case ACTION_EXAMINE_AND_PICKUP:
-            if( mouse_target ) {
-                // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
-            } else {
-                examine( act == ACTION_EXAMINE_AND_PICKUP );
+        case ACTION_EXAMINE_AND_PICKUP: {
+                // Guarded: examine's loot/container submenus build item_location
+                // entries into live map/vehicle item stacks and block on keypresses —
+                // see mp_ui_item_ref_guard in mp_gamestate.h.
+                cata_mp::mp_ui_item_ref_guard mp_examine_ui_guard;
+                if( mouse_target ) {
+                    // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
+                    examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
+                } else {
+                    examine( act == ACTION_EXAMINE_AND_PICKUP );
+                }
+                break;
             }
-            break;
 
-        case ACTION_ADVANCEDINV:
-            create_advanced_inv();
-            break;
+        case ACTION_ADVANCEDINV: {
+                // Guarded: AIM displays live map-tile and vehicle-cargo item stacks
+                // side by side with player inventory and blocks on keypresses —
+                // see mp_ui_item_ref_guard in mp_gamestate.h.
+                cata_mp::mp_ui_item_ref_guard mp_aim_ui_guard;
+                create_advanced_inv();
+                break;
+            }
 
         case ACTION_PICKUP:
-        case ACTION_PICKUP_ALL:
-            if( mouse_target ) {
-                pickup( *mouse_target );
-            } else {
-                if( act == ACTION_PICKUP_ALL ) {
-                    pickup_all();
+        case ACTION_PICKUP_ALL: {
+                // Guarded: this is the path the HOST's own pickup actually runs
+                // through (the client-only diff-dispatch block above returns
+                // early and never reaches this switch) — see mp_ui_item_ref_guard
+                // in mp_gamestate.h.
+                cata_mp::mp_ui_item_ref_guard mp_pickup_switch_ui_guard;
+                if( mouse_target ) {
+                    pickup( *mouse_target );
                 } else {
-                    pickup();
+                    if( act == ACTION_PICKUP_ALL ) {
+                        pickup_all();
+                    } else {
+                        pickup();
+                    }
                 }
+                break;
             }
-            break;
 
         case ACTION_GRAB: {
 #ifdef MP_ENABLED
@@ -3750,7 +3808,17 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LOOT:
-            loot();
+            // Client mode: the plain SP loot() would assign the sort activity
+            // to the client's own local avatar against the client's own
+            // non-authoritative local zone_manager/map — silently doing
+            // nothing real. Route it to the host instead, which acts on the
+            // client's proxy NPC using zones the host actually drew (phase 0
+            // of the loot-zones-in-coop design, ROADMAP 2026-07-25).
+            if( cata_mp::is_client_mode() ) {
+                cata_mp::mp_client_request_zone_activity();
+            } else {
+                loot();
+            }
             break;
 
         case ACTION_INVENTORY:
@@ -3836,6 +3904,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_COOP_CHAT:
             cata_mp::mp_open_chat();
+            break;
+
+        case ACTION_COPY_JOIN_ADDRESS:
+            cata_mp::mp_copy_join_address();
             break;
 #endif
 
@@ -4192,7 +4264,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 #ifdef MP_ENABLED
             if( cata_mp::is_client_mode() ) {
                 if( query_yn(
-                        _( "Save and disconnect?  Your character will be saved locally so you can load it on rejoin." ) ) ) {
+                        _( "Save and disconnect?  Your character is saved locally for next time.  The host will also save the shared world when you leave, so your progress there stays in sync." ) ) ) {
                     if( save() ) {
                         discard_dimension_rollback_snapshot();
                         cata_mp::mp_notify_session_ending();
@@ -4200,7 +4272,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         uquit = QUIT_SAVED;
                     }
                 }
-            } else if( query_yn( _( "Save and quit?" ) ) ) {
+            } else if( query_yn( cata_mp::is_hosting()
+                                 ? _( "Save and quit?  The shared co-op world will be saved and your partner disconnected." )
+                                 : _( "Save and quit?" ) ) ) {
                 if( save() ) {
                     discard_dimension_rollback_snapshot();
                     cata_mp::mp_notify_session_ending();
@@ -4439,8 +4513,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     return true;
 }
 
-bool game::handle_action()
+bool game::handle_action( bool poll_only )
 {
+    if( poll_only && test_mode && !input_replay::is_replaying() ) {
+        return false;
+    }
     map &here = get_map();
 
     std::string action;
@@ -4448,8 +4525,22 @@ bool game::handle_action()
     action_id act = ACTION_NULL;
     user_turn current_turn;
     avatar &player_character = get_avatar();
-    // Check if we have an auto-move destination
-    if( player_character.has_destination() ) {
+    // A lockstep wait must dispatch ready keys without starting an auto-move
+    // step or entering the normal blocking input loop.
+    if( poll_only ) {
+        ctxt = get_default_mode_input_context();
+        action = ctxt.handle_input( 0 );
+        if( action == "TIMEOUT" || action == "ANY_INPUT" || action.empty() ) {
+            return false;
+        }
+        if( action == "pause" && ( player_character.activity ||
+                                   player_character.has_destination() ) ) {
+            if( player_character.activity.is_interruptible_with_kb() ) {
+                cancel_activity_query( _( "Confirm:" ) );
+            }
+            return false;
+        }
+    } else if( player_character.has_destination() ) {
         // Poll before consuming a route step: cancellation can clear the route,
         // and consuming its last step first would skip interruption polling.
         handle_key_blocking_activity();
@@ -4543,8 +4634,10 @@ bool game::handle_action()
 #ifdef MP_ENABLED
             // Re-gate: handle_main_menu may return an AP-costing action.
             // If the host is locked, block it.
-            if( cata_mp::is_hosting() && player_character.get_moves() <= 0 &&
+            if( cata_mp::is_hosting() && ( player_character.get_moves() <= 0 ||
+                                           cata_mp::is_host_waiting_for_client() ) &&
                 !host_ui_actions.count( act ) ) {
+                cata_mp::mp_stage_intent_action( act );
                 add_msg( m_info, _( "Waiting for partner — can't do that yet." ) );
                 return false;
             }
@@ -4702,7 +4795,9 @@ bool game::handle_action()
             return false;
         }
     }
-    if( act != ACTION_TIMEOUT ) {
+    if( act != ACTION_TIMEOUT && act != ACTION_DEBUG && !cata_mp::is_client_mode() &&
+        !( cata_mp::is_hosting() && ( player_character.get_moves() <= 0 ||
+                                      cata_mp::is_host_waiting_for_client() ) ) ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
     if( act != ACTION_PAUSE ) {
@@ -4731,4 +4826,12 @@ bool game::handle_action()
                                     to_turn<int>( calendar::turn ), before_action_moves, player_character.movecounter,
                                     player_character.get_moves() );
     return !player_character.is_dead_state();
+}
+
+// Poll only ready input while the host awaits a partner acknowledgement.
+// handle_action() enters a blocking input loop; the wait loop must remain live
+// so a sleeping/crafting partner can receive the next grant without a keypress.
+void game::mp_poll_input()
+{
+    handle_action( true );
 }

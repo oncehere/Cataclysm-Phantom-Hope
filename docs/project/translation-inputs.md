@@ -2,12 +2,21 @@
 
 ## Maintained Simplified Chinese
 
-`lang/cph/zh_CN.po` contains the complete 117,224-message catalog extracted from
-CPH `a43a8f2f270994dad716ab067c48aad7c2eeaee3`. It includes all 251 previously
+`lang/cph/zh_CN.po` contains 117,313 messages: the complete 117,224-message catalog
+extracted from CPH `a43a8f2f270994dad716ab067c48aad7c2eeaee3`, plus 89 multiplayer
+entries reviewed for the 2026-10-01 update. The original catalog remains an exact
+byte prefix, including all 251 previously
 maintained world-generation translations unchanged. Exact reuse follows
 protected project edits, CDDA, CCB, then existing translations; reviewed model
 proposals fill the remaining gaps. Coverage refers to that extracted template,
 not every dynamically constructed string or a full linguistic review.
+
+The multiplayer additions reuse 51 exact upstream translations, correct 17
+upstream translations, and supply 21 new translations, including six co-op tips,
+the copy-address binding, and activity text. Their pinned source, per-entry keys
+and attribution are retained in the import record. These additions cover the
+changed native and peripheral data strings; they do not establish full game UI
+or language acceptance.
 
 [The import record](../../lang/cph/zh_CN.sources.json) pins the template, original
 PO, upstream commits and artifacts, and the separate maintenance project's

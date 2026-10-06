@@ -626,7 +626,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             },
             {
                 "--password", "<string>",
-                "Password for multiplayer server",
+                "Password for hosting or joining a multiplayer server",
                 section_default,
                 1,
                 [&result]( int, const char **params ) -> int {

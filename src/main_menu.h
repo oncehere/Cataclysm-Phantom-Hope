@@ -46,6 +46,7 @@ class main_menu
         std::vector< std::vector<std::string> > vOtherHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
         std::string vdaytip; //tip of the day
+        std::string vcooptip; // Co-op controls, shown only in the co-op menu.
 
         /**
          * Does what it sounds like, but this function also exists in order to gracefully handle

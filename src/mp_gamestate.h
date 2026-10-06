@@ -11,12 +11,18 @@
 
 #include "character_id.h"
 #include "coordinates.h"
-#include "type_id.h"
+#include "enums.h" // object_type — used by mp_client_dispatch_grab_if_changed
+#include "type_id.h" // itype_id — used by mp_log_craft_tool_shortfall
+#include <functional>
+#include <map>
+#include <string>
 
 class Character;
+class Creature;
 class item;
 class npc;
-enum class object_type : int;
+class item_location;
+class player_activity;
 struct WORLD;
 
 namespace cata_mp
@@ -36,9 +42,88 @@ bool is_session_active();
 // site makes the single-player hot path one predictable mode check.
 void process_session_turn();
 
+// RAII scope guard for UI that builds item_location references into a live
+// map/vehicle item stack and then blocks on a keypress (pickup, examine,
+// advanced inventory). Both process_mp_events() (host) and
+// client_process_incoming() (client) can run re-entrantly while such a menu
+// is blocked waiting for input — see sdltiles.cpp's mp_pump_if_host() and
+// handle_action.cpp's per-poll network pump. If an incoming message mutates
+// the exact item stack the open menu is displaying, its cached
+// item_location entries go stale mid-menu and a subsequent unguarded
+// dereference (inside upstream pickup/inventory UI code, which has no
+// reason to expect concurrent mutation) crashes. While any guard is alive,
+// tile/vehicle-cargo item mutations are deferred instead of applied
+// immediately; they run once the last guard goes out of scope, back in a
+// valid non-reentrant context. See ROADMAP for the 2026-07-26 crash report
+// this guards against.
+class mp_ui_item_ref_guard
+{
+    public:
+        mp_ui_item_ref_guard();
+        ~mp_ui_item_ref_guard();
+        mp_ui_item_ref_guard( const mp_ui_item_ref_guard & ) = delete;
+        mp_ui_item_ref_guard &operator=( const mp_ui_item_ref_guard & ) = delete;
+};
+
+// True while any mp_ui_item_ref_guard is alive. Mutation sites that touch a
+// map tile's or vehicle cargo part's item stack should check this and defer
+// via mp_defer_item_apply() instead of mutating immediately.
+bool mp_ui_holds_item_refs();
+
+// Queues fn to run once the last mp_ui_item_ref_guard goes out of scope.
+// Only meaningful to call while mp_ui_holds_item_refs() is true.
+void mp_defer_item_apply( std::function<void()> fn );
+
+// Drains deferred item applies once nothing holds item references. Needed because
+// a short-activity hold ends with the activity, not with a guard destructor.
+void mp_drain_deferred_item_applies_if_free();
+
+// An authoritative rollback supersedes all queued item deltas. Discard them
+// without changing the live UI reference guard depth.
+void mp_invalidate_deferred_item_batch();
+
+// MP DIAGNOSTIC 2026-08-17 — SIGSEGV in inventory_selector::process_input, twice.
+//
+// mp_ui_item_ref_guard is instantiated in exactly four places, all in
+// handle_action.cpp (pickup, examine, aim, pickup_switch). The INVENTORY SELECTOR
+// is not one of them, so while game_menus::inv::consume() has a selector open,
+// mp_ui_holds_item_refs() reads false and the host_inv apply runs
+// inv->clear() + add_items_bulk immediately — invalidating every item_location the
+// selector is holding. The next keypress dereferences one and segfaults.
+//
+// This pair is a PROBE, not the fix: mp_inv_ui_open() reports whether a selector
+// is up, and the item-apply sites log when they mutate while one is. If the log
+// confirms it, the fix is to promote this into a real mp_ui_item_ref_guard inside
+// inv_internal() — one RAII line covering every inventory menu at once, rather
+// than the guard being bolted onto call sites one at a time forever.
+class mp_inv_ui_probe
+{
+    public:
+        mp_inv_ui_probe();
+        ~mp_inv_ui_probe();
+        mp_inv_ui_probe( const mp_inv_ui_probe & ) = delete;
+        mp_inv_ui_probe &operator=( const mp_inv_ui_probe & ) = delete;
+};
+bool mp_inv_ui_open();
+
+// Drops item_locations cached in global UI state whose targets MP has just
+// destroyed. Call after any authoritative item replacement — see the definition.
+void mp_prune_dead_item_ui_refs();
+
 // Returns a JSON string describing the remote player's current position,
 // HP, and nearby visible tiles. Sent to the client after each action.
-std::string serialize_remote_player_state();
+// skip_tile_scan=true omits the radius-20 tile scans and emits an empty
+// "tile_changes" instead. Used by the "wait" ack (942 of 945 acks during a long
+// activity), which mutates no world state and exists only to carry moves=0 —
+// yet was rebuilding the entire world, tile scans included, at ~58ms a time.
+// The grant broadcast still performs a full scan every turn, so changes are still
+// delivered; at worst by one turn later (~120ms) than before.
+std::string serialize_remote_player_state( bool skip_tile_scan = false );
+
+// Heartbeat-measured network RTT for the co-op panel (io thread → game thread).
+// Client side measures it directly; host side reads the value the client mirrors.
+int mp_client_measured_rtt_ms();
+int mp_host_partner_rtt_ms();
 
 // Returns true if the given character_id belongs to a remote player NPC.
 // Used by monmove() to skip AI processing for human-controlled NPCs.
@@ -48,11 +133,85 @@ bool is_remote_player( character_id id );
 // (host: matches the client's proxy; client: matches the host's proxy.)
 bool is_partner_npc( character_id id );
 
+// Suppress relaying messages emitted inside this scope to the partner.
+//
+// The relay forwards anything add_msg'd with a "You " prefix, on the assumption
+// that it describes something the avatar DID.  Some messages are pure local UI
+// advisories about a menu the player just opened, and mean nothing to the other
+// player: opening the cast dialog prints one "cannot_cast_message" per magic
+// school with no currently-castable spell, so the partner sees "<name> can'ts
+// cast that spell right now!" every time you press # — before any spell is even
+// chosen, and mangled by the third-person verb conjugation on the way.
+//
+// Suppression is by PROVENANCE, not by matching the rendered text.  The existing
+// exclusions in the capture functions compare English literals against strings
+// add_msg has already translated, so they silently stop working in a translated
+// UI (see the 2026-08-23 ROADMAP entry).  A scope has no such problem.
+class mp_local_msg_scope
+{
+    public:
+        mp_local_msg_scope();
+        ~mp_local_msg_scope();
+        mp_local_msg_scope( const mp_local_msg_scope & ) = delete;
+        mp_local_msg_scope &operator=( const mp_local_msg_scope & ) = delete;
+        mp_local_msg_scope( mp_local_msg_scope && ) = delete;
+        mp_local_msg_scope &operator=( mp_local_msg_scope && ) = delete;
+    private:
+        // Message count at scope entry.  Only [entry, exit) is suppressed --
+        // an earlier version raised a single floor at scope exit, which also
+        // swallowed anything emitted before the scope but not yet drained by
+        // the relay (a real combat line in the same window would have been
+        // lost).
+        unsigned long long start = 0;
+};
+
+// True once per GAME turn rather than once per do_turn() call, so per-turn work
+// is not repeated while a player is locked and the calendar is frozen.  Always
+// true in single player.  See the definition for the measurement behind it.
+bool mp_should_run_per_turn_upkeep();
+// Number of elapsed authoritative client turns for environment/item upkeep.
+// Capped like body/effect catchup; non-client callers receive one tick.
+int mp_client_upkeep_ticks();
+// Client prefix work also runs once per authoritative calendar turn.
+bool mp_should_run_client_prefix();
+
+// Progress suffix for the co-op parity fix: the partner's HUD already shows a
+// percentage for a timed activity, so the player doing it should see the same
+// number.  Returns "" in single player and whenever the activity has no
+// meaningful duration, so SP display is untouched.
+std::string mp_activity_percent_suffix( int moves_total, int moves_left );
+
+// Shift the "was I hit?" narration baseline for one bodypart by `delta`, so the
+// host's echo of an HP change the CLIENT itself caused is not reported as
+// incoming damage.  Narration only; does not change HP.
+void mp_hp_baseline_adjust( const std::string &bp_str, int delta );
+
+// A monster friendly to one player must be friendly to the other.
+//
+// SP draws a hard line between "the avatar" and "an NPC" when deciding whether
+// a friendly monster stays friendly: monster::attitude() grants MATT_FRIEND to
+// the avatar unconditionally, but to an NPC only when the monster is not of
+// species ZOMBIE ("Zombies don't understand not attacking NPCs").  That rule is
+// right for a bystander NPC and wrong for a co-op partner, who is a player
+// wearing an NPC proxy — so an Animist's summoned undead would maul their own
+// teammate while behaving perfectly toward the summoner.
+//
+// True when `guy` is the other player's proxy in an active co-op session.
+// False in single player, so SP behavior is untouched.
+bool mp_partner_shares_friendly( const Character &guy );
+
 // True when the partner (on the other end of the connection) is currently
 // in an interruptible "wait several minutes" activity.  Reads the activity
 // id last broadcast over the wire — works in either direction (client sees
 // host's wait; host sees client's wait).
 bool is_partner_in_wait_activity();
+
+// True when the partner reported themselves RED — no free turn, waiting on the
+// grant/lockstep cycle.  Carried explicitly on the wire in both directions
+// because it cannot be derived locally: under lockstep the two calendars are
+// the same clock, so "has the partner had turns" is unanswerable from timing
+// alone.  Used by the intent hint to know when a staged arrow is still true.
+bool mp_partner_is_waiting();
 
 // Minimum moves_total for the partner's activity to surface the "Help with
 // task" bump-menu entry.  Below this threshold the activity is short enough
@@ -163,6 +322,14 @@ extern std::string g_mp_build_stamp;
 // (class npc is already forward-declared at global scope above.)
 void mp_tick_proxy_activity( ::npc &guy );
 
+// Co-op first aid: called each turn from firstaid_activity_actor::do_turn. If the
+// patient is the co-op PARTNER proxy and it has walked out of melee reach (or is
+// gone), cancel the activity with a message. No-op in SP, for self-heals, and for
+// real companion NPCs (SP has no per-turn range check — its do_turn is empty —
+// because NPC patients hold still; a real player can walk off). 2026-07-19.
+void mp_firstaid_cancel_if_partner_out_of_range( ::player_activity &act, ::Character &who,
+        character_id patient );
+
 // Client-only: invoke from the wrapper around the SP grab() handler in
 // handle_action.cpp's ACTION_GRAB case.  Snapshot the avatar's grab state
 // before running SP grab(), then call this with the pre-snapshot; we forward
@@ -175,6 +342,87 @@ void mp_client_dispatch_grab_if_changed( object_type pre_type,
 // around ACTION_HAUL and ACTION_HAUL_TOGGLE after running the SP handler;
 // forwards a toggle_haul action to the host when is_hauling() actually flipped.
 void mp_client_dispatch_hauling_if_changed( bool pre_hauling );
+
+// DIAGNOSTIC (2026-08-20, "can't craft in a moving car" report).
+// craft_activity_actor::check_if_craft_okay() bails on two quite different
+// conditions — the craft item_location resolving to nullptr, and the craft
+// simply being more than one tile away — but both emit the *same* player-facing
+// "You no longer have the in progress craft in your possession" text, so the
+// player log cannot tell them apart. In the reported session six aborts landed
+// four-while-the-truck-was-moving and two while parked, which is the shape of
+// two separate bugs wearing one message. Call this from the failure branch to
+// record which one fired and how far apart the two ended up.
+void mp_log_craft_possession_lost( bool item_missing, const tripoint_abs_ms &craft_pos,
+                                   const tripoint_abs_ms &crafter_pos );
+
+// DIAGNOSTIC 2026-08-26 — see the call site in crafting.cpp for the full report
+// this exists to settle: a shared vehicle-cargo craft's "insufficient charges"
+// message appeared identically on both host and client, first-person, with no
+// relay-log line on either side. Logs who this side's simulation believes is
+// advancing the craft, and with what charge count, so two logs from the same
+// repro can be compared directly. No-op outside MP.
+// `from` is the usage_from branch that fired ("player", "map" or "both").  The
+// 2026-08-26 version instrumented only the player branch, which is why the
+// 2026-08-27 hotplate repro produced 75 player-visible messages and zero log
+// lines: a tool sitting in vehicle cargo is MAP inventory, so it takes a branch
+// that had no diagnostic on it at all.
+void mp_log_craft_tool_shortfall( const Character &crafter, const item &craft,
+                                  const itype_id &tool_type, int count_needed,
+                                  const char *from );
+
+// DIAGNOSTIC 2026-08-28 — the three callouts above are in the WRONG function.
+// The 2026-08-28 repro produced 12 host / 140 client "insufficient hotplate
+// charges" messages and ZERO CRAFT-TOOL-SHORTFALL lines, so nothing the
+// 2026-08-27 pass instrumented is what fires. The message the players actually
+// see comes from consume_step_tool_targets()'s shortfall lambda on the
+// step-bucket path, reached through the PASSIVE (unattended) craft tick — which
+// is why a hotplate touched hours and several game-loads earlier still
+// complains: step_tool_allocs is serialized onto the craft item itself
+// (item.cpp set_step_tool_allocs), so the tool choice outlives the session.
+//
+// Both sides printed the first-person "You have ..." variant and never
+// "<npcname> has ...", so each side's resolve_consume_crafter() resolved to its
+// OWN avatar for what looks like one shared craft. resolve_crafter() matches on
+// get_avatar().getID() == crafter_id, and character ids are per-world
+// sequential while the client runs its own world — so the two avatars can hold
+// the SAME id and each side answers "that's me." Every logger below prints both
+// avatar_id and crafter_id so a single repro settles that outright.
+//
+// which: 0 = usage_from::player, 1 = map, 2 = both.  have_player / have_map are
+// passed in because the caller has already built the map inventory on this
+// path; the 2026-08-27 logger reported only carried charges, which always read
+// 0 on a map-sourced tool and said nothing.
+void mp_log_step_tool_shortfall( Character &who, const item &craft,
+                                 const itype_id &tool_type, int needed, int which,
+                                 int have_player, int have_map, bool pin_to_map,
+                                 const tripoint_bub_ms &origin, int radius,
+                                 const char *site );
+
+// The "You no longer have the %s" sibling: a selected non-charged tool that must
+// merely be PRESENT went missing.  Fires from consume_step_tool_targets()'s
+// presence sweep and from verify_step_tools(); `site` says which.
+void mp_log_step_tool_missing( Character &who, const item &craft,
+                               const itype_id &tool_type, bool pin_to_map,
+                               const tripoint_bub_ms &origin, int radius,
+                               const char *site );
+
+// Who this side believes is paying for a passive craft, and where it is sourcing
+// from.  One callout inside craft_consume_passive_step_tools() covers all three
+// craft_actualize_* entry points that funnel into it.  Logs unconditionally, not
+// just on failure: the question is whether BOTH sides claim the same craft, and
+// the runs where nothing is short are the control.
+void mp_log_step_source( const item &craft, const item_location &loc,
+                         const Character *consumer, const Character *present_char,
+                         const tripoint_bub_ms &origin, int radius, bool pin_to_map );
+
+// Client-only: "direct your character" menu, bound to ACTION_LOOT while in
+// client mode (the plain SP loot() the host uses would run against the
+// client's own non-authoritative local zone_manager/map and do nothing
+// real). Lets the client tell their own proxy NPC to work a zone activity
+// using zones the host has already drawn — phase 0 of the loot-zones-in-coop
+// design; the host stays the only zone editor for now. Never assigns any
+// activity locally.
+void mp_client_request_zone_activity();
 
 // Enrich a client action JSON with the current client_light and client_bleed fields.
 // Call before any direct client_send() to ensure the server always receives light/bleed state.
@@ -242,6 +490,10 @@ bool mp_host_omt_valid();
 tripoint_abs_omt mp_host_omt();
 // Welcome JSON field ",\"host_omt\":[x,y,z]" (or "" if not captured). Net-thread safe.
 std::string mp_host_omt_welcome_field();
+// Welcome JSON field ",\"mods\":[...]" — the host's active mod list, ordered (or
+// "" if not captured). The client rebuilds its co-op world with this exact set so
+// recipes/professions/terrain match. Net-thread safe.
+std::string mp_host_active_mods_field();
 // Client: the host's OMT from the welcome — start_game spawns here in client mode
 // instead of the character's scenario start_location (invalid if not a client join).
 tripoint_abs_omt mp_client_spawn_omt();
@@ -289,6 +541,60 @@ bool is_passive_activity( const std::string &activity_id_str );
 // Re-evaluated every turn — naturally exits when SP's activity cancellation
 // fires on either side (hostile in sight, low HP, player input, etc.).
 bool should_fast_forward();
+// Why should_fast_forward() is returning false, "" when it is true. Names the side
+// and the activity — a complete explanation, since the gate is a pure AND of two
+// independent per-side predicates with no pairwise term.
+std::string mp_ff_decline_reason();
+
+// MP DIAGNOSTIC 2026-08-14 — per-turn phase timing for game::do_turn().
+//
+// Two ~120ms gaps per turn were measured in a two-player craft (one between
+// grant_client_turn and HOST-INPUT-GATE, one between the tile broadcast and
+// DO-TURN-EXIT) with no log markers between them to attribute the cost. These
+// bracket the turn so the next run reports where the time actually goes instead
+// of us inferring it.
+//
+// mp_turn_phase_begin() resets at the top of the turn (so an early return can't
+// leave stale marks), mp_turn_phase() records a named checkpoint, and
+// mp_turn_phase_flush() emits ONE line of deltas — but only when the turn
+// exceeded threshold_ms, so fast turns don't flood the log. All no-op outside
+// an MP session.
+void mp_turn_phase_begin();
+void mp_turn_phase( const char *name );
+void mp_turn_phase_flush( int threshold_ms );
+
+// Redraw gate for game::handle_progress_ui()'s long-action progress popup.
+//
+// Returns TRUE when this is an MP session (host or client), meaning the caller's
+// SP calendar-based gate must NOT be used — and sets `due` to whether a redraw is
+// owed right now under a wall-clock cap.  Returns FALSE in SP, leaving `due`
+// false, so SP keeps its existing calendar gate untouched.
+//
+// The point is to decouple redraw rate from simulation rate.  The calendar gate
+// ties the two together; at 1_turns that forced a full frame every game turn and
+// the frame cost then paced the simulation.  See mp_gamestate.cpp for the
+// measurements.
+bool mp_progress_redraw_gate( bool first_redraw, bool &due );
+
+// MP DIAGNOSTIC 2026-08-14 — instrumentation for "MP crafting is ~10x slower than
+// SP" (ROADMAP).  game::handle_progress_ui() times its redraw path and hands the
+// numbers here; keeping the emission (throttle, formatting, running averages) in
+// this file leaves do_turn.cpp carrying only thin named callouts — merge rule 4.
+// No-ops outside an MP session.
+void mp_log_progress_ui( bool wait_redraw, bool gate_fired, int rate_turns,
+                         double ms_redraw_gated, double ms_redraw_popup,
+                         double ms_refresh, double ms_total );
+
+// Marks the last statement of game::do_turn().  Wall-clock between this and the
+// next HOST-DO-TURN-ENTRY is time spent outside do_turn entirely (main loop / SDL
+// frame pacing).  No-ops outside an MP session.
+void mp_log_do_turn_exit();
+
+// Client only: called when our own avatar finishes a spell, with how far that
+// spell could have reached (range + aoe).  The next client tile-change scan
+// widens to cover it, so ground the spell changed outside the default 10-tile
+// box still reaches the host.  See mp_take_spell_tile_reach().
+void mp_note_spell_tile_reach( int reach );
 
 // Client only: returns true when the client host-NPC proxy occupies the given
 // absolute map position.  Used by handle_action to block walk-through-host.
@@ -323,6 +629,20 @@ void mp_notify_session_ending();
 // No-op outside MP modes.
 void mp_after_quicksave();
 
+// Silent, host-only: persists world-tied co-op state (currently the kill tally)
+// on every real save-to-disk. Called from game::save() itself (game_io.cpp) so
+// it fires regardless of which UI path triggered the save. No-op on the client
+// and outside MP modes — see "Co-op save model" in ROADMAP.md (host = single
+// source of truth; the client never persists this locally).
+void mp_after_world_save();
+
+// Call when the host picks "New character" (even into an existing/reused
+// world) so the co-op kill tally starts at 0 for this playthrough instead of
+// inheriting a stale mp_kill_tally.json left by a previous playthrough in the
+// same world. Does NOT fire on "Load saved world" — that path is meant to
+// resume the persisted tally.
+void mp_kill_tally_mark_new_character();
+
 // Templates wire-sync on join: enumerate the local ~/Library/.../templates/
 // dir, send the list to the partner, then exchange any templates the other
 // side is missing.  Symmetric — both host and client send their list on
@@ -337,6 +657,11 @@ void mp_templates_sync_on_join();
 // Silent on success (caller drives the next UI step); pops only on error.
 // Returns true if host mode is armed (including the no-op "already armed").
 bool mp_menu_start_host_session();
+
+// Effective host listen port.  Precedence: CDDA_MP_PORT env (Option A) →
+// menu/persisted field (Option B) → 8080 floor.  Single source for the
+// run_server() bind, the arm-log, and the co-op status text so they can't drift.
+uint16_t mp_host_port();
 
 // Main-menu integration: prompts for a host address (with optional :port),
 // probes, connects, sets client mode.  Silent on success; pops an error
@@ -379,6 +704,67 @@ bool mp_world_has_history( const std::string &worldname );
 // One-line plain-text badge for picker display, e.g. "  (co-op, host)".
 // Empty when the world has no co-op history.  Caller chooses the color.
 std::string mp_world_marker_badge( const std::string &worldname );
+
+// MP 2026-08-30 — MOD-COMPATIBILITY GATE (client-side, join flow).
+//
+// A character whose world carries mods the HOST does not have cannot work in the
+// host's world: the host must instantiate every item by itype_id and has no
+// template for them.  Measured 2026-08-30 — a Magiclysm character joined a
+// vanilla host, its `rune_animist` crashed the host outright, and after the crash
+// guard landed the same character simply had no tradeable inventory.  There is no
+// repair for this; the item cannot exist host-side.  So gate it at selection.
+//
+// True when every mod in `worldname` is also active on the host.  `missing_out`
+// receives a comma-separated list of the ones that are not, for the UI label.
+// Returns true (permissive) when the host advertised no mod list at all — an
+// older host, where blocking would be a guess.
+bool mp_world_mods_ok( const std::string &worldname, std::string &missing_out );
+
+// Host-side: true when the partner proxy's inventory is known to be INCOMPLETE
+// because worn_sync carried item ids this world cannot resolve and they had to be
+// dropped.  Anything that reads the proxy's inventory as if it were the truth —
+// trade above all — must refuse rather than silently present a partial one.
+bool mp_partner_items_incomplete();
+
+// ---------------------------------------------------------------------------
+// PEER MODAL INTERLOCK (2026-08-30)
+//
+// Fast-forward is the only regime in which one side can bank turns and keep
+// going while the other is stopped, and a blocking modal is how a side stops
+// without saying so.  Measured on the host log for 5cbef82ccb: the client sat on
+// a proficiency dialog while the host's lead climbed 189 -> 349 -> 509 -> 717
+// turns, MP_FF_HOLD_MAX_MS firing every 2s and bursting 160 turns each time.
+//
+// The FF lead window cannot fix that on its own.  A client inside a modal and a
+// client whose lead accounting is broken look identical from the far side --
+// both simply stop reporting -- so any finite valve resumes bursting with the
+// dialog still open, and an infinite one reintroduces the deadlock the valve
+// exists to prevent.  The missing information is the modal itself, so send it.
+//
+// Symmetric on purpose: b97599beee measured BOTH halves of this, the host's own
+// "Keep practicing?" modal letting the client train on for seven more seconds.
+//
+// Scope-guard one of these over a blocking modal loop.  It tells the far side on
+// entry and releases on exit, including on exception.  Nesting is counted, so
+// only the outermost pair reaches the wire, and a guard constructed outside an
+// MP session is inert.
+class peer_modal_hold
+{
+    public:
+        peer_modal_hold();
+        ~peer_modal_hold();
+        peer_modal_hold( const peer_modal_hold & ) = delete;
+        peer_modal_hold &operator=( const peer_modal_hold & ) = delete;
+    private:
+        bool counted = false;
+};
+
+// True while the far side has told us it is sitting in a blocking modal.  Both
+// should_fast_forward() and mp_in_burst_mode() return false while it is set,
+// which drops the pair back into ordinary lockstep -- proven code whose lead is
+// 0 by construction, which is exactly the property that makes every non-FF
+// dialog stop both players correctly -- rather than adding a second timing rule.
+bool mp_peer_modal_held();
 // Host-time co-op validation for a world the host is about to host.  A world
 // made via the standalone World > Create World path never went through the
 // co-op create-screen's mod/NPC restrictions, so re-check it here.  Fills
@@ -459,6 +845,14 @@ void host_broadcast_vehicle_step();
 // grant cycle.  No-op when not hosting or no remote player connected.
 void host_broadcast_post_action();
 
+// Call every do_turn iteration regardless of whether the host acted.  Flushes
+// a broadcast on a wall-clock cadence (MP_IDLE_BROADCAST_MS) so an idle host
+// (zero input for an extended stretch) doesn't stall queued state — e.g. a
+// client's veh_snapshot_req resend — behind host_broadcast_post_action()'s
+// acted-only gate.  No-op when not hosting, no remote player, or called again
+// before the cadence elapses.
+void host_broadcast_idle_tick();
+
 // Set by do_turn at turn start (before the activity loop runs) to the avatar's
 // current activity id, or empty if idle.  client_enrich_action reads this so
 // the value sent to the host is the activity that was active at the start of
@@ -481,6 +875,13 @@ const std::string &get_client_turn_activity();
 // to stdout: in curses builds that writes through the active terminal UI.
 void mp_log( const std::string &msg );
 
+// DIAGNOSTIC (temporary, 2026-07-08, for issue #10 indoor-lighting divergence):
+// dumps is_outside + light level for a window around the local avatar, tagged
+// HOST/CLIENT, so a host-vs-client diff reveals whether the client's roof (z+1)
+// is unsynced (client outside=1 where host outside=0) or it's a light-compute
+// bug. Self-gated on session role; throttled + capped internally.
+void mp_log_lighting_sample();
+
 // DIAGNOSTIC (temporary, 2026-06-23, for #5 assist-distraction / client safe-mode):
 // log the safe-mode / hostile decision so we can see whether the client actually
 // reacts to an approaching hostile during fast-forward. Named callout (rule 4) so
@@ -488,6 +889,34 @@ void mp_log( const std::string &msg );
 // No-op outside MP. Throttled internally (emits only when newseen / nearest-hostile
 // distance / safe_mode change) so it never floods the log during 200-turn/sec FF.
 void mp_log_safemode_check( int newseen, int mostseen, int safe_mode );
+
+// DIAGNOSTIC 2026-08-26 — interrupt PARITY between the two players.  SP evaluates
+// activity distractions locally, against whatever that side can see, and cancels
+// the activity independently on each machine.  Whether both sides reach the same
+// verdict on the same game turn has never been measured, and the failure it hides
+// is not subtle: one player's long cast breaks on an approaching zombie while the
+// partner's runs on.  Body lives in mp_gamestate.cpp; do_turn.cpp is upstream-hot
+// so the SP site carries a one-line call.  No-op outside MP.  Logs both the
+// distraction verdict AND the hostile counts behind it, so "no distraction" can be
+// told apart from "no hostiles", and keys every line to the game turn so the two
+// logs line up directly.
+void mp_log_distraction_check( const Character &who,
+                               const std::map<distraction_type, std::string> &dists );
+
+// Live hostiles within `radius` (chebyshev, same z) of an absolute tile, as this
+// side's simulation sees them.  Presence, not visibility — both sides already hold
+// the same synced monster list, so "is something hostile near my partner" is a
+// local question needing no protocol.  Returns 0 outside MP.
+int mp_count_hostiles_near( const tripoint_abs_ms &around, int radius );
+
+// DIAGNOSTIC (temporary, 2026-07-02, for the "host proxy vanished from client
+// screen" bug): named callout (rule 4) from Creature::deal_damage (creature.cpp,
+// an upstream-hot SP file) so the actual damage-dealing event on the client's
+// host-overlay proxy is visible — who/what hit it and for how much — instead of
+// only seeing the HP drop after the fact via the HOST-OVERLAY polling log.
+// No-op unless target is client_host_npc_id; strip along with the other
+// temporary host-proxy diagnostics once the root cause is confirmed + fixed.
+void mp_diag_damage_dealt( Creature *source, Creature *target, int amount );
 
 // Per-turn callouts invoked from do_turn.cpp (an SP file) so the MP per-turn
 // catch-up/gating logic lives here, not inline in the SP loop (rule 4, minimize
@@ -499,6 +928,9 @@ void mp_log_safemode_check( int newseen, int mostseen, int safe_mode );
 //   discards process_turn's move regen (client moves come from server grants).
 void mp_do_turn_update_body( Character &u );
 void mp_do_turn_process_turn( Character &u );
+// Consume a granted budget while asleep, including wakeup and lockstep ACK.
+// Returns false when the local client is awake or multiplayer is inactive.
+bool mp_client_consume_sleep_grant();
 
 // Client only: re-send the client's current worn-item list, skin tone, hair,
 // and wielded weapon to the server so the remote NPC proxy stays in sync.
@@ -522,6 +954,62 @@ void client_dispatch_wait_for_activity( const activity_id &pre_id = activity_id(
 // instant the activity ends, without relying on a stale-timer heuristic.
 void client_send_activity_start( const std::string &activity_id_str );
 void client_send_activity_end( const std::string &activity_id_str );
+
+// ---------------------------------------------------------------------------
+// MP DIAG 2026-08-30 — HOSTACT probe.
+//
+// DIAGNOSING: "can a HOST activity begin and end between two state broadcasts,
+// so the client never observes the transition?"
+//
+// Why the question exists: the two directions of the partner-activity sync use
+// different mechanisms.  client->host is EDGE driven — assign_activity emits an
+// explicit activity_start action and the tick path emits activity_end, so an
+// edge cannot be missed.  host->client is LEVEL driven — the host stamps
+// "host_activity" into serialize_remote_player_state() and the client samples
+// whatever the last packet happened to carry.  A host activity whose whole life
+// falls between two broadcasts is therefore invisible to the client: no
+// "<host> begins ...", no "<host> has finished ...".
+//
+// This is NOT the (retracted) "host never sends its activity" claim — the field
+// is written at mp_gamestate.cpp, in serialize_remote_player_state().  This
+// probe measures whether the SAMPLING RATE is ever too coarse for it.
+//
+// Reading the output — host log:
+//   HOSTACT[edge-vs-sample] OPEN   id=X turn=N src=assign|poll|send
+//   HOSTACT[edge-vs-sample] SENT   id=X turn=N first_send_after_ms=K
+//   HOSTACT[edge-vs-sample] CLOSE  id=X turn=N lived_turns=L sends=S   <- S>0 = fine
+//   HOSTACT[edge-vs-sample] DROPPED id=X turn=N lived_turns=L sends=0  <- THE BUG
+// client log:
+//   HOSTACT[edge-vs-sample] RECV   prev=X now=Y turn=N
+//
+// A single DROPPED line proves the defect and names the activity.  Zero DROPPED
+// over a session with plenty of short host activities (pickup, drop, wield,
+// reload) falsifies it — and note that a DROPPED for an id nobody cares about
+// is not automatically worth fixing; weigh it against what the client's HUD and
+// the "begins/finished" announcements actually need.
+//
+// Cross-check without reading individual lines:
+//   grep -c 'HOSTACT.*OPEN' ~/cdda-mp-server.log   # host activity instances
+//   grep -c 'HOSTACT.*RECV' ~/cdda-mp-client.log   # transitions the client saw
+// A large shortfall on the client side is the same finding in aggregate.
+//
+// Volume: one line per activity INSTANCE (not per turn, not per packet), plus
+// one RECV per observed change.  Safe to leave in.
+// ---------------------------------------------------------------------------
+
+// Host only, true start edge.  Called from Character::assign_activity next to
+// the existing client_send_activity_start() callout.  No-op off-host.
+void mp_log_host_activity_start( const std::string &activity_id_str );
+
+// Host only, per-turn poll.  Called from grant_client_turn() once a client is
+// connected; detects the end (and any assign_activity path that bypassed the
+// edge hook above).  No-op off-host.
+void mp_host_activity_tick();
+
+// Host only.  Called from serialize_remote_player_state() with the id it is
+// about to stamp into the packet, so an instance can be told apart from one
+// that never reached the wire.  No-op off-host.
+void mp_note_host_activity_sent( const std::string &activity_id_str );
 
 // Client only: returns the luminance emitted by the host player (flashlight,
 // mutations, etc.) as received in the last state packet.  Used by lightmap.cpp
@@ -553,6 +1041,11 @@ int ms_since_last_grant();
 // otherwise a ~317ms draw runs every turn, paces the host to it, and flickers the
 // turn border RED). Client-only; false on host/SP so they render normally.
 bool client_render_can_throttle();
+// Rate-capped (~1Hz) main-view repaint for a CLIENT in a long activity. Replaces
+// the throttle that used to live inside ui_manager::redraw(), where it applied to
+// every caller and starved modal dialogs of their single redraw — wedging the
+// client with an unclosable, invisible message log. Keep it scoped to this call.
+void mp_client_repaint_throttled();
 
 // Client only: true when the server's last state packet indicated the host is
 
@@ -599,6 +1092,12 @@ void mp_relay_shout( int vol, bool order );
 // MP: open the co-op text-chat prompt (ACTION_COOP_CHAT).  Sends the typed line
 // to the partner and echoes it locally; shown above the info panel + message log.
 void mp_open_chat();
+
+// MP: copy the host's join address to the clipboard (ACTION_COPY_JOIN_ADDRESS).
+// Streaming-privacy companion to the hide-IP option prompted at host-arm time —
+// the address is never drawn on screen when hide-IP is on; this is how the host
+// shares it with their partner instead (paste into a private DM/voice chat).
+void mp_copy_join_address();
 
 // Overmap note sync — call after add_note / delete_note / mark_note_dangerous
 // so the partner's overmap mirrors the change.

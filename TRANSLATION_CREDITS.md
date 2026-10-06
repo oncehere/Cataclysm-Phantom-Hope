@@ -20,6 +20,20 @@ maintenance tool's MIT license does not relicense game text or translations.
 补译及修正记录固定在上述提交中；工具本身的 MIT 许可不改变译文的 CC BY-SA 3.0
 许可。玩家可以直接修改 PO 提交 PR，无须自行编辑工具状态文件。
 
+The 2026-10-01 multiplayer update adds 89 gettext entries while preserving the
+entire existing catalog byte-for-byte. Chinese translations were reused from
+[Schrodinger_Sig's upstream contribution](https://github.com/busterbogheart/Cataclysm-DDA-multi/pull/22),
+fixed at `5cf9a79c66ec82ea6d5710fb277db5ac62a71681`,
+[`lang/fork/zh_CN.po`](https://github.com/busterbogheart/Cataclysm-DDA-multi/blob/5cf9a79c66ec82ea6d5710fb277db5ac62a71681/lang/fork/zh_CN.po).
+Of these entries, 51 retain that translation exactly, 17 have CPH semantic
+corrections, and 21 have new Codex-assisted Chinese translations. The update
+record lists each message's provenance. The source header has no
+Last-Translator or translator list; the source commit authorship is retained.
+
+2026-10-01 联机更新新增 89 条消息，原目录全部字节保持不变。上游中文贡献者为
+Schrodinger_Sig；51 条直接复用，17 条修正术语或语义，另补译 21 条。逐条来源、
+固定提交和校验值见上述来源记录；原有 251 条 CPH 人工译文及第三方署名均保留。
+
 ## Historical bootstrap / 历史冷启动输入
 
 CPH 于 2026-09-26 核验的冷启动基线使用来自 CCB 发布 `2026-09-23-0407` 的**真实编译 MO 资源**，来源、字节校验和所保留的许可/署名文件见 [translation-inputs.md](docs/project/translation-inputs.md)。这些 MO 是临时构建输入，不是可维护的 PO 源码，也不证明当下所有字符串的翻译覆盖率。既有 `.po` 文件中的 `# Translators:`、`Last-Translator` 等署名应保留；修复翻译流程不得删改原作者归属。

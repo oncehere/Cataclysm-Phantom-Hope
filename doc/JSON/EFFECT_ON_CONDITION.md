@@ -16,6 +16,12 @@ change can refresh fingerprints and source locations without changing the
 available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
 A trap avoidance change updates the fingerprint but requires native trap validation.
 
+The multiplayer content update refreshes these inventory fingerprints while
+retaining the existing condition and effect registrations. Mod authors should
+verify effects in both host and joining-player roles: a local EOC effect alone
+does not establish that its resulting state reaches the shared world. See the
+[multiplayer limitations](../../docs/project/multiplayer.md).
+
 ActorControl's companion dialogue menu and NPC task claimant use native C++
 interfaces and add no EOC operation names. The existing player dialogue/task
 path remains available. See [ActorControl](../../docs/project/actor-control.md)

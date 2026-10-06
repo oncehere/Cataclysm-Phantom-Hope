@@ -12,6 +12,12 @@ is generated from the current source and data tree. Regenerate it with
 source fingerprints or reference locations can change without adding a new
 JSON object type. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
+Co-op menu tips use the existing `snippet` type with category `coop_tip`.
+Refreshing these snippets updates the inventory's content fingerprint and
+observed-object count. The multiplayer wire protocol remains internal to the
+engine; its scope and Mod limitations are described in
+[multiplayer](../../docs/project/multiplayer.md).
+
 The ImGui conversation view retains the existing `talk_topic` object and
 response fields documented in [NPCs](NPCs.md). A response displayed through
 `show_always` still needs its condition to pass in ordinary play before mouse, keyboard or hotkey

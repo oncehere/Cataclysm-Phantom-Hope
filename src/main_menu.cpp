@@ -818,7 +818,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 #endif
 
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
-                  vdaytip ) );
+                  iSel == getopt( main_menu_opts::COOP ) ? vcooptip : vdaytip ) );
 
     // Leave a little breathing room above the title in the touch overlay.
     int iLine = android_ui_mode::is_new_ui_build() ? 2 : 0;
@@ -1092,6 +1092,7 @@ void main_menu::init_strings()
         std::exit( 1 );
     }
     vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
+    vcooptip = SNIPPET.random_from_category( "coop_tip" ).value_or( translation() ).translated();
 }
 
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
@@ -1731,6 +1732,7 @@ bool main_menu::opening_screen()
                         hflow.entries.emplace_back( -1, true, 'q', _( "Cancel co-op" ) );
                         hflow.query();
                         if( hflow.ret == 0 ) {
+                            cata_mp::mp_kill_tally_mark_new_character();
                             uilist wflow;
                             wflow.title = _( "Co-op: world for new character" );
                             if( !any_worlds ) {
@@ -1854,9 +1856,11 @@ bool main_menu::opening_screen()
                             if( host_key != s_announced_host ) {
                                 s_announced_host = host_key;
                                 if( host_player.empty() ) {
-                                    popup( _( "Joining world \"%s\"." ), host_world );
+                                    popup( _( "Connected to world \"%s\".\nPress a key to continue." ),
+                                           host_world );
                                 } else {
-                                    popup( _( "Joining %s's game.\nWorld: \"%s\"" ),
+                                    //~ %1$s is the host's name (player name), %2$s is the world name
+                                    popup( _( "Connected to %1$s's game.\nWorld: \"%2$s\"\nPress a key to continue." ),
                                            host_player, host_world );
                                 }
                             }
@@ -1865,9 +1869,11 @@ bool main_menu::opening_screen()
                         if( host_world.empty() ) {
                             join_title = _( "Co-op: join a session" );
                         } else if( host_player.empty() ) {
+                            //~ %s is the world's name
                             join_title = string_format( _( "Joining \"%s\"" ), host_world );
                         } else {
-                            join_title = string_format( _( "Joining \"%s\" — %s's game" ),
+                            //~ %1$s is the world name, %2$s is the host's player name
+                            join_title = string_format( _( "Joining \"%1$s\" — %2$s's game" ),
                                                         host_world, host_player );
                         }
                         uilist jflow;
@@ -1887,20 +1893,60 @@ bool main_menu::opening_screen()
                                     wnames.push_back( kv.first );
                                 }
                             }
+                            // MP 2026-08-30 — MOD-COMPATIBILITY GATE.  Until now the
+                            // only filter here was "has saves", so a character from a
+                            // Magiclysm world was offered when joining a vanilla host.
+                            // The host cannot instantiate items it has no template for:
+                            // that crashed the host outright, and after the crash guard
+                            // it left the partner with no tradeable inventory.  Nothing
+                            // downstream can repair it, so refuse at selection.
+                            std::map<std::string, std::string> world_missing;
+                            size_t n_compatible = 0;
+                            for( const std::string &name : wnames ) {
+                                std::string missing;
+                                if( cata_mp::mp_world_mods_ok( name, missing ) ) {
+                                    ++n_compatible;
+                                } else {
+                                    world_missing[name] = missing;
+                                }
+                            }
+                            if( n_compatible == 0 && !wnames.empty() ) {
+                                std::string detail;
+                                for( const auto &kv : world_missing ) {
+                                    detail += "\n  - " + kv.first + "  (needs: " + kv.second + ")";
+                                }
+                                popup( _( "None of your saved characters can join this host.\n\n"
+                                          "They were made in worlds using mods this host isn't "
+                                          "running:%s\n\nStart a new character instead, or ask the "
+                                          "host to enable those mods." ), detail );
+                                break;
+                            }
                             std::string chosen_world;
-                            if( wnames.size() == 1 ) {
+                            // Only auto-skip the picker when the single candidate is
+                            // actually usable — otherwise the old code silently selected
+                            // an incompatible world with no menu shown at all.
+                            if( wnames.size() == 1 && world_missing.empty() ) {
                                 chosen_world = wnames[0];
                             } else {
                                 uilist wpick;
                                 wpick.title = join_title;
                                 int idx = 0;
                                 for( const std::string &name : wnames ) {
+                                    const auto miss_it = world_missing.find( name );
+                                    const bool usable = miss_it == world_missing.end();
                                     const bool has_coop = cata_mp::mp_world_has_history( name );
-                                    const std::string display = name +
-                                                                ( has_coop ? colorize( cata_mp::mp_world_marker_badge( name ),
-                                                                        c_light_green )
-                                                                  : "  " + colorize( "(solo)", c_dark_gray ) );
-                                    wpick.entries.emplace_back( idx++, true, MENU_AUTOASSIGN, display );
+                                    std::string display = name +
+                                                          ( has_coop ? colorize( cata_mp::mp_world_marker_badge( name ),
+                                                                  c_light_green )
+                                                            : "  " + colorize( "(solo)", c_dark_gray ) );
+                                    if( !usable ) {
+                                        // Say WHY, not just "no" — the player can act on
+                                        // a named mod, and this is the same badge pattern
+                                        // the co-op/solo markers already use.
+                                        display += "  " + colorize( string_format( _( "(needs: %s)" ),
+                                                                    miss_it->second ), c_red );
+                                    }
+                                    wpick.entries.emplace_back( idx++, usable, MENU_AUTOASSIGN, display );
                                 }
                                 wpick.entries.emplace_back( -1, true, 'q', _( "Cancel" ) );
                                 wpick.query();
@@ -1919,7 +1965,6 @@ bool main_menu::opening_screen()
                                 break;
                             }
                             if( !cata_mp::mp_ensure_client_scratch_world() ) {
-                                popup( _( "Couldn't prepare a client scratch world." ) );
                                 break;
                             }
                             sel2 = ct;

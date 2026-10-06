@@ -983,6 +983,8 @@ class game
         // Handle shifting through terrain and walls, with distance defined by enchantment.
         bool phasing_move_enchant( const tripoint_bub_ms &dest, int phase_distance = 0 );
         bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp );
+        bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp,
+                                 Character &who );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint_bub_ms &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
@@ -1057,6 +1059,13 @@ class game
                 bool asking_for_public_goods = false );
         int grabbed_furn_move_time( const tripoint_rel_ms &dp );
         bool grabbed_furn_move( const tripoint_rel_ms &dp );
+        int grabbed_furn_move_time( Character &who, const tripoint_rel_ms &dp );
+        bool grabbed_furn_move( Character &who, const tripoint_rel_ms &dp );
+        bool grabbed_veh_move_helper( Character &who, const tripoint_rel_ms &dp, bool stairs_move );
+        bool grabbed_veh_move_stairs( Character &who, const tripoint_rel_ms &dp );
+        bool grabbed_veh_move( Character &who, const tripoint_rel_ms &dp );
+        void start_hauling( Character &who, const tripoint_bub_ms &pos );
+        void mp_poll_input();
 
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
@@ -1145,7 +1154,7 @@ class game
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
                                 const std::optional<tripoint_bub_ms> &mouse_target );
-        bool handle_action();
+        bool handle_action( bool poll_only = false );
         bool try_get_right_click_action( action_id &act, tripoint_bub_ms &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         // If loc is empty then use all the items in character inventory including bionics.

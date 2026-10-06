@@ -29,6 +29,7 @@
 #include "itype.h"
 #include "lua_platform_runtime.h"
 #include "messages.h"
+#include "mp_gamestate.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -53,6 +54,7 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -186,6 +188,19 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
     if( actor ) {
         extra_info = actor->get_progress_message( *this );
+        // MP: activity_actor's BASE get_progress_message already returns a
+        // percentage, so almost every actor-driven activity has one -- and the
+        // handful that override it either keep the number or deliberately show
+        // something better (rounds fired, reading progress).  spellcasting is
+        // the odd one out: it replaces the percentage with a bare spell name,
+        // so the caster saw less than their partner's co-op HUD did.
+        //
+        // Scoped to ACT_SPELLCASTING for exactly that reason.  Appending
+        // unconditionally is what produced "butchering: 34% 34%" -- butchery
+        // does not override, so the base class had already supplied the number.
+        if( type == ACT_SPELLCASTING && !extra_info.empty() ) {
+            extra_info += cata_mp::mp_activity_percent_suffix( moves_total, moves_left );
+        }
     }
 
     return extra_info.empty() ? string_format( _( "%s…" ),

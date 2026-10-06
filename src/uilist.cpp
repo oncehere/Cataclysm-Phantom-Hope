@@ -1,3 +1,4 @@
+#include "mp_gamestate.h"
 #include "uilist.h"
 
 #include <cctype>
@@ -915,10 +916,14 @@ shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_u
         }
     }
 #endif
+    // Android's native menu can block inside setup before the desktop loop.
+    // Hold the peer across both paths which may own the local input.
+    cata_mp::peer_modal_hold mp_hold;
     if( !query_setup() ) {
         return nullptr;
     }
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
+
     do {
         ui_manager::redraw();
         query_once( ctxt, timeout, allow_unfiltered_hotkeys );

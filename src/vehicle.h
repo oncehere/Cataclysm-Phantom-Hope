@@ -893,13 +893,15 @@ class vehicle
         // @returns damage still left to apply
         int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
+        //damages vehicle controls and security system
+        // Public (moved from private 2026-07-10) so the co-op host handler can
+        // invoke it on behalf of the client's "smash alarm" action.
+        void smash_security_system( map &here );
     private:
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
         bool explode_fuel( map &here, vehicle_part &vp, const damage_type_id &type );
-        //damages vehicle controls and security system
-        void smash_security_system( map &here );
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         units::power part_vpower_w( map &here, const vehicle_part &vp, bool at_full_hp = false ) const;
 
@@ -2493,6 +2495,14 @@ class vehicle
         std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
         std::vector<int> control_req_parts; // NOLINT(cata-serialize)
+
+        // Multiplayer network id assigned by the host and mirrored onto the
+        // client's copy of this vehicle, so the client can match a host vehicle
+        // by a stable identity instead of guessing by position/name (which is
+        // ambiguous for multiple same-type vehicles and breaks when one drifts).
+        // Runtime only — not serialized; re-tagged from the host each session.
+        // Mirrors monster::mp_net_id.  0 = untagged / client-local.
+        uint32_t mp_net_id = 0; // NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name

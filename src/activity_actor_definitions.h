@@ -2418,6 +2418,7 @@ class move_furniture_on_vehicle_activity_actor : public activity_actor
         }
 
         bool can_move_furn_on_veh_to( map &, const tripoint_bub_ms & ) const;
+        bool can_move_furn_on_veh_to( map &, const tripoint_bub_ms &, Character & ) const;
         // false = move player, true = don't move player
         bool move_furniture( Character & ) const;
 
@@ -2775,6 +2776,10 @@ class build_construction_activity_actor : public activity_actor
 
         void complete_construction( player_activity &act, Character &you );
         std::string get_progress_message( const player_activity & ) const override;
+
+        const tripoint_abs_ms &get_construction_location() const {
+            return construction_location;
+        }
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<build_construction_activity_actor>( *this );
@@ -3685,7 +3690,7 @@ class firstaid_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &, Character &who ) override;
 
@@ -3952,6 +3957,12 @@ class pulp_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        // Real corpse progress, consumed by the multiplayer activity HUD.
+        int mp_unfinished_count() const;
+        int mp_pulp_total() const;
+        int mp_pulp_current() const;
+        std::string get_progress_message( const player_activity & ) const override;
 
     private:
         // list of corpses we are iterating over, from last

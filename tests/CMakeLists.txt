@@ -62,4 +62,20 @@ if (BUILD_TESTING)
                 COMMAND cata_test --rng-seed time
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
+
+    # The normal test suite substitutes fake_messages.cpp. This explicit target
+    # links the real bounded message log and runs the native two-process probe.
+    add_executable(cata_test-mp EXCLUDE_FROM_ALL
+        test_main.cpp stringmaker.cpp mp_messages_test.cpp mp_session_test.cpp
+        ${CMAKE_SOURCE_DIR}/src/messages.cpp)
+    target_compile_definitions(cata_test-mp PRIVATE CPH_MP_REAL_MESSAGES_TEST=1)
+    if(TILES)
+        target_link_libraries(cata_test-mp PRIVATE cataclysm-tiles-common)
+        target_compile_definitions(cata_test-mp PRIVATE SDL_MAIN_HANDLED)
+    else()
+        target_link_libraries(cata_test-mp PRIVATE cataclysm-common)
+    endif()
+    if(LOCALIZE)
+        add_dependencies(cata_test-mp test_mo)
+    endif()
 endif ()

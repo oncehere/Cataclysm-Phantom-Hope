@@ -27,6 +27,7 @@ class window;
  */
 
 static std::vector<std::pair<std::string, std::string>> messages;
+static unsigned long long appended_count = 0;
 
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size_t )
 {
@@ -40,6 +41,7 @@ void Messages::add_msg( std::string m )
 {
     if( !m.empty() ) {
         messages.emplace_back( to_string_time_of_day( calendar::turn ), std::move( m ) );
+        ++appended_count;
     }
 }
 void Messages::add_msg( const game_message_params &, std::string m )
@@ -54,6 +56,10 @@ void Messages::deactivate() {}
 size_t Messages::size()
 {
     return messages.size();
+}
+unsigned long long Messages::appended_total()
+{
+    return appended_count;
 }
 bool Messages::has_undisplayed_messages()
 {
