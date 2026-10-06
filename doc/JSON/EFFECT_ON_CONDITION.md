@@ -4089,6 +4089,10 @@ Create a context value with condition, that you can pass down the next topic or 
 | "set_condition" | **mandatory** | string or [variable object](#variable-object) | id of condition |
 | "condition" | **mandatory** | [dialogue condition](NPCs.md#dialogue-conditions) | condition itself |
 
+The saved predicate is evaluated using the dialogue that later calls
+`get_condition`, including that dialogue's alpha, beta and variable scopes.
+It does not retain the setter's participants.
+
 ##### Valid talkers:
 
 | Avatar | NPC | Monster | Furniture | Item | Vehicle |

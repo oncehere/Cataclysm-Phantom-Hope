@@ -2178,7 +2178,7 @@ TEST_CASE( "multimag_fire_skips_incompatible_ammo_gate", "[multimag][fire]" )
     Messages::clear_messages();
     avatar_action::fire_wielded_weapon( dummy );
 
-    for( const auto &msg : Messages::recent_messages( 0 ) ) {
+    for( const auto &msg : Messages::recent_messages( Messages::size() ) ) {
         INFO( "message: " << msg.second );
         CHECK( msg.second.find( "incompatible ammunition" ) == std::string::npos );
     }

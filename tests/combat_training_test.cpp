@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "combat_training.h"
+#include "game_constants.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"
@@ -25,7 +26,12 @@ TEST_CASE( "combat_practice_continues_above_opponent_training_level", "[skill][c
     clear_avatar();
     avatar &you = get_avatar();
     const skill_id id = GENERATE( skill_melee, skill_bashing, skill_unarmed, skill_dodge );
-    you.set_skill_level( id, 10 );
+    // The opponent limit is soft; the global skill limit is still hard.
+    const int practical_level = MAX_SKILL - 2;
+    REQUIRE( practical_level > 2 );
+    you.set_skill_level( id, practical_level );
+    you.set_focus( 100 );
+    REQUIRE( you.get_knowledge_level( id ) == practical_level );
     const int before = you.get_skill_level_object( id ).exercise( true );
 
     you.practice_combat( id, 90, 2 );
@@ -35,20 +41,37 @@ TEST_CASE( "combat_practice_continues_above_opponent_training_level", "[skill][c
 
 TEST_CASE( "strong_opponents_train_faster_without_changing_other_practice_caps", "[skill][combat]" )
 {
+    const skill_id id = GENERATE( skill_melee, skill_bashing, skill_unarmed, skill_dodge );
+    const int practical_level = MAX_SKILL - 2;
+    const int weak_training_level = 2;
+    REQUIRE( practical_level > weak_training_level );
+    const int reduction_divisor = 1 + practical_level - weak_training_level;
+    // Make the scaled amount integral so the exact rate does not depend on RNG rounding.
+    const int amount = 10 * reduction_divisor;
     clear_avatar();
     avatar &you = get_avatar();
-    you.set_skill_level( skill_melee, 10 );
-    you.practice_combat( skill_melee, 90, 2 );
-    const int weak_experience = you.get_skill_level_object( skill_melee ).exercise( true );
+    you.set_skill_level( id, practical_level );
+    you.set_focus( 100 );
+    you.practice_combat( id, amount, weak_training_level );
+    const int weak_experience = you.get_skill_level_object( id ).exercise( true );
     REQUIRE( weak_experience > 0 );
 
     clear_avatar();
-    you.set_skill_level( skill_melee, 10 );
-    you.practice_combat( skill_melee, 90, 10 );
-    CHECK( you.get_skill_level_object( skill_melee ).exercise( true ) > weak_experience );
+    you.set_skill_level( id, practical_level );
+    you.set_focus( 100 );
+    you.practice_combat( id, amount, practical_level );
+    CHECK( you.get_skill_level_object( id ).exercise( true ) ==
+           weak_experience * reduction_divisor );
 
     clear_avatar();
-    you.set_skill_level( skill_melee, 10 );
-    you.practice( skill_melee, 90, 2, true );
-    CHECK( you.get_skill_level_object( skill_melee ).exercise( true ) == 0 );
+    you.set_skill_level( id, practical_level );
+    you.set_focus( 100 );
+    you.practice( id, amount, weak_training_level, true );
+    CHECK( you.get_skill_level_object( id ).exercise( true ) == 0 );
+
+    clear_avatar();
+    you.set_skill_level( id, MAX_SKILL );
+    you.set_focus( 100 );
+    you.practice_combat( id, amount, MAX_SKILL );
+    CHECK( you.get_skill_level_object( id ).exercise( true ) == 0 );
 }

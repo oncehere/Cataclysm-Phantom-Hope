@@ -64,6 +64,19 @@ child dialogue from retaining actions or clearing its parent's pending choice.
 Activity callbacks likewise apply results only while the character and the
 same activity instance remain live.
 
+Stored EOC conditions use the later evaluating dialogue's alpha and beta,
+including scoped variable reads; they do not capture the setter's participants.
+Migration requires explicit participant proof. A queried beta predicate returns
+false for an absent, stale or incompatible handle. Boolean composition keeps
+native short-circuit order; alpha/global predicates do not acquire an unrelated
+beta requirement. NPC-only services still require an exact NPC handle.
+
+Migrated combat numbers read their own variable scope independently of the
+character receiving damage or casting a spell. Native integer fields truncate
+fractional values toward zero after a single evaluation; they do not round to
+the nearest integer. Shapes without a proven participant remain reported as
+migration gaps.
+
 ## Tool validation environment
 
 The Lua API and agent tools share the pinned dependencies in

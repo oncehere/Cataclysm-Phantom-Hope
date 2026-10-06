@@ -18,6 +18,7 @@ import math
 import os
 import re
 import struct
+import sys
 import unicodedata
 from collections import Counter
 from dataclasses import dataclass
@@ -4271,6 +4272,148 @@ def render_static_npc_run_eocs(
     return render_static_traversal(effect, key, actor_expression, eoc_function_names)
 
 
+def lua_expression_references_identifier(expression: str, identifier: str) -> bool:
+    """Find a generated Lua identifier without treating literal text as a use."""
+    offset = 0
+    while offset < len(expression):
+        comment = expression.startswith("--", offset)
+        start = offset + 2 if comment else offset
+        long_string = re.match(r"\[(=*)\[", expression[start:])
+        if long_string is not None:
+            end_marker = "]" + long_string[1] + "]"
+            end = expression.find(end_marker, start + long_string.end())
+            offset = len(expression) if end < 0 else end + len(end_marker)
+            continue
+        if comment:
+            end = expression.find("\n", start)
+            offset = len(expression) if end < 0 else end + 1
+            continue
+        if expression[offset] in {"'", '"'}:
+            quote = expression[offset]
+            offset += 1
+            while offset < len(expression):
+                if expression[offset] == "\\":
+                    offset += 2
+                elif expression[offset] == quote:
+                    offset += 1
+                    break
+                else:
+                    offset += 1
+            continue
+        token = re.match(r"[A-Za-z_][A-Za-z0-9_]*", expression[offset:])
+        if token is not None:
+            if token[0] == identifier:
+                return True
+            offset += token.end()
+        else:
+            offset += 1
+    return False
+
+
+def _render_stored_condition_predicate(
+    condition: Any, eoc_conditions: dict[str, Any] | None,
+    test_eoc_stack: frozenset[str] = frozenset(),
+) -> str | None:
+    """Return (matched, valid) while checking beta only when a leaf reads it.
+
+    Native all_of/any_of evaluate in order and short circuit. Invalid runtime
+    handles must fail closed without being inverted by NOT, but cannot reject
+    an earlier decisive branch that never reads beta.
+    """
+    if isinstance(condition, dict) and set(condition) in ({"and"}, {"or"}):
+        operator = next(iter(condition))
+        entries = condition[operator]
+        if not isinstance(entries, list) or any(
+            not isinstance(entry, (str, dict)) for entry in entries
+        ):
+            return None
+        children = [
+            _render_stored_condition_predicate(entry, eoc_conditions, test_eoc_stack)
+            for entry in entries
+        ]
+        if any(child is None for child in children):
+            return None
+        lines = ["(function()"]
+        for child in children:
+            lines.extend([
+                f"local matched, valid = {child};",
+                "if not valid then return false, false end;",
+                ("if not matched then return false, true end;" if operator == "and"
+                 else "if matched then return true, true end;"),
+            ])
+        lines.extend([
+            "return " + ("true" if operator == "and" else "false") + ", true;",
+            "end)()",
+        ])
+        return " ".join(lines)
+    if isinstance(condition, dict) and set(condition) == {"not"}:
+        if not isinstance(condition["not"], (str, dict)):
+            return None
+        child = _render_stored_condition_predicate(
+            condition["not"], eoc_conditions, test_eoc_stack
+        )
+        if child is None:
+            return None
+        return (
+            f"(function() local matched, valid = {child}; "
+            "if not valid then return false, false end; "
+            "return not matched, true end)()"
+        )
+    if isinstance(condition, dict) and set(condition) == {"test_eoc"}:
+        referenced = condition["test_eoc"]
+        if (
+            not isinstance(referenced, str) or eoc_conditions is None or
+            referenced not in eoc_conditions or referenced in test_eoc_stack or
+            len(test_eoc_stack) >= MAX_TEST_EOC_INLINE_DEPTH
+        ):
+            return None
+        nested = eoc_conditions[referenced]
+        if not isinstance(nested, dict) or not isinstance(nested.get("condition"), (str, dict)):
+            return None
+        return _render_stored_condition_predicate(
+            nested["condition"], eoc_conditions, test_eoc_stack | {referenced}
+        )
+
+    predicate = render_eoc_condition_expression(
+        condition,
+        avatar_actor_proven=False,
+        weapon_actor_proven=False,
+        npc_actor_proven=True,
+        creature_actor_proven=True,
+        eoc_conditions=eoc_conditions,
+        generic_character_actor_proven=True,
+        npc_actor_expression="stored_condition_beta",
+    )
+    if predicate is None or "services.characters.avatar()" in predicate:
+        return None
+    guard = ""
+    if lua_expression_references_identifier(predicate, "stored_condition_beta"):
+        guard = (
+            'if stored_condition_beta == nil or stored_condition_beta.kind ~= "creature" or '
+        )
+        # These existing lowerings use only Creature snapshots/queries, which
+        # also accept Monster beta. Dynamic variable reads still need the
+        # exact Character domain established by the ordinary leaf renderer.
+        creature_query = (
+            isinstance(condition, str) and condition in {
+                "npc_is_alive", "npc_is_avatar", "npc_is_outside",
+            }
+        ) or (
+            isinstance(condition, dict) and set(condition) in (
+                {"npc_has_species"}, {"npc_has_flag"},
+                {"npc_is_on_terrain_with_flag"},
+            ) and isinstance(next(iter(condition.values())), str)
+        )
+        if not creature_query:
+            guard += (
+                '(stored_condition_beta.subtype ~= "avatar" and '
+                'stored_condition_beta.subtype ~= "character" and '
+                'stored_condition_beta.subtype ~= "npc") or '
+            )
+        guard += "not stored_condition_beta:is_valid() then return false, false end; "
+    return f"(function() {guard}return ({predicate}), true end)()"
+
+
 def render_static_set_condition(
     effect: dict[str, Any], avatar_actor_proven: bool,
     weapon_actor_proven: bool, npc_actor_proven: bool,
@@ -4298,15 +4441,7 @@ def render_static_set_condition(
     # never bake the setter's avatar, weapon, or NPC proof into the closure.
     # Getter call sites separately prove that their current alpha is a
     # Character before invoking such a closure.
-    predicate = render_eoc_condition_expression(
-        effect["condition"],
-        avatar_actor_proven=False,
-        weapon_actor_proven=False,
-        npc_actor_proven=False,
-        creature_actor_proven=True,
-        eoc_conditions=eoc_conditions,
-        generic_character_actor_proven=True,
-    )
+    predicate = _render_stored_condition_predicate(effect["condition"], eoc_conditions)
     # Some legacy math predicates still fall back to the ambient avatar when
     # no exact variable scope is modeled. A saved callback must use its later
     # dialogue, so reject that generated fallback rather than capturing it.
@@ -4315,13 +4450,17 @@ def render_static_set_condition(
         "services.characters.avatar()" in predicate
     ):
         return None
-    return [
+    lines = [
         "    context.conditions = context.conditions or {}",
         f"    local stored_condition_name = tostring(({name}) or \"\")",
         "    context.conditions[stored_condition_name] = function(context, actor, stored_condition_beta)",
-        f"        return {predicate}",
-        "    end",
     ]
+    lines.extend([
+        f"        local matched, valid = {predicate}",
+        "        return valid and matched",
+        "    end",
+    ])
+    return lines
 
 
 def render_static_run_eocs(
@@ -5659,7 +5798,8 @@ def render_static_false_effect(
         )
         if dynamic_shape:
             rendered = render_dynamic_combat_damage(
-                effect, key, avatar_actor_proven, npc_actor_proven
+                effect, key, avatar_actor_proven, npc_actor_proven,
+                effect_actor_targets=effect_actor_targets,
             )
             if rendered is not None:
                 return [line.replace("    ", "        ", 1) for line in rendered]
@@ -5784,7 +5924,8 @@ def render_static_false_effect(
             )
         elif key in {"u_cast_spell", "npc_cast_spell"}:
             rendered = render_static_combat_cast_spell(
-                effect, key, avatar_actor_proven, npc_actor_proven
+                effect, key, avatar_actor_proven, npc_actor_proven,
+                effect_actor_targets=effect_actor_targets,
             )
         elif key in {"u_die", "npc_die"}:
             rendered = render_static_combat_die(
@@ -6166,6 +6307,8 @@ def render_dynamic_combat_damage(
     key: str,
     avatar_actor_proven: bool,
     npc_actor_proven: bool,
+    *,
+    effect_actor_targets: dict[str, tuple[str, str] | None] | None = None,
 ) -> list[str] | None:
     """Render bounded variable-backed ``u_/npc_deal_damage`` options."""
     if key not in effect or set(effect) - {
@@ -6182,6 +6325,7 @@ def render_dynamic_combat_damage(
     amount = _combat_number_expression(
         effect["amount"], actor,
         -MAX_CHARACTER_DAMAGE, MAX_CHARACTER_DAMAGE,
+        effect_actor_targets=effect_actor_targets,
     )
     if damage_type is None or amount is None:
         return None
@@ -6205,7 +6349,8 @@ def render_dynamic_combat_damage(
         if source not in effect:
             continue
         expression = _combat_number_expression(
-            effect[source], actor, minimum, maximum
+            effect[source], actor, minimum, maximum,
+            effect_actor_targets=effect_actor_targets,
         )
         if expression is None:
             return None
@@ -6220,6 +6365,7 @@ def render_dynamic_combat_damage(
         expression = _combat_number_expression(
             effect[name], actor, minimum, MAX_CHARACTER_HIT_OPTION,
             integer=True,
+            effect_actor_targets=effect_actor_targets,
         )
         if expression is None:
             return None
@@ -6254,7 +6400,7 @@ def render_dynamic_combat_damage(
     if options:
         lines.append("        { " + ", ".join(options) + " })")
     else:
-        lines[-1] += ")"
+        lines[-1] = lines[-1].removesuffix(",") + ")"
     return lines
 
 
@@ -23823,17 +23969,28 @@ def _combat_number_expression(
     maximum: float,
     *,
     integer: bool = False,
+    effect_actor_targets: dict[str, tuple[str, str] | None] | None = None,
 ) -> str | None:
     """Render a literal or bounded variable-backed combat number."""
     literal = _combat_literal_number(value, minimum, maximum, integer=integer)
     if literal is not None:
         return str(literal) if integer else lua_number(literal)
-    rendered = render_eoc_numeric_expression(value, str(minimum), actor)
+    if isinstance(value, dict) and set(value).intersection(
+        {"u_val", "npc_val", "global_val", "context_val", "var_val"}
+    ):
+        # dbl_or_var reads its own const dialogue participant before the
+        # mutation recipient is selected. A recipient or a scope spelling
+        # alone cannot prove the Native alpha/beta variable owner.
+        rendered = render_native_number_expression(value, effect_actor_targets)
+    else:
+        rendered = render_eoc_numeric_expression(
+            value, str(minimum), actor, effect_actor_targets=effect_actor_targets,
+        )
     if rendered is None:
         return None
     bounded = (
         f"math.max({minimum:g}, math.min({maximum:g}, "
-        f"math.floor(({rendered}) + 0.5)))"
+        f"(math.modf(({rendered})))))"
         if integer else
         f"math.max({minimum:g}, math.min({maximum:g}, ({rendered})))"
     )
@@ -24283,6 +24440,8 @@ def render_static_combat_cast_spell(
     key: str,
     avatar_actor_proven: bool,
     npc_event_character_actor_proven: bool,
+    *,
+    effect_actor_targets: dict[str, tuple[str, str] | None] | None = None,
 ) -> list[str] | None:
     if key not in effect or not isinstance(effect[key], dict):
         return None
@@ -24309,10 +24468,12 @@ def render_static_combat_cast_spell(
         return None
     hit_self = _combat_literal_bool(spell.get("hit_self"), False)
     min_level = _combat_number_expression(
-        spell.get("min_level", 0), actor, 0, 1000, integer=True
+        spell.get("min_level", 0), actor, 0, 1000, integer=True,
+        effect_actor_targets=effect_actor_targets,
     )
     max_level = _combat_number_expression(
-        spell.get("max_level", -1), actor, -1, 1000, integer=True
+        spell.get("max_level", -1), actor, -1, 1000, integer=True,
+        effect_actor_targets=effect_actor_targets,
     )
     if hit_self is None or min_level is None or max_level is None:
         return None
@@ -31211,8 +31372,8 @@ def render_eoc_condition_expression(
             # renderer performs the runtime Character-kind guard.
             trait_beta = npc_actor_expression
         return render_trait_condition(
-            condition, "actor" if avatar_actor_proven or (
-                generic_character_actor_proven and not npc_actor_proven) else None,
+            condition, "actor" if avatar_actor_proven or
+            generic_character_actor_proven else None,
             trait_beta,
         )
 
@@ -32210,8 +32371,12 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_has_class"))
     ):
         return (
-            f"service_value(services.npcs.get({npc_query_actor})).class.value == "
-            f"{lua_quote(condition['npc_has_class'])}"
+            "(function() "
+            f"local npc = {npc_query_actor}; "
+            'if npc == nil or npc.kind ~= "creature" or npc.subtype ~= "npc" or '
+            "not npc:is_valid() then return false end; "
+            "return service_value(services.npcs.get(npc)).class.value == "
+            f"{lua_quote(condition['npc_has_class'])} end)()"
         )
     sleepiness_levels = {
         "TIRED": 191,
@@ -32354,7 +32519,7 @@ def render_eoc_condition_expression(
             }[u_key]
             return (
                 f"service_value({native_surface}("
-                "actor, "
+                f"{npc_query_actor}, "
                 f"services.types.id(\"{native_kind}\", "
                 f"{lua_quote(condition[npc_key])}))){field}"
             )
@@ -32374,7 +32539,7 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_has_profession"))
     ):
         return (
-            "character_has_profession(actor, "
+            f"character_has_profession({npc_query_actor}, "
             f"{lua_quote(condition['npc_has_profession'])})"
         )
     if (
@@ -32407,10 +32572,10 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_has_bionics"))
     ):
         if condition["npc_has_bionics"] == "ANY":
-            return "character_has_any_bionic_or_capacity(actor)"
+            return f"character_has_any_bionic_or_capacity({npc_query_actor})"
         return (
             "service_value(services.bionics.has("
-            "actor, "
+            f"{npc_query_actor}, "
             "services.types.id(\"bionic\", "
             f"{lua_quote(condition['npc_has_bionics'])})))"
         )
@@ -32433,7 +32598,7 @@ def render_eoc_condition_expression(
     ):
         return (
             "service_value(services.characters.has_flag("
-            "actor, "
+            f"{npc_query_actor}, "
             "services.types.id(\"json_flag\", "
             f"{lua_quote(condition['npc_has_flag'])})))"
         )
@@ -32453,7 +32618,7 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_is_wearing"))
     ):
         return (
-            "character_is_wearing(actor, "
+            f"character_is_wearing({npc_query_actor}, "
             f"{lua_quote(condition['npc_is_wearing'])})"
         )
     if (
@@ -32471,7 +32636,7 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_has_item"))
     ):
         return (
-            "character_has_item(actor, "
+            f"character_has_item({npc_query_actor}, "
             f"{lua_quote(condition['npc_has_item'])})"
         )
     if (
@@ -32490,7 +32655,7 @@ def render_eoc_condition_expression(
         safe_platform_id(condition.get("npc_has_move_mode"))
     ):
         return (
-            "service_value(services.characters.snapshot(actor))"
+            f"service_value(services.characters.snapshot({npc_query_actor}))"
             ".movement.id == "
             f"{lua_quote(condition['npc_has_move_mode'])}"
         )
@@ -32531,7 +32696,7 @@ def render_eoc_condition_expression(
             NATIVE_INT_MIN <= condition[npc_key] <= NATIVE_INT_MAX
         ):
             return (
-                "service_value(services.characters.snapshot(actor))"
+                f"service_value(services.characters.snapshot({npc_query_actor}))"
                 f".stats.{stat_field} >= {condition[npc_key]}"
             )
     for rule_key, field_name, valid_values in (
@@ -32547,8 +32712,12 @@ def render_eoc_condition_expression(
             condition[rule_key] in valid_values
         ):
             return (
-                f"service_value(services.npcs.ai_rules(actor)).{field_name} == "
-                f"{lua_quote(condition[rule_key])}"
+                "(function() "
+                f"local npc = {npc_query_actor}; "
+                'if npc == nil or npc.kind ~= "creature" or npc.subtype ~= "npc" or '
+                "not npc:is_valid() then return false end; "
+                f"return service_value(services.npcs.ai_rules(npc)).{field_name} == "
+                f"{lua_quote(condition[rule_key])} end)()"
             )
     dynamic_character = render_dynamic_character_condition(
         condition,
@@ -36910,6 +37079,7 @@ def render_eoc(
                     rendered = render_dynamic_combat_damage(
                         effect, key, character_actor_proven,
                         npc_event_character_actor_proven,
+                        effect_actor_targets=effect_actor_targets,
                     )
                     if rendered is not None:
                         lines.extend(rendered)
@@ -38190,6 +38360,7 @@ def render_eoc(
                     rendered = render_static_combat_cast_spell(
                         effect, combat_key, avatar_actor_proven,
                         npc_event_character_actor_proven,
+                        effect_actor_targets=effect_actor_targets,
                     )
                 elif combat_key in {"u_die", "npc_die"}:
                     rendered = render_static_combat_die(
@@ -39541,6 +39712,15 @@ def _migrate_with_math_namespace(objects: list[SourceObject], mod_id: str,
                     known_morale_ids,
                 )
             )
+        elif kind == "talk_topic":
+            # This renderer needs the loaded Native morale registry. The
+            # generic catalog signature would discard that proof and reject
+            # otherwise supported direct on_action callbacks.
+            rendered = render_talk_topic(
+                source, result, known_morale_ids=known_morale_ids,
+            )
+            if rendered:
+                catalog_chunks[kind].append(rendered)
         elif kind in CATALOGS and CATALOGS[kind].renderer is not None:
             rendered = CATALOGS[kind].renderer(source, result)
             if rendered:
@@ -39698,12 +39878,6 @@ def _migrate_with_math_namespace(objects: list[SourceObject], mod_id: str,
                 catalog_chunks[kind].append(rendered)
         elif kind == "mod_tileset":
             rendered = render_mod_tileset(source, result)
-            if rendered:
-                catalog_chunks[kind].append(rendered)
-        elif kind == "talk_topic":
-            rendered = render_talk_topic(
-                source, result, known_morale_ids=known_morale_ids,
-            )
             if rendered:
                 catalog_chunks[kind].append(rendered)
         elif kind in UNREGISTERED_CONTENT_TYPES:

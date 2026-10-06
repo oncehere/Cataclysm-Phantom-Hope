@@ -19,22 +19,27 @@ import migrate_lua_first
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
+# Condition-only fixtures use a global literal math assignment as their
+# unrelated effect. Plain messages now require a proven live dialogue pair;
+# including one would turn a predicate regression into a message-boundary test.
+
+
+def eoc_result_ids(entries: list[str]) -> list[str]:
+    """Keep report source labels separate from the EOC IDs being asserted."""
+    return [entry.rsplit(": EOC ", 1)[-1] for entry in entries]
+
 
 def render_direct_npc_dialogue_pair(
     eoc: dict[str, object], *, vehicle_actor_proven: bool = False,
 ) -> str:
-    """Model a direct true_eocs response in avatar.talk_to's two-actor dialogue."""
+    """Exercise the lowerer with an explicitly supplied live dialogue-pair proof.
+
+    This helper proves no JSON callsite or native action-phase wiring. Those
+    remain covered by full-migrate fixtures with real response.effect shapes.
+    """
+    if {"required_event", "eoc_type", "recurrence", "global"}.intersection(eoc):
+        raise ValueError("a lowerer pair fixture must not have an independent trigger")
     source = migrate_lua_first.SourceObject(Path("source.json"), 0, eoc)
-    topic = migrate_lua_first.SourceObject(
-        Path("source.json"), 1, {
-            "type": "talk_topic",
-            "id": f"topic_{eoc['id']}",
-            "responses": [{"true_eocs": eoc["id"]}],
-        },
-    )
-    proven_ids = migrate_lua_first._npc_dialogue_mission_pair_provenance(
-        [topic, source]
-    )
     extra_proofs = (
         {"vehicle_override_ids": frozenset({str(eoc["id"])})}
         if vehicle_actor_proven else {}
@@ -42,12 +47,43 @@ def render_direct_npc_dialogue_pair(
     return migrate_lua_first.render_eoc(
         source,
         migrate_lua_first.MigrationResult(),
-        npc_dialogue_mission_pair_ids=proven_ids,
+        npc_dialogue_mission_pair_ids=frozenset({str(eoc["id"])}),
         **extra_proofs,
     )
 
 
+def render_foreach_with_empty_math_namespace(*args: Any, **kwargs: Any) -> list[str] | None:
+    """Render a fixture whose source corpus defines no custom math functions."""
+    token = migrate_lua_first._migration_math_function_ids.set(frozenset())
+    try:
+        return migrate_lua_first.render_static_foreach(*args, **kwargs)
+    finally:
+        migrate_lua_first._migration_math_function_ids.reset(token)
+
+
 class LuaFirstMigrationTest(unittest.TestCase):
+    def assert_native_action_eocs_remain_todo(
+        self, result: migrate_lua_first.MigrationResult, identifier: str,
+        effect_count: int, forbidden_calls: list[str],
+        categories: dict[int, str],
+    ) -> None:
+        self.assertEqual(result.converted, [])
+        self.assertEqual(len(result.partial), 2)
+        self.assertTrue(any(
+            todo.category == "manual_rewrite" and
+            "migrate the enclosing native action and its success/failure branch together" in todo.text
+            for todo in result.todos
+        ))
+        for index in range(effect_count):
+            self.assertTrue(any(
+                todo.category == categories.get(index, "manual_rewrite") and
+                f"EOC {identifier} effect #{index}" in todo.text
+                for todo in result.todos
+            ), f"missing bounded TODO for original action #{index}")
+        main = result.files[Path("main.lua")]
+        for call in forbidden_calls:
+            self.assertNotIn(call, main)
+
     def test_effect_and_worn_flag_predicates_require_explicit_bodyparts(self) -> None:
         self.assertIsNone(
             migrate_lua_first.render_eoc_condition_expression(
@@ -113,7 +149,7 @@ class LuaFirstMigrationTest(unittest.TestCase):
             effect_expression,
         )
         self.assertIn(
-            'local effect = resolve_id("effect", "bleed")',
+            'has_effect("bleed")',
             effect_expression,
         )
         self.assertIn(
@@ -258,7 +294,7 @@ class LuaFirstMigrationTest(unittest.TestCase):
         )
         self.assertIsNotNone(alpha_wielded)
         self.assertIn(
-            'services.variables.resolve(context.data, nil, "context", "wielded_flag")',
+            'context.data["wielded_flag"]',
             alpha_wielded,
         )
         self.assertIn("services.inventory.wielded_matches(actor, flag)", alpha_wielded)
@@ -408,32 +444,39 @@ class LuaFirstMigrationTest(unittest.TestCase):
                 "intensity": {"u_val": "minimum"},
             },
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
             npc_dialogue_pair_proven=True,
             npc_actor_expression="context.actors.beta",
         )
         bad_body_part = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_effect": "bleed", "bodypart": "missing"},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         body_part_factory_error = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_effect": "bleed", "bodypart": "ID_FACTORY_ERROR"},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         stale_effect_lookup = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_effect": "bleed", "bodypart": "torso", "intensity": {"u_val": "minimum"}},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         stale_effect_has = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_effect": "bleed", "bodypart": "torso"},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         unknown_worn_flag = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_worn_with_flag": "UNKNOWN_FLAG", "bodypart": "torso"},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         stale_worn_flag = migrate_lua_first.render_eoc_condition_expression(
             {"u_has_worn_with_flag": "WATERPROOF", "bodypart": "torso"},
             avatar_actor_proven=True,
+            math_actor_targets={"read_u": ("actor", "character")},
         )
         for expression in (
             any_effect, bad_body_part, body_part_factory_error,
@@ -466,8 +509,8 @@ local services={
   if value=='ID_FACTORY_ERROR' then error('bad typed id text') end
   return game_id(kind,value)
  end},
- variables={resolve=function(data,owner,scope,key)
-  assert(owner==actor and scope=='u' and key=='minimum')
+ variables={get_number=function(owner,key)
+  assert(owner==actor and key=='minimum')
   intensity_reads=intensity_reads+1
   return {ok=true,value={value=owner[key]}}
  end},
@@ -1085,7 +1128,7 @@ assert(calls == 1)
                 script = r"""
 local calls={}
 local services={random={one_in=function(n)
- calls[#calls+1]=n
+calls[#calls+1]=math.tointeger(n)
  return n~=3
 end}}
 assert((EXPRESSION)==EXPECTED)
@@ -1399,7 +1442,9 @@ assert(reads==3)
                        {"x": {"u_val": "x"}, "y": {"npc_val": "y"}}):
             expression = migrate_lua_first.render_eoc_condition_expression(
                 {"x_in_y_chance": chance}, avatar_actor_proven=True,
-                npc_actor_proven=True, npc_actor_expression="partner")
+                npc_actor_proven=True, npc_actor_expression="partner",
+                math_actor_targets={"read_u": ("actor", "character"),
+                                    "read_npc": ("partner", "character")})
             self.assertIsNotNone(expression)
             script = r"""
 local actor={x=1000000000000}
@@ -1407,7 +1452,7 @@ local partner={y=2000000000000}
 local context={data={}}
 local reads={}
 local function service_value(r) assert(r.ok);return r.value end
-local services={variables={resolve=function(data,owner,scope,key)
+local services={variables={get_number=function(owner,key)
  assert((key=='x' and owner==actor) or (key=='y' and owner==partner))
  reads[key]=(reads[key] or 0)+1;assert(reads[key]==1)
  return {ok=true,value={exists=true,value=owner[key]}}
@@ -1426,7 +1471,7 @@ assert(EXPRESSION)
         self.assertIsNotNone(expression)
         script = r"""
 local samples=0
-local services={random={int=function(lo,hi)
+local services={random={native_int=function(lo,hi)
  assert(lo==hi);samples=samples+1;return lo
 end,probability=function(x,y)
  assert(samples==2 and x==2 and y==4);return true
@@ -1758,6 +1803,9 @@ assert(calls==1)
         self.assertIsNotNone(expression)
         for dimension, expected in (("radiosphere", True), ("cabins", False), ("", False)):
             script = "local context={data={dim_name=" + migrate_lua_first.lua_quote(dimension) + "}}\n"
+            script += "local function service_value(r) assert(r.ok);return r.value end\n"
+            script += "local services={variables={resolve=function(data,owner,scope,key) "
+            script += "assert(data==context.data and owner==nil and scope=='context'); return {ok=true,value={exists=data[key]~=nil,value=data[key]}} end}}\n"
             script += f"assert({expression} == {str(expected).lower()})"
             result = subprocess.run(["lua", "-"], input=script, text=True, capture_output=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -3557,6 +3605,11 @@ assert(calls==#expected)
         effect = next(effect for effect in eoc["effect"] if isinstance(effect, dict) and "u_add_effect" in effect)
         self.assertEqual(effect["u_add_effect"], "invisibility")
         lines = migrate_lua_first.render_static_character_effect(effect, "u_add_effect", "actor")
+        self.assertIsNone(lines, "native artifact_resonance has no bounded typed lowering")
+        # Keep the native double-to-turn truncation check independently of the
+        # unsupported resonance query, without restoring an ambient evaluator.
+        bounded_effect = {**effect, "duration": {"math": ["270 / 150"]}}
+        lines = migrate_lua_first.render_static_character_effect(bounded_effect, "u_add_effect", "actor")
         self.assertIsNotNone(lines)
         script = """
 local actor={}
@@ -3925,7 +3978,7 @@ local services = {
  end},
   types={id=function(kind,id) assert(kind=='mutation'); return {
     value=id,is_valid=function(self) return self.value~='' end} end},
- mutations={has=query,has_id_text=query_id_text,is_purifiable=query,is_visible_to=function(character,viewer,id)
+ mutations={has=query,has_id_text=query_id_text,is_purifiable_id_text=query_id_text,is_visible_to=function(character,viewer,id)
    assert(viewer == OBSERVER)
    return query(character,id)
  end}
@@ -4074,6 +4127,7 @@ assert(calls == 2)
 local actor = {kind='creature',subtype='avatar'}
 local selected = nil
 local observed = {}
+local context = {data={}}
 local function service_value(result) assert(result.ok); return result.value end
 local services = {
  variables={resolve=function(data,owner,scope,key)
@@ -4119,6 +4173,7 @@ local actor, partner =
  {kind='creature',subtype='npc'}
 local selected = nil
 local observed = {}
+local context = {data={}}
 local function service_value(result) assert(result.ok); return result.value end
 local services = {
  variables={resolve=function(data,owner,scope,key)
@@ -6437,7 +6492,7 @@ assert({expression})
                 with self.subTest(selector=prefix + key):
                     expression = migrate_lua_first.render_eoc_condition_expression(
                         {prefix + key: identifier}, avatar_actor_proven=True,
-                        npc_actor_expression="partner")
+                        npc_actor_proven=True, npc_actor_expression="partner")
                     self.assertIsNotNone(expression)
                     script = """
 local actor, partner = {}, {}
@@ -6464,8 +6519,10 @@ assert({expression})
         entries = migrate_lua_first.load_objects([source])
         self.assertTrue(any("npc_train_skills" in json.dumps(entry.value) for entry in entries))
         expressions = [migrate_lua_first.render_eoc_condition_expression(
-            selector, avatar_actor_proven=True, npc_actor_expression="partner")
+            selector, avatar_actor_proven=True, npc_actor_proven=True,
+            npc_actor_expression="partner")
             for selector in ("u_train_skills", "npc_train_skills")]
+        self.assertTrue(all(expression is not None for expression in expressions))
         script = """
 local actor, partner = {}, {}
 local expected_teacher, expected_student, total
@@ -6610,10 +6667,72 @@ assert(called)
         self.assertEqual(checked, {"u_add_bionic", "u_lose_bionic"})
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
+    def test_static_npc_queries_keep_the_proven_beta_distinct_from_alpha(self) -> None:
+        # The native condition functions read const_actor(true), and the
+        # typed services resolve the exact supplied Character. The caller
+        # proves the dialogue beta here; its spelling alone proves nothing.
+        conditions = [
+            {"npc_has_martial_art": "style_karate"},
+            {"npc_using_martial_art": "style_karate"},
+            {"npc_has_profession": "unemployed"},
+            {"npc_has_bionics": "bio_batteries"},
+            {"npc_has_bionics": "ANY"},
+            {"npc_is_wearing": "backpack"},
+            {"npc_has_move_mode": "walk"},
+            *({"npc_has_" + stat: 1} for stat in
+              ("strength", "dexterity", "intelligence", "perception")),
+            {"npc_aim_rule": "AIM_PRECISE"},
+            {"npc_engagement_rule": "ENGAGE_ALL"},
+            {"npc_cbm_reserve_rule": "CBM_RESERVE_ALL"},
+            {"npc_cbm_recharge_rule": "CBM_RECHARGE_ALL"},
+        ]
+        for condition in conditions:
+            with self.subTest(condition=condition):
+                self.assertIsNone(migrate_lua_first.render_eoc_condition_expression(
+                    condition, npc_actor_expression="partner"))
+                expression = migrate_lua_first.render_eoc_condition_expression(
+                    condition, npc_actor_proven=True, npc_actor_expression="partner")
+                self.assertIsNotNone(expression)
+                script = """
+local actor = {}
+local partner = {kind='creature', subtype='npc', is_valid=function() return true end}
+local calls = 0
+local function check(target)
+ assert(target == partner, 'a beta query used alpha')
+ calls = calls + 1
+end
+local function no_match(target) check(target); return false end
+local function service_value(result) assert(result.ok); return result.value end
+local character_has_profession = no_match
+local character_has_any_bionic_or_capacity = no_match
+local character_is_wearing = no_match
+local services = {
+ types = {id = function(kind, value) return {kind=kind, value=value} end},
+ martial_arts = {get = function(target)
+  check(target); return {ok=true, value={known=false, selected=false}}
+ end},
+ bionics = {has = function(target) check(target); return {ok=true, value=false} end},
+ characters = {snapshot = function(target)
+  check(target); return {ok=true, value={movement={id='run'},
+   stats={strength=0,dexterity=0,intelligence=0,perception=0}}}
+ end},
+ npcs = {ai_rules = function(target)
+  check(target); return {ok=true, value={aim='other', engagement='other',
+   cbm_reserve='other', cbm_recharge='other'}}
+ end},
+}
+assert(not (EXPRESSION))
+assert(calls == 1)
+""".replace("EXPRESSION", expression)
+                result = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                        text=True, capture_output=True, timeout=10)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
+    @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_bionic_any_generated_query_includes_capacity_and_exact_actor(self) -> None:
         for value in ("ANY", {"context_val": "bionic"}):
             expression = migrate_lua_first.render_eoc_condition_expression(
-                {"npc_has_bionics": value}, npc_actor_expression="partner")
+                {"npc_has_bionics": value}, npc_actor_proven=True, npc_actor_expression="partner")
             self.assertIsNotNone(expression)
             script = """
 local actor = { capacity = true }
@@ -6649,7 +6768,7 @@ assert(predicate() == true)
                 with self.subTest(prefix=prefix, scope=scope):
                     expression = migrate_lua_first.render_eoc_condition_expression(
                         {prefix + "has_bionics": {scope: "selected"}},
-                        avatar_actor_proven=True, npc_actor_expression="partner")
+                        avatar_actor_proven=True, npc_actor_proven=True, npc_actor_expression="partner")
                     self.assertIsNotNone(expression)
                     script = """
 local actor = { selected = 'bio_batteries' }
@@ -6717,7 +6836,7 @@ assert(called)
                 with self.subTest(reference=reference, prefix=prefix):
                     expression = migrate_lua_first.render_eoc_condition_expression(
                         {prefix + "has_bionics": {"var_val": "reference"}},
-                        avatar_actor_proven=True, npc_actor_expression="partner")
+                        avatar_actor_proven=True, npc_actor_proven=True, npc_actor_expression="partner")
                     self.assertIsNotNone(expression)
                     effects = []
                     for operation in ("add_bionic", "lose_bionic"):
@@ -7282,7 +7401,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": f"predicate_{index}",
                             "required_event": "game_start",
                             "condition": predicate,
-                            "effect": {"message": f"predicate {index}"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         }
                         for index, predicate in enumerate(predicates)
@@ -7301,8 +7420,8 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             self.assertEqual(result.partial, [])
             self.assertIn("if seen[value] then return true end", main)
             self.assertIn("~= first then return false end", main)
-            self.assertIn("services.random.one_in(3)", main)
-            self.assertIn("services.random.probability(1.5, 4)", main)
+            self.assertIn("services.random.one_in(3.0)", main)
+            self.assertIn("services.random.probability(1.5, 4.0)", main)
             self.assertEqual(main.count("services.random.native_int(1, 8)"), 3)
             self.assertIn(
                 "services.random.native_int(1, 8) + (0.0 + 2.5)) > (0.0 + 5.5)",
@@ -7369,7 +7488,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             self.assertIn("services.characters.snapshot(actor)", main)
             self.assertIn('.movement.id == "walk"', main)
             self.assertIn("services.activities.snapshot(actor)", main)
-            self.assertIn('tostring((context.data["event_value"]) or "")', main)
+            self.assertIn('services.variables.resolve(context.data, nil, "context", "event_value")', main)
             self.assertIn(
                 'services.variables.resolve(context.data, actor, "u", "remembered_value")',
                 main,
@@ -7390,7 +7509,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": "avatar_effect",
                             "required_event": "game_start",
                             "condition": {"u_has_effect": "downed"},
-                            "effect": {"message": "avatar"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -7402,7 +7521,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                                 "bodypart": "torso",
                                 "intensity": 2,
                             },
-                            "effect": {"message": "avatar any"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -7414,7 +7533,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                                 "bodypart": "torso",
                                 "intensity": 1,
                             },
-                            "effect": {"message": "avatar qualified"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -7422,7 +7541,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": "npc_effect",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_effect": "downed"},
-                            "effect": {"message": "npc"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -7431,7 +7550,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "condition": {
                                 "u_has_effect": {"context_val": "effect_id"}
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -7439,7 +7558,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": "unproven_npc_effect",
                             "required_event": "game_start",
                             "condition": {"npc_has_effect": "downed"},
-                            "effect": {"message": "unproven"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -7455,7 +7574,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             self.assertEqual(len(result.converted), 2)
             self.assertEqual(len(result.partial), 4)
             self.assertIn(
-                'local effect = resolve_id("effect", "downed")',
+                'has_effect("downed")',
                 main,
             )
             self.assertIn(
@@ -7497,7 +7616,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                 Path("source.json"), index, {
                     "type": "effect_on_condition", "id": identifier,
                     "condition": condition,
-                    "effect": {"message": "effect condition"},
+                    "effect": {"math": ["migration_fixture = 1"]},
                 },
             )
             for index, (identifier, condition) in enumerate((
@@ -7554,7 +7673,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                 else:
                     self.assertIn("services.inventory.wielded_matches(beta,", rendered)
                 self.assertNotIn(
-                    "condition TODO: translate the legacy condition into a Lua predicate",
+                    "TODO: translate the legacy condition into a Lua predicate",
                     rendered,
                 )
 
@@ -7573,7 +7692,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                     },
                     {"npc_has_wielded_with_flag": "SPEAR"},
                 ]},
-                "effect": {"message": "unpaired effect"},
+                "effect": {"math": ["migration_fixture = 1"]},
             },
         )
         unpaired = migrate_lua_first.render_eoc(
@@ -7585,7 +7704,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
         self.assertNotIn("services.inventory.has_worn_flag(beta,", unpaired)
         self.assertNotIn("services.inventory.wielded_matches(beta,", unpaired)
         self.assertIn(
-            "condition TODO: translate the legacy condition into a Lua predicate",
+            "TODO: translate the legacy condition into a Lua predicate",
             unpaired,
         )
 
@@ -7661,7 +7780,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": f"predicate_{index}",
                             "required_event": "game_start",
                             "condition": predicate,
-                            "effect": {"message": f"predicate {index}"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         }
                         for index, predicate in enumerate(predicates)
@@ -7691,7 +7810,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             )
             self.assertIn("character_has_pickup_whitelist(actor)", main)
             self.assertIn("services.npcs.ai_rules(character)", main)
-            self.assertIn("services.creatures.avatar()", main)
+            self.assertIn("services.characters.avatar()", main)
             self.assertNotIn("condition TODO: translate the legacy condition into a Lua predicate", report)
 
     def test_player_view_conditions_use_native_player_view_service(self) -> None:
@@ -7705,7 +7824,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": "player_view_alpha",
                             "required_event": "game_start",
                             "condition": "player_see_u",
-                            "effect": {"message": "visible"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -7713,7 +7832,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": "player_view_beta",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "player_see_npc",
-                            "effect": {"message": "visible"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -7810,7 +7929,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": f"weapon_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "bounded weapon predicate"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -7838,12 +7957,13 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             self.assertIn("return not style.force_unarmed", main)
             self.assertIn('services.types.id("json_flag", "NO_UNWIELD")', main)
             self.assertIn("services.items.has_flag(", main)
-            self.assertIn('services.types.id("json_flag", "SPEAR")', main)
+            self.assertIn('local flag = resolve_id("json_flag", "SPEAR")', main)
+            self.assertIn("services.inventory.wielded_matches(actor, flag)", main)
             self.assertIn(
-                'services.types.id("json_flag", "DURABLE_MELEE")', main
+                'local flag = resolve_id("json_flag", "DURABLE_MELEE")', main
             )
             self.assertIn(
-                'services.variables.resolve(context.data, nil, "context", "dynamic_flag")',
+                'local flag = resolve_id("json_flag", tostring((context.data["dynamic_flag"]) or ""))',
                 main,
             )
             self.assertEqual(
@@ -7890,7 +8010,7 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
                             "id": f"unsafe_weapon_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "must remain partial"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -7904,15 +8024,15 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 2)
-            self.assertEqual(len(result.partial), 5)
+            self.assertEqual(eoc_result_ids(result.converted), ["unsafe_weapon_0"])
+            self.assertEqual(eoc_result_ids(result.partial), [f"unsafe_weapon_{i}" for i in range(1, 7)])
             self.assertIn("local function character_has_weapon", main)
             self.assertNotIn("local function character_can_drop_weapon", main)
             self.assertNotIn("local function character_wields_with_flag", main)
-            self.assertIn("services.inventory.wielded_matches", main)
+            self.assertNotIn("services.inventory.wielded_matches(", main)
             self.assertEqual(
                 report.count("condition TODO: translate the legacy condition into a Lua predicate"),
-                4,
+                5,
             )
 
     def test_item_event_npc_flag_effects_use_optional_item_actor_guard(self) -> None:
@@ -7991,15 +8111,11 @@ assert(not ok and string.find(message, 'stale_world', 1, true))
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(len(result.converted), 2)
-            self.assertEqual(result.partial, [])
-            self.assertEqual(
-                main.count("if context.actors.item ~= nil then"), 2
-            )
-            self.assertEqual(
-                main.count("services.variables.set("), 2
-            )
-            self.assertIn("context.actors.item", main)
+            self.assertEqual(result.converted, [])
+            self.assertEqual(eoc_result_ids(result.partial), ["item_variable_wield", "item_variable_wear"])
+            self.assertEqual(len(result.todos), 2)
+            self.assertTrue(all("needs domain-service conversion" in todo.message for todo in result.todos))
+            self.assertNotIn("services.variables.set(", main)
 
     def test_unsafe_or_wrong_talker_flag_effects_never_emit_item_mutation(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -9134,7 +9250,7 @@ assert(#events == 9)
             source.write_text(json.dumps([
                 {
                     "type": "effect_on_condition", "id": "npc_time",
-                    "eoc_type": "EVENT", "required_event": "character_melee_attack",
+                    "eoc_type": "EVENT", "required_event": "character_melee_attacks_character",
                     "effect": {
                         "npc_add_var": "npc_turn", "time": True,
                         "value": 17, "possible_values": ["ignored"],
@@ -9148,12 +9264,12 @@ assert(#events == 9)
                 },
                 {
                     "type": "effect_on_condition", "id": "single_value_rng",
-                    "eoc_type": "EVENT", "required_event": "character_melee_attack",
+                    "eoc_type": "EVENT", "required_event": "character_melee_attacks_character",
                     "effect": {"npc_add_var": "single", "value": "ready"},
                 },
                 {
                     "type": "effect_on_condition", "id": "candidate_rng",
-                    "eoc_type": "EVENT", "required_event": "character_melee_attack",
+                    "eoc_type": "EVENT", "required_event": "character_melee_attacks_character",
                     "effect": {
                         "npc_add_var": "candidate",
                         "possible_values": ["left", "right"],
@@ -9249,9 +9365,9 @@ assert(#events == 9)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 4)
-            self.assertEqual(len(result.todos), 4)
+            self.assertEqual(eoc_result_ids(result.converted), ["possible_values_overrides_value", "dynamic_character_math"])
+            self.assertEqual(eoc_result_ids(result.partial), ["dynamic_character_variable", "numeric_character_variable", "mixed_character_copy"])
+            self.assertEqual(len(result.todos), 3)
             self.assertIn('values = { "two" }', main)
             self.assertIn("services.random.int(0, #values - 1) + 1", main)
             self.assertIn('services.variables.set(\n        actor, "choice", selected_value, { include_before = false })', main)
@@ -9260,7 +9376,7 @@ assert(#events == 9)
             self.assertNotIn("services.state.", main)
             self.assertIn("variable name/value into bounded Lua values", main)
             self.assertNotIn("services.gameplay.math.apply", main)
-            self.assertIn("translate this math expression into", main)
+            self.assertIn("services.random.native_float", main)
             self.assertIn("copy_var into typed variable services", main)
             self.assertNotIn("run_eoc", main)
             self.assertIn("needs domain-service conversion", report)
@@ -9812,7 +9928,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": f"unsafe_random_{index}",
                             "required_event": "game_start",
                             "condition": predicate,
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         }
                         for index, predicate in enumerate(predicates)
@@ -9849,7 +9965,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "has_any_bionic_or_power",
                             "required_event": "game_start",
                             "condition": {"u_has_bionics": "ANY"},
-                            "effect": {"message": "powered"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -9859,7 +9975,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "u_know_recipe": "cudgel_test_no_tools"
                             },
-                            "effect": {"message": "known"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -9900,7 +10016,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "unproven_any_bionic",
                             "eoc_type": "EVENT", "required_event": "character_kills_monster",
                             "condition": {"u_has_bionics": "ANY"},
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -9909,7 +10025,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "u_has_bionics": {"context_val": "bionic_id"}
                             },
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -9919,7 +10035,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "u_know_recipe": {"context_val": "recipe_id"}
                             },
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -9996,7 +10112,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_season": {"u_val": "remembered_season"}
                             },
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10004,7 +10120,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "nonstring_is_season",
                             "required_event": "game_start",
                             "condition": {"is_season": 5},
-                            "effect": {"message": "bounded only"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -10035,7 +10151,7 @@ assert(1.0 / written.negative_zero == math.huge)
                         "id": "literal_is_weather",
                         "required_event": "game_start",
                         "condition": {"is_weather": "rain"},
-                        "effect": {"message": "literal weather"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                         "eoc_type": "EVENT",
                     }
                 ),
@@ -10068,7 +10184,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_weather": {"context_val": "context_weather"}
                             },
-                            "effect": {"message": "context weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10078,7 +10194,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_weather": {"u_val": "remembered_weather"}
                             },
-                            "effect": {"message": "u weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10088,7 +10204,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_weather": {"global_val": "global_weather"}
                             },
-                            "effect": {"message": "global weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10096,7 +10212,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "topic_item_is_weather",
                             "required_event": "game_start",
                             "condition": {"is_weather": {"mutator": "topic_item"}},
-                            "effect": {"message": "topic item weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10104,7 +10220,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "topic_item_is_weather",
                             "required_event": "game_start",
                             "condition": {"is_weather": {"mutator": "topic_item"}},
-                            "effect": {"message": "topic item weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -10113,7 +10229,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_weather": {"math": ["weather('rain')"]}
                             },
-                            "effect": {"message": "unexpressed weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10121,7 +10237,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "nonstring_is_weather",
                             "required_event": "game_start",
                             "condition": {"is_weather": 5},
-                            "effect": {"message": "numeric weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -10129,7 +10245,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "empty_is_weather",
                             "required_event": "game_start",
                             "condition": {"is_weather": ""},
-                            "effect": {"message": "empty weather"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -10142,7 +10258,7 @@ assert(1.0 / written.negative_zero == math.huge)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 5)
+            self.assertEqual(len(result.converted), 6)
             self.assertEqual(len(result.partial), 2)
             self.assertIn(
                 'services.weather.current().weather.value == '
@@ -10209,7 +10325,7 @@ assert(1.0 / written.negative_zero == math.huge)
                         "id": "has_water",
                         "required_event": "game_start",
                         "condition": {"u_has_item": "water_clean"},
-                        "effect": {"message": "water found"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                         "eoc_type": "EVENT",
                     }
                 ),
@@ -10694,10 +10810,10 @@ assert(1.0 / written.negative_zero == math.huge)
             "required_event": "game_start",
             "effect": {
                 "if": "u_is_outside",
-                "then": {
+                "then": {"run_eocs": {
                     "condition": {"u_has_martial_art": "source_test_style"},
                     "effect": "nothing",
-                },
+                }},
             },
             "eoc_type": "EVENT",
         })
@@ -10705,11 +10821,11 @@ assert(1.0 / written.negative_zero == math.huge)
         reemitted, *_ = migrate_lua_first.normalize_inline_eocs([source], True)
         normal_child = next(
             child for child in normal
-            if child.value.get("__inline_eoc") is True
+            if child.value.get("condition") == {"u_has_martial_art": "source_test_style"}
         )
         reemitted_child = next(
             child for child in reemitted
-            if child.value.get("__inline_eoc") is True
+            if child.value.get("condition") == {"u_has_martial_art": "source_test_style"}
         )
 
         self.assertEqual(normal_child.value["__inline_actor_kind"], "avatar")
@@ -11757,7 +11873,8 @@ assert(1.0 / written.negative_zero == math.huge)
             self.assertNotIn("character_travel_has_path(actor)", main)
             self.assertNotIn("character_at_safe_space(actor)", main)
             self.assertNotIn("services.creatures.can_see", main)
-            self.assertIn("services.characters.add_wet(actor, 30)", main)
+            self.assertIn("services.characters.add_wet(wet_target, 30)", main)
+            self.assertIn("local wet_target = actor", main)
             self.assertIn("services.activities.cancel(actor)", main)
             self.assertNotIn("run_eoc", main)
 
@@ -11870,7 +11987,9 @@ assert(1.0 / written.negative_zero == math.huge)
 
         self.assertIn("services.characters.add_wet(actor, 12)", main)
         self.assertIn("services.characters.add_wet(actor, 2)", main)
-        self.assertEqual(main.count("services.characters.add_wet(actor, 12)"), 3)
+        self.assertEqual(main.count("services.characters.add_wet(actor, 12)"), 2)
+        self.assertIn("services.characters.add_wet(wet_target, 12)", main)
+        self.assertIn("local wet_target = actor", main)
         self.assertNotIn("services.characters.add_wet(services.characters.avatar()", main)
         for eoc_id in (
             "npc_event_dynamic_wet", "npc_event_unproven_beta_wet",
@@ -12132,8 +12251,8 @@ assert(1.0 / written.negative_zero == math.huge)
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 2)
+            self.assertEqual(eoc_result_ids(result.converted), ["zero_duration", "effect_options"])
+            self.assertEqual(eoc_result_ids(result.partial), ["variable_remove"])
             self.assertIn("services.effects.add", main)
             self.assertNotIn("services.effects.remove", main)
             self.assertNotIn("run_eoc", main)
@@ -12464,7 +12583,7 @@ assert(1.0 / written.negative_zero == math.huge)
                 main,
             )
             self.assertIn(
-                'services.creatures.snapshot((context.killer or actor)).kind',
+                'service_value(services.creatures.snapshot((context.killer or actor))).kind',
                 main,
             )
             self.assertIn('services.effects.remove((context.killer or actor)', main)
@@ -12806,7 +12925,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "strong",
                             "required_event": "game_start",
                             "condition": {"u_has_strength": 8},
-                            "effect": {"message": "strong enough"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12814,7 +12933,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "dexterous",
                             "required_event": "game_start",
                             "condition": {"u_has_dexterity": 6},
-                            "effect": {"message": "dexterous"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12822,7 +12941,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "smart",
                             "required_event": "game_start",
                             "condition": {"u_has_intelligence": 7},
-                            "effect": {"message": "smart"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12830,7 +12949,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "perceptive",
                             "required_event": "game_start",
                             "condition": {"u_has_perception": 9},
-                            "effect": {"message": "perceptive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12838,35 +12957,35 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_strong",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_strength": 8},
-                            "effect": {"message": "npc strong"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_dext",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_dexterity": 6},
-                            "effect": {"message": "npc dexterous"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_int",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_intelligence": 7},
-                            "effect": {"message": "npc smart"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_per",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_perception": 9},
-                            "effect": {"message": "npc perceptive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "unproven_npc_stat",
                             "required_event": "game_start",
                             "condition": {"npc_has_strength": 8},
-                            "effect": {"message": "unproven"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12874,7 +12993,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "variable_stat",
                             "required_event": "game_start",
                             "condition": {"u_has_strength": "str_var"},
-                            "effect": {"message": "variable"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -12934,7 +13053,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "warm",
                             "required_event": "game_start",
                             "condition": "u_is_warm",
-                            "effect": {"message": "warm"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12942,7 +13061,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "deaf",
                             "required_event": "game_start",
                             "condition": "u_is_deaf",
-                            "effect": {"message": "deaf"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12950,21 +13069,21 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_warm",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_warm",
-                            "effect": {"message": "npc warm"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_deaf",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_deaf",
-                            "effect": {"message": "npc deaf"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "unproven_warm",
                             "required_event": "game_start",
                             "condition": "npc_is_warm",
-                            "effect": {"message": "unproven"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -12972,7 +13091,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "underwater",
                             "required_event": "game_start",
                             "condition": "u_is_underwater",
-                            "effect": {"message": "underwater"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -13026,7 +13145,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "alive",
                             "required_event": "game_start",
                             "condition": "u_is_alive",
-                            "effect": {"message": "alive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13034,7 +13153,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_alive",
                             "required_event": "game_start",
                             "condition": "npc_is_alive",
-                            "effect": {"message": "npc alive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13042,21 +13161,21 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_alive_proven",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_alive",
-                            "effect": {"message": "npc alive proven"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "hostile_alive",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "u_is_alive",
-                            "effect": {"message": "hostile alive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "item_alive",
                             "eoc_type": "EVENT", "required_event": "character_wields_item",
                             "condition": "u_is_alive",
-                            "effect": {"message": "item alive"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -13101,7 +13220,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "u_has_part_temp": 5000,
                                 "bodypart": "torso",
                             },
-                            "effect": {"message": "avatar temp"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13112,14 +13231,14 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "npc_has_part_temp": 0,
                                 "bodypart": "arm_l",
                             },
-                            "effect": {"message": "npc temp"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "avatar_underwater",
                             "required_event": "game_start",
                             "condition": "u_is_underwater",
-                            "effect": {"message": "avatar underwater"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13127,14 +13246,14 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_underwater",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_underwater",
-                            "effect": {"message": "npc underwater"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "missing_bodypart",
                             "required_event": "game_start",
                             "condition": {"u_has_part_temp": 5000},
-                            "effect": {"message": "missing bodypart"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -13271,7 +13390,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "map_terrain_id": "t_grass",
                                 "loc": {"context_val": "spot"},
                             },
-                            "effect": {"message": "terrain"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13282,7 +13401,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "map_furniture_id": "f_null",
                                 "loc": {"context_val": "spot"},
                             },
-                            "effect": {"message": "furniture"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13293,7 +13412,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "map_field_id": "fd_smoke",
                                 "loc": {"context_val": "spot"},
                             },
-                            "effect": {"message": "field"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13304,7 +13423,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "map_terrain_id": "t_grass",
                                 "loc": {"u_val": "spot"},
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -13345,7 +13464,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                 "map_terrain_with_flag": "INDOORS",
                                 "loc": {"context_val": "spot"},
                             },
-                            "effect": {"message": "flag"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13355,7 +13474,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "map_in_city": {"context_val": "spot"},
                             },
-                            "effect": {"message": "city"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13365,7 +13484,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "map_is_outside": {"context_val": "spot"},
                             },
-                            "effect": {"message": "indoor"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13375,7 +13494,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_outside": {"context_val": "spot"},
                             },
-                            "effect": {"message": "outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13385,7 +13504,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "map_in_city": {"u_val": "spot"},
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13395,7 +13514,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "is_outside": {"u_val": "spot"},
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -13466,7 +13585,7 @@ assert(1.0 / written.negative_zero == math.huge)
                         "id": f"loc_{index}",
                         "eoc_type": "EVENT", "required_event": event,
                         "condition": condition,
-                        "effect": {"message": "loc"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                     }
                 )
             source.write_text(json.dumps(eocs), encoding="utf-8")
@@ -13589,7 +13708,7 @@ assert(1.0 / written.negative_zero == math.huge)
                         "id": f"cnst_{index}",
                         "eoc_type": "EVENT", "required_event": event,
                         "condition": condition,
-                        "effect": {"message": "cnst"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                     }
                 )
             source.write_text(json.dumps(eocs), encoding="utf-8")
@@ -13611,15 +13730,19 @@ assert(1.0 / written.negative_zero == math.huge)
                 ".needs.thirst > 0", main
             )
             self.assertIn(
-                "service_value(services.mutations.is_purifiable(actor, ", main
+                "service_value(services.mutations.is_purifiable_id_text(character, raw))", main
             )
             self.assertNotIn(".availability.purifiable", main)
+            self.assertIn("cnst_38", eoc_result_ids(result.converted))
+            self.assertIn(
+                'services.variables.resolve(context.data, actor, "u", "trait_var")', main
+            )
             self.assertIn(
                 "services.gameplay.environment.safe_mode_dangerous(", main
             )
             for partial_index in (
                 "0", "5", "27", "29", "34", "35", "36", "37",
-                "38", "42", "45", "47",
+                "42", "45", "47",
             ):
                 self.assertIn(
                     f"EOC cnst_{partial_index} condition TODO: translate the "
@@ -13645,7 +13768,7 @@ assert(1.0 / written.negative_zero == math.huge)
                                     "npc_friend",
                                 ]
                             },
-                            "effect": {"message": "trait"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -13654,14 +13777,14 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "npc_has_any_trait": ["ELFAEYES", "URSINE_EYE"]
                             },
-                            "effect": {"message": "any"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "martial",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_martial_art": "style_karate"},
-                            "effect": {"message": "martial"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -13670,35 +13793,35 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "npc_using_martial_art": "style_karate"
                             },
-                            "effect": {"message": "using"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "proficiency",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_proficiency": "prof_knapping"},
-                            "effect": {"message": "prof"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "bionics",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_bionics": "bio_armor_arms"},
-                            "effect": {"message": "bionics"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "item",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_item": "bandages"},
-                            "effect": {"message": "item"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "move",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_move_mode": "crouch"},
-                            "effect": {"message": "move"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -13707,49 +13830,49 @@ assert(1.0 / written.negative_zero == math.huge)
                             "condition": {
                                 "npc_has_trait": {"u_val": "trait_var"}
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "safe_space",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_at_safe_space",
-                            "effect": {"message": "safe"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_profession",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_profession": "unemployed"},
-                            "effect": {"message": "prof"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_flag",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_flag": "MUTE"},
-                            "effect": {"message": "flag"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_wearing",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_is_wearing": "backpack"},
-                            "effect": {"message": "wearing"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_pickup",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_has_pickup_list",
-                            "effect": {"message": "pickup"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_class",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_has_class": "NC_BOUNTY_HUNTER"},
-                            "effect": {"message": "class"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -13772,7 +13895,7 @@ assert(1.0 / written.negative_zero == math.huge)
                 "npc_profession", "npc_flag", "npc_wearing", "npc_pickup", "npc_class",
             ):
                 self.assertIn(
-                    f"EOC {eoc_id} condition TODO: translate the legacy condition into a Lua predicate",
+                    f"EOC {eoc_id} condition TODO:",
                     report,
                 )
             self.assertNotIn("services.mutations.has(", main)
@@ -13885,12 +14008,12 @@ assert(1.0 / written.negative_zero == math.huge)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 10)
-            self.assertEqual(len(result.partial), 3)
+            self.assertEqual(eoc_result_ids(result.converted), ["u_var", "activate", "deactivate", "npc_activate", "npc_deactivate", "dynamic_trait_effect"])
+            self.assertEqual(eoc_result_ids(result.partial), ["npc_var", "npc_var_without_beta", "dynamic_var", "add_var", "u_msg", "npc_msg", "sound_msg"])
             self.assertIn(
                 'services.variables.remove(actor, "quest_var", { include_before = false })', main
             )
-            self.assertIn(
+            self.assertNotIn(
                 'services.variables.remove(context.actors.interlocutor, "npc_var", '
                 '{ include_before = false })',
                 main,
@@ -13904,7 +14027,7 @@ assert(1.0 / written.negative_zero == math.huge)
                 "EOC npc_var_without_beta effect #0 needs domain-service conversion",
                 report,
             )
-            self.assertIn(
+            self.assertNotIn(
                 "services.message(message_text)", main
             )
             self.assertNotIn(
@@ -13918,10 +14041,7 @@ assert(1.0 / written.negative_zero == math.huge)
                 "EOC add_var effect #0 needs domain-service conversion",
                 report,
             )
-            self.assertNotIn(
-                "EOC sound_msg effect #0 needs domain-service conversion",
-                report,
-            )
+            self.assertIn("EOC sound_msg effect #0 requires exact dialogue participants", report)
             self.assertNotIn(
                 "EOC dynamic_trait_effect effect #0 needs domain-service conversion",
                 report,
@@ -13941,7 +14061,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "profession_game_start",
                             "required_event": "game_start",
                             "condition": {"u_has_profession": "unemployed"},
-                            "effect": {"message": "unemployed"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -13982,7 +14102,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "u_male_eoc",
                             "required_event": "game_start",
                             "condition": "u_male",
-                            "effect": {"message": "u_male"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13990,7 +14110,7 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "u_char_eoc",
                             "required_event": "game_start",
                             "condition": "u_is_character",
-                            "effect": {"message": "u_char"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -13998,70 +14118,70 @@ assert(1.0 / written.negative_zero == math.huge)
                             "id": "npc_male_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_male",
-                            "effect": {"message": "npc_male"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_female_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_female",
-                            "effect": {"message": "npc_female"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_char_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_character",
-                            "effect": {"message": "npc_char"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_npc_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_npc",
-                            "effect": {"message": "npc_npc"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_outside_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_outside",
-                            "effect": {"message": "npc_outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_aim_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_aim_rule": "AIM_WHEN_CONVENIENT"},
-                            "effect": {"message": "npc_aim"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_engage_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_engagement_rule": "ENGAGE_ALL"},
-                            "effect": {"message": "npc_engage"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_reserve_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_cbm_reserve_rule": "CBM_RESERVE_ALL"},
-                            "effect": {"message": "npc_reserve"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_recharge_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_cbm_recharge_rule": "CBM_RECHARGE_ALL"},
-                            "effect": {"message": "npc_recharge"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "invalid_aim_eoc",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": {"npc_aim_rule": "UNKNOWN_RULE"},
-                            "effect": {"message": "invalid_aim"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -14158,9 +14278,10 @@ assert(1.0 / written.negative_zero == math.huge)
                     "context.actors.beta; if beta == nil or "
                     'beta.kind ~= "creature" or (beta.subtype ~= "avatar" and '
                     'beta.subtype ~= "character" and beta.subtype ~= "npc") '
-                    "then return false end; local state = "
-                    "service_value(services.characters.snapshot(beta)); return "
-                    f"state.{field}" + (" == true" if condition == "npc_following" else "") +
+                    "then return false end; if not beta:is_valid() then return false end; "
+                    "local snapshot = services.characters.snapshot(beta); "
+                    "if not snapshot.ok then return false end; local state = snapshot.value; return "
+                    f"state.{field} == true" +
                     " end)()"
                 )
                 self.assertEqual(
@@ -14197,7 +14318,7 @@ assert(1.0 / written.negative_zero == math.huge)
             migrate_lua_first.SourceObject(
                 Path("source.json"), index, {
                     "type": "effect_on_condition", "id": f"dialogue_{condition}",
-                    "condition": condition, "effect": {"message": "state"},
+                    "condition": condition, "effect": {"math": ["migration_fixture = 1"]},
                 },
             )
             for index, condition in enumerate(npc_movement_conditions)
@@ -14229,7 +14350,7 @@ assert(1.0 / written.negative_zero == math.huge)
                 Path("source.json"), 10 + index, {
                     "type": "effect_on_condition", "id": f"event_{condition}",
                     "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
-                    "condition": condition, "effect": {"message": "state"},
+                    "condition": condition, "effect": {"math": ["migration_fixture = 1"]},
                 },
             )
             unpaired = migrate_lua_first.render_eoc(
@@ -14238,7 +14359,7 @@ assert(1.0 / written.negative_zero == math.huge)
             )
             self.assertNotIn("services.characters.snapshot(", unpaired)
             self.assertIn(
-                "condition TODO: translate the legacy condition into a Lua predicate",
+                "translate npc_* activity, travel, following, and vehicle",
                 unpaired,
             )
         for condition, provenance in (
@@ -14307,18 +14428,18 @@ assert(1.0 / written.negative_zero == math.huge)
                     npc_actor_expression="context.actors.beta",
                 )
                 script = """
-local beta = { kind = "creature", subtype = "npc" }
+local beta = { kind = "creature", subtype = "npc", is_valid=function() return true end }
 local context = nil
 local calls = 0
 local state = {
     movement = { controlling_vehicle = true, driving = false },
     npc_state = { following = true },
 }
-local function service_value(value) return value end
+local function service_value(result) assert(result.ok); return result.value end
 local services = { characters = { snapshot = function(handle)
     calls = calls + 1
     assert(handle == beta)
-    return state
+    return {ok=true, value=state}
 end } }
 assert(not (PREDICATE))
 context = {}
@@ -14331,6 +14452,8 @@ assert(calls == 0)
 context.actors.beta = beta
 assert((PREDICATE) == EXPECTED)
 assert(calls == 1)
+beta.is_valid=function() return false end
+assert(not (PREDICATE)); assert(calls==1)
 """.replace("PREDICATE", predicate or "false").replace(
                     "EXPECTED", expected
                 )
@@ -14626,7 +14749,7 @@ assert(not available())
                                     {"not": "u_is_on_rails"},
                                 ]
                             },
-                            "effect": {"message": "avatar predicates ok"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -14661,7 +14784,7 @@ assert(not available())
                             "id": "unproven_presence",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "u_has_items",
-                            "effect": {"message": "unproven"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -14679,21 +14802,14 @@ assert(not available())
             self.assertIn("services.bionics.remove_type(", main)
             self.assertNotIn("services.recipes.learn(", main)
             self.assertNotIn("services.recipes.forget(", main)
-            self.assertIn("services.martial_arts.learn(", main)
+            self.assertNotIn("services.martial_arts.learn(", main)
+            self.assertTrue(any("effect #4" in t.message and "domain-service conversion" in t.message for t in result.todos))
             self.assertIn(
-                "npc_ recipe mutation needs exact native beta talker proof",
+                "npc_ recipe mutation needs an event-exclusive character_melee_attacks_character EOC with one effect",
                 report,
             )
             self.assertNotIn("services.npcs.ai_rules(actor)", main)
-            for eoc_id in (
-                "npc_male_eoc", "npc_female_eoc", "npc_char_eoc", "npc_npc_eoc",
-                "npc_outside_eoc", "npc_aim_eoc", "npc_engage_eoc", "npc_reserve_eoc",
-                "npc_recharge_eoc", "invalid_aim_eoc",
-            ):
-                self.assertIn(
-                    f"EOC {eoc_id} condition TODO: translate the legacy condition into a Lua predicate",
-                    report,
-                )
+            self.assertIn("EOC npc_entity_and_effects condition TODO", report)
             self.assertIn(
                 "EOC unproven_presence condition TODO: translate the legacy condition into a Lua predicate",
                 report,
@@ -14724,7 +14840,7 @@ assert(not available())
                                     {"is_outside": {"context_val": "loc"}},
                                 ]
                             },
-                            "effect": {"message": "avatar dialogue ok"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -14738,7 +14854,7 @@ assert(not available())
                                     {"npc_rule": {"npc_val": "rule_name"}},
                                 ]
                             },
-                            "effect": {"message": "npc states ok"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -14750,9 +14866,10 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 1)
-            self.assertIn('services.gameplay.environment.is_outside(context.data["loc"])', main)
+            self.assertEqual(result.converted, [])
+            self.assertEqual(eoc_result_ids(result.partial), ["avatar_dialogue_and_missions", "npc_movement_vehicle_and_missions"])
+            self.assertNotIn('services.gameplay.environment.is_outside(context.data["loc"])', main)
+            self.assertIn("EOC avatar_dialogue_and_missions condition TODO", report)
             self.assertIn(
                 "EOC npc_movement_vehicle_and_missions condition TODO: translate the legacy condition into a Lua predicate",
                 report,
@@ -15320,6 +15437,7 @@ assert(not available())
         topic = migrate_lua_first.SourceObject(
             Path("source.json"), 1, {
                 "type": "talk_topic", "id": "speaker_intelligence_topic",
+                "dynamic_line": "A static line.",
                 "responses": [
                     {
                         "text": "Meet the intelligence threshold",
@@ -15382,12 +15500,18 @@ assert(not available())
         # base talker int_cur()==0 result by returning false before snapshot.
         # Unsupported and dynamic condition forms are hidden instead of
         # accidentally becoming unconditional Platform responses.
+        for supported_condition in (
+            {"and": ["has_assigned_mission"]},
+            {"and": [{"u_has_intelligence": 8}]},
+        ):
+            callback = migrate_lua_first.render_talk_topic_response_condition(supported_condition)
+            self.assertIsNotNone(callback)
+            self.assertIn("if not dialogue_context:valid() then return false end", callback.source)
         unsupported_conditions = (
             {"mission_goal": {"var": "mission_goal"}},
             {"u_mission_goal": {"var": "mission_goal"}},
             {"mission_goal": "NOT_A_MISSION_GOAL"},
             {"u_mission_goal": "NOT_A_MISSION_GOAL"},
-            {"and": ["has_assigned_mission"]},
             {"npc_has_assigned_camp": "ignored"},
             {"u_has_camp": "ignored"},
             {"u_has_intelligence": "dynamic_var"},
@@ -15395,7 +15519,6 @@ assert(not available())
             {"u_has_intelligence": -1},
             {"u_has_intelligence": True},
             {"u_has_intelligence": 8, "npc_has_intelligence": 4},
-            {"and": [{"u_has_intelligence": 8}]},
         )
         for index, condition in enumerate(unsupported_conditions):
             with self.subTest(condition=condition):
@@ -15653,7 +15776,9 @@ assert(not available())
         self.assertIsNotNone(rendered)
         assert rendered is not None
         self.assertNotIn("on_select", rendered)
-        self.assertNotIn("run_eocs", rendered)
+        self.assertNotIn("run_eocs =", rendered)
+        self.assertNotIn("on_action =", rendered)
+        self.assertNotIn("on_select =", rendered)
         self.assertTrue(result.todos)
         todo_text = "\n".join(todo.text for todo in result.todos)
         self.assertIn(
@@ -15661,10 +15786,10 @@ assert(not available())
         )
         self.assertIn("before opinion and hostility handling", todo_text)
         self.assertIn(
-            "Platform on_select runs after the native response effect", todo_text
+            "before opinion and hostility handling", todo_text
         )
         self.assertIn(
-            "session-checked native action-phase hook", todo_text
+            "migrate the enclosing native action and its success/failure branch together", todo_text
         )
 
     def test_assigned_mission_counts_need_a_rendered_dialogue_callback(self) -> None:
@@ -16503,8 +16628,8 @@ assert(not available())
                 "context.actors.beta)).male"
             ),
             "npc_can_see": (
-                "not (service_value(services.characters.snapshot("
-                "context.actors.beta)).senses.blind)"
+                "service_value(services.characters.snapshot("
+                "context.actors.beta)).senses.can_see"
             ),
             "npc_has_pickup_list": (
                 "character_has_pickup_whitelist(context.actors.beta)"
@@ -16514,10 +16639,14 @@ assert(not available())
             with self.subTest(condition=condition):
                 self.assertIsNone(
                     migrate_lua_first.render_eoc_condition_expression(
-                        condition,
-                        npc_actor_proven=True,
-                        npc_actor_expression="context.actors.beta",
+                        condition, npc_actor_expression="context.actors.beta",
                     )
+                )
+                self.assertEqual(
+                    migrate_lua_first.render_eoc_condition_expression(
+                        condition, npc_actor_proven=True,
+                        npc_actor_expression="context.actors.beta",
+                    ), expected,
                 )
                 self.assertEqual(
                     migrate_lua_first.render_eoc_condition_expression(
@@ -16544,7 +16673,6 @@ assert(not available())
         self.assertIsNone(
             migrate_lua_first.render_eoc_condition_expression(
                 {"npc_has_species": "human"},
-                npc_actor_proven=True,
                 npc_actor_expression="context.actors.beta",
             )
         )
@@ -16560,7 +16688,6 @@ assert(not available())
         self.assertIsNone(
             migrate_lua_first.render_eoc_condition_expression(
                 {"npc_has_wielded_with_ammotype": "9mm"},
-                npc_actor_proven=True,
                 npc_actor_expression="context.actors.beta",
             )
         )
@@ -16772,7 +16899,7 @@ assert(not available())
             eoc = migrate_lua_first.SourceObject(
                 Path("source.json"), 2, {
                     "type": "effect_on_condition", "id": eoc_id,
-                    "condition": selector, "effect": {"message": "state"},
+                    "condition": selector, "effect": {"math": ["migration_fixture = 1"]},
                 },
             )
             pair_ids = migrate_lua_first._npc_dialogue_mission_pair_provenance(
@@ -16799,7 +16926,7 @@ assert(not available())
         reentered_eoc = migrate_lua_first.SourceObject(
             Path("source.json"), 4, {
                 "type": "effect_on_condition", "id": reentered_id,
-                "condition": "npc_driving", "effect": {"message": "state"},
+                "condition": "npc_driving", "effect": {"math": ["migration_fixture = 1"]},
             },
         )
         reentered_pair_ids = migrate_lua_first._npc_dialogue_mission_pair_provenance(
@@ -16822,7 +16949,7 @@ assert(not available())
                     "id": "npc_activity_event_without_beta",
                     "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                     "condition": "npc_has_activity",
-                    "effect": {"message": "native beta activity"},
+                    "effect": {"math": ["migration_fixture = 1"]},
                 }),
                 encoding="utf-8",
             )
@@ -16831,8 +16958,8 @@ assert(not available())
                 "npc_state_event_without_beta_mod",
             )
         event_main = event_result.files[Path("main.lua")]
-        event_todos = "\n".join(todo.text for todo in event_result.todos)
-        self.assertIn("if not (false) then", event_main)
+        event_todos = "\n".join(todo.message for todo in event_result.todos)
+        self.assertIn("do return false end", event_main)
         self.assertIn(
             "EOC npc_activity_event_without_beta condition TODO: translate "
             "npc_* activity, travel, following, and vehicle snapshot conditions "
@@ -16848,9 +16975,11 @@ assert(not available())
             REPOSITORY_ROOT / "data/json/npcs/common_chat/TALK_FRIEND_CONVERSATION.json",
         ])
         by_id = {
-            source.value.get("id"): source
+            identifier: source
             for source in topics
             if source.value.get("type") == "talk_topic"
+            for identifier in (source.value["id"] if isinstance(source.value["id"], list)
+                               else [source.value["id"]])
         }
         following_topic = by_id["TALK_SHELTER"]
         following_response = next(
@@ -16877,12 +17006,30 @@ assert(not available())
             response["condition"].get("and")
         )
 
-        self.assertIsNone(
-            migrate_lua_first.render_talk_topic_response_condition(
-                following_response["condition"]
-            ),
-            "negated state predicates remain TODO until non-Character talker semantics are total",
+        negated_following = migrate_lua_first.render_talk_topic_response_condition(
+            following_response["condition"]
         )
+        self.assertIsNotNone(negated_following)
+        # A live non-Character talker has native is_following()==false.
+        # The outer session guard must remain false for an invalid dialogue.
+        script = """
+local live, following, calls = true, false, 0
+local beta={kind='creature',subtype='npc',is_valid=function() return true end}
+local context={valid=function() return live end,interlocutor=function() return beta end}
+local services={characters={snapshot=function(owner)
+ assert(owner==beta); calls=calls+1
+ return {ok=true,value={npc_state={following=following}}}
+end}}
+local predicate=CALLBACK
+assert(predicate(context) and calls==1)
+following=true; assert(not predicate(context) and calls==2)
+beta={kind='creature',subtype='monster'}
+assert(predicate(context) and calls==2)
+live=false; assert(not predicate(context) and calls==2)
+""".replace("CALLBACK", negated_following.source)
+        executed = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                  text=True, capture_output=True, timeout=10)
+        self.assertEqual(executed.returncode, 0, executed.stderr)
         following_callback = migrate_lua_first.render_talk_topic_response_condition(
             following_positive_response["condition"]
         )
@@ -16911,11 +17058,9 @@ assert(not available())
         self.assertIsNotNone(friend_rendered)
         assert friend_rendered is not None
         self.assertIn("state.npc_state.following == true", friend_rendered)
-        self.assertIn("condition = false", friend_rendered)
-        self.assertTrue(any(
-            "response condition needs Lua conversion" in todo.text
-            for todo in friend_result.todos
-        ))
+        self.assertNotIn("condition = false", friend_rendered)
+        self.assertFalse(any("response condition needs Lua conversion" in todo.message
+                             for todo in friend_result.todos))
 
         activity_result = migrate_lua_first.MigrationResult()
         activity_rendered = migrate_lua_first.render_talk_topic(
@@ -16926,7 +17071,7 @@ assert(not available())
         self.assertIn("state.activity.active == true", activity_rendered)
         self.assertIn("condition = false", activity_rendered)
         self.assertTrue(any(
-            "response condition needs Lua conversion" in todo.text
+            "response condition needs Lua conversion" in todo.message
             for todo in activity_result.todos
         ))
 
@@ -17235,7 +17380,7 @@ assert(not available())
                             "id": f"profession_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "must stay partial"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -17270,7 +17415,7 @@ assert(not available())
                             "condition": {
                                 "u_has_flag": "MUTATION_THRESHOLD"
                             },
-                            "effect": {"message": "threshold"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17278,7 +17423,7 @@ assert(not available())
                             "id": "flag_item",
                             "eoc_type": "EVENT", "required_event": "character_wields_item",
                             "condition": {"u_has_flag": "SAMPLE_FLAG"},
-                            "effect": {"message": "wielded"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -17327,7 +17472,7 @@ assert(not available())
                             "id": f"flag_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "must stay partial"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -17340,12 +17485,12 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 2)
-            self.assertEqual(len(result.partial), 2)
+            self.assertEqual(eoc_result_ids(result.converted), ["flag_0", "flag_1", "flag_3"])
+            self.assertEqual(eoc_result_ids(result.partial), ["flag_2"])
             self.assertIn("services.characters.has_flag", main)
             self.assertEqual(
                 report.count("condition TODO: translate the legacy condition into a Lua predicate"),
-                2,
+                1,
             )
             self.assertNotIn("run_eoc", main)
 
@@ -17360,7 +17505,7 @@ assert(not available())
                             "id": "wearing_game_start",
                             "required_event": "game_start",
                             "condition": {"u_is_wearing": "army_top"},
-                            "effect": {"message": "wearing"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17368,7 +17513,7 @@ assert(not available())
                             "id": "wearing_item",
                             "eoc_type": "EVENT", "required_event": "character_wields_item",
                             "condition": {"u_is_wearing": "socks"},
-                            "effect": {"message": "item wearing"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -17413,7 +17558,7 @@ assert(not available())
                             "id": f"wearing_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "must stay partial"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -17426,12 +17571,12 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 2)
-            self.assertEqual(len(result.partial), 2)
+            self.assertEqual(eoc_result_ids(result.converted), ["wearing_0", "wearing_1", "wearing_3"])
+            self.assertEqual(eoc_result_ids(result.partial), ["wearing_2"])
             self.assertIn("character_is_wearing", main)
             self.assertEqual(
                 report.count("condition TODO: translate the legacy condition into a Lua predicate"),
-                2,
+                1,
             )
             self.assertNotIn("run_eoc", main)
 
@@ -17446,7 +17591,7 @@ assert(not available())
                             "id": "outside",
                             "required_event": "game_start",
                             "condition": "u_is_outside",
-                            "effect": {"message": "outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17454,7 +17599,7 @@ assert(not available())
                             "id": "npc_outside_unproven",
                             "required_event": "game_start",
                             "condition": "npc_is_outside",
-                            "effect": {"message": "npc outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17462,14 +17607,14 @@ assert(not available())
                             "id": "npc_outside_proven",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                             "condition": "npc_is_outside",
-                            "effect": {"message": "npc outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "item_outside",
                             "eoc_type": "EVENT", "required_event": "character_wields_item",
                             "condition": "u_is_outside",
-                            "effect": {"message": "item outside"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -17481,8 +17626,8 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 3)
-            self.assertEqual(len(result.partial), 1)
+            self.assertEqual(eoc_result_ids(result.converted), ["outside", "item_outside"])
+            self.assertEqual(eoc_result_ids(result.partial), ["npc_outside_unproven", "npc_outside_proven"])
             self.assertIn('runtime.on("game:game_start"', main)
             self.assertIn(
                 "service_value(services.characters.snapshot(actor))"
@@ -17497,14 +17642,12 @@ assert(not available())
                 "EOC item_outside condition TODO: translate the legacy condition into a Lua predicate",
                 report,
             )
-            self.assertEqual(
-                migrate_lua_first.render_eoc_condition_expression(
-                    "npc_is_outside",
-                    npc_actor_expression="context.actors.npc",
-                ),
-                "service_value(services.creatures.snapshot("
-                "context.actors.npc)).outside",
-            )
+            self.assertIsNone(migrate_lua_first.render_eoc_condition_expression(
+                "npc_is_outside", npc_actor_expression="context.actors.npc"))
+            proven = migrate_lua_first.render_eoc_condition_expression(
+                "npc_is_outside", npc_actor_proven=True, npc_actor_expression="partner")
+            self.assertIsNotNone(proven)
+            self.assertIn("services.creatures.snapshot(partner)", proven)
             self.assertNotIn("run_eoc", main)
 
     def test_translates_literal_flag_map_furniture_with_flag_predicate(self) -> None:
@@ -17521,7 +17664,7 @@ assert(not available())
                                 "map_furniture_with_flag": "TRANSPARENT",
                                 "loc": {"context_val": "target_location"},
                             },
-                            "effect": {"message": "transparent furniture"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17534,7 +17677,7 @@ assert(not available())
                                 },
                                 "loc": {"context_val": "target_location"},
                             },
-                            "effect": {"message": "dynamic flag"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -17545,7 +17688,7 @@ assert(not available())
                                 "map_furniture_with_flag": "TRANSPARENT",
                                 "loc": {"u_val": "remembered_location"},
                             },
-                            "effect": {"message": "non-context loc"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                     ]
@@ -17590,7 +17733,7 @@ assert(not available())
                             "id": f"mission_{index}",
                             "eoc_type": "EVENT", "required_event": event,
                             "condition": condition,
-                            "effect": {"message": "mission active"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         }
                         for index, (event, condition) in enumerate(cases)
                     ]
@@ -17772,7 +17915,7 @@ assert(not available())
                     "id": "npc_assigned_camp",
                     "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                     "condition": "npc_has_assigned_camp",
-                    "effect": {"message": "assigned"},
+                    "effect": {"math": ["migration_fixture = 1"]},
                 }),
                 encoding="utf-8",
             )
@@ -21470,7 +21613,7 @@ assert(not available())
                 "services.world.remove_field(",
             ):
                 self.assertNotIn(legacy_map_write, main)
-            self.assertIn("set_trap radius neighborhoods need native circle/square map mutation", main)
+            self.assertIn("set_trap has options outside the typed native area operation", main)
             self.assertNotIn("services.hordes.signal", main)
             self.assertEqual(
                 main.count("signal_hordes needs an immediately preceding proven"),
@@ -21660,37 +21803,37 @@ assert(not available())
                                 "foreach": "array",
                                 "var": {"context_val": "id"},
                                 "target": ["a", "b"],
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                             {
                                 "foreach": "ids",
                                 "var": {"context_val": "id"},
                                 "target": "bodypart",
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                             {
                                 "foreach": "ids",
                                 "var": {"context_val": "id"},
                                 "target": "trait",
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                             {
                                 "foreach": "ids",
                                 "var": {"context_val": "id"},
                                 "target": "vitamin",
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                             {
                                 "foreach": "item_group",
                                 "var": {"context_val": "id"},
                                 "target": "forest",
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                             {
                                 "foreach": "monstergroup",
                                 "var": {"context_val": "id"},
                                 "target": "GROUP_ANIMALPOUND_DOGS",
-                                "effect": {"u_message": "visit"},
+                                "effect": {"math": ["foreach_probe", "=", "1"]},
                             },
                         ],
                         "eoc_type": "EVENT",
@@ -22007,7 +22150,13 @@ assert(not available())
             self.assertEqual(len(result.converted), 0)
             self.assertEqual(len(result.partial), 2)
             self.assertIn("services.characters.adjust(actor, { moves = -5000 })", main)
-            self.assertEqual(main.count(".senses.can_see"), 2)
+            self.assertNotIn(".senses.can_see", main)
+            for selector, proof in (("u_can_see", {"avatar_actor_proven": True}),
+                                    ("npc_can_see", {"npc_actor_proven": True, "npc_actor_expression": "partner"})):
+                expression = migrate_lua_first.render_eoc_condition_expression(selector, **proof)
+                self.assertIsNotNone(expression)
+                self.assertIn(".senses.can_see", expression)
+                self.assertNotIn(".senses.blind", expression)
             self.assertNotIn(".senses.blind", main)
             self.assertIn("condition TODO", report)
 
@@ -22259,8 +22408,10 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 0)
+            self.assertEqual(eoc_result_ids(result.converted), ["npc_guard_and_trade"])
+            self.assertEqual(len(result.partial), 1)
+            self.assertIn("talk topic", result.partial[0])
+            self.assertTrue(any("response needs a static text" in t.message for t in result.todos))
             self.assertIn('services.npcs.warn_player_departure(wrapped_beta_npc)', main)
             self.assertIn('services.npcs.start_mugging(wrapped_beta_npc)', main)
             self.assertIn('services.npcs.set_guarding(wrapped_beta_npc, true)', main)
@@ -22329,8 +22480,10 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 0)
+            self.assertEqual(eoc_result_ids(result.converted), ["npc_activity_assigns"])
+            self.assertEqual(len(result.partial), 1)
+            self.assertIn("talk topic", result.partial[0])
+            self.assertTrue(any("response needs a static text" in t.message for t in result.todos))
             self.assertIn('service_value(services.activities.revert_npc_job(context.actors.beta))', main)
             self.assertIn('services.activities.socialize(services.characters.avatar(), context.actors.beta, services.time.duration(600, "turn"))', main)
             self.assertIn('services.activities.assign_npc_job(context.actors.beta, "butcher")', main)
@@ -22410,13 +22563,13 @@ assert(not available())
                 "no suitable food returns false quietly",
                 "consumes eligible ground and vehicle food",
                 "removes every same-faction CAMP_FOOD and CAMP_STORAGE zone",
-                "services.camps.food.add/consume mutate supply directly",
+                "Platform camps.food.add/consume mutate supply directly",
             ):
                 self.assertIn(reason_fragment, food_todo.message)
                 self.assertIn(reason_fragment, report)
             self.assertNotIn("service_value(services.zones.create(", main)
             self.assertNotIn("service_value(services.camps.food.add(", main)
-            self.assertNotIn("services.npcs.open_dialogue", main)
+            self.assertNotIn("services.npcs.open_dialogue(", main)
             self.assertIn("native topic-talker or beta-clone dialogue", report)
 
     def test_real_distribute_food_auto_speaker_effect_is_a_platform_gap(self) -> None:
@@ -23255,7 +23408,7 @@ assert(not available())
         )
         self.assertIsNotNone(talk_render)
         self.assertTrue(any(
-            "native response mission effects execute inside talk_effect_t::apply"
+            "standalone direct TALK response with static text/topic"
             in todo.message
             for todo in talk_result.todos
         ))
@@ -23453,8 +23606,8 @@ assert(not available())
         )
         self.assertEqual((rendered or "").count("switch = true"), 11)
         self.assertEqual((rendered or "").count("default = true"), 1)
-        self.assertIn('selected_condition(beta, owner, "complete")', rendered or "")
-        self.assertIn('selected_has_goal(beta, "MGOAL_GO_TO_TYPE")', rendered or "")
+        self.assertIn('selected_condition(actor, owner, "complete")', rendered or "")
+        self.assertIn('selected_has_goal(actor, "MGOAL_GO_TO_TYPE")', rendered or "")
 
         nested_trial_response = next(
             response for response in topic["responses"]
@@ -24285,6 +24438,18 @@ assert(not available())
             )
             result = migrate_lua_first.MigrationResult()
             rendered = migrate_lua_first.render_talk_topic(topic, result)
+            if isinstance(topic.value.get("id"), list) and len(topic.value["id"]) > 1:
+                self.assertIsNone(rendered)
+                self.assertTrue(any("needs a stable id" in t.message for t in result.todos))
+                aliases = []
+                for alias in topic.value["id"]:
+                    alias_source = migrate_lua_first.SourceObject(topic.path, topic.index,
+                        {**topic.value, "id": alias})
+                    alias_rendered = migrate_lua_first.render_talk_topic(alias_source, result)
+                    self.assertIsNotNone(alias_rendered)
+                    self.assertIn('id = "' + alias + '"', alias_rendered)
+                    aliases.append(alias_rendered)
+                rendered = "\n".join(aliases)
             self.assertIsNotNone(rendered)
             self.assertNotIn("on_select", rendered)
             self.assertNotIn("service_value(services.camps.", rendered)
@@ -24726,7 +24891,7 @@ assert(not available())
                 main,
             )
             self.assertIn(
-                "upgrade-shaped Camp_Upgrade/UI inputs also need explicit target, blueprint, and holders",
+                "legacy Camp_Upgrade/UI shape needs proven camp/manager/worker/target/",
                 report,
             )
             self.assertNotIn("services.characters.avatar()", main)
@@ -24764,8 +24929,10 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertFalse(result.partial)
+            self.assertEqual(eoc_result_ids(result.converted), ["npc_service_menus", "npc_service_menu_rules"])
+            self.assertEqual(len(result.partial), 1)
+            self.assertIn("talk topic", result.partial[0])
+            self.assertTrue(any("response needs a static text" in t.message for t in result.todos))
             self.assertIn("services.npcs.open_rules(actor)", main)
             self.assertIn(
                 'if (actor) ~= nil and (actor).kind == "creature" and (actor).subtype == "npc" then',
@@ -24877,10 +25044,12 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 2)
+            self.assertEqual(len(result.partial), 2)
+            self.assertTrue(any("talk topic" in x for x in result.partial))
+            self.assertEqual(sum("EOC implicit_npc_dialogue effect" in t.message for t in result.todos), 2)
+            self.assertTrue(any("response needs a static text" in t.message for t in result.todos))
             self.assertNotIn("services.dialogue.open_topic", main)
-            self.assertNotIn("services.npcs.open_dialogue", main)
+            self.assertNotIn("services.npcs.open_dialogue(", main)
             self.assertIn('services.npcs.training.start_selected(context.actors.beta, services.characters.avatar(), "npc")', main)
             self.assertIn(
                 "topic-only UI/no-topic beta clone", main
@@ -24945,10 +25114,10 @@ assert(not available())
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertNotIn("services.npcs.open_dialogue", main)
-            self.assertIn("npc_event_open_noop", result.converted)
-            self.assertNotIn("implicit_beta_clone_open", result.converted)
-            self.assertNotIn("avatar_no_topic_open", result.converted)
+            self.assertNotIn("services.npcs.open_dialogue(", main)
+            self.assertIn("npc_event_open_noop", eoc_result_ids(result.converted))
+            self.assertNotIn("implicit_beta_clone_open", eoc_result_ids(result.converted))
+            self.assertNotIn("avatar_no_topic_open", eoc_result_ids(result.converted))
             self.assertGreaterEqual(
                 main.count("TODO: open_dialogue's topic-only UI/no-topic beta clone"),
                 3,
@@ -25009,31 +25178,24 @@ assert(not available())
                     [
                         {
                             "type": "effect_on_condition",
-                            "id": "character_event_mission",
-                            "eoc_type": "EVENT", "required_event": "character_takes_damage",
-                            "condition": {"u_has_mission": "MISSION_MAIN_QUEST"},
-                            "effect": {"message": "mission"},
-                        },
-                        {
-                            "type": "effect_on_condition",
                             "id": "character_event_faction",
                             "eoc_type": "EVENT", "required_event": "character_takes_damage",
                             "condition": {"u_has_faction_trust": 1},
-                            "effect": {"message": "faction"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "character_event_query",
                             "eoc_type": "EVENT", "required_event": "character_takes_damage",
-                            "condition": {"u_query": "Continue?"},
-                            "effect": {"message": "query"},
+                            "condition": {"u_query": "Continue?", "default": False},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "npc_event_query",
                             "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
-                            "condition": {"u_query": "Continue?"},
-                            "effect": {"message": "npc query"},
+                            "condition": {"u_query": "Continue?", "default": False},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -25045,11 +25207,45 @@ assert(not available())
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(len(result.partial), 4)
+            self.assertEqual(len(result.partial), 3)
             self.assertNotIn("services.missions.has_active", main)
             self.assertNotIn("services.factions.for_character", main)
             self.assertNotIn("ccb.presentation.confirm", main)
             self.assertNotIn("services.characters.avatar()", main)
+
+    @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
+    def test_character_event_mission_condition_queries_global_avatar(self) -> None:
+        # f_u_has_mission reads get_avatar(), independently of native alpha.
+        expression = migrate_lua_first.render_eoc_condition_expression(
+            {"u_has_mission": "MISSION_MAIN_QUEST"},
+            generic_character_actor_proven=True,
+        )
+        self.assertIsNotNone(expression)
+        script = """
+local actor = {kind='creature', subtype='npc'}
+local avatar = {is_valid=function() return true end}
+local id_valid, active, calls = true, false, 0
+local services = {
+ types = {id=function(kind,id)
+  assert(kind=='mission' and id=='MISSION_MAIN_QUEST')
+  return {is_valid=function() return id_valid end}
+ end},
+ characters = {avatar=function() return avatar end},
+ missions = {has_active=function(owner,id)
+  assert(owner==avatar and owner~=actor); calls=calls+1
+  return {ok=true,value=active}
+ end},
+}
+local function service_value(r) assert(r.ok); return r.value end
+assert(not (EXPRESSION)); assert(calls==1)
+active=true; assert(EXPRESSION); assert(calls==2)
+id_valid=false; assert(not (EXPRESSION)); assert(calls==2)
+id_valid=true; avatar.is_valid=function() return false end
+assert(not (EXPRESSION)); assert(calls==2)
+""".replace("EXPRESSION", expression)
+        result = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_run_eocs_avatar_talker_requires_proven_handle(self) -> None:
         names = {"child": "migrated_child"}
@@ -25221,7 +25417,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "bionic_pair_topic",
-                    "responses": [{"true_eocs": "bionic_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "bionic_pair"}}],
                 },
                 {
                     "type": "effect_on_condition", "id": "bionic_pair",
@@ -25231,13 +25430,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "bionic_pair_mod")
-            main = result.files[Path("main.lua")]
-            self.assertEqual(main.count("local provider = context.actors.beta"), 3)
-            self.assertEqual(main.count('if provider ~= nil and provider.kind == "creature" and provider.subtype == "npc" then'), 3)
-            self.assertIn('provider, "install", services.characters.avatar())', main)
-            self.assertIn('provider, "remove", services.characters.avatar())', main)
-            self.assertIn("services.npcs.medical.repair_bionic_limbs(provider, services.characters.avatar())", main)
-            self.assertNotIn('actor, "install"', main)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'bionic_pair', 3,
+                ['services.npcs.medical.', 'services.npcs.bionics.'], {},
+            )
 
     def test_npc_work_assignments_preserve_explicit_beta(self) -> None:
         jobs = {"do_butcher": "butcher", "do_chop_plank": "chop_planks",
@@ -25258,7 +25454,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "work_pair_topic",
-                    "responses": [{"true_eocs": "work_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "work_pair"}}],
                 },
                 {
                     "type": "effect_on_condition", "id": "work_pair",
@@ -25268,10 +25467,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "work_pair_mod")
-            main = result.files[Path("main.lua")]
-            self.assertEqual(main.count('(context.actors.beta).kind == "creature" and (context.actors.beta).subtype == "npc"'), len(jobs))
-            for job in jobs.values():
-                self.assertIn(f'services.activities.assign_npc_job(context.actors.beta, "{job}")', main)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'work_pair', 18,
+                ['services.activities.assign_npc_job('], {},
+            )
 
     def test_start_trade_retains_explicit_beta_and_delegate(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -25279,7 +25478,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "trade_pair_topic",
-                    "responses": [{"true_eocs": "trade_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "trade_pair"}}],
                 },
                 {
                     "type": "effect_on_condition", "id": "trade_pair",
@@ -25290,22 +25492,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "trade_pair_mod")
-            main = result.files[Path("main.lua")]
-            self.assertIn("local provider = context.actors.beta", main)
-            self.assertIn('if provider ~= nil and provider.kind == "creature" and provider.subtype == "npc" then', main)
-            self.assertIn('services.trade.open(provider, services.characters.avatar(), 0, services.translate("Trade"), true)', main)
-            self.assertIn("services.activities.revert_npc_job(context.actors.beta)", main)
-            self.assertIn('services.activities.socialize(services.characters.avatar(), context.actors.beta, services.time.duration(600, "turn"))', main)
-
-            for mode in ("player", "npc", "seminar"):
-                self.assertIn(f'services.npcs.training.start_selected(context.actors.beta, services.characters.avatar(), "{mode}")', main)
-
-            self.assertIn('services.npcs.orders.run(context.actors.beta, "drop_carried_items")', main)
-
-            self.assertIn("services.npcs.orders.open_pickup_rules(context.actors.beta)", main)
-
-            self.assertIn("services.npcs.orders.open_character_sheet(context.actors.beta)", main)
-            self.assertIn("services.npcs.orders.choose_combat_style(context.actors.beta)", main)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'trade_pair', 10,
+                ['services.trade.open(', 'services.activities.revert_npc_job(', 'services.activities.socialize(', 'services.npcs.training.start_selected(', 'services.npcs.orders.'], {},
+            )
 
     def test_player_services_use_explicit_beta_and_current_player(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -25313,7 +25503,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "grooming_pair_topic",
-                    "responses": [{"true_eocs": "grooming_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "grooming_pair"}}],
                 },
                 {
                     "type": "effect_on_condition", "id": "grooming_pair",
@@ -25324,15 +25517,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "grooming_pair_mod")
-            main = result.files[Path("main.lua")]
-            self.assertEqual(main.count("local provider = context.actors.beta"), 8)
-            self.assertEqual(main.count('if provider ~= nil and provider.kind == "creature" and provider.subtype == "npc" then'), 8)
-            for method, choice in (("open_style", "hair"), ("open_style", "beard"),
-                                   ("provide", "haircut"), ("provide", "shave")):
-                self.assertIn(f'services.npcs.grooming.{method}(provider, services.characters.avatar(), "{choice}")', main)
-            for level in ("basic", "advanced"):
-                for allies in ("true", "false"):
-                    self.assertIn(f'services.npcs.medical.provide_aid(provider, services.characters.avatar(), "{level}", {allies})', main)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'grooming_pair', 8,
+                ['services.npcs.grooming.', 'services.npcs.medical.provide_aid('], {4: 'semantic_choice', 5: 'semantic_choice', 6: 'semantic_choice', 7: 'semantic_choice'},
+            )
 
     def test_follower_services_use_beta_from_explicit_talker_pair(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -25340,7 +25528,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "follower_pair_topic",
-                    "responses": [{"true_eocs": "follower_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "follower_pair"}}],
                 },
                 {
                     "type": "effect_on_condition", "id": "follower_pair",
@@ -25350,12 +25541,10 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "follower_pair_mod")
-            main = result.files[Path("main.lua")]
-            self.assertEqual(main.count('if (context.actors.beta) ~= nil and (context.actors.beta).kind == "creature" and (context.actors.beta).subtype == "npc" then'), 3)
-            self.assertIn('(context.actors.beta), "install", selected_handle)', main)
-            self.assertIn('(context.actors.beta), "remove", selected_handle)', main)
-            self.assertIn('(context.actors.beta), selected_handle)', main)
-            self.assertNotIn('actor, "install", selected_handle)', main)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'follower_pair', 3,
+                ['services.npcs.bionics.', 'selected_handle)'], {},
+            )
 
     def test_translates_bounded_follower_actions(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -27621,7 +27810,7 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
                             "id": f"inventory_condition_{index}",
                             "required_event": "game_start",
                             "condition": condition,
-                            "effect": {"message": "inventory condition"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         }
                         for index, condition in enumerate(conditions)
@@ -27686,7 +27875,7 @@ candidates={};selected=nil;run();assert(menus==4 and calls==SELF_CALLS)
             npc_pair,
         )
 
-        self.assertIsNone(migrate_lua_first.render_eoc_condition_expression(
+        self.assertIn("local alpha = actor", migrate_lua_first.render_eoc_condition_expression(
             static, generic_character_actor_proven=True, weapon_actor_proven=True,
         ))
         self.assertIsNone(migrate_lua_first.render_eoc_condition_expression(
@@ -28502,7 +28691,7 @@ assert(calls == 1)
         )
         npc_expression = migrate_lua_first.render_eoc_condition_expression(
             "npc_can_stow_weapon", npc_dialogue_pair_proven=True,
-            npc_actor_expression="context.actors.beta",
+            npc_actor_proven=True, npc_actor_expression="context.actors.beta",
         )
         self.assertEqual(
             u_expression,
@@ -28549,7 +28738,7 @@ assert(calls == 1)
             Path("source.json"), 0, {
                 "type": "effect_on_condition", "id": "dialogue_can_stow",
                 "condition": "npc_can_stow_weapon",
-                "effect": {"message": "stowed"},
+                "effect": {"math": ["migration_fixture = 1"]},
             },
         )
         pair_ids = migrate_lua_first._npc_dialogue_mission_pair_provenance(
@@ -28561,7 +28750,7 @@ assert(calls == 1)
             npc_dialogue_mission_pair_ids=pair_ids,
         )
         self.assertIn(
-            "services.inventory.weapon_state(context.actors.beta)", paired
+            "services.inventory.weapon_state(beta)", paired
         )
 
         npc_event_eoc = migrate_lua_first.SourceObject(
@@ -28569,7 +28758,7 @@ assert(calls == 1)
                 "type": "effect_on_condition", "id": "single_npc_stow",
                 "eoc_type": "EVENT", "required_event": "npc_becomes_hostile",
                 "condition": "npc_can_stow_weapon",
-                "effect": {"message": "stowed"},
+                "effect": {"math": ["migration_fixture = 1"]},
             },
         )
         single_actor = migrate_lua_first.render_eoc(
@@ -28578,7 +28767,7 @@ assert(calls == 1)
         )
         self.assertNotIn("services.inventory.weapon_state(", single_actor)
         self.assertIn(
-            "condition TODO: translate the legacy condition into a Lua predicate",
+            "TODO: translate the legacy condition into a Lua predicate",
             single_actor,
         )
 
@@ -30523,7 +30712,7 @@ assert(calls==1)
             start,
         )
         generated = main[start:end]
-        self.assertIn("TODO: translate location-variable search", generated)
+        self.assertIn("static nonempty target_params terrain search needs a match status", generated)
         self.assertIn("TODO: mapgen_update needs a proven native target", generated)
         self.assertNotIn("services.mapgen.run_update(", generated)
         self.assertNotIn("services.mapgen.apply(", generated)
@@ -31004,7 +31193,9 @@ assert(calls==1)
             main = result.files[Path("main.lua")]
 
             self.assertNotIn("services.characters.ranged_attack(", main)
-            self.assertEqual(len(result.partial), 1)
+            self.assertEqual(len(result.partial), 2)
+            self.assertTrue(any("talk topic ranged_reentry_topic" in x for x in result.partial))
+            self.assertTrue(any(": EOC reentered_ranged" in x for x in result.partial))
 
     def test_monster_attack_creature_callback_stays_todo_for_all_six_selectors(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -31054,8 +31245,10 @@ assert(calls==1)
                 "services.characters.pick_body_part(",
             ):
                 self.assertNotIn(service, main)
-            self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 6)
+            self.assertEqual(len(result.partial), 2)
+            self.assertTrue(any("monster attack monster_combat_callback" in x for x in result.partial))
+            self.assertTrue(any(": EOC monster_combat_selectors" in x for x in result.partial))
+            self.assertEqual(sum("EOC monster_combat_selectors effect" in t.message for t in result.todos), 6)
 
     def test_mutation_maintenance_requires_exclusive_source_and_registered_ids(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -31230,12 +31423,13 @@ assert(calls==1)
 
             self.assertEqual(len(result.converted), 0)
             self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 1)
+            self.assertEqual(len(result.todos), 2)
+            self.assertTrue(all("needs domain-service conversion" in t.message for t in result.todos))
             self.assertNotIn('tostring((context.data["technique"])', main)
             self.assertNotIn('services.variables.get_global("move_cost")', main)
-            self.assertIn('context.data["force"]', main)
-            self.assertIn('services.variables.resolve(context.data, actor, "npc", "stun")', main)
-            self.assertIn('services.variables.get_global("damage")', main)
+            self.assertNotIn("services.characters.knockback(", main)
+            self.assertNotIn('services.variables.resolve(context.data, actor, "npc", "stun")', main)
+            self.assertNotIn('services.variables.get_global("damage")', main)
             self.assertNotIn("allow_special = false", main)
             self.assertIn("needs domain-service conversion", report)
 
@@ -31276,6 +31470,120 @@ assert(calls==1)
             self.assertIn("math.max(-1, math.min(1e+06", main)
             self.assertNotIn("damage amount/options", report)
 
+    @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
+    def test_combat_numeric_reads_require_their_own_proven_dialogue_role(self) -> None:
+        token = migrate_lua_first._migration_math_function_ids.set(frozenset())
+        try:
+            damage = {"u_deal_damage": "bash", "amount": {"math": ["u_damage_amount"]}}
+            cast = {"u_cast_spell": {"id": "spell_demo", "min_level": {"math": ["u_cast_min_level"]}}}
+            renderers = (
+                (migrate_lua_first.render_dynamic_combat_damage, damage, "u_deal_damage"),
+                (migrate_lua_first.render_static_combat_cast_spell, cast, "u_cast_spell"),
+            )
+            for render, effect, key in renderers:
+                self.assertIsNone(render(effect, key, True, False))
+                self.assertIsNone(render(effect, key, True, False,
+                    effect_actor_targets={"read_npc": ("partner", "character")}))
+            role = {"read_u": ("actor", "character")}
+            damage_lines = renderers[0][0](damage, "u_deal_damage", True, False,
+                                         effect_actor_targets=role)
+            cast_lines = renderers[1][0](cast, "u_cast_spell", True, False,
+                                       effect_actor_targets=role)
+        finally:
+            migrate_lua_first._migration_math_function_ids.reset(token)
+        self.assertIsNotNone(damage_lines)
+        self.assertIsNotNone(cast_lines)
+        script = """
+local actor, partner = {}, {}
+local reads, mutations = {}, 0
+local function service_value(r) assert(r.ok); return r.value end
+local services = {
+ types={id=function(kind,value) return {kind=kind,value=value} end},
+ variables={get_number=function(owner,key,options)
+  assert(owner==actor and owner~=partner and options.strict)
+  reads[#reads+1]=key
+  return {ok=true,value={exists=true,value=key=='damage_amount' and 17 or 3}}
+ end},
+ characters={damage=function(target,id,amount)
+  assert(target==actor and id.kind=='damage_type' and id.value=='bash' and amount==17)
+  mutations=mutations+1
+ end, cast_spell=function(target,id,options)
+  assert(target==actor and id.kind=='spell' and id.value=='spell_demo' and options.min_level==3)
+  mutations=mutations+1
+ end},
+}
+BODY
+assert(mutations==2 and reads[1]=='damage_amount' and reads[2]=='cast_min_level' and #reads==2)
+""".replace("BODY", "\n".join(damage_lines + cast_lines))
+        result = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
+    def test_combat_direct_numeric_variables_read_beta_before_mutating_alpha(self) -> None:
+        for include_default in (False, True):
+            amount = {"npc_val": "damage_amount"}
+            level = {"npc_val": "cast_level"}
+            if include_default:
+                amount["default"], level["default"] = 17, 3
+            cases = (
+                (migrate_lua_first.render_dynamic_combat_damage,
+                 {"u_deal_damage": "bash", "amount": amount}, "u_deal_damage"),
+                (migrate_lua_first.render_static_combat_cast_spell,
+                 {"u_cast_spell": {"id": "spell_demo", "min_level": level}}, "u_cast_spell"),
+            )
+            snippets = []
+            for render, effect, key in cases:
+                for owners in (None, {"read_u": ("actor", "character")},
+                               {"npc": ("actor", "character"), "read_npc": None}):
+                    self.assertIsNone(render(effect, key, True, False,
+                                             effect_actor_targets=owners))
+                lines = render(effect, key, True, False,
+                               effect_actor_targets={"read_npc": ("partner", "character")})
+                self.assertIsNotNone(lines)
+                snippets.extend(lines or [])
+            script = """
+local actor, partner = {}, {}
+local reads, mutations, missing = 0, 0, MISSING
+local function service_value(result) assert(result.ok); return result.value end
+local services={types={id=function(kind,value) return {kind=kind,value=value} end},
+ variables={get_number=function(owner,key)
+  assert(owner==partner and owner~=actor)
+  assert(key=='damage_amount' or key=='cast_level'); reads=reads+1
+  return {ok=true,value={exists=not missing,value=missing and 0 or (key=='damage_amount' and 17 or 3)}}
+ end}, characters={damage=function(owner,id,amount)
+  assert(owner==actor and id.value=='bash' and amount==17); mutations=mutations+1
+ end,cast_spell=function(owner,id,options)
+  assert(owner==actor and id.value=='spell_demo' and options.min_level==3); mutations=mutations+1
+ end}}
+BODY
+assert(reads==2 and mutations==2)
+""".replace("BODY", "\n".join(snippets)).replace("MISSING", str(include_default).lower())
+            result = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                    text=True, capture_output=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+    @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
+    def test_combat_dynamic_integer_numbers_truncate_before_clamping_and_read_once(self) -> None:
+        expression = migrate_lua_first._combat_number_expression(
+            {"global_val": "probe"}, "actor", -1, 10, integer=True)
+        self.assertIsNotNone(expression)
+        script = """
+local raw, reads, actor = 0, 0, {}
+local function service_value(result) assert(result.ok); return result.value end
+local services={variables={get_global_number=function(key)
+ assert(key=='probe'); reads=reads+1
+ return {ok=true,value={exists=true,value=raw}}
+end}}
+local function evaluate() return EXPRESSION end
+for _, case in ipairs({{1.6,1},{-0.9,0},{-1.8,-1},{0,0},{9.9,9},{10.9,10},{100,10},{-100,-1}}) do
+ raw=case[1]; reads=0; assert(evaluate()==case[2] and reads==1)
+end
+""".replace("EXPRESSION", expression or "")
+        result = subprocess.run([shutil.which("lua"), "-"], input=script,
+                                text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_lowers_dynamic_cast_spell_levels_with_bounded_expressions(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary) / "source.json"
@@ -31288,7 +31596,7 @@ assert(calls==1)
                         "effect": {
                             "u_cast_spell": {
                                 "id": "spell_demo",
-                                "min_level": {"math": ["u_spell_level"]},
+                                "min_level": {"math": ["u_cast_min_level"]},
                             }
                         },
                         "eoc_type": "EVENT",
@@ -31551,7 +31859,7 @@ assert(calls==1)
             self.assertTrue(result.partial)
             self.assertTrue(result.todos)
             self.assertNotIn("services.dialogue.open_topic", main)
-            self.assertNotIn("services.npcs.open_dialogue", main)
+            self.assertNotIn("services.npcs.open_dialogue(", main)
             self.assertEqual(main.count("services.characters.avatar()"), 1)
             self.assertIn(
                 "local actor = actor_override or services.characters.avatar()",
@@ -31814,14 +32122,19 @@ assert(calls==1)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-        self.assertEqual(result.converted, ["outdoor_flag_without_sound"])
-        self.assertEqual(len(result.partial), 3)
+        self.assertEqual(result.converted, [])
+        self.assertEqual(eoc_result_ids(result.partial), ["tagged_message", "outdoor_sound_message", "nul_message", "outdoor_flag_without_sound"])
         self.assertIn("EOC tagged_message effect #0 needs domain-service conversion", report)
         self.assertIn("EOC outdoor_sound_message effect #0 needs domain-service conversion", report)
         self.assertIn("EOC nul_message effect #0 needs domain-service conversion", report)
         self.assertNotIn('services.message("Hello <u_name>")', main)
         self.assertNotIn("services.messages.add_from_outdoors", main)
         self.assertNotIn("services.messages.add_if_audible", main)
+        self.assertNotIn("services.message(message_text)", main)
+        lines = migrate_lua_first.render_message_effect({"message": "ordinary message", "outdoor_only": True},
+                                                       "message", "actor", "actor", "partner")
+        self.assertIsNotNone(lines)
+        main = "\n".join(lines or [])
         self.assertIn("services.message(message_text)", main)
         self.assertIn(
             'services.text.expand_for(services.translate("ordinary message")', main
@@ -31874,10 +32187,10 @@ assert(calls==1)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-        self.assertEqual(result.converted, ["popup_and_message"])
-        self.assertEqual(len(result.partial), 2)
+        self.assertEqual(result.converted, [])
+        self.assertEqual(eoc_result_ids(result.partial), ["popup_and_message", "invalid_popup_type", "sound_query_message"])
         self.assertIn(
-            "EOC invalid_popup_type effect #0 needs domain-service conversion",
+            "EOC invalid_popup_type effect #0 requires exact dialogue participants for u_message",
             report,
         )
         self.assertIn(
@@ -31885,6 +32198,12 @@ assert(calls==1)
             report,
         )
         self.assertNotIn("services.activities.offer_portal_storm_interruption", main)
+        self.assertNotIn("ccb.presentation.notice_top(", main)
+        rendered = migrate_lua_first.render_message_effect(
+            {"u_message": "two visible effects", "type": "good", "popup": True, "popup_flag": "PF_ON_TOP"},
+            "u_message", "actor", "actor", "partner")
+        self.assertIsNotNone(rendered)
+        main = "\n".join(rendered or [])
         popup = main.index("ccb.presentation.notice_top(message_text)")
         cancellation = main.index('services.activities.offer_interruption("")')
         message = main.index('services.messages.add(message_text, "good")')
@@ -32276,7 +32595,7 @@ assert(calls==1)
                 report,
             )
             self.assertIn(
-                "EOC dynamic_messages effect #1 needs domain-service conversion",
+                "EOC dynamic_messages effect #1 requires exact dialogue participants for u_message",
                 report,
             )
             self.assertNotIn("context.data[\"message_text\"]", main)
@@ -32337,9 +32656,14 @@ assert(calls==1)
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(result.partial, [])
-            self.assertEqual(result.todos, [])
-            self.assertIn("ccb.presentation.notice_top(message_text)", main)
+            self.assertEqual(eoc_result_ids(result.partial), ["popup_alias"])
+            self.assertTrue(any("requires exact dialogue participants" in t.message for t in result.todos))
+            self.assertNotIn("ccb.presentation.notice_top(", main)
+            lines = migrate_lua_first.render_message_effect(
+                {"u_message": "on top", "popup": True, "popup_flag": "PF_ON_TOP"},
+                "u_message", "actor", "actor", "partner")
+            self.assertIsNotNone(lines)
+            self.assertIn("ccb.presentation.notice_top(message_text)", "\n".join(lines or []))
 
     def test_opposite_actor_visibility_requires_exact_alpha_and_beta_proof(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -32590,11 +32914,11 @@ assert(calls==1)
                         "id": f"direct_{key}",
                         "condition": {key: "field", "range": 1}
                         if key == "npc_near_om_location" else {key: "field"},
-                        "effect": {"message": "typed beta position required"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                     }
                 )
                 self.assertIn(
-                    "TODO: translate the legacy condition into a Lua predicate",
+                    "TODO: translate npc_*_om_location only for an event-exclusive",
                     rendered,
                 )
                 self.assertNotIn("services.overmap.matches_location(", rendered)
@@ -32793,7 +33117,7 @@ assert(calls==1)
                             "condition": {
                                 "u_can_see_location": {"context_val": "point"}
                             },
-                            "effect": {"message": "avatar"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -32807,7 +33131,7 @@ assert(calls==1)
                                     {"u_has_visible_trait": "TRAIT"},
                                 ]
                             },
-                            "effect": {"message": "npc"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -32842,7 +33166,7 @@ assert(calls==1)
                                     {"u_near_om_location": "field", "range": 0},
                                 ]
                             },
-                            "effect": {"message": "avatar"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -32854,7 +33178,7 @@ assert(calls==1)
                                     {"npc_near_om_location": "forest", "range": 2},
                                 ]
                             },
-                            "effect": {"message": "npc"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -32865,12 +33189,17 @@ assert(calls==1)
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(len(result.converted), 1)
-            self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 1)
-            self.assertIn("services.npcs.count_allies(false)", main)
-            self.assertIn("services.npcs.count_allies(true)", main)
-            self.assertIn("services.overmap.matches_location(", main)
+            self.assertEqual(result.converted, [])
+            self.assertEqual(eoc_result_ids(result.partial), ["population_avatar", "population_npc"])
+            self.assertEqual(len(result.todos), 2)
+            self.assertNotIn("services.npcs.count_allies(", main)
+            self.assertNotIn("services.overmap.matches_location(", main)
+            for condition, fragment in (({"npc_allies": 1}, "services.npcs.count_allies(false)"),
+                                        ({"npc_allies_global": 1}, "services.npcs.count_allies(true)"),
+                                        ({"u_near_om_location": "field", "range": 0}, "services.overmap.matches_location_near(")):
+                expression = migrate_lua_first.render_eoc_condition_expression(condition, avatar_actor_proven=True)
+                self.assertIsNotNone(expression)
+                self.assertIn(fragment, expression)
             self.assertNotIn("services.overmap.search(", main)
 
     def test_translates_batch_28_primitive_to_bounded_selectors(self) -> None:
@@ -32924,7 +33253,7 @@ assert(calls==1)
 
             self.assertEqual(len(result.converted), 0)
             self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 15)
+            self.assertEqual(len(result.todos), 14)
             self.assertIn(
                 "only a condition-free terminal menu action avoids later work",
                 report,
@@ -32942,7 +33271,7 @@ assert(calls==1)
                 main,
             )
             self.assertNotIn("services.gameplay.math.apply", main)
-            self.assertIn("translate this math expression into", main)
+            self.assertIn('services.variables.set_global(\n        "x"', main)
             self.assertIn("copy_var into typed variable services", main)
             self.assertIn("add_debt through a bounded NPC opinion/debt service", main)
             self.assertIn(
@@ -33745,8 +34074,8 @@ assert(context.data.out.x==0 and context.data.out.y==0 and context.data.out.z==0
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(result.converted, ["npc_faction_trust"])
-            self.assertEqual(len(result.partial), 1)
+            self.assertEqual(eoc_result_ids(result.converted), ["npc_faction_trust"])
+            self.assertEqual(len(eoc_result_ids(result.partial)), 1)
             self.assertEqual(len(result.todos), 1)
             self.assertIn(
                 "service_value(services.characters.add_faction_trust(\n"
@@ -35339,7 +35668,7 @@ pointer=nil;reads=0;assert(evaluate()==-1.7 and reads==0)
                     self.assertIn('get_number(context.actors.interlocutor, "dx")', rendered)
                     self.assertIn('set(context.actors.interlocutor, "out", location', rendered)
         # These shapes are still open work, not guessed or clamped conversions.
-        for adjustment in ([[1, 2], 3], {"math": ["rand(10)"]}):
+        for adjustment in ([[1, 2], 3], {"math": ["u_artifact_resonance()"]}):
             self.assertIsNone(migrate_lua_first.render_static_location_variable_adjust({
                 "location_variable_adjust": {"context_val": "center"}, "x_adjust": adjustment},
                 "location_variable_adjust", False, False))
@@ -37651,14 +37980,14 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
                             "effect": [
                                 {
                                     "u_run_npc_eocs": [
-                                        {"effect": {"message": "npc"}}
+                                        {"effect": {"math": ["migration_fixture = 1"]}}
                                     ],
                                     "npc_range": 3,
                                     "local": True,
                                 },
                                 {
                                     "u_run_fixed_zone_eocs": [
-                                        {"effect": {"message": "zone"}}
+                                        {"effect": {"math": ["migration_fixture = 1"]}}
                                     ],
                                     "zone_range": 6,
                                 },
@@ -37860,25 +38189,25 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
         item_effects = {
             "u_run_inv_eocs": {
                 "u_run_inv_eocs": "all",
-                "true_eocs": [{"effect": {"message": "inventory callback"}}],
+                "true_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
             },
             "npc_run_inv_eocs": {
                 "npc_run_inv_eocs": "random",
-                "true_eocs": [{"effect": {"message": "NPC inventory callback"}}],
+                "true_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
             },
             "u_map_run_item_eocs": {
                 "u_map_run_item_eocs": "manual_mult",
                 "min_radius": 0,
                 "max_radius": 2,
-                "true_eocs": [{"effect": {"message": "selected map item"}}],
-                "false_eocs": [{"effect": {"message": "no map item"}}],
+                "true_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
+                "false_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
             },
             "npc_map_run_item_eocs": {
                 "npc_map_run_item_eocs": "all",
                 "min_radius": 0,
                 "max_radius": 2,
-                "true_eocs": [{"effect": {"message": "selected NPC map item"}}],
-                "false_eocs": [{"effect": {"message": "no NPC map item"}}],
+                "true_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
+                "false_eocs": [{"effect": {"math": ["migration_fixture = 1"]}}],
                 "search_data": [{"id": ["rock"]}],
             },
         }
@@ -38012,7 +38341,7 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             {
                 "type": "effect_on_condition",
                 "id": callback_id,
-                "effect": {"message": callback_id},
+                "effect": {"math": ["migration_fixture = 1"]},
             }
             for callback_id in callback_names
         ]
@@ -38039,8 +38368,8 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             self.assertIn(
                 "map::get_vehicles() order and uses rl_dist", main
             )
-            self.assertNotIn("services.creatures.nearby", main)
-            self.assertNotIn("services.world.vehicles", main)
+            self.assertNotIn("services.creatures.nearby(", main)
+            self.assertNotIn("services.world.vehicles(", main)
             self.assertNotIn("context.actors.vehicle = target", main)
             for callback_id in callback_names:
                 self.assertIn(
@@ -38192,7 +38521,7 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
                         {
                             "type": "effect_on_condition",
                             "id": "monster_target",
-                            "effect": {"message": "monster"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -38211,13 +38540,13 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             report = result.files[Path("MIGRATION_REPORT.md")]
 
             self.assertNotIn("complete named-NPC traversal conversion", report)
-            self.assertNotIn("services.creatures.nearby", main)
+            self.assertNotIn("services.creatures.nearby(", main)
             self.assertNotIn("radius = 1000", main)
             self.assertIn("game::all_creatures() order", main)
             self.assertTrue(result.partial)
             self.assertTrue(result.todos)
             self.assertNotIn("services.inventory.filter", main)
-            self.assertNotIn("services.items.page", main)
+            self.assertNotIn("services.items.page(", main)
 
     def test_inventory_eoc_traversal_fails_closed_until_native_order_is_available(self) -> None:
         for key in ("u_run_inv_eocs", "npc_run_inv_eocs"):
@@ -38256,7 +38585,7 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
                                         },
                                     ],
                                     "true_eocs": [
-                                        {"effect": {"message": "matched"}}
+                                        {"effect": {"math": ["migration_fixture = 1"]}}
                                     ],
                                 }
                             ],
@@ -38273,7 +38602,7 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             self.assertTrue(result.partial)
             self.assertTrue(result.todos)
             self.assertNotIn("services.inventory.filter", main)
-            self.assertNotIn("services.items.page", main)
+            self.assertNotIn("services.items.page(", main)
 
     def test_uses_event_contract_actor_and_typed_relocation_services(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -38375,12 +38704,10 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             self.assertNotIn("services.mapgen.apply(", main)
             self.assertIn("mapgen_update needs a proven native target", main)
             self.assertNotIn("services.mapgen.run_update(", main)
-            self.assertIn("context.actors.beta", main)
-            self.assertIn("context.actors.character or context.actors.alpha", main)
-            self.assertIn(
-                'service_value(services.effects.remove(actor, services.types.id("effect", "psi_stunned")))',
-                main,
-            )
+            self.assertNotIn("services.effects.has(context.actors.beta", main)
+            self.assertIn('context.actors["character"]', main)
+            self.assertIn("EOC monster_damage_effect_cleanup condition TODO", "\n".join(t.message for t in result.todos))
+            self.assertNotIn('services.effects.remove(actor, services.types.id("effect", "psi_stunned"))', main)
 
     def test_global_npc_queries_do_not_hide_u_actor_effects(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -38427,7 +38754,7 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
                         {
                             "type": "effect_on_condition",
                             "id": "talker_parent",
-                            "condition": {"u_has_effect": "source"},
+                            "condition": {"u_has_effect": "source", "bodypart": "torso"},
                             "effect": [
                                 {
                                     "run_eocs": ["talker_child"],
@@ -38454,8 +38781,9 @@ assert(draws==1 and context.data.position.x==4 and context.data.position.y==8 an
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.partial), 1)
-            self.assertEqual(len(result.todos), 2)
+            self.assertEqual(eoc_result_ids(result.partial), ["talker_parent", "talker_child"])
+            self.assertTrue(any("explicit avatar participant handle" in t.message for t in result.todos))
+            self.assertTrue(any("talker_child condition TODO" in t.message for t in result.todos))
             self.assertTrue(any(
                 "talker_parent needs an explicit Platform trigger" in todo
                 for todo in result.todos
@@ -39533,7 +39861,7 @@ assert(table.concat(visits, ',') == 'first:1,second:2')
             source = Path(temporary) / "source.json"
             source.write_text(json.dumps([
                 {"type": "effect_on_condition", "id": "target", "required_event": "game_start",
-                 "effect": {"message": "target"}, "eoc_type": "EVENT"},
+                 "effect": {"math": ["delayed_probe = 1"]}, "eoc_type": "EVENT"},
                 {"type": "effect_on_condition", "id": "owner", "required_event": "game_start",
                  "effect": {"run_eocs": "target", "time_in_future": 2}, "eoc_type": "EVENT"},
             ]), encoding="utf-8")
@@ -39544,7 +39872,9 @@ local handlers, scheduled = {}, nil
 local messages = {}
 local ccb = {content={}, runtime={
     handler=function(id, fn) assert(handlers[id]==nil); handlers[id]=fn end,
-    on=function() end}, services={message=function(text) messages[#messages+1]=text end},
+    on=function() end}, services={variables={set_global=function(key,value,options)
+    assert(key=='delayed_probe' and value==1 and options.include_before==false)
+    messages[#messages+1]='target'; return {ok=true,value={}} end}},
     tasks={after=function(turns, handler, payload, version, scope)
         assert(turns==2 and version==1 and scope=="world")
         local saved={}
@@ -39582,7 +39912,7 @@ assert(#messages==2 and messages[2]=="target")
                             "type": "effect_on_condition",
                             "id": "delayed_target",
                             "required_event": "game_start",
-                            "effect": {"message": "later"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -39699,34 +40029,14 @@ assert(#messages==2 and messages[2]=="target")
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 2)
-            self.assertEqual(result.partial, [])
-            self.assertEqual(result.todos, [])
-            self.assertIn(
-                'ccb.tasks.after(10, "migrated-task.delayed_talker_target", '
-                'child_context.data, 1, "world", '
-                'nil, { alpha = selected_alpha, beta = selected_beta })',
-                main,
-            )
-            self.assertIn(
-                "local task_context = { data = context.payload or {} }",
-                main,
-            )
-            self.assertIn(
-                "task_context.actors = context.participants or {}",
-                main,
-            )
-            self.assertIn(
-                "local task_actor = context.actor or task_context.actors.alpha",
-                main,
-            )
-            self.assertIn(
-                "child_context.actors.alpha = selected_alpha",
-                main,
-            )
-            self.assertIn("child_context.actors.beta = selected_beta", main)
-            self.assertNotIn("delayed_task_actor", main)
-            self.assertNotIn("typed callback/task conversion", report)
+            self.assertEqual(result.converted, [])
+            self.assertEqual(eoc_result_ids(result.partial), ["delayed_talker_target", "delayed_talker_owner"])
+            self.assertTrue(any(todo.category == "semantic_choice" and
+                                "explicit avatar participant handle for run_eocs talker selection" in todo.message
+                                for todo in result.todos))
+            self.assertNotIn("ccb.tasks.after(", main)
+            self.assertNotIn("services.characters.add_wet(", main)
+            self.assertNotIn("child_context.actors.beta =", main)
 
     def test_delayed_run_eocs_unproven_avatar_talker_remains_todo(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -40017,12 +40327,12 @@ assert(#messages==2 and messages[2]=="target")
                         {
                             "type": "effect_on_condition",
                             "id": "loop_target_a",
-                            "effect": {"message": "a"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "loop_target_b",
-                            "effect": {"message": "b"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -40074,12 +40384,12 @@ assert(#messages==2 and messages[2]=="target")
                         {
                             "type": "effect_on_condition",
                             "id": "talker_target",
-                            "effect": {"message": "target"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "talker_failure",
-                            "effect": {"message": "failure"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -40149,7 +40459,7 @@ assert(#messages==2 and messages[2]=="target")
                             "type": "effect_on_condition",
                             "id": "dynamic_target",
                             "required_event": "game_start",
-                            "effect": {"message": "target"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -40229,7 +40539,7 @@ assert(#messages==2 and messages[2]=="target")
                             "condition": {
                                 "get_condition": "stored_test"
                             },
-                            "effect": {"message": "literal"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "effect_on_condition",
@@ -40237,7 +40547,7 @@ assert(#messages==2 and messages[2]=="target")
                             "condition": {
                                 "get_condition": "stored_test"
                             },
-                            "effect": {"message": "dynamic"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                     ]
                 ),
@@ -40392,8 +40702,8 @@ assert(#messages==2 and messages[2]=="target")
             )
         )
 
-        # An event's NPC actor is native alpha. It cannot satisfy the beta
-        # slot needed by a stored npc_* predicate.
+        # The setter event alpha must not be captured as beta. The stored
+        # closure proves and uses the later evaluating dialogue beta.
         npc_event = migrate_lua_first.SourceObject(
             Path("source.json"), 0, {
                 "type": "effect_on_condition",
@@ -40408,11 +40718,10 @@ assert(#messages==2 and messages[2]=="target")
         rendered = migrate_lua_first.render_eoc(
             npc_event, migrate_lua_first.MigrationResult(),
         )
-        self.assertNotIn("stored_condition_beta", rendered)
-        self.assertIn(
-            "TODO: translate the named condition through the callback-local condition registry.",
-            rendered,
-        )
+        self.assertIn("function(context, actor, stored_condition_beta)", rendered)
+        self.assertIn("not stored_condition_beta:is_valid() then return false, false end", rendered)
+        self.assertIn("end)(stored_condition_beta)", rendered)
+        self.assertNotIn("TODO: translate the named condition", rendered)
 
         dynamic_get = migrate_lua_first.render_eoc(
             migrate_lua_first.SourceObject(Path("source.json"), 1, {
@@ -40427,7 +40736,7 @@ assert(#messages==2 and messages[2]=="target")
             }),
             migrate_lua_first.MigrationResult(),
         )
-        self.assertIn("condition TODO", dynamic_get)
+        self.assertIn("TODO: translate the legacy condition", dynamic_get)
 
         no_dynamic_target = migrate_lua_first.render_eoc(
             migrate_lua_first.SourceObject(Path("source.json"), 2, {
@@ -40441,7 +40750,7 @@ assert(#messages==2 and messages[2]=="target")
             migrate_lua_first.MigrationResult(),
             dynamic_eoc_dispatch_present=True,
         )
-        self.assertIn("condition TODO", no_dynamic_target)
+        self.assertIn("TODO: translate the legacy condition", no_dynamic_target)
 
         named_requirement = migrate_lua_first._eoc_actor_requirements(
             [migrate_lua_first.SourceObject(Path("source.json"), 3, {
@@ -40607,21 +40916,29 @@ assert(#messages==2 and messages[2]=="target")
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_run_eocs_context_preserves_explicit_and_missing_source_null(self) -> None:
-        lines = migrate_lua_first.render_static_run_eocs(
+        token = migrate_lua_first._migration_math_function_ids.set(frozenset())
+        try:
+            lines = migrate_lua_first.render_static_run_eocs(
             {"run_eocs": "child", "variables": {
                 "explicit": None, "absent": {"context_val": "missing"},
                 "inherited": {"context_val": "missing"},
                 "false_value": {"context_val": "false_source"},
-                "once": {"math": ["rand(1, 100)"]},
+                "once": {"math": ["rng(1, 100)"]},
             }}, {"child": "child"}, actor_expression="actor")
+        finally:
+            migrate_lua_first._migration_math_function_ids.reset(token)
         self.assertIsNotNone(lines)
         script = r"""
 local null = setmetatable({}, {__tostring=function() return "" end})
 local reads = 0
-local services = {types={null=null}, gameplay={math={evaluate=function()
-    reads = reads + 1
-    return {ok=true, value=reads}
-end}}}
+local services = {types={null=null}, random={native_float=function(low,high)
+    assert(low==1 and high==100); reads=reads+1; return reads
+end,native_int=function(low,high)
+    assert(low==1 and high==100); reads=reads+1; return reads
+end}, variables={resolve=function(data,owner,scope,key)
+    assert(owner==nil and scope=='context')
+    return {ok=true,value={exists=data[key]~=nil,value=data[key]}}
+end}}
 local function service_value(result) assert(result.ok); return result.value end
 local actor = {}
 local context = {data={inherited="old", false_source=false}}
@@ -40952,8 +41269,8 @@ end
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(result.converted, ["translation_owner"])
-            self.assertEqual(result.partial, ["translation_target"])
+            self.assertEqual(eoc_result_ids(result.converted), ["translation_owner"])
+            self.assertEqual(eoc_result_ids(result.partial), ["translation_target"])
             self.assertTrue(any(
                 "EOC translation_target effect #0" in entry
                 for entry in result.todos
@@ -41021,7 +41338,7 @@ end
                             "type": "effect_on_condition",
                             "id": "nonfinite_target",
                             "required_event": "game_start",
-                            "effect": {"message": "target"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -41057,7 +41374,7 @@ end
             source = Path(temporary) / "source.json"
             source.write_text(json.dumps([{
                 "type": "effect_on_condition", "id": "repeat", "global": True,
-                "recurrence": 2, "effect": {"message": "tick"},
+                "recurrence": 2, "effect": {"math": ["recurrence_probe = 1"]},
             }]), encoding="utf-8")
             result = migrate_lua_first.migrate(migrate_lua_first.load_objects([source]), "recurrence")
         main = result.files[Path("main.lua")]
@@ -41065,7 +41382,9 @@ end
 local handlers, state, queue, messages = {}, {}, {}, {}
 local fail = true
 local ccb={content={}, services={characters={avatar=function() return {} end},
-    message=function(text) messages[#messages+1]=text end}, runtime={
+    variables={set_global=function(key,value,options)
+    assert(key=='recurrence_probe' and value==1 and options.include_before==false)
+    messages[#messages+1]='tick'; return {ok=true,value={}} end}}, runtime={
     handler=function(id,fn) handlers[id]=fn end, on=function() end},
     state={character={get=function(key,fallback) return state[key] or fallback end,
     set=function(key,value) state[key]=value end}}, tasks={after=function(turns,id,payload)
@@ -41235,7 +41554,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                 report,
             )
             self.assertGreaterEqual(
-                main.count("services.gameplay.environment.is_outside("), 4
+                main.count("service_value(services.characters.snapshot(actor)).environment.outside"), 4
             )
             self.assertGreaterEqual(
                 main.count(
@@ -41279,7 +41598,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                                                 "player_see_npc",
                                             ]
                                         },
-                                        "effect": {"message": "visible"},
+                                        "effect": {"math": ["migration_fixture = 1"]},
                                     }
                                 ]
                             },
@@ -41294,7 +41613,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                             "type": "effect_on_condition",
                             "id": "attack_talker_root",
                             "condition": "player_see_u",
-                            "effect": {"message": "attack visible"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                         },
                         {
                             "type": "talk_topic",
@@ -41331,7 +41650,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertNotIn(
+            self.assertIn(
                 "spell_talker_root condition TODO: translate the legacy condition into a Lua predicate",
                 report,
             )
@@ -41339,16 +41658,16 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                 "spell_visibility_leaf condition TODO: translate the legacy condition into a Lua predicate",
                 report,
             )
-            self.assertIn(
+            self.assertNotIn(
                 "attack_talker_root condition TODO: translate the legacy condition into a Lua predicate",
                 report,
             )
-            self.assertNotIn(
+            self.assertIn(
                 "dialogue_talker_root effect #0 needs conditional-control-flow conversion",
                 report,
             )
-            self.assertIn("context.actors.beta", main)
-            self.assertIn("services.creatures.has_flag(", main)
+            self.assertNotIn("services.mutations.has_id_text(context.actors.beta", main)
+            self.assertNotIn("services.creatures.has_flag(", main)
             self.assertIn("services.creatures.player_can_see(actor)", main)
             self.assertNotIn("services.creatures.can_see(", main)
 
@@ -41365,7 +41684,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                             "u_near_om_location": "FACTION_CAMP_ANY",
                             "range": 2,
                         },
-                        "effect": {"message": "near camp"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                         "eoc_type": "EVENT",
                     }
                 ),
@@ -41419,7 +41738,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                             "if": {"compare_string": ["yes", "no"]},
                             "else": {
                                 "if": {"compare_string_match_all": ["x", "y"]},
-                                "else": {"math": ["global_value++"]},
+                                "else": {"math": ["u_artifact_resonance()"]},
                             },
                         },
                         "eoc_type": "EVENT",
@@ -41461,7 +41780,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                                     },
                                 ]
                             },
-                            "then": {"u_message": "valid"},
+                            "then": {"math": ["migration_fixture = 1"]},
                         },
                     }
                 ),
@@ -41474,7 +41793,8 @@ assert(#queue==2 and queue[2].payload.data=="user field")
 
             self.assertEqual(len(result.partial), 1)
             self.assertEqual(len(result.todos), 1)
-            self.assertIn("services.characters.avatar()", main)
+            self.assertIn('runtime.on("game:phase_move", "migrated.phase_destination")', main)
+            self.assertNotIn("services.characters.avatar()", main)
             self.assertNotIn('services.variables.get_global("destination")', main)
             self.assertNotIn("services.overmap.matches_terrain(", main)
 
@@ -41491,7 +41811,7 @@ assert(#queue==2 and queue[2].payload.data=="user field")
                         "required_event": "game_start",
                         "effect": {
                             "if": {"test_eoc": "MISSING_PREDICATE"},
-                            "then": {"u_message": "unreachable"},
+                            "then": {"math": ["migration_fixture = 1"]},
                         },
                         "eoc_type": "EVENT",
                     }
@@ -42398,7 +42718,11 @@ assert(context.data.nested[2][1]==2)
         script = r"""
 local actor={}
 local context={data={guard='continue',count=0},actors={alpha=actor}}
-local services={}
+local function service_value(r) assert(r.ok);return r.value end
+local services={variables={resolve=function(data,owner,scope,key)
+ assert(data==context.data and owner==nil and scope=='context' and key=='guard')
+ return {ok=true,value={exists=data[key]~=nil,value=data[key]}}
+end}}
 local calls=0
 local previous_child=nil
 local function step(child,owner)
@@ -42551,20 +42875,23 @@ assert(called and context.data._name=='inherited' and context.data.name==nil)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_writes_only_the_requested_context_name(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": ["first", "second"],
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor")
         self.assertIsNotNone(lines)
         script = r"""
 local actor={}
 local context={data={_entry='independent'}}
 local calls=0
-local services={message=function(message)
+local function service_value(result) assert(result.ok);return result.value end
+local services={variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1
- assert(message=='visit' and context.data.entry==({'first','second'})[calls])
+ assert(context.data.entry==({'first','second'})[calls])
  assert(context.data._entry=='independent')
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(calls==2 and context.data.entry=='second' and context.data._entry=='independent')
 """.replace("BODY", "\n".join(lines))
@@ -42574,14 +42901,18 @@ assert(calls==2 and context.data.entry=='second' and context.data._entry=='indep
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_empty_foreach_keeps_iterator_and_does_not_execute_body(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": [], "var": {"context_val": "entry"},
-            "effect": {"u_message": "unreachable"},
+            "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor")
         self.assertIsNotNone(lines)
         script = r"""
 local context={data={entry='previous'}}
-local services={message=function() error('empty loop executed body') end}
+local function service_value(result) assert(result.ok);return result.value end
+local services={variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
+ error('empty loop executed body')
+end}}
 BODY
 assert(context.data.entry=='previous')
 """.replace("BODY", "\n".join(lines))
@@ -42807,13 +43138,13 @@ assert(calls==3)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_technique_selection_precedes_body_and_keeps_participants(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array",
             "target": [{"mutator": "valid_technique", "crit": True,
                         "dodge_counter": True, "block_counter": True,
                         "blacklist": [{"npc_val": "excluded"}, "tec_other"]},
                        {"mutator": "valid_technique"}],
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, True, {}, actor_expression="actor", npc_actor_expression="partner")
         self.assertIsNotNone(lines)
         script = r"""
@@ -42835,11 +43166,13 @@ local services={
   else assert(next(options)==nil) end
   return {technique={value=choices==1 and 'tec_selected' or 'tec_none'}}
  end},
- message=function()
-  calls=calls+1
-  assert(choices==2 and context.data.entry==({'tec_selected','tec_none'})[calls])
- end
 }
+services.variables.set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
+ calls=calls+1
+ assert(choices==2 and context.data.entry==({'tec_selected','tec_none'})[calls])
+ return {ok=true,value={}}
+end
 BODY
 assert(calls==2)
 """.replace("BODY", "\n".join(lines))
@@ -42999,7 +43332,8 @@ assert(calls==2)
             source, migrate_lua_first.MigrationResult(),
             eoc_actor_requirements={"cancel_selected": "character"},
             eoc_referenced_ids=frozenset({"cancel_selected"}))
-        self.assertNotIn("TODO", rendered.replace("review every TODO before enabling", ""))
+        self.assertIn("TODO: translate one legacy effect", rendered)
+        self.assertEqual(rendered.count("services.activities.cancel("), 1)
         script = r"""
 local selected={}
 local calls=0
@@ -43009,7 +43343,7 @@ end}}
 local migrated_eoc_functions={}
 BODY
 migrated_eoc_functions.cancel_selected({data={},actors={}},selected)
-assert(calls==2)
+assert(calls==1)
 """.replace("BODY", rendered)
         result = subprocess.run(["lua", "-"], input=script, text=True,
                                 capture_output=True, timeout=10)
@@ -43022,6 +43356,8 @@ assert(calls==2)
             "effect": ["u_cancel_activity", "npc_cancel_activity"],
         })
         rendered = migrate_lua_first.render_eoc(source, migrate_lua_first.MigrationResult())
+        self.assertEqual(rendered.count("services.activities.cancel("), 1)
+        self.assertIn("TODO: translate one legacy effect", rendered)
         script = r"""
 local alpha,beta={},{}
 local targets={}
@@ -43030,7 +43366,7 @@ local migrated_eoc_functions={}
 local runtime={handler=function() end}
 BODY
 migrated_eoc_functions.cancel_pair({data={},actors={beta=beta}},alpha)
-assert(#targets==2 and targets[1]==alpha and targets[2]==beta)
+assert(#targets==1 and targets[1]==alpha)
 targets={}
 migrated_eoc_functions.cancel_pair({data={},actors={}},alpha)
 assert(#targets==0)
@@ -43696,10 +44032,10 @@ local migrated_eoc_functions={}
 local runtime={handler=function() end,on=function() end}
 BODY
 expected=npc;calls={};fail=false
-migrated_eoc_functions.confrontation({actors={beta=npc}},nil)
+migrated_eoc_functions.confrontation({actors={beta=npc}}, {kind='creature',subtype='avatar'})
 assert(table.concat(calls,',')==table.concat(operations,','))
 calls={};fail=true
-assert(not pcall(migrated_eoc_functions.confrontation,{actors={beta=npc}},nil))
+assert(not pcall(migrated_eoc_functions.confrontation,{actors={beta=npc}}, {kind='creature',subtype='avatar'}))
 assert(#calls==1)
 """.replace("BODY", rendered)
         result = subprocess.run(["lua", "-"], input=script, text=True,
@@ -43941,11 +44277,11 @@ assert(table.concat(trace,',')==TRACE)
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertIn("live_terminal_menu", result.converted)
-            self.assertNotIn("dead_avatar_menu", result.converted)
-            self.assertNotIn("followup_after_menu", result.converted)
-            self.assertNotIn("conditioned_menu", result.converted)
-            self.assertNotIn("deactivate_after_menu", result.converted)
+            self.assertIn("live_terminal_menu", eoc_result_ids(result.converted))
+            self.assertNotIn("dead_avatar_menu", eoc_result_ids(result.converted))
+            self.assertNotIn("followup_after_menu", eoc_result_ids(result.converted))
+            self.assertNotIn("conditioned_menu", eoc_result_ids(result.converted))
+            self.assertNotIn("deactivate_after_menu", eoc_result_ids(result.converted))
             self.assertEqual(
                 main.count(
                     "services.npcs.open_control_menu(services.characters.avatar())"
@@ -44235,16 +44571,16 @@ end
             )
             main = result.files[Path("main.lua")]
 
-            self.assertIn("safe_topic", result.converted)
-            self.assertNotIn("dead_npc_topic", result.converted)
-            self.assertNotIn("nested_topic", result.converted)
+            self.assertIn("safe_topic", eoc_result_ids(result.converted))
+            self.assertNotIn("dead_npc_topic", eoc_result_ids(result.converted))
+            self.assertNotIn("nested_topic", eoc_result_ids(result.converted))
             self.assertEqual(main.count("services.npcs.set_first_topic("), 1)
             self.assertIn('services.npcs.set_first_topic(actor, "TALK_SAFE")', main)
             self.assertNotIn('set_first_topic(actor, "TALK_DEAD")', main)
             self.assertNotIn('set_first_topic(actor, "TALK_NESTED")', main)
             self.assertNotIn('context.data["topic"]', main)
             self.assertNotIn('set_first_topic(actor, "")', main)
-            self.assertNotIn("runtime.handler", main)
+            self.assertNotIn('runtime.handler("injected")', main)
             self.assertTrue(result.todos)
             self.assertIn(
                 "standalone npc_becomes_hostile alpha fallback", main
@@ -44304,10 +44640,10 @@ local migrated_eoc_functions={}
 local runtime={handler=function() end,on=function() end}
 BODY
 migrated_eoc_functions.alpha_talk({actors={alpha=alpha,beta=beta}},alpha)
-assert(#calls==2 and calls[1]==alpha and calls[2]==beta)
+assert(#calls==1 and calls[1]==alpha)
 alpha.subtype='avatar';calls={}
 migrated_eoc_functions.alpha_talk({actors={alpha=alpha,beta=beta}},alpha)
-assert(#calls==1 and calls[1]==beta)
+assert(#calls==0)
 beta.subtype='avatar';calls={}
 migrated_eoc_functions.alpha_talk({actors={alpha=alpha,beta=beta}},alpha)
 assert(#calls==0)
@@ -44336,7 +44672,7 @@ local migrated_eoc_functions={}
 local runtime={handler=function() end,on=function() end}
 BODY
 migrated_eoc_functions.alpha_radio({actors={alpha=alpha,beta=beta}},alpha)
-assert(#calls==2 and calls[1]==alpha and calls[2]==beta)
+assert(#calls==1 and calls[1]==alpha)
 """.replace("BODY", rendered)
         result = subprocess.run(["lua", "-"], input=script, text=True,
                                 capture_output=True, timeout=10)
@@ -44509,7 +44845,10 @@ log={};beta.subtype='avatar';give();assert(#log==0)
             source.write_text(json.dumps([
                 {
                     "type": "talk_topic", "id": "equipment_modifier_pair_topic",
-                    "responses": [{"true_eocs": "equipment_modifier_pair"}],
+                    "dynamic_line": "A static line.",
+                    "responses": [{"text": "Continue", "topic": "TALK_DONE",
+                                   "effect": {"u_query_yn": "Proceed?",
+                                              "true_eocs": "equipment_modifier_pair"}}],
                 },
                 {
                     "type": "effect_on_condition",
@@ -44522,13 +44861,10 @@ log={};beta.subtype='avatar';give();assert(#log==0)
             ]), encoding="utf-8")
             result = migrate_lua_first.migrate(
                 migrate_lua_first.load_objects([source]), "equipment_pair_mod")
-            main = result.files[Path("main.lua")]
-            report = result.files[Path("MIGRATION_REPORT.md")]
-            self.assertIn("local provider = context.actors.beta", main)
-            self.assertIn("end)(actor, provider)", main)
-            self.assertIn('strategy = "npc_allowance"', main)
-            self.assertIn("needs an explicit Platform trigger", report)
-            self.assertNotIn("give_equipment", report)
+            self.assert_native_action_eocs_remain_todo(
+                result, 'equipment_modifier_pair', 1,
+                ['strategy = "npc_allowance"', 'end)(actor, provider)'], {},
+            )
 
     def test_equipment_modifier_event_does_not_invent_second_talker(self) -> None:
         # eoc_events::notify resolves alpha from the NPC event field; beta can
@@ -44641,21 +44977,21 @@ assert(npcs()==0)
     def test_foreach_literal_array_rejects_non_string_values(self) -> None:
         for invalid in (0, 1.5, True, False, None, ["nested"]):
             with self.subTest(value=invalid):
-                self.assertIsNone(migrate_lua_first.render_static_foreach({
+                self.assertIsNone(render_foreach_with_empty_math_namespace({
                     "foreach": "array", "target": ["valid", invalid],
-                    "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+                    "var": {"context_val": "entry"}, "effect": "nothing",
                 }, True, False, {}, actor_expression="actor"))
-        self.assertIsNotNone(migrate_lua_first.render_static_foreach({
+        self.assertIsNotNone(render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": ["", "0", "true"],
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": "nothing",
         }, True, False, {}, actor_expression="actor"))
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_snapshots_dynamic_strings_before_body(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": [{"context_val": "value"},
                                            {"context_val": "value"}, {"context_val": "missing", "default": "fallback"}],
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor")
         self.assertIsNotNone(lines)
         script = r"""
@@ -44672,11 +45008,14 @@ local context={data=setmetatable({}, {
  end,
  __newindex=function(_,key,value) stored[key]=value end,
 })}
-local services={message=function()
+local function service_value(result) assert(result.ok);return result.value end
+local services={variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1;assert(reads==3)
  assert(context.data.entry==({'initial','initial','fallback'})[calls])
  context.data.value='changed'
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(reads==3 and calls==3)
 """.replace("BODY", "\n".join(lines))
@@ -44686,9 +45025,9 @@ assert(reads==3 and calls==3)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_dynamic_values_keep_distinct_participants(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": [{"u_val": "name"}, {"npc_val": "name"}],
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor", npc_actor_expression="partner")
         self.assertIsNotNone(lines)
         script = r"""
@@ -44699,9 +45038,11 @@ local function service_value(r) return r.value end
 local services={variables={resolve=function(data,owner,scope,key,p)
  assert(p.alpha==actor and p.beta==partner and key=='name')
  return {value={exists=true,value=(scope=='u' and p.alpha or p.beta).name}}
-end},message=function()
+end,set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1;assert(context.data.entry==({'alpha','beta'})[calls])
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(calls==2)
 """.replace("BODY", "\n".join(lines))
@@ -44712,9 +45053,9 @@ assert(calls==2)
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_writes_exact_character_or_global_iterator(self) -> None:
         for scope in ("u_val", "npc_val", "global_val"):
-            lines = migrate_lua_first.render_static_foreach({
+            lines = render_foreach_with_empty_math_namespace({
                 "foreach": "array", "target": ["first", "second"],
-                "var": {scope: "entry"}, "effect": {"u_message": "visit"},
+                "var": {scope: "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
             }, True, False, {}, actor_expression="actor", npc_actor_expression="partner")
             self.assertIsNotNone(lines)
             script = r"""
@@ -44725,10 +45066,17 @@ local writes,calls=0,0
 local function put(owner,key,value)
  assert(owner==expected and key=='entry');writes=writes+1;owner[key]=value
 end
-local services={variables={set=put,set_global=function(key,value) put(globals,key,value) end},
- message=function()
+local function service_value(result) assert(result.ok);return result.value end
+local services={variables={set=put,set_global=function(key,value,options)
+ if key=='entry' then
+  assert(options==nil)
+  put(globals,key,value)
+  return
+ end
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1;assert(writes==calls and expected.entry==({'first','second'})[calls])
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(writes==2 and calls==2 and expected.entry=='second' and context.data.entry==nil)
 """.replace("OWNER", {"u_val": "actor", "npc_val": "partner", "global_val": "globals"}[scope])
@@ -44739,9 +45087,9 @@ assert(writes==2 and calls==2 and expected.entry=='second' and context.data.entr
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_resolves_iterator_target_each_iteration(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "array", "target": ["first", "second"],
-            "var": {"var_val": "pointer"}, "effect": {"u_message": "visit"},
+            "var": {"var_val": "pointer"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor", npc_actor_expression="partner")
         self.assertIsNotNone(lines)
         script = r"""
@@ -44754,12 +45102,14 @@ local services={variables={set_resolved=function(data,owner,scope,key,value,p)
  local target=data.pointer=='u_entry' and p.alpha or p.beta
  target.entry=value
  return {ok=true,value={}}
-end},message=function()
+end,set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1
  if calls==1 then
   assert(actor.entry=='first' and partner.entry==nil);context.data.pointer='n_entry'
  else assert(actor.entry=='first' and partner.entry=='second') end
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(calls==2)
 """.replace("BODY", "\n".join(lines))
@@ -44769,18 +45119,23 @@ assert(calls==2)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_empty_body_and_long_lists_keep_native_iteration(self) -> None:
-        for body in (None, [], [{"u_message": "visit"}] * 65):
+        for body in (None, [], [{"math": ["foreach_probe", "=", "1"]}] * 65):
             effect = {"foreach": "array", "target": [str(i) for i in range(300)],
                       "var": {"context_val": "entry"}}
             if body is not None:
                 effect["effect"] = body
-            lines = migrate_lua_first.render_static_foreach(
+            lines = render_foreach_with_empty_math_namespace(
                 effect, True, False, {}, actor_expression="actor")
             self.assertIsNotNone(lines)
             script = r"""
 local context={data={entry='original'}}
 local calls=0
-local services={message=function(message) assert(message=='visit');calls=calls+1 end}
+local function service_value(result) assert(result.ok);return result.value end
+local services={variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
+ calls=calls+1
+ return {ok=true,value={}}
+end}}
 BODY
 assert(context.data.entry=='299' and calls==COUNT)
 """.replace("BODY", "\n".join(lines)).replace("COUNT", str(300 * len(body or [])))
@@ -44790,21 +45145,24 @@ assert(context.data.entry=='299' and calls==COUNT)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_collects_registry_pages_before_effects(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "ids", "target": "bodypart", "var": {"context_val": "entry"},
-            "effect": {"u_message": "visit"},
+            "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor")
         self.assertIsNotNone(lines)
         script = r"""
 local context={data={}}
 local pages,calls=0,0
+local function service_value(result) assert(result.ok);return result.value end
 local services={registry={list=function(kind,options)
  assert(kind=='body_part' and calls==0 and options.offset==pages and options.order=='native')
  pages=pages+1
  return {entries={{id=pages==1 and 'first' or 'second'}},returned=1,has_more=pages==1}
-end},message=function()
+end},variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1;assert(pages==2 and context.data.entry==({'first','second'})[calls])
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(pages==2 and calls==2)
 """.replace("BODY", "\n".join(lines))
@@ -44814,22 +45172,25 @@ assert(pages==2 and calls==2)
 
     @unittest.skipUnless(shutil.which("lua"), "Lua interpreter required")
     def test_foreach_monster_group_keeps_duplicate_occurrences(self) -> None:
-        lines = migrate_lua_first.render_static_foreach({
+        lines = render_foreach_with_empty_math_namespace({
             "foreach": "monstergroup", "target": "GROUP_ZOMBIE",
-            "var": {"context_val": "entry"}, "effect": {"u_message": "visit"},
+            "var": {"context_val": "entry"}, "effect": {"math": ["foreach_probe", "=", "1"]},
         }, True, False, {}, actor_expression="actor")
         self.assertIsNotNone(lines)
         script = r"""
 local context={data={}}
 local pages,calls=0,0
+local function service_value(result) assert(result.ok);return result.value end
 local services={types={id=function(kind,value) return value end},hordes={monsters=function(group,recursive,options)
  assert(group=='GROUP_ZOMBIE' and recursive and options.order=='native' and calls==0)
  assert(options.offset==pages)
  pages=pages+1
  return {items={{value=({'zombie','ant','zombie'})[pages]}},returned=1,has_more=pages<3}
-end},message=function()
+end},variables={set_global=function(key,value,options)
+ assert(key=='foreach_probe' and value==1 and options.include_before==false)
  calls=calls+1;assert(pages==3 and context.data.entry==({'zombie','ant','zombie'})[calls])
-end}
+ return {ok=true,value={}}
+end}}
 BODY
 assert(calls==3 and context.data.entry=='zombie')
 """.replace("BODY", "\n".join(lines))
@@ -44853,7 +45214,7 @@ assert(calls==3 and context.data.entry=='zombie')
                         "id": "predicate_owner",
                         "required_event": "game_start",
                         "condition": {"test_eoc": "predicate_target"},
-                        "effect": {"u_message": "matched"},
+                        "effect": {"math": ["migration_fixture = 1"]},
                         "eoc_type": "EVENT",
                     },
                 ]),
@@ -44865,7 +45226,7 @@ assert(calls==3 and context.data.entry=='zombie')
             main = result.files[Path("main.lua")]
 
             self.assertNotIn("predicate_owner condition TODO: translate the legacy condition into a Lua predicate", main)
-            self.assertIn('services.mutations.has_id_text(actor, "TOUGH")', main)
+            self.assertIn('services.mutations.has_id_text(character, raw)', main)
 
     def test_referenced_character_eoc_inherits_callback_actor_without_standalone_handler(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -44973,37 +45334,17 @@ assert(calls==3 and context.data.entry=='zombie')
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertNotIn("location-variable search through", main)
-            self.assertIn("services.overmap.closest", main)
-            self.assertIn("radius = 1200", main)
-            self.assertIn("services.overmap.reveal(", main)
-            self.assertNotIn("services.variables.get_global(\"target\")", main)
-            self.assertIn(
-                "TODO: preserve native teleport_to_point map "
-                "loading/recentering and target default/conversion; require a "
-                "source-proven global coordinate write, and retain "
-                "NPC/Item/Vehicle/Zone dispatch, other target scopes, and "
-                "translated messages.",
-                main,
-            )
-            self.assertNotIn("services.relocation.creature_at", main)
-            self.assertNotIn("services.relocation.move", main)
-            self.assertTrue(
-                any(
-                    "dynamic_world_targets effect #1 teleport needs native "
-                    "teleport_to_point map" in todo
-                    for todo in result.todos
-                )
-            )
-            self.assertIn(
-                "dynamic_world_targets effect #1 teleport needs native teleport_to_point map "
-                "loading/recentering and target default/conversion; a global_val target "
-                "needs a source-proven write with exact coordinate type because missing "
-                "native values default to the origin while Lua resolve skips them. "
-                "NPC/Item/Vehicle/Zone dispatch, other target scopes, and "
-                "translated success/failure messages remain unsupported",
-                report,
-            )
+            self.assertEqual(eoc_result_ids(result.partial), ["dynamic_world_targets"])
+            self.assertTrue(any(todo.category == "platform_gap" and
+                "static nonempty target_params terrain search needs a match status" in todo.message
+                and "debugmsg and Avatar OMT fallback" in todo.message for todo in result.todos))
+            self.assertNotIn("services.overmap.closest(", main)
+            self.assertNotIn("services.overmap.find_target(", main)
+            self.assertNotIn("services.overmap.edit(", main)
+            self.assertNotIn("services.overmap.reveal(", main)
+            self.assertTrue(any("effect #1 teleport needs native teleport_to_point" in todo.message
+                                for todo in result.todos))
+            self.assertNotIn("services.relocation.move(", main)
 
     def test_dynamic_location_replacement_uses_overmap_token_edit(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -45031,21 +45372,14 @@ assert(calls==3 and context.data.entry=='zombie')
             )
             main = result.files[Path("main.lua")]
 
-            self.assertEqual(result.partial, [])
-            self.assertEqual(result.todos, [])
-            self.assertEqual(main.count("services.overmap.closest("), 2)
-            self.assertIn("radius = 1200", main)
-            self.assertIn("services.overmap.tile_token(", main)
-            self.assertIn("services.overmap.snapshot(", main)
-            self.assertIn("services.overmap.edit(", main)
-            self.assertIn("replacement_snapshot.revision", main)
-            self.assertIn("set_terrain =", main)
-            self.assertIn(
-                'services.variables.set_global(\n            "target", location)',
-                main,
-            )
-            self.assertNotIn("services.overmap.set_terrain", main)
-            self.assertNotIn("services.overmap.tile(", main)
+            self.assertEqual(eoc_result_ids(result.partial), ["dynamic_world_replacement"])
+            self.assertTrue(any(todo.category == "platform_gap" and
+                "static nonempty target_params terrain search needs a match status" in todo.message
+                and "debugmsg and Avatar OMT fallback" in todo.message for todo in result.todos))
+            self.assertNotIn("services.overmap.closest(", main)
+            self.assertNotIn("services.overmap.find_target(", main)
+            self.assertNotIn("services.overmap.edit(", main)
+            self.assertNotIn("services.overmap.reveal(", main)
 
     def test_location_search_offsets_and_callbacks_use_typed_world_services(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -45057,14 +45391,14 @@ assert(calls==3 and context.data.entry=='zombie')
                             "type": "effect_on_condition",
                             "id": "location_success",
                             "required_event": "game_start",
-                            "effect": {"message": "found"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
                             "type": "effect_on_condition",
                             "id": "location_failure",
                             "required_event": "game_start",
-                            "effect": {"message": "missing"},
+                            "effect": {"math": ["migration_fixture = 1"]},
                             "eoc_type": "EVENT",
                         },
                         {
@@ -45096,18 +45430,17 @@ assert(calls==3 and context.data.entry=='zombie')
             main = result.files[Path("main.lua")]
             report = result.files[Path("MIGRATION_REPORT.md")]
 
-            self.assertEqual(len(result.converted), 3)
-            self.assertEqual(result.partial, [])
-            self.assertIn(
-                "services.coords.tripoint_rel_omt(-1, 1, 0)", main
-            )
-            self.assertIn(
-                "migrated_eoc_location_success(context, actor)", main
-            )
-            self.assertIn(
-                "migrated_eoc_location_failure(context, actor)", main
-            )
-            self.assertNotIn("location-variable search through", report)
+            self.assertEqual(eoc_result_ids(result.partial), ["location_owner"])
+            self.assertTrue(any(todo.category == "platform_gap" and
+                "static nonempty target_params terrain search needs a match status" in todo.message
+                and "debugmsg and Avatar OMT fallback" in todo.message for todo in result.todos))
+            self.assertNotIn("services.overmap.closest(", main)
+            self.assertNotIn("services.overmap.find_target(", main)
+            self.assertNotIn("services.overmap.edit(", main)
+            self.assertNotIn("services.overmap.reveal(", main)
+            self.assertEqual(eoc_result_ids(result.converted), ["location_success", "location_failure"])
+            self.assertNotIn("migrated_eoc_location_success(context, actor)", main)
+            self.assertNotIn("migrated_eoc_location_failure(context, actor)", main)
 
     def test_dynamic_spawn_item_shape_uses_typed_ids_and_numeric_expressions(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -45224,7 +45557,7 @@ assert(calls==3 and context.data.entry=='zombie')
             self.assertEqual(len(result.partial), 1)
             self.assertTrue(result.todos)
             self.assertTrue(
-                {"manual_rewrite", "platform_gap"} <=
+                {"manual_rewrite"} <=
                 {todo.category for todo in result.todos}
             )
             # Comments do not prove the absent dialogue beta, a recipe catalog
@@ -45248,10 +45581,9 @@ assert(calls==3 and context.data.entry=='zombie')
             )
             self.assertIn("services.world.emit(", main)
             self.assertNotIn("services.world.transform_line(", main)
-            self.assertNotIn('context.data["mirrored"] =', main)
+            self.assertIn('context.data["mirrored"] = mirrored', main)
             self.assertTrue(any("transform_line can load a distant map" in reason for reason in reasons))
-            self.assertTrue(any("native missing/legacy-value conversion and exact input/output var_info" in reason
-                                for reason in reasons))
+            self.assertIn(":mirror_around(mirror_center)", main)
             self.assertIn(
                 'context.data["raised_position"] = location', main
             )
@@ -45305,7 +45637,7 @@ assert(calls==3 and context.data.entry=='zombie')
             self.assertNotIn("services.inventory.hand_in(", main)
             self.assertNotIn("services.inventory.consume_by_type(", main)
             self.assertIn(
-                "u_consume_item popup=true also needs its ordered give notice", main
+                "u_consume_item popup=true also needs its ordered give notice", "\n".join(t.message for t in result.todos)
             )
 
     def test_talker_pair_attack_targets_beta_and_monster_attack_is_native_noop(self) -> None:
@@ -46602,8 +46934,9 @@ assert(context.data.step==0 and context.actors.character==actor and context.acto
             # Furniture lacks matching placement semantics; the trap write
             # has no proven native var_info location. The two terrain writes
             # and field write reach the coordinate-frame guard.
-            trap_gap = "set_trap location needs a proven absolute map-square value"
-            self.assertEqual(main.count(todo), 3)
+            trap_gap = "set_trap has options outside the typed native area operation"
+            self.assertEqual(main.count(todo), 2)
+            self.assertIn("field placement only migrates for a proven live Avatar center", main)
             self.assertEqual(
                 main.count("set_furniture uses the native radius neighborhood"), 2
             )
@@ -46613,7 +46946,7 @@ assert(context.data.step==0 and context.actors.character==actor and context.acto
             self.assertTrue(result.partial)
             self.assertTrue(result.todos)
             self.assertTrue(any(
-                item.category == "manual_rewrite" and "set_trap location needs" in item.message
+                item.category == "manual_rewrite" and "set_trap has options outside" in item.message
                 for item in result.todos
             ))
             for legacy_map_write in (
@@ -46881,8 +47214,10 @@ assert(context.data.step==0 and context.actors.character==actor and context.acto
                         {
                             "type": "talk_topic",
                             "id": "remove_item_with_topic",
+                            "dynamic_line": "Hand in the selected items?",
                             "responses": [{
-                                "true_eocs": "remove_item_with_pair",
+                                "text": "Hand them in", "topic": "TALK_DONE",
+                                "effect": {"u_query_yn": "Proceed?", "true_eocs": "remove_item_with_pair"},
                             }],
                         },
                         {
@@ -46968,7 +47303,11 @@ assert(context.data.step==0 and context.actors.character==actor and context.acto
                 'actor, services.types.id("item", "bandages")', main
             )
             self.assertIn("direct talk-topic beta Character proof", report)
-            self.assertEqual(len(result.partial), 1)
+            self.assertEqual(len(result.partial), 2)
+            self.assertTrue(any("talk topic remove_item_with_topic" in x for x in result.partial))
+            self.assertTrue(any("migrate the enclosing native action and its success/failure branch together" in t.message
+                                for t in result.todos))
+            self.assertIn("remove_item_with_pair", eoc_result_ids(result.converted))
 
     def test_native_bulk_trade_selectors_remain_todo(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

@@ -921,11 +921,12 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     dialogue d_item( get_talker_for( hloc ), std::make_unique<talker>() );
     dialogue d_furniture( get_talker_for( comp ), std::make_unique<talker>() );
 
+    Messages::clear_messages();
     CHECK( effect_on_condition_EOC_meta_test_message->activate( d_empty ) );
 
-    std::vector<std::pair<std::string, std::string>> messages = Messages::recent_messages( 0 );
+    std::vector<std::pair<std::string, std::string>> messages = Messages::recent_messages( 1 );
 
-    REQUIRE( !messages.empty() );
+    REQUIRE( messages.size() == 1 );
     CHECK( messages.back().second == "message ok." );
 
     globvars.clear_global_values();

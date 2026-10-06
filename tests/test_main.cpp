@@ -266,7 +266,7 @@ struct CataListener : Catch::TestEventListenerBase {
         if( !sectionStats.assertions.allPassed() ||
             m_config->includeSuccessfulResults() ) {
             std::vector<std::pair<std::string, std::string>> messages =
-                        Messages::recent_messages( 0 );
+                        Messages::recent_messages( Messages::size() );
             if( !messages.empty() ) {
                 if( !sectionStats.assertions.allPassed() ) {
                     std::cerr << "Log messages during failed test:\n";
