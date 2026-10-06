@@ -31,6 +31,15 @@ additional gameplay JSON object types or EOC effects. Regenerated inventory
 fingerprints therefore describe current source locations without introducing
 new content IDs.
 
+The Lua domain-service update does not add JSON object-type registrations or
+change `copy-from`/`abstract` inheritance. Its generated inventory refresh also
+covers changed source fingerprints and test/content examples using existing
+types. Lua translation descriptors and activity instance identities belong to
+their respective Lua/native contracts; they are not additional gameplay JSON
+object types. Consult [inheritance](JSON_INHERITANCE.md) and each type's loader
+for supported fields rather than inferring a schema change from an inventory
+hash or a new Lua service.
+
 Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

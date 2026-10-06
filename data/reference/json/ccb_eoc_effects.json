@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_effects",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:50c9eaf5701fb9a6b45d130001837e3d5b6f1c70c390d8b4083e8e88dfca7cd8",
+    "source_fingerprint": "sha256:5515ecb6e67268ae1d4e9560c58281f6849921d1661fb87e43ab193ea2064b6b",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -71,7 +71,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9118,
+            "line": 9120,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -160,7 +160,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9053,
+            "line": 9055,
             "symbol": "parsers"
           }
         }
@@ -248,7 +248,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9002,
+            "line": 9004,
             "symbol": "parsers"
           }
         }
@@ -336,7 +336,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9021,
+            "line": 9023,
             "symbol": "parsers"
           }
         }
@@ -400,7 +400,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5502
+            "line": 5514
           }
         ],
         "confidence": "lexical_only"
@@ -429,7 +429,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9117,
+            "line": 9119,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -518,7 +518,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9116,
+            "line": 9118,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -615,7 +615,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9032,
+            "line": 9034,
             "symbol": "parsers"
           }
         },
@@ -627,7 +627,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9089,
+            "line": 9091,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -693,7 +693,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2097
+            "line": 2109
           }
         ],
         "confidence": "lexical_only"
@@ -722,7 +722,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9135,
+            "line": 9137,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -787,7 +787,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 147
+            "line": 159
           }
         ],
         "confidence": "lexical_only"
@@ -816,7 +816,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9136,
+            "line": 9138,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -881,7 +881,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4235
+            "line": 4247
           }
         ],
         "confidence": "lexical_only"
@@ -910,7 +910,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9125,
+            "line": 9127,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1004,7 +1004,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9140,
+            "line": 9142,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1098,7 +1098,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9141,
+            "line": 9143,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1187,7 +1187,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9142,
+            "line": 9144,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1281,7 +1281,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9143,
+            "line": 9145,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1370,7 +1370,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9123,
+            "line": 9125,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1454,7 +1454,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9122,
+            "line": 9124,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1538,7 +1538,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9137,
+            "line": 9139,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1632,7 +1632,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9124,
+            "line": 9126,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1716,7 +1716,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9138,
+            "line": 9140,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1810,7 +1810,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9019,
+            "line": 9021,
             "symbol": "parsers"
           }
         }
@@ -1903,7 +1903,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9092,
+            "line": 9094,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -1997,7 +1997,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9013,
+            "line": 9015,
             "symbol": "parsers"
           }
         }
@@ -2090,7 +2090,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9174,
+            "line": 9176,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -2174,7 +2174,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8997,
+            "line": 8999,
             "symbol": "parsers"
           }
         }
@@ -2233,7 +2233,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3153
+            "line": 3165
           }
         ],
         "confidence": "lexical_only"
@@ -2262,7 +2262,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8992,
+            "line": 8994,
             "symbol": "parsers"
           }
         }
@@ -2355,7 +2355,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9023,
+            "line": 9025,
             "symbol": "parsers"
           }
         }
@@ -2415,8 +2415,13 @@
         "note": "A lexical match is evidence of use, not proof that the full surrounding object is a minimal valid example."
       },
       "documentation": {
-        "status": "not_found",
-        "evidence": [],
+        "status": "lexically_mentioned",
+        "evidence": [
+          {
+            "path": "doc/JSON/EFFECT_ON_CONDITION.md",
+            "line": 35
+          }
+        ],
         "confidence": "lexical_only"
       }
     },
@@ -2443,7 +2448,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9171,
+            "line": 9173,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -2527,7 +2532,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8993,
+            "line": 8995,
             "symbol": "parsers"
           }
         }
@@ -2591,7 +2596,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3919
+            "line": 3931
           }
         ],
         "confidence": "lexical_only"
@@ -2621,7 +2626,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9043,
+            "line": 9045,
             "symbol": "parsers"
           }
         }
@@ -2686,7 +2691,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5580
+            "line": 5592
           }
         ],
         "confidence": "lexical_only"
@@ -2715,7 +2720,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9150,
+            "line": 9152,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -2799,7 +2804,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9148,
+            "line": 9150,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -2893,7 +2898,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9149,
+            "line": 9151,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -2982,7 +2987,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9152,
+            "line": 9154,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3071,7 +3076,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9151,
+            "line": 9153,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3160,7 +3165,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8940,
+            "line": 8942,
             "symbol": "parsers"
           }
         }
@@ -3224,7 +3229,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4106
+            "line": 4118
           }
         ],
         "confidence": "lexical_only"
@@ -3253,7 +3258,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9097,
+            "line": 9099,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3342,7 +3347,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9177,
+            "line": 9179,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3436,7 +3441,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9114,
+            "line": 9116,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3525,7 +3530,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9098,
+            "line": 9100,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3614,7 +3619,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9104,
+            "line": 9106,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3703,7 +3708,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9106,
+            "line": 9108,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3792,7 +3797,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9113,
+            "line": 9115,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3881,7 +3886,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9176,
+            "line": 9178,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -3970,7 +3975,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9110,
+            "line": 9112,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4059,7 +4064,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9115,
+            "line": 9117,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4148,7 +4153,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9105,
+            "line": 9107,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4237,7 +4242,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9107,
+            "line": 9109,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4326,7 +4331,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9108,
+            "line": 9110,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4415,7 +4420,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9109,
+            "line": 9111,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4504,7 +4509,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9111,
+            "line": 9113,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4593,7 +4598,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9112,
+            "line": 9114,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4682,7 +4687,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9099,
+            "line": 9101,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4771,7 +4776,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9100,
+            "line": 9102,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4860,7 +4865,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9145,
+            "line": 9147,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -4949,7 +4954,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9163,
+            "line": 9165,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5038,7 +5043,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9162,
+            "line": 9164,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5132,7 +5137,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9128,
+            "line": 9130,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5226,7 +5231,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9096,
+            "line": 9098,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5315,7 +5320,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9033,
+            "line": 9035,
             "symbol": "parsers"
           }
         }
@@ -5379,7 +5384,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2139
+            "line": 2151
           }
         ],
         "confidence": "lexical_only"
@@ -5408,7 +5413,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9154,
+            "line": 9156,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5502,7 +5507,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9146,
+            "line": 9148,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5596,7 +5601,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9147,
+            "line": 9149,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5690,7 +5695,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9041,
+            "line": 9043,
             "symbol": "parsers"
           }
         }
@@ -5754,7 +5759,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2601
+            "line": 2613
           }
         ],
         "confidence": "lexical_only"
@@ -5783,7 +5788,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9031,
+            "line": 9033,
             "symbol": "parsers"
           }
         }
@@ -5847,7 +5852,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2078
+            "line": 2090
           }
         ],
         "confidence": "lexical_only"
@@ -5876,7 +5881,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9133,
+            "line": 9135,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -5970,7 +5975,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9134,
+            "line": 9136,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6062,7 +6067,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9046,
+            "line": 9048,
             "symbol": "parsers"
           }
         },
@@ -6074,7 +6079,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9130,
+            "line": 9132,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6169,7 +6174,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9158,
+            "line": 9160,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6258,7 +6263,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9153,
+            "line": 9155,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6323,7 +6328,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1919
+            "line": 1931
           }
         ],
         "confidence": "lexical_only"
@@ -6352,7 +6357,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9039,
+            "line": 9041,
             "symbol": "parsers"
           }
         }
@@ -6445,7 +6450,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9129,
+            "line": 9131,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6539,7 +6544,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9167,
+            "line": 9169,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6633,7 +6638,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9155,
+            "line": 9157,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6727,7 +6732,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9131,
+            "line": 9133,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6821,7 +6826,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9132,
+            "line": 9134,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -6908,7 +6913,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9196,
+            "line": 9198,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -6973,7 +6978,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 274
+            "line": 286
           }
         ],
         "confidence": "lexical_only"
@@ -7002,7 +7007,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9026,
+            "line": 9028,
             "symbol": "parsers"
           }
         }
@@ -7066,7 +7071,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4201
+            "line": 4213
           }
         ],
         "confidence": "lexical_only"
@@ -7095,7 +7100,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9018,
+            "line": 9020,
             "symbol": "parsers"
           }
         }
@@ -7159,7 +7164,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5466
+            "line": 5478
           }
         ],
         "confidence": "lexical_only"
@@ -7188,7 +7193,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9020,
+            "line": 9022,
             "symbol": "parsers"
           }
         }
@@ -7281,7 +7286,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9042,
+            "line": 9044,
             "symbol": "parsers"
           }
         }
@@ -7345,7 +7350,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 131
+            "line": 143
           }
         ],
         "confidence": "lexical_only"
@@ -7375,7 +7380,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9061,
+            "line": 9063,
             "symbol": "parsers"
           }
         },
@@ -7388,7 +7393,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9061,
+            "line": 9063,
             "symbol": "parsers"
           }
         }
@@ -7481,7 +7486,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9044,
+            "line": 9046,
             "symbol": "parsers"
           }
         }
@@ -7545,7 +7550,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4995
+            "line": 5007
           }
         ],
         "confidence": "lexical_only"
@@ -7574,7 +7579,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9091,
+            "line": 9093,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -7668,7 +7673,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9093,
+            "line": 9095,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -7762,7 +7767,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9090,
+            "line": 9092,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -7856,7 +7861,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9139,
+            "line": 9141,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -7943,7 +7948,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9232,
+            "line": 9234,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -8008,7 +8013,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5577
+            "line": 5589
           }
         ],
         "confidence": "lexical_only"
@@ -8037,7 +8042,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9178,
+            "line": 9180,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -8102,7 +8107,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3623
+            "line": 3635
           }
         ],
         "confidence": "lexical_only"
@@ -8133,7 +8138,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8981,
+            "line": 8983,
             "symbol": "parsers"
           }
         }
@@ -8192,7 +8197,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5383
+            "line": 5395
           }
         ],
         "confidence": "lexical_only"
@@ -8223,7 +8228,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8932,
+            "line": 8934,
             "symbol": "parsers"
           }
         }
@@ -8282,7 +8287,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3705
+            "line": 3717
           }
         ],
         "confidence": "lexical_only"
@@ -8313,7 +8318,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8964,
+            "line": 8966,
             "symbol": "parsers"
           }
         }
@@ -8372,7 +8377,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3537
+            "line": 3549
           }
         ],
         "confidence": "lexical_only"
@@ -8403,7 +8408,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8923,
+            "line": 8925,
             "symbol": "parsers"
           }
         }
@@ -8467,7 +8472,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3496
+            "line": 3508
           }
         ],
         "confidence": "lexical_only"
@@ -8498,7 +8503,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8962,
+            "line": 8964,
             "symbol": "parsers"
           }
         }
@@ -8562,7 +8567,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4454
+            "line": 4466
           }
         ],
         "confidence": "lexical_only"
@@ -8593,7 +8598,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8927,
+            "line": 8929,
             "symbol": "parsers"
           }
         }
@@ -8657,7 +8662,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3417
+            "line": 3429
           }
         ],
         "confidence": "lexical_only"
@@ -8688,7 +8693,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8925,
+            "line": 8927,
             "symbol": "parsers"
           }
         }
@@ -8752,7 +8757,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3805
+            "line": 3817
           }
         ],
         "confidence": "lexical_only"
@@ -8784,7 +8789,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8952,
+            "line": 8954,
             "symbol": "parsers"
           }
         }
@@ -8844,7 +8849,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4372
+            "line": 4384
           }
         ],
         "confidence": "lexical_only"
@@ -8875,7 +8880,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9008,
+            "line": 9010,
             "symbol": "parsers"
           }
         }
@@ -8934,7 +8939,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3293
+            "line": 3305
           }
         ],
         "confidence": "lexical_only"
@@ -8965,7 +8970,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8953,
+            "line": 8955,
             "symbol": "parsers"
           }
         }
@@ -9029,7 +9034,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4781
+            "line": 4793
           }
         ],
         "confidence": "lexical_only"
@@ -9060,7 +9065,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8966,
+            "line": 8968,
             "symbol": "parsers"
           }
         }
@@ -9119,7 +9124,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5284
+            "line": 5296
           }
         ],
         "confidence": "lexical_only"
@@ -9152,7 +9157,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8987,
+            "line": 8989,
             "symbol": "parsers"
           }
         },
@@ -9164,7 +9169,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9189,
+            "line": 9191,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -9177,7 +9182,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9190,
+            "line": 9192,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -9271,7 +9276,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8985,
+            "line": 8987,
             "symbol": "parsers"
           }
         },
@@ -9283,7 +9288,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9188,
+            "line": 9190,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -9296,7 +9301,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9190,
+            "line": 9192,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -9384,7 +9389,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9216,
+            "line": 9218,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -9444,7 +9449,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4803
+            "line": 4815
           }
         ],
         "confidence": "lexical_only"
@@ -9475,7 +9480,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8988,
+            "line": 8990,
             "symbol": "parsers"
           }
         }
@@ -9539,7 +9544,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4695
+            "line": 4707
           }
         ],
         "confidence": "lexical_only"
@@ -9568,7 +9573,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9000,
+            "line": 9002,
             "symbol": "parsers"
           }
         }
@@ -9656,7 +9661,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8999,
+            "line": 9001,
             "symbol": "parsers"
           }
         }
@@ -9751,7 +9756,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8945,
+            "line": 8947,
             "symbol": "parsers"
           }
         }
@@ -9815,7 +9820,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5116
+            "line": 5128
           }
         ],
         "confidence": "lexical_only"
@@ -9846,7 +9851,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8982,
+            "line": 8984,
             "symbol": "parsers"
           }
         }
@@ -9941,7 +9946,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8983,
+            "line": 8985,
             "symbol": "parsers"
           }
         }
@@ -10000,7 +10005,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4519
+            "line": 4531
           }
         ],
         "confidence": "lexical_only"
@@ -10031,7 +10036,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8931,
+            "line": 8933,
             "symbol": "parsers"
           }
         }
@@ -10090,7 +10095,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3730
+            "line": 3742
           }
         ],
         "confidence": "lexical_only"
@@ -10121,7 +10126,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8986,
+            "line": 8988,
             "symbol": "parsers"
           }
         }
@@ -10185,7 +10190,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3381
+            "line": 3393
           }
         ],
         "confidence": "lexical_only"
@@ -10218,7 +10223,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8967,
+            "line": 8969,
             "symbol": "parsers"
           }
         },
@@ -10230,7 +10235,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9206,
+            "line": 9208,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -10296,7 +10301,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5214
+            "line": 5226
           }
         ],
         "confidence": "lexical_only"
@@ -10327,7 +10332,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8974,
+            "line": 8976,
             "symbol": "parsers"
           }
         }
@@ -10391,7 +10396,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5865
+            "line": 5877
           }
         ],
         "confidence": "lexical_only"
@@ -10422,7 +10427,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8942,
+            "line": 8944,
             "symbol": "parsers"
           }
         }
@@ -10481,7 +10486,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4887
+            "line": 4899
           }
         ],
         "confidence": "lexical_only"
@@ -10510,7 +10515,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9029,
+            "line": 9031,
             "symbol": "parsers"
           }
         }
@@ -10574,7 +10579,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4352
+            "line": 4364
           }
         ],
         "confidence": "lexical_only"
@@ -10605,7 +10610,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8938,
+            "line": 8940,
             "symbol": "parsers"
           }
         }
@@ -10664,7 +10669,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3780
+            "line": 3792
           }
         ],
         "confidence": "lexical_only"
@@ -10695,7 +10700,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8950,
+            "line": 8952,
             "symbol": "parsers"
           }
         }
@@ -10754,7 +10759,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4315
+            "line": 4327
           }
         ],
         "confidence": "lexical_only"
@@ -10781,7 +10786,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9237,
+            "line": 9239,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -10873,7 +10878,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9237,
+            "line": 9239,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -10886,7 +10891,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9238,
+            "line": 9240,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -10982,7 +10987,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9045,
+            "line": 9047,
             "symbol": "parsers"
           }
         }
@@ -11041,7 +11046,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4967
+            "line": 4979
           }
         ],
         "confidence": "lexical_only"
@@ -11072,7 +11077,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8937,
+            "line": 8939,
             "symbol": "parsers"
           }
         }
@@ -11131,7 +11136,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3755
+            "line": 3767
           }
         ],
         "confidence": "lexical_only"
@@ -11162,7 +11167,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8949,
+            "line": 8951,
             "symbol": "parsers"
           }
         }
@@ -11221,7 +11226,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4290
+            "line": 4302
           }
         ],
         "confidence": "lexical_only"
@@ -11252,7 +11257,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8948,
+            "line": 8950,
             "symbol": "parsers"
           }
         }
@@ -11311,7 +11316,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4753
+            "line": 4765
           }
         ],
         "confidence": "lexical_only"
@@ -11342,7 +11347,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8939,
+            "line": 8941,
             "symbol": "parsers"
           }
         }
@@ -11406,7 +11411,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 155
+            "line": 167
           }
         ],
         "confidence": "lexical_only"
@@ -11437,7 +11442,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8965,
+            "line": 8967,
             "symbol": "parsers"
           }
         }
@@ -11496,7 +11501,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3562
+            "line": 3574
           }
         ],
         "confidence": "lexical_only"
@@ -11527,7 +11532,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8929,
+            "line": 8931,
             "symbol": "parsers"
           }
         }
@@ -11586,7 +11591,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3644
+            "line": 3656
           }
         ],
         "confidence": "lexical_only"
@@ -11617,7 +11622,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8924,
+            "line": 8926,
             "symbol": "parsers"
           }
         }
@@ -11681,7 +11686,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3665
+            "line": 3677
           }
         ],
         "confidence": "lexical_only"
@@ -11712,7 +11717,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8963,
+            "line": 8965,
             "symbol": "parsers"
           }
         }
@@ -11771,7 +11776,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4493
+            "line": 4505
           }
         ],
         "confidence": "lexical_only"
@@ -11802,7 +11807,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8930,
+            "line": 8932,
             "symbol": "parsers"
           }
         }
@@ -11887,7 +11892,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8928,
+            "line": 8930,
             "symbol": "parsers"
           }
         }
@@ -11951,7 +11956,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3618
+            "line": 3630
           }
         ],
         "confidence": "lexical_only"
@@ -11982,7 +11987,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8926,
+            "line": 8928,
             "symbol": "parsers"
           }
         }
@@ -12046,7 +12051,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3893
+            "line": 3905
           }
         ],
         "confidence": "lexical_only"
@@ -12073,7 +12078,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9269,
+            "line": 9271,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -12133,7 +12138,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2062
+            "line": 2074
           }
         ],
         "confidence": "lexical_only"
@@ -12164,7 +12169,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8954,
+            "line": 8956,
             "symbol": "parsers"
           }
         }
@@ -12228,7 +12233,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4393
+            "line": 4405
           }
         ],
         "confidence": "lexical_only"
@@ -12259,7 +12264,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8989,
+            "line": 8991,
             "symbol": "parsers"
           }
         }
@@ -12318,7 +12323,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2882
+            "line": 2894
           }
         ],
         "confidence": "lexical_only"
@@ -12349,7 +12354,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8990,
+            "line": 8992,
             "symbol": "parsers"
           }
         }
@@ -12408,7 +12413,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2942
+            "line": 2954
           }
         ],
         "confidence": "lexical_only"
@@ -12439,7 +12444,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8951,
+            "line": 8953,
             "symbol": "parsers"
           }
         }
@@ -12503,7 +12508,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4646
+            "line": 4658
           }
         ],
         "confidence": "lexical_only"
@@ -12535,7 +12540,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8933,
+            "line": 8935,
             "symbol": "parsers"
           }
         }
@@ -12595,7 +12600,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3415
+            "line": 3427
           }
         ],
         "confidence": "lexical_only"
@@ -12626,7 +12631,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8934,
+            "line": 8936,
             "symbol": "parsers"
           }
         }
@@ -12690,7 +12695,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3440
+            "line": 3452
           }
         ],
         "confidence": "lexical_only"
@@ -12721,7 +12726,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8935,
+            "line": 8937,
             "symbol": "parsers"
           }
         }
@@ -12780,7 +12785,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3459
+            "line": 3471
           }
         ],
         "confidence": "lexical_only"
@@ -12811,7 +12816,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9007,
+            "line": 9009,
             "symbol": "parsers"
           }
         }
@@ -12870,7 +12875,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3260
+            "line": 3272
           }
         ],
         "confidence": "lexical_only"
@@ -12901,7 +12906,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8991,
+            "line": 8993,
             "symbol": "parsers"
           }
         }
@@ -12960,7 +12965,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2637
+            "line": 2649
           }
         ],
         "confidence": "lexical_only"
@@ -12987,7 +12992,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9227,
+            "line": 9229,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -13047,7 +13052,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5249
+            "line": 5261
           }
         ],
         "confidence": "lexical_only"
@@ -13078,7 +13083,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8944,
+            "line": 8946,
             "symbol": "parsers"
           }
         }
@@ -13137,7 +13142,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5019
+            "line": 5031
           }
         ],
         "confidence": "lexical_only"
@@ -13168,7 +13173,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8943,
+            "line": 8945,
             "symbol": "parsers"
           }
         }
@@ -13227,7 +13232,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5088
+            "line": 5100
           }
         ],
         "confidence": "lexical_only"
@@ -13254,7 +13259,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9248,
+            "line": 9250,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -13340,7 +13345,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9010,
+            "line": 9012,
             "symbol": "parsers"
           }
         }
@@ -13399,7 +13404,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3353
+            "line": 3365
           }
         ],
         "confidence": "lexical_only"
@@ -13430,7 +13435,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8984,
+            "line": 8986,
             "symbol": "parsers"
           }
         }
@@ -13525,7 +13530,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9009,
+            "line": 9011,
             "symbol": "parsers"
           }
         }
@@ -13584,7 +13589,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3323
+            "line": 3335
           }
         ],
         "confidence": "lexical_only"
@@ -13615,7 +13620,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8960,
+            "line": 8962,
             "symbol": "parsers"
           }
         }
@@ -13674,7 +13679,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2499
+            "line": 2511
           }
         ],
         "confidence": "lexical_only"
@@ -13701,7 +13706,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9281,
+            "line": 9283,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -13792,7 +13797,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8958,
+            "line": 8960,
             "symbol": "parsers"
           }
         }
@@ -13851,7 +13856,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2838
+            "line": 2850
           }
         ],
         "confidence": "lexical_only"
@@ -13882,7 +13887,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8959,
+            "line": 8961,
             "symbol": "parsers"
           }
         }
@@ -13946,7 +13951,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2777
+            "line": 2789
           }
         ],
         "confidence": "lexical_only"
@@ -13977,7 +13982,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8956,
+            "line": 8958,
             "symbol": "parsers"
           }
         }
@@ -14041,7 +14046,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2728
+            "line": 2740
           }
         ],
         "confidence": "lexical_only"
@@ -14072,7 +14077,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8955,
+            "line": 8957,
             "symbol": "parsers"
           }
         }
@@ -14131,7 +14136,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2660
+            "line": 2672
           }
         ],
         "confidence": "lexical_only"
@@ -14162,7 +14167,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8957,
+            "line": 8959,
             "symbol": "parsers"
           }
         }
@@ -14247,7 +14252,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8961,
+            "line": 8963,
             "symbol": "parsers"
           }
         }
@@ -14306,7 +14311,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4597
+            "line": 4609
           }
         ],
         "confidence": "lexical_only"
@@ -14337,7 +14342,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8979,
+            "line": 8981,
             "symbol": "parsers"
           }
         }
@@ -14401,7 +14406,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5403
+            "line": 5415
           }
         ],
         "confidence": "lexical_only"
@@ -14432,7 +14437,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8973,
+            "line": 8975,
             "symbol": "parsers"
           }
         }
@@ -14496,7 +14501,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5845
+            "line": 5857
           }
         ],
         "confidence": "lexical_only"
@@ -14527,7 +14532,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8977,
+            "line": 8979,
             "symbol": "parsers"
           }
         }
@@ -14591,7 +14596,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5345
+            "line": 5357
           }
         ],
         "confidence": "lexical_only"
@@ -14622,7 +14627,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8946,
+            "line": 8948,
             "symbol": "parsers"
           }
         }
@@ -14712,7 +14717,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8947,
+            "line": 8949,
             "symbol": "parsers"
           }
         }
@@ -14802,7 +14807,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8980,
+            "line": 8982,
             "symbol": "parsers"
           }
         }
@@ -14861,7 +14866,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5424
+            "line": 5436
           }
         ],
         "confidence": "lexical_only"
@@ -14892,7 +14897,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9054,
+            "line": 9056,
             "symbol": "parsers"
           }
         }
@@ -14951,7 +14956,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2481
+            "line": 2493
           }
         ],
         "confidence": "lexical_only"
@@ -14982,7 +14987,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8936,
+            "line": 8938,
             "symbol": "parsers"
           }
         }
@@ -15041,7 +15046,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 464
+            "line": 476
           }
         ],
         "confidence": "lexical_only"
@@ -15072,7 +15077,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8968,
+            "line": 8970,
             "symbol": "parsers"
           }
         }
@@ -15136,7 +15141,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5683
+            "line": 5695
           }
         ],
         "confidence": "lexical_only"
@@ -15167,7 +15172,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8969,
+            "line": 8971,
             "symbol": "parsers"
           }
         }
@@ -15226,7 +15231,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5741
+            "line": 5753
           }
         ],
         "confidence": "lexical_only"
@@ -15257,7 +15262,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8975,
+            "line": 8977,
             "symbol": "parsers"
           }
         }
@@ -15321,7 +15326,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2998
+            "line": 3010
           }
         ],
         "confidence": "lexical_only"
@@ -15350,7 +15355,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9173,
+            "line": 9175,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -15447,7 +15452,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8941,
+            "line": 8943,
             "symbol": "parsers"
           }
         }
@@ -15497,7 +15502,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 8,
+        "occurrences": 9,
         "examples": [
           {
             "path": "data/mods/Magiclysm/effect_on_conditions/death_effects.json",
@@ -15512,7 +15517,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5600
+            "line": 5612
           }
         ],
         "confidence": "lexical_only"
@@ -15543,7 +15548,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8978,
+            "line": 8980,
             "symbol": "parsers"
           }
         }
@@ -15607,7 +15612,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4526
+            "line": 4538
           }
         ],
         "confidence": "lexical_only"
@@ -15634,7 +15639,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9277,
+            "line": 9279,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -15719,7 +15724,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9035,
+            "line": 9037,
             "symbol": "parsers"
           }
         }
@@ -15784,7 +15789,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2171
+            "line": 2183
           }
         ],
         "confidence": "lexical_only"
@@ -15815,7 +15820,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9050,
+            "line": 9052,
             "symbol": "parsers"
           }
         },
@@ -15827,7 +15832,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9253,
+            "line": 9255,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -15893,7 +15898,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1985
+            "line": 1997
           }
         ],
         "confidence": "lexical_only"
@@ -15922,7 +15927,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9175,
+            "line": 9177,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16011,7 +16016,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9024,
+            "line": 9026,
             "symbol": "parsers"
           }
         }
@@ -16075,7 +16080,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4038
+            "line": 35
           }
         ],
         "confidence": "lexical_only"
@@ -16104,7 +16109,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9161,
+            "line": 9163,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16193,7 +16198,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9165,
+            "line": 9167,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16287,7 +16292,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9166,
+            "line": 9168,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16381,7 +16386,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9005,
+            "line": 9007,
             "symbol": "parsers"
           }
         }
@@ -16469,7 +16474,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9102,
+            "line": 9104,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16558,7 +16563,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9034,
+            "line": 9036,
             "symbol": "parsers"
           }
         }
@@ -16622,7 +16627,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2119
+            "line": 2131
           }
         ],
         "confidence": "lexical_only"
@@ -16651,7 +16656,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9164,
+            "line": 9166,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16740,7 +16745,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9144,
+            "line": 9146,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16834,7 +16839,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9120,
+            "line": 9122,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -16923,7 +16928,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8995,
+            "line": 8997,
             "symbol": "parsers"
           }
         }
@@ -16987,7 +16992,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3059
+            "line": 3071
           }
         ],
         "confidence": "lexical_only"
@@ -17016,7 +17021,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8996,
+            "line": 8998,
             "symbol": "parsers"
           }
         }
@@ -17080,7 +17085,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3108
+            "line": 3120
           }
         ],
         "confidence": "lexical_only"
@@ -17109,7 +17114,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9127,
+            "line": 9129,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -17203,7 +17208,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9157,
+            "line": 9159,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -17292,7 +17297,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9022,
+            "line": 9024,
             "symbol": "parsers"
           }
         }
@@ -17356,7 +17361,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5531
+            "line": 35
           }
         ],
         "confidence": "lexical_only"
@@ -17385,7 +17390,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9037,
+            "line": 9039,
             "symbol": "parsers"
           }
         }
@@ -17449,7 +17454,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3221
+            "line": 3233
           }
         ],
         "confidence": "lexical_only"
@@ -17479,7 +17484,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9036,
+            "line": 9038,
             "symbol": "parsers"
           }
         }
@@ -17544,7 +17549,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2202
+            "line": 2214
           }
         ],
         "confidence": "lexical_only"
@@ -17573,7 +17578,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8994,
+            "line": 8996,
             "symbol": "parsers"
           }
         }
@@ -17632,7 +17637,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3937
+            "line": 3949
           }
         ],
         "confidence": "lexical_only"
@@ -17661,7 +17666,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9101,
+            "line": 9103,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -17750,7 +17755,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9058,
+            "line": 9060,
             "symbol": "parsers"
           }
         }
@@ -17809,7 +17814,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5445
+            "line": 5457
           }
         ],
         "confidence": "lexical_only"
@@ -17838,7 +17843,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9048,
+            "line": 9050,
             "symbol": "parsers"
           }
         }
@@ -17902,7 +17907,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4072
+            "line": 4084
           }
         ],
         "confidence": "lexical_only"
@@ -17931,7 +17936,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8972,
+            "line": 8974,
             "symbol": "parsers"
           }
         }
@@ -17990,7 +17995,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5821
+            "line": 5833
           }
         ],
         "confidence": "lexical_only"
@@ -18020,7 +18025,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9049,
+            "line": 9051,
             "symbol": "parsers"
           }
         }
@@ -18109,7 +18114,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9015,
+            "line": 9017,
             "symbol": "parsers"
           }
         }
@@ -18197,7 +18202,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9017,
+            "line": 9019,
             "symbol": "parsers"
           }
         }
@@ -18280,7 +18285,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9016,
+            "line": 9018,
             "symbol": "parsers"
           }
         }
@@ -18363,7 +18368,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9014,
+            "line": 9016,
             "symbol": "parsers"
           }
         }
@@ -18451,7 +18456,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9172,
+            "line": 9174,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -18540,7 +18545,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9012,
+            "line": 9014,
             "symbol": "parsers"
           }
         }
@@ -18634,7 +18639,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9047,
+            "line": 9049,
             "symbol": "parsers"
           }
         }
@@ -18699,7 +18704,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1344
+            "line": 1356
           }
         ],
         "confidence": "lexical_only"
@@ -18728,7 +18733,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8971,
+            "line": 8973,
             "symbol": "parsers"
           }
         }
@@ -18787,7 +18792,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5797
+            "line": 5809
           }
         ],
         "confidence": "lexical_only"
@@ -18816,7 +18821,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8970,
+            "line": 8972,
             "symbol": "parsers"
           }
         }
@@ -18880,7 +18885,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5774
+            "line": 5786
           }
         ],
         "confidence": "lexical_only"
@@ -18909,7 +18914,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9057,
+            "line": 9059,
             "symbol": "parsers"
           }
         }
@@ -18973,7 +18978,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3037
+            "line": 3049
           }
         ],
         "confidence": "lexical_only"
@@ -19002,7 +19007,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9095,
+            "line": 9097,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19091,7 +19096,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9030,
+            "line": 9032,
             "symbol": "parsers"
           }
         }
@@ -19155,7 +19160,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1960
+            "line": 1972
           }
         ],
         "confidence": "lexical_only"
@@ -19184,7 +19189,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9121,
+            "line": 9123,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19278,7 +19283,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9160,
+            "line": 9162,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19372,7 +19377,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9094,
+            "line": 9096,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19466,7 +19471,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9168,
+            "line": 9170,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19560,7 +19565,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9169,
+            "line": 9171,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19654,7 +19659,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9170,
+            "line": 9172,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19748,7 +19753,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9103,
+            "line": 9105,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19837,7 +19842,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9156,
+            "line": 9158,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -19931,7 +19936,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9119,
+            "line": 9121,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -20025,7 +20030,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9159,
+            "line": 9161,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -20119,7 +20124,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9040,
+            "line": 9042,
             "symbol": "parsers"
           }
         }
@@ -20183,7 +20188,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2564
+            "line": 2576
           }
         ],
         "confidence": "lexical_only"
@@ -20214,7 +20219,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9051,
+            "line": 9053,
             "symbol": "parsers"
           }
         },
@@ -20226,7 +20231,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9257,
+            "line": 9259,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -20292,7 +20297,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2020
+            "line": 2032
           }
         ],
         "confidence": "lexical_only"
@@ -20319,7 +20324,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9261,
+            "line": 9263,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -20384,7 +20389,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2046
+            "line": 2058
           }
         ],
         "confidence": "lexical_only"
@@ -20413,7 +20418,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9011,
+            "line": 9013,
             "symbol": "parsers"
           }
         }
@@ -20501,7 +20506,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9056,
+            "line": 9058,
             "symbol": "parsers"
           }
         }
@@ -20565,7 +20570,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5909
+            "line": 5921
           }
         ],
         "confidence": "lexical_only"
@@ -20594,7 +20599,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9025,
+            "line": 9027,
             "symbol": "parsers"
           }
         }
@@ -20658,7 +20663,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5628
+            "line": 5640
           }
         ],
         "confidence": "lexical_only"
@@ -20687,7 +20692,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9052,
+            "line": 9054,
             "symbol": "parsers"
           }
         }
@@ -20775,7 +20780,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9055,
+            "line": 9057,
             "symbol": "parsers"
           }
         }
@@ -20839,7 +20844,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5885
+            "line": 5897
           }
         ],
         "confidence": "lexical_only"
@@ -20870,7 +20875,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8981,
+            "line": 8983,
             "symbol": "parsers"
           }
         }
@@ -20934,7 +20939,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5383
+            "line": 5395
           }
         ],
         "confidence": "lexical_only"
@@ -20965,7 +20970,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8932,
+            "line": 8934,
             "symbol": "parsers"
           }
         }
@@ -21029,7 +21034,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3705
+            "line": 3717
           }
         ],
         "confidence": "lexical_only"
@@ -21060,7 +21065,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8964,
+            "line": 8966,
             "symbol": "parsers"
           }
         }
@@ -21124,7 +21129,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3537
+            "line": 3549
           }
         ],
         "confidence": "lexical_only"
@@ -21155,7 +21160,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8923,
+            "line": 8925,
             "symbol": "parsers"
           }
         }
@@ -21219,7 +21224,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 249
+            "line": 261
           }
         ],
         "confidence": "lexical_only"
@@ -21249,7 +21254,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9028,
+            "line": 9030,
             "symbol": "parsers"
           }
         }
@@ -21314,7 +21319,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4622
+            "line": 4634
           }
         ],
         "confidence": "lexical_only"
@@ -21345,7 +21350,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8962,
+            "line": 8964,
             "symbol": "parsers"
           }
         }
@@ -21409,7 +21414,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 199
+            "line": 211
           }
         ],
         "confidence": "lexical_only"
@@ -21440,7 +21445,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8927,
+            "line": 8929,
             "symbol": "parsers"
           }
         }
@@ -21504,7 +21509,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3417
+            "line": 3429
           }
         ],
         "confidence": "lexical_only"
@@ -21535,7 +21540,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8925,
+            "line": 8927,
             "symbol": "parsers"
           }
         }
@@ -21599,7 +21604,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2555
+            "line": 2567
           }
         ],
         "confidence": "lexical_only"
@@ -21631,7 +21636,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8952,
+            "line": 8954,
             "symbol": "parsers"
           }
         }
@@ -21696,7 +21701,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4372
+            "line": 4384
           }
         ],
         "confidence": "lexical_only"
@@ -21727,7 +21732,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9008,
+            "line": 9010,
             "symbol": "parsers"
           }
         }
@@ -21786,7 +21791,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3293
+            "line": 3305
           }
         ],
         "confidence": "lexical_only"
@@ -21817,7 +21822,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8953,
+            "line": 8955,
             "symbol": "parsers"
           }
         }
@@ -21881,7 +21886,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4781
+            "line": 4793
           }
         ],
         "confidence": "lexical_only"
@@ -21912,7 +21917,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8966,
+            "line": 8968,
             "symbol": "parsers"
           }
         }
@@ -21976,7 +21981,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5284
+            "line": 5296
           }
         ],
         "confidence": "lexical_only"
@@ -22009,7 +22014,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8987,
+            "line": 8989,
             "symbol": "parsers"
           }
         },
@@ -22021,7 +22026,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9189,
+            "line": 9191,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -22120,7 +22125,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8985,
+            "line": 8987,
             "symbol": "parsers"
           }
         },
@@ -22132,7 +22137,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9188,
+            "line": 9190,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -22227,7 +22232,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9004,
+            "line": 9006,
             "symbol": "parsers"
           }
         }
@@ -22320,7 +22325,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9027,
+            "line": 9029,
             "symbol": "parsers"
           }
         }
@@ -22411,7 +22416,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9211,
+            "line": 9213,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -22476,7 +22481,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4803
+            "line": 4815
           }
         ],
         "confidence": "lexical_only"
@@ -22507,7 +22512,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8988,
+            "line": 8990,
             "symbol": "parsers"
           }
         }
@@ -22571,7 +22576,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2584
+            "line": 2596
           }
         ],
         "confidence": "lexical_only"
@@ -22602,7 +22607,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8945,
+            "line": 8947,
             "symbol": "parsers"
           }
         }
@@ -22666,7 +22671,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1382
+            "line": 1394
           }
         ],
         "confidence": "lexical_only"
@@ -22697,7 +22702,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8982,
+            "line": 8984,
             "symbol": "parsers"
           }
         }
@@ -22792,7 +22797,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8983,
+            "line": 8985,
             "symbol": "parsers"
           }
         }
@@ -22856,7 +22861,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4519
+            "line": 4531
           }
         ],
         "confidence": "lexical_only"
@@ -22887,7 +22892,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8931,
+            "line": 8933,
             "symbol": "parsers"
           }
         }
@@ -22951,7 +22956,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3726
+            "line": 3738
           }
         ],
         "confidence": "lexical_only"
@@ -22982,7 +22987,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8986,
+            "line": 8988,
             "symbol": "parsers"
           }
         }
@@ -23046,7 +23051,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3381
+            "line": 3393
           }
         ],
         "confidence": "lexical_only"
@@ -23079,7 +23084,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8967,
+            "line": 8969,
             "symbol": "parsers"
           }
         },
@@ -23091,7 +23096,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9201,
+            "line": 9203,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -23157,7 +23162,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5214
+            "line": 5226
           }
         ],
         "confidence": "lexical_only"
@@ -23188,7 +23193,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8974,
+            "line": 8976,
             "symbol": "parsers"
           }
         }
@@ -23252,7 +23257,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5865
+            "line": 5877
           }
         ],
         "confidence": "lexical_only"
@@ -23283,7 +23288,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8942,
+            "line": 8944,
             "symbol": "parsers"
           }
         }
@@ -23347,7 +23352,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4887
+            "line": 4899
           }
         ],
         "confidence": "lexical_only"
@@ -23377,7 +23382,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9001,
+            "line": 9003,
             "symbol": "parsers"
           }
         }
@@ -23473,7 +23478,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8938,
+            "line": 8940,
             "symbol": "parsers"
           }
         }
@@ -23537,7 +23542,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2591
+            "line": 2603
           }
         ],
         "confidence": "lexical_only"
@@ -23568,7 +23573,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8950,
+            "line": 8952,
             "symbol": "parsers"
           }
         }
@@ -23632,7 +23637,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4315
+            "line": 4327
           }
         ],
         "confidence": "lexical_only"
@@ -23663,7 +23668,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9045,
+            "line": 9047,
             "symbol": "parsers"
           }
         }
@@ -23727,7 +23732,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4967
+            "line": 4979
           }
         ],
         "confidence": "lexical_only"
@@ -23758,7 +23763,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8937,
+            "line": 8939,
             "symbol": "parsers"
           }
         }
@@ -23822,7 +23827,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3755
+            "line": 3767
           }
         ],
         "confidence": "lexical_only"
@@ -23853,7 +23858,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8949,
+            "line": 8951,
             "symbol": "parsers"
           }
         }
@@ -23917,7 +23922,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4290
+            "line": 4302
           }
         ],
         "confidence": "lexical_only"
@@ -23948,7 +23953,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8948,
+            "line": 8950,
             "symbol": "parsers"
           }
         }
@@ -24012,7 +24017,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4753
+            "line": 4765
           }
         ],
         "confidence": "lexical_only"
@@ -24043,7 +24048,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8939,
+            "line": 8941,
             "symbol": "parsers"
           }
         }
@@ -24138,7 +24143,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8965,
+            "line": 8967,
             "symbol": "parsers"
           }
         }
@@ -24202,7 +24207,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2586
+            "line": 2598
           }
         ],
         "confidence": "lexical_only"
@@ -24233,7 +24238,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8929,
+            "line": 8931,
             "symbol": "parsers"
           }
         }
@@ -24297,7 +24302,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3644
+            "line": 3656
           }
         ],
         "confidence": "lexical_only"
@@ -24328,7 +24333,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8924,
+            "line": 8926,
             "symbol": "parsers"
           }
         }
@@ -24392,7 +24397,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3665
+            "line": 3677
           }
         ],
         "confidence": "lexical_only"
@@ -24423,7 +24428,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8963,
+            "line": 8965,
             "symbol": "parsers"
           }
         }
@@ -24487,7 +24492,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4493
+            "line": 4505
           }
         ],
         "confidence": "lexical_only"
@@ -24518,7 +24523,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8930,
+            "line": 8932,
             "symbol": "parsers"
           }
         }
@@ -24608,7 +24613,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8928,
+            "line": 8930,
             "symbol": "parsers"
           }
         }
@@ -24672,7 +24677,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3618
+            "line": 3630
           }
         ],
         "confidence": "lexical_only"
@@ -24703,7 +24708,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8926,
+            "line": 8928,
             "symbol": "parsers"
           }
         }
@@ -24767,7 +24772,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3814
+            "line": 3826
           }
         ],
         "confidence": "lexical_only"
@@ -24794,7 +24799,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9265,
+            "line": 9267,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -24854,7 +24859,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2062
+            "line": 2074
           }
         ],
         "confidence": "lexical_only"
@@ -24885,7 +24890,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8954,
+            "line": 8956,
             "symbol": "parsers"
           }
         }
@@ -24949,7 +24954,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 209
+            "line": 221
           }
         ],
         "confidence": "lexical_only"
@@ -24980,7 +24985,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8989,
+            "line": 8991,
             "symbol": "parsers"
           }
         }
@@ -25044,7 +25049,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2882
+            "line": 2894
           }
         ],
         "confidence": "lexical_only"
@@ -25075,7 +25080,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8990,
+            "line": 8992,
             "symbol": "parsers"
           }
         }
@@ -25139,7 +25144,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2942
+            "line": 2954
           }
         ],
         "confidence": "lexical_only"
@@ -25170,7 +25175,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8951,
+            "line": 8953,
             "symbol": "parsers"
           }
         }
@@ -25234,7 +25239,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 691
+            "line": 703
           }
         ],
         "confidence": "lexical_only"
@@ -25266,7 +25271,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8933,
+            "line": 8935,
             "symbol": "parsers"
           }
         }
@@ -25331,7 +25336,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3415
+            "line": 3427
           }
         ],
         "confidence": "lexical_only"
@@ -25362,7 +25367,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8934,
+            "line": 8936,
             "symbol": "parsers"
           }
         }
@@ -25426,7 +25431,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3440
+            "line": 3452
           }
         ],
         "confidence": "lexical_only"
@@ -25457,7 +25462,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8935,
+            "line": 8937,
             "symbol": "parsers"
           }
         }
@@ -25521,7 +25526,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3459
+            "line": 3471
           }
         ],
         "confidence": "lexical_only"
@@ -25552,7 +25557,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9007,
+            "line": 9009,
             "symbol": "parsers"
           }
         }
@@ -25611,7 +25616,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3260
+            "line": 3272
           }
         ],
         "confidence": "lexical_only"
@@ -25642,7 +25647,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8991,
+            "line": 8993,
             "symbol": "parsers"
           }
         }
@@ -25701,7 +25706,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2637
+            "line": 2649
           }
         ],
         "confidence": "lexical_only"
@@ -25728,7 +25733,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9222,
+            "line": 9224,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -25793,7 +25798,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5249
+            "line": 5261
           }
         ],
         "confidence": "lexical_only"
@@ -25824,7 +25829,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8944,
+            "line": 8946,
             "symbol": "parsers"
           }
         }
@@ -25888,7 +25893,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4908
+            "line": 4920
           }
         ],
         "confidence": "lexical_only"
@@ -25919,7 +25924,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8943,
+            "line": 8945,
             "symbol": "parsers"
           }
         }
@@ -25983,7 +25988,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 1516
+            "line": 1528
           }
         ],
         "confidence": "lexical_only"
@@ -26010,7 +26015,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9243,
+            "line": 9245,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -26101,7 +26106,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9010,
+            "line": 9012,
             "symbol": "parsers"
           }
         }
@@ -26160,7 +26165,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3353
+            "line": 3365
           }
         ],
         "confidence": "lexical_only"
@@ -26191,7 +26196,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8984,
+            "line": 8986,
             "symbol": "parsers"
           }
         }
@@ -26286,7 +26291,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9009,
+            "line": 9011,
             "symbol": "parsers"
           }
         }
@@ -26345,7 +26350,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3323
+            "line": 3335
           }
         ],
         "confidence": "lexical_only"
@@ -26376,7 +26381,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8960,
+            "line": 8962,
             "symbol": "parsers"
           }
         }
@@ -26440,7 +26445,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2499
+            "line": 2511
           }
         ],
         "confidence": "lexical_only"
@@ -26471,7 +26476,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8958,
+            "line": 8960,
             "symbol": "parsers"
           }
         }
@@ -26535,7 +26540,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2838
+            "line": 2850
           }
         ],
         "confidence": "lexical_only"
@@ -26566,7 +26571,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8959,
+            "line": 8961,
             "symbol": "parsers"
           }
         }
@@ -26630,7 +26635,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2777
+            "line": 2789
           }
         ],
         "confidence": "lexical_only"
@@ -26661,7 +26666,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8956,
+            "line": 8958,
             "symbol": "parsers"
           }
         }
@@ -26725,7 +26730,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2728
+            "line": 2740
           }
         ],
         "confidence": "lexical_only"
@@ -26756,7 +26761,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8955,
+            "line": 8957,
             "symbol": "parsers"
           }
         }
@@ -26820,7 +26825,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2660
+            "line": 2672
           }
         ],
         "confidence": "lexical_only"
@@ -26851,7 +26856,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8957,
+            "line": 8959,
             "symbol": "parsers"
           }
         }
@@ -26939,7 +26944,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9003,
+            "line": 9005,
             "symbol": "parsers"
           }
         }
@@ -27034,7 +27039,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8961,
+            "line": 8963,
             "symbol": "parsers"
           }
         }
@@ -27098,7 +27103,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4597
+            "line": 4609
           }
         ],
         "confidence": "lexical_only"
@@ -27129,7 +27134,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8979,
+            "line": 8981,
             "symbol": "parsers"
           }
         }
@@ -27188,7 +27193,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5403
+            "line": 5415
           }
         ],
         "confidence": "lexical_only"
@@ -27219,7 +27224,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8973,
+            "line": 8975,
             "symbol": "parsers"
           }
         }
@@ -27283,7 +27288,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2937
+            "line": 2949
           }
         ],
         "confidence": "lexical_only"
@@ -27314,7 +27319,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8977,
+            "line": 8979,
             "symbol": "parsers"
           }
         }
@@ -27373,7 +27378,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5345
+            "line": 5357
           }
         ],
         "confidence": "lexical_only"
@@ -27404,7 +27409,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8946,
+            "line": 8948,
             "symbol": "parsers"
           }
         }
@@ -27499,7 +27504,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8947,
+            "line": 8949,
             "symbol": "parsers"
           }
         }
@@ -27563,7 +27568,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2717
+            "line": 2729
           }
         ],
         "confidence": "lexical_only"
@@ -27594,7 +27599,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8980,
+            "line": 8982,
             "symbol": "parsers"
           }
         }
@@ -27658,7 +27663,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5424
+            "line": 5436
           }
         ],
         "confidence": "lexical_only"
@@ -27689,7 +27694,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9054,
+            "line": 9056,
             "symbol": "parsers"
           }
         }
@@ -27753,7 +27758,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 2213
+            "line": 2225
           }
         ],
         "confidence": "lexical_only"
@@ -27784,7 +27789,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8936,
+            "line": 8938,
             "symbol": "parsers"
           }
         }
@@ -27848,7 +27853,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3479
+            "line": 3491
           }
         ],
         "confidence": "lexical_only"
@@ -27877,7 +27882,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9006,
+            "line": 9008,
             "symbol": "parsers"
           }
         }
@@ -27941,7 +27946,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 193
+            "line": 205
           }
         ],
         "confidence": "lexical_only"
@@ -27972,7 +27977,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8968,
+            "line": 8970,
             "symbol": "parsers"
           }
         }
@@ -28036,7 +28041,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5683
+            "line": 5695
           }
         ],
         "confidence": "lexical_only"
@@ -28067,7 +28072,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8969,
+            "line": 8971,
             "symbol": "parsers"
           }
         }
@@ -28131,7 +28136,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5741
+            "line": 5753
           }
         ],
         "confidence": "lexical_only"
@@ -28161,7 +28166,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8998,
+            "line": 9000,
             "symbol": "parsers"
           }
         }
@@ -28257,7 +28262,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8975,
+            "line": 8977,
             "symbol": "parsers"
           }
         }
@@ -28353,7 +28358,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8941,
+            "line": 8943,
             "symbol": "parsers"
           }
         }
@@ -28403,7 +28408,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 68,
+        "occurrences": 69,
         "examples": [
           {
             "path": "data/json/effects_on_condition/item_eocs.json",
@@ -28418,7 +28423,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5600
+            "line": 5612
           }
         ],
         "confidence": "lexical_only"
@@ -28447,7 +28452,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8976,
+            "line": 8978,
             "symbol": "parsers"
           }
         }
@@ -28542,7 +28547,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 8978,
+            "line": 8980,
             "symbol": "parsers"
           }
         }
@@ -28601,7 +28606,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4526
+            "line": 4538
           }
         ],
         "confidence": "lexical_only"
@@ -28628,7 +28633,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9273,
+            "line": 9275,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "explicit_branch"
@@ -28717,7 +28722,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9126,
+            "line": 9128,
             "symbol": "talk_effect_t::parse_string_effect"
           },
           "registration_kind": "static_map"
@@ -28811,7 +28816,7 @@
           ],
           "source": {
             "path": "src/npctalk.cpp",
-            "line": 9038,
+            "line": 9040,
             "symbol": "parsers"
           }
         }
@@ -28875,7 +28880,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 3193
+            "line": 3205
           }
         ],
         "confidence": "lexical_only"

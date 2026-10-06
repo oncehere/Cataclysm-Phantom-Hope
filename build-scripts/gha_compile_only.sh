@@ -41,7 +41,6 @@ fi
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/validate_json.py
-    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
@@ -73,20 +72,21 @@ then
         build_type=Debug
     fi
 
-    mkdir build
-    cd build
-    cmake \
+    cmake -S . -B build \
         -DBACKTRACE=ON \
         ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=OFF \
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DCATA_ENABLE_LUA_PLATFORM="${CATA_ENABLE_LUA_PLATFORM:-1}" \
+        -DTESTS="${TESTS:-1}" -DBUILD_TESTING="${TESTS:-1}" \
+        -DCATA_TEST_SUITE="${CATA_TEST_SUITE:-all}" \
+        -DLOCALIZE="${LOCALIZE:-1}" \
         -DTILES=${TILES:-0} \
-        -DSOUND=${SOUND:-0} \
-        ..
-    make -j$num_jobs
+        -DSOUND=${SOUND:-0}
+    cmake --build build --parallel "$num_jobs"
 else
-    make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 )
+    # The linter workflow owns formatting; compile jobs do not repeat it.
+    make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 ASTYLE=0 )
     # Full debug information substantially increases GCC's memory use for the
     # monolithic Lua Platform translation unit.  Keep it for artifact-
     # producing jobs, but let selected compile-only matrix legs use Make's
