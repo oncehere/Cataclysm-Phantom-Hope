@@ -22,7 +22,7 @@ The ImGui conversation view retains the existing `talk_topic` object and
 response fields documented in [NPCs](NPCs.md). A response displayed through
 `show_always` still needs its condition to pass in ordinary play before mouse, keyboard or hotkey
 selection can execute its effects. Presentation changes refresh inventory
-fingerprints and source locations without changing JSON registration or inheritance.
+fingerprints and source locations without changing JSON registration or inheritance. The equipment gift topic also uses existing effect conditions to show a failure return when selection yields no item.
 
 The native [ActorControl service](../../docs/project/actor-control.md) uses its
 separate versioned control protocol and Lua service. Its NPC queues, mission
