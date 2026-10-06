@@ -103,6 +103,21 @@ truthful or non-provocative. Goals and beliefs guide cognition separately from
 actual faction, team, hostility and ownership changes. Bounded learned caution
 can adjust ordinary following distance; it cannot bypass explicit NPC orders.
 
+Lua-authored mission names retain their translation descriptors through the
+native `mission_type::set_platform_name(translation)` overload. This changes
+name presentation, not mission claimants, rewards or companion permissions;
+the string overload still represents untranslated text.
+
+Native activities carry a process-local instance identity. Copying, replacing
+or cancelling an activity changes that identity, even when its activity type
+ID stays the same. Lua and native activity dispatch check both the character's
+live reference and the dispatched activity instance before continuing or
+applying returned fields. A callback that destroys the character or replaces
+its activity cannot leave the old dispatch writing into the replacement. This
+identity is not serialized and is not an ActorControl request or receipt ID;
+the controller's existing binding, queue and native permission checks remain
+separate requirements.
+
 ## Persistence and handoff
 
 Native extension format 1 stores the binding, queue, receipts, knowledge snapshot

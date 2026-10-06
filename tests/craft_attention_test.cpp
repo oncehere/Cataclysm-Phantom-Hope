@@ -2114,7 +2114,7 @@ TEST_CASE( "unattended_craft_missing_fire_warns_only_when_first_paused",
 
     Messages::clear_messages();
     const auto warning_count = []() {
-        const auto messages = Messages::recent_messages( 0 );
+        const auto messages = Messages::recent_messages( Messages::size() );
         return std::count_if( messages.begin(), messages.end(),
         []( const std::pair<std::string, std::string> &msg ) {
             return msg.second.find( "continue crafting" ) != std::string::npos;

@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <utility>
 #include <climits>
+#include <cstdint>
 
 #include "units_fwd.h"
 
@@ -581,7 +582,15 @@ inline time_duration time_past_midnight( const time_point &p )
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::turn_zero + calendar::turn_zero_offset() ) % calendar::year_length();
+    // Widen before applying the epoch offset; timestamps span the full int
+    // range, and dates before the epoch still belong to a valid calendar year.
+    const std::int64_t turn = to_turn<std::int64_t>( p ) -
+                              to_turn<std::int64_t>( calendar::turn_zero ) +
+                              to_turns<std::int64_t>( calendar::turn_zero_offset() );
+    const std::int64_t year = to_turns<std::int64_t>( calendar::year_length() );
+    const std::int64_t remainder = turn % year;
+    return time_duration::from_turns( static_cast<int>( remainder < 0 ? remainder + year :
+                                      remainder ) );
 }
 
 template<typename T>

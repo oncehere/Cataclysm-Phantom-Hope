@@ -27,6 +27,18 @@ interfaces and add no EOC operation names. The existing player dialogue/task
 path remains available. See [ActorControl](../../docs/project/actor-control.md)
 for the separate bounded Lua service and native claimant/reward lifecycle.
 
+`mod_is_loaded` compares canonical Mod IDs against the active world's load
+order: the legacy core ID `dda` and current core ID `ccb` identify the same
+loaded core. This matches the shared native Mod lookup; a directory name alone
+does not establish that a Mod is active. No new condition spelling is needed.
+
+The timed native effects `place_override`, `revert_location` and `copy_location`
+retain their one-second phase offset. Their due-time calculation widens the
+current turn, delay and offset before addition, then clamps an unrepresentable
+result to the native turn range. Authors should still choose meaningful delays;
+an extreme value does not create an unlimited-duration scheduling primitive.
+These changes retain the existing effect names and JSON fields.
+
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 World advanced rules do not add EOC condition or effect names. EOCs that depend
@@ -4076,6 +4088,10 @@ Create a context value with condition, that you can pass down the next topic or 
 | --- | --- | --- | --- |
 | "set_condition" | **mandatory** | string or [variable object](#variable-object) | id of condition |
 | "condition" | **mandatory** | [dialogue condition](NPCs.md#dialogue-conditions) | condition itself |
+
+The saved predicate is evaluated using the dialogue that later calls
+`get_condition`, including that dialogue's alpha, beta and variable scopes.
+It does not retain the setter's participants.
 
 ##### Valid talkers:
 

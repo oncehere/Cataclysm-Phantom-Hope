@@ -374,20 +374,39 @@ TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]"
         CHECK( zed.type->melee_training_cap == 6 );
     }
 
-    SECTION( "Attacking a monster when above its traing cap will not cause further skill gain" ) {
+    const auto check_soft_training_rate = []( int practical_level, int training_level ) {
+        REQUIRE( practical_level > training_level );
+        const int reduction_divisor = 1 + practical_level - training_level;
+        const int amount = 30 * reduction_divisor;
+        standard_npc limited( "LimitedTraining", dude_pos, {} );
+        standard_npc full_rate( "FullRateTraining", dude_pos, {} );
+        limited.set_skill_level( skill_melee, practical_level );
+        full_rate.set_skill_level( skill_melee, practical_level );
+        limited.set_focus( 100 );
+        full_rate.set_focus( 100 );
+        limited.practice_combat( skill_melee, amount, training_level );
+        full_rate.practice_combat( skill_melee, amount, practical_level );
+        const int limited_xp = limited.get_skill_level_object( skill_melee ).exercise( true );
+        REQUIRE( limited_xp > 0 );
+        CHECK( full_rate.get_skill_level_object( skill_melee ).exercise( true ) ==
+               limited_xp * reduction_divisor );
+    };
+
+    SECTION( "Attacking above the opponent training level still trains at a reduced rate" ) {
         dude.melee_attack_abstract( dummy_1, false, matec_id( "" ) );
         CHECK( level.knowledgeLevel() == 4 );
-        CHECK( level.knowledgeExperience( true ) == 0 );
+        CHECK( level.knowledgeExperience( true ) > 0 );
+        check_soft_training_rate( 4, dummy_1.type->melee_training_cap );
     }
-    SECTION( "Attacking a monster when below the traing cap will train the skill up to the cap" ) {
+    SECTION( "Training continues at a reduced rate after exceeding the opponent training level" ) {
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
         CHECK( level.knowledgeLevel() == 4 );
         CHECK( level.knowledgeExperience( true ) > 0 );
-        // Training stops if we get above the cap
         dude.set_skill_level( skill_melee, 7 );
-        int prev_xp = level.knowledgeExperience( true );
+        const int prev_xp = level.knowledgeExperience( true );
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
-        CHECK( level.knowledgeExperience( true ) == prev_xp );
+        CHECK( level.knowledgeExperience( true ) > prev_xp );
+        check_soft_training_rate( 7, zed.type->melee_training_cap );
     }
     SECTION( "Using a monster as a training dummy will not cause further skill gain" ) {
         zed.times_combatted_player = 101;

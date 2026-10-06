@@ -811,14 +811,24 @@ constexpr const std::array<std::pair<std::string_view, time_duration>, 15> time_
     }
 };
 
+static std::int64_t calendar_period_index( const time_point &point,
+        const time_duration &period, const time_duration &offset = 0_seconds )
+{
+    const std::int64_t turn = to_turn<std::int64_t>( point ) +
+                              to_turns<std::int64_t>( offset );
+    const std::int64_t length = to_turns<std::int64_t>( period );
+    const std::int64_t index = turn / length;
+    return turn % length < 0 ? index - 1 : index;
+}
+
 season_type season_of_year( const time_point &p, bool ignore_eternal_season )
 {
     if( calendar::eternal_season() && !ignore_eternal_season ) {
         // Keep the opening season even if the season length changes during play.
         return calendar::initial_season;
     }
-    return static_cast<season_type>(
-               to_turn<int>( p ) / to_turns<int>( calendar::season_length() ) % 4 );
+    const std::int64_t season = calendar_period_index( p, calendar::season_length() ) % 4;
+    return static_cast<season_type>( season < 0 ? season + 4 : season );
 }
 
 std::string to_string( const time_point &p, bool ignore_eternal_season )
@@ -859,7 +869,8 @@ time_duration calendar::turn_zero_offset()
 
 int calendar::years_since_cataclysm( time_point turn )
 {
-    return to_turn<int>( ( turn + turn_zero_offset() ) / calendar::year_length() );
+    return static_cast<int>( calendar_period_index( turn, calendar::year_length(),
+                             turn_zero_offset() ) );
 }
 
 std::pair<month, int> month_and_day( time_point turn )

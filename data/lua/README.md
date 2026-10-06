@@ -35,6 +35,48 @@ pending choice. Selected callbacks are consumed once; topic changes, moves and
 destruction continue to invalidate their contexts. See
 [nested dialogue ownership](LUA_FIRST_PLATFORM.md#dialogue-presentation-and-nested-callbacks--对话界面与嵌套回调).
 
+## Domain services and callback ownership
+
+The public services include character progression, skill and spell queries,
+effects, wounds, variables and native NPC interactions. Use explicit typed
+handles and the phase requirements of each operation. The current signatures
+and result shapes are in the [LuaLS declarations](types/ccb_platform_v1.d.lua)
+and [generated public surface](reference/ccb_platform_api_v1.json); availability
+in that surface does not mean every legacy EOC shape has been migrated.
+Lua-authored content text can retain translation descriptors instead of
+freezing the currently displayed language.
+
+Persistent Lua values retain separate integer and floating-point tags; integer
+values use the signed 64-bit representation. Persistent absolute-coordinate
+components require exact native-range integers. Reads take a detached value
+snapshot before allocating Lua results, so a finalizer changing the store does
+not invalidate the value being returned. These are value/lifetime contracts,
+not a claim that arbitrary native handles can be saved or old worlds migrated.
+
+Dialogue `on_action` runs in the native success/failure effect stage, before
+opinion and hostility checks; `on_select` runs afterwards and can choose the
+next topic. Native mission actions and item/pet transfer operations require a
+writable action phase; selection callbacks do not acquire that action-only
+permission. Action and selection callback IDs have separate namespaces and are
+consumed once. Session
+and topic validity, plus dialogue-owned cleanup, prevent a closed or refreshed
+child dialogue from retaining actions or clearing its parent's pending choice.
+Activity callbacks likewise apply results only while the character and the
+same activity instance remain live.
+
+Stored EOC conditions use the later evaluating dialogue's alpha and beta,
+including scoped variable reads; they do not capture the setter's participants.
+Migration requires explicit participant proof. A queried beta predicate returns
+false for an absent, stale or incompatible handle. Boolean composition keeps
+native short-circuit order; alpha/global predicates do not acquire an unrelated
+beta requirement. NPC-only services still require an exact NPC handle.
+
+Migrated combat numbers read their own variable scope independently of the
+character receiving damage or casting a spell. Native integer fields truncate
+fractional values toward zero after a single evaluation; they do not round to
+the nearest integer. Shapes without a proven participant remain reported as
+migration gaps.
+
 ## Tool validation environment
 
 The Lua API and agent tools share the pinned dependencies in
@@ -51,6 +93,16 @@ Run these commands from the repository root. Translation-tool tests also need
 gettext's `msgfmt` and `msgcat` on PATH. LuaLS editor integration needs the
 separate `CCB_LUALS` executable; report those tests as unrun when it is absent.
 Tool regression results do not establish native Lua loading or gameplay.
+
+Native test builds accept `CATA_TEST_SUITE=all` (the default) or `lua` in both
+CMake and Make. The Lua selection compiles `lua_platform*.cpp` plus the shared
+helpers in `tests/test_support_sources.txt`; it requires
+`CATA_ENABLE_LUA_PLATFORM` and does not cover unrelated engine tests. Use
+`-DCATA_TEST_SUITE=lua` for CMake or `CATA_TEST_SUITE=lua` for Make with a
+task-owned build/output directory, then run the relevant Catch2 filter with
+`--warn NoTests`. Suite selection narrows native compilation; it does not replace
+the Lua contract/tool suite or the separate `cata_test-mp` target. See
+[the test routes](../../ai/test-matrix.yml) for isolated command examples.
 
 ## Actor control
 

@@ -26,6 +26,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part_location.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );
@@ -41,7 +42,9 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
 static const vpart_id vpart_board( "board" );
+static const vpart_id vpart_controls( "controls" );
 static const vpart_id vpart_frame( "frame" );
+static const vpart_id vpart_rebar_plate( "rebar_plate" );
 
 static const vpart_location_id vpart_location_structure( "structure" );
 
@@ -263,4 +266,59 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( itype_goggles_welding );
         test_repair( tools, true, false );
     }
+}
+
+TEST_CASE( "vehicle_interaction_selects_hidden_remaining_parts", "[vehicle][vehicle_service]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, tripoint_bub_ms( 60, 60, 0 ),
+                                     0_degrees, 0, veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    const point_rel_ms mount = point_rel_ms::zero;
+    const int frame = veh->install_part( here, mount, vpart_frame );
+    REQUIRE( frame >= 0 );
+    const int hidden = veh->install_part( here, mount, vpart_rebar_plate );
+    REQUIRE( hidden >= 0 );
+    REQUIRE( veh->part( hidden ).info().location->z_order < 0 );
+    CHECK( veh_interact::part_at_mount( *veh, mount ) == frame );
+
+    // Reproduce a legacy wreck containing only a non-displayed component.
+    veh->remove_part( veh->part( frame ) );
+    veh->part_removal_cleanup( here );
+    REQUIRE( veh->part_displayed_at( mount ) == -1 );
+    const int selected = veh_interact::part_at_mount( *veh, mount );
+    REQUIRE( selected >= 0 );
+    CHECK( veh->part( selected ).info().id == vpart_rebar_plate );
+    CHECK( veh->can_unmount( veh->part( selected ) ).success() );
+    CHECK( veh_interact::part_at_mount( *veh, point_rel_ms( 5, 5 ) ) == -1 );
+}
+
+TEST_CASE( "vehicle_interaction_keeps_visible_remaining_parts_displayed",
+           "[vehicle][vehicle_service]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, tripoint_bub_ms( 60, 60, 0 ),
+                                     0_degrees, 0, veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    const point_rel_ms mount = point_rel_ms::zero;
+    const int frame = veh->install_part( here, mount, vpart_frame );
+    REQUIRE( frame >= 0 );
+    const int controls = veh->install_part( here, mount, vpart_controls );
+    REQUIRE( controls >= 0 );
+    REQUIRE( veh->part( controls ).info().location->z_order == 0 );
+    CHECK( veh_interact::part_at_mount( *veh, mount ) == frame );
+
+    // Unspecified-location controls remain visible when no frame covers them.
+    veh->remove_part( veh->part( frame ) );
+    veh->part_removal_cleanup( here );
+    const int displayed = veh->part_displayed_at( mount );
+    REQUIRE( displayed >= 0 );
+    CHECK( veh->part( displayed ).info().id == vpart_controls );
+    CHECK( veh_interact::part_at_mount( *veh, mount ) == displayed );
+    CHECK( veh->can_unmount( veh->part( displayed ) ).success() );
+    CHECK( veh_interact::part_at_mount( *veh, point_rel_ms( 5, 5 ) ) == -1 );
 }
