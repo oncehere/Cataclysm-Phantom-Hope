@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:174a39fda6ef6ebc059d86b456ce279c68b64c44213a1ac1584eccd864407eb8",
+    "source_fingerprint": "sha256:536acddfc55d8b46cefaf25db7538ffa107790c3931ef02023d8990b2ad36ad2",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -3299,7 +3299,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5878
+            "line": 5882
           }
         ],
         "confidence": "lexical_only"
@@ -3766,7 +3766,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5416
+            "line": 5420
           }
         ],
         "confidence": "lexical_only"
@@ -5656,7 +5656,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4472
+            "line": 4476
           }
         ],
         "confidence": "lexical_only"
@@ -9033,7 +9033,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4414
+            "line": 4418
           }
         ],
         "confidence": "lexical_only"
@@ -9490,7 +9490,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 4365
+            "line": 4369
           }
         ],
         "confidence": "lexical_only"
@@ -9726,7 +9726,7 @@
         "evidence": [
           {
             "path": "doc/JSON/EFFECT_ON_CONDITION.md",
-            "line": 5613
+            "line": 5617
           }
         ],
         "confidence": "lexical_only"
