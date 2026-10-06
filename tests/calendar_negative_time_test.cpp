@@ -6,14 +6,10 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
-#include "options.h"
 #include "options_helpers.h"
 
-TEST_CASE( "calendar_extreme_dates_format_with_valid_months", "[calendar][nogame]" )
+TEST_CASE( "calendar_extreme_dates_format_with_valid_months", "[calendar]" )
 {
-    // The native test runner skips game/options initialization for nogame cases.
-    restore_on_out_of_scope restore_options( get_options() );
-    get_options().init();
     override_option show_months( "SHOW_MONTHS", "true" );
     const int previous_length = to_days<int>( calendar::season_length() );
     const bool previous_eternal = calendar::eternal_season();
