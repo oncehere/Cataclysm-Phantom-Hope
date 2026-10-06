@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_conditions",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:5515ecb6e67268ae1d4e9560c58281f6849921d1661fb87e43ab193ea2064b6b",
+    "source_fingerprint": "sha256:174a39fda6ef6ebc059d86b456ce279c68b64c44213a1ac1584eccd864407eb8",
     "contract_roots": [
       "data/core",
       "data/json",
