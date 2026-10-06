@@ -2400,6 +2400,14 @@ TEST_CASE( "lua_platform_visible_allies_matches_scene_visibility_and_order",
         CHECK_FALSE( handle.validation_error( fixture.runtime, fixture.world ).has_value() );
     }
     player.add_effect( effect_blind, 1_hours );
+    REQUIRE( player.has_effect( effect_blind ) );
+    REQUIRE( player.is_blind() );
+    const int range_before_refresh = player.unimpaired_range();
+    const bool seen_before_refresh = get_player_view().sees( get_map(), first );
+    player.recalc_sight_limits();
+    CAPTURE( range_before_refresh, seen_before_refresh, player.unimpaired_range(),
+             player.clairvoyance(), player.pos_abs(), first.pos_abs(), second.pos_abs() );
+    REQUIRE( player.unimpaired_range() == 0 );
     REQUIRE_FALSE( get_player_view().sees( get_map(), first ) );
     REQUIRE_FALSE( get_player_view().sees( get_map(), second ) );
     sol::protected_function_result blind_call = query();
