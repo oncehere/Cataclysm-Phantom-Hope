@@ -1,8 +1,5 @@
 #include <coordinates.h>
 #include <item.h>
-extern "C" {
-#include <lua.h>
-}
 #include <lua_platform_handle.h>
 #include <lua_platform_hooks.h>
 #include <lua_platform_runtime.h>
@@ -24,6 +21,10 @@ extern "C" {
 #include "lua_platform_sol.h"
 
 #if defined(CATA_ENABLE_LUA_PLATFORM) && CATA_ENABLE_LUA_PLATFORM
+
+extern "C" {
+#include <lua.h>
+}
 
 #include <algorithm>
 #include <cmath>
