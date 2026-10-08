@@ -117,7 +117,13 @@ def mask_comments(text: str) -> str:
 
 def find_matching(text: str, opening: int, left: str, right: str) -> int:
     """Find a balanced delimiter while ignoring strings and comments."""
-    masked = mask_comments(text)
+    return _find_matching_masked(mask_comments(text), opening, left, right)
+
+
+def _find_matching_masked(
+    masked: str, opening: int, left: str, right: str
+) -> int:
+    """Scan a comment-masked view whose offsets still match its source."""
     depth = 0
     quote: str | None = None
     escaped = False
@@ -216,15 +222,18 @@ def parse_json_registrations(contents: str) -> list[dict[str, object]]:
     if start < 0:
         raise RuntimeError("DynamicDataLoader::initialize was not found")
     body_open = contents.find("{", start)
-    body_close = find_matching(contents, body_open, "{", "}")
-    section = contents[body_open + 1: body_close]
-    masked = mask_comments(section)
+    # Every registration uses the same immutable view of this input.  Keep
+    # original text for handler expressions and source coordinates.
+    masked_contents = mask_comments(contents)
+    body_close = _find_matching_masked(masked_contents, body_open, "{", "}")
+    masked = masked_contents[body_open + 1: body_close]
     contexts = preprocessor_contexts(contents)
     registrations: list[dict[str, object]] = []
     for order, match in enumerate(re.finditer(r"\badd\s*\(", masked)):
         absolute = body_open + 1 + match.start()
         open_paren = contents.find("(", absolute)
-        close_paren = find_matching(contents, open_paren, "(", ")")
+        close_paren = _find_matching_masked(
+            masked_contents, open_paren, "(", ")")
         first, handler_expression = split_first_argument(
             contents[open_paren + 1: close_paren]
         )
@@ -266,9 +275,10 @@ def initializer_entries(
             f"initializer marker not found in {source_path}: {
                 marker!r}")
     opening = contents.find("{", marker_offset + len(marker))
-    closing = find_matching(contents, opening, "{", "}")
+    masked_contents = mask_comments(contents)
+    closing = _find_matching_masked(masked_contents, opening, "{", "}")
     body = contents[opening + 1: closing]
-    masked = mask_comments(body)
+    masked = masked_contents[opening + 1: closing]
     entries: list[tuple[str, int]] = []
     depth = 0
     entry_start: int | None = None
@@ -299,7 +309,7 @@ def initializer_entries(
                 entry_start = None
     if depth or not entries:
         raise RuntimeError(f"empty or malformed initializer in {source_path}")
-    residue = mask_comments(body)
+    residue = masked
     for raw, absolute in reversed(entries):
         relative = absolute - opening - 1
         residue = residue[:relative] + " " * \

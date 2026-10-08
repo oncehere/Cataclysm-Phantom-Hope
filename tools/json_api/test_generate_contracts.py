@@ -20,7 +20,10 @@ try:
         REPOSITORY_ROOT,
         aggregate_parser_entries,
         build_contracts,
+        find_matching,
         git_tracked_files,
+        initializer_entries,
+        mask_comments,
         parse_json_registrations,
         parse_parser_vector,
         resolve_json_pointer,
@@ -34,7 +37,10 @@ except ImportError:
         REPOSITORY_ROOT,
         aggregate_parser_entries,
         build_contracts,
+        find_matching,
         git_tracked_files,
+        initializer_entries,
+        mask_comments,
         parse_json_registrations,
         parse_parser_vector,
         resolve_json_pointer,
@@ -44,6 +50,197 @@ except ImportError:
 
 
 class ParserFixtureTest(unittest.TestCase):
+    def test_matching_preserves_comments_quotes_and_nested_delimiters(
+        self,
+    ) -> None:
+        cases = [
+            (
+                r'''prefix {
+                    // } { " fake delimiters
+                    call( "escaped quote: \"} // /*", '{', '\'' );
+                    nested { "brace": "}", "literal": "/*" }
+                    /* nested-looking { } and " quotes */
+                } suffix''',
+                "{", "}",
+            ),
+            (
+                r'''prefix ( nested(1), "escaped quote: \") /*",
+                    ')' /* ) ( */ ) suffix''',
+                "(", ")",
+            ),
+            (
+                r'''prefix [ nested[1], "escaped quote: \"] //",
+                    ']' /* ] [ */ ] suffix''',
+                "[", "]",
+            ),
+        ]
+        for source, left, right in cases:
+            with self.subTest(left=left):
+                self.assertEqual(
+                    find_matching(source, source.index(left), left, right),
+                    source.rindex(right),
+                )
+
+    def test_matching_preserves_error_diagnostics(self) -> None:
+        cases = [
+            ('{ "not a closer": "}"', "{", "}", r"^unbalanced \{\} delimiters$"),
+            ('(nested(1), ")"', "(", ")", r"^unbalanced \(\) delimiters$"),
+            ("{ } /* unfinished", "{", "}", r"^unterminated C\+\+ block comment$"),
+        ]
+        for source, left, right, error in cases:
+            with self.subTest(source=source):
+                with self.assertRaisesRegex(RuntimeError, error):
+                    find_matching(source, source.index(left), left, right)
+
+    def test_registration_reuses_mask_and_preserves_source_coordinates(
+        self,
+    ) -> None:
+        source = r'''// π retains character offsets, not byte offsets.
+void DynamicDataLoader::initialize()
+{
+    /* add( "ignored", &fake::load ); { ( } */
+    add( "first", &loader::load );
+#if defined(TILES)
+    add( "second", []( const JsonObject &jo ) {
+        // ) } fake closers
+        nested::load( jo, make_value( 1, "escaped quote: \") // /*" ) );
+        char end = '}'; char quote = '\'';
+    } );
+#endif
+    add( "third", factory::make( nested( 1 ) ) );
+}
+'''
+        with mock.patch(
+            f"{parse_json_registrations.__module__}.mask_comments",
+            wraps=mask_comments,
+        ) as mask:
+            entries = parse_json_registrations(source)
+        mask.assert_called_once_with(source)
+        self.assertEqual([entry["type"] for entry in entries],
+                         ["first", "second", "third"])
+        self.assertEqual([entry["registration_order"] for entry in entries],
+                         [0, 1, 2])
+        self.assertEqual(
+            [entry["source"]["line"] for entry in entries], [5, 7, 13])
+        self.assertEqual([entry["handler_kind"] for entry in entries],
+                         ["direct_function", "lambda", "callable"])
+        self.assertEqual([entry["handler_symbol"] for entry in entries],
+                         ["loader::load", "nested::load", "factory::make"])
+        self.assertEqual([entry["compile_context"] for entry in entries],
+                         [[], ["if defined(TILES)"], []])
+        self.assertIn(r'"escaped quote: \") // /*"',
+                      entries[1]["handler_expression"])
+        self.assertIn("// ) } fake closers", entries[1]["handler_expression"])
+
+    def test_registration_masks_each_input_without_cross_input_cache(self) -> None:
+        first = 'void DynamicDataLoader::initialize() { add( "one", &one::load ); }'
+        second = 'void DynamicDataLoader::initialize() { add( "two", &two::load ); }'
+        with mock.patch(
+            f"{parse_json_registrations.__module__}.mask_comments",
+            wraps=mask_comments,
+        ) as mask:
+            entries = [
+                parse_json_registrations(source)
+                for source in [first, second, first]
+            ]
+        self.assertEqual(mask.call_args_list,
+                         [mock.call(first), mock.call(second), mock.call(first)])
+        self.assertEqual([item[0]["type"] for item in entries],
+                         ["one", "two", "one"])
+        self.assertEqual([item[0]["handler_symbol"] for item in entries],
+                         ["one::load", "two::load", "one::load"])
+
+    def test_registration_preserves_error_diagnostics(self) -> None:
+        cases = [
+            (
+                "void unrelated() {}",
+                "^DynamicDataLoader::initialize was not found$",
+            ),
+            (
+                "void DynamicDataLoader::initialize() {}",
+                "^no DynamicDataLoader registrations were found$",
+            ),
+            (
+                "void DynamicDataLoader::initialize()\n{\n"
+                "add( dynamic_name, &loader::load );\n}\n",
+                "^non-literal DynamicDataLoader registration at line 3$",
+            ),
+            (
+                "void DynamicDataLoader::initialize() { "
+                'add( "one", &loader::load; }',
+                r"^unbalanced \(\) delimiters$",
+            ),
+            (
+                'void DynamicDataLoader::initialize() { add( "one", &loader::load );',
+                r"^unbalanced \{\} delimiters$",
+            ),
+            (
+                "void DynamicDataLoader::initialize() {} /* unfinished",
+                r"^unterminated C\+\+ block comment$",
+            ),
+            (
+                "#else\nvoid DynamicDataLoader::initialize() { "
+                'add( "one", &loader::load ); }',
+                "^orphan #else at line 1$",
+            ),
+        ]
+        for source, error in cases:
+            with self.subTest(source=source):
+                with self.assertRaisesRegex(RuntimeError, error):
+                    parse_json_registrations(source)
+
+    def test_initializer_reuses_mask_and_retains_raw_entries_and_offsets(
+        self,
+    ) -> None:
+        source = r'''prefix
+const auto parsers = {
+    /* fake { } */
+    { "one", /* } */ call( "}", '{' ) },
+    // ignored { ( }
+    { "two", [] { return "/* not a comment */"; } }
+};
+suffix
+'''
+        with mock.patch(
+            f"{initializer_entries.__module__}.mask_comments",
+            wraps=mask_comments,
+        ) as mask:
+            entries = initializer_entries(
+                source, "const auto parsers =", "fixture.cpp")
+        mask.assert_called_once_with(source)
+        self.assertEqual(entries, [
+            (
+                '''{ "one", /* } */ call( "}", '{' ) }''',
+                source.index('{ "one"'),
+            ),
+            (
+                '{ "two", [] { return "/* not a comment */"; } }',
+                source.index('{ "two"'),
+            ),
+        ])
+
+    def test_initializer_preserves_error_diagnostics(self) -> None:
+        cases = [
+            (
+                "unrelated = {};",
+                "^initializer marker not found in fixture.cpp: 'parsers ='$",
+            ),
+            (
+                "parsers = { /* no entries */ };",
+                "^empty or malformed initializer in fixture.cpp$",
+            ),
+            (
+                'parsers = { token, { "one", fn } };',
+                "^unparsed initializer content in fixture.cpp$",
+            ),
+            ('parsers = { { "one", fn }', r"^unbalanced \{\} delimiters$"),
+            ("parsers = {} /* unfinished", r"^unterminated C\+\+ block comment$"),
+        ]
+        for source, error in cases:
+            with self.subTest(source=source):
+                with self.assertRaisesRegex(RuntimeError, error):
+                    initializer_entries(source, "parsers =", "fixture.cpp")
+
     def test_json_registration_preserves_variants_and_handlers(self) -> None:
         source = """
         void DynamicDataLoader::initialize()
@@ -113,6 +310,16 @@ class RepositoryParityTest(unittest.TestCase):
         registrations = sum(len(entry["registrations"])
                             for entry in payload["entries"])
         self.assertEqual(registrations, 191)
+
+    def test_runtime_registry_masks_init_once(self) -> None:
+        source = (REPOSITORY_ROOT / "src/init.cpp").read_text(encoding="utf-8")
+        with mock.patch(
+            f"{parse_json_registrations.__module__}.mask_comments",
+            wraps=mask_comments,
+        ) as mask:
+            registrations = parse_json_registrations(source)
+        mask.assert_called_once_with(source)
+        self.assertEqual(len(registrations), 191)
 
     def test_eoc_parser_parity(self) -> None:
         conditions = self.payloads["eoc_conditions"]
