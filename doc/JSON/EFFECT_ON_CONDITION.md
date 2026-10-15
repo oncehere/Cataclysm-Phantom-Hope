@@ -905,7 +905,7 @@ check do you have any bionic presented
 
 ### `u_has_effect`, `npc_has_effect`, `u_has_any_effect`, `npc_has_any_effect`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker has specific effect applied. `_has_effect` checks only one effect, when `_has_any_effect` check a range, and return true if at least one effect is applied;
+- return true if alpha or beta talker has specific effect applied. `_has_effect` checks only one effect, when `_has_any_effect` check a range, and return true if at least one effect is applied; the built-in equipment request flow checks `{ "npc_has_effect": "asked_for_item" }` to show success after the gift function adds its cooldown;
 - `intensity` can be used to check an effect of specific intensity;
 - `bodypart` can be used to check effect applied on specific body part
 - martial arts `static_buffs` can be checked in form `mabuff:buff_id`

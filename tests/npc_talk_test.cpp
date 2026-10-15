@@ -40,6 +40,7 @@
 #include "npc.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
+#include "npctrade.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -53,6 +54,7 @@
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 
+static const efftype_id effect_asked_for_item( "asked_for_item" );
 static const efftype_id effect_currently_busy( "currently_busy" );
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_infected( "infected" );
@@ -70,11 +72,15 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
 static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
+static const itype_id itype_mininuke( "mininuke" );
+
+static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION1( "TEST_MISSION_GOAL_CONDITION1" );
 
 static const morale_type morale_haircut( "morale_haircut" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
+static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -644,6 +650,224 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     CHECK( trial_success == false );
     trial_effect = trial_success ? chosen.success : chosen.failure;
     CHECK( trial_effect.next_topic.id == "TALK_TEST_FALSE_CONDITION_NEXT" );
+}
+
+TEST_CASE( "npc_gift_empty_inventory_has_no_success_dialogue", "[npc_talk][npc_gift]" )
+{
+    dialogue d;
+    npc &beta = prep_test( d );
+    clear_character( beta );
+    beta.myclass = NC_NONE;
+    beta.set_attitude( NPCATT_TALK );
+    beta.op_of_u = npc_opinion();
+    beta.op_of_u.owed = 10000;
+    beta.personality.altruism = 0;
+    REQUIRE( npc_trading::init_selling( beta ).empty() );
+    REQUIRE_FALSE( beta.has_effect( effect_asked_for_item ) );
+
+    avatar &alpha = get_avatar();
+    const auto any_item = []( const item & ) {
+        return true;
+    };
+    const size_t initial_item_count = alpha.items_with( any_item ).size();
+    d.add_topic( "TALK_SHARE_EQUIPMENT" );
+    d.gen_responses( d.topic_stack.back() );
+    for( talk_response &response : d.responses ) {
+        response.create_option_line( d, input_event() );
+    }
+    CAPTURE( d.responses );
+    const auto request = std::find_if( d.responses.begin(), d.responses.end(),
+    []( const talk_response & response ) {
+        return response.text == "Because I'm your friend!";
+    } );
+    REQUIRE( request != d.responses.end() );
+
+    // Apply the real successful persuasion effect without rolling a random trial.
+    const talk_topic next = request->success.apply( d );
+    CHECK( alpha.items_with( any_item ).size() == initial_item_count );
+    CHECK( npc_trading::init_selling( beta ).empty() );
+    CHECK( beta.op_of_u.owed == 10000 );
+    CHECK_FALSE( beta.has_effect( effect_asked_for_item ) );
+
+    d.add_topic( next );
+    CHECK( d.dynamic_line( next ) != "Okay, here you go." );
+    d.gen_responses( next );
+    for( talk_response &response : d.responses ) {
+        response.create_option_line( d, input_event() );
+    }
+    CAPTURE( d.responses );
+    const auto thanks = []( const talk_response & response ) {
+        return response.text == "Thank you!" ||
+               response.text == "Thanks!  But can I have some more?" ||
+               response.text == "Thanks, see you later!";
+    };
+    CHECK( std::none_of( d.responses.begin(), d.responses.end(), thanks ) );
+    const auto leave = std::find_if( d.responses.begin(), d.responses.end(),
+    [&]( const talk_response & response ) {
+        return response.success.next_topic.id == "TALK_NONE" && !thanks( response );
+    } );
+    REQUIRE( leave != d.responses.end() );
+    CHECK( leave->success.apply( d ).id == "TALK_NONE" );
+    CHECK( alpha.items_with( any_item ).size() == initial_item_count );
+    CHECK( beta.op_of_u.owed == 10000 );
+    CHECK_FALSE( beta.has_effect( effect_asked_for_item ) );
+}
+
+static npc &prep_npc_gift_test( dialogue &d, bool assigned_mission )
+{
+    npc &beta = prep_test( d );
+    clear_character( beta );
+    beta.myclass = NC_NONE;
+    beta.set_attitude( NPCATT_TALK );
+    beta.op_of_u = npc_opinion();
+    beta.personality.altruism = 0;
+    REQUIRE( beta.wear_item( item( itype_backpack ) ) );
+    REQUIRE( get_avatar().wear_item( item( itype_backpack ) ) );
+    if( assigned_mission ) {
+        mission *m = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION1, beta.getID() );
+        REQUIRE( m != nullptr );
+        m->assign( get_avatar() );
+        beta.chatbin.missions_assigned.push_back( m );
+        talk_effect_t::update_missions( d );
+        REQUIRE( d.missions_assigned.size() == 1 );
+    }
+    return beta;
+}
+
+struct npc_gift_mission_cleanup {
+    npc &beta;
+    ~npc_gift_mission_cleanup() {
+        // Finish before the next prep_test clears the avatar and kills this mission giver.
+        for( mission *m : beta.chatbin.missions_assigned ) {
+            if( m->in_progress() ) {
+                m->fail();
+            }
+        }
+    }
+};
+
+static void render_npc_gift_responses( dialogue &d, const talk_topic &topic )
+{
+    d.gen_responses( topic );
+    for( talk_response &response : d.responses ) {
+        response.create_option_line( d, input_event() );
+    }
+}
+
+static size_t npc_gift_response_index( const dialogue &d, const std::string &text )
+{
+    const auto found = std::find_if( d.responses.begin(), d.responses.end(),
+    [&]( const talk_response & response ) {
+        return response.text == text;
+    } );
+    REQUIRE( found != d.responses.end() );
+    return std::distance( d.responses.begin(), found );
+}
+
+TEST_CASE( "npc_gift_real_requests_preserve_budget_transfer_and_cooldown", "[npc_talk][npc_gift]" )
+{
+    const bool mission_request = GENERATE( false, true );
+    // Empty stock, insufficient debt, equal debt, sufficient debt, or sufficient allowance.
+    const int budget = GENERATE( -2, -1, 0, 1, 2 );
+    CAPTURE( mission_request, budget );
+    dialogue d;
+    npc &beta = prep_npc_gift_test( d, mission_request );
+    const npc_gift_mission_cleanup cleanup{ beta };
+    avatar &alpha = get_avatar();
+    item gift( itype_bottle_glass );
+    gift.set_owner( beta );
+    item_location original = beta.i_add( gift );
+    REQUIRE( original );
+    REQUIRE( original.held_by( beta ) );
+    const std::vector<item_pricing> candidates = npc_trading::init_selling( beta );
+    REQUIRE( candidates.size() == 1 );
+    const int price = static_cast<int>( candidates.front().price );
+    REQUIRE( price > 0 );
+    REQUIRE_FALSE( alpha.has_amount( itype_bottle_glass, 1 ) );
+    if( budget == -2 ) {
+        original.remove_item();
+    }
+    beta.op_of_u.owed = budget == 2 ? 0 : price + ( budget == -2 ? 1 : budget );
+    beta.op_of_u.trust = budget == 2 ? price / 300 + 1 : 0;
+    const int initial_debt = beta.op_of_u.owed;
+    const bool given = budget == 1 || ( budget == 2 && !mission_request );
+    d.add_topic( "TALK_SHARE_EQUIPMENT" );
+    render_npc_gift_responses( d, d.topic_stack.back() );
+    const size_t request = npc_gift_response_index( d, mission_request ?
+                           "Well, I am helping you out…" : "Because I'm your friend!" );
+    // The actual core response still supplies the effect; only its persuasion roll is skipped.
+    d.responses[request].trial.type = TALK_TRIAL_NONE;
+    const talk_topic next = d.apply_response( request );
+    REQUIRE( next.id == "TALK_GIVE_EQUIPMENT" );
+    d.add_topic( next );
+    const auto bottles = []( const item & it ) {
+        return it.typeId() == itype_bottle_glass;
+    };
+    const int expected_debt = given && budget == 1 ? 1 : initial_debt;
+    for( int redraw = 0; redraw != 3; ++redraw ) {
+        CHECK( ( d.dynamic_line( next ) == "Okay, here you go." ) == given );
+        d.apply_speaker_effects( next );
+        render_npc_gift_responses( d, next );
+        CHECK( d.responses.size() == ( given ? 3 : 1 ) );
+        CHECK( alpha.items_with( bottles ).size() == ( given ? 1 : 0 ) );
+        CHECK( beta.items_with( bottles ).size() == ( given || budget == -2 ? 0 : 1 ) );
+        CHECK( beta.op_of_u.owed == expected_debt );
+        CHECK( beta.has_effect( effect_asked_for_item ) == given );
+    }
+    if( given ) {
+        const std::vector<item *> received = alpha.items_with( bottles );
+        REQUIRE( received.size() == 1 );
+        CHECK( received.front()->is_owned_by( alpha ) );
+        CHECK( beta.get_effect_dur( effect_asked_for_item ) == 3_hours );
+        const std::string thanks = GENERATE( "Thank you!", "Thanks!  But can I have some more?",
+                                             "Thanks, see you later!" );
+        d.apply_response( npc_gift_response_index( d, thanks ) );
+        CHECK( beta.get_effect_dur( effect_asked_for_item ) == 27_hours );
+        CHECK( beta.op_of_u.owed == expected_debt );
+        CHECK( alpha.items_with( bottles ).size() == 1 );
+    } else {
+        CHECK( std::none_of( d.responses.begin(), d.responses.end(),
+        []( const talk_response & response ) {
+            return response.text.find( "Thank" ) == 0;
+        } ) );
+        d.apply_response( npc_gift_response_index( d, "I understand." ) );
+        CHECK_FALSE( beta.has_effect( effect_asked_for_item ) );
+        CHECK( beta.op_of_u.owed == initial_debt );
+    }
+    // After the cooldown is gone, an independent session cannot reuse a previous gift result.
+    beta.remove_effect( effect_asked_for_item );
+    dialogue fresh( get_talker_for( alpha ), get_talker_for( beta ) );
+    const talk_topic gift_topic( "TALK_GIVE_EQUIPMENT" );
+    fresh.add_topic( gift_topic );
+    CHECK( fresh.dynamic_line( gift_topic ) != "Okay, here you go." );
+    render_npc_gift_responses( fresh, gift_topic );
+    CHECK( fresh.responses.size() == 1 );
+    CHECK( beta.op_of_u.owed == expected_debt );
+}
+
+TEST_CASE( "npc_gift_existing_cooldown_blocks_all_core_requests", "[npc_talk][npc_gift]" )
+{
+    dialogue d;
+    npc &beta = prep_npc_gift_test( d, true );
+    const npc_gift_mission_cleanup cleanup{ beta };
+    REQUIRE( get_avatar().i_add( item( itype_mininuke ) ).held_by( get_avatar() ) );
+    REQUIRE( beta.i_add( item( itype_bottle_glass ) ).held_by( beta ) );
+    beta.op_of_u.owed = 100000;
+    const talk_topic share( "TALK_SHARE_EQUIPMENT" );
+    d.add_topic( share );
+    render_npc_gift_responses( d, share );
+    const auto request = []( const talk_response & response ) {
+        return response.success.next_topic.id == "TALK_GIVE_EQUIPMENT";
+    };
+    REQUIRE( std::count_if( d.responses.begin(), d.responses.end(), request ) == 5 );
+    beta.add_effect( effect_asked_for_item, 2_hours );
+    render_npc_gift_responses( d, share );
+    CHECK( std::none_of( d.responses.begin(), d.responses.end(), request ) );
+    d.apply_response( npc_gift_response_index( d, "Okay, fine." ) );
+    CHECK( beta.get_effect_dur( effect_asked_for_item ) == 2_hours );
+    CHECK( beta.op_of_u.owed == 100000 );
+    CHECK( beta.has_amount( itype_bottle_glass, 1 ) );
+    CHECK_FALSE( get_avatar().has_amount( itype_bottle_glass, 1 ) );
 }
 
 TEST_CASE( "npc_talk_items", "[npc_talk]" )
