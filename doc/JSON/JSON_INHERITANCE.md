@@ -20,6 +20,12 @@
 
 To reduce duplication in the JSON data, it is possible for _some_ JSON `type`s to inherit from existing objects.  Some restraint should be used, see [Guidelines](#guidelines) section.  It is important to note that inheritance is not always completely standard between `type`s.  See the [Behavior](#behavior) section for further details.
 
+JSON `copy-from` and `abstract` rules are unchanged by Lua-authored content.
+Lua scenario definitions that reference native starting locations are validated
+after JSON starting-location inheritance resolves. Refer to the existing
+location IDs; this does not add a Lua spelling for JSON inheritance. Validate
+the resulting scenario with its intended Mods loaded.
+
 ## Examples
 
 Items are one of the most common JSON types, so the "subtypes" field splits data into optional chunks. See [the item docs](ITEM.md#subtypes) for an explanation of how it works.

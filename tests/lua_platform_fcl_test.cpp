@@ -27,7 +27,6 @@
 #include "type_id.h"
 #include "vitamin.h"
 
-static const bodypart_str_id body_part_torso( "torso" );
 static const efftype_id effect_fcl_cureall( "fcl_cureall" );
 static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_panacea( "panacea" );
