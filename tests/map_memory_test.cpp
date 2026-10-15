@@ -1,33 +1,47 @@
 #include <bitset>
+#include <lightmap.h>
+#include <array>
+#include <functional>
+#include <map>
+#include <optional>
 #include <cstddef>
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <system_error>
+#include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game.h"
+#include "json.h"
 #include "level_cache.h"
 #include "lru_cache.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_memory.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mdarray.h"
+#include "memory_fast.h"
 #include "options_helpers.h"
+#include "path_info.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "weather_type.h"
-
-#if defined(TILES)
-    #include "cached_options.h"
-#endif
+#include "worldfactory.h"
+#include "zzip_stack.h"
 
 #if defined(TILES) || defined(HEADLESS)
     #include "cursesdef.h"
@@ -38,11 +52,153 @@ static constexpr tripoint_abs_ms p2{ 5, 7, -1 };
 static constexpr tripoint_abs_ms p3{ SEEX * 2 + 5, SEEY + 7, -1 };
 static constexpr tripoint_abs_ms p4{ SEEX * 3 + 2, SEEY * 7 + 1, -1 };
 
+static const efftype_id effect_blind( "blind" );
+
 static const furn_str_id furn_f_chair( "f_chair" );
 
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const ter_str_id ter_t_wall( "t_wall" );
+
+// Disk-backed fixtures must opt out of test_mode's memory IO bypass.
+static void with_map_memory_world( bool compressed, const std::function<void()> &run )
+{
+    REQUIRE( world_generator->active_world != nullptr );
+    WORLD *const previous_world = world_generator->active_world;
+    WORLD world;
+    world.WORLD_OPTIONS = previous_world->WORLD_OPTIONS;
+    std::filesystem::path directory;
+    for( int i = 0; i < 100; ++i ) {
+        world.world_name = previous_world->world_name + " memory IO " + std::to_string( i );
+        std::error_code error;
+        const std::filesystem::path candidate = world.folder_path().get_unrelative_path();
+        if( std::filesystem::create_directory( candidate, error ) ) {
+            directory = candidate;
+            break;
+        }
+        REQUIRE( ( !error || error == std::errc::file_exists ) );
+    }
+    REQUIRE_FALSE( directory.empty() );
+    on_out_of_scope cleanup( [&]() {
+        world_generator->set_active_world( previous_world );
+        std::error_code error;
+        std::filesystem::remove_all( directory, error );
+    } );
+    restore_on_out_of_scope restore_test_mode( test_mode );
+    test_mode = false;
+    world_generator->set_active_world( &world );
+    if( compressed ) {
+        std::ofstream dictionary( directory / std::filesystem::u8path( "mmr.dict" ) );
+        dictionary << "map memory region dictionary";
+        REQUIRE( dictionary.good() );
+    }
+    REQUIRE( world.has_compression_enabled() == compressed );
+    run();
+}
+
+TEST_CASE( "map_memory_disk_reads_preserve_regions_and_observe_later_saves",
+           "[map_memory][save][regression]" )
+{
+    const bool compressed = GENERATE( false, true );
+    CAPTURE( compressed );
+    with_map_memory_world( compressed, []() {
+        const tripoint_abs_ms negative( -100, -101, -1 );
+        const tripoint_abs_ms positive( 100, 101, -1 );
+        const tripoint_abs_ms upper( 100, 101, 1 );
+        const tripoint_abs_ms missing( 500, 500, -1 );
+        map_memory writer;
+        writer.prepare_region( negative, positive );
+        writer.set_tile_terrain( negative, "t_floor", 2, 3 );
+        writer.set_tile_decoration( negative, "f_chair", 1, 2 );
+        writer.set_tile_symbol( negative, U'\u03bb' );
+        writer.set_tile_terrain( positive, "t_grass", 3, 1 );
+        writer.set_tile_symbol( positive, U'+' );
+        writer.prepare_region( upper, upper );
+        writer.set_tile_symbol( upper, U'^' );
+        REQUIRE( writer.save( positive ) );
+
+        map_memory reader;
+        reader.load( positive );
+        REQUIRE( reader.prepare_region( negative, positive ) );
+        CHECK( reader.get_tile( negative ).get_ter_id() == "t_floor" );
+        CHECK( reader.get_tile( negative ).get_ter_subtile() == 2 );
+        CHECK( reader.get_tile( negative ).get_ter_rotation() == 3 );
+        CHECK( reader.get_tile( negative ).get_dec_id() == "f_chair" );
+        CHECK( reader.get_tile( negative ).get_dec_subtile() == 1 );
+        CHECK( reader.get_tile( negative ).get_dec_rotation() == 2 );
+        CHECK( reader.get_tile( negative ).symbol == U'\u03bb' );
+        CHECK( reader.get_tile( positive ).symbol == U'+' );
+        CHECK_FALSE( reader.prepare_region( negative, positive ) );
+        CHECK( reader.prepare_region( upper, upper ) );
+        CHECK( reader.get_tile( upper ).symbol == U'^' );
+        CHECK( reader.prepare_region( missing, missing ) );
+        CHECK( reader.get_tile( missing ) == memorized_tile{} );
+        reader.set_tile_symbol( missing, U'?' );
+        REQUIRE( reader.save( missing ) );
+
+        // The same object must reopen the archive after clear/save. Holding a
+        // mapped reader across calls would hide rewritten archive contents.
+        reader.clear();
+        reader.prepare_region( positive, positive );
+        CHECK( reader.get_tile( positive ).symbol == U'+' );
+        reader.set_tile_symbol( positive, U'!' );
+        REQUIRE( reader.save( positive ) );
+        reader.clear();
+        reader.load( positive );
+        reader.prepare_region( positive, positive );
+        CHECK( reader.get_tile( positive ).symbol == U'!' );
+        reader.prepare_region( missing, missing );
+        CHECK( reader.get_tile( missing ).symbol == U'?' );
+    } );
+}
+
+BENCHMARK_TEST_CASE( "map_memory_first_exploration_compressed_archive",
+                     "[map_memory][save][exploration]" )
+{
+    with_map_memory_world( true, []() {
+        constexpr int archive_regions = 4096;
+        const std::filesystem::path source =
+            ( PATH_INFO::world_base_save_path() / "memory-source" ).get_unrelative_path();
+        REQUIRE( std::filesystem::create_directory( source ) );
+        mm_region region;
+        for( size_t y = 0; y < MM_REG_SIZE; ++y ) {
+            for( size_t x = 0; x < MM_REG_SIZE; ++x ) {
+                region.submaps[x][y] = make_shared_fast<mm_submap>();
+            }
+        }
+        std::ostringstream output;
+        JsonOut json( output );
+        region.serialize( json );
+        const std::string empty_region = output.str();
+        for( int i = 0; i < archive_regions; ++i ) {
+            std::ofstream file( source / std::filesystem::u8path( std::to_string( i + 100 ) + ".0.0.mmr" ) );
+            file << empty_region;
+            REQUIRE( file.good() );
+        }
+        const std::filesystem::path archive =
+            ( PATH_INFO::current_dimension_player_save_path() + ".mm1" ).get_unrelative_path();
+        const std::filesystem::path dictionary =
+            ( PATH_INFO::world_base_save_path() / "mmr.dict" ).get_unrelative_path();
+        {
+            const std::shared_ptr<zzip_stack> packed = zzip_stack::create_from_folder(
+                        archive, source, dictionary );
+            REQUIRE( packed != nullptr );
+            REQUIRE( packed->get_entries().size() == archive_regions );
+        }
+        const tripoint_abs_ms center( 0, 0, 0 );
+        map_memory memory;
+        BENCHMARK( "prepare new 120x120 viewport beside 4096 saved regions" ) {
+            memory.clear();
+            memory.prepare_region( center - point( 60, 60 ), center + point( 60, 60 ) );
+            return memory.get_tile( center ).symbol;
+        };
+        BENCHMARK( "load new 24x24 submaps beside 4096 saved regions" ) {
+            memory.clear();
+            memory.load( center );
+        };
+    } );
+}
 
 TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
 {
@@ -232,6 +388,176 @@ TEST_CASE( "map_memory_refreshes_visibility_after_transparency_changes", "[map_m
     CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == ter_t_floor.str() );
 }
 
+TEST_CASE( "map_memory_refreshes_visibility_dependencies", "[map_memory][vision]" )
+{
+    clear_avatar();
+    clear_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    avatar &you = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms original_position = you.pos_bub( here );
+    const time_point original_time = calendar::turn;
+    on_out_of_scope restore_player( [&]() {
+        you.remove_effect( effect_blind );
+        you.recalc_sight_limits();
+        you.setpos( here, original_position );
+        set_time( original_time );
+    } );
+    set_time( calendar::turn_zero + 12_hours );
+    you.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    const tripoint_bub_ms target( 64, 60, 0 );
+    const tripoint_abs_ms target_abs = here.get_abs( target );
+    here.ter_set( target, ter_t_floor );
+    const auto target_is_clear = [&]() {
+        return here.get_visibility( here.get_cache_ref( 0 ).visibility_cache[target.x()][target.y()],
+                                    here.get_visibility_variables_cache() ) == visibility_type::CLEAR;
+    };
+
+    SECTION( "loss and recovery of sight without movement" ) {
+        here.update_map_memory( you );
+        REQUIRE( target_is_clear() );
+        you.clear_map_memory();
+        you.add_effect( effect_blind, 1_turns );
+        you.recalc_sight_limits();
+        here.update_map_memory( you );
+        CHECK_FALSE( target_is_clear() );
+        CHECK_FALSE( you.has_memory_at( target_abs ) );
+        you.remove_effect( effect_blind );
+        you.recalc_sight_limits();
+        here.update_map_memory( you );
+        CHECK( target_is_clear() );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == ter_t_floor.str() );
+    }
+    SECTION( "light source changes without movement" ) {
+        set_time( calendar::turn_zero );
+        here.update_map_memory( you );
+        REQUIRE_FALSE( target_is_clear() );
+        you.clear_map_memory();
+        here.ter_set( target, ter_t_utility_light );
+        here.update_map_memory( you );
+        CHECK( target_is_clear() );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == "t_utility_light" );
+        here.ter_set( target, ter_t_floor );
+        here.update_map_memory( you );
+        CHECK_FALSE( target_is_clear() );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == "t_utility_light" );
+    }
+    SECTION( "natural light classification changes without an explicit map invalidation" ) {
+        here.update_map_memory( you );
+        const int daylight = here.get_visibility_variables_cache().g_light_level;
+        calendar::turn = calendar::turn_zero;
+        g->reset_light_level();
+        REQUIRE( static_cast<int>( g->light_level( 0 ) ) != daylight );
+        here.update_map_memory( you );
+        CHECK( here.get_visibility_variables_cache().g_light_level ==
+               static_cast<int>( g->light_level( 0 ) ) );
+    }
+    SECTION( "clairvoyant field changes behind a wall" ) {
+        for( int y = 0; y < MAPSIZE_Y; ++y ) {
+            here.ter_set( tripoint_bub_ms( 61, y, 0 ), ter_t_wall );
+        }
+        here.update_map_memory( you );
+        REQUIRE_FALSE( target_is_clear() );
+        you.clear_map_memory();
+        const field_type_id clairvoyant( "fd_clairvoyant" );
+        REQUIRE( here.add_field( target, clairvoyant, 1 ) );
+        here.update_map_memory( you );
+        CHECK( target_is_clear() );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == ter_t_floor.str() );
+        here.delete_field( target, clairvoyant );
+        here.update_map_memory( you );
+        CHECK_FALSE( target_is_clear() );
+    }
+}
+
+TEST_CASE( "map_memory_preserves_clean_terrain_and_refreshes_connections", "[map_memory][vision]" )
+{
+    clear_avatar();
+    clear_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    avatar &you = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms original_position = you.pos_bub( here );
+    const time_point original_time = calendar::turn;
+    on_out_of_scope restore_player( [&]() {
+        you.setpos( here, original_position );
+        set_time( original_time );
+    } );
+    set_time( calendar::turn_zero + 12_hours );
+    you.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    const tripoint_bub_ms target( 64, 60, 0 );
+    const tripoint_abs_ms target_abs = here.get_abs( target );
+    you.clear_map_memory();
+
+    SECTION( "clean non-connecting memory is retained and real changes are recorded" ) {
+        REQUIRE( ter_t_grass->connect_to_groups.none() );
+        // Ensure fresh memory even if a preceding test already left grass here.
+        REQUIRE( here.ter_set( target, ter_t_wall ) );
+        REQUIRE( here.ter_set( target, ter_t_grass ) );
+        REQUIRE( here.memory_cache_ter_is_dirty( target ) );
+        here.update_map_memory( you );
+        const memorized_tile before = you.get_memorized_tile( target_abs );
+        REQUIRE( before.get_ter_id() == ter_t_grass.str() );
+        REQUIRE_FALSE( here.memory_cache_ter_is_dirty( target ) );
+        here.update_map_memory( you );
+        const memorized_tile &after = you.get_memorized_tile( target_abs );
+        CHECK( after.get_ter_id() == before.get_ter_id() );
+        CHECK( after.get_ter_subtile() == before.get_ter_subtile() );
+        CHECK( after.get_ter_rotation() == before.get_ter_rotation() );
+        CHECK( after.symbol == before.symbol );
+        here.ter_set( target, ter_t_floor );
+        here.update_map_memory( you );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_id() == ter_t_floor.str() );
+    }
+
+    SECTION( "clean connecting terrain follows neighbour changes without a frame" ) {
+        REQUIRE( ter_t_wall->connect_to_groups.any() );
+        here.ter_set( target, ter_t_wall );
+        here.update_map_memory( you );
+        const memorized_tile before = you.get_memorized_tile( target_abs );
+        REQUIRE( before.get_ter_id() == ter_t_wall.str() );
+        REQUIRE_FALSE( here.memory_cache_ter_is_dirty( target ) );
+        const tripoint_bub_ms neighbour = target + tripoint::south;
+        here.ter_set( neighbour, ter_t_wall );
+        REQUIRE_FALSE( here.memory_cache_ter_is_dirty( target ) );
+        here.update_map_memory( you );
+        int subtile = 0;
+        int rotation = 0;
+        map::get_connect_values( target, subtile, rotation,
+                                 ter_t_wall->connect_to_groups, ter_t_wall->rotate_to_groups, {} );
+        const memorized_tile &connected = you.get_memorized_tile( target_abs );
+        CHECK( connected.get_ter_subtile() == subtile );
+        CHECK( connected.get_ter_rotation() == rotation );
+        CHECK( connected.get_ter_subtile() != before.get_ter_subtile() );
+        here.ter_set( neighbour, ter_t_grass );
+        here.update_map_memory( you );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_subtile() == before.get_ter_subtile() );
+        CHECK( you.get_memorized_tile( target_abs ).get_ter_rotation() == before.get_ter_rotation() );
+    }
+}
+
+BENCHMARK_TEST_CASE( "unchanged_map_memory_refresh", "[map_memory][vision][map_cache]" )
+{
+    clear_avatar();
+    clear_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    avatar &you = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms original_position = you.pos_bub( here );
+    const time_point original_time = calendar::turn;
+    on_out_of_scope restore_player( [&]() {
+        you.setpos( here, original_position );
+        set_time( original_time );
+    } );
+    set_time( calendar::turn_zero + 12_hours );
+    you.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    you.clear_map_memory();
+    here.update_map_memory( you );
+    BENCHMARK( "unchanged daytime map memory update" ) {
+        here.update_map_memory( you );
+    };
+}
+
 TEST_CASE( "ascii_map_memory_survives_simulation_and_decoration_updates",
            "[map_memory][vision][ascii_regression]" )
 {
@@ -288,6 +614,36 @@ TEST_CASE( "ascii_map_memory_survives_simulation_and_decoration_updates",
         check_grass_memory();
     }
 
+    SECTION( "mid_step_memorizes_before_the_next_input_frame" ) {
+        restore_on_out_of_scope restore_screenshot( g->queue_screenshot );
+        restore_on_out_of_scope restore_menu( uistate.open_menu );
+        uistate.open_menu.reset();
+        const bool screenshot_pending = GENERATE( false, true );
+        const bool animations_enabled = GENERATE( false, true );
+        override_option animation_option( "ANIMATIONS", animations_enabled ? "true" : "false" );
+        g->queue_screenshot = screenshot_pending;
+        INFO( "immediate screenshot frame: " << screenshot_pending );
+        INFO( "input animations enabled: " << animations_enabled );
+        REQUIRE_FALSE( you.has_destination() );
+        REQUIRE_FALSE( you.has_destination_activity() );
+
+        tripoint_bub_ms last_memorized_pos = p - tripoint::east;
+        REQUIRE( you.get_memorized_tile( abs_p ).symbol == 0 );
+        g->render_mid_step( you, here, last_memorized_pos );
+        CHECK( last_memorized_pos == p );
+        check_grass_memory();
+
+        // No input or rendered frame may be required to retain the grass from
+        // an intermediate step that is already hidden at the next position.
+        you.setpos( here, p + tripoint::east * 20, false );
+        g->render_mid_step( you, here, last_memorized_pos );
+        CHECK( last_memorized_pos == you.pos_bub( here ) );
+        const level_cache &cache = here.access_cache( p.z() );
+        REQUIRE( here.get_visibility( cache.visibility_cache[p.x()][p.y()],
+                                      here.get_visibility_variables_cache() ) != visibility_type::CLEAR );
+        check_grass_memory();
+    }
+
 #if defined(TILES) || defined(HEADLESS)
     SECTION( "render_then_sim_then_render_keeps_newly_seen_grass" ) {
         // These test backends can create windows without a real terminal.
@@ -301,7 +657,7 @@ TEST_CASE( "ascii_map_memory_survives_simulation_and_decoration_updates",
         if( had_terrain_memory ) {
             you.memorize_terrain( abs_p, ter_t_grass.str(), 0, 0 );
         }
-        // render_mid_step redraws before calling update_map_memory.
+        // An immediate screenshot or route frame can draw before map-memory maintenance.
         memorize_ascii();
         REQUIRE( you.get_memorized_tile( abs_p ).symbol == grass_symbol );
         REQUIRE_FALSE( here.memory_cache_ter_is_dirty( p ) );
@@ -488,4 +844,60 @@ TEST_CASE( "shift_map_memory_bitset_cache" )
             }
         }
     }
+}
+
+TEST_CASE( "mid_step_visibility_prepares_dirty_lightmap_without_movement",
+           "[vision][map][cache][map_memory]" )
+{
+    clear_avatar();
+    clear_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    avatar &you = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms old_pos = you.pos_bub( here );
+    const time_point old_time = calendar::turn;
+    restore_on_out_of_scope restore_screenshot( g->queue_screenshot );
+    restore_on_out_of_scope restore_menu( uistate.open_menu );
+    override_option animations( "ANIMATIONS", "true" );
+    g->queue_screenshot = false;
+    uistate.open_menu.reset();
+    on_out_of_scope restore_player( [&]() {
+        you.setpos( here, old_pos );
+        set_time( old_time );
+    } );
+    set_time( calendar::turn_zero );
+    const tripoint_bub_ms observer( 60, 60, 0 );
+    const tripoint_bub_ms target( 64, 60, 0 );
+    you.setpos( here, observer );
+    const bool extinguish = GENERATE( false, true );
+    CAPTURE( extinguish );
+    here.ter_set( target, extinguish ? ter_t_utility_light : ter_t_floor );
+    here.build_map_cache( 0 );
+    here.update_visibility_cache( 0 );
+    const lit_level previous = here.get_cache_ref( 0 ).visibility_cache[target.x()][target.y()];
+
+    // A stationary input step has neither a frame nor movement-driven memory
+    // to prepare newly changed light. It must still provide current visibility.
+    here.ter_set( target, extinguish ? ter_t_floor : ter_t_utility_light );
+    REQUIRE( here.get_cache_ref( 0 ).lightmap_dirty );
+    REQUIRE_FALSE( you.has_destination() );
+    REQUIRE_FALSE( you.has_destination_activity() );
+    tripoint_bub_ms last_memorized_pos = observer;
+    g->render_mid_step( you, here, last_memorized_pos );
+    CHECK( last_memorized_pos == observer );
+    CHECK_FALSE( here.get_cache_ref( 0 ).lightmap_dirty );
+    const auto prepared = here.get_cache_ref( 0 ).visibility_cache;
+    CHECK( prepared[target.x()][target.y()] != previous );
+
+    // The later presentation preparation must observe the same grid, rather
+    // than repairing the lightmap and replacing a stale intermediate result.
+    here.build_map_cache( 0 );
+    here.update_visibility_cache( 0 );
+    bool grid_matches = true;
+    for( int x = 0; x < MAPSIZE_X; ++x ) {
+        grid_matches &= prepared[x] == here.get_cache_ref( 0 ).visibility_cache[x];
+    }
+    CHECK( grid_matches );
+    CHECK( prepared[target.x()][target.y()] == here.apparent_light_at( target,
+            here.get_visibility_variables_cache() ) );
 }

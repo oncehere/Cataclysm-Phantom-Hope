@@ -1,10 +1,17 @@
+#include <cerrno>
 #include <cstdlib>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <sstream>
 #include <string>
 
 #ifndef _WIN32
     #include <sys/stat.h>
+#endif
+#ifdef __linux__
+    #include <fcntl.h>
+    #include <unistd.h>
 #endif
 
 #include "actor_control.h"
@@ -15,11 +22,15 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
+#include "event.h"
+#include "event_bus.h"
+#include "event_subscriber.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
@@ -38,6 +49,7 @@
 #include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "save_snapshot.h"
 #include "type_id.h"
 #include "worldfactory.h"
 
@@ -930,6 +942,160 @@ TEST_CASE( "actor_control_prepared_checkpoint_marker_is_rolled_back_without_reti
     control::after_save( false );
     CHECK_FALSE( std::filesystem::exists( marker ) );
     CHECK( snapshot( saved() ).get_array( "checkpoint_delta" ).size() == delta );
+}
+
+TEST_CASE( "actor_control_dimension_checkpoint_retries_after_real_commit_failure",
+           "[actor_control][save][dimension][regression]" )
+{
+    // Permission denial is the fault mechanism, so running as root would not
+    // exercise the failure path. Do not replace it with a mocked commit result.
+    REQUIRE( geteuid() != 0 );
+    control_fixture fixture;
+    REQUIRE( world_generator );
+    WORLD *const harness_world = world_generator->active_world;
+    REQUIRE( harness_world );
+    REQUIRE( harness_world->world_name == "Test World 测试世界 " + std::to_string( getpid() ) );
+    REQUIRE_FALSE( control::save_transaction::active() );
+
+    const std::string identity = control::new_identity();
+    WORLD isolated_world;
+    isolated_world.COPY_WORLD( harness_world );
+    isolated_world.world_name = harness_world->world_name + "-save-retry-" + identity;
+    isolated_world.timestamp = identity;
+    // This new world has no compression dictionaries. Reuse the initialized
+    // native game/map/NPC context, but never write the harness world's files.
+    isolated_world.invalidate_compression_cache();
+    const cata_path world_dir = isolated_world.folder_path();
+    const std::filesystem::path root = world_dir.get_unrelative_path();
+    REQUIRE( std::filesystem::create_directory( root ) );
+    on_out_of_scope remove_world( [&root]() {
+        std::string error;
+        control::save_transaction::finish( false, error );
+        control::save_transaction::recover( root, error );
+        std::error_code ec;
+        std::filesystem::remove_all( root, ec );
+    } );
+    on_out_of_scope restore_world( [harness_world]() {
+        world_generator->set_active_world( harness_world );
+    } );
+    world_generator->set_active_world( &isolated_world );
+    REQUIRE_FALSE( isolated_world.has_compression_enabled() );
+    REQUIRE( isolated_world.save() );
+
+    restore_on_out_of_scope restore_should_draw( g->should_draw );
+    restore_on_out_of_scope restore_quit( g->uquit );
+    restore_on_out_of_scope restore_new_game( g->new_game );
+    restore_on_out_of_scope restore_pending( g->dimension_checkpoint_pending );
+    restore_on_out_of_scope restore_name( get_avatar().name );
+    restore_on_out_of_scope restore_last_world( world_generator->last_world_name );
+    restore_on_out_of_scope restore_last_character( world_generator->last_character_name );
+    g->should_draw = false;
+    g->uquit = QUIT_NO;
+    g->new_game = false;
+    get_avatar().name = "actor-control-save-retry-" + identity;
+
+    const auto read_bytes = []( const std::filesystem::path & path ) {
+        std::ifstream input( path, std::ios::binary );
+        REQUIRE( input.good() );
+        return std::string( std::istreambuf_iterator<char>( input ),
+                            std::istreambuf_iterator<char>() );
+    };
+    const std::filesystem::path lastworld = PATH_INFO::lastworld().get_unrelative_path();
+    const bool had_lastworld = std::filesystem::exists( lastworld );
+    const std::string lastworld_before = had_lastworld ? read_bytes( lastworld ) : "";
+    const std::filesystem::path achievement = std::filesystem::u8path( PATH_INFO::achievementdir() ) /
+            ( get_avatar().name + "-" + identity + "-" +
+              std::to_string( get_avatar().getID().get_value() ) + ".json" );
+    REQUIRE_FALSE( std::filesystem::exists( achievement ) );
+    on_out_of_scope restore_sidecars( [&lastworld, &lastworld_before, had_lastworld, &achievement]() {
+        std::error_code ec;
+        if( had_lastworld ) {
+            std::ofstream output( lastworld, std::ios::binary | std::ios::trunc );
+            output << lastworld_before;
+        } else {
+            std::filesystem::remove( lastworld, ec );
+        }
+        std::filesystem::remove( achievement, ec );
+    } );
+
+    npc &actor = fixture.companion();
+    prepare( actor );
+    const character_id actor_id = actor.getID();
+    const tripoint_abs_ms actor_position = actor.pos_abs();
+    const std::filesystem::path destination = root / "destination-state";
+    std::ofstream( destination ) << "source";
+    REQUIRE( save_snapshot::make_dimension_rollback( world_dir, get_avatar().name, 1 ) );
+    REQUIRE( save_snapshot::begin_dimension_transition( world_dir ) );
+    std::ofstream( destination ) << "destination";
+    g->dimension_checkpoint_pending = true;
+    const std::filesystem::path player_file = ( PATH_INFO::player_base_save_path() +
+            SAVE_EXTENSION ).get_unrelative_path();
+    REQUIRE_FALSE( std::filesystem::exists( player_file ) );
+    const std::filesystem::path denied_file = root / "commit-permission-denied";
+    REQUIRE_FALSE( std::filesystem::exists( denied_file ) );
+    {
+        struct deny_one_commit : event_subscriber {
+            explicit deny_one_commit( const std::filesystem::path &path ) : path( path ) {}
+            using event_subscriber::notify;
+            void notify( const cata::event &event ) override {
+                if( event.type() != event_type::game_save ) {
+                    return;
+                }
+                ++saves;
+                REQUIRE( control::save_transaction::capturing() );
+                // Recovery may unlink this creation without reading its bytes;
+                // commit must open it to fsync and therefore gets real EACCES.
+                control::save_transaction::before_write( path );
+                {
+                    std::ofstream output( path );
+                    output << "deny commit";
+                    REQUIRE( output.good() );
+                }
+                REQUIRE( chmod( path.c_str(), 0000 ) == 0 );
+                errno = 0;
+                const int descriptor = open( path.c_str(), O_RDONLY | O_CLOEXEC );
+                const int open_error = errno;
+                if( descriptor >= 0 ) {
+                    close( descriptor );
+                }
+                REQUIRE( descriptor == -1 );
+                REQUIRE( open_error == EACCES );
+            }
+            const std::filesystem::path &path;
+            int saves = 0;
+        } observer( denied_file );
+        get_event_bus().subscribe( &observer );
+        REQUIRE_FALSE( g->save() );
+        CHECK( observer.saves == 1 );
+        // event_subscriber's destructor unregisters before the retry, including
+        // when an assertion aborts this scope.
+    }
+    CHECK( g->uquit == QUIT_NO );
+    CHECK( g->dimension_checkpoint_pending );
+    CHECK( save_snapshot::dimension_transition_pending( world_dir ) );
+    CHECK_FALSE( control::save_transaction::active() );
+    CHECK_FALSE( std::filesystem::exists( denied_file ) );
+    CHECK_FALSE( std::filesystem::exists( player_file ) );
+    // Reaching add_save proves the normal native writers completed before the
+    // journal commit failed; an earlier save error must not satisfy this test.
+    REQUIRE( isolated_world.world_saves.size() == 1 );
+    CHECK( world_generator->last_world_name == isolated_world.world_name );
+    CHECK( read_bytes( destination ) == "destination" );
+    CHECK( actor.getID() == actor_id );
+    CHECK( actor.pos_abs() == actor_position );
+
+    REQUIRE( g->save() );
+    CHECK_FALSE( g->dimension_checkpoint_pending );
+    CHECK_FALSE( save_snapshot::dimension_transition_pending( world_dir ) );
+    CHECK_FALSE( control::save_transaction::active() );
+    CHECK( g->uquit == QUIT_NO );
+    const std::string committed_player = read_bytes( player_file );
+    REQUIRE_FALSE( committed_player.empty() );
+    REQUIRE( save_snapshot::recover_dimension_transition( world_dir ) );
+    CHECK( read_bytes( player_file ) == committed_player );
+    CHECK( read_bytes( destination ) == "destination" );
+    CHECK( actor.getID() == actor_id );
+    CHECK( actor.pos_abs() == actor_position );
 }
 #endif
 

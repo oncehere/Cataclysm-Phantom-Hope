@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:536acddfc55d8b46cefaf25db7538ffa107790c3931ef02023d8990b2ad36ad2",
+    "source_fingerprint": "sha256:6a0ed4bf755789c5dd05c0726c16c6375cd5a26315fdae8b55ee0e4217bd4a9f",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -29,8 +29,8 @@
       "wound_fix"
     ],
     "observed_not_registered": [],
-    "tracked_json_files": 6772,
-    "top_level_objects": 94765,
+    "tracked_json_files": 6766,
+    "top_level_objects": 94751,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -113,7 +113,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 15120,
+        "occurrences": 15119,
         "examples": [
           {
             "path": "data/json/artifact/artifact_item_types.json",
@@ -398,7 +398,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 53,
+        "occurrences": 52,
         "examples": [
           {
             "path": "data/mods/Backrooms/modinfo.json",
@@ -3047,7 +3047,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 5551,
+        "occurrences": 5549,
         "examples": [
           {
             "path": "data/json/artifact/altered_object_active.json",
@@ -3216,7 +3216,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 1676,
+        "occurrences": 1674,
         "examples": [
           {
             "path": "data/json/effects.json",
@@ -4558,7 +4558,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 7765,
+        "occurrences": 7760,
         "examples": [
           {
             "path": "data/json/deconstruction.json",
@@ -5148,7 +5148,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 608,
+        "occurrences": 607,
         "examples": [
           {
             "path": "data/json/npcs/Backgrounds/OtherSurvivorStories/Brigitte_LaCroix_Background.json",
@@ -5342,7 +5342,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 7,
+        "occurrences": 6,
         "examples": [
           {
             "path": "data/mods/XedraWood/external_options_and_monster_adjustments.json",
@@ -8542,7 +8542,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 205,
+        "occurrences": 204,
         "examples": [
           {
             "path": "data/json/obsoletion_and_migration_0.I/blacklist_scenarios.json",

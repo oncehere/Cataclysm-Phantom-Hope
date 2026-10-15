@@ -1,9 +1,10 @@
 # CPH Lua-first Platform
 
-CPH inherits one supported Lua runtime from CCB: Platform v1.  A Platform Mod is discovered
-from its root `main.lua`; optional metadata is returned by `mod.lua` through
-`ccb.ModDefinition`.  Mods do not use JSON manifests, an authored `lua/`
-subdirectory, EOCs, or the former `game.*` API.
+CPH inherits one supported Lua runtime from CCB: Platform v1. A Platform Mod
+can use a root `main.lua` or select another entry in `mod.lua` through
+`ccb.ModDefinition`. Lua-only Mods need no JSON manifest or authored `lua/`
+subdirectory; hybrid Mods can retain static JSON content. Lua behavior uses
+`require("ccb")`, without EOCs or the former `game.*` API.
 
 The architecture and authoring contract are documented in
 [LUA_FIRST_PLATFORM.md](LUA_FIRST_PLATFORM.md). The short current goal and
@@ -45,6 +46,15 @@ and [generated public surface](reference/ccb_platform_api_v1.json); availability
 in that surface does not mean every legacy EOC shape has been migrated.
 Lua-authored content text can retain translation descriptors instead of
 freezing the currently displayed language.
+
+Typed content definitions also support medication, native item packaging and
+effect symptoms, including intensity-dependent recovery and death chances.
+The bundled `deadly_bites` Mod uses these definitions and Lua handlers while
+retaining its existing Mod, item, effect, mission and scenario IDs. Its
+antiviral handler treats the infection before applying the protection that
+blocks further infection changes. Hybrid Mods can keep their JSON content and
+select a Lua entry point through `mod.lua`; `catalegacy_future` uses this path
+for its cure-all handler.
 
 Persistent Lua values retain separate integer and floating-point tags; integer
 values use the signed 64-bit representation. Persistent absolute-coordinate
