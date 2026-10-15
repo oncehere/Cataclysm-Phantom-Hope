@@ -141,6 +141,12 @@ same world transaction until the destination's complete native save succeeds;
 death separates character files from archived map-memory directories so the
 physical save and character removal remain together.
 
+Ordinary dimension travel without a capturing companion transaction uses a
+pre-travel rollback marker until a complete checkpoint succeeds. Loading
+recovers the ActorControl journal before inspecting that marker, under the
+same world lease. If a later companion checkpoint removes the marker, that
+removal joins its journal so a failed commit preserves recovery and retry.
+
 Communication checkpoints are prepared before durable native commit and
 promoted only afterwards. A failed commit retains events for reconciliation;
 it does not confirm an external memory checkpoint. Other saves and readers

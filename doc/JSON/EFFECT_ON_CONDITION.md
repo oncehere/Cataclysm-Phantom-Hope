@@ -9,6 +9,13 @@
 
 # Effect On Condition
 
+The `deadly_bites` Mod now authors its behavior with Lua handlers instead of
+its former EOC files, preserving its item, effect, mission and scenario IDs.
+Its antiviral handler adjusts the infection before adding the protection that
+blocks further changes to `zombie_virus`. This uses existing native effect
+semantics and does not add an EOC operation or a public Lua EOC runner. See the
+[Lua authoring contract](../../data/lua/README.md).
+
 The checked condition and effect inventories in `data/reference/json/` are
 generated from the current source and data tree with
 `python3 tools/json_api/generate_contracts.py`. A content or documentation

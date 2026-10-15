@@ -68,6 +68,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
     avatar &u = get_avatar();
     clear_character( u, true );
     clear_npcs();
+    REQUIRE( g->find_npc( character_id() ) == nullptr );
     u.reset_all_missions();
     mission::clear_all();
 
