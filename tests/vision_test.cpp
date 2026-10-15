@@ -1961,7 +1961,7 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
     clear_avatar();
     get_map().load( project_to<coords::sm>( get_avatar().pos_abs() ) + point::south_east, false,
                     false );
-    get_avatar().sees( here, tripoint_bub_ms::zero ); // CRASH?
+    CHECK_NOTHROW( get_avatar().sees( here, tripoint_bub_ms::zero ) );
 
     clear_avatar();
 }

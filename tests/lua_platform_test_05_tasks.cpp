@@ -22,6 +22,7 @@
 #include <lua_platform_handle.h>
 #include <lua_platform_runtime.h>
 #include <map.h>
+#include <map_helpers.h>
 #include <memory_fast.h>
 #include <monster.h>
 #include <monster_uid.h>
@@ -40,6 +41,7 @@
 #include <vector>
 #include "cata_catch.h"
 #include "lua_platform_sol.h"
+#include "player_helpers.h"
 
 namespace cata::lua_platform
 {
@@ -520,6 +522,9 @@ TEST_CASE( "lua_platform_persistent_task_vehicle_actor_reacquires_persistent_ide
            "[lua][platform][runtime][tasks][handles][vehicle]" )
 {
     cata::lua_platform::clear_active_runtimes();
+    // Persistent vehicle identity must not depend on the preceding test's map.
+    clear_map_without_vision();
+    clear_avatar();
 
     sol::state lua;
     sol::table ccb = lua.create_table();
@@ -568,6 +573,7 @@ TEST_CASE( "lua_platform_persistent_task_vehicle_actor_reacquires_persistent_ide
         }
     }
     REQUIRE( vehicle_position );
+    CAPTURE( here.get_abs_sub(), *vehicle_position );
     vehicle *actor_vehicle = here.add_vehicle(
                                  vehicle_prototype_bicycle, *vehicle_position,
                                  0_degrees, 0, veh_spawn_status::UNDAMAGED );

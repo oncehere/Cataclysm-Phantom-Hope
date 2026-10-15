@@ -459,16 +459,31 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     map &here = get_map();
     clear_avatar();
     clear_map_without_vision();
+    REQUIRE( g->find_npc( character_id() ) == nullptr );
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-    overmap_buffer.insert_npc( guy );
     npc &npc = *guy;
     clear_character( npc );
+    const character_id target_id = g->assign_npc_id();
+    REQUIRE( target_id.is_valid() );
+    npc.setID( target_id );
     std::optional<tripoint_bub_ms> const dest = random_point( here, [](
     tripoint_bub_ms const & p ) {
         return p.xy() != get_avatar().pos_bub().xy();
     } );
     REQUIRE( dest.has_value() );
-    npc.setpos( here, { dest.value().xy(), get_avatar().posz() } );
+    // Publish the fixture only after it has a valid identity and final location.
+    npc.spawn_at_precise( here.get_abs( tripoint_bub_ms( dest.value().xy(),
+                                        get_avatar().posz() ) ) );
+    overmap_buffer.insert_npc( guy );
+    const auto remove_fixture_npc = [target_id]() {
+        g->remove_npc( target_id );
+        if( overmap_buffer.find_npc( target_id ) ) {
+            overmap_buffer.remove_npc( target_id );
+        }
+    };
+    on_out_of_scope cleanup( remove_fixture_npc );
+    REQUIRE( g->find_npc( target_id ) == guy.get() );
+    REQUIRE( g->find_npc( character_id() ) == nullptr );
 
     tripoint_abs_ms const start = get_avatar().pos_abs();
     tripoint_abs_ms const end = npc.pos_abs();
@@ -476,6 +491,12 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     check_ter_in_line( start, end, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_LINE->activate( newDialog );
     check_ter_in_line( start, end, ter_t_dirt );
+
+    // clear_npcs() only visits the active bubble, so own global deregistration here.
+    remove_fixture_npc();
+    cleanup.cancel();
+    CHECK( g->find_npc( target_id ) == nullptr );
+    CHECK( g->find_npc( character_id() ) == nullptr );
 }
 
 TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
