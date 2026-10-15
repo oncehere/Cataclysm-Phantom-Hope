@@ -2456,7 +2456,7 @@ void renderer_resource_coordinator::end_atlas_upload()
 }
 
 // Whether this fixture initialized the video subsystem (so teardown must quit
-// it) and the SDL_VIDEODRIVER value to restore afterwards.
+// it) and the SDL video driver hint value to restore afterwards.
 static bool test_fixture_acquired_video = false;
 static bool test_fixture_had_prior_driver = false;
 static std::string test_fixture_prior_driver;
@@ -2484,12 +2484,12 @@ static struct {
 // environment API to be seen at video-subsystem init.
 static void set_videodriver_env( const char *const value )
 {
-    SDL_SetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER", value, true );
+    SDL_SetEnvironmentVariable( SDL_GetEnvironment(), SDL_HINT_VIDEO_DRIVER, value, true );
 }
 
 static void clear_videodriver_env()
 {
-    SDL_UnsetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER" );
+    SDL_UnsetEnvironmentVariable( SDL_GetEnvironment(), SDL_HINT_VIDEO_DRIVER );
 }
 
 static void restore_videodriver_env()
@@ -2537,7 +2537,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     if( renderer || window ) {
         return false;
     }
-    const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
+    const char *const prior = SDL_getenv( SDL_HINT_VIDEO_DRIVER );
     test_fixture_had_prior_driver = prior != nullptr;
     test_fixture_prior_driver = prior != nullptr ? prior : std::string();
     set_videodriver_env( "dummy" );
