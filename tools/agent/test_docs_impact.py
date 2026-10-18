@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import copy
 import io
+import json
 import os
+import subprocess
 import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
@@ -13,7 +16,10 @@ import check_docs_impact as checker
 from check_docs_impact import (
     documentation_field_warnings,
     impacts,
+    inventory_fingerprint_only_change,
+    JSON_EOC_INVENTORIES,
     load_rules,
+    main,
     report,
     validate_pr_body,
 )
@@ -149,6 +155,29 @@ TBD
                  redirect_stdout(io.StringIO()), \
                  redirect_stderr(io.StringIO()):
                 self.assertEqual(checker.main(), expected)
+
+    def test_fingerprint_only_refresh_preserves_document_status_contract(self) -> None:
+        inventory = "data/reference/json/ccb_eoc_effects.json"
+        source = "src/lua_platform_runtime.cpp"
+        document = "data/lua/README.md"
+        for status, expected in (("D", 1), ("A", 0), ("M", 0)):
+            output = io.StringIO()
+            with self.subTest(document_status=status), \
+                 mock.patch.object(checker, "changed_file_statuses", return_value={
+                     inventory: "M", source: "M", document: status,
+                 }), \
+                 mock.patch.object(checker, "inventory_fingerprint_only_change",
+                                   side_effect=lambda path, base, head: path == inventory), \
+                 mock.patch.object(checker, "load_rules", return_value=self.rules), \
+                 mock.patch("sys.argv", ["check_docs_impact.py", "--base", "base",
+                                         "--head", "head", "--check-pr-body"]), \
+                 mock.patch.dict(os.environ, {"PR_BODY": complete_body()}, clear=True), \
+                 redirect_stdout(output), redirect_stderr(io.StringIO()):
+                self.assertEqual(checker.main(), expected)
+            self.assertIn(
+                "Generated inventories with unchanged contract content",
+                output.getvalue(),
+            )
 
     def test_cli_changed_file_requires_document_to_remain(self) -> None:
         document = "data/lua/README.md"
@@ -287,6 +316,113 @@ entries:
         self.assertEqual(
             required, {"json-public-contract", "eoc-public-contract"}
         )
+
+
+class InventoryFingerprintImpactTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.path = "data/reference/json/ccb_eoc_effects.json"
+        self.before = {
+            "source": {
+                "source_fingerprint": "sha256:" + "a" * 64,
+                "project": "CCB",
+            },
+            "entries": [{"key": "effect", "shape": "string"}],
+            "summary": {"public_keys": 1},
+        }
+        self.after = copy.deepcopy(self.before)
+        self.after["source"]["source_fingerprint"] = "sha256:" + "b" * 64
+
+    def compare(self, after: object, path: str | None = None) -> bool:
+        results = [
+            subprocess.CompletedProcess([], 0, stdout=json.dumps(document))
+            for document in (self.before, after)
+        ]
+        with mock.patch(
+            "check_docs_impact.subprocess.run", side_effect=results
+        ):
+            return inventory_fingerprint_only_change(
+                path or self.path, "base", "head"
+            )
+
+    def test_only_known_inventory_fingerprints_are_exempt(self) -> None:
+        for path in sorted(JSON_EOC_INVENTORIES):
+            with self.subTest(path=path):
+                self.assertTrue(self.compare(self.after, path))
+        with mock.patch("check_docs_impact.subprocess.run") as git:
+            self.assertFalse(inventory_fingerprint_only_change(
+                "src/condition.cpp", "base", "head"
+            ))
+            git.assert_not_called()
+
+    def test_contract_changes_are_not_exempt(self) -> None:
+        for field, value in (
+            ("entries", [{"key": "effect", "shape": "object"}]),
+            ("summary", {"public_keys": 2}),
+            ("schema_version", 2),
+        ):
+            after = {**self.after, field: value}
+            with self.subTest(field=field):
+                self.assertFalse(self.compare(after))
+        self.after["source"]["project"] = "Changed source contract"
+        self.assertFalse(self.compare(self.after))
+
+    def test_missing_or_invalid_fingerprint_is_not_exempt(self) -> None:
+        for value in (None, "invalid", 42):
+            after = copy.deepcopy(self.after)
+            after["source"]["source_fingerprint"] = value
+            with self.subTest(fingerprint=value):
+                self.assertFalse(self.compare(after))
+        self.assertFalse(self.compare({"source": None}))
+        self.assertFalse(self.compare([]))
+
+    def test_unreadable_or_invalid_inventory_is_not_exempt(self) -> None:
+        with mock.patch(
+            "check_docs_impact.subprocess.run",
+            side_effect=subprocess.CalledProcessError(128, ["git", "show"]),
+        ):
+            self.assertFalse(inventory_fingerprint_only_change(
+                self.path, "base", "head"
+            ))
+        with mock.patch(
+            "check_docs_impact.subprocess.run",
+            return_value=subprocess.CompletedProcess([], 0, stdout="invalid"),
+        ):
+            self.assertFalse(inventory_fingerprint_only_change(
+                self.path, "base", "head"
+            ))
+
+    def cli_result(self, files: list[str], revisions: bool = True) -> int:
+        argv = ["check_docs_impact.py", "--check-pr-body"]
+        if revisions:
+            argv.extend(["--base", "base", "--head", "head"])
+        else:
+            for path in files:
+                argv.extend(["--changed-file", path])
+        with (
+            mock.patch("sys.argv", argv),
+            mock.patch(
+                "check_docs_impact.changed_file_statuses",
+                return_value={path: "M" for path in files},
+            ),
+            mock.patch(
+                "check_docs_impact.inventory_fingerprint_only_change",
+                side_effect=lambda path, base, head: path == self.path,
+            ),
+            mock.patch.dict(os.environ, {
+                "PR_BODY": "#### Responsible human\n@maintainer\n",
+                "GITHUB_STEP_SUMMARY": "",
+            }),
+            redirect_stdout(io.StringIO()),
+            redirect_stderr(io.StringIO()),
+        ):
+            return main()
+
+    def test_refresh_does_not_hide_a_source_contract_change(self) -> None:
+        self.assertEqual(self.cli_result([self.path]), 0)
+        self.assertEqual(self.cli_result([self.path, "src/condition.cpp"]), 1)
+
+    def test_without_revision_evidence_inventory_stays_required(self) -> None:
+        self.assertEqual(self.cli_result([self.path], revisions=False), 1)
 
 
 if __name__ == "__main__":

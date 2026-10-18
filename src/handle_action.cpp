@@ -96,6 +96,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
+#include "profiling.h"
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
@@ -274,6 +275,8 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
+    // Includes input waiting, animations, redraws and multiplayer polling.
+    CATA_PROFILE_SCOPE_NAMED( "input.acquire" );
     map &here = get_map();
 
     const tripoint_bub_ms pos = u.pos_bub( here );
@@ -565,7 +568,10 @@ input_context game::get_player_input( std::string &action )
             }
 #endif
 
-            ui_manager::redraw_invalidated();
+            {
+                CATA_PROFILE_SCOPE_NAMED( "game.input_redraw" );
+                ui_manager::redraw_invalidated();
+            }
 #ifdef MP_ENABLED
             // Client: when the avatar has an active multi-turn activity,
             // exit the input poll on TIMEOUT regardless of TURN_DURATION so
@@ -4772,6 +4778,12 @@ bool game::handle_action( bool poll_only )
         }
         return false;
     }
+
+    // Start after input and action resolution so idle waiting is not action work.
+    // Some commands can still open interactive menus during execution.
+    CATA_PROFILE_SCOPE_NAMED( "game.action_execute" );
+    CATA_PROFILE_TEXT( action.data(), action.size() );
+    CATA_PROFILE_PLOT( "game.action_id", static_cast<int64_t>( act ) );
 
 #ifdef MP_ENABLED
     // Client mode: if an action moved the avatar without going through mp_dispatch

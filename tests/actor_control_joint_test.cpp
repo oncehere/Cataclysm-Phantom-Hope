@@ -35,6 +35,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "npc_execution_adapter.h"
 #include "path_info.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -222,16 +223,26 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     REQUIRE( actor.is_player_ally() );
     REQUIRE( actor.amount_of( itype_id( "rock" ) ) == 0 );
     const tripoint_bub_ms ground( 60, 61, 0 );
-    // Loading test_talker's NC_DOCTOR class can restock trade goods into this
-    // tile before the actor becomes a follower. Isolate the gather target after
-    // NPC setup so the final empty checks concern only the requested rock.
-    get_map().i_clear( ground );
+    // NPC setup can leave restocked goods on other nearby tiles and fill the
+    // adapter's bounded observation window before it reaches the gather target.
+    // Isolate the private fixture's ground items after NPC setup, then place the
+    // single requested rock without weakening observation or execution limits.
+    clear_items( actor.posz() );
     REQUIRE( get_map().i_at( ground ).empty() );
     item rock( itype_id( "rock" ), calendar::turn );
     rock.set_owner( actor );
     get_map().add_item_or_charges( ground, rock );
     REQUIRE( get_map().i_at( ground ).size() == 1 );
     REQUIRE( actor.sees( get_map(), ground ) );
+    const JsonObject observation = joint_object( control::NpcExecutionAdapter::observe( actor ) );
+    const JsonObject nearby = observation.get_object( "nearby" );
+    nearby.allow_omitted_members();
+    const JsonArray observed_items = nearby.get_array( "items" );
+    REQUIRE( observed_items.size() == 1 );
+    const JsonObject observed_rock = observed_items.get_object( 0 );
+    observed_rock.allow_omitted_members();
+    REQUIRE( observed_rock.get_string( "item_type" ) == "rock" );
+    REQUIRE( observed_rock.get_bool( "available_to_take" ) );
     std::string error;
     REQUIRE( control::bind( actor, "joint-companion", error ) );
     REQUIRE( error.empty() );

@@ -40,6 +40,13 @@ object types. Consult [inheritance](JSON_INHERITANCE.md) and each type's loader
 for supported fields rather than inferring a schema change from an inventory
 hash or a new Lua service.
 
+The `deadly_bites` Mod retains its native item, effect, mission and scenario
+IDs while authoring those definitions in Lua. The checked inventory counts
+tracked JSON examples; moving this content to Lua reduces those counts without
+removing registered JSON object types or the Mod content. Medication and effect
+metadata used by the Lua Mod are documented in the
+[Lua Platform contract](../../data/lua/README.md).
+
 Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

@@ -412,6 +412,13 @@ bool game::load( const save_t &name )
             cata::actor_control::save_transaction::finish( true, ignored );
         }
     } );
+    const bool recovering_transition = save_snapshot::dimension_transition_pending( worldpath );
+    if( recovering_transition ) {
+        if( !save_snapshot::recover_dimension_transition( worldpath ) ) {
+            debugmsg( "Could not recover interrupted dimension travel; refusing to load a partial save." );
+            return false;
+        }
+    }
     const cata_path save_file_path = PATH_INFO::world_base_save_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
@@ -593,6 +600,10 @@ bool game::load( const save_t &name )
     }
 
     loading_ui::done();
+    if( recovering_transition ) {
+        add_msg( m_warning,
+                 _( "Interrupted dimension travel was recovered from the pre-travel rollback save." ) );
+    }
     return true;
 }
 
@@ -923,6 +934,11 @@ bool game::save()
                     add_msg( m_warning,
                              _( "Game saved, but Lua-first Platform state could not be saved: %s" ),
                              platform_state_error );
+                    if( dimension_checkpoint_pending ) {
+                        cata::actor_control::after_save( false );
+                        cata::lua_platform::after_save( false, platform_state_error );
+                        return false;
+                    }
                 }
             }
             world_generator->last_world_name = world_generator->active_world->world_name;
@@ -940,7 +956,16 @@ bool game::save()
             EM_ASM( window.game_unsaved = false; );
 #endif
             cata_mp::mp_after_world_save();
-            dimension_checkpoint_pending = false;
+            if( dimension_checkpoint_pending &&
+                !save_snapshot::finish_dimension_transition( PATH_INFO::world_base_save_path() ) ) {
+                add_msg( m_warning,
+                         _( "Could not complete the dimension travel checkpoint.  Saving will be retried." ) );
+                cata::actor_control::after_save( false );
+                if constexpr( cata::lua_platform::is_enabled() ) {
+                    cata::lua_platform::after_save( false, "dimension recovery marker could not be removed" );
+                }
+                return false;
+            }
             if( uquit == QUIT_NOSAVED ) {
                 cata::actor_control::after_save( false );
                 return false;
@@ -964,6 +989,7 @@ bool game::save()
             } else if( !cata::actor_control::save_transaction::capturing() ) {
                 cata::actor_control::after_save( true );
             }
+            dimension_checkpoint_pending = false;
             if constexpr( cata::lua_platform::is_enabled() ) {
                 cata::lua_platform::after_save( platform_state_saved,
                                                 platform_state_error );
@@ -1309,11 +1335,9 @@ void game::ensure_dimension_rollback_snapshot()
         return;
     }
     const cata_path world_dir = world_generator->active_world->folder_path();
-    if( save_snapshot::dimension_rollback_exists( world_dir ) ) {
-        return;
-    }
-    if( !save_snapshot::make_dimension_rollback( world_dir, u.get_name(),
-            to_turn<int>( calendar::turn ) ) ) {
+    if( !save_snapshot::dimension_rollback_exists( world_dir ) &&
+        !save_snapshot::make_dimension_rollback( world_dir, u.get_name(),
+                to_turn<int>( calendar::turn ) ) ) {
         add_msg( m_warning, _( "Could not preserve the last save before dimension travel." ) );
     }
 }
@@ -1324,6 +1348,9 @@ void game::discard_dimension_rollback_snapshot()
         return;
     }
     const cata_path world_dir = world_generator->active_world->folder_path();
+    if( save_snapshot::dimension_transition_pending( world_dir ) ) {
+        return;
+    }
     if( save_snapshot::dimension_rollback_exists( world_dir ) &&
         !save_snapshot::delete_dimension_rollback( world_dir ) ) {
         add_msg( m_warning, _( "Could not remove the outdated dimension rollback save." ) );

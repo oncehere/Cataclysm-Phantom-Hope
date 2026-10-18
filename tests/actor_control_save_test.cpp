@@ -14,12 +14,14 @@
 
 #include "actor_control_bridge.h"
 #include "cata_catch.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
 #include "json_loader.h"
 #include "mmap_file.h"
 #include "ofstream_wrapper.h"
+#include "save_snapshot.h"
 #include "zzip.h"
 
 namespace
@@ -424,6 +426,36 @@ TEST_CASE( "actor_control_save_native_writers_are_captured_without_manual_hooks"
         const std::vector<std::byte> restored = archive->get_file( "npc.json" );
         CHECK( std::string( reinterpret_cast<const char *>( restored.data() ), restored.size() ) ==
                "rock=0" );
+    }
+}
+
+TEST_CASE( "actor_control_dimension_marker_joins_world_save_transaction",
+           "[actor_control][save][dimension]" )
+{
+    save_fixture fixture;
+    const cata_path world_dir( cata_path::root_path::unknown, fixture.root );
+    put( fixture.root / "player.sav", "before-travel" );
+    REQUIRE( save_snapshot::make_dimension_rollback( world_dir, "survivor", 1 ) );
+    REQUIRE( save_snapshot::begin_dimension_transition( world_dir ) );
+    put( fixture.root / "player.sav", "destination" );
+    std::string error;
+    REQUIRE( transaction::begin( fixture.root, error ) );
+    REQUIRE( save_snapshot::finish_dimension_transition( world_dir ) );
+    CHECK_FALSE( save_snapshot::dimension_transition_pending( world_dir ) );
+
+    SECTION( "failed checkpoint keeps interrupted travel recoverable" ) {
+        REQUIRE( transaction::finish( false, error ) );
+        REQUIRE( save_snapshot::dimension_transition_pending( world_dir ) );
+        REQUIRE( save_snapshot::recover_dimension_transition( world_dir ) );
+        CHECK( get( fixture.root / "player.sav" ) == "before-travel" );
+        CHECK_FALSE( save_snapshot::dimension_transition_pending( world_dir ) );
+    }
+
+    SECTION( "committed checkpoint keeps the destination save" ) {
+        REQUIRE( transaction::finish( true, error ) );
+        REQUIRE( save_snapshot::recover_dimension_transition( world_dir ) );
+        CHECK( get( fixture.root / "player.sav" ) == "destination" );
+        CHECK_FALSE( save_snapshot::dimension_transition_pending( world_dir ) );
     }
 }
 
