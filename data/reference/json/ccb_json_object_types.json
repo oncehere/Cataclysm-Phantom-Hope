@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:41d39e723adb14c1f0e31d780041474a8dadbb30fe3f638bae1d14a6b5dd78e0",
+    "source_fingerprint": "sha256:0d77a581484916d2f2651c652e235a10f2b1b10337225a1aaf661804bf301301",
     "contract_roots": [
       "data/core",
       "data/json",

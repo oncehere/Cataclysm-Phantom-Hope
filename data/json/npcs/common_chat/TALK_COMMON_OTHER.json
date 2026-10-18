@@ -551,16 +551,24 @@
   {
     "id": "TALK_GIVE_EQUIPMENT",
     "type": "talk_topic",
-    "dynamic_line": "Okay, here you go.",
+    "dynamic_line": { "npc_has_effect": "asked_for_item", "yes": "Okay, here you go.", "no": "Sorry, I don't have anything I can spare." },
     "responses": [
-      { "text": "Thank you!", "topic": "TALK_NONE", "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 } },
+      { "text": "I understand.", "condition": { "not": { "npc_has_effect": "asked_for_item" } }, "topic": "TALK_NONE" },
+      {
+        "text": "Thank you!",
+        "condition": { "npc_has_effect": "asked_for_item" },
+        "topic": "TALK_NONE",
+        "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
+      },
       {
         "text": "Thanks!  But can I have some more?",
+        "condition": { "npc_has_effect": "asked_for_item" },
         "topic": "TALK_SHARE_EQUIPMENT",
         "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
       },
       {
         "text": "Thanks, see you later!",
+        "condition": { "npc_has_effect": "asked_for_item" },
         "topic": "TALK_DONE",
         "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
       }
