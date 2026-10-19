@@ -152,7 +152,8 @@ entries:
       - src/init.cpp
       - src/generic_factory.h
       - src/*factory*
-      - tools/json_api/*
+      - tools/json_api/generate_contracts.py
+      - tools/json_api/contract-inventory.schema.json
     documentation_ids:
       - json.object-types
       - json.inheritance
@@ -178,7 +179,8 @@ entries:
       - src/npctalk.cpp
       - src/effect_on_condition.cpp
       - src/effect_on_condition.h
-      - tools/json_api/*
+      - tools/json_api/generate_contracts.py
+      - tools/json_api/contract-inventory.schema.json
     documentation_ids:
       - eoc.reference
     generated_reference_impact: true

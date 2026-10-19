@@ -305,17 +305,24 @@ entries:
         )
 
     def test_repository_rules_require_json_eoc_contracts(self) -> None:
-        result = impacts(
-            ["tools/json_api/generate_contracts.py"], load_rules()
-        )
-        required = {
-            item["id"]
-            for item in result
-            if item["enforcement"] == "required"
-        }
-        self.assertEqual(
-            required, {"json-public-contract", "eoc-public-contract"}
-        )
+        rules = load_rules()
+        for path in ("tools/json_api/generate_contracts.py",
+                     "tools/json_api/contract-inventory.schema.json"):
+            with self.subTest(path=path):
+                required = {
+                    item["id"] for item in impacts([path], rules)
+                    if item["enforcement"] == "required"
+                }
+                self.assertEqual(
+                    required, {"json-public-contract", "eoc-public-contract"}
+                )
+        for path in ("tools/json_api/test_generate_contracts.py",
+                     "tools/json_api/README.md"):
+            with self.subTest(path=path):
+                self.assertFalse(any(
+                    item["enforcement"] == "required"
+                    for item in impacts([path], rules)
+                ))
 
 
 class InventoryFingerprintImpactTest(unittest.TestCase):

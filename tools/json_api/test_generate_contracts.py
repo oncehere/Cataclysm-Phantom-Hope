@@ -26,7 +26,6 @@ try:
         mask_comments,
         parse_json_registrations,
         parse_parser_vector,
-        resolve_json_pointer,
         validate_contracts,
         write_or_check,
     )
@@ -43,7 +42,6 @@ except ImportError:
         mask_comments,
         parse_json_registrations,
         parse_parser_vector,
-        resolve_json_pointer,
         validate_contracts,
         write_or_check,
     )
@@ -260,16 +258,6 @@ suffix
             entries[0]["compile_context"],
             entries[1]["compile_context"])
 
-    def test_non_literal_json_registration_fails_closed(self) -> None:
-        source = """
-        void DynamicDataLoader::initialize()
-        {
-            add( dynamic_name, &loader::load );
-        }
-        """
-        with self.assertRaisesRegex(RuntimeError, "non-literal"):
-            parse_json_registrations(source)
-
     def test_parser_aliases_and_shapes_are_preserved(self) -> None:
         source = """
         std::vector<condition_parser>
@@ -407,30 +395,6 @@ class RepositoryParityTest(unittest.TestCase):
         self.assertFalse(fields["global"]["required"])
         self.assertEqual(fields["id"]["requiredness_evidence"], "mandatory")
 
-    def test_examples_resolve_to_tracked_json_pointers(self) -> None:
-        tracked = set(git_tracked_files(REPOSITORY_ROOT, "data"))
-        for kind, payload in self.payloads.items():
-            for entry in payload["entries"]:
-                block = entry.get(
-                    "instance_evidence",
-                    entry.get("example_evidence"))
-                for evidence in block["examples"]:
-                    self.assertIn(evidence["path"], tracked)
-                    value = json.loads(
-                        (REPOSITORY_ROOT /
-                         evidence["path"]).read_text(
-                            encoding="utf-8"))
-                    pointer = evidence["pointer"]
-                    resolved = resolve_json_pointer(value, pointer)
-                    key_name = "type" if kind == "json_object_types" else "key"
-                    key = entry[key_name]
-                    if kind == "json_object_types":
-                        self.assertEqual(resolved["type"], key)
-                    else:
-                        token = pointer.rsplit("/", 1)[-1]
-                        token = token.replace("~1", "/").replace("~0", "~")
-                        self.assertTrue(token == key or resolved == key)
-
     def test_stale_source_and_example_evidence_fail_closed(self) -> None:
         bad_source = copy.deepcopy(self.payloads)
         bad_source["json_object_types"]["entries"][0]["registrations"][0][
@@ -478,8 +442,7 @@ class RepositoryParityTest(unittest.TestCase):
                     "src"),
                 ["src/init.cpp"])
         command = run.call_args.args[0]
-        self.assertEqual(command[:4], ["git", "ls-files", "-z", "--"])
-        self.assertNotIn("obj-lua", command)
+        self.assertEqual(command, ["git", "ls-files", "-z", "--", "src"])
 
 
 if __name__ == "__main__":

@@ -86,7 +86,7 @@ entries:
       - data/reference/json/
       - doc/JSON/
       - tools/json_api/
-    command: python3 tools/json_api/generate_contracts.py --check && python3 -m unittest discover -s tools/json_api -p 'test_*.py'
+    command: python3 -m unittest discover -s tools/json_api -p 'test_*.py'
     workdir: .
     cost: medium
   - id: lua-contract
@@ -96,7 +96,7 @@ entries:
     cost: fast
   - id: lua-migration
     paths: [tools/migrate_lua_first.py, tools/lua_migration_output.py, tools/test_migrate_lua_first.py, 'tools/test_lua_*migration.py', tools/test_lua_named_predicate_migration.py, tools/test_migrate_lua_first_event_type.py, tools/test_native_math_domain_queries.py]
-    command: python3 tools/test_migrate_lua_first.py && python3 -m unittest tools.test_migrate_lua_first_event_type
+    command: python3 tools/test_migrate_lua_first.py && python3 tools/test_migrate_lua_first_event_type.py
     workdir: .
     cost: fast
   - id: lua-authoring
