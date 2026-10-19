@@ -32,6 +32,36 @@ printf '%s\n' "$CPH_WORKSPACE"
 `WORKSPACE.md` 维护；归档日期清单只证明当时状态。主检出 `cph/` 已使用
 `main`，读取主线仍须先回读精确远端 SHA，不把任意任务树的 HEAD 当作主线。
 
+## 换机继续开发
+
+普通新任务可直接完整克隆 CPH 的 `main`，读取 `AGENTS.md`、执行规格及
+[当前状态](status.md)，按实际目录工作，不要求复制原用户名、绝对路径或聊天记录。
+代理工具依赖沿用 `tools/requirements-validation.txt`；需要编译时再按现有
+CMake/devcontainer 文档准备工具链，并按[翻译输入](translation-inputs.md#reproduction)
+初始化资源。已有配置不证明新机器已构建成功。
+
+接续本机既有批次时，另外取得私有接续包，按包内 README 在新目录恢复：
+
+- 当前正式台账的源、派生视图、状态清单、`ledger.py` 和指南；不能只复制 CSV。
+- 台账所引用但不在 main 历史中的 Git 对象，以及需要接续的未推送候选；用
+  Git bundle 保存原提交，不复制指向旧路径的 worktree `.git` 文件。
+- 本次实际需要的决定和回证；未提交文件保留原字节及差异。旧 devshell
+  只作候选保存，不当作 main 或新机器已验收的开发环境。
+
+包内记录源码基线、台账版本、校验和与未携带范围。若有未完成台账事务，先按
+台账指南恢复，不能只打包混合版本。台账使用 Unix 文件锁，在 Linux 或 Windows
+的 Linux 环境运行；原生 Windows Python 尚不支持该工具。恢复后使用实际路径执行：
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 "$CPH_LEDGER_DIR/ledger.py" check \
+  --ledger-dir "$CPH_LEDGER_DIR" --repo "$CPH_SOURCE_REPO"
+```
+
+接续包可只保留当前可校验状态，旧快照和原始测试日志按需取回；这不证明历史事务
+可重放或旧测试证据已迁移。切换电脑时明确交接同一台账的写入职责，不同时维护两份
+权威源。只为当前改动运行必要检查；不新增同步服务，不把源码、缓存、存档、账号
+凭据或个人技能全部塞入公开仓库。接续包本身通过私有渠道保存或交付。
+
 ## 维护生命周期
 
 - 独立实现用一个共用 Git 对象的工作树；开始前复用角色索引，不为阅读、状态检查或每个子步骤再建整份副本。并行子任务优先共享同一实现树的互斥文件范围。

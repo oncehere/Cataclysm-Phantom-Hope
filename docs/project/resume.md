@@ -4,6 +4,8 @@
 
 | 动作 | 前置条件 | 执行与验收 |
 | --- | --- | --- |
+| 换机继续开发 | 源码完整 clone；接续既有批次时另取得私有接续包 | 按[换机接续](workspace-layout.md#换机继续开发)恢复必要 Git 对象和台账；只运行本任务需要的检查，不以搬迁为由重跑全项目 |
+| Dot 首批三项候选 | 原批次保持暂停；候选 `codex/dot-first-repair-20261007@7b434fc3898e` | 恢复候选与回证供审阅；后续推进仍按用户选定范围处理，不把打包当作重新实施、推送或合入授权 |
 | 用户授权的个人维护 | 固定范围及候选，相关本机证据充分 | 按 [执行规格 §6.1](execution-spec.md#61-合入)；复用证据须核对输入不变，必要失败先修复；GitHub 阻止合入时按 [设置流程](../../REPOSITORY_SETTINGS.md#personal-maintenance-under-the-existing-rule) 办理 |
 | 新 tooling 远端验收 | 已审阅控制代码、精确 Actions 白名单，自动合入保持暂停 | 用固定普通候选验证工具结果齐全时可发布 trusted；缺失/失败/零用例/旧 base-policy 必须拒绝；记录实际 run/attempt/tree |
 | 恢复 CCB 自动同步/合入 | **用户后续明确要求**，新门槛及规则锁已验收 | 刷新 state revision、main、上游与在途任务；按 [同步手册](remote-sync.md#operator-controls) 分别处理 workflow 与状态开关；不复用旧恢复记录 |
