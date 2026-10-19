@@ -123,10 +123,6 @@
         "tools/agent/generate_documentation_registry.py",
         "--check"
       ],
-      "agent-benchmark": [
-        "tools/agent/benchmark_context_pack.py",
-        "--check"
-      ],
       "lua-inventory": [
         "tools/lua_api/generate_platform_native_inventory.py",
         "--check"
@@ -137,10 +133,6 @@
       ],
       "lua-coverage": [
         "tools/lua_api/generate_platform_coverage.py",
-        "--check"
-      ],
-      "json-contracts": [
-        "tools/json_api/generate_contracts.py",
         "--check"
       ],
       "workflow-inventory": [

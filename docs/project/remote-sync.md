@@ -49,6 +49,11 @@ candidate/run identity. Its new hosted acceptance remains **NOT_RUN** until a
 real ordinary PR verifies both successful and rejected evidence. Keep automatic
 merge paused through this acceptance; see the [deployment procedure](../../REPOSITORY_SETTINGS.md#controller-deployment).
 Documentation impact remains an explicit local/review check.
+The agent suite already validates the context benchmark; the JSON suite rebuilds
+and compares all checked inventories and exercises the check-mode CLI. The
+tooling policy runs each once through those suites. JSON test-only or README
+edits do not require unrelated API-document changes; generator and schema
+changes retain the required documentation review.
 
 ## Persistent state and retries
 

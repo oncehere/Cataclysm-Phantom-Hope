@@ -1,6 +1,6 @@
 # E0 继承工作流审计与初始化隔离
 
-**历史来源审计与现行隔离契约：**下文 29 个入口均来自锁定 U，不是当前 `main` 的活动 workflow。`main` 后来部署了三个受控入口；当前远端状态见 [status.md](status.md)。本地检查器继续阻止重新引入继承入口，但“活动入口为 0”只描述初始隔离阶段。
+**历史来源审计：**下文 29 个入口均来自锁定 U，不是当前 `main` 的活动 workflow。“活动入口为 0”只描述已经结束的 E0 初始化阶段，其检查器和 fixture 测试已退役。现行 [workflow-inventory 检查器](../../tools/project/check_remote_workflows.py)按[受审查的活动清单](../../project/remote-actions-policy.json)核对 workflow 和 Action 引用，拒绝重新引入未获审查的入口；当前远端状态见 [status.md](status.md)。
 
 ## 状态与来源
 
@@ -9,10 +9,10 @@
 - 锁定提交 U：`bcb85682f3d28ab0f0123b05e45651bb9888b61b`；tree：`204b14a135ae307ad2180a348a6d6553374a07af`。
 - 覆盖：29/29 个 workflow 和 2/2 个本地 composite action 的入口静态审计；重点本地调用链见后文。
 - 当前存储：29 个原始 YAML 保留在 U 的 Git 对象中；`project/inherited-workflows/manifest.json` 记录相对文件名、原始 blob、大小及 SHA-256。工作树只保留清单与审计元数据，不再维护完整 YAML 副本。
-- 初始隔离策略：继承入口在该阶段的活动 workflow 数必须为 0。原游戏、Make/CMake/Gradle、SDL3、shader 代码和本地 actions 保留。隔离入口不代表删除平台功能，也不代表任何平台构建已验收；后续新增的三个受控入口另行审查。
-- 本地隔离检查和 fixture 测试为 `PASS`；远端设置、可信 W/L 门槛与发布部署的当前证据统一见 [status.md](status.md)。
+- 初始隔离策略：继承入口在该阶段的活动 workflow 数必须为 0。原游戏、Make/CMake/Gradle、SDL3、shader 代码和本地 actions 保留。隔离入口不代表删除平台功能，也不代表任何平台构建已验收；后续新增的受控入口另行审查。
+- E0 阶段的本地隔离检查和 fixture 测试记录为 `PASS`；远端设置、可信 W/L 门槛与发布部署的当前证据统一见 [status.md](status.md)。
 
-后续新增受控 CI 必须经过单独审查并更新初始化策略；本检查器不提供任意 allowlist 绕过开关。它不是可信合入门槛，不证明候选策略不能自行修改，不证明 GitHub 权限实际生效。主线保护、公开发布、签名和稳定版入口均不得因本地测试通过而启用。
+后续新增受控 CI 必须经过单独审查并更新现行活动清单。历史 E0 检查器不提供任意 allowlist 绕过开关；它不是可信合入门槛，不证明候选策略不能自行修改，不证明 GitHub 权限实际生效。主线保护、公开发布、签名和稳定版入口均不得因本地测试通过而启用。
 
 ## 全部 29 个入口
 
@@ -80,20 +80,17 @@
 
 全部显式外部 `uses:` 已锁 40 位 SHA，清单及调用位置保存在 `project/inherited-workflows/external-actions.json`。这不是第三方 Action 内部安全深审。apt/npm/pip、CLI tarball、可变 branch/tag、外部 Make/Gradle/CMake 递归输入仍需资源锁定与实际构建验证。42 个直接文本引用已做存在性与外部 I/O 静态扫描；该数量不是整个构建依赖闭包。未深审项明确保留为 `NOT_RUN`，不声称供应链全部审计完成。
 
-## 可重复检查与本轮证据
+## 冻结检查入口与历史证据
 
-在仓库根运行：
+E0 检查入口固定保存在提交 `cc96394f3161f9381bfc8032ebda58bf08c86611`：
 
-```sh
-PYTHONDONTWRITEBYTECODE=1 python3 tools/project/check_workflow_quarantine.py --repo "$PWD"
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/project -p test_workflow_quarantine.py -v
-# 查看原文件（替换末尾文件名）；缺对象时失败，不自动联网：
-GIT_NO_LAZY_FETCH=1 git show bcb85682f3d28ab0f0123b05e45651bb9888b61b:.github/workflows/matrix.yml
-```
+- [历史隔离检查器](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/cc96394f3161f9381bfc8032ebda58bf08c86611/tools/project/check_workflow_quarantine.py)
+- [历史 fixture 测试](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/cc96394f3161f9381bfc8032ebda58bf08c86611/tests/project/test_workflow_quarantine.py)
+- [U 中的原始 matrix workflow](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/bcb85682f3d28ab0f0123b05e45651bb9888b61b/.github/workflows/matrix.yml)
 
-检查器只读取指定 Git 源和工作树，不联网、不 fetch、不修改配置。它拒绝影响 Git 身份/历史的 GIT_* 环境覆盖、replace refs 和 grafts；每次 Git 调用设置 GIT_NO_LAZY_FETCH=1、GIT_OPTIONAL_LOCKS=0、关闭全局/系统配置、替代对象、fsmonitor、hooks 和默认 transport。它从 U 的 Git 对象重新计算完整清单，再与 manifest 比较。缺失对象、伪造或增删清单条目、重新加入 YAML 副本、symlink、活动入口、空 baseline 都拒绝；CLI 退出码 0=通过，1=本地隔离失败，2=参数或源读取错误。`--baseline` 仅用于明确的替代来源调查/合成 fixture，正式验收使用默认 U。
+历史检查器只读取指定 Git 源和工作树，不联网、不 fetch、不修改配置。它拒绝影响 Git 身份/历史的 GIT_* 环境覆盖、replace refs 和 grafts；每次 Git 调用设置 GIT_NO_LAZY_FETCH=1、GIT_OPTIONAL_LOCKS=0、关闭全局/系统配置、替代对象、fsmonitor、hooks 和默认 transport。它从 U 的 Git 对象重新计算完整清单，再与 manifest 比较。缺失对象、伪造或增删清单条目、重新加入 YAML 副本、symlink、活动入口、空 baseline 都拒绝；CLI 退出码 0=通过，1=本地隔离失败，2=参数或源读取错误。`--baseline` 仅用于明确的替代来源调查/合成 fixture，E0 验收使用默认 U。该工具要求零活动 workflow，不能用于验收现行主线；现行 workflow-inventory 检查不重新计算这份历史 manifest。
 
-精简前已逐个核对 29 份 YAML 与 U 的 blob、大小及 SHA-256 一致，再移除工作树副本（4,481 行）。检查器原本就需要读取 U 对象；浅克隆或缺失对象仍不能通过，不会以可修改清单代替来源。当前检查输出 `source_storage=git_objects`、`manifest_matches_source=true` 和活动入口 0；fixture 覆盖上述拒绝条件，缺失 promisor blob 的测试保留 transport 哨兵正对照。最新结果见 [status.md](status.md)。这些检查不是游戏、其他平台或 GitHub 部署验收。
+精简前已逐个核对 29 份 YAML 与 U 的 blob、大小及 SHA-256 一致，再移除工作树副本（4,481 行）。历史检查器需要读取 U 对象；浅克隆或缺失对象不能通过，不会以可修改清单代替来源。E0 检查记录为 `source_storage=git_objects`、`manifest_matches_source=true` 和活动入口 0；当时的 fixture 覆盖上述拒绝条件，缺失 promisor blob 的测试包含 transport 哨兵正对照。现行结果见 [status.md](status.md)。这些历史检查不是游戏、其他平台或 GitHub 部署验收。
 
 首次 E0 隔离日志保留于工作区仓库外 `../evidence/e0-e1-20260926/`，记录当时副本形式的验证：
 
