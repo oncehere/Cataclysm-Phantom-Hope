@@ -25,6 +25,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "test_data.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 
 static const itype_id itype_test_balanced_sword( "test_balanced_sword" );
@@ -409,15 +410,15 @@ TEST_CASE( "cph_selected_spear_crafting_requirements", "[spear][crafting]" )
         crafter.add_proficiency( proficiency_id( "prof_carving" ), true );
         CHECK( rec.batch_time( crafter, 1, 1.0, 0, {} ) == entry.minutes * 60 * 100 );
 
-        inventory components;
+        temp_crafting_inventory components;
         for( const std::vector<item_comp> &alternatives : rec.simple_requirements().get_components() ) {
             REQUIRE_FALSE( alternatives.empty() );
             const item_comp &component = alternatives.front();
             for( int i = 0; i < component.count; ++i ) {
-                components.add_item( item( component.type ), false, false );
+                components.add_item_copy( item( component.type ) );
             }
         }
-        components.add_item( item( itype_id( "knife_combat" ) ), false, false );
+        components.add_item_copy( item( itype_id( "knife_combat" ) ) );
 
         // Exercise the same available recipe and nested recipe sources used by the crafting menu.
         crafter.set_skill_level( skill_id( "fabrication" ), entry.difficulty - 1 );
@@ -439,10 +440,9 @@ TEST_CASE( "cph_selected_spear_crafting_requirements", "[spear][crafting]" )
             for( const bool proper_drill : {
                      false, true
                  } ) {
-                inventory tools = components;
-                tools.add_item( item( itype_id( proper_hammer ? "hammer" : "rock" ) ), false, false );
-                tools.add_item( item( itype_id( proper_drill ? "hand_drill" : "makeshift_hand_drill" ) ),
-                                false, false );
+                temp_crafting_inventory tools = components;
+                tools.add_item_copy( item( itype_id( proper_hammer ? "hammer" : "rock" ) ) );
+                tools.add_item_copy( item( itype_id( proper_drill ? "hand_drill" : "makeshift_hand_drill" ) ) );
                 const bool expected = proper_drill && ( proper_hammer || entry.hammer == 1 );
                 CAPTURE( proper_hammer, proper_drill );
                 CHECK( rec.deduped_requirements().can_make_with_inventory( &crafter, tools,
