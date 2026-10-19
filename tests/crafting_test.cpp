@@ -1910,115 +1910,115 @@ TEST_CASE( "crafting_skill_gain", "[skill] [crafting] [slow]" )
     }
     SECTION( "lvl 1 -> 2" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 2140, 0, true );
+            test_skill_progression( recipe_2byarm_guard, 2195, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 1843, 50, true );
+            test_skill_progression( recipe_2byarm_guard, 1878, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 1737, 100, true );
+            test_skill_progression( recipe_2byarm_guard, 1767, 100, true );
         }
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 6299, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 6545, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 5237, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 5338, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 4841, 100, true );
+            test_skill_progression( recipe_vambrace_larmor, 4965, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12627, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 10176, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9437, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_metal, 19638, 0, true );
+            test_skill_progression( recipe_armguard_metal, 20505, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 16126, 50, true );
+            test_skill_progression( recipe_armguard_metal, 16442, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 14805, 100, true );
+            test_skill_progression( recipe_armguard_metal, 15226, 100, true );
         }
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28794, 0, true );
+            test_skill_progression( recipe_armguard_chitin, 30109, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 23606, 50, true );
+            test_skill_progression( recipe_armguard_chitin, 24071, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 21650, 100, true );
+            test_skill_progression( recipe_armguard_chitin, 22268, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 39651, 0, true );
+            test_skill_progression( recipe_armguard_acidchitin, 41472, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 32471, 50, true );
+            test_skill_progression( recipe_armguard_acidchitin, 33107, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 29755, 100, true );
+            test_skill_progression( recipe_armguard_acidchitin, 30619, 100, true );
         }
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 52138, 0, true );
+            test_skill_progression( recipe_armor_hc_armguard, 54516, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 42657, 50, true );
+            test_skill_progression( recipe_armor_hc_armguard, 43494, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 39079, 100, true );
+            test_skill_progression( recipe_armor_hc_armguard, 40226, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 66244, 0, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 69276, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 54171, 50, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 55233, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 49610, 100, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 51073, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 82490, 0, true );
+            test_skill_progression( recipe_helmet_kabuto, 86117, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 67365, 50, true );
+            test_skill_progression( recipe_helmet_kabuto, 68679, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 61584, 100, true );
+            test_skill_progression( recipe_helmet_kabuto, 63398, 100, true );
         }
     }
     SECTION( "long craft with proficiency delays" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_longbow, 71192, 0, false );
-            test_skill_progression( recipe_longbow, 28805, 0, true );
+            test_skill_progression( recipe_longbow, 71921, 0, false );
+            test_skill_progression( recipe_longbow, 30109, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_longbow, 56945, 50, false );
-            test_skill_progression( recipe_longbow, 23609, 50, true );
+            test_skill_progression( recipe_longbow, 57146, 50, false );
+            test_skill_progression( recipe_longbow, 24072, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_longbow, 52211, 100, false );
-            test_skill_progression( recipe_longbow, 21651, 100, true );
+            test_skill_progression( recipe_longbow, 52598, 100, false );
+            test_skill_progression( recipe_longbow, 22278, 100, true );
         }
     }
     SECTION( "extremely short craft" ) {
