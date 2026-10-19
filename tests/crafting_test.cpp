@@ -3041,7 +3041,7 @@ TEST_CASE( "craft_rot_inherit_modes", "[crafting][rot]" )
     GIVEN( "fresh mode with a rotten component" ) {
         item comp_a( itype_test_rot_a, calendar::turn, 1 );
         item comp_b( itype_test_rot_b, calendar::turn, 1 );
-        comp_a.set_rot( comp_a.get_shelf_life() - 72_minutes );
+        comp_a.set_relative_rot( 1.5 );
         item_components comps;
         comps.add( comp_a );
         comps.add( comp_b );
@@ -3142,7 +3142,7 @@ TEST_CASE( "craft_rot_inherit_modes", "[crafting][rot]" )
 
         THEN( "the floor stays below the weighted blend once the batch is mostly rotten" ) {
             const double expected = ( 10 * 0.91 * mg_per_b + 10 * 2.0 * mg_per_a ) /
-                                    ( seed_mult * ( 10 * mg_per_b + 10 * mg_per_a ) );
+                                    ( 10 * mg_per_b + 10 * mg_per_a );
             CHECK( craft.get_relative_rot() == approx_rot( expected ) );
         }
     }
@@ -3236,10 +3236,10 @@ TEST_CASE( "craft_rot_inherit_end_to_end", "[crafting][rot]" )
         }
     }
 
-    GIVEN( "a fresh mode recipe with a rotten component" ) {
+    GIVEN( "a fresh mode recipe with a going-bad component" ) {
         item comp_a( itype_test_rot_a, calendar::turn, 1 );
         item comp_b( itype_test_rot_b, calendar::turn, 1 );
-        comp_a.set_relative_rot( 1.5 );
+        comp_a.set_relative_rot( 0.95 );
         tools.insert( tools.end(), 1, comp_a );
         tools.insert( tools.end(), 1, comp_b );
 
@@ -3253,6 +3253,19 @@ TEST_CASE( "craft_rot_inherit_end_to_end", "[crafting][rot]" )
                 CHECK( result->get_rot() == 0_turns );
             }
         }
+    }
+
+    GIVEN( "rotten ingredients without confirmation" ) {
+        item comp_a( itype_test_rot_a, calendar::turn, 1 );
+        comp_a.set_relative_rot( 1.5 );
+        tools.push_back( comp_a );
+        tools.emplace_back( itype_test_rot_b, calendar::turn, 1 );
+        prep_craft( recipe_test_rot_result_rot_fresh, tools, true );
+        const int before = player_character.amount_of( itype_test_rot_a );
+        REQUIRE( before > 0 );
+        player_character.make_craft( recipe_test_rot_result_rot_fresh, 1 );
+        CHECK_FALSE( player_character.activity );
+        CHECK( player_character.amount_of( itype_test_rot_a ) == before );
     }
 }
 

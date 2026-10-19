@@ -1501,9 +1501,13 @@ TEST_CASE( "npc_find_nearby_water_sources", "[npc][needs]" )
         CHECK( sources[0].dist <= sources[1].dist );
     }
 
-    SECTION( "ignores finite water sources" ) {
+    SECTION( "finds a stocked finite water source" ) {
         here.ter_set( adj, ter_t_water_dispenser );
-        CHECK( guy.find_nearby_water_sources().empty() );
+        REQUIRE( here.liquid_from( adj ).is_null() );
+        REQUIRE_FALSE( here.i_at( adj ).empty() );
+        const std::vector<npc::scored_water_source> sources = guy.find_nearby_water_sources();
+        REQUIRE( sources.size() == 1 );
+        CHECK( sources.front().pos == adj );
     }
 
     SECTION( "ignores water behind walls (no LOS)" ) {
@@ -1555,6 +1559,30 @@ TEST_CASE( "npc_drink_from_water_source", "[npc][needs]" )
     SECTION( "zero thirst returns false" ) {
         guy.set_thirst( 0 );
         CHECK_FALSE( guy.drink_from_water_source( water_pos ) );
+    }
+
+    SECTION( "finite water is consumed and cannot be drawn after depletion" ) {
+        here.ter_set( adj, ter_t_water_dispenser );
+        const auto stock = [&]() {
+            int charges = 0;
+            for( const item &water : here.i_at( adj ) ) {
+                if( water.typeId() == itype_id( "water_clean" ) ) {
+                    charges += water.charges;
+                }
+            }
+            return charges;
+        };
+        const int before = stock();
+        REQUIRE( before > 0 );
+        guy.set_thirst( 200 );
+        REQUIRE( guy.drink_from_water_source( adj ) );
+        CHECK( stock() < before );
+        CHECK( guy.stomach.get_water() > 0_ml );
+        here.i_clear( adj );
+        guy.stomach.empty();
+        guy.set_thirst( 200 );
+        CHECK_FALSE( guy.drink_from_water_source( adj ) );
+        CHECK( guy.stomach.get_water() == 0_ml );
     }
 }
 

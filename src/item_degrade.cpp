@@ -243,7 +243,8 @@ void item::inherit_rot_from_components( item &it )
         mode = it.craft_data_->making->get_rot_inherit();
         if( mode == rot_inherit_mode::DEFAULT && !it.craft_data_->disassembly ) {
             const recipe &making = *it.craft_data_->making;
-            if( making.hot_result() || making.removes_raw() ) {
+            if( ( making.hot_result() || making.removes_raw() ) &&
+                !shelf_life_less_than_each_component( it ) ) {
                 mode = rot_inherit_mode::PRESERVE_BLEND;
             }
         }

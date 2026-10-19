@@ -2244,7 +2244,9 @@ TEST_CASE( "lua_platform_spawn_upgrade_option_preserves_default_and_explicit_dis
             coords::origin::abs, coords::scale::map_square,
             get_map().get_abs( tripoint_bub_ms( 61, 60, 0 ) ).raw() );
     sol::protected_function spawn = fixture.services["spawns"]["monster"];
-    const cata::lua_platform::script_game_id type( "monster", "mon_test_zombie" );
+    // Age growth guarantees scheduling without platform-specific random draws.
+    const mtype_id growing_type( "mon_chicken_chick" );
+    const cata::lua_platform::script_game_id type( "monster", growing_type.str() );
     rng_set_engine_seed( 58163 );
     sol::protected_function_result call = mode == 0 ? spawn( type, position, 0 ) :
                                           spawn( type, position, 0, mode == 1 );
@@ -2262,7 +2264,7 @@ TEST_CASE( "lua_platform_spawn_upgrade_option_preserves_default_and_explicit_dis
     REQUIRE( actual != nullptr );
     if( mode == 2 ) {
         REQUIRE( actual->can_upgrade() );
-        CHECK( actual->type->id == mon_test_zombie );
+        CHECK( actual->type->id == growing_type );
         CHECK( actual->get_upgrade_time() == -1 );
     } else {
         CHECK( actual->get_upgrade_time() >= 0 );
