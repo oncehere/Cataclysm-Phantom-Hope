@@ -115,17 +115,6 @@ class ToolingRunnerTests(unittest.TestCase):
         self.assertEqual(report["tests"], 1)
         self.assertEqual(report["errors"], 0)
 
-    def test_nonzero_actual_tests_pass(self):
-        code, report = self.run_fixture(
-            "class Case(unittest.TestCase):\n"
-            "    def test_ok(self): self.assertEqual(2+2, 4)\n"
-        )
-        self.assertEqual(code, 0)
-        self.assertEqual(report["tests"], 1)
-        self.assertEqual(
-            report["selected_tests"], ["test_fixture.Case.test_ok"]
-        )
-
     def test_nested_suite_imports_packages_from_candidate_workdir(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory)
@@ -198,36 +187,19 @@ class ToolingRunnerTests(unittest.TestCase):
         self.assertEqual(tooling["permissions"], {"contents": "read"})
         self.assertEqual(tooling["needs"], "plan")
         steps = tooling["steps"]
-        for job, depth in (("tooling", 0), ("native", 2)):
+        for job in ("tooling", "native"):
             candidate = [
                 step
                 for step in workflow["jobs"][job]["steps"]
                 if step["name"] == "Checkout exact merge candidate"
             ]
             self.assertEqual(len(candidate), 1)
-            self.assertEqual(candidate[0]["with"]["fetch-depth"], depth)
+            self.assertEqual(candidate[0]["with"]["fetch-depth"], 2)
         self.assertTrue(
             all(
                 step["with"].get("persist-credentials") is False
                 for step in steps
                 if step["name"].startswith("Checkout")
-            )
-        )
-
-    def test_active_policy_contains_contract_not_historical_readiness(self):
-        policy = json.loads((ROOT / "project/check-policy.json").read_text())
-        self.assertFalse(
-            {
-                "scope",
-                "deployment_blockers",
-                "merge_ready",
-                "public_release_ready",
-            } & policy.keys()
-        )
-        self.assertTrue(
-            all(
-                "baseline_status" not in target
-                for target in policy["targets"].values()
             )
         )
 

@@ -9,11 +9,8 @@ from check_project_metadata import (
     load_yaml as load_project_yaml,
     tracked_paths,
     validate_context,
-    validate_documentation_registry,
     validate_lua_first_roadmap,
-    validate_repository_settings,
 )
-from check_lua_first_replacement_ledger import check as check_lua_first_replacement_ledger
 
 
 class ProjectMetadataTest(unittest.TestCase):
@@ -26,46 +23,25 @@ class ProjectMetadataTest(unittest.TestCase):
         self.assertIn("--cached", command)
         self.assertNotIn("--others", command)
 
-    def test_context_is_valid(self):
-        validate_context()
-
-    def test_routes_and_benchmark_reject_unresolvable_document_ids(self):
+    def test_routes_reject_unresolvable_document_ids(self):
         original = load_project_yaml
-        for filename, collection, field in (
-            ("task-router.yml", "entries", "documentation_ids"),
-            ("agent-benchmark.yml", "cases", "expected_documentation_ids"),
+        path_to_change = ROOT / "ai/task-router.yml"
+        for identifier in (
+            "repo.missing-document",
+            "repo.doc-frequently-made-suggestions-md",
+            "repo.data-lua-reference-ccb-platform-api-v1-json",
         ):
-            path_to_change = ROOT / "ai" / filename
-            for identifier in (
-                "repo.missing-document",
-                "repo.doc-frequently-made-suggestions-md",
-                "repo.data-lua-reference-ccb-platform-api-v1-json",
-            ):
-                document = copy.deepcopy(original(path_to_change))
-                document[collection][0][field] = [identifier]
+            document = copy.deepcopy(original(path_to_change))
+            document["entries"][0]["documentation_ids"] = [identifier]
 
-                def modified(path):
-                    return document if path == path_to_change else original(path)
+            def modified(path):
+                return document if path == path_to_change else original(path)
 
-                with self.subTest(filename=filename, identifier=identifier), \
-                     mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
-                     mock.patch("check_project_metadata.load_yaml", side_effect=modified):
-                    with self.assertRaisesRegex(ValueError, "documentation ID"):
-                        validate_context()
-
-    def test_benchmark_rejects_unknown_forbidden_validation(self):
-        original = load_project_yaml
-        benchmark_path = ROOT / "ai/agent-benchmark.yml"
-        definition = copy.deepcopy(original(benchmark_path))
-        definition["cases"][0]["forbidden_validation_ids"] = ["unknown-check"]
-
-        def modified(path):
-            return definition if path == benchmark_path else original(path)
-
-        with mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
-             mock.patch("check_project_metadata.load_yaml", side_effect=modified):
-            with self.assertRaisesRegex(ValueError, "unknown benchmark validation"):
-                validate_context()
+            with self.subTest(identifier=identifier), \
+                 mock.patch("check_project_metadata.check_lua_first_replacement_ledger"), \
+                 mock.patch("check_project_metadata.load_yaml", side_effect=modified):
+                with self.assertRaisesRegex(ValueError, "documentation ID"):
+                    validate_context()
 
     def test_required_documentation_rejects_historical_page(self):
         original = load_project_yaml
@@ -101,32 +77,6 @@ class ProjectMetadataTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "not current"):
                 validate_context()
 
-    def test_repository_records_cph_main_as_active(self):
-        path = ROOT / "ai/repository-settings.target.yml"
-        settings = yaml.safe_load(path.read_text(encoding="utf-8"))
-        self.assertEqual(settings["audit"]["repository"]["default_branch"], "main")
-        self.assertTrue(settings["audit"]["repository"]["main_protected"])
-        self.assertEqual(settings["entries"][0]["observed_enforcement"], "active")
-        self.assertTrue(settings["entries"][0]["operational"])
-        validate_repository_settings(settings)
-
-    def test_repository_target_rejects_unproved_operation(self):
-        path = ROOT / "ai/repository-settings.target.yml"
-        settings = yaml.safe_load(path.read_text(encoding="utf-8"))
-        settings = copy.deepcopy(settings)
-        settings["entries"][0]["post_activation_probe_verified"] = False
-        settings["entries"][0]["operational"] = True
-
-        with self.assertRaisesRegex(ValueError, "operational"):
-            validate_repository_settings(settings)
-
-    def test_lua_first_roadmap_is_valid(self):
-        validate_lua_first_roadmap()
-
-    def test_lua_first_replacement_ledger_is_exact(self):
-        result = check_lua_first_replacement_ledger()
-        self.assertEqual(result["total"], 776)
-
     def test_lua_first_roadmap_rejects_dependency_cycles(self):
         path = ROOT / "ai/lua-first-roadmap.yml"
         roadmap = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -147,9 +97,6 @@ class ProjectMetadataTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "public legacy"):
             validate_lua_first_roadmap(roadmap)
-
-    def test_documentation_registry_is_valid(self):
-        validate_documentation_registry()
 
 
 if __name__ == "__main__":

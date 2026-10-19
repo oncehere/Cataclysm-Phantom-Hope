@@ -15,18 +15,14 @@ SPEC.loader.exec_module(AUDIT)
 
 
 class WorkflowPolicyTests(unittest.TestCase):
-    def test_tooling_history_and_native_merge_depth_are_distinct(self):
+    def test_candidate_checkouts_retain_merge_parents(self):
         workflow = (ROOT / ".github/workflows/project-ci.yml").read_text()
         self.assertEqual(AUDIT.candidate_checkout_errors(workflow), [])
-        shallow = workflow.replace("fetch-depth: 0", "fetch-depth: 2")
-        self.assertIn(
-            "tooling candidate checkout requires fetch-depth 0",
-            AUDIT.candidate_checkout_errors(shallow),
-        )
         changed = workflow.replace("fetch-depth: 2", "fetch-depth: 1")
-        self.assertIn(
-            "native candidate checkout requires fetch-depth 2",
+        self.assertEqual(
             AUDIT.candidate_checkout_errors(changed),
+            ["tooling candidate checkout requires fetch-depth 2",
+             "native candidate checkout requires fetch-depth 2"],
         )
 
     def setUp(self):

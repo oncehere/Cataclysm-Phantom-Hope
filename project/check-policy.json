@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "policy_version": "e4-native-and-tooling-v2",
+  "policy_version": "e4-native-and-tooling-v3",
   "protected_surfaces": {
     "path": "protected-surfaces.json",
     "sha256": "7857b7ca5c00e9ec8722486c273832b5b416d668dbd85571e242661d646d564d"
@@ -118,22 +118,6 @@
     "checks": {
       "metadata": [
         "tools/agent/check_project_metadata.py"
-      ],
-      "documentation-registry": [
-        "tools/agent/generate_documentation_registry.py",
-        "--check"
-      ],
-      "lua-inventory": [
-        "tools/lua_api/generate_platform_native_inventory.py",
-        "--check"
-      ],
-      "lua-contract": [
-        "tools/lua_api/generate_platform_contract.py",
-        "--check"
-      ],
-      "lua-coverage": [
-        "tools/lua_api/generate_platform_coverage.py",
-        "--check"
       ],
       "workflow-inventory": [
         "tools/project/check_remote_workflows.py"

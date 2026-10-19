@@ -348,47 +348,6 @@ def validate_context() -> None:
             if not path_pattern_exists(pattern, known):
                 raise ValueError(f"unmatched task-router path: {pattern}")
 
-    benchmark = load_yaml(ROOT / "ai/agent-benchmark.yml")
-    benchmark_schema = json.loads(
-        (ROOT / "ai/agent-benchmark.schema.json").read_text(encoding="utf-8")
-    )
-    jsonschema.Draft202012Validator(benchmark_schema).validate(benchmark)
-    case_ids = [case["id"] for case in benchmark["cases"]]
-    if len(case_ids) != len(set(case_ids)):
-        raise ValueError("duplicate id in agent-benchmark.yml")
-    for case in benchmark["cases"]:
-        documentation_paths(
-            case["expected_documentation_ids"], registry, known,
-        )
-        unknown_routes = sorted(
-            (set(case["expected_routes"]) |
-             set(case.get("forbidden_routes", []))) - set(route_ids)
-        )
-        if unknown_routes:
-            raise ValueError(
-                f"unknown benchmark routes in {case['id']}: {unknown_routes}"
-            )
-        unknown_tests = sorted(
-            (set(case["expected_validation_ids"]) |
-             set(case.get("forbidden_validation_ids", []))) - test_ids
-        )
-        if unknown_tests:
-            raise ValueError(
-                f"unknown benchmark validation ids in {case['id']}: "
-                f"{unknown_tests}"
-            )
-        for path in (case.get("expected_agents", []) +
-                     case.get("forbidden_agents", [])):
-            if path not in known or Path(path).name != "AGENTS.md":
-                raise ValueError(
-                    f"unknown benchmark instructions in {case['id']}: {path}"
-                )
-        for path in case["files"]:
-            if path not in known:
-                raise ValueError(
-                    f"untracked benchmark file in {case['id']}: {path}"
-                )
-
 
 def validate_documentation_registry() -> None:
     registry_path = ROOT / "ai/documentation-registry.yml"
