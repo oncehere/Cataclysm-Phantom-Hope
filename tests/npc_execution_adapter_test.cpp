@@ -237,7 +237,8 @@ TEST_CASE( "npc_actor_gather_preserves_reserved_providers_and_live_crafts",
     SECTION( "a live craft without bindings must not be copied" ) {
         const recipe_id recipe( "cudgel_test_unattended_simple" );
         REQUIRE( recipe.is_valid() );
-        stock = item( &recipe.obj(), 1, item( itype_id( "2x4" ), calendar::turn ) );
+        item ingredient( itype_id( "2x4" ), calendar::turn );
+        stock = item( &recipe.obj(), 1, ingredient );
         stock.set_passive_started_at( calendar::turn );
         stock.set_ready_at( calendar::turn + 10_minutes );
         REQUIRE_FALSE( craft_reservation::contains_reserved( stock ) );
@@ -249,7 +250,7 @@ TEST_CASE( "npc_actor_gather_preserves_reserved_providers_and_live_crafts",
     if( reserved_provider ) {
         craft_reservation_index::record claim;
         claim.craft_uid = 991019;
-        claim.provider_item_uids = { here.i_at( pos ).begin()->get_uid() };
+        claim.provider_item_uids = { here.i_at( pos ).begin()->uid().get_value() };
         claim.expires_at = calendar::turn + 10_minutes;
         get_craft_reservations().set( claim );
     }
@@ -279,7 +280,7 @@ TEST_CASE( "native_item_transfer_preserves_reserved_stock",
     const item_location stock = f.actor->i_add( std::move( rock ) );
     craft_reservation_index::record claim;
     claim.craft_uid = 991020;
-    claim.provider_item_uids = { stock->get_uid() };
+    claim.provider_item_uids = { stock->uid().get_value() };
     claim.expires_at = calendar::turn + 10_minutes;
     get_craft_reservations().set( claim );
     std::vector<cata::native_item_transfer::selection> selected;

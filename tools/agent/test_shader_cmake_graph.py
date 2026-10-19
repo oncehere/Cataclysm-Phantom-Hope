@@ -104,9 +104,12 @@ class NativeScopeCMakeTest(unittest.TestCase):
             shutil.copyfile(ROOT / "tests/CMakeLists.txt",
                             tests / "CMakeLists.txt")
             names = set(support.read_text().splitlines())
-            names.update(("lua_platform_scope_test.cpp", "other_test.cpp"))
+            names.update(("lua_platform_scope_test.cpp", "other_test.cpp",
+                          "mp_messages_test.cpp", "mp_session_test.cpp"))
             for name in names:
                 (tests / name).touch()
+            (root / "src").mkdir()
+            (root / "src/messages.cpp").touch()
             (root / "CMakeLists.txt").write_text('''
 cmake_minimum_required(VERSION 3.20)
 project(NativeScope LANGUAGES CXX)
