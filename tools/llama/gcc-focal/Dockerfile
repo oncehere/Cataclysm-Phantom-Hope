@@ -1,3 +1,4 @@
+# Legacy terminal-only compiler image; see ../README.md for tiles builds.
 FROM ghcr.io/nelhage/llama as llama
 FROM ubuntu:focal
 RUN apt-get update && \

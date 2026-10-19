@@ -63,6 +63,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather_type.h"
@@ -195,8 +196,8 @@ static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_ligh
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_rot_result_rot_auto_blend( "test_rot_result_rot_auto_blend" );
-static const recipe_id recipe_test_rot_result_rot_auto_gate( "test_rot_result_rot_auto_gate" );
-static const recipe_id recipe_test_rot_result_rot_auto_raw( "test_rot_result_rot_auto_raw" );
+static const recipe_id recipe_test_rot_result_rot_auto_gate( "test_rot_result_short_rot_auto_gate" );
+static const recipe_id recipe_test_rot_result_rot_auto_raw( "test_rot_result_raw_rot_auto_raw" );
 static const recipe_id recipe_test_rot_result_rot_fresh( "test_rot_result_rot_fresh" );
 static const recipe_id recipe_test_rot_result_rot_max( "test_rot_result_rot_max" );
 static const recipe_id
@@ -555,7 +556,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
                                        .can_make_with_inventory( &player_character, crafting_inv, r.get_component_filter() );
@@ -567,7 +568,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
     bool can_craft_with_temp_inv = r.deduped_requirements()
                                    .can_make_with_inventory( &player_character, temp_crafting_inventory( crafting_inv ),
-                                           r.get_component_filter() );
+                                       r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
@@ -1327,14 +1328,14 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
     u.set_skill_level( skill_fabrication, 10 );
     const recipe &r = recipe_cudgel_test_steps_charged.obj();
     REQUIRE( r.steps().size() == 3 );
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     bool cancelled = false;
 
     SECTION( "a full build selects the charged step's tool" ) {
         u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
         u.invalidate_crafting_inventory();
         const std::vector<std::vector<step_tool_alloc>> allocs =
-                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, -1 );
+            select_step_tool_allocs( u, r, 1, map_inv, cancelled, -1 );
         CHECK_FALSE( cancelled );
         REQUIRE( allocs.size() == 3 );
         CHECK_FALSE( allocs[1].empty() );
@@ -1344,7 +1345,7 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
         u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
         u.invalidate_crafting_inventory();
         const std::vector<std::vector<step_tool_alloc>> allocs =
-                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
+            select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
         CHECK_FALSE( cancelled );
         REQUIRE( allocs.size() == 3 );
         CHECK( allocs[1].empty() );
@@ -1355,7 +1356,7 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
         // missing tool.
         u.invalidate_crafting_inventory();
         const std::vector<std::vector<step_tool_alloc>> allocs =
-                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
+            select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
         CHECK_FALSE( cancelled );
         REQUIRE( allocs.size() == 3 );
         CHECK( allocs[1].empty() );
@@ -1706,7 +1707,7 @@ static int resume_craft()
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
     REQUIRE( player_character.crafting_speed_multiplier( *craft,
-             std::optional<tripoint_bub_ms>( std::nullopt ) ) == 1.0 );
+            std::optional<tripoint_bub_ms>( std::nullopt ) ) == 1.0 );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );
@@ -1909,115 +1910,115 @@ TEST_CASE( "crafting_skill_gain", "[skill] [crafting] [slow]" )
     }
     SECTION( "lvl 1 -> 2" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 2140, 0, true );
+            test_skill_progression( recipe_2byarm_guard, 2195, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 1843, 50, true );
+            test_skill_progression( recipe_2byarm_guard, 1878, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 1737, 100, true );
+            test_skill_progression( recipe_2byarm_guard, 1767, 100, true );
         }
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 6299, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 6545, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 5237, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 5338, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 4841, 100, true );
+            test_skill_progression( recipe_vambrace_larmor, 4965, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12627, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 10176, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9437, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_metal, 19638, 0, true );
+            test_skill_progression( recipe_armguard_metal, 20505, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 16126, 50, true );
+            test_skill_progression( recipe_armguard_metal, 16442, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 14805, 100, true );
+            test_skill_progression( recipe_armguard_metal, 15226, 100, true );
         }
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28794, 0, true );
+            test_skill_progression( recipe_armguard_chitin, 30109, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 23606, 50, true );
+            test_skill_progression( recipe_armguard_chitin, 24071, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 21650, 100, true );
+            test_skill_progression( recipe_armguard_chitin, 22268, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 39651, 0, true );
+            test_skill_progression( recipe_armguard_acidchitin, 41472, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 32471, 50, true );
+            test_skill_progression( recipe_armguard_acidchitin, 33107, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 29755, 100, true );
+            test_skill_progression( recipe_armguard_acidchitin, 30619, 100, true );
         }
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 52138, 0, true );
+            test_skill_progression( recipe_armor_hc_armguard, 54516, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 42657, 50, true );
+            test_skill_progression( recipe_armor_hc_armguard, 43494, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armor_hc_armguard, 39079, 100, true );
+            test_skill_progression( recipe_armor_hc_armguard, 40226, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 66244, 0, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 69276, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 54171, 50, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 55233, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger_debug, 49610, 100, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 51073, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 82490, 0, true );
+            test_skill_progression( recipe_helmet_kabuto, 86117, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 67365, 50, true );
+            test_skill_progression( recipe_helmet_kabuto, 68679, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 61584, 100, true );
+            test_skill_progression( recipe_helmet_kabuto, 63398, 100, true );
         }
     }
     SECTION( "long craft with proficiency delays" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_longbow, 71192, 0, false );
-            test_skill_progression( recipe_longbow, 28805, 0, true );
+            test_skill_progression( recipe_longbow, 71921, 0, false );
+            test_skill_progression( recipe_longbow, 30109, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_longbow, 56945, 50, false );
-            test_skill_progression( recipe_longbow, 23609, 50, true );
+            test_skill_progression( recipe_longbow, 57146, 50, false );
+            test_skill_progression( recipe_longbow, 24072, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_longbow, 52211, 100, false );
-            test_skill_progression( recipe_longbow, 21651, 100, true );
+            test_skill_progression( recipe_longbow, 52598, 100, false );
+            test_skill_progression( recipe_longbow, 22278, 100, true );
         }
     }
     SECTION( "extremely short craft" ) {
@@ -3040,7 +3041,7 @@ TEST_CASE( "craft_rot_inherit_modes", "[crafting][rot]" )
     GIVEN( "fresh mode with a rotten component" ) {
         item comp_a( itype_test_rot_a, calendar::turn, 1 );
         item comp_b( itype_test_rot_b, calendar::turn, 1 );
-        comp_a.set_rot( comp_a.get_shelf_life() - 72_minutes );
+        comp_a.set_relative_rot( 1.5 );
         item_components comps;
         comps.add( comp_a );
         comps.add( comp_b );
@@ -3141,7 +3142,7 @@ TEST_CASE( "craft_rot_inherit_modes", "[crafting][rot]" )
 
         THEN( "the floor stays below the weighted blend once the batch is mostly rotten" ) {
             const double expected = ( 10 * 0.91 * mg_per_b + 10 * 2.0 * mg_per_a ) /
-                                    ( seed_mult * ( 10 * mg_per_b + 10 * mg_per_a ) );
+                                    ( 10 * mg_per_b + 10 * mg_per_a );
             CHECK( craft.get_relative_rot() == approx_rot( expected ) );
         }
     }
@@ -3235,10 +3236,10 @@ TEST_CASE( "craft_rot_inherit_end_to_end", "[crafting][rot]" )
         }
     }
 
-    GIVEN( "a fresh mode recipe with a rotten component" ) {
+    GIVEN( "a fresh mode recipe with a going-bad component" ) {
         item comp_a( itype_test_rot_a, calendar::turn, 1 );
         item comp_b( itype_test_rot_b, calendar::turn, 1 );
-        comp_a.set_relative_rot( 1.5 );
+        comp_a.set_relative_rot( 0.95 );
         tools.insert( tools.end(), 1, comp_a );
         tools.insert( tools.end(), 1, comp_b );
 
@@ -3252,6 +3253,19 @@ TEST_CASE( "craft_rot_inherit_end_to_end", "[crafting][rot]" )
                 CHECK( result->get_rot() == 0_turns );
             }
         }
+    }
+
+    GIVEN( "rotten ingredients without confirmation" ) {
+        item comp_a( itype_test_rot_a, calendar::turn, 1 );
+        comp_a.set_relative_rot( 1.5 );
+        tools.push_back( comp_a );
+        tools.emplace_back( itype_test_rot_b, calendar::turn, 1 );
+        prep_craft( recipe_test_rot_result_rot_fresh, tools, true );
+        const int before = player_character.amount_of( itype_test_rot_a );
+        REQUIRE( before > 0 );
+        player_character.make_craft( recipe_test_rot_result_rot_fresh, 1 );
+        CHECK_FALSE( player_character.activity );
+        CHECK( player_character.amount_of( itype_test_rot_a ) == before );
     }
 }
 
@@ -3316,9 +3330,25 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
         CHECK( basic_recipe.obj().result_name() == "long waist apron" );
         const recipe_id variant_recipe = recipe_test_waist_apron_long_pink_apron_cotton;
         CHECK( variant_recipe.obj().result_name() == "pink long waist apron" );
-        const recipe_id variant_prefix_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
-        CHECK( variant_prefix_recipe.obj().result_name() == "XL pink long waist apron" );
+        const recipe_id variant_size_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
+        CHECK( variant_size_recipe.obj().result_name() == "pink long waist apron XL" );
     }
+}
+
+static item *get_pseudo_item_by_type( const temp_crafting_inventory &crafting_inv,
+                                      const itype_id &id )
+{
+    item *ret = nullptr;
+    crafting_inv.visit_items(
+    [&id, &ret]( item * node, item * ) {
+        if( node->typeId() == id ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
 }
 
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
@@ -3384,10 +3414,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 0 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining( ) == 0 );
             }
         }
         WHEN( "the smoking rack contains charcoal" ) {
@@ -3395,10 +3424,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 200 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining() == 200 );
             }
             GIVEN( "an additional smoking rack" ) {
                 REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
@@ -3407,10 +3435,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 200 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 200 );
                     }
                 }
                 WHEN( "the second smoking rack also contains charcoal" ) {
@@ -3418,10 +3445,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 300 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 300 );
                     }
                 }
             }

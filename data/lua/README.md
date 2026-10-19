@@ -114,6 +114,13 @@ task-owned build/output directory, then run the relevant Catch2 filter with
 the Lua contract/tool suite or the separate `cata_test-mp` target. See
 [the test routes](../../ai/test-matrix.yml) for isolated command examples.
 
+## Native map queries
+
+`services.environment.set_trap_area` follows the native map iterator: negative
+radii visit no squares in either circle or square mode. Its declarations and
+generated contract describe this boundary; callers should use a nonnegative
+radius when they intend to place traps.
+
 ## Actor control
 
 `require("ccb").services.actor_control` provides the bounded `enable`, `bind`,

@@ -25,6 +25,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "test_data.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 
 static const itype_id itype_test_balanced_sword( "test_balanced_sword" );
@@ -53,19 +54,34 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
 
     clear_character( attacker );
     REQUIRE( attacker.can_wield( weapon ).success() );
+    attacker.wield( weapon );
+    REQUIRE( !!attacker.used_weapon() );
+    REQUIRE( attacker.used_weapon()->type == weapon.type );
 
+    const int healthy_kcal = attacker.get_healthy_kcal();
     melee::clear_stats();
     melee_statistic_data melee_stats = melee::get_stats();
-    // rerun the trials in groups of 1000 until 100 crits occur
     for( int i = 0; i < 10 && melee_stats.actual_crit_count < 100;
          i++, melee_stats = melee::get_stats() ) {
         for( int j = 0; j < trials; j++ ) {
-            // Reset and re-wield weapon before each attack to prevent skill-up during trials
-            clear_character( attacker );
+            attacker.empty_skills();
+            attacker.set_stamina( attacker.get_stamina_max() );
+            attacker.set_stored_kcal( healthy_kcal );
+            attacker.set_thirst( 0 );
+            attacker.set_hunger( 0 );
+            attacker.set_pain( 0 );
+            attacker.set_str_bonus( 0 );
+            attacker.set_dex_bonus( 0 );
+            attacker.set_int_bonus( 0 );
+            attacker.set_per_bonus( 0 );
+            attacker.reset_bonuses();
+            attacker.clear_effects();
+            attacker.clear_miss_reasons();
+            attacker.set_moves( 0 );
+            // CCB melee wear can add faults independently of ordinary damage.
+            // Restore the original weapon, not just its damage indicator.
+            attacker.remove_weapon();
             attacker.wield( weapon );
-            // Verify that wielding worked (and not e.g. using martial arts instead)
-            REQUIRE( !!attacker.used_weapon() );
-            REQUIRE( attacker.used_weapon()->type == weapon.type );
 
             int before_moves = attacker.get_moves();
 
@@ -394,15 +410,15 @@ TEST_CASE( "cph_selected_spear_crafting_requirements", "[spear][crafting]" )
         crafter.add_proficiency( proficiency_id( "prof_carving" ), true );
         CHECK( rec.batch_time( crafter, 1, 1.0, 0, {} ) == entry.minutes * 60 * 100 );
 
-        inventory components;
+        temp_crafting_inventory components;
         for( const std::vector<item_comp> &alternatives : rec.simple_requirements().get_components() ) {
             REQUIRE_FALSE( alternatives.empty() );
             const item_comp &component = alternatives.front();
             for( int i = 0; i < component.count; ++i ) {
-                components.add_item( item( component.type ), false, false );
+                components.add_item_copy( item( component.type ) );
             }
         }
-        components.add_item( item( itype_id( "knife_combat" ) ), false, false );
+        components.add_item_copy( item( itype_id( "knife_combat" ) ) );
 
         // Exercise the same available recipe and nested recipe sources used by the crafting menu.
         crafter.set_skill_level( skill_id( "fabrication" ), entry.difficulty - 1 );
@@ -424,10 +440,9 @@ TEST_CASE( "cph_selected_spear_crafting_requirements", "[spear][crafting]" )
             for( const bool proper_drill : {
                      false, true
                  } ) {
-                inventory tools = components;
-                tools.add_item( item( itype_id( proper_hammer ? "hammer" : "rock" ) ), false, false );
-                tools.add_item( item( itype_id( proper_drill ? "hand_drill" : "makeshift_hand_drill" ) ),
-                                false, false );
+                temp_crafting_inventory tools = components;
+                tools.add_item_copy( item( itype_id( proper_hammer ? "hammer" : "rock" ) ) );
+                tools.add_item_copy( item( itype_id( proper_drill ? "hand_drill" : "makeshift_hand_drill" ) ) );
                 const bool expected = proper_drill && ( proper_hammer || entry.hammer == 1 );
                 CAPTURE( proper_hammer, proper_drill );
                 CHECK( rec.deduped_requirements().can_make_with_inventory( &crafter, tools,

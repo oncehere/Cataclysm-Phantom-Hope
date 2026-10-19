@@ -19,6 +19,7 @@
 #include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "creature_tracker.h"
 #include "dialogue.h"
 #include "flexbuffer_json.h"
@@ -354,6 +355,7 @@ execution_result gather( npc &actor, const action_step &step, const JsonObject &
             break;
         }
         if( candidate.typeId() != id || ( !theft && !candidate.is_owned_by( actor, true ) ) ||
+            ( !theft && craft_reservation::contains_reserved_or_live_craft( candidate ) ) ||
             ( !step.source_operation.empty() &&
               candidate.get_var( "cph_ai_produced_step", "" ) != step.source_operation ) ) {
             continue;
@@ -542,6 +544,8 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
             if( action != "sabotage" && here.sees_some_items( pos, actor ) ) {
                 for( const item &candidate : here.i_at( pos ) ) {
                     if( ( action == "misappropriate_items" || candidate.is_owned_by( actor, true ) ) &&
+                        ( action == "misappropriate_items" ||
+                          !craft_reservation::contains_reserved_or_live_craft( candidate ) ) &&
                         actor.can_pickWeight( candidate ) && actor.can_pickVolume( candidate ) ) {
                         return true;
                     }

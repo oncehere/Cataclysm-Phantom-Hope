@@ -1,4 +1,6 @@
 #if defined(TILES)
+#include "sdl_wrappers.h"
+
 #include "cata_catch.h"
 #include "cata_shader.h"
 #include "cata_tiles.h"

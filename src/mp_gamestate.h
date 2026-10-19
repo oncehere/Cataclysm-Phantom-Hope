@@ -120,11 +120,6 @@ void mp_prune_dead_item_ui_refs();
 // delivered; at worst by one turn later (~120ms) than before.
 std::string serialize_remote_player_state( bool skip_tile_scan = false );
 
-// Heartbeat-measured network RTT for the co-op panel (io thread → game thread).
-// Client side measures it directly; host side reads the value the client mirrors.
-int mp_client_measured_rtt_ms();
-int mp_host_partner_rtt_ms();
-
 // Returns true if the given character_id belongs to a remote player NPC.
 // Used by monmove() to skip AI processing for human-controlled NPCs.
 bool is_remote_player( character_id id );
@@ -307,12 +302,6 @@ void client_resolve_pending_ui();
 // before the first do_turn(), so the player never sees their scenario start tile.
 // Times out after ~5 seconds if no position arrives.
 void client_wait_for_initial_position();
-
-// Cached at main() startup from the binary's on-disk mtime, e.g.
-// "May 25 19:26:00". Used to keep the build identifier in the window
-// title across mp_update_window_title() calls (mode changes) without
-// re-stat'ing argv[0] every time.
-extern std::string g_mp_build_stamp;
 
 // Host-only: tick any player_activity the proxy NPC holds (e.g. a
 // move_items_activity_actor assigned by the post-step hauling hook).
@@ -671,11 +660,6 @@ bool mp_menu_join_session();
 // Main-menu integration: disarm a previously armed (but not-yet-started)
 // host session.  No-op if host mode isn't armed.
 void mp_menu_cancel_host();
-
-// Refresh the SDL window title to reflect the current MP role (SP/HOST/CLIENT).
-// main.cpp sets it once at startup from CLI flags; menu-armed mode changes
-// need to call this so the title updates after Host/Join is picked from the UI.
-void mp_update_window_title();
 
 // Co-op block appended to the debug "Generate game report" output (debug.cpp).
 std::string mp_game_report_section();

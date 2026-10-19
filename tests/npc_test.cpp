@@ -860,7 +860,7 @@ TEST_CASE( "npc_needs_bt_diagnostic_during_move", "[npc][behavior]" )
     // RAII: save and restore debug globals so later tests are unaffected
     restore_on_out_of_scope<bool> restore_debug( debug_mode );
     restore_on_out_of_scope<std::unordered_set<debugmode::debug_filter>>
-            restore_filters( debugmode::enabled_filters );
+    restore_filters( debugmode::enabled_filters );
 
     clear_map_without_vision();
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
@@ -949,13 +949,13 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     }
 
     SECTION( "refuses marloss berry" ) {
-        // MARLOSS iuse + MYCUS_OK flag -- fungal transformation
+        // MARLOSS and MYCUS_OK flags -- fungal transformation
         guy.i_add( item( itype_marloss_berry ) );
         CHECK_FALSE( guy.consume_food() );
     }
 
     SECTION( "refuses marloss gel" ) {
-        // MARLOSS_GEL iuse -- fungal transformation, no MYCUS_OK flag
+        // MARLOSS flag -- fungal transformation, no MYCUS_OK flag
         guy.i_add( item( itype_marloss_gel ) );
         CHECK_FALSE( guy.consume_food() );
     }
@@ -1501,9 +1501,13 @@ TEST_CASE( "npc_find_nearby_water_sources", "[npc][needs]" )
         CHECK( sources[0].dist <= sources[1].dist );
     }
 
-    SECTION( "ignores finite water sources" ) {
+    SECTION( "finds a stocked finite water source" ) {
         here.ter_set( adj, ter_t_water_dispenser );
-        CHECK( guy.find_nearby_water_sources().empty() );
+        REQUIRE( here.liquid_from( adj ).is_null() );
+        REQUIRE_FALSE( here.i_at( adj ).empty() );
+        const std::vector<npc::scored_water_source> sources = guy.find_nearby_water_sources();
+        REQUIRE( sources.size() == 1 );
+        CHECK( sources.front().pos == adj );
     }
 
     SECTION( "ignores water behind walls (no LOS)" ) {
@@ -1555,6 +1559,30 @@ TEST_CASE( "npc_drink_from_water_source", "[npc][needs]" )
     SECTION( "zero thirst returns false" ) {
         guy.set_thirst( 0 );
         CHECK_FALSE( guy.drink_from_water_source( water_pos ) );
+    }
+
+    SECTION( "finite water is consumed and cannot be drawn after depletion" ) {
+        here.ter_set( adj, ter_t_water_dispenser );
+        const auto stock = [&]() {
+            int charges = 0;
+            for( const item &water : here.i_at( adj ) ) {
+                if( water.typeId() == itype_id( "water_clean" ) ) {
+                    charges += water.charges;
+                }
+            }
+            return charges;
+        };
+        const int before = stock();
+        REQUIRE( before > 0 );
+        guy.set_thirst( 200 );
+        REQUIRE( guy.drink_from_water_source( adj ) );
+        CHECK( stock() < before );
+        CHECK( guy.stomach.get_water() > 0_ml );
+        here.i_clear( adj );
+        guy.stomach.empty();
+        guy.set_thirst( 200 );
+        CHECK_FALSE( guy.drink_from_water_source( adj ) );
+        CHECK( guy.stomach.get_water() == 0_ml );
     }
 }
 
@@ -3972,7 +4000,7 @@ TEST_CASE( "recruited_follower_with_guard_pos_follows_player", "[npc][behavior]"
     SECTION( "live turns: NPC closes distance to player, not post" ) {
         const int initial_dist_post = rl_dist( guy.pos_abs(), post );
         const int initial_dist_player = rl_dist( guy.pos_abs(),
-                                        get_player_character().pos_abs() );
+            get_player_character().pos_abs() );
         for( int i = 0; i < 3; ++i ) {
             guy.set_moves( 100 );
             guy.move();
@@ -6119,14 +6147,14 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         // Inventory water (in bottle) so has_water returns true and
         // BT selects drink_water.
         const item_group::ItemList water_items = item_group::items_from(
-                    Item_spawn_data_test_bottle_water );
+                Item_spawn_data_test_bottle_water );
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
         // Pre-commit seek_warmth in holding state.
         guy.set_committed_goal( "seek_warmth" );
         guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
-            npc::need_result::holding;
+               npc::need_result::holding;
 
         guy.set_moves( 100 );
         guy.move();
@@ -6171,7 +6199,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         const tripoint_bub_ms clothing = guy.pos_bub() + tripoint( 5, 0, 0 );
         here.add_item_or_charges( clothing, item( itype_sweater ) );
         const item_group::ItemList water_items = item_group::items_from(
-                    Item_spawn_data_test_bottle_water );
+                Item_spawn_data_test_bottle_water );
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
@@ -6194,13 +6222,13 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 1050 );
         const item_group::ItemList water_items = item_group::items_from(
-                    Item_spawn_data_test_bottle_water );
+                Item_spawn_data_test_bottle_water );
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
         guy.set_committed_goal( "seek_warmth" );
         guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
-            npc::need_result::deferred;
+               npc::need_result::deferred;
 
         guy.set_moves( 100 );
         guy.move();
@@ -6442,7 +6470,7 @@ TEST_CASE( "start_fire_does_not_block_needs_forever", "[npc][needs]" )
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
     // Give water so the BT can select drink_water.
     const item_group::ItemList water_items = item_group::items_from(
-                Item_spawn_data_test_bottle_water );
+            Item_spawn_data_test_bottle_water );
     guy.i_add( water_items.front() );
 
     map &here = get_map();
@@ -6476,7 +6504,7 @@ TEST_CASE( "clear_committed_goal_clears_executor_state", "[npc][needs]" )
     fp.last_result = npc::need_result::progressed;
     fp.no_progress_turns = 3;
     guy.failed_targets_for( npc::need_goal_id::eat_food ).insert(
-        tripoint_abs_ms{ 60, 50, 0 } );
+           tripoint_abs_ms{ 60, 50, 0 } );
 
     // clear_committed_goal must reset everything.
     guy.clear_committed_goal();
@@ -6596,7 +6624,7 @@ TEST_CASE( "need_goal_id_plan_accessors", "[npc][needs]" )
     fp.goal = "eat_food";
     fp.no_progress_turns = 3;
     guy.failed_targets_for( npc::need_goal_id::eat_food ).insert(
-        tripoint_abs_ms{ 1, 2, 0 } );
+           tripoint_abs_ms{ 1, 2, 0 } );
     guy.clear_need_state( npc::need_goal_id::eat_food );
     CHECK_FALSE( fp.active() );
     CHECK( fp.no_progress_turns == 0 );
@@ -6888,7 +6916,7 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     // Extreme thirst so drink urgency is very high.
     guy.set_thirst( 1100 );
     const item_group::ItemList water_items = item_group::items_from(
-                Item_spawn_data_test_bottle_water );
+            Item_spawn_data_test_bottle_water );
     guy.i_add( water_items.front() );
 
     map &here = get_map();

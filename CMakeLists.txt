@@ -1,4 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
+option(TILES "Build graphical tileset version." "OFF")
+# SDL2 support was removed; SDL3 is the only tiles backend. The option is kept
+# so an old -DUSE_SDL3=OFF command line fails loudly instead of silently
+# building something else.
+option(USE_SDL3 "Removed; SDL3 is the only tiles backend." "ON")
+if (TILES AND NOT USE_SDL3)
+    message(FATAL_ERROR
+            "USE_SDL3=OFF is no longer supported: SDL2 support was removed and \
+             SDL3 is the only tiles backend. Drop the option, or build without \
+             -DTILES=ON for a text-only compilation.")
+endif()
+if (TILES)
+    list(APPEND VCPKG_MANIFEST_FEATURES sdl3)
+endif()
 
 project(CataclysmDDA)
 

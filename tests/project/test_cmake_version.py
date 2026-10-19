@@ -100,6 +100,18 @@ class CMakeVersionTests(unittest.TestCase):
                 else:
                     self.assertIn('#define VERSION "NULL"', header.read_text())
 
+    def test_unchanged_version_preserves_generated_header_timestamp(self):
+        result = self.version(self.repo)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        header = self.repo / "src/version.h"
+        contents = header.read_text()
+        old_time = 946684800000000000
+        os.utime(header, ns=(old_time, old_time))
+        result = self.version(self.repo)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(header.read_text(), contents)
+        self.assertEqual(header.stat().st_mtime_ns, old_time)
+
     def test_source_archive_does_not_use_enclosing_repository(self):
         archive = self.repo / "archive"
         (archive / "src").mkdir(parents=True)
