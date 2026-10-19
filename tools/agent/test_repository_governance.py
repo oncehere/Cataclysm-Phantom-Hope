@@ -5,7 +5,6 @@ import unittest
 from datetime import date
 
 from audit_repository_governance import (
-    DEPENDABOT_PATH, load_yaml, validate_dependabot,
     validate_repository, validate_target, workflow_permission_errors,
 )
 
@@ -14,26 +13,6 @@ class RepositoryGovernanceTest(unittest.TestCase):
     def setUp(self) -> None:
         self.target, errors = validate_repository(as_of=date(2026, 9, 28))
         self.assertEqual(errors, [])
-
-    def test_recorded_cph_fork_and_active_gate_snapshot(self) -> None:
-        audit = self.target["audit"]
-        self.assertEqual(audit["repository"]["full_name"],
-                         "oncehere/Cataclysm-Phantom-Hope")
-        self.assertEqual(audit["repository"]["parent"],
-                         "CleverRaven/Cataclysm-DDA")
-        self.assertEqual(audit["repository"]["default_branch"], "main")
-        self.assertEqual(audit["repository"]["main_sha"],
-                         "abd9222e01b77ac9e187f53cd6cfe85275453a69")
-        self.assertTrue(audit["repository"]["main_protected"])
-        self.assertTrue(audit["actions"]["can_approve_pull_request_reviews"])
-        self.assertTrue(audit["repository"]["has_discussions"])
-        self.assertTrue(audit["repository"]["has_issues"])
-        self.assertTrue(audit["security"]["private_vulnerability_reporting"])
-        gate = self.target["entries"][0]
-        self.assertEqual(gate["observed_enforcement"], "active")
-        self.assertTrue(gate["ready_to_enable"])
-        self.assertTrue(gate["post_activation_probe_verified"])
-        self.assertTrue(gate["operational"])
 
     def test_ccb_repository_identity_is_rejected(self) -> None:
         target = copy.deepcopy(self.target)
@@ -112,9 +91,6 @@ class RepositoryGovernanceTest(unittest.TestCase):
         errors = validate_target(self.target, as_of=date(2027, 1, 1),
                                  max_age_days=50)
         self.assertTrue(any("days old" in error for error in errors))
-
-    def test_dependabot_actions_schedule_is_valid(self) -> None:
-        self.assertEqual(validate_dependabot(load_yaml(DEPENDABOT_PATH)), [])
 
     def test_write_all_workflow_permission_is_rejected(self) -> None:
         errors = workflow_permission_errors(

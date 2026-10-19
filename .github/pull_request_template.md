@@ -1,107 +1,50 @@
-<!-- 使用说明：在下面每个「#### 标题」下填写与你的 PR 相关的信息。
-请保留这些标题。像这样的注释可以安全删除。
-
-如果你是在 GitHub 网页界面发起这个 PR，可以用「preview（预览）」按钮查看 PR 对他人显示的样子。
-
-PR 提交准则：
-- 让你的改动只聚焦于一个具体的问题或变更，外加为实现它所必需的最小相关改动。
-- 一个经验法则：大多数 PR 的改动应少于 500 行。
-- 你可以另开 PR 来拆分一次较大的预期改动；如果不确定怎么拆，尽管问。我们很乐意与你协作，并建议合并你 PR 的最佳方式。
--->
-
 #### Summary
-<!-- #### 概述 -->
+
 分类 "简要描述"
 
-<!-- 这一节应当只有一行，请编辑上面那一行。
-1. 把「分类」替换为下列具体分类之一：Features、Content、Interface、Mods、Balance、Bugfixes、Performance、Infrastructure、Build、I18N。
-2. 把引号内的文字替换为对你改动的简要描述。
-如果你不希望生成更新日志条目，把整行替换为单独一个词「None」（不带引号）。
-示例：
-1. None
-2. Bugfixes "修复长矛无法锁定不同楼层敌人的问题"
-3. Interface "在制作界面显示制作失败几率"
-分类含义详见本仓库 doc/CHANGELOG_GUIDELINES.md。
-是否进入 CPH 更新日志以实际维护流程为准；不要链接 CCB 的 changelog 当作 CPH 输出。 -->
+<!-- 一行更新日志摘要，或填写 None。分类：Features、Content、Interface、Mods、
+Balance、Bugfixes、Performance、Infrastructure、Build、I18N。见 doc/CHANGELOG_GUIDELINES.md。 -->
 
 #### Responsible human
-<!-- #### 责任人 -->
 
 @username
 
-<!-- 每个 PR 必须指定一名真实的人类责任人。AI 工具或模型无需披露，但责任人
-必须理解修改、审查最终 diff、确认测试与许可证/外部来源，并回答审阅问题。 -->
-
-#### Purpose of change
-<!-- #### 变更目的 -->
-
-<!-- 用几句话描述你做这次改动的原因。
-如果 CPH Issues 已启用，且与本仓库某个 issue 相关，可以用「#」加编号关联，例如 #1234。
-
-【重要】当你的 PR 能完全解决某个 issue 时，必须使用 [GitHub 的英文关闭关键字](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue)
-才能在 PR 合并后自动关闭该 issue，例如：Fixes #1234。
-只能用以下英文关键词（后面紧跟「#编号」）：
-  close / closes / closed
-  fix / fixes / fixed
-  resolve / resolves / resolved
-注意：中文「修复 #1234」不会触发自动关闭，GitHub 只识别上述英文关键词。
-
-如果没有相关 issue，请在这里说明你要解决的问题、特性或其他关注点。如果这是一个 bug 修复，请附上复现原始 bug 的步骤，以便你的修复可以被验证。 -->
-
+<!-- 真实责任人须审查最终差异，理解兼容性影响，确认测试、许可证和来源，并回答审阅问题。 -->
 
 #### Describe the solution
-<!-- #### 解决方案描述 -->
 
-<!-- 这个特性是如何工作的，或者这个 bug 是怎么被修复的？方案越易于理解，就越快能被合并。 -->
-
-#### Describe alternatives you've considered
-<!-- #### 你考虑过的替代方案 -->
-
-<!-- 说明你为解决同一问题考虑过的其他方案、不同思路或可能性。 -->
+<!-- 说明问题、解决方式和行为变化；相关 issue 可用 Fixes #1234 关联。 -->
 
 #### Testing
-<!-- #### 测试 -->
 
-<!-- 描述实际验证步骤、回归及测试建议；按 ai/test-matrix.yml 和执行规格选择适用检查。 -->
-<!-- 写明验收方式：用户明确授权的个人维护 / 无人值守同步与自动合入。
-个人维护按 docs/project/execution-spec.md 第6.1节选择本机检查，不强制等待 Actions。
-记录授权来源、base/head/tree、工作目录、实际命令、退出码、平台与日志；复用证据时
-保留原测试 SHA，并说明哪些源码/测试/依赖输入未变。Linux 通过不代表 Windows 通过。
-明确 Windows 及其他未验证范围；Windows 专属代码或打包安排对应 Windows 验证。
-此字段是审阅记录，不能自行豁免 GitHub 规则，也不能生成远端绿色状态。 -->
+<!-- 按 ai/test-matrix.yml 和执行规格 §6.1 选择必要检查，说明验收方式及未验证范围。
+可引用统一结果索引，记录授权来源、base/head/tree、命令/目录、退出码、平台/工具版本和日志。
+复用证据须保留原测试 SHA 并核对相关输入未变；本地通过不代表远端或其他平台通过。
+用户授权的个人维护无需等待无关 Actions；此说明不能豁免 GitHub 规则或生成远端状态。 -->
 
 #### Documentation impact
-<!-- None，或说明需要新增、更新、迁移、归档或标记 stale 的本仓库文档。
-实际执行级别以 ai/docs-impact.yml 为准。required 映射不能填写 None/N/A/TBD。 -->
 
 None
+
+<!-- 说明需要更新的本仓库文档；按 ai/docs-impact.yml，required 映射不能填 None/N/A/TBD。 -->
 
 #### Repository documentation impact
-<!-- None，或填写本仓库现行文档路径及对应改动；required 映射必须列出
-与下方稳定 ID 对应、可在本仓库追踪的文档路径，如 doc/JSON/JSON_INFO.md。
-本字段不要求外部 CCB-Docs PR。 -->
 
 None
+
+<!-- required 映射列出对应现行文档路径，如 doc/JSON/JSON_INFO.md；不要求外部 CCB-Docs PR。 -->
 
 #### Affected documentation IDs
-<!-- None，或填写 ai/documentation-registry.yml 中稳定的文档 ID，多个 ID 用逗号分隔。
-required 映射至少填写一个 ai/docs-impact.yml 列出的对应 ID。 -->
 
 None
+
+<!-- 填 ai/documentation-registry.yml 的稳定 ID；required 映射至少包含一个对应 ID。 -->
 
 #### Generated reference impact
-<!-- None，或说明 Schema、LuaLS、注册信息或生成清单是否需要刷新。 -->
 
 None
 
-#### Additional context
-<!-- #### 补充说明 -->
+<!-- 说明 Schema、LuaLS、注册信息或生成清单是否需要刷新。 -->
 
-<!-- 在此添加关于这个特性或 bug 修复的其他背景信息（例如原型图、概念验证或截图）。 -->
-
-
-<!-- CPH 继承原作 Creative Commons Attribution ShareAlike 3.0 许可及适用的
-第三方许可/署名要求。通过提交贡献，你同意所修改组件的适用许可条款；
-companion/ 独立子项目按其 Apache-2.0 LICENSE 与 NOTICE。
-提交前请核对来源权利并保留原作者记录。详见 CONTRIBUTING.md。
-详见 https://creativecommons.org/licenses/by-sa/3.0/ 。 -->
+<!-- 贡献遵守所修改组件的许可并保留原作者记录，见 CONTRIBUTING.md。
+CPH 继承 CC BY-SA 3.0 及适用的第三方许可；companion/ 按 Apache-2.0 LICENSE 与 NOTICE。 -->

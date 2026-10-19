@@ -18,7 +18,7 @@ USES = re.compile(r"^\s*(?:-\s*)?uses:\s*(\S+)", re.MULTILINE)
 
 
 def candidate_checkout_errors(contents):
-    """Tooling needs frozen migration history; native needs two merge parents."""
+    """Both candidate checkouts need the exact merge and its two parents."""
     import yaml
 
     try:
@@ -27,7 +27,7 @@ def candidate_checkout_errors(contents):
         raise ValueError("invalid project CI YAML") from error
     jobs = document.get("jobs", {}) if isinstance(document, dict) else {}
     errors = []
-    for name, depth in (("tooling", 0), ("native", 2)):
+    for name in ("tooling", "native"):
         job = jobs.get(name, {})
         steps = job.get("steps", []) if isinstance(job, dict) else []
         candidates = [
@@ -42,9 +42,9 @@ def candidate_checkout_errors(contents):
             )
             continue
         value = candidates[0].get("with", {}).get("fetch-depth")
-        if type(value) is not int or value != depth:
+        if type(value) is not int or value != 2:
             errors.append(
-                f"{name} candidate checkout requires fetch-depth {depth}"
+                f"{name} candidate checkout requires fetch-depth 2"
             )
     return errors
 

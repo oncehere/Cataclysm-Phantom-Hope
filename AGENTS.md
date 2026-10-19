@@ -17,7 +17,7 @@ Before implementation, read [docs/project/execution-spec.md](docs/project/execut
 ## Work and review
 
 - Use `rg` and narrow reads to find declarations, callers, registrations, tests, and applicable instructions. Keep each change coherent and avoid unrelated formatting churn.
-- Select focused checks from `ai/test-matrix.yml`. Report exact command, exit code, tested commit/platform, and skipped checks. A successful local tool test is not game, CI, platform, or deployment acceptance.
+- Select checks for the changed behaviour from `ai/test-matrix.yml`; its entries are routing examples, not a required checklist for every edit. Keep one result record with commands, exit codes, source revision/platform and untested scope. Acceptance and reuse follow section 6.1 below.
 - Follow [execution-spec section 6.1](docs/project/execution-spec.md#61-合入) for personal-maintenance acceptance and evidence reuse. Unattended sync/automatic merge retains remote Windows/Linux gates; release requirements remain unchanged. Explain and obtain confirmation before changing GitHub protection settings; never fabricate trusted status.
 - At task completion, clean up this task's temporary content that does not need long-term retention under [任务收尾与清理](docs/project/workspace-layout.md#任务收尾与清理).
 - Every PR names a real **Responsible human** who understands the final diff, owns test claims, verifies licenses/provenance, and answers review. AI tool disclosure is optional.

@@ -21,7 +21,7 @@ matching an explicit `--file`. An explicit `--task-id` selects the task route bu
 does not suppress checks for supplied files. Without files, route and subsystem
 checks remain available. Commands are recommendations; this tool does not run them.
 
-`documentation_ids` in task routes, context packs and benchmark expectations are
+`documentation_ids` in task routes and context packs are
 the unique `id` fields in `ai/documentation-registry.yml`. Their current paths
 appear in `source_paths`; unknown, historical and non-indexed targets fail.
 PR `Affected documentation IDs` continues to use the separate stable IDs declared
@@ -43,25 +43,21 @@ installation's data. A syntax result does not prove game data loading.
 
 ```sh
 python3 tools/agent/check_project_metadata.py
-python3 tools/agent/generate_documentation_registry.py --check
-python3 tools/agent/benchmark_context_pack.py --check
-python3 tools/agent/generate_lua_first_replacement_ledger.py --check
 python3 -m unittest discover -s tools/agent -p 'test_*.py'
 ```
+
+The metadata command validates routing, current documentation registry contents,
+the Lua roadmap and replacement ledger, and repository policy. The unit suite
+checks tool behaviour and routing directly. Run only the affected tests while
+editing a tool; use the metadata command once for the final repository state.
 
 The documentation registry remains tracked. Regenerate it with
 `python3 tools/agent/generate_documentation_registry.py` after changing its inputs;
 review the resulting diff. Discovery uses tracked Git paths, so stage intended
 new or removed document paths before regenerating. Do not edit its YAML by hand.
 
-The benchmark report and expanded Lua replacement ledger are on-demand outputs.
-For either script, no arguments prints the complete JSON/YAML to stdout, `--check`
-validates current inputs in memory without requiring an export, `--output
-/absolute/path/report` exports a file, and `--check --output /absolute/path/report`
-also rejects a missing or stale export without rewriting it. Benchmark summaries
-go to stderr, keeping stdout parseable. Reports are not automatically versioned.
-
-Benchmark exit codes are 0 for passing cases, 1 for failed cases or a missing/stale
-requested export, and 2 for invalid input or an I/O error. The benchmark measures
-deterministic routing, document resolution and command selection; it does not prove
-AI answer quality, execution of the listed tests, game behaviour or deployed CI.
+The expanded Lua replacement ledger is an on-demand output. Running
+`python3 tools/agent/generate_lua_first_replacement_ledger.py` prints YAML to stdout;
+`--output /absolute/path/report` exports a file. Its `--check` validates current
+inputs in memory, or rejects a missing or stale file when `--output` is also given,
+without rewriting the file. Reports are not automatically versioned.
