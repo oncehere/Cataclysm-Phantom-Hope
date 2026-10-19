@@ -21,6 +21,14 @@ generated from the current source and data tree with
 `python3 tools/json_api/generate_contracts.py`. A content or documentation
 change can refresh fingerprints and source locations without changing the
 available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
+
+The inherited compatibility path also registers `map_is_passable` and paired
+`u_`/`npc_` forms of `add_addiction`, `lose_addiction`, `add_memorial`,
+`fall_asleep`, `fill_stomach`, `heal_all`, `hurt_all`, `marlossify` and `vomit`.
+Their accepted shapes and handler locations are listed in the generated
+inventories; handler-specific fields remain defined by `src/condition.cpp`
+and `src/npctalk.cpp`. These JSON spellings are not new Lua entry points;
+new Lua behavior continues to use the existing domain services.
 A trap avoidance change updates the fingerprint but requires native trap validation. Comment-mask reuse in the extractor preserves handler text, source locations and preprocessor context without changing condition or effect contracts.
 
 The multiplayer content update refreshes these inventory fingerprints while
