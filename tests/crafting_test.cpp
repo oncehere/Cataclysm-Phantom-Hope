@@ -196,8 +196,8 @@ static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_ligh
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_rot_result_rot_auto_blend( "test_rot_result_rot_auto_blend" );
-static const recipe_id recipe_test_rot_result_rot_auto_gate( "test_rot_result_rot_auto_gate" );
-static const recipe_id recipe_test_rot_result_rot_auto_raw( "test_rot_result_rot_auto_raw" );
+static const recipe_id recipe_test_rot_result_rot_auto_gate( "test_rot_result_short_rot_auto_gate" );
+static const recipe_id recipe_test_rot_result_rot_auto_raw( "test_rot_result_raw_rot_auto_raw" );
 static const recipe_id recipe_test_rot_result_rot_fresh( "test_rot_result_rot_fresh" );
 static const recipe_id recipe_test_rot_result_rot_max( "test_rot_result_rot_max" );
 static const recipe_id
