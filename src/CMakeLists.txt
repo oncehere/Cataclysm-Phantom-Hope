@@ -145,6 +145,8 @@ add_custom_target(
         BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}/version.h
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         VERBATIM)
+set_property(SOURCE version.cpp APPEND PROPERTY OBJECT_DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/version.h")
 
 # Build tiles version if requested
 if (TILES)
