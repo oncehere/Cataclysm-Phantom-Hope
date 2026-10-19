@@ -9205,7 +9205,6 @@ bool mp_menu_start_host_session()
     g_host_thread_actually_started = false;
     mp_log( "[cdda-mp] MENU: host armed on port " + std::to_string( mp_host_port() ) +
             " (thread deferred to do_turn)" );
-    mp_update_window_title();
     return true;
 }
 

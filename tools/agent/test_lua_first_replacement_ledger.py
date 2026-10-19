@@ -184,7 +184,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
         generated = build_ledger()
         validator = Draft202012Validator(schema)
 
-        self.assertEqual(list(checker.iter_errors(generated)), [])
+        self.assertEqual(list(validator.iter_errors(generated)), [])
 
         for category in TODO_CLASSIFICATIONS:
             duplicate = copy.deepcopy(generated)
@@ -198,7 +198,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
             )
             classifications[duplicate_index]["id"] = category
             self.assertTrue(
-                list(checker.iter_errors(duplicate)),
+                list(validator.iter_errors(duplicate)),
                 category,
             )
 
@@ -216,7 +216,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
             )
             entry["platform_core_input"] = expected
             self.assertTrue(
-                list(checker.iter_errors(mismatch)),
+                list(validator.iter_errors(mismatch)),
                 category,
             )
 
@@ -438,7 +438,8 @@ class OnDemandReplacementLedgerTest(unittest.TestCase):
                 entry["evidence"] = [path for path in entry["evidence"]
                                      if not path.startswith(prefix)]
                 with self.assertRaisesRegex(
-                    RuntimeError, "lacks Platform source"
+                    RuntimeError, "lacks migration evidence" if
+                    prefix == "tools/migrate_lua_first.py" else "lacks Platform source"
                 ):
                     checker.validate_ledger(ledger)
 

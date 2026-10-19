@@ -331,7 +331,10 @@ class RepositoryParityTest(unittest.TestCase):
         ) as mask:
             registrations = parse_json_registrations(source)
         mask.assert_called_once_with(source)
-        self.assertEqual(len(registrations), 191)
+        self.assertEqual(
+            len(registrations),
+            self.payloads["json_object_types"]["summary"]["registration_calls"],
+        )
 
     def test_eoc_parser_parity(self) -> None:
         conditions = self.payloads["eoc_conditions"]
