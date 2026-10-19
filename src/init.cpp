@@ -692,6 +692,7 @@ void DynamicDataLoader::unload_data()
     climbing_aid::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
+    attack_vector::reset();
     character_modifier::reset();
     clothing_mods::reset();
     construction_categories::reset();
