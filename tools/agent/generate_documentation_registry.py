@@ -32,8 +32,6 @@ ROOT_GOVERNANCE = {
     "SYNC_EXCLUDED_PRS.md",
 }
 AGENT_METADATA = {
-    "ai/agent-benchmark.schema.json",
-    "ai/agent-benchmark.yml",
     "ai/context.schema.json",
     "ai/context-pack.schema.json",
     "ai/documentation-registry.schema.json",

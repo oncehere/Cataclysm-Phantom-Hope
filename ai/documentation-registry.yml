@@ -1,10 +1,21 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: e2d4168c99a7dd080d53f625d849d53d6f67f433
+source_commit: cd63dcaea7b1e4bcaddfb6e42134c0579c239449
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
-entry_count: 272
+entry_count: 269
 entries:
+- id: repo.deepcode-plans-sim-render-decoupling-plan-md
+  path: .deepcode/plans/sim-render-decoupling-plan.md
+  category: historical_document
+  status: historical
+  authority: historical
+  source_of_truth: false
+  stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: false
 - id: repo.github-agents-md
   path: .github/AGENTS.md
   category: agent_instruction
@@ -170,28 +181,6 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: false
-- id: repo.ai-agent-benchmark-schema-json
-  path: ai/agent-benchmark.schema.json
-  category: authoritative_document
-  status: active
-  authority: governance_contract
-  source_of_truth: true
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: true
-- id: repo.ai-agent-benchmark-yml
-  path: ai/agent-benchmark.yml
-  category: authoritative_document
-  status: active
-  authority: governance_contract
-  source_of_truth: true
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: true
 - id: repo.ai-context-pack-schema-json
   path: ai/context-pack.schema.json
   category: authoritative_document
@@ -921,17 +910,6 @@ entries:
   authority: third_party
   source_of_truth: false
   stable_document_id: mods.mind-over-matter.no-knacks
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
-- id: repo.data-mods-monkey-king-readme-md
-  path: data/mods/Monkey_King/README.md
-  category: third_party_document
-  status: third_party
-  authority: third_party
-  source_of_truth: false
-  stable_document_id: null
   ccb_docs_ids: []
   generated: false
   generated_by: null
@@ -3017,17 +2995,6 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: true
-- id: repo.tests-standalone-readme-md
-  path: tests/standalone/README.md
-  category: historical_document
-  status: historical
-  authority: historical
-  source_of_truth: false
-  stable_document_id: null
-  ccb_docs_ids: []
-  generated: false
-  generated_by: null
-  include_in_ai_index: false
 - id: repo.tools-agents-md
   path: tools/AGENTS.md
   category: agent_instruction

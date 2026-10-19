@@ -12,7 +12,6 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools" / "agent"))
 
-from benchmark_context_pack import benchmark  # noqa: E402
 from build_context_pack import (  # noqa: E402
     build_pack, documentation_paths, load_yaml, matches, tracked_paths,
 )
@@ -301,27 +300,6 @@ class ContextPackTests(unittest.TestCase):
             "tests/project/test_remote_workflows.py",
         ], 8000)
         self.assertNotIn("upstream-port", pack["selected_routes"])
-
-    def test_benchmark_rejects_unrelated_route(self) -> None:
-        def misroute(*args: object) -> dict:
-            pack = build_pack(*args)
-            pack["selected_routes"].append("cpp-bug")
-            return pack
-
-        with patch("benchmark_context_pack.build_pack", side_effect=misroute):
-            report = benchmark()
-        self.assertLess(report["metrics"]["first_pass_validation"], 1.0)
-        self.assertGreater(report["metrics"]["unrelated_changes"], 0)
-
-    def test_benchmark_has_no_hallucinated_paths_or_commands(self) -> None:
-        report = benchmark()
-        metrics = report["metrics"]
-        self.assertEqual(metrics["hallucinated_paths"], 0)
-        self.assertEqual(metrics["hallucinated_commands"], 0)
-        self.assertEqual(metrics["upstream_divergence_regressions"], 0)
-        self.assertEqual(metrics["unrelated_changes"], 0)
-        self.assertEqual(metrics["correct_path_hit_rate"], 1.0)
-        self.assertEqual(metrics["first_pass_validation"], 1.0)
 
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ uv build --python .venv/bin/python --no-build-isolation --out-dir dist
 uv run --locked python tools/build_release.py --dist dist --candidate-only
 ```
 
-The root `.github/workflows/project-companion.yml` runs this package route and tests the installed wheel outside the source checkout. It uploads candidate wheel, sdist, Mod and accompanying materials, and does not publish a Release. The former nested workflow is removed because GitHub only executes root workflows. Native CI also checks protocol generation; its Linux native selection includes ordinary ActorControl cases. These declarations require an actual workflow run before they count as hosted results.
+Use focused source tests while iterating locally. The root `.github/workflows/project-companion.yml` builds the package and runs the full suite once against the installed wheel outside the source checkout, followed by isolated `init` and offline `doctor` checks. It uploads candidate wheel, sdist, Mod and accompanying materials, and does not publish a Release. Native CI also checks protocol generation; its Linux native selection includes ordinary ActorControl cases. These declarations require an actual workflow run before they count as hosted results.
 
 Native joint validation is a separate test requiring a source-matching native binary and the exact installed wheel:
 
