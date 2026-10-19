@@ -116,6 +116,11 @@ the Lua contract/tool suite or the separate `cata_test-mp` target. See
 
 ## Actor control
 
+`services.environment.set_trap_area` follows the native map iterator: negative
+radii visit no squares in either circle or square mode. Its declarations and
+generated contract describe this boundary; callers should use a nonnegative
+radius when they intend to place traps.
+
 `require("ccb").services.actor_control` provides the bounded `enable`, `bind`,
 `chat`, `status`, `pause`, `cancel` and `stop` surface for the explicitly selected
 recruited companion. Binding uses a current typed NPC handle; writable operations

@@ -27,6 +27,7 @@ try:
         parse_json_registrations,
         parse_parser_vector,
         resolve_json_pointer,
+        source_fingerprint,
         validate_contracts,
         write_or_check,
     )
@@ -44,6 +45,7 @@ except ImportError:
         parse_json_registrations,
         parse_parser_vector,
         resolve_json_pointer,
+        source_fingerprint,
         validate_contracts,
         write_or_check,
     )
@@ -240,6 +242,16 @@ suffix
             with self.subTest(source=source):
                 with self.assertRaisesRegex(RuntimeError, error):
                     initializer_entries(source, "parsers =", "fixture.cpp")
+    def test_source_fingerprint_ignores_checkout_line_endings(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "sample.json"
+            source.write_bytes(b'{"id": "sample"}\n')
+            expected = source_fingerprint(root, ["sample.json"])
+            source.write_bytes(b'{"id": "sample"}\r\n')
+            self.assertEqual(
+                source_fingerprint(root, ["sample.json"]), expected
+            )
 
     def test_json_registration_preserves_variants_and_handlers(self) -> None:
         source = """
@@ -303,13 +315,13 @@ class RepositoryParityTest(unittest.TestCase):
 
     def test_runtime_registry_parity(self) -> None:
         payload = self.payloads["json_object_types"]
-        self.assertEqual(payload["summary"]["registration_calls"], 191)
-        self.assertEqual(payload["summary"]["registered_types"], 190)
-        self.assertEqual(payload["summary"]["observed_types"], 183)
+        self.assertEqual(payload["summary"]["registration_calls"], 193)
+        self.assertEqual(payload["summary"]["registered_types"], 192)
+        self.assertEqual(payload["summary"]["observed_types"], 185)
         self.assertEqual(payload["summary"]["observed_not_registered"], [])
         registrations = sum(len(entry["registrations"])
                             for entry in payload["entries"])
-        self.assertEqual(registrations, 191)
+        self.assertEqual(registrations, 193)
 
     def test_runtime_registry_masks_init_once(self) -> None:
         source = (REPOSITORY_ROOT / "src/init.cpp").read_text(encoding="utf-8")
@@ -325,15 +337,15 @@ class RepositoryParityTest(unittest.TestCase):
         conditions = self.payloads["eoc_conditions"]
         effects = self.payloads["eoc_effects"]
         self.assertEqual(
-            conditions["summary"]["complex_parser_registrations"], 89)
+            conditions["summary"]["complex_parser_registrations"], 90)
         self.assertEqual(
             conditions["summary"]["simple_parser_registrations"], 77)
         self.assertEqual(
-            effects["summary"]["object_parser_registrations"], 137)
+            effects["summary"]["object_parser_registrations"], 145)
         self.assertEqual(
-            effects["summary"]["string_parser_registrations"], 117)
-        self.assertEqual(conditions["summary"]["public_keys"], 275)
-        self.assertEqual(effects["summary"]["public_keys"], 311)
+            effects["summary"]["string_parser_registrations"], 123)
+        self.assertEqual(conditions["summary"]["public_keys"], 276)
+        self.assertEqual(effects["summary"]["public_keys"], 329)
         self.assertEqual({entry["key"] for entry in conditions["entries"]} & {
             "and", "or", "not"}, {"and", "or", "not"}, )
         self.assertEqual(
@@ -379,7 +391,7 @@ class RepositoryParityTest(unittest.TestCase):
             for entry in json_entries
             if entry["field_contract"]["status"] == "unclassified"
         ]
-        self.assertEqual(len(unclassified), 189)
+        self.assertEqual(len(unclassified), 191)
         self.assertTrue(all(entry["schema"]["status"] ==
                         "none" for entry in json_entries))
         condition = next(

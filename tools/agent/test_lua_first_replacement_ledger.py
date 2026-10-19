@@ -6,8 +6,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from pathlib import Path
 from unittest import mock
+from pathlib import Path
 
 from jsonschema import Draft202012Validator, ValidationError
 
@@ -27,6 +27,41 @@ from tools.agent.generate_lua_first_replacement_ledger import (
 
 
 class LuaFirstReplacementLedgerTest(unittest.TestCase):
+    def test_primitive_evidence_does_not_claim_a_selector_migration(self):
+        ledger = build_ledger()
+        entry = next(
+            value for value in ledger["entries"]
+            if value["inventory"] == "eoc-conditions" and
+            value["selector"] == "map_is_passable"
+        )
+        self.assertEqual(entry["status"], "primitive_available_unverified")
+        entry["evidence"] = [
+            path for path in entry["evidence"]
+            if path != "tools/migrate_lua_first.py"
+        ]
+        checker.validate_ledger(ledger)
+        # Advertising the complete selector still requires its migration.
+        entry["status"] = "implemented_unverified"
+        ledger["summary"]["primitive_available_unverified"] -= 1
+        ledger["summary"]["implemented_unverified"] += 1
+        with self.assertRaisesRegex(
+            RuntimeError, "lacks migration evidence"
+        ):
+            checker.validate_ledger(ledger)
+
+    def test_primitive_evidence_still_requires_a_native_test(self):
+        ledger = build_ledger()
+        entry = next(
+            value for value in ledger["entries"]
+            if value["inventory"] == "eoc-conditions" and
+            value["selector"] == "map_is_passable"
+        )
+        entry["evidence"] = [
+            path for path in entry["evidence"] if not path.startswith("tests/")
+        ]
+        with self.assertRaisesRegex(RuntimeError, "lacks Platform source"):
+            checker.validate_ledger(ledger)
+
     def test_coordinate_reflection_without_native_acceptance_claim(
         self,
     ):
@@ -149,7 +184,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
         generated = build_ledger()
         validator = Draft202012Validator(schema)
 
-        self.assertEqual(list(validator.iter_errors(generated)), [])
+        self.assertEqual(list(checker.iter_errors(generated)), [])
 
         for category in TODO_CLASSIFICATIONS:
             duplicate = copy.deepcopy(generated)
@@ -163,7 +198,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
             )
             classifications[duplicate_index]["id"] = category
             self.assertTrue(
-                list(validator.iter_errors(duplicate)),
+                list(checker.iter_errors(duplicate)),
                 category,
             )
 
@@ -181,7 +216,7 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
             )
             entry["platform_core_input"] = expected
             self.assertTrue(
-                list(validator.iter_errors(mismatch)),
+                list(checker.iter_errors(mismatch)),
                 category,
             )
 
@@ -251,6 +286,16 @@ class LuaFirstReplacementLedgerTest(unittest.TestCase):
         )
         self.assertTrue(
             all(source["entry_count"] > 0 for source in generated["sources"])
+        )
+        self.assertTrue(
+            all("\\" not in source["path"] for source in generated["sources"])
+        )
+        self.assertTrue(
+            all(
+                "\\" not in path
+                for entry in generated["entries"]
+                for path in entry["evidence"]
+            )
         )
 
     def test_entries_have_honest_source_only_evidence(self):

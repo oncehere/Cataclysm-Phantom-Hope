@@ -10,6 +10,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "effect.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -220,6 +221,80 @@ TEST_CASE( "npc_actor_gather_dependency_selects_only_actual_source_output",
         CHECK( amount( *f.actor, "rock" ) == 0 );
         CHECK( get_map().i_at( pos ).size() == 2 );
     }
+}
+
+TEST_CASE( "npc_actor_gather_preserves_reserved_providers_and_live_crafts",
+           "[actor_control][native][crafting][reservation]" )
+{
+    native_fixture f;
+    map &here = get_map();
+    const tripoint_bub_ms pos( 60, 61, 0 );
+    item stock( itype_id( "rock" ), calendar::turn );
+    bool reserved_provider = false;
+    SECTION( "reserved provider becomes available only after release" ) {
+        reserved_provider = true;
+    }
+    SECTION( "a live craft without bindings must not be copied" ) {
+        const recipe_id recipe( "cudgel_test_unattended_simple" );
+        REQUIRE( recipe.is_valid() );
+        stock = item( &recipe.obj(), 1, item( itype_id( "2x4" ), calendar::turn ) );
+        stock.set_passive_started_at( calendar::turn );
+        stock.set_ready_at( calendar::turn + 10_minutes );
+        REQUIRE_FALSE( craft_reservation::contains_reserved( stock ) );
+        REQUIRE( craft_reservation::contains_live_craft( stock ) );
+    }
+    stock.set_owner( *f.actor );
+    here.add_item_or_charges( pos, stock );
+    REQUIRE( here.i_at( pos ).size() == 1 );
+    if( reserved_provider ) {
+        craft_reservation_index::record claim;
+        claim.craft_uid = 991019;
+        claim.provider_item_uids = { here.i_at( pos ).begin()->get_uid() };
+        claim.expires_at = calendar::turn + 10_minutes;
+        get_craft_reservations().set( claim );
+    }
+    const std::string before_stock = ground_contents( pos );
+    const int before_moves = f.actor->get_moves();
+    const std::string args = f.position( pos, ",\"item_type\":\"" + stock.typeId().str() +
+                                         "\",\"count\":1" );
+    CHECK_FALSE( NpcExecutionAdapter::available( *f.actor, "gather" ) );
+    CHECK( f.act( "gather", args ).state == execution_state::failed );
+    CHECK( ground_contents( pos ) == before_stock );
+    CHECK( f.actor->get_moves() == before_moves );
+    if( reserved_provider ) {
+        get_craft_reservations().erase( 991019 );
+        REQUIRE( NpcExecutionAdapter::available( *f.actor, "gather" ) );
+        CHECK( f.act( "gather", args ).state == execution_state::succeeded );
+        CHECK( here.i_at( pos ).empty() );
+        CHECK( amount( *f.actor, "rock" ) == 1 );
+    }
+}
+
+TEST_CASE( "native_item_transfer_preserves_reserved_stock",
+           "[actor_control][native][inventory][trade][reservation]" )
+{
+    native_fixture f;
+    item rock( itype_id( "rock" ), calendar::turn );
+    rock.set_owner( *f.actor );
+    const item_location stock = f.actor->i_add( std::move( rock ) );
+    craft_reservation_index::record claim;
+    claim.craft_uid = 991020;
+    claim.provider_item_uids = { stock->get_uid() };
+    claim.expires_at = calendar::turn + 10_minutes;
+    get_craft_reservations().set( claim );
+    std::vector<cata::native_item_transfer::selection> selected;
+    int price = 73;
+    std::string error;
+    CHECK_FALSE( cata::native_item_transfer::select( *f.actor, *f.other,
+    { { itype_id( "rock" ), 1 } }, selected, price, error, {} ) );
+    CHECK( selected.empty() );
+    CHECK( price == 73 );
+    CHECK( amount( *f.actor, "rock" ) == 1 );
+    CHECK( amount( *f.other, "rock" ) == 0 );
+    get_craft_reservations().erase( 991020 );
+    REQUIRE( cata::native_item_transfer::select( *f.actor, *f.other,
+    { { itype_id( "rock" ), 1 } }, selected, price, error, {} ) );
+    CHECK( selected.size() == 1 );
 }
 
 TEST_CASE( "npc_actor_observation_is_limited_to_own_senses", "[actor_control][native]" )

@@ -96,6 +96,11 @@ including after player confirmation. Shared native inventory-transfer code
 handles selection and capacity for ordinary NPC missions and the adapter;
 mission reward ownership remains independent of AI control.
 
+Ordinary gathering, native inventory exchanges and mission rewards leave
+reserved crafting providers and live passive crafts in place. Planning and
+execution use the same reservation rule; releasing a claim makes its stock
+available again. Explicit misappropriation remains a separate social intent.
+
 The 15 independently configurable social intents have native gates and debug
 records. Natural speech uses explicit intention checks and bounded text
 validation; these checks cannot guarantee that arbitrary generated prose is

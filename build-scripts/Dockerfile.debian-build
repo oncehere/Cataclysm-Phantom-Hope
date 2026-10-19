@@ -67,7 +67,7 @@ COPY --chown=cdda:cdda . .
 
 # we build in build dirs rather than at the repo root
 # TODO: move build dirs to a directory ABOVE the source so we can Docker mount in the source dir for 'live' builds of code you're hacking on the host
-RUN mkdir cmake-build-debug cmake-build-debug-tiles
+RUN mkdir cmake-build-debug
 
 WORKDIR /home/cdda/cmake-build-debug
 
@@ -77,13 +77,6 @@ WORKDIR /home/cdda/cmake-build-debug
 RUN env CC=clang-6.0 CXX=clang++-6.0 cmake ..
 
 RUN echo `pwd` configured for build; to actually build, run "make -j`nproc --all`" here
-
-WORKDIR /home/cdda/cmake-build-debug-tiles
-
-RUN env CC=clang-6.0 CXX=clang++-6.0 cmake -DTILES=ON ..
-
-RUN echo `pwd` configured for build; to actually build, run "make -j`nproc --all`" here
-
 
 ## ssh server stuff (experimental and not needed except for testing ssh stuff with CDDA! you don't need ssh to get a shell inside the container!)
 ## uncomment this to get ssh

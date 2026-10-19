@@ -7,6 +7,7 @@
 
 #include "character.h"
 #include "character_attire.h"
+#include "craft_reservation.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "npc.h"
@@ -67,6 +68,7 @@ bool select( Character &source, Character &recipient, const std::vector<request>
                 break;
             }
             if( location->typeId() != requested.first || source.is_worn( *location ) ||
+                craft_reservation::contains_reserved_or_live_craft( *location ) ||
                 ( location->is_container() && !location->empty() ) ||
                 ( !constraint.name.empty() && location->get_var( constraint.name, "" ) !=
                   constraint.value ) ||

@@ -94,7 +94,14 @@ else
     if [ "${FULL_DEBUG_SYMBOLS:-1}" = "1" ]; then
         make_args+=( DEBUG_SYMBOLS=1 )
     fi
+    if [ -n "${SDL3+x}" ]; then
+        make_args+=( SDL3="$SDL3" )
+    fi
+    if [ "${NATIVE:-}" = "osx" ] && [ "${TILES:-0}" = "1" ]; then
+        make_args+=( UNIVERSAL_BINARY=1 )
+    fi
     make -j "$num_jobs" "${make_args[@]}"
+
 fi
 
 # vim:tw=0
