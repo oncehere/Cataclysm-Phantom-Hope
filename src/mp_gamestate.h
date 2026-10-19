@@ -120,9 +120,7 @@ void mp_prune_dead_item_ui_refs();
 // delivered; at worst by one turn later (~120ms) than before.
 std::string serialize_remote_player_state( bool skip_tile_scan = false );
 
-// Heartbeat-measured network RTT for the co-op panel (io thread → game thread).
-// Client side measures it directly; host side reads the value the client mirrors.
-int mp_client_measured_rtt_ms();
+// Host-side heartbeat RTT mirrored by the client; the client API lives in mp_client_conn.h.
 int mp_host_partner_rtt_ms();
 
 // Returns true if the given character_id belongs to a remote player NPC.
