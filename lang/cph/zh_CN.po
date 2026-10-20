@@ -772142,3 +772142,479 @@ msgid ""
 "Too many item updates arrived while a menu was open. Your partner's recent "
 "item actions will be rolled back to the shared world."
 msgstr "菜单打开期间收到的物品更新过多。同伴近期的物品操作将回滚到共享世界的状态。"
+
+
+# CPH AI companion UI additions (2026-10-20). Existing catalog and attribution preserved.
+
+#. AI companion player guidance.
+msgid "The bundled companion runtime or profile is unavailable."
+msgstr "配套的 AI 同伴运行时或配置不可用。"
+
+#. AI companion player guidance.
+msgid "AI companion configuration"
+msgstr "AI 同伴配置"
+
+#. AI companion player guidance.
+msgid "Set the API base URL and model, enter a session key, then save. Nothing contacts the model until you choose Start AI companion."
+msgstr "设置 API 基础地址和模型，输入本次会话的密钥，然后保存。只有选择“启动 AI 同伴”后才会联系模型。"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Model endpoint: %s"
+msgstr "模型服务地址：%s"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Model: %s"
+msgstr "模型：%s"
+
+#. AI companion player guidance.
+msgid "Set API key for this game session"
+msgstr "设置本次游戏会话的 API 密钥"
+
+#. AI companion player guidance.
+msgid "Replace API key for this game session"
+msgstr "替换本次游戏会话的 API 密钥"
+
+#. AI companion player guidance.
+msgid "Edit character background"
+msgstr "编辑角色背景"
+
+#. AI companion player guidance.
+msgid "Allowed daily duties"
+msgstr "允许自主执行的日常职责"
+
+#. AI companion player guidance.
+msgid "Extra work the companion may choose without a player request. Basic following and guarding remain available. Start with no extra duties."
+msgstr "允许同伴在没有玩家请求时自行选择的额外工作。基础跟随和守候仍然可用。首次体验建议不勾选额外职责。"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Allowed item IDs: %s"
+msgstr "允许的物品 ID：%s"
+
+#. AI companion player guidance.
+msgid "Advanced: comma-separated item IDs for autonomous gathering. This grants permission; it does not create items."
+msgstr "进阶设置：自主收集允许的物品 ID，用英文逗号分隔。这只授予权限，不会生成物品。"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Allowed recipe IDs: %s"
+msgstr "允许的配方 ID：%s"
+
+#. AI companion player guidance.
+msgid "Advanced: comma-separated recipe IDs for autonomous crafting. The companion still needs the recipe, tools and materials."
+msgstr "进阶设置：自主制作允许的配方 ID，用英文逗号分隔。同伴仍需掌握配方，并具备工具和材料。"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Daily duty distance: %d"
+msgstr "日常职责范围：%d 格"
+
+#. AI companion player guidance.
+msgid "Save configuration"
+msgstr "保存配置"
+
+#. AI companion player guidance.
+msgid "Companion configuration saved. Restart AI to apply provider changes."
+msgstr "AI 同伴配置已保存。重新启动 AI 以应用模型服务设置。"
+
+#. AI companion player guidance.
+msgid "The companion configuration could not be saved."
+msgstr "无法保存 AI 同伴配置。"
+
+#. AI companion player guidance.
+msgid "Follow"
+msgstr "跟随"
+
+#. AI companion player guidance.
+msgctxt "AI companion task"
+msgid "Guard"
+msgstr "守候"
+
+#. AI companion player guidance.
+msgctxt "AI companion task"
+msgid "Travel"
+msgstr "到达"
+
+#. AI companion player guidance.
+msgid "Gather permitted items"
+msgstr "收集允许的物品"
+
+#. AI companion player guidance.
+msgid "Craft permitted recipes"
+msgstr "制作允许的配方"
+
+#. AI companion player guidance.
+msgid "Daily duties (item and recipe lists also apply)"
+msgstr "日常职责（同时受物品和配方清单限制）"
+
+#. AI companion player guidance.
+msgid "API base URL (OpenAI-compatible)"
+msgstr "API 基础地址（兼容 OpenAI 接口）"
+
+#. AI companion player guidance.
+msgid "Model ID from your provider"
+msgstr "模型服务商提供的模型 ID"
+
+#. AI companion player guidance.
+msgid "API key (memory only; never saved)"
+msgstr "API 密钥（仅存于内存，不会保存）"
+
+#. AI companion player guidance.
+msgid "Character background"
+msgstr "角色背景"
+
+#. AI companion player guidance.
+msgid "Allowed item IDs, separated by commas"
+msgstr "允许的物品 ID，用英文逗号分隔"
+
+#. AI companion player guidance.
+msgid "Allowed recipe IDs, separated by commas"
+msgstr "允许的配方 ID，用英文逗号分隔"
+
+#. AI companion player guidance.
+msgid "Maximum daily duty distance (1-60 tiles)"
+msgstr "日常职责最大范围（1—60 格）"
+
+#. AI companion player guidance.
+msgid "Distance must be an integer from 1 to 60."
+msgstr "距离必须是 1 到 60 之间的整数。"
+
+#. AI companion player guidance.
+msgid "Withdraw one of your requests"
+msgstr "撤回你的一条请求"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Request #%lld (withdrawn by you): %s"
+msgstr "请求 #%lld（你已撤回）：%s"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Request #%lld: %s"
+msgstr "请求 #%lld：%s"
+
+#. AI companion player guidance.
+msgid "No recorded player requests are available."
+msgstr "没有可查看的玩家请求记录。"
+
+#. AI companion player guidance.
+msgid "Your request has been withdrawn. Any current activity will end safely."
+msgstr "你的请求已撤回。相关活动将安全结束。"
+
+#. AI companion player guidance.
+msgid "The request could not be withdrawn."
+msgstr "无法撤回这条请求。"
+
+#. AI companion player guidance.
+msgctxt "AI companion task"
+msgid "Following"
+msgstr "跟随"
+
+#. AI companion player guidance.
+msgctxt "AI companion task"
+msgid "Guarding"
+msgstr "守候"
+
+#. AI companion player guidance.
+msgid "Travelling"
+msgstr "到达目的地"
+
+#. AI companion player guidance.
+msgid "Observed activity"
+msgstr "已观察到的活动"
+
+#. AI companion player guidance.
+msgid "Completed"
+msgstr "已完成"
+
+#. AI companion player guidance.
+msgid "Blocked"
+msgstr "受阻"
+
+#. AI companion player guidance.
+msgid "Failed"
+msgstr "失败"
+
+#. AI companion player guidance.
+msgid "Cancelled"
+msgstr "已取消"
+
+#. AI companion player guidance.
+msgid "Paused"
+msgstr "已暂停"
+
+#. AI companion player guidance.
+msgid "Queued"
+msgstr "待执行"
+
+#. AI companion player guidance.
+msgid "Observed progress"
+msgstr "已观察到的进度"
+
+#. AI companion player guidance.
+msgid "1. Bind a living, recruited companion you can see. The player keeps control of their own character.\n\n2. Configure AI companion: set your provider's API base URL and model ID, enter the session-only key, then Save configuration. Leave extra daily duties off for a first try.\n\n3. Choose Start AI companion explicitly. A local connection is not proof that the model service is available.\n\n4. Speak normally, or use Task examples to draft a message. Try following or guarding first. Watch Status and conversation for replies and progress you have observed.\n\nThe model can be slow. Existing tasks and basic NPC behavior can continue while it waits or is offline; close this menu and advance the game to see actions. Do not repeatedly resend the same request.\n\nPause preserves work. Withdraw retracts one of your requests. Cancel all AI work clears tasks. Stop cancels work and safely returns control.\n\nThe key must be entered again after restarting the game. Model spending limits survive reloads and restarts; restarting does not grant a new budget."
+msgstr "1. 绑定一名视野内存活且已招募的同伴。你仍然控制自己的角色。\n\n2. 选择“配置 AI 同伴”：填写服务商提供的 API 基础地址和模型 ID，输入仅限本次会话使用的密钥，再选择“保存配置”。首次体验先关闭额外日常职责。\n\n3. 主动选择“启动 AI 同伴”。本地连接成功不代表模型服务已经可用。\n\n4. 正常交谈，或用“任务示例”起草消息。先试跟随或守候。在“状态与对话”查看回复和你已观察到的进度。\n\n模型响应可能较慢。等待回复或离线时，已有任务和基础 NPC 行为仍可继续；关闭菜单、推进游戏回合即可观察行动。请勿反复发送相同请求。\n\n暂停会保留工作；撤回可取消你的一条请求；“取消所有 AI 工作”会清除任务；停止会取消工作并安全交还控制权。\n\n重启游戏后需要重新输入密钥。模型消费额度不随读档或重启恢复；重启不会获得新预算。"
+
+#. AI companion player guidance.
+msgid "The companion cannot hear you. Move closer and try again."
+msgstr "同伴听不到你。请靠近后重试。"
+
+#. AI companion player guidance.
+msgid "This profile is already bound to another companion. Reconnect the original companion."
+msgstr "这份配置已绑定另一名同伴。请重新连接原先绑定的同伴。"
+
+#. AI companion player guidance.
+msgid "A multiplayer partner cannot be bound as an AI companion. Choose a recruited NPC."
+msgstr "不能将联机伙伴绑定为 AI 同伴。请选择已招募的 NPC。"
+
+#. AI companion player guidance.
+msgid "The message was not recorded. Try a shorter message after pending work has been processed."
+msgstr "消息未能记录。请等候待处理工作结束，再尝试发送较短的消息。"
+
+#. AI companion player guidance.
+msgid "The companion is unavailable. Reconnect the bound companion while they are alive, recruited and nearby."
+msgstr "同伴当前不可用。请在原先绑定的同伴存活、仍被招募且位于附近时重新连接。"
+
+#. AI companion player guidance.
+msgid "Speak to the companion"
+msgstr "与同伴交谈"
+
+#. AI companion player guidance.
+msgid "A request is not a promise. Existing work continues unless you clearly ask to prioritize or change it."
+msgstr "提出请求不代表对方已经承诺。除非你明确要求优先处理或改变安排，已有工作会继续执行。"
+
+#. AI companion player guidance.
+msgid "Please stay close and follow me."
+msgstr "请跟着我，保持在附近。"
+
+#. AI companion player guidance.
+msgid "Please wait here and keep watch."
+msgstr "请在这里守候。"
+
+#. AI companion player guidance.
+msgid "Please collect 3 more rocks from the nearby ground into your own inventory."
+msgstr "请从附近地上再捡 3 个石头，放在你自己的背包里。"
+
+#. AI companion player guidance.
+msgid "What are you doing, and do you need anything?"
+msgstr "你在忙什么？有什么需要吗？"
+
+#. AI companion player guidance.
+msgid "Task examples"
+msgstr "任务示例"
+
+#. AI companion player guidance.
+msgid "Choose a draft, then edit and confirm it. Selecting an example does not send it. Gathering means loose ground items; crafting needs a known recipe and real resources."
+msgstr "选择草稿后可编辑，确认才会发送。选择示例本身不会发送消息。收集指拾取地面散落物品；制作需要已知配方和真实资源。"
+
+#. AI companion player guidance.
+msgid "AI companion is not enabled in this world.\nEnable the companion Mod for this world to use this menu."
+msgstr "当前世界未启用 AI 同伴。\n请为这个世界启用 AI 同伴 Mod，才能使用此菜单。"
+
+#. AI companion player guidance.
+msgid "No companion is bound.\nNext: Bind a recruited companion you can see, then configure and start AI."
+msgstr "尚未绑定同伴。\n下一步：绑定一名视野内已招募的同伴，然后配置并启动 AI。"
+
+#. AI companion player guidance.
+msgid "AI runtime connected."
+msgstr "AI 同伴本地运行时已连接。"
+
+#. AI companion player guidance.
+msgid "Starting the AI runtime; waiting for the local connection."
+msgstr "正在启动 AI 同伴运行时，等待本地连接。"
+
+#. AI companion player guidance.
+msgid "AI runtime disconnected; existing local actions can continue."
+msgstr "AI 同伴运行时未连接；已有本地行动仍可继续。"
+
+#. AI companion player guidance.
+msgid "The companion is outside the simulated area."
+msgstr "同伴不在当前模拟区域内。"
+
+#. AI companion player guidance.
+msgid "Waiting for the current activity to finish safely."
+msgstr "等待当前活动安全结束。"
+
+#. AI companion player guidance.
+msgid "AI control has been handed back."
+msgstr "AI 已交还控制权。"
+
+#. AI companion player guidance.
+msgid "AI work is paused. Resume execution to continue."
+msgstr "AI 工作已暂停。选择“继续执行”可恢复。"
+
+#. AI companion player guidance.
+msgid "Saved AI data uses an unsupported format. Use a matching game and companion bundle; the data is preserved."
+msgstr "存档中的 AI 数据格式暂不受支持。请使用配套的游戏和同伴运行时；原数据已保留。"
+
+#. AI companion player guidance.
+msgid "The bound companion has died. AI cannot resume control."
+msgstr "绑定的同伴已经死亡。AI 无法恢复接管。"
+
+#. AI companion player guidance.
+msgid "Next: Configure and save your provider settings, enter the session key, then choose Start AI companion."
+msgstr "下一步：配置并保存模型服务设置，输入本次会话密钥，然后选择“启动 AI 同伴”。"
+
+#. AI companion player guidance.
+msgid "Waiting for an AI decision. Existing local actions can continue; advance the game to see them."
+msgstr "等待 AI 决策。已有本地行动仍可继续；推进游戏回合即可观察。"
+
+#. AI companion player guidance.
+msgid "Waiting for a safe handoff."
+msgstr "等待安全接管。"
+
+#. AI companion player guidance.
+msgid "Local actions can continue."
+msgstr "本地行动可以继续。"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Known progress: %s, %d/%d (%s)"
+msgstr "已知进度：%s，%d/%d（%s）"
+
+#. AI companion player guidance.
+#, c-format
+msgid "Known progress: %s (%s)"
+msgstr "已知进度：%s（%s）"
+
+#. AI companion player guidance.
+msgid "No observed progress yet."
+msgstr "尚未观察到进度。"
+
+#. AI companion player guidance.
+msgid "AI companion"
+msgstr "AI 同伴"
+
+#. AI companion player guidance.
+msgid "First use: Bind -> Configure -> Start. Use Quick start (h) for help."
+msgstr "首次使用：绑定 → 配置 → 启动。选择“快速上手”（h）查看引导。"
+
+#. AI companion player guidance.
+msgid "Bind or reconnect the fixed companion"
+msgstr "绑定或重新连接固定同伴"
+
+#. AI companion player guidance.
+msgid "Choose a visible, recruited NPC. A profile stays bound to the same companion."
+msgstr "选择一名视野内已招募的 NPC。每份配置始终绑定同一名同伴。"
+
+#. AI companion player guidance.
+msgid "Configure AI companion"
+msgstr "配置 AI 同伴"
+
+#. AI companion player guidance.
+msgid "Save the provider address and model. Enter a key for this game session. Stop AI before editing."
+msgstr "保存模型服务地址和模型，输入本次游戏会话的密钥。编辑前请先停止 AI。"
+
+#. AI companion player guidance.
+msgid "Start AI companion"
+msgstr "启动 AI 同伴"
+
+#. AI companion player guidance.
+msgid "Explicitly starts the model runtime. Requires saved settings and a session key."
+msgstr "主动启动模型运行时。需先保存配置，并输入本次会话的密钥。"
+
+#. AI companion player guidance.
+msgid "Talk or request work. While disconnected, messages are recorded for a later response."
+msgstr "交谈或提出工作请求。未连接时消息仍会记录，待连接后再回复。"
+
+#. AI companion player guidance.
+msgid "Draft a simple request, edit it, then confirm to send."
+msgstr "选择简单请求的草稿，编辑后确认发送。"
+
+#. AI companion player guidance.
+msgid "Status and conversation"
+msgstr "状态与对话"
+
+#. AI companion player guidance.
+msgid "Connection, dialogue and progress you have observed. A local connection does not verify the provider."
+msgstr "查看连接状态、对话和你已观察到的进度。本地已连接不代表模型服务已验证可用。"
+
+#. AI companion player guidance.
+msgid "Retract a specific message you sent, without cancelling unrelated work."
+msgstr "撤回你发送的某一条请求，不取消无关工作。"
+
+#. AI companion player guidance.
+msgid "Resume execution"
+msgstr "继续执行"
+
+#. AI companion player guidance.
+msgid "Pause execution"
+msgstr "暂停执行"
+
+#. AI companion player guidance.
+msgid "Keep existing work and pause or resume its execution. Native emergency reactions remain available."
+msgstr "保留已有工作，暂停或继续执行。原生紧急反应仍可用。"
+
+#. AI companion player guidance.
+msgid "Cancel all AI work"
+msgstr "取消所有 AI 工作"
+
+#. AI companion player guidance.
+msgid "Cancel queued and persistent AI tasks at a safe point. Your earlier messages remain recorded."
+msgstr "在安全时机取消 AI 动作队列和持续任务。之前的对话仍会保留。"
+
+#. AI companion player guidance.
+msgid "Stop AI and safely return control"
+msgstr "停止 AI 并安全交还控制权"
+
+#. AI companion player guidance.
+msgid "Cancel AI work and return control to ordinary NPC behavior after a safe handoff."
+msgstr "取消 AI 工作，在安全交接后恢复普通 NPC 行为。"
+
+#. AI companion player guidance.
+msgid "Quick start"
+msgstr "快速上手"
+
+#. AI companion player guidance.
+msgid "Diagnostic state (debug enabled)"
+msgstr "诊断状态（已启用调试）"
+
+#. AI companion player guidance.
+msgid "Bind which recruited companion?"
+msgstr "绑定哪名已招募的同伴？"
+
+#. AI companion player guidance.
+msgid "No recruited companion is visible."
+msgstr "视野内没有已招募的同伴。"
+
+#. AI companion player guidance.
+msgid "The matching companion runtime is missing. Use the complete game bundle; copying only the Mod is not enough."
+msgstr "缺少配套的 AI 同伴运行时。请使用完整游戏包；仅复制 Mod 无法使用。"
+
+#. AI companion player guidance.
+msgid "Configure AI companion first: enter the API base URL and model ID, then choose Save configuration."
+msgstr "请先配置 AI 同伴：输入 API 基础地址和模型 ID，然后选择“保存配置”。"
+
+#. AI companion player guidance.
+msgid "No API key has been entered for this game session. Open Configure AI companion and set the session key."
+msgstr "尚未输入本次游戏会话的 API 密钥。请打开“配置 AI 同伴”并设置会话密钥。"
+
+#. AI companion player guidance.
+msgid "The AI runtime could not start. Check the complete game bundle and saved provider settings; local NPC behavior remains available."
+msgstr "AI 同伴运行时无法启动。请检查游戏包是否完整，以及已保存的模型服务设置；本地 NPC 行为仍可用。"
+
+#. AI companion public planning status.
+msgid "The decision is pending; no model request is running."
+msgstr "当前决策尚待处理；没有正在运行的模型请求。"
+
+#. AI companion public planning status.
+msgid "Model planning has reached its spending limit. Existing local actions can continue."
+msgstr "模型规划已达到消费额度。本地已有行动仍可继续。"
+
+#. AI companion public planning status.
+msgid "The model service request failed. Stop AI and check the saved provider settings and session key."
+msgstr "模型服务请求失败。请停止 AI，检查已保存的服务设置和本次会话密钥。"
+
+#. AI companion public planning status.
+msgid "AI planning timed out for this decision. Existing local actions can continue."
+msgstr "本次 AI 决策规划超时。本地已有行动仍可继续。"
+
+#. AI companion public planning status.
+msgid "The model returned an unusable response. No new work was accepted."
+msgstr "模型返回了无法使用的回复，尚未接纳新的工作。"
+
+#. AI companion public planning status.
+msgid "AI could not resolve this decision. Review the conversation and provide new information if needed."
+msgstr "AI 未能完成本次决策。请查看对话，并在需要时补充信息。"

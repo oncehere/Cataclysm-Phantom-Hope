@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "story-delivery",
+  "title": "非 AI：物品交付、剧情分支与存读档",
+  "mods": ["ccb", "Scenario_Story_Smoke"],
+  "fixture_files": [
+    "data/mods/Scenario_Story_Smoke/mod.lua",
+    "data/mods/Scenario_Story_Smoke/main.lua"
+  ],
+  "setup": [
+    "新建测试世界；仅启用 ccb 和 Scenario_Story_Smoke。不要加载真实世界，不启用 AI 同伴连接。",
+    "创建测试角色，用游戏调试菜单生成 scenario_story_smoke_terminal（scenario delivery terminal）和两块 rock；把终端与石头放入角色背包。",
+    "分支按角色保存。测试另一个分支时在同一隔离世界创建新角色，或 prepare 到新的 run-dir；不要删除或编辑真实存档。"
+  ],
+  "checks": [
+    {
+      "id": "cancel-and-missing",
+      "steps": "先把两块石头丢到脚下。使用终端并取消，再使用并选 Deliver one rock。然后捡回两块石头。",
+      "expected": "取消和缺少背包石头都不提交分支；缺货提示 No rock delivered，之后仍能重新选择。地上物品不算本次背包交付。"
+    },
+    {
+      "id": "deliver-once",
+      "steps": "背包中有两块 rock 时使用终端，选 Deliver one rock。记录背包数量，再次使用终端。",
+      "expected": "只减少一块 rock；两次均可观察 branch=delivered; delivered=1，第二次不再次扣除。终端交付是消费物品的测试接收点，不会把物品转移给 NPC。"
+    },
+    {
+      "id": "save-reload",
+      "steps": "保存并退出游戏。用 rerun 再次启动这个 run-dir，加载同一世界同一角色，检查背包并使用终端。",
+      "expected": "仍剩一块 rock；branch=delivered; delivered=1 保留；不再次扣除。必须实际退出重进，不能只打开关闭菜单。"
+    },
+    {
+      "id": "keep-branch",
+      "steps": "新角色携带终端和两块 rock，使用终端选 Keep the rock；保存退出并用 rerun 重进该角色，再次使用。",
+      "expected": "前后始终两块 rock；branch=kept; delivered=0 保留；不能从已选分支再次交付。"
+    }
+  ]
+}

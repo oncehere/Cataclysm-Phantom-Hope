@@ -3,66 +3,25 @@
 from __future__ import annotations
 
 import argparse
-from email.parser import BytesParser
 import hashlib
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import shutil
 import tarfile
 import zipfile
 
-VERSION = "0.1.2.dev0"
-MOD_PREFIX = "cph_ai_companion/resources/mod/"
-PROTOCOL_FILE = "cph_ai_companion/resources/protocol/protocol.json"
-
-
-class ReleaseError(ValueError):
-    pass
+_wheel_spec = importlib.util.spec_from_file_location("cph_companion_wheel_payload", Path(__file__).with_name("wheel_payload.py"))
+_wheel = importlib.util.module_from_spec(_wheel_spec)
+_wheel_spec.loader.exec_module(_wheel)
+VERSION, PROTOCOL_VERSION = _wheel.VERSION, _wheel.PROTOCOL_VERSION
+MOD_PREFIX, PROTOCOL_FILE = _wheel.MOD_PREFIX, _wheel.PROTOCOL_FILE
+ReleaseError = _wheel.ReleaseError
+_check_metadata, mod_payloads = _wheel._check_metadata, _wheel.mod_payloads
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def _check_metadata(body: bytes, artifact: str) -> None:
-    metadata = BytesParser().parsebytes(body)
-    for field in ("Name", "Version", "Requires-Python"):
-        if len(metadata.get_all(field, [])) != 1:
-            raise ReleaseError("invalid_" + artifact + "_metadata")
-    if metadata["Name"] != "cph-ai-companion" or metadata["Version"] != VERSION:
-        raise ReleaseError("wrong_project_" + artifact)
-    if metadata["Requires-Python"] != "<3.13,>=3.12":
-        raise ReleaseError("wrong_python_requirement")
-
-
-def mod_payloads(wheel: Path) -> tuple[dict[str, bytes], str]:
-    with zipfile.ZipFile(wheel) as archive:
-        names = archive.namelist()
-        if len(names) != len(set(names)):
-            raise ReleaseError("duplicate_wheel_entries")
-        metadata_names = [name for name in names if name.endswith(".dist-info/METADATA")]
-        if len(metadata_names) != 1:
-            raise ReleaseError("invalid_wheel_metadata")
-        _check_metadata(archive.read(metadata_names[0]), "wheel")
-        payloads = {}
-        for name in names:
-            if not name.startswith(MOD_PREFIX) or name.endswith("/"):
-                continue
-            relative = name[len(MOD_PREFIX):]
-            path = PurePosixPath(relative)
-            if (not relative or path.is_absolute() or ".." in path.parts or "\\" in relative
-                    or "\0" in relative or path.as_posix() != relative):
-                raise ReleaseError("invalid_mod_resource")
-            payloads[relative] = archive.read(name)
-        if not {"mod.lua", "main.lua"}.issubset(payloads):
-            raise ReleaseError("mod_resources_missing")
-        if PROTOCOL_FILE not in names:
-            raise ReleaseError("protocol_resource_missing")
-        protocol_data = archive.read(PROTOCOL_FILE)
-        protocol = json.loads(protocol_data)
-        if protocol.get("protocol_version") != "1.1":
-            raise ReleaseError("unsupported_protocol")
-        return payloads, hashlib.sha256(protocol_data).hexdigest()
 
 
 def validate_sdist(sdist: Path, payloads: dict[str, bytes], digest: str) -> None:
@@ -118,13 +77,13 @@ def _copy(source: Path, destination: Path) -> None:
         shutil.copyfile(source, destination)
 
 
-def _candidate_record(digest: str) -> dict:
+def _candidate_record(digest: str, platform: str = "linux-x86_64") -> dict:
     checks = ("artifact_install", "python_tests", "native_tests", "installed_native_joint",
               "full_game_build", "full_gnu_game", "gnu_module", "full_native_suite", "mod_load",
               "gui", "gameplay", "real_provider", "save_reload", "actual_user_environment",
               "complete_physical_crash_campaign", "live_multiplayer", "hosted_ci", "hosted_cph_result")
-    return {"schema_version": 1, "package_version": VERSION, "protocol_version": "1.1",
-            "schema_digest": digest, "python": ">=3.12,<3.13", "target_platform": "linux-x86_64",
+    return {"schema_version": 1, "package_version": VERSION, "protocol_version": PROTOCOL_VERSION,
+            "schema_digest": digest, "python": ">=3.12,<3.13", "target_platform": platform,
             "candidate": {"status": "UNVALIDATED_PACKAGE_CANDIDATE", "native_head": None},
             "acceptance": {**{name: "NOT_RUN" for name in checks}, "published": "NOT_PUBLISHED"},
             "validated_combinations": []}
@@ -134,7 +93,7 @@ def _compatibility_record(path: Path, digest: str, wheel_digest: str) -> dict:
     record = json.loads(path.read_text(encoding="utf-8"))
     if (not isinstance(record, dict) or type(record.get("schema_version")) is not int
             or record["schema_version"] != 1 or record.get("package_version") != VERSION
-            or record.get("protocol_version") != "1.1"
+            or record.get("protocol_version") != PROTOCOL_VERSION
             or not isinstance(record.get("validated_combinations"), list)):
         raise ReleaseError("invalid_compatibility_record")
     if "schema_digest" in record and record["schema_digest"] != digest:
@@ -143,7 +102,7 @@ def _compatibility_record(path: Path, digest: str, wheel_digest: str) -> dict:
         if not isinstance(combination, dict) or combination.get("wheel_sha256") != wheel_digest:
             raise ReleaseError("compatibility_wheel_mismatch")
         if (combination.get("package_version", VERSION) != VERSION
-                or combination.get("protocol_version", "1.1") != "1.1"
+                or combination.get("protocol_version", PROTOCOL_VERSION) != PROTOCOL_VERSION
                 or combination.get("schema_digest", digest) != digest):
             raise ReleaseError("invalid_compatibility_record")
     if not record["validated_combinations"]:
@@ -155,9 +114,14 @@ def _compatibility_record(path: Path, digest: str, wheel_digest: str) -> dict:
 
 
 def assemble(dist: Path, *, root: Path, compatibility: Path | None = None,
-             candidate_only: bool = False) -> dict:
+             candidate_only: bool = False, windows_python: Path | None = None,
+             windows_site_packages: Path | None = None, windows_game_root: Path | None = None) -> dict:
     if candidate_only and compatibility is not None:
         raise ReleaseError("incompatible_assembly_options")
+    windows_inputs = (windows_python, windows_site_packages, windows_game_root)
+    windows_bundle = any(value is not None for value in windows_inputs)
+    if windows_bundle and any(value is None for value in windows_inputs):
+        raise ReleaseError("complete_windows_bundle_inputs_required")
     dist = dist.resolve()
     root = root.resolve()
     if not dist.is_dir():
@@ -170,6 +134,8 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None,
     validate_sdist(sdists[0], payloads, digest)
     record = (_compatibility_record(compatibility, digest, sha256(wheels[0]))
               if compatibility is not None else _candidate_record(digest))
+    if windows_bundle and not record["validated_combinations"]:
+        record["target_platform"] = "windows-x86_64"
     mod_zip = dist / f"cph_ai_companion-{VERSION}-mod.zip"
     with zipfile.ZipFile(mod_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(payloads.items()):
@@ -193,14 +159,24 @@ def assemble(dist: Path, *, root: Path, compatibility: Path | None = None,
     artifact_names.append(manifest.name)
     checksums = dist / "SHA256SUMS"
     checksums.write_text("".join(f"{sha256(dist / name)}  {name}\n" for name in sorted(artifact_names)), encoding="ascii")
-    return {"state": "candidate_assembled", "version": VERSION, "schema_digest": digest,
+    result = {"state": "candidate_assembled", "version": VERSION, "schema_digest": digest,
             "validated_combinations": record["validated_combinations"], "published": False,
             "artifacts": sorted([*artifact_names, checksums.name])}
+    if windows_bundle:
+        spec = importlib.util.spec_from_file_location("cph_windows_bundle", Path(__file__).with_name("build_windows_bundle.py"))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        result["windows_bundle"] = module.bundle(windows_python, windows_site_packages, wheels[0],
+                                                 windows_game_root, root / "requirements.lock")
+    return result
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dist", type=Path, required=True)
+    parser.add_argument("--windows-python", type=Path, help="CPython 3.12 Windows x64 installation to ship")
+    parser.add_argument("--windows-site-packages", type=Path, help="SDK-only environment installed from requirements.lock")
+    parser.add_argument("--windows-game-root", type=Path, help="fresh staged game root receiving the built-in Mod and runtime")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--candidate-only", action="store_true",
                       help="assemble an unvalidated candidate without importing recorded PASS results (default)")
@@ -209,7 +185,9 @@ def main() -> int:
     args = parser.parse_args()
     try:
         result = assemble(args.dist, root=Path(__file__).resolve().parents[1],
-                          compatibility=args.compatibility, candidate_only=args.candidate_only)
+                          compatibility=args.compatibility, candidate_only=args.candidate_only,
+                          windows_python=args.windows_python, windows_site_packages=args.windows_site_packages,
+                          windows_game_root=args.windows_game_root)
     except (ReleaseError, OSError, ValueError, zipfile.BadZipFile) as error:
         parser.exit(1, "release assembly failed: " + (str(error) if isinstance(error, ReleaseError) else type(error).__name__) + "\n")
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))

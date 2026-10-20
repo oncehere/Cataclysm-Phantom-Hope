@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <deque>
 #include <map>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -21,18 +22,24 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
+#include "creature.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "item.h"
 #include "json.h"
 #include "json_loader.h"
+#include "line.h"
 #include "math_parser_diag_value.h"
+#include "map.h"
 #include "mod_manager.h"
 #include "mp_gamestate.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "npc_execution_adapter.h"
 #include "path_info.h"
 #include "player_activity.h"
 #include "type_id.h"
+#include "visitable.h"
 #include "worldfactory.h"
 
 namespace cata::actor_control
@@ -54,6 +61,7 @@ struct requirement_decision {
     std::string decision = "pending";
     std::string operation_id;
     std::string text;
+    bool withdrawn = false;
 };
 
 struct pending_step {
@@ -61,6 +69,33 @@ struct pending_step {
     std::string from_step;
     bool started = false;
     bool restored = false;
+    std::string task_id;
+};
+
+struct persistent_task {
+    std::string id;
+    std::string kind;
+    std::string definition;
+    std::string operation_prefix;
+    std::string args = "{}";
+    std::string requirement_id;
+    std::string quantity_mode = "acquired";
+    std::string phase = "queued";
+    std::string reason;
+    std::string blocked_signature;
+    std::vector<std::string> dependencies;
+    std::vector<std::string> outputs;
+    int progress = 0;
+    int target = 1;
+    int attempts = 0;
+    int sequence = 0;
+    int max_distance = 12;
+    tripoint_abs_ms anchor;
+    bool prefetch_requested = false;
+    bool duty_active = false;
+    npc_mission previous_mission = NPC_MISSION_NULL;
+    npc_attitude previous_attitude = NPCATT_NULL;
+    std::optional<tripoint_abs_ms> previous_guard;
 };
 
 // Constant-initialized, trivially destructible: this flag remains safe to read
@@ -117,11 +152,24 @@ struct controller {
     std::deque<std::string> checkpoint_delta;
     std::size_t event_bytes = 0;
     std::deque<pending_step> queue;
+    std::deque<persistent_task> tasks;
+    std::map<std::string, std::string> retired_tasks;
+    std::string task_candidate;
+    std::string planning_state = "pending";
+    std::string planning_reason;
+    std::set<std::string> duties;
+    int duty_distance = 12;
+    std::set<std::string> duty_items;
+    std::set<std::string> duty_recipes;
+    std::int64_t decision_revision = 0;
+    std::string decision_reason = "world_change";
+    bool task_decision_ready = false;
     std::map<std::string, requirement_decision> requirement_decisions;
     std::map<std::string, std::string> receipts;
     std::map<std::string, std::string> accepted_plans;
     std::deque<std::string> receipt_order;
     std::deque<std::string> transcript;
+    std::deque<std::string> player_progress;
     clock_type::time_point accepted_at {};
     clock_type::time_point connection_at {};
     loopback_bridge bridge;
@@ -224,6 +272,17 @@ bool multiplayer_proxy( const npc &candidate )
            cata_mp::is_partner_npc( candidate.getID() );
 }
 
+void enable_real_stamina( npc &candidate )
+{
+    if( candidate.get_value( "cph_ai.real_stamina" ) != "true" ) {
+        // This character property survives detach/rebind and uses native save
+        // fields. Opting in must not refill an already spent resource.
+        candidate.set_value( "cph_ai.real_stamina", "true" );
+        candidate.set_stamina( std::clamp( candidate.get_stamina(), 0,
+                                           candidate.get_stamina_max() ) );
+    }
+}
+
 npc *actor()
 {
     if( !g || state.actor_id < 0 ) {
@@ -280,9 +339,67 @@ std::string context()
 
 void invalidate_request()
 {
+    state.task_candidate.clear();
+    state.planning_state = "pending";
+    state.planning_reason.clear();
     state.request_id = new_identity();
     state.request_context.clear();
     state.request_payload.clear();
+}
+
+bool task_live( const persistent_task &task )
+{
+    return task.phase == "queued" || task.phase == "running" || task.phase == "paused" ||
+           task.phase == "blocked";
+}
+
+void write_tasks( JsonOut &out )
+{
+    out.start_array();
+    for( const persistent_task &task : state.tasks ) {
+        out.start_object();
+        out.member( "id", task.id );
+        out.member( "kind", task.kind );
+        out.member( "state", task.phase );
+        out.member( "reason", task.reason );
+        out.member( "progress", task.progress );
+        out.member( "target", task.target );
+        out.member( "requirement_id", task.requirement_id );
+        out.end_object();
+    }
+    out.end_array();
+}
+
+bool receipt_pinned( const std::string &id )
+{
+    for( const persistent_task &task : state.tasks ) {
+        const bool needed = task_live( task ) || std::any_of( state.tasks.begin(), state.tasks.end(),
+        [&task]( const persistent_task & dependent ) {
+            return task_live( dependent ) && std::find( dependent.dependencies.begin(),
+                    dependent.dependencies.end(), task.id ) != dependent.dependencies.end();
+        } );
+        if( needed && std::find( task.outputs.begin(), task.outputs.end(), id ) != task.outputs.end() ) {
+            return true;
+        }
+    }
+    return std::any_of( state.queue.begin(), state.queue.end(), [&id]( const pending_step & step ) {
+        return step.from_step == id || step.step.id == id;
+    } );
+}
+
+void trim_receipts()
+{
+    std::size_t inspected = 0;
+    while( state.receipt_order.size() > maximum_history && inspected < state.receipt_order.size() ) {
+        const std::string oldest = state.receipt_order.front();
+        state.receipt_order.pop_front();
+        if( receipt_pinned( oldest ) ) {
+            state.receipt_order.push_back( oldest );
+            ++inspected;
+        } else {
+            state.receipts.erase( oldest );
+        }
+    }
 }
 
 std::string context_with_watermark( const std::string &original, std::int64_t watermark )
@@ -474,7 +591,8 @@ bool validate_policy( const JsonObject &policy )
 }
 
 void write_requirement( JsonOut &out, const std::string &id,
-                        const requirement_decision &decision, bool include_text = false )
+                        const requirement_decision &decision, bool include_text = false,
+                        bool persistence = false )
 {
     out.start_object();
     out.member( "requirement_id", id );
@@ -485,6 +603,9 @@ void write_requirement( JsonOut &out, const std::string &id,
     if( decision.decision == "pending" && include_text ) {
         out.member( "text", decision.text );
     }
+    if( persistence && decision.withdrawn ) {
+        out.member( "withdrawn", true );
+    }
     out.end_object();
 }
 
@@ -494,8 +615,11 @@ void write_requirements( JsonOut &out, bool persistence = false )
     out.start_array();
     for( const std::pair<const std::string, requirement_decision> &entry :
          state.requirement_decisions ) {
+        if( entry.second.withdrawn && !persistence ) {
+            continue;
+        }
         write_requirement( out, entry.first, entry.second,
-                           persistence || entry.second.source_sequence <= state.acknowledged );
+                           persistence || entry.second.source_sequence <= state.acknowledged, persistence );
     }
     out.end_array();
 }
@@ -526,6 +650,12 @@ std::string render_request( const std::string &window_context, const std::string
     out.end_array();
     out.member( "action_catalog" );
     write_raw( out, action_catalog );
+    out.member( "task_catalog" );
+    write_raw( out, task_capability_catalog() );
+    out.member( "task_summary" );
+    write_tasks( out );
+    out.member( "decision_id", state.load_epoch + "." + std::to_string( state.decision_revision ) );
+    out.member( "decision_reason", state.decision_reason );
     write_requirements( out );
     out.end_object();
     return buffer.str();
@@ -550,8 +680,9 @@ bool step_allowed( const action_step &step, std::string &error, bool enforce_ass
         step.intent != "propose_own_goals" &&
         std::any_of( state.requirement_decisions.begin(), state.requirement_decisions.end(),
     []( const std::pair<const std::string, requirement_decision> &incoming ) {
-    return incoming.second.decision == "pending" || incoming.second.decision == "refused";
-} ) ) {
+    return !incoming.second.withdrawn && ( incoming.second.decision == "pending" ||
+                                           incoming.second.decision == "refused" );
+    } ) ) {
         error = "requirement_association_required";
         return false;
     }
@@ -559,6 +690,10 @@ bool step_allowed( const action_step &step, std::string &error, bool enforce_ass
         const auto decision = state.requirement_decisions.find( step.requirement_id );
         if( decision == state.requirement_decisions.end() ) {
             error = "unknown_requirement";
+            return false;
+        }
+        if( decision->second.withdrawn ) {
+            error = "requirement_withdrawn";
             return false;
         }
         if( decision->second.decision == "refused" && step.action != "refuse" ) {
@@ -644,7 +779,8 @@ std::string receipt( const action_step &step, const execution_result &result )
 void record_result( const action_step &step, const execution_result &result )
 {
     const auto incoming = state.requirement_decisions.find( step.requirement_id );
-    const bool performs_requirement = step.action == "craft" || step.action == "gather" ||
+    const bool performs_requirement = step.action == "cast_spell" ||
+                                      step.action == "craft" || step.action == "gather" ||
                                       step.action == "trade" || step.action == "accept_mission" ||
                                       step.action == "complete_mission" || step.action == "claim_reward";
     if( incoming != state.requirement_decisions.end() && result.state != execution_state::failed &&
@@ -682,9 +818,629 @@ void record_result( const action_step &step, const execution_result &result )
             event( kind, args.get_string( "text", result.code ), state.receipts[step.id] );
         }
     }
-    while( state.receipt_order.size() > maximum_history ) {
-        state.receipts.erase( state.receipt_order.front() );
-        state.receipt_order.pop_front();
+    if( step.action == "cast_spell" && result.state != execution_state::running ) {
+        npc *bound = actor_for_handoff();
+        const bool casting = bound && bound->activity.id() == activity_id( "ACT_SPELLCASTING" ) &&
+                             bound->activity.str_values.size() == 2 &&
+                             bound->activity.str_values[0] == "cph_ai.cast_spell" &&
+                             bound->activity.str_values[1] == step.id;
+        if( bound && !casting && bound->get_value( "cph_ai.spell_step" ) == step.id ) {
+            // The controller now owns the durable receipt. Retire native markers
+            // so a later ordinary NPC cast cannot inherit external ownership.
+            for( const char *key : {
+                     "cph_ai.spell_step", "cph_ai.spell_args", "cph_ai.spell_target",
+                     "cph_ai.spell_completed_step", "cph_ai.spell_result", "cph_ai.spell_invalidated"
+                 } ) {
+                bound->remove_value( key );
+            }
+        }
+    }
+    trim_receipts();
+}
+
+void restore_duty( persistent_task &task, npc &bound )
+{
+    if( task.duty_active ) {
+        bound.set_mission( task.previous_mission );
+        bound.set_attitude( task.previous_attitude );
+        bound.guard_pos = task.previous_guard;
+        bound.clear_committed_goal();
+        task.duty_active = false;
+    }
+}
+
+void task_transition( persistent_task &task, const std::string &phase,
+                      const std::string &reason = "", bool restore_native_duty = true )
+{
+    if( task.phase == phase && task.reason == reason ) {
+        return;
+    }
+    task.phase = phase;
+    task.reason = reason;
+    if( phase != "running" && restore_native_duty ) {
+        if( npc *bound = actor_for_handoff() ) {
+            restore_duty( task, *bound );
+        }
+    }
+    std::ostringstream data;
+    JsonOut out( data );
+    out.start_object();
+    out.member( "operation_id", task.id + ".state." + std::to_string( state.event_watermark + 1 ) );
+    out.member( "action", "task" );
+    out.member( "requirement_id", task.requirement_id );
+    out.member( "state", phase == "failed" ? "failed" : "succeeded" );
+    out.member( "detail" );
+    out.start_object();
+    out.member( "task_id", task.id );
+    out.member( "task_kind", task.kind );
+    out.member( "task_state", phase );
+    out.member( "reason", reason );
+    out.member( "progress", task.progress );
+    out.member( "target", task.target );
+    out.end_object();
+    out.end_object();
+    event( "receipt", "task_" + phase, data.str() );
+    if( ( phase == "blocked" && reason != "task_dependency_pending" ) ||
+        phase == "failed" || phase == "completed" ) {
+        state.decision_reason = phase == "blocked" ? "task_blocked" : "task_boundary";
+        state.task_decision_ready = phase != "completed" || ( !state.duties.empty() &&
+        std::none_of( state.tasks.begin(), state.tasks.end(), [&task]( const persistent_task & other ) {
+            return other.id != task.id && task_live( other ) && other.phase != "blocked" &&
+                   other.kind != "follow" && other.kind != "guard";
+        } ) );
+        if( state.request_context.empty() ) {
+            ++state.decision_revision;
+        }
+    }
+}
+
+std::string task_environment( const std::string &observed, const persistent_task *task = nullptr )
+{
+    const JsonObject observation = read_object( observed );
+    const JsonObject self = subobject( observation, "actor" );
+    const JsonObject nearby = subobject( observation, "nearby" );
+    std::string result;
+    if( !task || task->kind != "move" ) {
+        // Stock changes can unblock resource work, but cannot repair a route.
+        result = canonical( self.get_member( "inventory" ) ) + canonical(
+                     nearby.get_member( "items" ) );
+    }
+    if( task && task->kind == "craft" ) {
+        result += canonical( self.get_member( "craftable_recipes" ) );
+    }
+    if( task && ( task->kind == "move" || task->reason == "native_danger" ) ) {
+        result += canonical( self.get_member( "position" ) );
+        result += canonical( nearby.get_member( "monsters" ) );
+        npc *bound = actor();
+        if( bound ) {
+            map &here = get_map();
+            for( const tripoint_bub_ms &pos : here.points_in_radius( bound->pos_bub(), 1 ) ) {
+                if( here.inbounds( pos ) && bound->sees( here, pos ) ) {
+                    result += here.passable( pos ) ? "1" : "0";
+                }
+            }
+        }
+    }
+    return result;
+}
+
+int task_inventory( const npc &bound, const std::string &type )
+{
+    int count = 0;
+    // Prompt observations are bounded. Physical quantity targets must include
+    // every actual item, even when its type is omitted from that projection.
+    bound.visit_items( [&count, &type]( item * it, item * ) {
+        if( !it->is_null() && it->typeId().str() == type ) {
+            count += it->count_by_charges() ? it->charges : 1;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return count;
+}
+
+std::string decision_signature( const std::string &observed )
+{
+    // Moving, getting hungry and spending stamina are execution, not new
+    // decisions. Retain discovery/resource changes without position churn.
+    const JsonObject nearby = subobject( read_object( observed ), "nearby" );
+    std::map<std::string, int> relevant;
+    for( const JsonObject &other : nearby.get_array( "characters" ) ) {
+        other.allow_omitted_members();
+        relevant["character:" + std::to_string( other.get_int( "id" ) )] = 1;
+    }
+    for( const JsonObject &monster : nearby.get_array( "monsters" ) ) {
+        monster.allow_omitted_members();
+        ++relevant["monster:" + monster.get_string( "monster_type" )];
+    }
+    for( const JsonObject &item : nearby.get_array( "items" ) ) {
+        item.allow_omitted_members();
+        relevant["item:" + item.get_string( "item_type" ) +
+                         ( item.get_bool( "available_to_take", false ) ? ":owned" : ":other" )] +=
+                     item.get_int( "count", 0 );
+    }
+    std::ostringstream encoded;
+    JsonOut out( encoded );
+    out.write( relevant );
+    return encoded.str();
+}
+
+persistent_task *find_task( const std::string &id )
+{
+    for( persistent_task &task : state.tasks ) {
+        if( task.id == id ) {
+            return &task;
+        }
+    }
+    return nullptr;
+}
+
+bool validate_task_permissions( const persistent_task &task, std::string &error )
+{
+    action_step check;
+    check.action = task.kind == "follow" || task.kind == "guard" ? "wait" : task.kind;
+    check.args_json = task.args;
+    check.requirement_id = task.requirement_id;
+    if( !step_allowed( check, error, false ) ) {
+        return false;
+    }
+    if( task.requirement_id.empty() && task.kind != "follow" && task.kind != "guard" &&
+        state.duties.count( task.kind ) == 0 ) {
+        error = "task_outside_duties";
+        return false;
+    }
+    if( task.requirement_id.empty() &&
+        ( ( task.kind == "gather" && state.duty_items.count( read_object( task.args ).get_string(
+                    "item_type" ) ) == 0 ) ||
+          ( task.kind == "craft" && state.duty_recipes.count( read_object( task.args ).get_string(
+                      "recipe" ) ) == 0 ) ||
+          ( task.kind != "follow" && task.kind != "guard" && task.max_distance > state.duty_distance ) ) ) {
+        error = "task_outside_duty_scope";
+        return false;
+    }
+    return true;
+}
+
+bool validate_task_dependencies( const JsonObject &proposal, std::string &error )
+{
+    std::map<std::string, std::vector<std::string>> graph;
+    for( const persistent_task &existing : state.tasks ) {
+        // A terminal task's outputs are evidence, not work to run again. Its
+        // own retired predecessors no longer constrain a new dependent.
+        graph[existing.id] = task_live( existing ) ? existing.dependencies :
+                             std::vector<std::string>();
+    }
+    for( const JsonObject &definition : proposal.get_array( "tasks" ) ) {
+        definition.allow_omitted_members();
+        const std::string id = definition.get_string( "id" );
+        if( graph.count( id ) || state.retired_tasks.count( id ) ) {
+            continue;
+        }
+        std::vector<std::string> dependencies;
+        if( definition.has_array( "depends_on" ) ) {
+            for( const std::string dependency : definition.get_array( "depends_on" ) ) {
+                dependencies.push_back( dependency );
+            }
+        }
+        graph[id] = std::move( dependencies );
+    }
+    for( const auto &entry : graph ) {
+        std::vector<std::string> pending = entry.second;
+        std::set<std::string> seen;
+        while( !pending.empty() ) {
+            const std::string next = pending.back();
+            pending.pop_back();
+            if( next == entry.first || graph.count( next ) == 0 ) {
+                error = "invalid_task_dependency";
+                return false;
+            }
+            if( seen.insert( next ).second ) {
+                pending.insert( pending.end(), graph[next].begin(), graph[next].end() );
+            }
+        }
+    }
+    return true;
+}
+
+bool validate_task_capacity( const JsonObject &proposal, std::string &error )
+{
+    std::size_t additions = 0;
+    std::set<std::string> needed;
+    for( const persistent_task &task : state.tasks ) {
+        if( task_live( task ) ) {
+            needed.insert( task.dependencies.begin(), task.dependencies.end() );
+        }
+    }
+    for( const JsonObject &definition : proposal.get_array( "tasks" ) ) {
+        definition.allow_omitted_members();
+        const std::string id = definition.get_string( "id" );
+        if( !find_task( id ) && !state.retired_tasks.count( id ) ) {
+            ++additions;
+            if( definition.has_array( "depends_on" ) ) {
+                for( const std::string dependency : definition.get_array( "depends_on" ) ) {
+                    needed.insert( dependency );
+                }
+            }
+        }
+    }
+    const std::size_t retained = std::count_if( state.tasks.begin(), state.tasks.end(),
+    [&needed]( const persistent_task & task ) {
+        return task_live( task ) || needed.count( task.id );
+    } );
+    if( additions + retained > 128 ) {
+        error = "task_limit";
+        return false;
+    }
+    return true;
+}
+
+tripoint_abs_ms task_request_anchor()
+{
+    const JsonObject request = read_object( state.request_payload );
+    const JsonObject observed = subobject( request, "observations" );
+    const JsonObject position = subobject( subobject( observed, "actor" ), "position" );
+    return tripoint_abs_ms( position.get_int( "x" ), position.get_int( "y" ), position.get_int( "z" ) );
+}
+
+bool adopt_task_candidate( npc &bound )
+{
+    if( state.task_candidate.empty() || bound.activity ) {
+        return false;
+    }
+    const JsonObject proposal = read_object( state.task_candidate );
+    if( state.request_context.empty() || state.cognition_stale ||
+        !same_context( subobject( proposal, "context" ), read_object( state.request_context ) ) ) {
+        state.task_candidate.clear();
+        return false;
+    }
+    std::deque<persistent_task> prepared;
+    std::string error;
+    if( !validate_task_dependencies( proposal, error ) || !validate_task_capacity( proposal, error ) ) {
+        state.last_error = error;
+        state.task_candidate.clear();
+        return false;
+    }
+    for( const JsonObject &definition : proposal.get_array( "tasks" ) ) {
+        definition.allow_omitted_members();
+        persistent_task task;
+        task.id = definition.get_string( "id" );
+        task.kind = definition.get_string( "kind" );
+        task.definition = canonical( json_loader::from_string( stringify( definition ) ) );
+        task.operation_prefix = new_identity();
+        task.args = stringify( subobject( definition, "args" ) );
+        task.requirement_id = definition.get_string( "requirement_id", "" );
+        task.quantity_mode = definition.get_string( "quantity_mode", "acquired" );
+        const JsonObject args = read_object( task.args );
+        task.target = task.kind == "gather" ? args.get_int( "count" ) :
+                      task.kind == "craft" ? args.get_int( "batch", 1 ) : 1;
+        // A slow model must not move the permission area along with the NPC.
+        task.anchor = task_request_anchor();
+        if( definition.has_object( "constraints" ) ) {
+            task.max_distance = subobject( definition, "constraints" ).get_int( "max_distance", 12 );
+        }
+        if( task.kind == "move" ) {
+            const tripoint_abs_ms target( args.get_int( "x" ), args.get_int( "y" ), args.get_int( "z" ) );
+            if( square_dist( task.anchor, target ) > task.max_distance ) {
+                state.last_error = "task_target_outside_area";
+                state.task_candidate.clear();
+                return false;
+            }
+        }
+        if( definition.has_array( "depends_on" ) ) {
+            for( const std::string dependency : definition.get_array( "depends_on" ) ) {
+                task.dependencies.push_back( dependency );
+            }
+        }
+        if( !validate_task_permissions( task, error ) ) {
+            state.last_error = error;
+            state.task_candidate.clear();
+            return false;
+        }
+        persistent_task *existing = find_task( task.id );
+        const auto retired = state.retired_tasks.find( task.id );
+        if( retired != state.retired_tasks.end() ) {
+            if( retired->second != task.definition ) {
+                state.last_error = "task_payload_conflict";
+                state.task_candidate.clear();
+                return false;
+            }
+            continue;
+        }
+        if( existing ) {
+            if( existing->definition != task.definition ) {
+                state.last_error = "task_payload_conflict";
+                state.task_candidate.clear();
+                return false;
+            }
+        } else {
+            prepared.push_back( std::move( task ) );
+        }
+    }
+    for( auto entry = state.tasks.begin(); entry != state.tasks.end() &&
+         state.tasks.size() + prepared.size() > 128; ) {
+        const bool referenced = std::any_of( state.tasks.begin(), state.tasks.end(),
+        [&entry]( const persistent_task & dependent ) {
+            return task_live( dependent ) && std::find( dependent.dependencies.begin(),
+                    dependent.dependencies.end(), entry->id ) != dependent.dependencies.end();
+        } ) || std::any_of( prepared.begin(),
+        prepared.end(), [&entry]( const persistent_task & dependent ) {
+            return std::find( dependent.dependencies.begin(), dependent.dependencies.end(),
+                              entry->id ) != dependent.dependencies.end();
+        } );
+        if( !task_live( *entry ) && !referenced ) {
+            state.retired_tasks[entry->id] = entry->definition;
+            entry = state.tasks.erase( entry );
+        } else {
+            ++entry;
+        }
+    }
+    while( state.retired_tasks.size() > maximum_history ) {
+        state.retired_tasks.erase( state.retired_tasks.begin() );
+    }
+    if( state.tasks.size() + prepared.size() > 128 ) {
+        state.last_error = "task_limit";
+        state.task_candidate.clear();
+        return false;
+    }
+    const bool prioritize = proposal.get_string( "mode", "append" ) == "prioritize";
+    if( prioritize && !prepared.empty() ) {
+        if( std::any_of( state.queue.begin(), state.queue.end(), []( const pending_step & step ) {
+        return step.task_id.empty();
+        } ) ) {
+            return false; // A legacy/native plan retains its execution slot.
+        }
+        state.queue.clear();
+        for( persistent_task &task : state.tasks ) {
+            if( task.phase == "running" || task.phase == "queued" ) {
+                task_transition( task, "paused", "prioritized_task" );
+            }
+        }
+        std::reverse( prepared.begin(), prepared.end() );
+    }
+    for( persistent_task &task : prepared ) {
+        const auto requirement = state.requirement_decisions.find( task.requirement_id );
+        if( requirement != state.requirement_decisions.end() ) {
+            requirement->second.decision = "accepted";
+            requirement->second.operation_id = task.id;
+            requirement->second.text.clear();
+        }
+        if( prioritize ) {
+            state.tasks.push_front( std::move( task ) );
+            task_transition( state.tasks.front(), "queued", "accepted" );
+        } else {
+            state.tasks.push_back( std::move( task ) );
+            task_transition( state.tasks.back(), "queued", "accepted" );
+        }
+    }
+    state.acknowledged = subobject( proposal, "context" ).get_int64( "event_watermark" );
+    while( !state.events.empty() && read_object( state.events.front() ).get_int64(
+               "sequence" ) <= state.acknowledged ) {
+        state.checkpoint_delta.push_back( state.events.front() );
+        state.events.pop_front();
+    }
+    state.accepted_at = clock_type::now();
+    state.observation_signature = decision_signature( NpcExecutionAdapter::observe( bound ) );
+    state.chat_trigger = false;
+    state.decision_trigger = false;
+    state.task_decision_ready = false;
+    invalidate_request();
+    return true;
+}
+
+void fill_task_queue( npc &bound )
+{
+    if( !state.queue.empty() ) {
+        return;
+    }
+    trim_receipts();
+    const std::string observed = NpcExecutionAdapter::observe( bound );
+    const JsonObject observation = read_object( observed );
+    for( persistent_task &task : state.tasks ) {
+        if( !task_live( task ) ) {
+            continue;
+        }
+        // An interrupted native craft retains an in-progress item containing
+        // its spent materials. Starting another command would consume them
+        // again; inventory changes alone cannot authorize that recovery.
+        if( task.phase == "blocked" && task.reason == "craft_interrupted" ) {
+            continue;
+        }
+        const std::string signature = task_environment( observed, &task );
+        if( task.phase == "blocked" && task.reason != "task_dependency_pending" &&
+            task.blocked_signature == signature ) {
+            continue;
+        }
+        if( task.phase == "blocked" ) {
+            task.attempts = 0;
+        }
+        bool pending_dependency = false;
+        bool failed_dependency = false;
+        for( const std::string &dependency : task.dependencies ) {
+            const persistent_task *previous = find_task( dependency );
+            if( previous && ( previous->phase == "failed" || previous->phase == "cancelled" ) ) {
+                failed_dependency = true;
+                break;
+            }
+            if( !previous || previous->phase != "completed" ) {
+                pending_dependency = true;
+                break;
+            }
+            for( const std::string &output : previous->outputs ) {
+                if( state.receipts.count( output ) == 0 ) {
+                    pending_dependency = true;
+                }
+            }
+        }
+        if( failed_dependency ) {
+            task_transition( task, "failed", "task_dependency_failed" );
+            continue;
+        }
+        if( pending_dependency ) {
+            task.blocked_signature = signature;
+            task_transition( task, "blocked", "task_dependency_pending" );
+            continue;
+        }
+        std::string permission;
+        if( !validate_task_permissions( task, permission ) ) {
+            task_transition( task, "cancelled", permission );
+            continue;
+        }
+        if( task.kind != "follow" && task.kind != "guard" &&
+            square_dist( task.anchor, bound.pos_abs() ) > task.max_distance ) {
+            task.blocked_signature = signature;
+            task_transition( task, "blocked", "task_area_changed" );
+            continue;
+        }
+        if( task.kind == "follow" || task.kind == "guard" ) {
+            if( std::any_of( state.tasks.begin(), state.tasks.end(), [&task]( const persistent_task & other ) {
+            return other.id != task.id && task_live( other ) && other.phase != "blocked" &&
+                       other.phase != "paused" &&
+                       other.kind != "follow" && other.kind != "guard";
+            } ) ) {
+                task_transition( task, "paused", "finite_work_pending" );
+                continue;
+            }
+            if( !task.duty_active ) {
+                task.previous_mission = bound.mission;
+                task.previous_attitude = bound.get_attitude();
+                task.previous_guard = bound.guard_pos;
+                task.duty_active = true;
+            }
+            if( task.phase != "running" ) {
+                if( task.kind == "follow" ) {
+                    talk_function::follow_only( bound );
+                } else {
+                    talk_function::assign_guard( bound );
+                    bound.guard_pos = task.anchor;
+                }
+            }
+            task_transition( task, "running" );
+            return; // Native NPC logic maintains this continuing duty.
+        }
+        if( state.receipts.size() >= 4096 ) {
+            // Preserve every live dependency within the save format's bound.
+            // Stopping new physical operations is safer than evicting evidence.
+            task.blocked_signature = signature;
+            task_transition( task, "blocked", "task_receipt_limit" );
+            continue;
+        }
+        const JsonObject args = read_object( task.args );
+        std::string action_args = task.args;
+        if( task.kind == "gather" ) {
+            const std::string type = args.get_string( "item_type" );
+            const int remaining = task.quantity_mode == "inventory" ?
+                                  task.target - task_inventory( bound, type ) : task.target - task.progress;
+            if( remaining <= 0 ) {
+                if( task.quantity_mode == "inventory" ) {
+                    task.progress = task_inventory( bound, type );
+                }
+                task_transition( task, "completed" );
+                continue;
+            }
+            int available = 0;
+            tripoint_abs_ms target;
+            for( const JsonObject &item : subobject( observation, "nearby" ).get_array( "items" ) ) {
+                item.allow_omitted_members();
+                const JsonObject position = subobject( item, "position" );
+                const tripoint_abs_ms location( position.get_int( "x" ), position.get_int( "y" ),
+                                                position.get_int( "z" ) );
+                if( item.get_string( "item_type" ) == type && item.get_bool( "available_to_take", false ) &&
+                    square_dist( task.anchor, location ) <= task.max_distance &&
+                    ( !args.has_int( "x" ) || location == tripoint_abs_ms( args.get_int( "x" ),
+                            args.get_int( "y" ), args.get_int( "z" ) ) ) ) {
+                    if( available == 0 ) {
+                        target = location;
+                    }
+                    if( location == target ) {
+                        available += item.get_int( "count", 0 );
+                    }
+                }
+            }
+            if( available <= 0 ) {
+                task.blocked_signature = signature;
+                task_transition( task, "blocked", "task_material_unavailable" );
+                continue;
+            }
+            action_args = "{\"x\":" + std::to_string( target.x() ) + ",\"y\":" +
+                          std::to_string( target.y() ) + ",\"z\":" + std::to_string( target.z() ) +
+                          ",\"item_type\":" + quote( type ) + ",\"count\":" +
+                          std::to_string( std::min( remaining, available ) ) + "}";
+        }
+        task_transition( task, "running" );
+        action_step step;
+        step.id = task.operation_prefix + "." + std::to_string( task.sequence );
+        step.action = task.kind;
+        step.args_json = action_args;
+        step.requirement_id = task.requirement_id;
+        state.queue.push_back( { step, {}, false, false, task.id } );
+        if( !task.prefetch_requested && !state.duties.empty() && !state.chat_trigger &&
+            state.request_context.empty() &&
+            state.tasks.back().id == task.id &&
+            ( task.kind != "gather" || task.progress > 0 ) ) {
+            task.prefetch_requested = true;
+            ++state.decision_revision;
+            state.decision_reason = "task_boundary";
+            state.decision_trigger = true;
+            state.task_decision_ready = true;
+        }
+        return;
+    }
+}
+
+void task_step_finished( const std::string &task_id, const action_step &step,
+                         const execution_result &result, npc &bound )
+{
+    persistent_task *task = find_task( task_id );
+    if( !task ) {
+        return;
+    }
+    if( result.state == execution_state::succeeded ) {
+        task->outputs.push_back( step.id );
+        task->attempts = 0;
+        ++task->sequence;
+        if( task->kind == "gather" && task->quantity_mode == "inventory" ) {
+            task->progress = task_inventory( bound, read_object( task->args ).get_string( "item_type" ) );
+        } else {
+            task->progress += task->kind == "gather" ? read_object( result.detail_json ).get_int(
+                                  "count", 0 ) : task->target;
+        }
+        if( task->kind != "gather" || task->progress >= task->target ) {
+            task_transition( *task, "completed" );
+        } else {
+            task_transition( *task, "queued", "progress" );
+        }
+    } else {
+        ++task->attempts;
+        ++task->sequence;
+        task->reason = result.code;
+        task->blocked_signature = task_environment( NpcExecutionAdapter::observe( bound ), task );
+        task_transition( *task, result.code == "invalid_recipe" || result.code == "actor_dead" ? "failed" :
+                         result.code == "craft_interrupted" ? "blocked" :
+                         task->attempts < 2 ? "queued" : "blocked", result.code );
+    }
+    const avatar &player = get_avatar();
+    map &here = get_map();
+    const bool can_see_actor = ( !player.is_blind() ||
+                                 rl_dist( player.pos_bub(), bound.pos_bub() ) < player.clairvoyance() ) &&
+                               player.sees( here, bound );
+    const JsonObject action_args = read_object( step.args_json );
+    const tripoint_bub_ms source = step.action == "gather" ?
+                                   here.get_bub( tripoint_abs_ms( action_args.get_int( "x" ), action_args.get_int( "y" ),
+                                           action_args.get_int( "z" ) ) ) : bound.pos_bub();
+    const bool can_see_effect = ( !player.is_blind() ||
+                                  rl_dist( player.pos_bub(), source ) < player.clairvoyance() ) &&
+                                here.inbounds( source ) && player.sees( here, source );
+    if( result.state == execution_state::succeeded && can_see_actor && can_see_effect ) {
+        // Seeing an action does not reveal its private goal, terminal state,
+        // hidden inventory or intended total. Publish only this observed effect.
+        const int observed = task->kind == "gather" ?
+                             read_object( result.detail_json ).get_int( "count", 0 ) : 1;
+        state.player_progress.push_back( "{\"task_kind\":" + quote( step.action ) +
+                                         ",\"state\":\"observed\",\"progress\":" +
+                                         std::to_string( observed ) + ",\"target\":" +
+                                         std::to_string( observed ) + "}" );
+        while( state.player_progress.size() > 8 ) {
+            state.player_progress.pop_front();
+        }
     }
 }
 
@@ -703,25 +1459,65 @@ void cancel_unstarted( const std::string &reason )
 bool owns_native_activity( const npc &candidate )
 {
     if( state.queue.empty() || !state.queue.front().started ||
-        state.queue.front().step.action != "craft" ) {
+        ( state.queue.front().step.action != "craft" &&
+          state.queue.front().step.action != "cast_spell" ) ) {
         return false;
     }
     const std::string &operation = state.queue.front().step.id;
-    const diag_value *active = candidate.maybe_get_value( "cph_ai.craft_step" );
-    const diag_value *completed = candidate.maybe_get_value( "cph_ai.craft_completed_step" );
+    const bool spell = state.queue.front().step.action == "cast_spell";
+    if( spell && ( candidate.activity.id() != activity_id( "ACT_SPELLCASTING" ) ||
+                   candidate.activity.str_values.size() != 2 ||
+                   candidate.activity.str_values[0] != "cph_ai.cast_spell" ||
+                   candidate.activity.str_values[1] != operation ) ) {
+        return false;
+    }
+    const diag_value *active = candidate.maybe_get_value( spell ?
+                               "cph_ai.spell_step" : "cph_ai.craft_step" );
+    const diag_value *completed = candidate.maybe_get_value( spell ?
+                                  "cph_ai.spell_completed_step" : "cph_ai.craft_completed_step" );
     return active && active->to_string() == operation &&
            ( !completed || completed->to_string() != operation );
 }
 
 void finish_cancelled_step( npc *bound, const pending_step &entry, const std::string &reason )
 {
-    const diag_value *completed = bound ? bound->maybe_get_value( "cph_ai.craft_completed_step" ) :
-                                  nullptr;
-    if( bound && entry.started && entry.step.action == "craft" && completed &&
+    const bool native_activity = entry.step.action == "craft" || entry.step.action == "cast_spell";
+    const diag_value *completed = bound ? bound->maybe_get_value( entry.step.action == "cast_spell" ?
+                                  "cph_ai.spell_completed_step" : "cph_ai.craft_completed_step" ) : nullptr;
+    if( bound && entry.started && native_activity && completed &&
         completed->to_string() == entry.step.id ) {
         record_result( entry.step, NpcExecutionAdapter::execute( *bound, entry.step ) );
     } else {
         record_result( entry.step, { execution_state::failed, reason, "{}", false } );
+    }
+}
+
+void finish_withdrawn_steps( npc *bound )
+{
+    for( auto entry = state.queue.begin(); entry != state.queue.end(); ) {
+        const auto requirement = state.requirement_decisions.find( entry->step.requirement_id );
+        if( requirement == state.requirement_decisions.end() || !requirement->second.withdrawn ) {
+            ++entry;
+            continue;
+        }
+        if( entry->started && ( !bound || bound->is_dead() ) ) {
+            ++entry; // Reconcile with the same actor when it is available.
+            continue;
+        }
+        if( bound && entry == state.queue.begin() && bound->activity && owns_native_activity( *bound ) ) {
+            if( !bound->activity.is_interruptible() ) {
+                ++entry;
+                continue;
+            }
+            bound->cancel_activity();
+        }
+        finish_cancelled_step( bound, *entry, "requirement_withdrawn" );
+        if( bound && bound->get_value( "cph_ai.pending_trade_id" ) == entry->step.id ) {
+            bound->remove_value( "cph_ai.pending_trade" );
+            bound->remove_value( "cph_ai.pending_trade_id" );
+            bound->remove_value( "cph_ai.pending_trade_source_operation" );
+        }
+        entry = state.queue.erase( entry );
     }
 }
 
@@ -869,7 +1665,8 @@ std::string packet( const std::string &text )
         } else if( !state.authenticated ) {
             error = "authentication_required";
         } else {
-            result = dispatch( request.get_string( "method" ), subobject( request, "params" ).str(), error );
+            result = dispatch( request.get_string( "method" ),
+                               stringify( subobject( request, "params" ) ), error );
         }
     } catch( const std::exception & ) {
         error = "invalid_json";
@@ -928,6 +1725,32 @@ bool permits_item_aid( const npc &candidate, const Character &recipient )
            !beneficiary->is_enemy() || allows( "aid_conflicting_party" );
 }
 
+bool permits_spell_target( const npc &candidate, const Creature &target, bool harmful )
+{
+    if( multiplayer_proxy( candidate ) ) {
+        return false;
+    }
+    if( !harmful ) {
+        const npc *beneficiary = target.as_npc();
+        return &candidate == &target ||
+               ( ( !beneficiary || !beneficiary->is_enemy() ) &&
+                 target.attitude_to( candidate ) != Creature::Attitude::HOSTILE ) ||
+               allows( "aid_conflicting_party" );
+    }
+    if( &candidate == &target ) {
+        return false;
+    }
+    if( target.is_avatar() ) {
+        return allows( "attack_player" );
+    }
+    const npc *other = target.as_npc();
+    if( ( other && candidate.is_ally( *other ) ) ||
+        target.attitude_to( candidate ) == Creature::Attitude::FRIENDLY ) {
+        return allows( "attack_allies" );
+    }
+    return true;
+}
+
 bool pauses_offline_work( npc &candidate )
 {
     if( multiplayer_proxy( candidate ) ) {
@@ -950,6 +1773,11 @@ void on_actor_death( npc &candidate )
         return;
     }
     invalidate_request();
+    for( persistent_task &task : state.tasks ) {
+        if( task_live( task ) ) {
+            task_transition( task, "failed", "actor_dead" );
+        }
+    }
     for( const pending_step &entry : state.queue ) {
         record_result( entry.step, { execution_state::failed, "actor_dead", "{}", false } );
     }
@@ -1001,11 +1829,95 @@ bool bind( npc &candidate, const std::string &profile_id, std::string &error )
     state.detach_state = "attached";
     state.paused = false;
     candidate.set_value( "cph_ai.bound", "true" );
+    enable_real_stamina( candidate );
     invalidate_request();
     if( initial ) {
         event( "observation", "companion_bound" );
     }
     return true;
+}
+
+bool configure_duties( const std::string &profile_id, const int actor_id,
+                       const JsonObject &scope, std::string &error )
+{
+    error.clear();
+    if( !has_binding() || profile_id != state.profile_id || actor_id != state.actor_id ) {
+        error = "fixed_binding_conflict";
+        return false;
+    }
+    try {
+        scope.allow_omitted_members();
+        const int distance = scope.get_int( "max_distance", 12 );
+        std::set<std::string> duties;
+        std::set<std::string> items;
+        std::set<std::string> recipes;
+        if( distance < 1 || distance > 60 ) {
+            error = "invalid_duties";
+            return false;
+        }
+        for( const char *key : {
+                 "item_types", "recipes"
+             } ) {
+            if( scope.has_member( key ) ) {
+                const JsonArray values = scope.get_array( key );
+                if( values.size() > 128 ) {
+                    error = "invalid_duties";
+                    return false;
+                }
+                for( const std::string value : values ) {
+                    if( value.empty() || value.size() > 256 || value.find( '\0' ) != std::string::npos ) {
+                        error = "invalid_duties";
+                        return false;
+                    }
+                    ( std::string( key ) == "item_types" ? items : recipes ).insert( value );
+                }
+            }
+        }
+        for( const std::string kind : scope.get_array( "allowed_tasks" ) ) {
+            if( kind != "follow" && kind != "guard" && kind != "move" &&
+                kind != "gather" && kind != "craft" ) {
+                error = "invalid_duties";
+                return false;
+            }
+            duties.insert( kind );
+        }
+        if( duties != state.duties || items != state.duty_items ||
+            recipes != state.duty_recipes || distance != state.duty_distance ) {
+            state.duties = std::move( duties );
+            state.duty_items = std::move( items );
+            state.duty_recipes = std::move( recipes );
+            state.duty_distance = distance;
+            state.policy_version = new_identity();
+            invalidate_request();
+        }
+        return true;
+    } catch( const std::exception & ) {
+        error = "invalid_duties";
+        return false;
+    }
+}
+
+std::vector<player_requirement> player_requirements()
+{
+    std::vector<player_requirement> result;
+    std::map<std::string, std::string> messages;
+    for( const std::string &line : state.transcript ) {
+        const JsonObject message = read_object( line );
+        if( message.get_string( "speaker", "" ) == "player" &&
+            message.has_string( "requirement_id" ) ) {
+            messages[message.get_string( "requirement_id" )] = message.get_string( "text", "" );
+        }
+    }
+    for( const auto &entry : state.requirement_decisions ) {
+        const auto message = messages.find( entry.first );
+        result.push_back( { entry.first, entry.second.source_sequence, entry.second.withdrawn,
+                            message == messages.end() ? std::string() : message->second } );
+    }
+    std::sort( result.begin(), result.end(), []( const player_requirement & lhs,
+    const player_requirement & rhs ) {
+        return lhs.sequence < rhs.sequence;
+    } );
+    return result;
 }
 
 bool chat( const std::string &text, std::string &error )
@@ -1038,10 +1950,40 @@ bool chat( const std::string &text, std::string &error )
                                          requirement_decision { state.event_watermark, "pending", {}, text } );
     invalidate_request();
     state.chat_trigger = true;
-    state.transcript.push_back( "{\"speaker\":\"player\",\"text\":" + quote( text ) + "}" );
+    state.transcript.push_back( "{\"speaker\":\"player\",\"text\":" + quote( text ) +
+                                ",\"requirement_id\":" + quote( incoming_id ) + "}" );
+    ++state.decision_revision;
+    state.decision_reason = "player_message";
     while( state.transcript.size() > maximum_transcript ) {
         state.transcript.pop_front();
     }
+    return true;
+}
+
+bool withdraw_requirement( const std::string &id, std::string &error )
+{
+    error.clear();
+    const auto incoming = state.requirement_decisions.find( id );
+    if( !has_binding() || incoming == state.requirement_decisions.end() ) {
+        error = "unknown_requirement";
+        return false;
+    }
+    if( incoming->second.withdrawn ) {
+        return true;
+    }
+    incoming->second.withdrawn = true;
+    invalidate_request();
+    ++state.decision_revision;
+    for( persistent_task &task : state.tasks ) {
+        if( task.requirement_id == id && task_live( task ) ) {
+            task_transition( task, "cancelled", "requirement_withdrawn" );
+        }
+    }
+    finish_withdrawn_steps( actor_for_handoff() );
+    event( "receipt", "requirement_withdrawn",
+           "{\"operation_id\":" + quote( id + ".withdrawn" ) +
+           ",\"action\":\"requirement\",\"state\":\"succeeded\",\"detail\":{\"requirement_id\":" +
+           quote( id ) + "}}" );
     return true;
 }
 
@@ -1054,6 +1996,12 @@ void pause( bool value )
 void cancel()
 {
     invalidate_request();
+    ++state.decision_revision;
+    for( persistent_task &task : state.tasks ) {
+        if( task_live( task ) ) {
+            task_transition( task, "cancelled", "player_cancelled" );
+        }
+    }
     cancel_unstarted( "plan_cancelled" );
     bool unsupported_proxy = false;
     npc *bound = actor_for_handoff( &unsupported_proxy );
@@ -1093,6 +2041,11 @@ void cancel()
 void stop()
 {
     invalidate_request();
+    for( persistent_task &task : state.tasks ) {
+        if( task_live( task ) ) {
+            task_transition( task, "cancelled", "control_stopped" );
+        }
+    }
     state.cognition_stale = true;
     state.checkpoint_requested = false;
     if( npc *bound = actor_for_handoff() ) {
@@ -1112,7 +2065,24 @@ void on_scene_change()
     state.observation_signature.clear();
     cancel_unstarted( "scene_changed" );
     for( auto entry = state.queue.begin(); entry != state.queue.end(); ) {
-        if( entry->started && entry->step.action == "craft" ) {
+        if( entry->started && entry->step.action == "cast_spell" ) {
+            if( npc *bound = actor_for_handoff() ) {
+                bound->set_value( "cph_ai.spell_invalidated", "true" );
+                if( bound->activity && owns_native_activity( *bound ) &&
+                    bound->activity.is_interruptible() ) {
+                    bound->cancel_activity();
+                }
+                if( bound->activity && owns_native_activity( *bound ) ) {
+                    ++entry;
+                    continue; // The invalidated cast must finish without applying its effect.
+                }
+                finish_cancelled_step( bound, *entry, "scene_changed" );
+                entry = state.queue.erase( entry );
+                continue;
+            }
+        }
+        if( entry->started && ( entry->step.action == "craft" ||
+                                entry->step.action == "cast_spell" ) ) {
             // The native activity and its real inputs travel with the actor,
             // or remain paused in the source dimension when it stays behind.
             ++entry;
@@ -1176,6 +2146,17 @@ void reset()
     state.checkpoint_delta.clear();
     state.event_bytes = 0;
     state.queue.clear();
+    state.tasks.clear();
+    state.retired_tasks.clear();
+    state.task_candidate.clear();
+    state.duties.clear();
+    state.duty_distance = 12;
+    state.duty_items.clear();
+    state.duty_recipes.clear();
+    state.player_progress.clear();
+    state.decision_revision = 0;
+    state.decision_reason = "world_change";
+    state.task_decision_ready = false;
     state.receipts.clear();
     state.accepted_plans.clear();
     state.receipt_order.clear();
@@ -1187,6 +2168,7 @@ void reset()
 
 void pump_incoming()
 {
+    finish_withdrawn_steps( actor_for_handoff() );
     npc *pending = state.control_state == "cancel_pending" ? actor_for_handoff() : nullptr;
     if( pending && ( !pending->activity || !owns_native_activity( *pending ) ||
                      pending->activity.is_interruptible() ) ) {
@@ -1245,40 +2227,136 @@ bool act( npc &candidate, bool urgent )
     if( !state.enabled ) {
         return false;
     }
-    if( urgent || state.paused || state.detach_state != "attached" || state.queue.empty() ||
+    enable_real_stamina( candidate );
+    finish_withdrawn_steps( &candidate );
+    if( urgent ) {
+        for( persistent_task &task : state.tasks ) {
+            if( task.phase == "running" ) {
+                ++task.attempts;
+                // Do not restore an old attitude over the native flee reaction.
+                task.reason = "native_danger";
+                task.blocked_signature = task_environment( NpcExecutionAdapter::observe( candidate ), &task );
+                task_transition( task, task.attempts >= 2 ? "blocked" : "paused", "native_danger", false );
+                state.task_decision_ready = true;
+                state.decision_trigger = true;
+                state.decision_reason = "world_change";
+                ++state.decision_revision;
+                invalidate_request();
+            }
+        }
+        return false;
+    }
+    if( state.paused || state.detach_state != "attached" ||
         candidate.get_moves() <= 0 ||
         state.events.size() + state.checkpoint_delta.size() > maximum_events - 16 ||
         state.event_bytes > maximum_event_bytes - maximum_message ) {
         return false;
     }
+    if( candidate.activity ) {
+        return false;
+    }
+    if( !state.queue.empty() && state.queue.front().restored ) {
+        const pending_step &current = state.queue.front();
+        const bool spell = current.step.action == "cast_spell";
+        const diag_value *native = candidate.maybe_get_value( current.step.action == "craft" ?
+                                   "cph_ai.craft_step" : spell ? "cph_ai.spell_step" : "cph_ai.wait." + current.step.id );
+        const diag_value *completed = candidate.maybe_get_value( spell ?
+                                      "cph_ai.spell_completed_step" : "cph_ai.craft_completed_step" );
+        const auto saved_receipt = state.receipts.find( current.step.id );
+        const bool known = current.step.action == "move" ||
+                           ( !current.task_id.empty() && current.step.action == "gather" &&
+                             saved_receipt != state.receipts.end() &&
+                             read_object( saved_receipt->second ).get_string( "code", "" ) ==
+                             "approaching_gather_target" ) ||
+                           ( current.step.action == "wait" && native ) ||
+                           ( ( current.step.action == "craft" || spell ) &&
+                             ( ( native && native->to_string() == current.step.id ) ||
+                               ( completed && completed->to_string() == current.step.id ) ) );
+        if( !known ) {
+            // A prioritized candidate must not hide an unknown restored
+            // physical effect by replacing the queue before reconciliation.
+            state.control_state = "reconcile_required";
+            state.last_error = "unknown_restored_operation";
+            return false;
+        }
+        state.queue.front().restored = false;
+    }
+    if( !state.queue.empty() && !state.queue.front().task_id.empty() &&
+        state.queue.front().started && state.queue.front().step.action == "craft" ) {
+        const pending_step current = state.queue.front();
+        const diag_value *active = candidate.maybe_get_value( "cph_ai.craft_step" );
+        const diag_value *completed = candidate.maybe_get_value( "cph_ai.craft_completed_step" );
+        if( ( active && active->to_string() == current.step.id ) ||
+            ( completed && completed->to_string() == current.step.id ) ) {
+            // Reconcile the old activity before another craft can overwrite its
+            // native completion marker during a prioritized handoff.
+            const execution_result result = NpcExecutionAdapter::execute( candidate, current.step );
+            record_result( current.step, result );
+            state.queue.pop_front();
+            task_step_finished( current.task_id, current.step, result, candidate );
+        } else if( current.restored ) {
+            state.control_state = "reconcile_required";
+            state.last_error = "unknown_restored_operation";
+            return false;
+        }
+    }
+    adopt_task_candidate( candidate );
+    if( !state.queue.empty() && !state.queue.front().task_id.empty() ) {
+        persistent_task *owner = find_task( state.queue.front().task_id );
+        if( !owner || owner->phase == "blocked" || !task_live( *owner ) ) {
+            state.queue.pop_front();
+            owner = nullptr;
+        } else if( owner->phase == "paused" ) {
+            task_transition( *owner, "running", "resumed" );
+        }
+        if( owner && owner->kind == "move" ) {
+            const JsonObject args = read_object( owner->args );
+            const tripoint_abs_ms target( args.get_int( "x" ), args.get_int( "y" ), args.get_int( "z" ) );
+            if( square_dist( owner->anchor, candidate.pos_abs() ) > owner->max_distance ||
+                square_dist( owner->anchor, target ) > owner->max_distance ) {
+                owner->blocked_signature = task_environment( NpcExecutionAdapter::observe( candidate ), owner );
+                task_transition( *owner, "blocked", "task_target_outside_area" );
+                state.queue.pop_front();
+            }
+        }
+    }
+    fill_task_queue( candidate );
+    if( state.queue.empty() ) {
+        return false;
+    }
     pending_step &current = state.queue.front();
+    if( !current.task_id.empty() ) {
+        persistent_task *owner = find_task( current.task_id );
+        std::string permission;
+        if( owner && !validate_task_permissions( *owner, permission ) ) {
+            finish_cancelled_step( &candidate, current, permission );
+            task_transition( *owner, "cancelled", permission );
+            state.queue.pop_front();
+            return false;
+        }
+        if( owner ) {
+            current.step.task_bounds_json = "{\"x\":" + std::to_string( owner->anchor.x() ) +
+                                            ",\"y\":" + std::to_string( owner->anchor.y() ) +
+                                            ",\"z\":" + std::to_string( owner->anchor.z() ) +
+                                            ",\"radius\":" + std::to_string( owner->max_distance ) + "}";
+        }
+    }
     if( candidate.activity ) {
         // The original activity owns its progress and scheduling, even when
         // it was started by us. Do not occupy another activity's execution slot.
         return false;
     }
     std::string permission_error;
-    if( !step_allowed( current.step, permission_error, !current.started ) ) {
+    if( !step_allowed( current.step, permission_error, !current.started && current.task_id.empty() ) ) {
         record_result( current.step, { execution_state::failed, permission_error, "{}", false } );
+        if( !current.task_id.empty() ) {
+            if( persistent_task *task = find_task( current.task_id ) ) {
+                task_transition( *task, "cancelled", permission_error );
+            }
+        }
         state.queue.pop_front();
         cancel_unstarted( "dependency_failed" );
         return false;
-    }
-    if( current.restored ) {
-        const std::string key = current.step.action == "craft" ? "cph_ai.craft_step" :
-                                "cph_ai.wait." + current.step.id;
-        const diag_value *native = candidate.maybe_get_value( key );
-        const diag_value *completed = candidate.maybe_get_value( "cph_ai.craft_completed_step" );
-        const bool known = current.step.action == "move" ||
-                           ( current.step.action == "wait" && native ) ||
-                           ( current.step.action == "craft" && ( ( native && native->to_string() == current.step.id ) ||
-                                   ( completed && completed->to_string() == current.step.id ) ) );
-        if( !known ) {
-            state.control_state = "reconcile_required";
-            state.last_error = "unknown_restored_operation";
-            return false;
-        }
-        current.restored = false;
     }
     current.step.source_operation.clear();
     if( !current.from_step.empty() ) {
@@ -1299,8 +2377,11 @@ bool act( npc &candidate, bool urgent )
     record_result( current.step, result );
     if( result.state != execution_state::running ) {
         const action_step completed = current.step;
+        const std::string task_id = current.task_id;
         state.queue.pop_front();
-        if( result.state == execution_state::failed ) {
+        if( !task_id.empty() ) {
+            task_step_finished( task_id, completed, result, candidate );
+        } else if( result.state == execution_state::failed ) {
             cancel_unstarted( "dependency_failed" );
         } else {
             const JsonObject args = read_object( completed.args_json );
@@ -1314,6 +2395,12 @@ bool act( npc &candidate, bool urgent )
         }
     }
     return result.consumed_moves || candidate.activity;
+}
+
+bool has_pending_tasks( const npc &candidate )
+{
+    return state.enabled && is_bound( candidate ) && state.detach_state == "attached" &&
+           !state.paused && std::any_of( state.tasks.begin(), state.tasks.end(), task_live );
 }
 
 int following_distance( const npc &candidate, int native_distance )
@@ -1446,6 +2533,21 @@ std::string status( bool include_debug, const std::string &operation_id )
     out.member( "saved_memory_context" );
     write_raw( out, state.saved_memory_context );
     out.member( "queue_length", state.queue.size() );
+    out.member( "planning_state", !state.authenticated || !state.bridge.connected() ? "offline" :
+                !state.task_candidate.empty() ? "candidate_pending" :
+                !state.request_context.empty() ? state.planning_state : "idle" );
+    out.member( "planning_reason", state.authenticated && state.bridge.connected() &&
+                !state.request_context.empty() && state.task_candidate.empty() ?
+                state.planning_reason : std::string() );
+    out.member( "decision_id", state.load_epoch + "." + std::to_string( state.decision_revision ) );
+    out.member( "task_summary" );
+    write_tasks( out );
+    out.member( "player_progress" );
+    out.start_array();
+    for( const std::string &progress : state.player_progress ) {
+        write_raw( out, progress );
+    }
+    out.end_array();
     write_requirements( out );
     out.member( "receipts" );
     std::deque<std::string> receipt_view;
@@ -1463,6 +2565,10 @@ std::string status( bool include_debug, const std::string &operation_id )
     if( include_debug && state.debug ) {
         out.member( "debug" );
         out.start_object();
+        out.member( "tasks" );
+        write_tasks( out );
+        out.member( "task_candidate" );
+        write_raw( out, state.task_candidate.empty() ? "null" : state.task_candidate );
         out.member( "personality" );
         write_raw( out, state.personality );
         out.member( "cognition" );
@@ -1555,6 +2661,22 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                    ",\"schema_digest\":" + quote( protocol_digest ) + ",\"actions\":" + catalog() + "}";
         }
         if( method == "status" ) {
+            if( !parse_status_parameters( params_text, error ) ) {
+                return "null";
+            }
+            if( params.has_object( "planning_report" ) ) {
+                const JsonObject report = subobject( params, "planning_report" );
+                if( state.request_context.empty() ||
+                    report.get_string( "decision_id" ) != state.load_epoch + "." +
+                    std::to_string( state.decision_revision ) ||
+                    report.get_string( "request_id" ) !=
+                    read_object( state.request_context ).get_string( "request_id" ) ) {
+                    error = "stale_request";
+                    return "null";
+                }
+                state.planning_state = report.get_string( "state" );
+                state.planning_reason = report.get_string( "reason" );
+            }
             return status( params.get_bool( "include_debug", false ),
                            params.get_string( "operation_id", "" ) );
         }
@@ -1614,6 +2736,10 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 state.personality = policy;
                 state.policy_version = new_identity();
                 invalidate_request();
+            }
+            if( !configure_duties( profile, state.actor_id, params.has_object( "duties" ) ?
+                                   subobject( params, "duties" ) : read_object( "{\"allowed_tasks\":[]}" ), error ) ) {
+                return "null";
             }
             state.max_steps = max_steps;
             state.cooldown = cooldown;
@@ -1707,7 +2833,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                     return "null";
                 }
                 if( kind == "statement" || kind == "belief" ) {
-                    known += ( known.size() == 1 ? "" : "," ) + record.str();
+                    known += ( known.size() == 1 ? "" : "," ) + stringify( record );
                 }
                 if( kind == "goal" && record.get_string( "status", "" ) == "active" && goal.empty() ) {
                     goal = record.get_string( "text" );
@@ -1719,7 +2845,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 invalidate_request();
                 state.decision_trigger = true;
             }
-            state.cognition = snapshot.str();
+            state.cognition = stringify( snapshot );
             state.cognition_stale = false;
             if( state.observation_signature.empty() ) {
                 state.decision_trigger = true;
@@ -1733,41 +2859,35 @@ std::string dispatch( const std::string &method, const std::string &params_text,
         } else if( method == "take_request" ) {
             npc *bound = actor();
             if( !state.enabled || !bound || state.paused || state.detach_state != "attached" ||
-                !state.queue.empty() || state.cognition_stale ) {
+                state.cognition_stale || !state.task_candidate.empty() ) {
+                return "null";
+            }
+            if( !state.tasks.empty() && !state.request_payload.empty() ) {
+                return state.request_payload;
+            }
+            const bool finite_work = !state.queue.empty() ||
+            std::any_of( state.tasks.begin(), state.tasks.end(), []( const persistent_task & task ) {
+                return task_live( task ) && task.kind != "follow" && task.kind != "guard";
+            } );
+            const bool allow_discovery = !finite_work && ( state.tasks.empty() || !state.duties.empty() );
+            if( !allow_discovery && ( finite_work || !state.tasks.empty() ) &&
+                !state.chat_trigger && !state.task_decision_ready ) {
                 return "null";
             }
             const std::string observed = NpcExecutionAdapter::observe( *bound );
-            const JsonObject observation = read_object( observed );
-            observation.allow_omitted_members();
-            std::ostringstream relevant;
-            JsonOut relevant_out( relevant );
-            relevant_out.start_object();
-            for( const JsonMember &member : observation ) {
-                relevant_out.member( member.name() );
-                if( member.name() == "actor" && member.test_object() ) {
-                    relevant_out.start_object();
-                    const JsonObject self = member.get_object();
-                    self.allow_omitted_members();
-                    for( const JsonMember &field : self ) {
-                        if( field.name() != "moves" && field.name() != "known_information" &&
-                            field.name() != "concealed_information" && field.name() != "commitment" &&
-                            field.name() != "commitment_state" ) {
-                            relevant_out.member( field.name() );
-                            write_value( relevant_out, field );
-                        }
-                    }
-                    relevant_out.end_object();
-                } else {
-                    write_value( relevant_out, member );
-                }
-            }
-            relevant_out.end_object();
-            const std::string signature = canonical( json_loader::from_string( relevant.str() ) );
-            if( signature != state.observation_signature ) {
+            const std::string signature = decision_signature( observed );
+            const bool discovery = allow_discovery && signature != state.observation_signature;
+            if( discovery ) {
                 invalidate_request();
+                ++state.decision_revision;
+                state.decision_reason = "world_change";
                 state.observation_signature = signature;
                 state.decision_trigger = true;
                 event( "observation", "perceived_environment_changed", observed );
+            }
+            if( !state.tasks.empty() && !state.chat_trigger &&
+                !state.task_decision_ready && !discovery ) {
+                return "null";
             }
             if( !state.request_payload.empty() ) {
                 return state.request_payload;
@@ -1818,6 +2938,58 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             state.request_context = window_context;
             state.request_payload = payload;
             return payload;
+        } else if( method == "offer_tasks" ) {
+            if( !parse_tasks( params_text, error ) ) {
+                return "null";
+            }
+            const JsonObject offered = subobject( params, "context" );
+            if( !state.enabled || !actor() || state.paused || state.detach_state != "attached" ||
+                state.cognition_stale || state.request_context.empty() ||
+                !same_context( offered, read_object( state.request_context ) ) ) {
+                error = "stale_request";
+                return "null";
+            }
+            for( const JsonObject &definition : params.get_array( "tasks" ) ) {
+                definition.allow_omitted_members();
+                persistent_task task;
+                task.id = definition.get_string( "id" );
+                task.kind = definition.get_string( "kind" );
+                task.args = stringify( subobject( definition, "args" ) );
+                task.requirement_id = definition.get_string( "requirement_id", "" );
+                task.max_distance = definition.has_object( "constraints" ) ?
+                                    subobject( definition, "constraints" ).get_int( "max_distance", 12 ) : 12;
+                if( !validate_task_permissions( task, error ) ) {
+                    return "null";
+                }
+                const persistent_task *existing = find_task( task.id );
+                const std::string definition_wire =
+                    canonical( json_loader::from_string( stringify( definition ) ) );
+                const auto retired = state.retired_tasks.find( task.id );
+                if( ( existing && existing->definition != definition_wire ) ||
+                    ( retired != state.retired_tasks.end() && retired->second != definition_wire ) ) {
+                    error = "task_payload_conflict";
+                    return "null";
+                }
+                if( task.kind == "move" ) {
+                    const JsonObject args = read_object( task.args );
+                    const tripoint_abs_ms target( args.get_int( "x" ), args.get_int( "y" ), args.get_int( "z" ) );
+                    if( square_dist( task_request_anchor(), target ) > task.max_distance ) {
+                        error = "task_target_outside_area";
+                        return "null";
+                    }
+                }
+            }
+            if( !validate_task_dependencies( params, error ) || !validate_task_capacity( params, error ) ) {
+                return "null";
+            }
+            const std::string fingerprint =
+                canonical( json_loader::from_string( stringify( params ) ) );
+            if( !state.task_candidate.empty() && state.task_candidate != fingerprint ) {
+                error = "candidate_pending";
+                return "null";
+            }
+            state.task_candidate = fingerprint;
+            return "{\"accepted\":true,\"state\":\"candidate\"}";
         } else if( method == "offer_plan" ) {
             std::vector<action_step> candidate;
             if( !parse_plan( params_text, candidate, error ) ) {
@@ -1841,8 +3013,20 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 }
                 return plan_result( request );
             }
+            const bool conversation = std::all_of( candidate.begin(), candidate.end(),
+            []( const action_step & step ) {
+                return step.action == "talk" || step.action == "refuse" || step.action == "argue" ||
+                       step.action == "propose_own_goals" || step.action == "lie_in_dialogue" ||
+                       step.action == "conceal_information" || step.action == "false_promise" ||
+                       step.action == "break_commitment";
+            } );
+            const bool task_boundary = conversation && std::all_of( state.queue.begin(), state.queue.end(),
+            []( const pending_step & step ) {
+                return !step.task_id.empty();
+            } );
             if( !state.enabled || !actor() || state.paused || state.detach_state != "attached" ||
-                state.request_context.empty() || !state.queue.empty() || state.cognition_stale ||
+                state.request_context.empty() || ( !state.queue.empty() && !task_boundary ) ||
+                state.cognition_stale ||
                 !same_context( offered, read_object( state.request_context ) ) ) {
                 error = "stale_request";
                 return "null";
@@ -1872,7 +3056,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                                        std::to_string( get_avatar().getID().get_value() ) + ",\"text\":" +
                                        quote( params.get_string( "speech" ) ) + "}", params.get_string( "intent", "" ) } );
             }
-            if( candidate.size() > static_cast<std::size_t>( state.max_steps ) ) {
+            if( candidate.size() + state.queue.size() > static_cast<std::size_t>( state.max_steps ) ) {
                 error = "plan_not_allowed";
                 return "null";
             }
@@ -1891,7 +3075,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             for( action_step &step : candidate ) {
                 const std::string dependency = dependencies[step.id];
                 step.id = request + "." + step.id;
-                state.queue.push_back( { step, dependency, false, false } );
+                state.queue.push_back( { step, dependency, false, false, {} } );
                 record_result( step, { execution_state::running, "queued", "{}", false } );
             }
             state.accepted_plans[request] = fingerprint;
@@ -1921,6 +3105,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
             state.accepted_at = clock_type::now();
             state.decision_trigger = state.events.size() > 0;
             state.chat_trigger = false;
+            state.task_decision_ready = false;
             invalidate_request();
             return plan_result( request );
         } else if( method == "checkpoint" ) {
@@ -1941,7 +3126,7 @@ std::string dispatch( const std::string &method, const std::string &params_text,
                 error = "invalid_checkpoint";
                 return "null";
             }
-            state.pending_checkpoint = reference.str();
+            state.pending_checkpoint = stringify( reference );
             state.checkpoint_requested = false;
             return "{\"accepted\":true}";
         } else {
@@ -2082,9 +3267,54 @@ void serialize( JsonOut &out )
         out.member( "from_step", entry.from_step );
         out.member( "source_operation", entry.step.source_operation );
         out.member( "started", entry.started );
+        out.member( "task_id", entry.task_id );
         out.end_object();
     }
     out.end_array();
+    out.member( "persistent_tasks" );
+    out.start_object();
+    out.member( "schema_version", 1 );
+    out.member( "duties", state.duties );
+    out.member( "retired_tasks", state.retired_tasks );
+    out.member( "duty_distance", state.duty_distance );
+    out.member( "duty_items", state.duty_items );
+    out.member( "duty_recipes", state.duty_recipes );
+    out.member( "player_progress" );
+    out.start_array();
+    for( const std::string &progress : state.player_progress ) {
+        write_raw( out, progress );
+    }
+    out.end_array();
+    out.member( "entries" );
+    out.start_array();
+    for( const persistent_task &task : state.tasks ) {
+        out.start_object();
+        out.member( "definition" );
+        write_raw( out, task.definition );
+        out.member( "operation_prefix", task.operation_prefix );
+        out.member( "state", task.phase );
+        out.member( "reason", task.reason );
+        out.member( "blocked_signature", task.blocked_signature );
+        out.member( "outputs", task.outputs );
+        out.member( "progress", task.progress );
+        out.member( "attempts", task.attempts );
+        out.member( "sequence", task.sequence );
+        out.member( "prefetch_requested", task.prefetch_requested );
+        out.member( "anchor_x", task.anchor.x() );
+        out.member( "anchor_y", task.anchor.y() );
+        out.member( "anchor_z", task.anchor.z() );
+        out.member( "duty_active", task.duty_active );
+        out.member( "previous_mission", static_cast<int>( task.previous_mission ) );
+        out.member( "previous_attitude", static_cast<int>( task.previous_attitude ) );
+        if( task.previous_guard ) {
+            out.member( "guard_x", task.previous_guard->x() );
+            out.member( "guard_y", task.previous_guard->y() );
+            out.member( "guard_z", task.previous_guard->z() );
+        }
+        out.end_object();
+    }
+    out.end_array();
+    out.end_object();
     out.member( "receipts" );
     out.start_array();
     for( const auto &entry : state.receipts ) {
@@ -2106,7 +3336,7 @@ void deserialize( const JsonObject &object )
     object.allow_omitted_members();
     reset();
     if( object.get_int( "schema_version", 0 ) != 1 ) {
-        state.future_payload = object.str();
+        state.future_payload = stringify( object );
         state.control_state = "unsupported_schema";
         return;
     }
@@ -2124,8 +3354,8 @@ void deserialize( const JsonObject &object )
         if( !validate_policy( policy ) ) {
             throw std::runtime_error( "invalid_saved_policy" );
         }
-        state.personality = policy.str();
-        state.cognition = subobject( object, "cognition" ).str();
+        state.personality = stringify( policy );
+        state.cognition = stringify( subobject( object, "cognition" ) );
         state.control_state = object.get_string( "control_state", "active" );
         state.detach_state = object.get_string( "detach_state", "attached" );
         state.paused = object.get_bool( "paused", false );
@@ -2180,7 +3410,7 @@ void deserialize( const JsonObject &object )
                     throw std::runtime_error( "saved_event_limit" );
                 }
                 if( entry.get_int64( "sequence" ) > checkpoint_watermark ) {
-                    const std::string encoded = entry.str();
+                    const std::string encoded = stringify( entry );
                     if( encoded.size() > maximum_event_bytes - state.event_bytes ) {
                         throw std::runtime_error( "saved_event_byte_limit" );
                     }
@@ -2216,11 +3446,13 @@ void deserialize( const JsonObject &object )
                 if( id.empty() || id.size() > 256 || sequence < 1 || sequence > state.event_watermark ||
                     state.requirement_decisions.size() >= maximum_events ||
                     ( decision != "pending" && decision != "accepted" && decision != "refused" ) ||
+                    ( entry.has_member( "withdrawn" ) && !entry.has_bool( "withdrawn" ) ) ||
                     entry.get_string( "source_event_id" ) != id || state.requirement_decisions.count( id ) ) {
                     throw std::runtime_error( "invalid_saved_requirement" );
                 }
                 state.requirement_decisions.emplace( id, requirement_decision {
-                    sequence, decision, entry.get_string( "operation_id", "" ), entry.get_string( "text", "" )
+                    sequence, decision, entry.get_string( "operation_id", "" ), entry.get_string( "text", "" ),
+                    entry.get_bool( "withdrawn", false )
                 } );
             }
         }
@@ -2232,18 +3464,140 @@ void deserialize( const JsonObject &object )
             const bool started = entry.get_bool( "started", false );
             state.queue.push_back( { {
                     entry.get_string( "id" ), entry.get_string( "action" ),
-                    subobject( entry, "args" ).str(), entry.get_string( "intent", "" ),
+                    stringify( subobject( entry, "args" ) ), entry.get_string( "intent", "" ),
                     entry.get_string( "source_operation", "" ), entry.get_string( "requirement_id", "" )
                 },
-                entry.get_string( "from_step", "" ), started, started } );
+                entry.get_string( "from_step", "" ), started, started,
+                entry.get_string( "task_id", "" ) } );
+        }
+        if( object.has_member( "persistent_tasks" ) ) {
+            if( !object.has_object( "persistent_tasks" ) ) {
+                throw std::runtime_error( "unsupported_task_schema" );
+            }
+            const JsonObject saved = subobject( object, "persistent_tasks" );
+            if( saved.get_int( "schema_version", 0 ) != 1 ||
+                saved.get_array( "entries" ).size() > 128 ) {
+                throw std::runtime_error( "unsupported_task_schema" );
+            }
+            for( const std::string duty : saved.get_array( "duties" ) ) {
+                state.duties.insert( duty );
+            }
+            if( saved.has_object( "retired_tasks" ) ) {
+                for( const JsonMember &entry : saved.get_object( "retired_tasks" ) ) {
+                    if( state.retired_tasks.size() >= maximum_history || !entry.test_string() ) {
+                        throw std::runtime_error( "invalid_saved_task_history" );
+                    }
+                    state.retired_tasks[entry.name()] = entry.get_string();
+                }
+            }
+            state.duty_distance = saved.get_int( "duty_distance", 12 );
+            if( state.duty_distance < 1 || state.duty_distance > 60 ) {
+                throw std::runtime_error( "invalid_saved_duty_scope" );
+            }
+            for( const char *key : {
+                     "duty_items", "duty_recipes"
+                 } ) {
+                if( saved.has_array( key ) ) {
+                    for( const std::string value : saved.get_array( key ) ) {
+                        ( std::string( key ) == "duty_items" ? state.duty_items : state.duty_recipes ).insert( value );
+                    }
+                }
+            }
+            for( const JsonObject &entry : saved.get_array( "entries" ) ) {
+                entry.allow_omitted_members();
+                const JsonObject definition = subobject( entry, "definition" );
+                std::string validation;
+                if( !parse_tasks( "{\"context\":" + context() + ",\"tasks\":[" +
+                                  stringify( definition ) + "]}", validation ) ) {
+                    throw std::runtime_error( "invalid_saved_task" );
+                }
+                persistent_task task;
+                task.id = definition.get_string( "id" );
+                if( find_task( task.id ) ) {
+                    throw std::runtime_error( "duplicate_saved_task" );
+                }
+                task.definition = canonical( json_loader::from_string( stringify( definition ) ) );
+                task.operation_prefix = entry.get_string( "operation_prefix" );
+                if( !valid_identity( task.operation_prefix ) ) {
+                    throw std::runtime_error( "invalid_saved_task_operation" );
+                }
+                task.kind = definition.get_string( "kind" );
+                task.args = stringify( subobject( definition, "args" ) );
+                task.requirement_id = definition.get_string( "requirement_id", "" );
+                task.quantity_mode = definition.get_string( "quantity_mode", "acquired" );
+                const JsonObject args = read_object( task.args );
+                task.target = task.kind == "gather" ? args.get_int( "count" ) :
+                              task.kind == "craft" ? args.get_int( "batch", 1 ) : 1;
+                task.phase = entry.get_string( "state" );
+                if( task.phase != "queued" && task.phase != "running" && task.phase != "paused" &&
+                    task.phase != "blocked" && task.phase != "completed" && task.phase != "failed" &&
+                    task.phase != "cancelled" ) {
+                    throw std::runtime_error( "invalid_saved_task_phase" );
+                }
+                task.reason = entry.get_string( "reason", "" );
+                task.blocked_signature = entry.get_string( "blocked_signature", "" );
+                task.progress = entry.get_int( "progress", 0 );
+                task.attempts = entry.get_int( "attempts", 0 );
+                task.sequence = entry.get_int( "sequence", 0 );
+                task.prefetch_requested = entry.get_bool( "prefetch_requested", false );
+                if( task.progress < 0 || task.attempts < 0 || task.sequence < 0 ) {
+                    throw std::runtime_error( "invalid_saved_task_progress" );
+                }
+                task.anchor = tripoint_abs_ms( entry.get_int( "anchor_x" ), entry.get_int( "anchor_y" ),
+                                               entry.get_int( "anchor_z" ) );
+                task.max_distance = definition.has_object( "constraints" ) ?
+                                    subobject( definition, "constraints" ).get_int( "max_distance", 12 ) : 12;
+                if( definition.has_array( "depends_on" ) ) {
+                    for( const std::string dependency : definition.get_array( "depends_on" ) ) {
+                        task.dependencies.push_back( dependency );
+                    }
+                }
+                for( const std::string output : entry.get_array( "outputs" ) ) {
+                    if( task.outputs.size() >= 4096 ) {
+                        throw std::runtime_error( "saved_task_output_limit" );
+                    }
+                    task.outputs.push_back( output );
+                }
+                task.duty_active = entry.get_bool( "duty_active", false );
+                const int mission = entry.get_int( "previous_mission", 0 );
+                const int attitude = entry.get_int( "previous_attitude", 0 );
+                if( mission < 0 || mission >= NPC_MISSION_LAST || attitude < 0 || attitude > 100 ) {
+                    throw std::runtime_error( "invalid_saved_duty" );
+                }
+                task.previous_mission = static_cast<npc_mission>( mission );
+                task.previous_attitude = static_cast<npc_attitude>( attitude );
+                if( entry.has_int( "guard_x" ) ) {
+                    task.previous_guard = tripoint_abs_ms( entry.get_int( "guard_x" ), entry.get_int( "guard_y" ),
+                                                           entry.get_int( "guard_z" ) );
+                }
+                state.tasks.push_back( std::move( task ) );
+            }
+            if( saved.has_array( "player_progress" ) ) {
+                for( const JsonObject &progress : saved.get_array( "player_progress" ) ) {
+                    if( state.player_progress.size() >= 8 ) {
+                        break;
+                    }
+                    progress.allow_omitted_members();
+                    state.player_progress.push_back( stringify( progress ) );
+                }
+            }
+        }
+        for( const pending_step &step : state.queue ) {
+            if( !step.task_id.empty() && !find_task( step.task_id ) ) {
+                throw std::runtime_error( "invalid_saved_task_owner" );
+            }
+        }
+        std::string dependency_error;
+        if( !validate_task_dependencies( read_object( "{\"tasks\":[]}" ), dependency_error ) ) {
+            throw std::runtime_error( "invalid_saved_task_dependency" );
         }
         for( const JsonObject &entry : object.get_array( "receipts" ) ) {
             entry.allow_omitted_members();
-            if( state.receipts.size() >= maximum_history ) {
+            if( state.receipts.size() >= ( state.tasks.empty() ? maximum_history : 4096 ) ) {
                 throw std::runtime_error( "saved_receipt_limit" );
             }
             const std::string operation = entry.get_string( "operation_id" );
-            state.receipts[operation] = entry.str();
+            state.receipts[operation] = stringify( entry );
             state.receipt_order.push_back( operation );
         }
         if( object.has_object( "accepted_plans" ) ) {
@@ -2266,7 +3620,7 @@ void deserialize( const JsonObject &object )
         // Retain unsupported/corrupt extension data without taking control or
         // replacing it with a guessed migration on the next native save.
         reset();
-        state.future_payload = object.str();
+        state.future_payload = stringify( object );
         state.control_state = "unsupported_schema";
         state.last_error = "invalid_saved_control_state";
     }

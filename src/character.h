@@ -3345,6 +3345,8 @@ class Character : public Creature, public visitable
 
         void update_circulation();
 
+        /** Whether this character uses the shared, finite stamina rules. */
+        bool uses_stamina() const;
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );

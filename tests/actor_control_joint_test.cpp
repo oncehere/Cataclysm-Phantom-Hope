@@ -1,9 +1,10 @@
-#if defined(__linux__)
+#if defined(__linux__) || defined(_WIN32)
 
 #include <cerrno>
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
@@ -13,16 +14,23 @@
 #include <utility>
 #include <vector>
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#ifdef _WIN32
+    #include "platform_win.h"
+#else
+    #include <sys/stat.h>
+    #include <sys/types.h>
+    #include <sys/wait.h>
+    #include <unistd.h>
+#endif
 
 #include "actor_control.h"
 #include "actor_control_bridge.h"
+#include "actor_control_files.h"
+#include "actor_control_runtime.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "flexbuffer_json.h"
@@ -72,24 +80,32 @@ class joint_fixture
         joint_fixture() : old_user_dir_( PATH_INFO::user_dir() ),
             old_config_dir_( PATH_INFO::config_dir() ), old_save_dir_( PATH_INFO::savedir() ),
             old_turn_( calendar::turn ) {
+#ifdef _WIN32
+            const wchar_t *runtime = _wgetenv( L"LOCALAPPDATA" );
+            had_runtime_ = runtime != nullptr;
+            old_runtime_ = runtime ? runtime : L"";
+#else
             const char *runtime = std::getenv( "XDG_RUNTIME_DIR" );
             had_runtime_ = runtime != nullptr;
             old_runtime_ = runtime ? runtime : "";
+#endif
             directory_ = std::filesystem::temp_directory_path() /
                          ( "cph-actor-joint-test-" + control::new_identity() );
-            std::filesystem::create_directory( directory_ );
-            REQUIRE( chmod( directory_.c_str(), 0700 ) == 0 );
+            REQUIRE( control::files::create_private_directory( directory_ ) == 0 );
             for( const char *name : {
                      "runtime", "user", "config", "save", "profile"
                  } ) {
                 const std::filesystem::path path = directory_ / name;
-                std::filesystem::create_directory( path );
-                REQUIRE( chmod( path.c_str(), 0700 ) == 0 );
+                REQUIRE( control::files::create_private_directory( path ) == 0 );
             }
+#ifdef _WIN32
+            REQUIRE( _wputenv_s( L"LOCALAPPDATA", ( directory_ / "runtime" ).c_str() ) == 0 );
+#else
             REQUIRE( setenv( "XDG_RUNTIME_DIR", ( directory_ / "runtime" ).c_str(), 1 ) == 0 );
-            PATH_INFO::init_user_dir( ( directory_ / "user" ).string() );
-            PATH_INFO::set_config_dir( ( directory_ / "config" ).string() + "/" );
-            PATH_INFO::set_savedir( ( directory_ / "save" ).string() + "/" );
+#endif
+            PATH_INFO::init_user_dir( ( directory_ / "user" ).u8string() );
+            PATH_INFO::set_config_dir( ( directory_ / "config" ).u8string() + "/" );
+            PATH_INFO::set_savedir( ( directory_ / "save" ).u8string() + "/" );
             control::enable( false );
             control::reset();
             clear_map();
@@ -108,11 +124,15 @@ class joint_fixture
             PATH_INFO::init_user_dir( old_user_dir_ );
             PATH_INFO::set_config_dir( old_config_dir_ );
             PATH_INFO::set_savedir( old_save_dir_ );
+#ifdef _WIN32
+            _wputenv_s( L"LOCALAPPDATA", had_runtime_ ? old_runtime_.c_str() : L"" );
+#else
             if( had_runtime_ ) {
                 setenv( "XDG_RUNTIME_DIR", old_runtime_.c_str(), 1 );
             } else {
                 unsetenv( "XDG_RUNTIME_DIR" );
             }
+#endif
             // This randomly named directory is created and owned by this fixture.
             // No game/user save, pre-existing path, or build cache is removed.
             std::error_code error;
@@ -125,7 +145,11 @@ class joint_fixture
 
     private:
         bool had_runtime_ = false;
+#ifdef _WIN32
+        std::wstring old_runtime_;
+#else
         std::string old_runtime_;
+#endif
         std::string old_user_dir_;
         std::string old_config_dir_;
         std::string old_save_dir_;
@@ -140,6 +164,15 @@ class joint_driver_process
             arguments_( std::move( arguments ) ) {}
 
         ~joint_driver_process() {
+#ifdef _WIN32
+            if( job_ ) {
+                CloseHandle( job_ );
+            }
+            if( process_ ) {
+                WaitForSingleObject( process_, 5000 );
+                CloseHandle( process_ );
+            }
+#else
             if( pid_ > 0 && !reaped_ ) {
                 // The child's own process group also contains its bounded SDK worker.
                 // Never signal the test runner's group or any unrelated process.
@@ -151,9 +184,52 @@ class joint_driver_process
                 while( waitpid( pid_, &exit_status_, 0 ) < 0 && errno == EINTR ) {
                 }
             }
+#endif
         }
 
         void start() {
+#ifdef _WIN32
+            std::wstring command;
+            for( const auto &argument : arguments_ ) {
+                if( !command.empty() ) {
+                    command += L' ';
+                }
+                command += L'\"';
+                std::size_t slashes = 0;
+                const auto wide = std::filesystem::u8path( argument ).native();
+                for( const wchar_t c : wide ) {
+                    if( c == L'\\' ) {
+                        ++slashes;
+                        continue;
+                    }
+                    command.append( c == L'\"' ? slashes * 2 + 1 : slashes, L'\\' );
+                    slashes = 0;
+                    command += c;
+                }
+                command.append( slashes * 2, L'\\' );
+                command += L'\"';
+            }
+            job_ = CreateJobObjectW( nullptr, nullptr );
+            REQUIRE( job_ != nullptr );
+            JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits {};
+            limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+            REQUIRE( SetInformationJobObject( job_, JobObjectExtendedLimitInformation,
+                                              &limits, sizeof( limits ) ) );
+            STARTUPINFOW startup { sizeof( STARTUPINFOW ) };
+            PROCESS_INFORMATION child {};
+            REQUIRE( CreateProcessW( std::filesystem::u8path( arguments_.front() ).c_str(), command.data(),
+                                     nullptr, nullptr, FALSE, CREATE_NO_WINDOW | CREATE_SUSPENDED,
+                                     nullptr, nullptr, &startup, &child ) );
+            process_ = child.hProcess;
+            const BOOL assigned = AssignProcessToJobObject( job_, process_ );
+            if( !assigned ) {
+                TerminateProcess( process_, 125 );
+            }
+            const DWORD resumed = assigned ? ResumeThread( child.hThread ) : static_cast<DWORD>( -1 );
+            CloseHandle( child.hThread );
+            REQUIRE( assigned );
+            REQUIRE( resumed != static_cast<DWORD>( -1 ) );
+#else
             std::vector<char *> argv;
             for( std::string &argument : arguments_ ) {
                 argv.push_back( argument.data() );
@@ -173,9 +249,13 @@ class joint_driver_process
             const int group_result = setpgid( pid_, pid_ );
             REQUIRE( ( group_result == 0 || errno == EACCES ) );
             REQUIRE( getpgid( pid_ ) == pid_ );
+#endif
         }
 
         bool finished() {
+#ifdef _WIN32
+            return process_ && WaitForSingleObject( process_, 0 ) == WAIT_OBJECT_0;
+#else
             if( reaped_ ) {
                 return true;
             }
@@ -183,17 +263,28 @@ class joint_driver_process
             REQUIRE( ( waited >= 0 || errno == EINTR ) );
             reaped_ = waited == pid_;
             return reaped_;
+#endif
         }
 
         int exit_code() const {
+#ifdef _WIN32
+            DWORD value = 125;
+            return process_ && GetExitCodeProcess( process_, &value ) ? static_cast<int>( value ) : -1;
+#else
             return WIFEXITED( exit_status_ ) ? WEXITSTATUS( exit_status_ ) : -1;
+#endif
         }
 
     private:
         std::vector<std::string> arguments_;
+#ifdef _WIN32
+        HANDLE process_ = nullptr;
+        HANDLE job_ = nullptr;
+#else
         pid_t pid_ = -1;
         int exit_status_ = 0;
         bool reaped_ = false;
+#endif
 };
 } // namespace
 
@@ -203,10 +294,10 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     const char *python = std::getenv( "CPH_COMPANION_PYTHON" );
     const char *driver_override = std::getenv( "CPH_COMPANION_JOINT_DRIVER" );
     const std::filesystem::path driver = driver_override ?
-                                         std::filesystem::path( driver_override ) :
+                                         std::filesystem::u8path( driver_override ) :
                                          std::filesystem::current_path() / "companion" / "tools" / "joint_driver.py";
     REQUIRE( python != nullptr );
-    REQUIRE( std::filesystem::is_regular_file( python ) );
+    REQUIRE( std::filesystem::is_regular_file( std::filesystem::u8path( python ) ) );
     REQUIRE( std::filesystem::is_regular_file( driver ) );
     REQUIRE_FALSE( input_replay::is_recording() );
     REQUIRE_FALSE( input_replay::is_replaying() );
@@ -247,9 +338,9 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     REQUIRE( control::bind( actor, "joint-companion", error ) );
     REQUIRE( error.empty() );
     const std::string descriptor = joint_object( control::status() ).get_string( "descriptor_path" );
-    REQUIRE( std::filesystem::is_regular_file( descriptor ) );
+    REQUIRE( std::filesystem::is_regular_file( std::filesystem::u8path( descriptor ) ) );
 
-    const std::string replay_path = ( fixture.directory() / "waiting-input.replay" ).string();
+    const std::string replay_path = ( fixture.directory() / "waiting-input.replay" ).u8string();
     REQUIRE( input_replay::begin_record( replay_path ) );
     // The production recorder filters poll-generated timeouts. Record an
     // unbound character instead, then consume it in an isolated ANY_INPUT
@@ -264,9 +355,9 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     waiting_input.register_action( "ANY_INPUT" );
 
     const std::filesystem::path result_path = fixture.directory() / "result.json";
-    joint_driver_process child( { python, driver.string(), "--session", descriptor,
-                                  "--profile", ( fixture.directory() / "profile" ).string(),
-                                  "--profile-id", "joint-companion", "--result", result_path.string() } );
+    joint_driver_process child( { python, driver.u8string(), "--session", descriptor,
+                                  "--profile", ( fixture.directory() / "profile" ).u8string(),
+                                  "--profile-id", "joint-companion", "--result", result_path.u8string() } );
     const time_point before = calendar::turn;
     const int npc_moves = actor.get_moves();
     const int player_moves = get_avatar().get_moves();
@@ -276,7 +367,9 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     while( std::chrono::steady_clock::now() < deadline ) {
         REQUIRE( input_replay::replay_remaining() > 0 );
         REQUIRE( waiting_input.handle_input( 10 ) == "ANY_INPUT" );
-        queued = joint_object( control::status() ).get_int( "queue_length" ) > 0;
+        const JsonObject status = joint_object( control::status() );
+        queued = status.get_int( "queue_length" ) > 0 ||
+                 status.get_string( "planning_state", "" ) == "candidate_pending";
         if( queued || child.finished() ) {
             break;
         }
@@ -359,4 +452,196 @@ TEST_CASE( "actor_control_final_package_executes_real_npc_gather_and_records_mem
     CHECK( get_avatar().get_moves() == player_moves );
 }
 
-#endif // defined(__linux__)
+#ifdef _WIN32
+TEST_CASE( "actor_control_game_launches_bundled_runtime_and_stops_it_after_real_gather",
+           "[.actor_control_managed_runtime]" )
+{
+    const char *stage = std::getenv( "CPH_COMPANION_GAME_STAGE" );
+    const char *driver_override = std::getenv( "CPH_COMPANION_JOINT_DRIVER" );
+    REQUIRE( stage != nullptr );
+    const std::filesystem::path game_stage = std::filesystem::u8path( stage );
+    const std::filesystem::path python = game_stage / "companion-runtime/python/python.exe";
+    const std::filesystem::path driver = driver_override ?
+                                         std::filesystem::u8path( driver_override ) :
+                                         std::filesystem::current_path() / "companion/tools/joint_driver.py";
+    REQUIRE( game_stage.is_absolute() );
+    REQUIRE( std::filesystem::is_regular_file( python ) );
+    REQUIRE( std::filesystem::is_regular_file( driver ) );
+    REQUIRE_FALSE( control::managed_runtime_running() );
+
+    joint_fixture fixture;
+    const wchar_t *proxy_bypass = _wgetenv( L"NO_PROXY" );
+    const bool had_proxy_bypass = proxy_bypass != nullptr;
+    const std::wstring old_proxy_bypass = proxy_bypass ? proxy_bypass : L"";
+    REQUIRE( _wputenv_s( L"NO_PROXY", L"127.0.0.1,localhost" ) == 0 );
+    const on_out_of_scope restore_proxy_bypass( [&]() {
+        _wputenv_s( L"NO_PROXY", had_proxy_bypass ? old_proxy_bypass.c_str() : L"" );
+    } );
+    const auto old_base = PATH_INFO::base_path().get_unrelative_path();
+    PATH_INFO::init_base_path( game_stage.u8string() );
+    const on_out_of_scope restore_base( [&]() {
+        PATH_INFO::init_base_path( old_base.u8string() );
+    } );
+    REQUIRE( control::bundled_runtime_available() );
+    npc &actor = spawn_npc( { 60, 60 }, "test_talker" );
+    clear_character( actor, true );
+    actor.setpos( get_map(), tripoint_bub_ms( 60, 60, 0 ) );
+    actor.set_fac( faction_id( "your_followers" ) );
+    actor.set_attitude( NPCATT_FOLLOW );
+    actor.worn.wear_item( actor, item( itype_id( "debug_backpack" ) ), false, false );
+    actor.recalc_sight_limits();
+    actor.set_moves( 1000 );
+    REQUIRE( actor.is_player_ally() );
+    REQUIRE( actor.amount_of( itype_id( "rock" ) ) == 0 );
+    clear_items( actor.posz() );
+    const tripoint_bub_ms ground( 60, 61, 0 );
+    item rock( itype_id( "rock" ), calendar::turn );
+    rock.set_owner( actor );
+    get_map().add_item_or_charges( ground, rock );
+    REQUIRE( actor.sees( get_map(), ground ) );
+    std::string error;
+    // Keep generated record filenames below Win32 stdio's MAX_PATH even when
+    // the caller places the isolated TEMP directory under a deep evidence path.
+    const std::string profile_id = "m";
+    REQUIRE( control::bind( actor, profile_id, error ) );
+
+    const std::filesystem::path result_path = fixture.directory() / "fake-server.json";
+    const std::filesystem::path stop_path = fixture.directory() / "fake-server.stop";
+    joint_driver_process server( { python.u8string(), "-I", driver.u8string(), "--server-only",
+                                   "--server-stop", stop_path.u8string(),
+                                   "--result", result_path.u8string() } );
+    server.start();
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds( 60 );
+    while( std::chrono::steady_clock::now() < deadline &&
+           !std::filesystem::is_regular_file( result_path ) && !server.finished() ) {
+        std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+    }
+    INFO( joint_result_text( result_path ) );
+    REQUIRE( std::filesystem::is_regular_file( result_path ) );
+    const JsonObject ready = joint_object( joint_result_text( result_path ) );
+    REQUIRE( ready.get_string( "state" ) == "server_ready" );
+    control::runtime_preferences preferences;
+    REQUIRE( control::read_runtime_preferences( profile_id,
+             actor.getID().get_value(), preferences, error ) );
+    preferences.endpoint = ready.get_string( "base_url" );
+    REQUIRE( preferences.endpoint.rfind( "http://127.0.0.1:", 0 ) == 0 );
+    preferences.model = "joint-fake";
+    preferences.background = "Synthetic companion in a private launcher test.";
+    preferences.duties = { "gather" };
+    preferences.item_types = { "rock" };
+    REQUIRE( control::save_runtime_preferences( preferences, error ) );
+    const std::filesystem::path profile = control::runtime_profile_directory( preferences.profile_id );
+    // Failure cleanup still uses the ordinary native safe-stop path and the
+    // manager's existing deadline. No production-only testing branch is used.
+    const on_out_of_scope stop_runtime( [&]() {
+        control::stop();
+        const auto cleanup_deadline = std::chrono::steady_clock::now() + std::chrono::seconds( 6 );
+        while( std::chrono::steady_clock::now() < cleanup_deadline &&
+               control::managed_runtime_running() ) {
+            control::pump_incoming();
+            std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+        }
+    } );
+    const time_point before = calendar::turn;
+    const int player_moves = get_avatar().get_moves();
+    const bool started = control::start_managed_runtime( preferences.profile_id,
+                         "synthetic-loopback-test-key", error );
+    INFO( error );
+    REQUIRE( started );
+    REQUIRE( control::managed_runtime_running() );
+    bool connected = false;
+    bool queued = false;
+    while( std::chrono::steady_clock::now() < deadline && control::managed_runtime_running() ) {
+        control::pump_incoming();
+        const JsonObject current = joint_object( control::status() );
+        connected = connected || current.get_bool( "connected", false );
+        queued = current.get_int( "queue_length" ) > 0 ||
+                 current.get_string( "planning_state", "" ) == "candidate_pending";
+        if( queued ) {
+            break;
+        }
+        std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+    }
+    INFO( joint_result_text( result_path ) );
+    REQUIRE( connected );
+    REQUIRE( queued );
+    CHECK( actor.amount_of( itype_id( "rock" ) ) == 0 );
+    REQUIRE( control::act( actor, false ) );
+    REQUIRE( actor.amount_of( itype_id( "rock" ) ) == 1 );
+    REQUIRE( get_map().i_at( ground ).empty() );
+
+    std::string operation_id;
+    bool memory_receipt = false;
+    std::size_t records_seen = 0;
+    std::size_t unreadable_records = 0;
+    while( std::chrono::steady_clock::now() < deadline && control::managed_runtime_running() ) {
+        control::pump_incoming();
+        const JsonObject current = joint_object( control::status() );
+        for( const JsonObject receipt : current.get_array( "receipts" ) ) {
+            receipt.allow_omitted_members();
+            if( receipt.get_string( "action", "" ) == "gather" &&
+                receipt.get_string( "state", "" ) == "succeeded" ) {
+                operation_id = receipt.get_string( "operation_id" );
+            }
+        }
+        const auto records = profile / "memory/records";
+        if( !operation_id.empty() && std::filesystem::is_directory( records ) ) {
+            records_seen = 0;
+            unreadable_records = 0;
+            for( const auto &entry : std::filesystem::recursive_directory_iterator( records ) ) {
+                if( !entry.is_regular_file() || entry.path().extension() != ".json" ) {
+                    continue;
+                }
+                ++records_seen;
+                // Records are read-only observations of this private fixture.
+                // A record being atomically published can be retried next poll.
+                try {
+                    const JsonObject record = joint_object( joint_result_text( entry.path() ) );
+                    if( record.get_string( "kind", "" ) == "receipt" && record.has_object( "data" ) ) {
+                        const JsonObject data = record.get_object( "data" );
+                        data.allow_omitted_members();
+                        memory_receipt = memory_receipt ||
+                                         data.get_string( "operation_id", "" ) == operation_id;
+                    }
+                } catch( const std::exception & ) {
+                    ++unreadable_records;
+                }
+            }
+        }
+        if( memory_receipt ) {
+            break;
+        }
+        std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+    }
+    INFO( "Memory record files: " << records_seen << "; unreadable: " << unreadable_records );
+    REQUIRE_FALSE( operation_id.empty() );
+    REQUIRE( memory_receipt );
+    control::stop();
+    // Four seconds is shorter than the manager's five-second forced cleanup:
+    // this assertion proves the normal CLI stop path actually exited.
+    const auto stop_deadline = std::chrono::steady_clock::now() + std::chrono::seconds( 4 );
+    while( std::chrono::steady_clock::now() < stop_deadline && control::managed_runtime_running() ) {
+        control::pump_incoming();
+        std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+    }
+    REQUIRE_FALSE( control::managed_runtime_running() );
+    CHECK( joint_object( control::status() ).get_string( "detach_state" ) == "detached" );
+    std::ofstream( stop_path ) << "stop\n";
+    while( std::chrono::steady_clock::now() < deadline && !server.finished() ) {
+        std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+    }
+    REQUIRE( server.finished() );
+    REQUIRE( server.exit_code() == 0 );
+    const JsonObject result = joint_object( joint_result_text( result_path ) );
+    CHECK( result.get_string( "state" ) == "passed" );
+    CHECK( result.get_int( "sdk_calls" ) >= 1 );
+    CHECK( result.get_bool( "non_streaming" ) );
+    CHECK( result.get_bool( "no_tools" ) );
+    CHECK( result.get_bool( "synthetic_credential" ) );
+    CHECK( actor.amount_of( itype_id( "rock" ) ) == 1 );
+    CHECK( calendar::turn == before );
+    CHECK( get_avatar().get_moves() == player_moves );
+}
+#endif // _WIN32
+
+#endif // defined(__linux__) || defined(_WIN32)

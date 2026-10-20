@@ -82,6 +82,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
+#include "mp_gamestate.h"
 #include "mtype.h"
 #include "npc.h"
 #include "actor_control.h"
@@ -1552,6 +1553,20 @@ void npc::move()
                                 sees_dangerous_field( pos_bub() ) || has_effect( effect_npc_fire_bad ) ||
                                 has_effect( effect_asthma ) || has_effect( effect_npc_run_away ) ||
                                 get_attitude() == NPCATT_FLEE_TEMP;
+    if( !control_urgent && !activity && get_moves() > 0 && uses_stamina() &&
+        !cata_mp::is_remote_player( getID() ) && get_stamina() < get_stamina_max() / 4 ) {
+        // Rest consumes the existing turn; recovery belongs to update_body.
+        // Keep accepted work queued and let native danger reactions take priority.
+        pause();
+        return;
+    }
+    if( !control_urgent && !activity && cata::actor_control::has_pending_tasks( *this ) ) {
+        const npc_action needs = address_needs();
+        if( needs != npc_undecided ) {
+            execute_action( needs );
+            return;
+        }
+    }
     if( cata::actor_control::act( *this, control_urgent ) ) {
         return;
     }
@@ -2671,10 +2686,8 @@ void npc::evaluate_best_attack( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
-    if( magic->spells().empty() ) {
-        magic->clear_opens_spellbook_data();
-        get_event_bus().send<event_type::opens_spellbook>( getID() );
-        magic->evaluate_opens_spellbook_data();
+    if( !magic->spells().empty() ) {
+        magic->prepare_casting( *this );
     }
     for( const spell_id &sp : magic->spells() ) {
         compare( std::make_shared<npc_attack_spell>( sp ), sp.c_str(), nullptr );
@@ -3889,6 +3902,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
     }
 
     Character &player_character = get_player_character();
+    const int moves_before_step = get_moves();
     if( p.z() != pos.z() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -3961,6 +3975,14 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
     }
 
     if( moved ) {
+        // Charge only successful movement, using the same actual move cost as
+        // players. The MP movement handler owns the proxy's network debit.
+        if( uses_stamina() && !is_mounted() && !cata_mp::is_remote_player( getID() ) ) {
+            burn_move_stamina( std::max( 0, moves_before_step - get_moves() ) );
+            if( is_running() && !can_run() ) {
+                set_movement_mode( move_mode_id( "walk" ) );
+            }
+        }
         make_footstep_noise();
         const tripoint_bub_ms old_pos = pos;
         setpos( here, p );

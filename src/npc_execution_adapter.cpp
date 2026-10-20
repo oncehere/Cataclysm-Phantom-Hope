@@ -21,7 +21,11 @@
 #include "craft_command.h"
 #include "craft_reservation.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "dialogue.h"
+#include "effect_on_condition.h"
+#include "enum_conversions.h"
+#include "event.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
@@ -29,11 +33,15 @@
 #include "json.h"
 #include "json_loader.h"
 #include "line.h"
+#include "lua_platform_runtime.h"
+#include "magic.h"
+#include "magic_type.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "math_parser_diag_value.h"
 #include "mission.h"
 #include "monster.h"
+#include "mp_gamestate.h"
 #include "mtype.h"
 #include "native_item_transfer.h"
 #include "npc.h"
@@ -175,7 +183,8 @@ bool near( const npc &actor, const Character &target )
     return rl_dist( actor.pos_abs(), target.pos_abs() ) <= 2;
 }
 
-execution_result move_towards( npc &actor, const tripoint_bub_ms &target, int distance )
+execution_result move_towards( npc &actor, const tripoint_bub_ms &target, int distance,
+                               const action_step *step = nullptr )
 {
     map &here = get_map();
     if( !here.inbounds( target ) || !observes( actor, here, target ) ) {
@@ -188,6 +197,13 @@ execution_result move_towards( npc &actor, const tripoint_bub_ms &target, int di
     if( !actor.update_path( target, true ) || actor.path.empty() ) {
         return result( execution_state::failed, "no_native_path" );
     }
+    if( step && step->task_bounds_json != "{}" ) {
+        const JsonObject bounds = json_loader::from_string( step->task_bounds_json ).get_object();
+        const tripoint_abs_ms anchor( bounds.get_int( "x" ), bounds.get_int( "y" ), bounds.get_int( "z" ) );
+        if( square_dist( anchor, here.get_abs( actor.path.front() ) ) > bounds.get_int( "radius" ) ) {
+            return result( execution_state::failed, "task_path_outside_area" );
+        }
+    }
     actor.move_to_next();
     return result( rl_dist( actor.pos_bub(), target ) <= distance ?
                    execution_state::succeeded : execution_state::running,
@@ -198,6 +214,213 @@ tripoint_bub_ms position_arg( const JsonObject &args )
 {
     return get_map().get_bub( tripoint_abs_ms( args.get_int( "x" ),
                               args.get_int( "y" ), args.get_int( "z" ) ) );
+}
+
+std::string spell_support( const npc &actor, const spell &known )
+{
+    const spell_type &type = known.id().obj();
+    if( known.energy_source() == magic_energy_type::hp ) {
+        return "interactive_energy_source";
+    }
+    if( known.energy_source() == magic_energy_type::vitamin ||
+        ( known.energy_source() == magic_energy_type::stamina && !actor.uses_stamina() ) ) {
+        // Ordinary NPCs still have unlimited stamina. Vitamin/calorie handling
+        // remains outside this checked interface, including NO_NPC_FOOD.
+        return "npc_unsupported_energy_source";
+    }
+    if( type.effect_name != "attack" && type.effect_name != "recover_energy" ) {
+        return "npc_unsupported_effect";
+    }
+    if( type.effect_name == "attack" && !type.dmg_type.is_null() &&
+        ( !type.dmg_type.is_valid() || !type.dmg_type->onhit_eocs.empty() ||
+          !type.dmg_type->ondamage_eocs.empty() ||
+          cata::lua_platform::has_damage_type_handler( type.dmg_type.str() ) ) ) {
+        return "npc_unsupported_damage_effect";
+    }
+    // Effects, failure callbacks and channels can open menus or depend on the avatar.
+    // Do not infer safety from the outer spell's effect or from its Mod of origin.
+    if( !type.additional_spells.empty() || !known.get_failure_eoc_ids().empty() ||
+        known.is_channeling_spell() || type.channelling_turns != 0 ||
+        !type.channel_spell.empty() || !type.channel_end_spell.empty() ||
+        !type.channel_interrupt_spell.empty() ) {
+        return "npc_unsupported_effect_chain";
+    }
+    if( type.magic_type && cata::lua_platform::has_magic_type_failure_handler(
+            type.magic_type->str() ) ) {
+        return "npc_unsupported_effect_chain";
+    }
+    if( known.has_components() ) {
+        // Native spell selectors do not yet enforce craft reservations/ownership.
+        return "npc_unsupported_components";
+    }
+    static const std::set<std::string> supported_flags = {
+        "SILENT", "NO_EXPLOSION_SFX", "LOUD", "VERBAL", "SOMATIC", "NO_HANDS",
+        "NO_PROJECTILE", "NO_LEGS", "CONCENTRATE", "TOUCH_REQUIRED", "RANDOM_DAMAGE",
+        "RANDOM_DURATION", "NO_FAIL", "NON_MAGICAL", "PSIONIC", "SPLIT_DAMAGE",
+        "PERCENTAGE_DAMAGE", "MUST_HAVE_CLASS_TO_LEARN", "EVOCATION_SPELL",
+        "CONJURATION_SPELL", "ENHANCEMENT_SPELL", "ENERVATION_SPELL", "CONVEYANCE_SPELL",
+        "RESTORATION_SPELL", "TRANSFORMATION_SPELL"
+    };
+    for( const std::string &flag : type.flags ) {
+        if( !supported_flags.count( flag ) ) {
+            return "npc_unsupported_spell_flag";
+        }
+    }
+    const_dialogue context( get_const_talker_for( actor ), nullptr );
+    if( known.shape() != spell_shape::blast || known.aoe( actor ) != 0 || type.field ||
+        type.min_dot.evaluate( context ) != 0 || type.max_dot.evaluate( context ) != 0 ||
+        type.dot_increment.evaluate( context ) != 0 ||
+        type.min_bash_scaling.evaluate( context ) != 0 ||
+        type.max_bash_scaling.evaluate( context ) != 0 ||
+        type.bash_scaling_increment.evaluate( context ) != 0 ||
+        known.get_amount_of_projectiles( actor ) > 1 ) {
+        return "npc_unsupported_area_effect";
+    }
+    if( type.effect_name == "attack" && !known.effect_data().empty() ) {
+        // Applying an arbitrary effect can itself install periodic EOC/teleport hooks.
+        return "npc_unsupported_status_effect";
+    }
+    if( type.effect_name == "recover_energy" && known.effect_data() == "STAMINA" &&
+        !actor.uses_stamina() ) {
+        return "npc_unsupported_energy_source";
+    }
+    if( type.effect_name == "recover_energy" && known.effect_data() != "MANA" &&
+        known.effect_data() != "STAMINA" &&
+        known.effect_data() != "SLEEPINESS" &&
+        known.effect_data() != "PAIN" && known.effect_data() != "HEALTH" ) {
+        return "npc_unsupported_effect";
+    }
+    const auto &effects = effect_on_conditions::get_all();
+    if( std::any_of( effects.begin(), effects.end(), []( const effect_on_condition & eoc ) {
+    return eoc.type == eoc_type::EVENT && eoc.required_event == event_type::opens_spellbook;
+    } ) || cata::lua_platform::has_event_handler( event_type::opens_spellbook ) ) {
+        // Preparation is gameplay, not observation. Do not silently skip Mod
+        // prerequisites or run unaudited scripts under a spell's permission.
+        return "npc_unsupported_spellbook_event";
+    }
+    return {};
+}
+
+std::string spell_resources( const npc &actor, const spell &known )
+{
+    if( !actor.magic->has_enough_energy( actor, known ) ) {
+        return "insufficient_spell_energy";
+    }
+    if( !known.can_cast( actor ) ) {
+        return "native_spell_requirements";
+    }
+    return {};
+}
+
+Creature *spell_target_at( npc &actor, const tripoint_bub_ms &target )
+{
+    return actor.pos_bub() == target ? &actor :
+           get_creature_tracker().creature_at<Creature>( target );
+}
+
+std::string spell_target_identity( const Creature &target )
+{
+    if( const Character *person = target.as_character() ) {
+        return "character:" + std::to_string( person->getID().get_value() );
+    }
+    if( const monster *critter = target.as_monster() ) {
+        return "monster:" + std::to_string( critter->uid().get_value() );
+    }
+    return {};
+}
+
+void write_abilities( JsonOut &out, const npc &actor )
+{
+    const std::vector<spell_id> known_ids = actor.magic->spells();
+    out.member( "mana", actor.magic->available_mana() );
+    out.member( "mana_max", actor.magic->max_mana( actor ) );
+    out.member( "ability_count", known_ids.size() );
+    out.member( "abilities_truncated", known_ids.size() > 64 );
+    out.member( "abilities" );
+    out.start_array();
+    for( std::size_t index = 0; index < std::min<std::size_t>( 64, known_ids.size() ); ++index ) {
+        const spell &known = actor.magic->get_spell( known_ids[index] );
+        const std::string unsupported = spell_support( actor, known );
+        const std::string unavailable = unsupported.empty() ? spell_resources( actor, known ) : unsupported;
+        out.start_object();
+        out.member( "id", known.id().str() );
+        out.member( "name", preview( known.name(), 160 ) );
+        out.member( "level", known.get_level() );
+        out.member( "effect", known.id()->effect_name );
+        out.member( "supported", unsupported.empty() );
+        out.member( "reason", unavailable );
+        out.member( "energy_source", io::enum_to_string( known.energy_source() ) );
+        out.member( "energy_cost", known.energy_cost( actor ) );
+        out.member( "casting_time_moves", known.casting_time( actor ) );
+        out.member( "range", known.range( actor ) );
+        out.member( "targets", known.id()->valid_targets );
+        out.member( "failure_chance", known.spell_fail( actor ) );
+        out.member( "castable", unavailable.empty() && !actor.activity && actor.get_moves() > 0 );
+        out.end_object();
+    }
+    out.end_array();
+}
+
+execution_result cast_spell( npc &actor, const action_step &step, const JsonObject &args )
+{
+    for( const JsonMember &member : args ) {
+        if( member.name() != "spell" && member.name() != "x" && member.name() != "y" &&
+            member.name() != "z" ) {
+            return result( execution_state::failed, "invalid_spell_arguments" );
+        }
+    }
+    if( !args.has_string( "spell" ) || !args.has_int( "x" ) || !args.has_int( "y" ) ||
+        !args.has_int( "z" ) ) {
+        return result( execution_state::failed, "invalid_spell_arguments" );
+    }
+    const std::string active = value( actor, "spell_step" );
+    const std::string completed = value( actor, "spell_completed_step" );
+    if( active == step.id || completed == step.id ) {
+        if( value( actor, "spell_args" ) != step.args_json ) {
+            return result( execution_state::failed, "receipt_conflict" );
+        }
+        if( completed == step.id ) {
+            const JsonObject receipt = json_loader::from_string( value( actor, "spell_result" ) ).get_object();
+            return result( receipt.get_string( "state" ) == "succeeded" ?
+                           execution_state::succeeded : execution_state::failed,
+                           receipt.get_string( "code" ), false, receipt.get_string( "detail", "{}" ) );
+        }
+        return result( actor.activity.id() == activity_id( "ACT_SPELLCASTING" ) ?
+                       execution_state::running : execution_state::failed,
+                       actor.activity.id() == activity_id( "ACT_SPELLCASTING" ) ?
+                       "native_spell_activity" : "spell_interrupted" );
+    }
+    if( actor.activity ) {
+        return result( execution_state::failed, "actor_busy" );
+    }
+    if( actor.get_moves() <= 0 ) {
+        return result( execution_state::failed, "no_native_moves" );
+    }
+    const spell_id id( args.get_string( "spell" ) );
+    const tripoint_bub_ms target = position_arg( args );
+    const execution_result checked = NpcExecutionAdapter::validate_spell_cast( actor, id, target );
+    if( checked.state != execution_state::succeeded ) {
+        return checked;
+    }
+    actor.magic->prepare_casting( actor );
+    // Preparation may change level/cost. Keep the final native authorization
+    // against the actual caster and never repeat preparation at completion.
+    const execution_result prepared = NpcExecutionAdapter::validate_spell_cast( actor, id, target );
+    if( prepared.state != execution_state::succeeded ) {
+        return prepared;
+    }
+    spell &known = actor.magic->get_spell( id );
+    if( !actor.cast_spell( known, false, target ) ) {
+        return result( execution_state::failed, "native_spell_requirements" );
+    }
+    actor.activity.str_values = { "cph_ai.cast_spell", step.id };
+    actor.set_value( "cph_ai.spell_step", step.id );
+    actor.set_value( "cph_ai.spell_args", step.args_json );
+    actor.set_value( "cph_ai.spell_target", spell_target_identity( *spell_target_at( actor, target ) ) );
+    actor.remove_value( "cph_ai.spell_invalidated" );
+    actor.remove_value( "cph_ai.spell_completed_step" );
+    actor.remove_value( "cph_ai.spell_result" );
+    return result( execution_state::running, "native_spell_started" );
 }
 
 using transfer_entry = cata::native_item_transfer::selection;
@@ -387,7 +610,7 @@ execution_result gather( npc &actor, const action_step &step, const JsonObject &
         return result( execution_state::failed, "gather_capacity" );
     }
     if( rl_dist( actor.pos_bub(), target ) > 1 ) {
-        const execution_result movement = move_towards( actor, target, 1 );
+        const execution_result movement = move_towards( actor, target, 1, &step );
         return movement.state == execution_state::succeeded ?
                result( execution_state::running, "approaching_gather_target", movement.consumed_moves ) :
                movement;
@@ -488,10 +711,98 @@ bool NpcExecutionAdapter::can_receive_items( Character &recipient, const std::ve
     return cata::native_item_transfer::can_receive( recipient, items );
 }
 
+execution_result NpcExecutionAdapter::validate_spell_cast( npc &actor, const spell_id &id,
+        const tripoint_bub_ms &target, bool completing )
+{
+    if( actor.is_dead_state() || actor.maybe_get_value( "mp_proxy" ) ||
+        cata_mp::is_partner_npc( actor.getID() ) ) {
+        return result( execution_state::failed, "spell_actor_unavailable" );
+    }
+    if( completing && value( actor, "spell_invalidated" ) == "true" ) {
+        return result( execution_state::failed, "spell_context_changed" );
+    }
+    if( !id.is_valid() || !actor.magic->knows_spell( id ) ) {
+        return result( execution_state::failed, "spell_not_known" );
+    }
+    const spell &known = actor.magic->get_spell( id );
+    const std::string unsupported = spell_support( actor, known );
+    if( !unsupported.empty() ) {
+        return result( execution_state::failed, unsupported );
+    }
+    map &here = get_map();
+    if( !here.inbounds( target ) ||
+        ( target != actor.pos_bub() && !observes( actor, here, target ) ) ) {
+        return result( execution_state::failed, "spell_target_not_observed" );
+    }
+    Creature *recipient = spell_target_at( actor, target );
+    if( !recipient || recipient->is_dead_state() ||
+        ( recipient != &actor && !observes( actor, here, *recipient ) ) ) {
+        return result( execution_state::failed, "spell_target_not_observed" );
+    }
+    const spell_type &type = id.obj();
+    if( type.effect_name == "recover_energy" && recipient != &actor ) {
+        return result( execution_state::failed, "npc_unsupported_spell_target" );
+    }
+    if( !known.is_target_in_range( actor, target ) || !known.is_valid_target( actor, target ) ||
+        ( recipient != &actor && ( target.z() != actor.pos_bub().z() ||
+                                  !here.sees( actor.pos_bub(), target, known.range( actor ) ) ) ) ) {
+        return result( execution_state::failed, "invalid_spell_target" );
+    }
+    if( !known.has_flag( spell_flag::NO_PROJECTILE ) ) {
+        for( const tripoint_bub_ms &point : line_to( actor.pos_bub(), target ) ) {
+            if( here.impassable( point ) ) {
+                // Native blast projectiles stop short at walls, including transparent ones.
+                return result( execution_state::failed, "invalid_spell_target" );
+            }
+        }
+    }
+    const std::set<tripoint_bub_ms> area = known.effect_area( actor.pos_bub(), target, actor );
+    if( area.size() != 1 || *area.begin() != target ) {
+        return result( execution_state::failed, "npc_unsupported_area_effect" );
+    }
+    const_dialogue context( get_const_talker_for( actor ), nullptr );
+    // Check the entire random-damage interval without sampling it during observation.
+    const double damage_min = known.min_leveled_damage( actor ) * known.get_eoc_damage_multiplier();
+    const double damage_max = type.max_damage.evaluate( context ) * known.get_eoc_damage_multiplier();
+    const bool harmful = type.effect_name == "attack" && std::max( damage_min, damage_max ) > 0;
+    if( type.effect_name == "recover_energy" && std::min( damage_min, damage_max ) < 0 ) {
+        return result( execution_state::failed, "npc_unsupported_self_harm" );
+    }
+    if( !permits_spell_target( actor, *recipient, harmful ) ) {
+        return result( execution_state::failed, "behavior_disabled" );
+    }
+    const std::string resources = spell_resources( actor, known );
+    if( !resources.empty() ) {
+        return result( execution_state::failed, resources );
+    }
+    // The same tile must not silently acquire a different creature during a cast.
+    if( completing ) {
+        if( value( actor, "spell_target" ).empty() ) {
+            return result( execution_state::failed, "spell_context_changed" );
+        }
+        if( value( actor, "spell_target" ) != spell_target_identity( *recipient ) ) {
+            return result( execution_state::failed, "spell_target_changed" );
+        }
+    }
+    return result( execution_state::succeeded, "spell_validated" );
+}
+
 bool NpcExecutionAdapter::available( const npc &actor, const std::string &action )
 {
     map &here = get_map();
     if( actor.is_dead_state() || !here.inbounds( actor.pos_bub() ) || actor.activity ) {
+        return false;
+    }
+    if( action == "cast_spell" ) {
+        if( actor.maybe_get_value( "mp_proxy" ) || cata_mp::is_partner_npc( actor.getID() ) ) {
+            return false;
+        }
+        for( const spell_id &id : actor.magic->spells() ) {
+            const spell &known = actor.magic->get_spell( id );
+            if( spell_support( actor, known ).empty() && spell_resources( actor, known ).empty() ) {
+                return true;
+            }
+        }
         return false;
     }
     if( action == "move" || action == "wait" || action == "refuse" ||
@@ -634,6 +945,7 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
     out.member( "perception", actor.get_per() );
     out.member( "stored_kcal", actor.get_stored_kcal() );
     out.member( "healthy_kcal", actor.get_healthy_kcal() );
+    write_abilities( out, actor );
     out.member( "body" );
     out.start_array();
     int body_count = 0;
@@ -868,8 +1180,11 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
         // The protocol validates the entire action schema before admission;
         // this execution branch intentionally reads only its relevant fields.
         args.allow_omitted_members();
+        if( step.action == "cast_spell" ) {
+            return cast_spell( actor, step, args );
+        }
         if( step.action == "move" ) {
-            return move_towards( actor, position_arg( args ), 0 );
+            return move_towards( actor, position_arg( args ), 0, &step );
         }
         if( step.action == "gather" ) {
             return gather( actor, step, args );

@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <locale>
 #include <sstream>
 #include <string>
 
@@ -38,6 +39,7 @@
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
+#include "magic.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
@@ -59,6 +61,17 @@ namespace control = cata::actor_control;
 
 const char policy[] =
     R"({"schema_version":1,"applies_to":"bound_companion_only","expression_policy":"natural_with_intent_checks","social_behavior":{"refuse":true,"argue":true,"propose_own_goals":true,"deception":{"enabled":true,"lie_in_dialogue":true,"conceal_information":true,"false_promise":true,"transaction_fraud":false},"betrayal":{"enabled":true,"break_commitment":true,"aid_conflicting_party":true,"disclose_known_information":true,"leave_group":false,"misappropriate_items":false,"sabotage":false,"attack_player":false,"attack_allies":false}}})";
+
+class grouped_integer_punctuation : public std::numpunct<char>
+{
+    protected:
+        char do_thousands_sep() const override {
+            return ',';
+        }
+        std::string do_grouping() const override {
+            return "\3";
+        }
+};
 
 JsonObject snapshot( const std::string &text )
 {
@@ -220,11 +233,93 @@ TEST_CASE( "actor_control_rejects_multiplayer_proxy_binding", "[actor_control][m
     CHECK( error == "multiplayer_proxy_not_supported" );
     CHECK_FALSE( control::has_binding() );
     CHECK_FALSE( proxy.maybe_get_value( "cph_ai.bound" ) );
+    CHECK_FALSE( proxy.maybe_get_value( "cph_ai.real_stamina" ) );
     CHECK( proxy.get_value( "mp_proxy" ) == "1" );
     CHECK( proxy.getID() == id );
     CHECK( proxy.get_moves() == moves );
     CHECK( get_avatar().get_moves() == player_moves );
     CHECK( calendar::turn == before );
+}
+
+TEST_CASE( "actor_control_real_stamina_survives_stop_rebind_and_restore",
+           "[actor_control][stamina][lifecycle]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    npc &other = fixture.companion();
+    actor.set_stamina( 400 );
+    REQUIRE_FALSE( actor.uses_stamina() );
+    prepare( actor );
+    REQUIRE( actor.uses_stamina() );
+    CHECK_FALSE( other.uses_stamina() );
+    CHECK( actor.get_stamina() == 400 );
+    actor.mod_stamina( -100 );
+    const int player_stamina = get_avatar().get_stamina();
+    const std::string checkpoint = saved();
+
+    control::stop();
+    CHECK_FALSE( actor.maybe_get_value( "cph_ai.bound" ) );
+    CHECK( actor.uses_stamina() );
+    CHECK( actor.get_stamina() == 300 );
+    std::string error;
+    REQUIRE( control::bind( actor, "test-profile", error ) );
+    CHECK( actor.get_stamina() == 300 );
+
+    control::deserialize( snapshot( checkpoint ) );
+    CHECK( actor.uses_stamina() );
+    CHECK( actor.get_stamina() == 300 );
+    // A controller from an older save has no opt-in value. Its first native
+    // execution boundary migrates without replaying work or refilling stamina.
+    actor.remove_value( "cph_ai.real_stamina" );
+    actor.set_moves( 0 );
+    CHECK_FALSE( control::act( actor, false ) );
+    CHECK( actor.uses_stamina() );
+    CHECK( actor.get_stamina() == 300 );
+    CHECK( actor.get_moves() == 0 );
+    CHECK( get_avatar().get_stamina() == player_stamina );
+}
+
+TEST_CASE( "actor_control_local_rest_preserves_queue_and_resumes_without_planning",
+           "[actor_control][stamina][queue]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    const JsonObject request = response( "take_request" );
+    response( "offer_plan", plan( request,
+                                 R"([{"id":"after-rest","action":"wait","args":{}}])" ) );
+    actor.set_stamina( actor.get_stamina_max() / 4 - 1 );
+    actor.set_moves( 100 );
+    const tripoint_bub_ms position = actor.pos_bub();
+    const int player_moves = get_avatar().get_moves();
+    const int player_stamina = get_avatar().get_stamina();
+    const std::string scope = child( response( "status" ), "context" ).str();
+    const std::string queued_state = at( response( "status" ), "receipts", 0 ).get_string(
+                                         "state" );
+    actor.move();
+    CHECK( actor.pos_bub() == position );
+    CHECK( actor.get_moves() == 0 );
+    CHECK( response( "status" ).get_int( "queue_length" ) == 1 );
+    REQUIRE( response( "status" ).get_array( "receipts" ).size() == 1 );
+    CHECK( at( response( "status" ), "receipts", 0 ).get_string( "state" ) == queued_state );
+    CHECK( child( response( "status" ), "context" ).str() == scope );
+
+    calendar::turn += 1_turns;
+    actor.npc_update_body();
+    REQUIRE( actor.get_stamina() >= actor.get_stamina_max() / 4 );
+    actor.set_moves( 100 );
+    actor.move();
+    CHECK( actor.get_moves() == 0 );
+    REQUIRE( response( "status" ).get_array( "receipts" ).size() == 1 );
+    CHECK( at( response( "status" ), "receipts", 0 ).get_string( "code" ) == "waiting" );
+    calendar::turn += 1_turns;
+    actor.npc_update_body();
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    CHECK( response( "status" ).get_int( "queue_length" ) == 0 );
+    CHECK( at( response( "status" ), "receipts", 0 ).get_string( "state" ) == "succeeded" );
+    CHECK( get_avatar().get_moves() == player_moves );
+    CHECK( get_avatar().get_stamina() == player_stamina );
 }
 
 TEST_CASE( "actor_control_restored_binding_never_controls_multiplayer_proxy",
@@ -417,6 +512,120 @@ TEST_CASE( "actor_control_explicit_stop_cancels_queue_and_keeps_binding",
     CHECK( actor.maybe_get_value( "cph_ai.pending_trade_source_operation" ) == nullptr );
 }
 
+TEST_CASE( "actor_control_spell_receipts_survive_restore_and_management_without_replay",
+           "[actor_control][magic][save]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    const spell_id id( "test_actor_controller_heal" );
+    if( !id.is_valid() ) {
+        spell_type::load_spell( json_loader::from_string( R"({
+          "id":"test_actor_controller_heal","name":"Controller heal regression",
+          "description":"Deterministic native spell fixture.","effect":"attack",
+          "valid_targets":["self"],"flags":["NO_FAIL","SILENT","NO_HANDS","NO_LEGS"],
+          "shape":"blast","max_level":1,"min_range":1,"max_range":1,
+          "min_damage":-7,"max_damage":-7,"energy_source":"MANA",
+          "base_casting_time":200,"base_energy_cost":50
+        })" ), "" );
+    }
+    actor.magic->learn_spell( id, actor, true );
+    actor.magic->set_spell_level( id, 1, &actor );
+    actor.magic->set_mana( actor.magic->max_mana( actor ) );
+    actor.set_part_hp_cur( bodypart_id( "torso" ), 10 );
+    const int mana = actor.magic->available_mana();
+    const int player_moves = get_avatar().get_moves();
+    std::string error;
+    REQUIRE( control::chat( "Heal yourself once.", error ) );
+    const JsonObject request = response( "take_request" );
+    const std::string requirement = at( request, "requirement_decisions", 0 ).get_string(
+                                        "requirement_id" );
+    const tripoint_abs_ms location = actor.pos_abs();
+    const std::string step = "{\"id\":\"heal-once\",\"action\":\"cast_spell\",\"requirement_id\":" +
+                             control::quote( requirement ) + ",\"args\":{\"spell\":" + control::quote( id.str() ) +
+                             ",\"x\":" + std::to_string( location.x() ) + ",\"y\":" + std::to_string( location.y() ) +
+                             ",\"z\":" + std::to_string( location.z() ) + "}}";
+    response( "offer_plan", plan( request, "[" + step + "]" ) );
+    actor.set_moves( 100 );
+    REQUIRE( control::act( actor, false ) );
+    REQUIRE( actor.activity );
+    const std::string operation = actor.get_value( "cph_ai.spell_step" ).to_string();
+    REQUIRE_FALSE( operation.empty() );
+    CHECK( actor.magic->available_mana() == mana );
+    bool completed = false;
+    SECTION( "restore during the activity" ) {
+        control::deserialize( snapshot( saved() ) );
+        REQUIRE( process_activity_bounded( actor, 20, 100 ) );
+        completed = true;
+    }
+    SECTION( "restore after the physical effect before controller acknowledgement" ) {
+        REQUIRE( process_activity_bounded( actor, 20, 100 ) );
+        control::deserialize( snapshot( saved() ) );
+        completed = true;
+    }
+    SECTION( "cancel stops only the owned activity" ) {
+        control::cancel();
+    }
+    SECTION( "stop preserves a replacement ordinary native cast" ) {
+        actor.activity.str_values.clear(); // It now belongs to the native NPC, not this operation.
+        control::stop();
+        REQUIRE( actor.activity );
+        CHECK_FALSE( actor.maybe_get_value( "cph_ai.spell_step" ) );
+        REQUIRE( process_activity_bounded( actor, 20, 100 ) );
+        CHECK( actor.get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+        CHECK( actor.magic->available_mana() == mana - 50 );
+        return;
+    }
+    SECTION( "withdraw stops the accepted spell request" ) {
+        REQUIRE( control::withdraw_requirement( requirement, error ) );
+    }
+    SECTION( "scene change invalidates the original target" ) {
+        control::on_scene_change();
+    }
+    SECTION( "unknown restored physical work cannot restart" ) {
+        actor.cancel_activity();
+        actor.remove_value( "cph_ai.spell_step" );
+        actor.remove_value( "cph_ai.spell_completed_step" );
+        control::deserialize( snapshot( saved() ) );
+        actor.set_moves( 100 );
+        CHECK_FALSE( control::act( actor, false ) );
+        CHECK( response( "status" ).get_string( "control_state" ) == "reconcile_required" );
+        CHECK( actor.magic->available_mana() == mana );
+        CHECK( actor.get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+        return;
+    }
+    REQUIRE_FALSE( actor.activity );
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    const JsonObject receipt = at( snapshot( control::status( true, operation ) ), "receipts", 0 );
+    CHECK( receipt.get_string( "state" ) == ( completed ? "succeeded" : "failed" ) );
+    CHECK( actor.get_part_hp_cur( bodypart_id( "torso" ) ) == ( completed ? 17 : 10 ) );
+    CHECK( actor.magic->available_mana() == ( completed ? mana - 50 : mana ) );
+    CHECK( get_avatar().get_moves() == player_moves );
+    control::deserialize( snapshot( saved() ) );
+    actor.set_moves( 100 );
+    control::act( actor, false );
+    CHECK_FALSE( actor.activity );
+    CHECK( actor.magic->available_mana() == ( completed ? mana - 50 : mana ) );
+}
+
+TEST_CASE( "actor_control_spell_target_permissions_remain_native",
+           "[actor_control][magic][social]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    npc &ally = fixture.companion();
+    prepare( actor );
+    ally.set_fac( faction_id( "your_followers" ) );
+    REQUIRE( actor.is_ally( ally ) );
+    CHECK_FALSE( control::permits_spell_target( actor, get_avatar(), true ) );
+    CHECK_FALSE( control::permits_spell_target( actor, ally, true ) );
+    CHECK_FALSE( control::permits_spell_target( actor, actor, true ) );
+    CHECK( control::permits_spell_target( actor, actor, false ) );
+    actor.set_value( "mp_proxy", "1" );
+    CHECK_FALSE( control::permits_spell_target( actor, actor, false ) );
+}
+
 TEST_CASE( "actor_control_load_epoch_rejects_old_reply_and_unknown_started_work",
            "[actor_control][save]" )
 {
@@ -505,6 +714,51 @@ TEST_CASE( "actor_control_memory_is_subjective_scoped_and_deletable", "[actor_co
               R"({"version":"deleted","snapshot":{"revision":"deleted","records":[]}})" );
     CHECK( actor.maybe_get_value( "cph_ai.known_information" )->to_string() == "[]" );
     CHECK( actor.maybe_get_value( "cph_ai.cognition" )->to_string() == "[]" );
+}
+
+TEST_CASE( "actor_control_memory_json_copies_ignore_numeric_locale",
+           "[actor_control][memory][locale][save]" )
+{
+    control_fixture fixture;
+    npc &actor = fixture.companion();
+    prepare( actor );
+    const std::string memory =
+        "{\"version\":\"locale-memory\",\"snapshot\":{\"revision\":\"locale-memory\",\"records\":["
+        "{\"id\":\"large-time\",\"kind\":\"belief\",\"text\":\"Remember this observation.\","
+        "\"context\":{\"actor_id\":" + std::to_string( actor.getID().get_value() ) +
+        ",\"game_time\":32768},\"confidence\":0.75}]}}";
+    response( "sync_memory", memory );
+    const std::string before = saved();
+    const std::locale original = std::locale();
+    const on_out_of_scope restore_locale( [&]() {
+        std::locale::global( original );
+    } );
+    std::locale::global( std::locale( std::locale::classic(), new grouped_integer_punctuation ) );
+    std::ostringstream grouped;
+    grouped << 32768;
+    REQUIRE( grouped.str() == "32,768" );
+
+    SECTION( "incoming_memory_is_copied_without_grouping" ) {
+        response( "sync_memory", memory );
+        REQUIRE( actor.maybe_get_value( "cph_ai.known_information" ) != nullptr );
+        const JsonArray known = json_loader::from_string( actor.maybe_get_value(
+                                    "cph_ai.known_information" )->to_string() ).get_array();
+        REQUIRE( known.size() == 1 );
+        const JsonObject belief = known.get_object( 0 );
+        belief.allow_omitted_members();
+        CHECK( child( belief, "context" ).get_int( "game_time" ) == 32768 );
+    }
+    SECTION( "saved_memory_is_restored_without_grouping" ) {
+        control::deserialize( snapshot( before ) );
+        REQUIRE( control::has_binding() );
+        CHECK( control::is_bound( actor ) );
+    }
+    const JsonObject stored = snapshot( saved() );
+    const JsonObject cognition = child( stored, "cognition" );
+    CHECK( cognition.get_string( "revision" ) == "locale-memory" );
+    const JsonObject record = at( cognition, "records", 0 );
+    CHECK( child( record, "context" ).get_int( "game_time" ) == 32768 );
+    CHECK( record.get_float( "confidence" ) == Approx( 0.75 ) );
 }
 
 TEST_CASE( "actor_control_idle_world_does_not_trigger_periodic_model_work",

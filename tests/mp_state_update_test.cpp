@@ -20,6 +20,8 @@
 #include "map_helpers.h"
 #include "mp_client_conn.h"
 #include "mp_gamestate.h"
+#include "mp_queue.h"
+#include "npc.h"
 #include "options_helpers.h"
 #include "path_info.h"
 #include "player_helpers.h"
@@ -112,6 +114,109 @@ TEST_CASE( "mp_state_client_upkeep_tracks_host_turns_and_bounds_catchup",
     CHECK( cata_mp::should_advance_calendar() );
     CHECK( cata_mp::mp_client_upkeep_ticks() == 1 );
     CHECK( cata_mp::mp_client_upkeep_ticks() == 1 );
+}
+
+TEST_CASE( "mp_state_remote_stamina_keeps_network_ownership",
+           "[multiplayer][mp_state][stamina]" )
+{
+    const time_point old_turn = calendar::turn;
+    cata_mp::mp_on_world_exit();
+    clear_avatar();
+    clear_map_without_vision();
+    calendar::turn += 1_hours;
+    map &here = get_map();
+    avatar &host = get_avatar();
+    host.consumption_history.clear();
+    host.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    const on_out_of_scope cleanup( [old_turn]() {
+        cata_mp::get_mp_queue().push( { cata_mp::mp_event::type::disconnect, "stamina-test", "" } );
+        cata_mp::process_mp_events();
+        cata_mp::mp_on_world_exit();
+        calendar::turn = old_turn;
+    } );
+
+    // Replay the real game-thread connect path, not an AI marker or a fabricated
+    // NPC id. Transport/authentication are covered by the separate socket tests.
+    cata_mp::get_mp_queue().push( { cata_mp::mp_event::type::connect, "stamina-test", "" } );
+    cata_mp::process_mp_events();
+    npc *remote = g->critter_by_id<npc>( cata_mp::get_remote_player_npc_character_id() );
+    REQUIRE( remote != nullptr );
+    REQUIRE( cata_mp::is_remote_player( remote->getID() ) );
+    clear_character( *remote );
+    // The synthetic nutrition fixture is unrelated to MP save/restore.
+    remote->consumption_history.clear();
+    CHECK( remote->get_value( "cph_ai.real_stamina" ) != "true" );
+    REQUIRE( remote->uses_stamina() );
+    remote->set_cardio_acc( 1234 );
+    host.set_cardio_acc( 1234 );
+    CHECK( remote->get_cardiofit() == host.get_cardiofit() );
+    CHECK( remote->get_stamina_max() == host.get_stamina_max() );
+    const tripoint_bub_ms start( 30, 30, 0 );
+    for( int x = 30; x <= 33; ++x ) {
+        here.ter_set( tripoint_bub_ms( x, 30, 0 ), ter_id( "t_floor" ) );
+    }
+    remote->setpos( here, start );
+    cata_mp::grant_client_turn();
+    const int initial_stamina = remote->get_stamina_max() / 2;
+    remote->set_stamina( initial_stamina );
+    remote->mod_stamina( -75 );
+    CHECK( remote->get_stamina() == initial_stamina - 75 );
+    remote->set_stamina( initial_stamina );
+    const int host_stamina = host.get_stamina();
+    const int host_moves = host.get_moves();
+
+    SECTION( "NPC_movement_does_not_add_a_second_debit" ) {
+        remote->set_moves( 500 );
+        remote->move_to( start + tripoint_rel_ms::east );
+        REQUIRE( remote->pos_bub() == start + tripoint_rel_ms::east );
+        CHECK( remote->get_moves() < 500 );
+        CHECK( remote->get_stamina() == initial_stamina );
+    }
+
+    SECTION( "network_movement_without_a_client_value_pays_the_native_cost_once" ) {
+        const int move_cost = remote->run_cost( here.combined_movecost(
+                                 start, start + tripoint_rel_ms::east ) );
+        remote->burn_move_stamina( move_cost );
+        const int expected_stamina = remote->get_stamina();
+        REQUIRE( expected_stamina < initial_stamina );
+        remote->set_stamina( initial_stamina );
+        cata_mp::get_mp_queue().push( {
+            cata_mp::mp_event::type::action, "stamina-test",
+            R"({"type":"action","action":"move","dir":"e"})"
+        } );
+        cata_mp::process_mp_events();
+        CHECK( remote->pos_bub() == start + tripoint_rel_ms::east );
+        CHECK( remote->get_stamina() == expected_stamina );
+    }
+
+    SECTION( "authoritative_stamina_is_neither_spent_nor_regenerated_twice" ) {
+        const int client_stamina = initial_stamina - 100;
+        cata_mp::get_mp_queue().push( {
+            cata_mp::mp_event::type::action, "stamina-test",
+            R"({"type":"action","action":"move","dir":"e","client_stamina":)" +
+            std::to_string( client_stamina ) + "}"
+        } );
+        cata_mp::process_mp_events();
+        REQUIRE( remote->pos_bub() == start + tripoint_rel_ms::east );
+        CHECK( remote->get_stamina() == client_stamina );
+        calendar::turn += 1_turns;
+        remote->update_body( calendar::turn - 1_turns, calendar::turn );
+        CHECK( remote->get_stamina() == client_stamina );
+        cata_mp::grant_client_turn();
+        CHECK( remote->get_stamina() == client_stamina );
+
+        remote->update_stamina( 1 );
+        const int expected_stamina = remote->get_stamina();
+        REQUIRE( expected_stamina > client_stamina );
+        remote->set_stamina( client_stamina );
+        calendar::turn += 1_turns;
+        remote->update_body( calendar::turn - 1_turns, calendar::turn );
+        CHECK( remote->get_stamina() == client_stamina );
+        cata_mp::grant_client_turn();
+        CHECK( remote->get_stamina() == expected_stamina );
+    }
+    CHECK( host.get_stamina() == host_stamina );
+    CHECK( host.get_moves() == host_moves );
 }
 
 TEST_CASE( "mp_state_frozen_turn_does_not_repeat_field_damage_or_active_items",

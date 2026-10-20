@@ -21,7 +21,7 @@ class ReleaseTests(unittest.TestCase):
         self.dist = self.root / "dist"
         self.dist.mkdir()
         (self.root / "docs").mkdir()
-        self.record = {"schema_version": 1, "package_version": "0.1.2.dev0", "protocol_version": "1.1",
+        self.record = {"schema_version": 1, "package_version": "0.1.2.dev0", "protocol_version": "1.2",
                        "candidate": {"status": "LOCAL_CANDIDATE", "native_head": None},
                        "validated_combinations": [], "acceptance": {"gameplay": "NOT_RUN"}}
         (self.root / "docs/compatibility.json").write_text(json.dumps(self.record))
@@ -37,7 +37,7 @@ class ReleaseTests(unittest.TestCase):
     def write_wheel(self, *, main=True, unsafe=False):
         with zipfile.ZipFile(self.wheel, "w") as archive:
             archive.writestr("cph_ai_companion-0.1.2.dev0.dist-info/METADATA", "Name: cph-ai-companion\nVersion: 0.1.2.dev0\nRequires-Python: <3.13,>=3.12\n")
-            archive.writestr(release.PROTOCOL_FILE, '{"protocol_version":"1.1"}')
+            archive.writestr(release.PROTOCOL_FILE, '{"protocol_version":"1.2"}')
             archive.writestr(release.MOD_PREFIX + "mod.lua", "return { id='cph_ai_companion' }")
             if main:
                 archive.writestr(release.MOD_PREFIX + "main.lua", "return {}")
@@ -50,7 +50,7 @@ class ReleaseTests(unittest.TestCase):
         body = metadata if metadata is not None else b"Name: cph-ai-companion\nVersion: 0.1.2.dev0\nRequires-Python: <3.13,>=3.12\n"
         records = [(prefix + "PKG-INFO", body),
                    (prefix + "src/" + release.PROTOCOL_FILE,
-                    protocol if protocol is not None else b'{"protocol_version":"1.1"}')]
+                    protocol if protocol is not None else b'{"protocol_version":"1.2"}')]
         resources = mods if mods is not None else {"mod.lua": b"return { id='cph_ai_companion' }", "main.lua": b"return {}"}
         records.extend((prefix + "src/" + release.MOD_PREFIX + name, content)
                        for name, content in resources.items())
@@ -84,6 +84,23 @@ class ReleaseTests(unittest.TestCase):
         for line in (self.dist / "SHA256SUMS").read_text().splitlines():
             digest, name = line.split("  ", 1)
             self.assertEqual(digest, release.sha256(self.dist / name))
+
+    def test_incomplete_windows_delivery_inputs_do_not_modify_artifacts(self):
+        self.write_wheel()
+        with self.assertRaisesRegex(release.ReleaseError, "complete_windows_bundle_inputs_required"):
+            release.assemble(self.dist, root=self.root, windows_python=self.root)
+        self.assertFalse((self.dist / "compatibility.json").exists())
+        self.assertFalse((self.dist / "cph_ai_companion-0.1.2.dev0-mod.zip").exists())
+
+    def test_multiple_wheel_metadata_records_are_rejected_before_assembly(self):
+        self.write_wheel()
+        with zipfile.ZipFile(self.wheel, "a") as archive:
+            archive.writestr("extra.dist-info/METADATA",
+                             "Name: cph-ai-companion\nVersion: 0.1.2.dev0\nRequires-Python: <3.13,>=3.12\n")
+        with self.assertRaisesRegex(release.ReleaseError, "invalid_wheel_metadata"):
+            release.assemble(self.dist, root=self.root)
+        self.assertFalse((self.dist / "compatibility.json").exists())
+        self.assertFalse((self.dist / "cph_ai_companion-0.1.2.dev0-mod.zip").exists())
 
     def test_default_and_candidate_only_do_not_inherit_old_wheel_pass(self):
         self.write_wheel()
@@ -171,7 +188,7 @@ class ReleaseTests(unittest.TestCase):
 
     def test_sdist_protocol_and_mod_bytes_must_equal_exact_wheel_resources(self):
         self.write_wheel()
-        self.write_sdist(protocol=b'{"protocol_version":"1.1","different_snapshot":true}')
+        self.write_sdist(protocol=b'{"protocol_version":"1.2","different_snapshot":true}')
         with self.assertRaisesRegex(release.ReleaseError, "sdist_protocol_mismatch"):
             release.assemble(self.dist, root=self.root)
         for mods in ({"mod.lua": b"return { id='cph_ai_companion' }"},

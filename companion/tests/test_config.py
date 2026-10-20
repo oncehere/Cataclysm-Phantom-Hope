@@ -14,6 +14,17 @@ class ConfigTests(unittest.TestCase):
         config["personality"]["social_behavior"]["refuse"] = False
         self.assertTrue(default_config()["personality"]["social_behavior"]["refuse"])
 
+    def test_partial_personality_is_normalized_before_native_configuration(self):
+        value = default_config()
+        value["personality"] = {"traits": {"honesty": 0.9},
+                                "social_behavior": {"deception": {"enabled": False}}}
+        validated = validate_config(value)
+        self.assertEqual(validated["personality"]["traits"]["honesty"], 0.9)
+        self.assertIn("caution", validated["personality"]["traits"])
+        self.assertIn("false_promise", validated["personality"]["social_behavior"]["deception"])
+        self.assertFalse(validated["personality"]["social_behavior"]["deception"]["enabled"])
+        self.assertEqual(value["personality"]["traits"], {"honesty": 0.9})
+
     def test_paths_anchor_to_profile_instead_of_current_directory(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
@@ -47,6 +58,42 @@ class ConfigTests(unittest.TestCase):
         config["schema_version"] = 2
         with self.assertRaises(ConfigError):
             validate_config(config)
+
+    def test_optional_thinking_json_modes_and_duties_are_explicit(self):
+        config = default_config()
+        self.assertNotIn("thinking_mode", validate_config(config)["llm"])
+        self.assertEqual(validate_config(config)["duties"], {
+            "allowed_tasks": [], "max_distance": 12, "item_types": [], "recipes": []})
+        config["llm"].update(thinking_mode="disabled", json_mode=True)
+        config["duties"]["allowed_tasks"] = ["gather", "craft"]
+        config["limits"]["budget_period"] = "explicit-next-period"
+        self.assertEqual(validate_config(config)["llm"]["thinking_mode"], "disabled")
+        for field, value in (("thinking_mode", None), ("thinking_mode", True), ("thinking_mode", "auto"), ("json_mode", "true")):
+            invalid = default_config()
+            invalid["llm"][field] = value
+            with self.assertRaises(ConfigError):
+                validate_config(invalid)
+
+    def test_duties_scope_defaults_preserve_old_profiles_and_reject_invalid_scope(self):
+        config = default_config()
+        del config["duties"]
+        self.assertEqual(validate_config(config)["duties"], {
+            "allowed_tasks": [], "max_distance": 12, "item_types": [], "recipes": []})
+        config["duties"] = {"allowed_tasks": ["gather"], "item_types": ["rock"]}
+        self.assertEqual(validate_config(config)["duties"]["max_distance"], 12)
+        for field, value in (("max_distance", 0), ("max_distance", 61), ("max_distance", True),
+                             ("max_distance", 2.5), ("item_types", [""]), ("item_types", ["a", "a"]),
+                             ("item_types", "rock"), ("recipes", [None]), ("recipes", ["a\0b"]),
+                             ("recipes", ["x" * 129]), ("unknown", [])):
+            invalid = default_config()
+            invalid["duties"][field] = value
+            with self.subTest(field=field, value=value), self.assertRaises(ConfigError):
+                validate_config(invalid)
+        for kinds in (["drop"], ["move", "move"], [True], "gather"):
+            invalid = default_config()
+            invalid["duties"]["allowed_tasks"] = kinds
+            with self.assertRaises(ConfigError):
+                validate_config(invalid)
 
 
 if __name__ == "__main__":

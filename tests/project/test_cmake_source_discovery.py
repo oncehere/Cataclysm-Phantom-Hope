@@ -33,7 +33,10 @@ class CMakeSourceDiscoveryTests(unittest.TestCase):
         for relative in (
             "src/CMakeLists.txt", "tests/CMakeLists.txt",
             "src/version.cmake", "tools/generate_builtin_mods.py",
+            "companion/src/cph_ai_companion/resources/mod/mod.lua",
+            "companion/src/cph_ai_companion/resources/mod/main.lua",
         ):
+            (self.source / relative).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / relative, self.source / relative)
         self.write("CMakeLists.txt", """
 cmake_minimum_required(VERSION 3.20)

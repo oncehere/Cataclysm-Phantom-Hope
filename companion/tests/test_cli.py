@@ -3,11 +3,13 @@ import io
 import json
 from pathlib import Path
 import signal
+from cph_ai_companion import platform_io
 import tempfile
+import threading
 import unittest
 from unittest.mock import patch
 
-from cph_ai_companion.cli import (CliError, doctor, initialize_profile, install_mod,
+from cph_ai_companion.cli import (CliError, doctor, initialize_profile, install_mod, run_session,
                                   main, remove_mod, stop_session, INSTALL_MANIFEST)
 from cph_ai_companion.config import load_config
 from cph_ai_companion.protocol import PROTOCOL_VERSION, schema_digest
@@ -31,6 +33,35 @@ class FakeClient:
 
 
 class CliTests(unittest.TestCase):
+    def test_session_writer_lease_excludes_another_profile_before_stale_record_repair(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = platform_io.private_directory(directory, create=True)
+            descriptor = SessionDescriptor(root / "session.json", "s", "127.0.0.1", 1,
+                                           root / "credential", PROTOCOL_VERSION, schema_digest())
+            entered, release = threading.Event(), threading.Event()
+            outcomes = []
+
+            def first(*args):
+                entered.set()
+                self.assertTrue(release.wait(5))
+                return {"state": "first_stopped"}
+
+            with patch("cph_ai_companion.cli._run_locked_session", side_effect=first) as running:
+                thread = threading.Thread(target=lambda: outcomes.append(run_session(descriptor, "profile-a")))
+                thread.start()
+                try:
+                    self.assertTrue(entered.wait(5))
+                    with self.assertRaisesRegex(CliError, "session_runtime_already_running"):
+                        run_session(descriptor, "profile-b")
+                    self.assertEqual(running.call_count, 1)
+                finally:
+                    release.set()
+                    thread.join(5)
+                self.assertFalse(thread.is_alive())
+            self.assertEqual(outcomes, [{"state": "first_stopped"}])
+            with patch("cph_ai_companion.cli._run_locked_session", return_value={"state": "restarted"}):
+                self.assertEqual(run_session(descriptor, "profile-b"), {"state": "restarted"})
+
     def test_init_is_offline_preserves_background_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:
             profile = Path(directory) / "profile"
@@ -74,6 +105,7 @@ class CliTests(unittest.TestCase):
             user = Path(directory) / "game"
             target = install_mod(user)
             (target / "user-notes.txt").write_text("keep")
+            platform_io.private_directory(directory, create=True)
             descriptor = SessionDescriptor(Path(directory) / "session.json", "s", "127.0.0.1", 1,
                                            Path(directory) / "credential", PROTOCOL_VERSION, schema_digest(), user_dir=str(user))
             with patch("cph_ai_companion.cli.JsonRpcClient", FakeClient):
@@ -121,6 +153,7 @@ class CliTests(unittest.TestCase):
                 return {"detach_state": "detach_pending" if method == "stop" else "attached"}
 
         with tempfile.TemporaryDirectory() as directory:
+            platform_io.private_directory(directory, create=True)
             descriptor = SessionDescriptor(Path(directory) / "session.json", "s", "127.0.0.1", 1,
                                            Path(directory) / "credential", PROTOCOL_VERSION, schema_digest())
             with patch("cph_ai_companion.cli.JsonRpcClient", StopClient):
@@ -128,6 +161,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(calls, ["cancel", "stop"])
         self.assertEqual(result, {"state": "stop_requested", "detach": {"detach_state": "detach_pending"}})
 
+    @unittest.skipIf(platform_io.WINDOWS, "Linux pidfd contract; Windows uses private event")
     def test_stop_signals_verified_process_handle_instead_of_reusable_pid(self):
         descriptor = SessionDescriptor(Path("/tmp/session.json"), "s", "127.0.0.1", 1,
                                        Path("/tmp/credential"), PROTOCOL_VERSION, schema_digest())
@@ -147,6 +181,7 @@ class CliTests(unittest.TestCase):
         client.assert_not_called()
         self.assertEqual(result, {"state": "stop_requested", "safe_detach_complete": False})
 
+    @unittest.skipIf(platform_io.WINDOWS, "Linux pidfd contract; Windows uses private event")
     def test_reused_runtime_pid_is_never_signalled_and_native_control_is_released(self):
         calls = []
 

@@ -2847,6 +2847,14 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
     }
 }
 
+void known_magic::prepare_casting( Character &guy )
+{
+    clear_opens_spellbook_data();
+    get_event_bus().send_with_talker( &guy, static_cast<Creature *>( nullptr ),
+                                    cata::event::make<event_type::opens_spellbook>( guy.getID() ) );
+    evaluate_opens_spellbook_data( guy );
+}
+
 void known_magic::clear_opens_spellbook_data()
 {
     caster_level_adjustment = 0;
@@ -2857,7 +2865,7 @@ void known_magic::clear_opens_spellbook_data()
     }
 }
 
-void known_magic::evaluate_opens_spellbook_data()
+void known_magic::evaluate_opens_spellbook_data( const Character &guy )
 {
     for( spell *sp : get_spells() ) {
         double raw_level_adjust = caster_level_adjustment + sp->get_temp_level_adjustment();
@@ -2872,7 +2880,7 @@ void known_magic::evaluate_opens_spellbook_data()
             raw_level_adjust += spell_it->second;
         }
         int final_level = clamp( sp->get_level() + static_cast<int>( raw_level_adjust ), 0,
-                                 sp->get_max_level( get_player_character() ) );
+                                 sp->get_max_level( guy ) );
         sp->set_temp_level_adjustment( final_level - sp->get_level() );
     }
 }

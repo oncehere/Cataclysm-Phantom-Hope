@@ -176,9 +176,9 @@
 #include "monstergenerator.h"
 #include "move_mode.h"
 #include "mp_client_conn.h"
+#include "mp_magic.h"
 #ifdef MP_ENABLED
     #include "mp_gamestate.h"
-    #include "mp_magic.h"
 #endif
 #include "mtype.h"
 #include "npc.h"
@@ -779,6 +779,7 @@ bool game::setup()
 void game::reset_game_state()
 {
     cata::actor_control::reset();
+    cata_mp::mp_invalidate_magic_generation_for_load();
     new_game = true;
     dimension_checkpoint_pending = false;
 

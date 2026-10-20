@@ -818,10 +818,13 @@ class known_magic
         // does the Character have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( const Character &guy, const spell &sp ) const;
-        // Clears old data written by EoC triggered by the events player_opens_spellbook or npc_opens_spellbook
+        // Prepare actual spell selection/casting, including owner-scoped event callbacks.
+        // This mutates state and must not be called by read-only ability queries.
+        void prepare_casting( Character &guy );
+        // Clears old data written by EoC triggered by opens_spellbook.
         void clear_opens_spellbook_data();
         // uses data received from EoC
-        void evaluate_opens_spellbook_data();
+        void evaluate_opens_spellbook_data( const Character &guy );
         void channel_magic( Character &guy );
         void break_channeling( Character &guy );
 

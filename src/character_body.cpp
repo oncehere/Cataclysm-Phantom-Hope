@@ -30,6 +30,7 @@
 #include "math_parser_diag_value.h"
 #include "map.h"
 #include "mapdata.h"
+#include "mp_gamestate.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -237,13 +238,21 @@ static int ticks_between( const time_point &from, const time_point &to,
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
+    // Remote proxies receive stamina from their network scheduler. Local
+    // companions share the normal body clock and its saved checkpoint.
+    const bool local_npc_stamina = is_npc() && uses_stamina() &&
+                                   !cata_mp::is_remote_player( getID() );
     // Early return if we already did update previously on the same turn (e.g. when loading savegame).
     if( to <= last_updated ) {
-        last_updated = to;
+        if( !local_npc_stamina ) {
+            last_updated = to;
+        }
         return;
     }
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
+    } else if( local_npc_stamina ) {
+        update_stamina( to_turns<int>( to - std::max( from, last_updated ) ) );
     }
     if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
         oxygen += std::max( static_cast<int>( to_turns<int>( to - from ) * get_stamina() * 5 * get_modifier(
@@ -386,6 +395,9 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     if( calendar::once_every( 24_hours ) ) {
         do_skill_rust();
+    }
+    if( local_npc_stamina ) {
+        last_updated = to;
     }
 }
 

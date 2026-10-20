@@ -4,13 +4,22 @@ description: Offline subsystem routing for human contributors and agents.
 entries:
   - id: ai-companion
     paths: [companion/, tools/actor_control/, 'src/actor_control*', src/npc_execution_adapter.cpp, src/npc_execution_adapter.h, '.github/workflows/project-companion.yml']
-    purpose: Independently packaged Python and Lua companion, single protocol source, and native NPC control integration.
+    purpose: Optional Windows built-in companion Mod and matching runtime bundle, independently testable Python package, single protocol source, and native NPC control.
     instructions: AGENTS.md
     validation_ids: [actor-control-protocol, companion-python, companion-package, companion-joint]
     boundaries:
-      - companion/ retains its Apache-2.0 license and independent wheel, sdist and Mod distribution.
+      - companion/ retains its Apache-2.0 license and independently buildable wheel and sdist; Windows staging copies the canonical Mod from the exact wheel.
+      - Players configure and explicitly start the bundled runtime from the game.
       - Native control and multiplayer keep separate identity, scheduling and observation rules.
       - Offline validation and Mod loading never start model calls.
+  - id: isolated-scenarios
+    paths: [tools/scenarios/, data/mods/Scenario_Story_Smoke/]
+    purpose: Independent Lua/JSON content scenarios with isolated preparation, Mod loading, launch and save/load reruns; see tools/scenarios/README.md.
+    instructions: AGENTS.md
+    validation_ids: [python-tools, lua-mod-load]
+    boundaries:
+      - The runner does not import the companion, prepare a companion profile or authorize model calls.
+      - Process exit and loading checks do not prove gameplay; record observed results in the prepared checklist.
   - id: engine
     paths: [src/]
     purpose: Native C++ engine, gameplay, UI, and Lua bindings.

@@ -78,6 +78,12 @@
     "world_id": null,
     "branch_id": null
   },
+  "duties": {
+    "allowed_tasks": [],
+    "max_distance": 12,
+    "item_types": [],
+    "recipes": []
+  },
   "debug": {
     "enabled": false
   }

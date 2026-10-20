@@ -557,6 +557,7 @@ static void add_effect_to_target( const tripoint_bub_ms &target, const spell &sp
     }
     if( !bodypart_effected ) {
         critter->add_effect( spell_effect, dur_td );
+        cata_mp::mp_on_spell_effect_applied( *critter, caster, spell_effect, dur_td );
     }
 }
 
@@ -791,6 +792,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         add_msg_if_player_sees( victim, sp.message(),
                                 victim.type->nname(), new_id->nname() );
     }
+    const int prior_dealt = caster.is_avatar() ?
+                            cata_mp::mp_client_monster_unreported_damage( victim ) : 0;
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
@@ -800,6 +803,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
             victim.make_ally( *caster.as_monster() );
         }
     }
+    cata_mp::mp_on_monster_spell_op( victim, caster, "poly", prior_dealt );
 }
 
 void spell_effect::targeted_polymorph( const spell &sp, Creature &caster,
@@ -1703,6 +1707,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
         }
         if( success ) {
             add_msg_if_player_sees( potential_target, m_good, _( "You charm the %s!" ), mon->name() );
+            cata_mp::mp_on_monster_spell_op( *mon, caster, "charm" );
         } else {
             add_msg_if_player_sees( potential_target, m_bad, _( "The %s resists your charm attempt." ),
                                     mon->name() );
@@ -2003,6 +2008,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
+    const cata_mp::mp_hp_event_scope hp_scope( "banishment" );
     class map &here = get_map(); // "map" is overridden by a spell_effect operation...
     int total_dam = sp.damage( caster );
     if( total_dam <= 0 ) {
@@ -2073,6 +2079,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &here, &caster );
+        cata_mp::mp_on_monster_spell_op( *mon, caster, "banish" );
     }
 }
 
@@ -2203,4 +2210,10 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
             }
         }
     }
+}
+
+void cata_mp::mp_spell_hit_single_target( const spell &sp, Creature &caster,
+        const tripoint_bub_ms &target )
+{
+    damage_targets( sp, caster, { target } );
 }

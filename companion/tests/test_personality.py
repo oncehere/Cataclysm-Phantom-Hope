@@ -45,6 +45,15 @@ class PersonalityTests(unittest.TestCase):
             with self.assertRaisesRegex(PersonalityError, "behavior_disabled"):
                 policy.validate_plan([step])
 
+    def test_cast_spell_does_not_bypass_explicit_social_permissions(self):
+        step = {"id": "cast", "action": "cast_spell",
+                "args": {"spell": "known_spell", "x": 1, "y": 2, "z": 0}}
+        policy = PersonalityPolicy()
+        policy.validate_plan([step])
+        for intent in ("attack_player", "attack_allies", "sabotage"):
+            with self.subTest(intent=intent), self.assertRaisesRegex(PersonalityError, "behavior_disabled"):
+                policy.validate_plan([{**step, "intent": intent}])
+
     def test_disabled_leaf_cannot_hide_behind_enabled_parent(self):
         policy = PersonalityPolicy({"social_behavior": {"deception": {"lie_in_dialogue": False}}})
         self.assertFalse(policy.allows("lie_in_dialogue"))
@@ -69,14 +78,15 @@ class PersonalityTests(unittest.TestCase):
             with self.assertRaises(PersonalityError):
                 PersonalityPolicy(config)
 
-    def test_filter_does_not_silently_drop_disallowed_steps_or_mutate_input(self):
+    def test_validation_does_not_silently_drop_disallowed_steps_or_mutate_input(self):
         policy = PersonalityPolicy()
         steps = [{"id": "step-1", "action": "speak", "args": {"text": "我不愿意"}, "intent": "refuse"}]
-        returned = policy.filter_plan(steps)
-        returned[0]["args"]["text"] = "edited"
-        self.assertEqual(steps[0]["args"]["text"], "我不愿意")
+        original = deepcopy(steps)
+        policy.validate_plan(steps)
+        self.assertEqual(steps, original)
         with self.assertRaisesRegex(PersonalityError, "behavior_disabled"):
-            policy.filter_plan([*steps, {"intent": "attack_player"}])
+            policy.validate_plan([*steps, {"intent": "attack_player"}])
+        self.assertEqual(steps, original)
 
     def test_permissions_do_not_claim_to_classify_unannotated_natural_speech(self):
         policy = PersonalityPolicy({"social_behavior": {"deception": {"enabled": False}}})

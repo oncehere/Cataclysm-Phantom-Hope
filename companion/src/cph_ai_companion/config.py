@@ -36,10 +36,24 @@ def validate_config(value: Any, root: Path | None = None) -> dict[str, Any]:
     actor = result.get("actor_id")
     if actor is not None and (type(actor) is not int or actor < 0):
         raise ConfigError("actor_id must be a nonnegative integer or null")
-    for section in ("llm", "limits", "personality", "memory", "paths", "binding"):
+    for section in ("llm", "limits", "personality", "memory", "paths", "binding", "duties"):
         if not isinstance(result.get(section, defaults[section]), dict):
             raise ConfigError(f"{section} must be an object")
         result[section] = {**defaults[section], **result.get(section, {})}
+    allowed = result["duties"].get("allowed_tasks")
+    if (set(result["duties"]) != {"allowed_tasks", "max_distance", "item_types", "recipes"} or not isinstance(allowed, list)
+            or any(not isinstance(kind, str) or kind not in ("follow", "guard", "move", "gather", "craft") for kind in allowed)
+            or len(allowed) != len(set(allowed))):
+        raise ConfigError("duties.allowed_tasks must contain distinct supported task kinds")
+    distance = result["duties"]["max_distance"]
+    if type(distance) is not int or not 1 <= distance <= 60:
+        raise ConfigError("duties.max_distance must be between 1 and 60")
+    for field in ("item_types", "recipes"):
+        identifiers = result["duties"][field]
+        if (not isinstance(identifiers, list) or len(identifiers) > 128
+                or any(not isinstance(item, str) or not 1 <= len(item) <= 128 or "\x00" in item for item in identifiers)
+                or len(identifiers) != len(set(identifiers))):
+            raise ConfigError(f"duties.{field} must contain distinct nonempty identifiers")
     limits = result["limits"]
     bounds = {"max_steps": (1, 5), "max_calls": (1, 3), "max_queries": (0, 4),
               "request_timeout": (1, 30), "episode_timeout": (1, 90), "cooldown": (1, 3600),
@@ -53,7 +67,14 @@ def validate_config(value: Any, root: Path | None = None) -> dict[str, Any]:
             raise ConfigError(f"limits.{key} must be an integer")
     if limits["episode_timeout"] < limits["request_timeout"]:
         raise ConfigError("episode_timeout must cover request_timeout")
+    period = limits.get("budget_period", "default")
+    if not isinstance(period, str) or not 1 <= len(period) <= 128 or "\x00" in period:
+        raise ConfigError("limits.budget_period must name an explicit budget period")
     llm = result["llm"]
+    if "thinking_mode" in llm and llm["thinking_mode"] not in ("enabled", "disabled"):
+        raise ConfigError("llm.thinking_mode must be enabled or disabled")
+    if "json_mode" in llm and type(llm["json_mode"]) is not bool:
+        raise ConfigError("llm.json_mode must be a boolean")
     for key in ("base_url", "model", "api_key_env"):
         if not isinstance(llm.get(key), str) or "\x00" in llm[key]:
             raise ConfigError(f"llm.{key} must be a string")
@@ -69,10 +90,10 @@ def validate_config(value: Any, root: Path | None = None) -> dict[str, Any]:
             raise ConfigError(f"paths.{key} must be a nonempty path")
         if root is not None:
             candidate = Path(path).expanduser()
-            result["paths"][key] = str((candidate if candidate.is_absolute() else root / candidate).resolve())
+            result["paths"][key] = str((candidate if candidate.is_absolute() else root / candidate).absolute())
     # Validate the complete permission tree, including disabled leaves.
     from .personality import PersonalityPolicy
-    PersonalityPolicy(result["personality"])
+    result["personality"] = PersonalityPolicy(result["personality"]).as_dict()
     return result
 
 

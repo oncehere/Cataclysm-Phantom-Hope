@@ -2,6 +2,8 @@ from contextlib import contextmanager
 import json
 from pathlib import Path
 import socket
+import subprocess
+from cph_ai_companion import platform_io
 import tempfile
 import threading
 import unittest
@@ -46,18 +48,15 @@ def bridge(handler):
 
 
 def session(directory, port):
-    root = Path(directory)
-    root.chmod(0o700)
+    root = platform_io.private_directory(directory, create=True)
     path = root / "instance"
-    path.mkdir(mode=0o700)
+    platform_io.private_directory(path, create=True)
     credential = path / "credential"
-    credential.write_text("a" * 64)
-    credential.chmod(0o600)
+    platform_io.atomic_write(credential, ("a" * 64).encode())
     descriptor = path / "session.json"
-    descriptor.write_text(json.dumps({"session_id": "instance", "host": "127.0.0.1", "port": port,
+    platform_io.atomic_write(descriptor, json.dumps({"session_id": "instance", "host": "127.0.0.1", "port": port,
                                      "credential_file": "credential", "protocol_version": PROTOCOL_VERSION,
-                                      "schema_digest": schema_digest()}))
-    descriptor.chmod(0o600)
+                                      "schema_digest": schema_digest()}).encode())
     return SessionDescriptor.load(descriptor)
 
 
@@ -100,13 +99,35 @@ class TransportTests(unittest.TestCase):
                 with self.assertRaisesRegex(TransportError, "^bridge_rejected$"):
                     client.request("status")
 
+    def test_native_task_business_code_is_preserved_without_remote_message(self):
+        def handler(request):
+            if request["method"] == "hello":
+                return handshake(request)
+            return {"id": request["id"], "ok": False, "error": {
+                "code": request["params"]["code"], "message": "PRIVATE"}}
+        with tempfile.TemporaryDirectory() as directory, bridge(handler) as port:
+            with JsonRpcClient(session(directory, port)) as client:
+                for code in ("task_outside_duty_scope", "invalid_task_dependency", "task_limit"):
+                    with self.assertRaisesRegex(TransportError, "^" + code + "$"):
+                        client.request("offer_tasks", {"code": code})
+                # A valid remote rejection does not close the authenticated link.
+                self.assertIsNotNone(client._socket)
+
     def test_world_read_permissions_and_symlinks_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             descriptor = session(directory, 12345)
-            descriptor.path.chmod(0o644)
+            if platform_io.WINDOWS:
+                subprocess.run(["icacls", str(descriptor.path), "/grant", "*S-1-1-0:R"],
+                               check=True, capture_output=True)
+            else:
+                descriptor.path.chmod(0o644)
             with self.assertRaisesRegex(TransportError, "insecure_session_permissions"):
                 SessionDescriptor.load(descriptor.path)
-            descriptor.path.chmod(0o600)
+            if platform_io.WINDOWS:
+                subprocess.run(["icacls", str(descriptor.path), "/remove:g", "*S-1-1-0"],
+                               check=True, capture_output=True)
+            else:
+                descriptor.path.chmod(0o600)
             descriptor.credential_file.unlink()
             descriptor.credential_file.symlink_to(descriptor.path)
             with self.assertRaises(TransportError):

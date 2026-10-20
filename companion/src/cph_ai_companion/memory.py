@@ -9,7 +9,6 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from copy import deepcopy
-import fcntl
 import hashlib
 import json
 import math
@@ -19,6 +18,8 @@ import re
 import stat
 from typing import Any
 from uuid import uuid4
+
+from . import platform_io
 
 
 KINDS = frozenset({"observation", "statement", "belief", "commitment", "receipt", "relationship", "growth", "summary", "goal"})
@@ -170,8 +171,12 @@ class MemoryStore:
     """
 
     def __init__(self, profile_dir: str | Path, config: Mapping[str, Any] | None = None) -> None:
-        self.root = Path(profile_dir).resolve()
-        self.root.mkdir(parents=True, exist_ok=True)
+        self.root = Path(profile_dir).expanduser().absolute()
+        try:
+            platform_io.reject_links(self.root, missing=True)
+        except OSError:
+            raise MemoryStoreError("invalid_memory_path") from None
+        platform_io.private_directory(self.root, create=True)
         self._closed = False
         self._lock_fd = -1
         self._memory_lock_fd = -1
@@ -207,14 +212,14 @@ class MemoryStore:
             raise MemoryStoreError("invalid_memory_config")
         self.memory_root = self._configured_path(paths.get("memory", "memory"))
         self.background_path = self._configured_path(paths.get("background", "background.md"))
-        self.memory_root.mkdir(parents=True, exist_ok=True)
+        platform_io.private_directory(self.memory_root, create=True)
         try:
-            self._lock_fd = os.open(self.root / ".writer.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
-            fcntl.flock(self._lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._lock_fd = platform_io.open_file(self.root / ".writer.lock", os.O_CREAT | os.O_RDWR)
+            platform_io.lock_file(self._lock_fd, blocking=False)
             # Two different profiles must not concurrently write one configured
             # memory directory. Locks never prohibit ordinary text editors.
-            self._memory_lock_fd = os.open(self.memory_root / ".writer.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
-            fcntl.flock(self._memory_lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._memory_lock_fd = platform_io.open_file(self.memory_root / ".writer.lock", os.O_CREAT | os.O_RDWR)
+            platform_io.lock_file(self._memory_lock_fd, blocking=False)
         except OSError:
             self.close()
             raise MemoryStoreError("writer_locked") from None
@@ -263,7 +268,12 @@ class MemoryStore:
         if not isinstance(value, (str, Path)) or not str(value) or "\x00" in str(value):
             raise MemoryStoreError("invalid_memory_path")
         path = Path(value).expanduser()
-        return (path if path.is_absolute() else self.root / path).resolve()
+        path = path if path.is_absolute() else self.root / path
+        try:
+            platform_io.reject_links(path, missing=True)
+        except OSError:
+            raise MemoryStoreError("invalid_memory_path") from None
+        return path.absolute()
 
     def _relative(self, path: Path) -> str:
         return "memory/" + path.relative_to(self.memory_root).as_posix()
@@ -280,8 +290,10 @@ class MemoryStore:
             path, parts = self.root, part.parts
         for item in parts:
             path = path / item
-            if path.is_symlink():
-                raise MemoryStoreError("invalid_memory_path")
+        try:
+            platform_io.reject_links(path, missing=True)
+        except OSError:
+            raise MemoryStoreError("invalid_memory_path") from None
         return path
 
     def _read(self, relative: str) -> bytes:
@@ -289,7 +301,7 @@ class MemoryStore:
 
     def _read_path(self, path: Path) -> bytes:
         try:
-            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+            fd = platform_io.open_file(path, os.O_RDONLY)
             with os.fdopen(fd, "rb") as stream:
                 info = os.fstat(stream.fileno())
                 if not stat.S_ISREG(info.st_mode) or info.st_size > _MAX_FILE_BYTES:
@@ -320,16 +332,12 @@ class MemoryStore:
         path = self._safe(relative)
         path.parent.mkdir(parents=True, exist_ok=True)
         try:
-            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            fd = platform_io.open_file(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL)
             with os.fdopen(fd, "wb") as stream:
                 stream.write(data)
                 stream.flush()
                 os.fsync(stream.fileno())
-            directory_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-            try:
-                os.fsync(directory_fd)
-            finally:
-                os.close(directory_fd)
+            platform_io.sync_directory(path.parent)
         except OSError:
             raise MemoryStoreError("memory_write_failed") from None
         return _digest(data)
@@ -398,7 +406,7 @@ class MemoryStore:
         if record.get("kind") == "belief" and record.get("status", "believed") not in ("believed", "suspected", "rejected"):
             raise MemoryStoreError("invalid_belief_status")
         if record.get("kind") == "commitment" and record.get("status", "proposed") not in (
-            "proposed", "accepted", "fulfilled", "overdue", "disputed", "cancelled"
+            "proposed", "accepted", "fulfilled", "overdue", "disputed", "cancelled", "failed"
         ):
             raise MemoryStoreError("invalid_commitment_status")
         if record.get("kind") == "goal" and record.get("status", "proposed") not in (
@@ -647,7 +655,7 @@ class MemoryStore:
                 record["status"] = event.get("status", "believed")
             if event["kind"] == "commitment":
                 status = event.get("status", "proposed")
-                if status not in ("proposed", "accepted", "fulfilled", "overdue", "disputed", "cancelled"):
+                if status not in ("proposed", "accepted", "fulfilled", "overdue", "disputed", "cancelled", "failed"):
                     raise MemoryStoreError("invalid_commitment_status")
                 record["status"] = status
             if event["kind"] == "goal":
@@ -743,6 +751,91 @@ class MemoryStore:
         # Catch an editor's change to the previous revision during publication.
         self.refresh()
         return result
+
+    def ingest_task_obligations(self, context: Mapping[str, Any], summary: Any) -> None:
+        """Derive a player commitment only from native task adoption receipts.
+
+        The complete native summary identifies every task for that requirement.
+        Completion needs matching physical receipts for all of them. This is
+        cognition about native work, not another executor or task journal.
+        """
+        context = _context(context)
+        if not isinstance(summary, list) or len(summary) > 128:
+            raise MemoryStoreError("invalid_task_summary")
+        groups: dict[str, dict[str, Mapping[str, Any]]] = {}
+        seen = set()
+        for task in summary:
+            if not isinstance(task, Mapping):
+                raise MemoryStoreError("invalid_task_summary")
+            identity, requirement = task.get("id"), task.get("requirement_id", "")
+            if (not isinstance(identity, str) or not 1 <= len(identity) <= 256 or identity in seen
+                    or not isinstance(requirement, str) or len(requirement) > 256
+                    or task.get("state") not in {"queued", "running", "paused", "blocked", "completed", "failed", "cancelled"}):
+                raise MemoryStoreError("invalid_task_summary")
+            seen.add(identity)
+            if requirement:
+                groups.setdefault(requirement, {})[identity] = task
+        self.refresh()
+        selected = self._selected(context)
+        receipts: dict[tuple[str, str], list[dict[str, Any]]] = {}
+        for _, record in selected.values():
+            if record["kind"] != "receipt" or not self._current_scope(context, record):
+                continue
+            data = record.get("data", {})
+            detail = data.get("detail", {})
+            if (data.get("action") != "task" or not isinstance(detail, Mapping)
+                    or not isinstance(data.get("requirement_id"), str) or not data["requirement_id"]
+                    or not isinstance(detail.get("task_id"), str)):
+                continue
+            receipts.setdefault((data["requirement_id"], detail["task_id"]), []).append(record)
+        for (requirement, identity), task_receipts in receipts.items():
+            tasks = groups.setdefault(requirement, {})
+            if identity in tasks:
+                continue
+            # Retained adoption evidence keeps a pruned task in the obligation.
+            # Its absence from a recent summary is never proof of completion.
+            terminal_receipts = [record for record in task_receipts
+                                 if record["data"]["detail"].get("task_state") in {"completed", "failed", "cancelled"}]
+            terminal_receipts.sort(key=lambda record: (record["context"]["game_time"],
+                int(suffix) if (suffix := record["data"].get("operation_id", "").rsplit(".", 1)[-1]).isdigit() and len(suffix) < 20 else 0))
+            tasks[identity] = {"state": terminal_receipts[-1]["data"]["detail"]["task_state"] if terminal_receipts else "unknown"}
+        derived = []
+        for requirement, tasks in groups.items():
+            source_id = "task.commitment." + _digest(requirement.encode("utf-8"))
+            rid = _record_id(context, source_id)
+            if rid in self._state["deleted"] or rid in self._state["manual"]:
+                continue
+            accepted = {}
+            terminal = {}
+            for identity, task in tasks.items():
+                for receipt in receipts.get((requirement, identity), []):
+                    detail = receipt["data"]["detail"]
+                    if detail.get("task_state") == "queued" and detail.get("reason") == "accepted":
+                        accepted[identity] = receipt["id"]
+                    if task["state"] in {"completed", "failed", "cancelled"} and detail.get("task_state") == task["state"]:
+                        terminal[identity] = receipt["id"]
+            if not accepted:
+                continue  # A model proposal, summary alone or private goal is no promise.
+            status = "accepted"
+            if any(task["state"] == "failed" and identity in terminal for identity, task in tasks.items()):
+                status = "failed"
+            elif any(task["state"] == "cancelled" and identity in terminal for identity, task in tasks.items()):
+                status = "cancelled"
+            elif len(accepted) == len(tasks) and len(terminal) == len(tasks) and all(task["state"] == "completed" for task in tasks.values()):
+                status = "fulfilled"
+            sources = sorted(set(accepted.values()) | set(terminal.values()))
+            event = {"id": source_id, "kind": "commitment", "status": status,
+                            "text": "Native task commitment for player requirement " + requirement + ": " + status,
+                            "game_time": max(selected[source][1]["context"]["game_time"] for source in sources),
+                            "source_ids": sources, "data": {"requirement_id": requirement,
+                                "task_ids": sorted(tasks), "completed_task_ids": sorted(identity for identity, task in tasks.items()
+                                    if task["state"] == "completed" and identity in terminal)}}
+            current = selected.get(rid)
+            if current is not None and all(current[1].get(key) == event[key] for key in ("status", "text", "source_ids", "data")):
+                continue  # Keep the selected checkpoint head, never a future global head.
+            derived.append(event)
+        if derived:
+            self.ingest(context, derived)
 
     def _freeze_imports(self, context: dict[str, Any]) -> None:
         """Persist the foreign growth entry point independently of game saves.
@@ -913,7 +1006,7 @@ class MemoryStore:
         if not self._current_scope(context, record):
             return False
         if record["kind"] == "commitment":
-            return record.get("status", "proposed") not in {"fulfilled", "cancelled"}
+            return record.get("status", "proposed") not in {"fulfilled", "cancelled", "failed"}
         return record["kind"] == "goal" and record.get("status", "proposed") not in {"completed", "abandoned"}
 
     def _goal_query(self, context: dict[str, Any], selected: dict[str, tuple[str, dict[str, Any]]],

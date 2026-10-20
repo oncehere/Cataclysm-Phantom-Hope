@@ -400,5 +400,360 @@
         }
       ]
     }
+  },
+  {
+    "name": "cast_known_spell",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_missing_spell",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_missing_x",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_missing_y",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_missing_z",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_empty_id",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "",
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_long_id",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_boolean_position",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": true,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_position_out_of_range",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20,
+            "z": 11
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_extra_effect",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20,
+            "z": 0,
+            "lua": "execute()"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "cast_linked_requirement",
+    "valid": true,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20,
+            "z": 0
+          },
+          "requirement_id": "r1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "refusal_and_cast_for_same_requirement",
+    "valid": false,
+    "plan": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "steps": [
+        {
+          "id": "refuse-1",
+          "action": "refuse",
+          "args": {
+            "text": "No."
+          },
+          "requirement_id": "r1"
+        },
+        {
+          "id": "cast-1",
+          "action": "cast_spell",
+          "args": {
+            "spell": "magic_missile",
+            "x": 10,
+            "y": 20,
+            "z": 0
+          },
+          "requirement_id": "r1"
+        }
+      ]
+    }
   }
 ]

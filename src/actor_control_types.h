@@ -22,6 +22,8 @@ struct action_step {
     std::string source_operation = {};
     /** Stable native incoming-message identity; never derived from its prose. */
     std::string requirement_id = {};
+    /** Native task boundary; never supplied by the public short-plan schema. */
+    std::string task_bounds_json = "{}";
 };
 
 struct execution_result {

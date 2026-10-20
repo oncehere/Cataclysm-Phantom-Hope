@@ -95,6 +95,84 @@ class BuiltinModManifestTest(unittest.TestCase):
             header = output.read_text(encoding="utf-8")
             self.assertIn("builtin_mod_manifest_available = false", header)
 
+    def test_explicit_platform_root_is_scoped_and_checked_without_lua(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source = root / "mods"
+            source.mkdir()
+            resource = root / "resources" / "canonical"
+            unrelated = resource.parent / "unrelated"
+            for directory in (resource, unrelated):
+                directory.mkdir(parents=True)
+                for name in ("mod.lua", "main.lua"):
+                    (directory / name).write_text(
+                        'error("must not execute")', encoding="utf-8"
+                    )
+            output = root / "builtin_mods_generated.h"
+            arguments = ["generate_builtin_mods.py", "--source", str(source),
+                         "--output", str(output)]
+            with patch.object(sys, "argv", arguments):
+                self.assertEqual(main(), 0)
+            original = output.read_text(encoding="utf-8")
+            self.assertNotIn('"cph_ai_companion"', original)
+            arguments += ["--extra-platform-mod",
+                          "cph_ai_companion=" + str(resource)]
+            with patch.object(sys, "argv", arguments + ["--check"]):
+                self.assertEqual(main(), 1)
+            self.assertEqual(output.read_text(encoding="utf-8"), original)
+            with patch.object(sys, "argv", arguments):
+                self.assertEqual(main(), 0)
+            header = output.read_text(encoding="utf-8")
+            self.assertIn('"cph_ai_companion"', header)
+            self.assertNotIn('"unrelated"', header)
+            self.assertNotIn('"canonical"', header)
+            with patch.object(sys, "argv", arguments + ["--check"]):
+                self.assertEqual(main(), 0)
+            self.assertEqual(output.read_text(encoding="utf-8"), header)
+
+    def test_invalid_extra_platform_inputs_preserve_output(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source = root / "mods"
+            source.mkdir()
+            complete = root / "complete"
+            incomplete = root / "incomplete"
+            complete.mkdir()
+            incomplete.mkdir()
+            for name in ("mod.lua", "main.lua"):
+                (complete / name).write_text("return true", encoding="utf-8")
+            (incomplete / "mod.lua").write_text(
+                "return true", encoding="utf-8"
+            )
+            output = root / "builtin_mods_generated.h"
+            valid = "cph_ai_companion=" + str(complete)
+            entries = [
+                ["missing=" + str(root / "missing")],
+                ["partial=" + str(incomplete)],
+                ["../escape=" + str(complete)],
+                ["nested/root=" + str(complete)],
+                ["virtual#dda=" + str(complete)],
+                ["no-path="], ["no-equals"], [valid, valid],
+            ]
+            for extra in entries:
+                for check in (False, True):
+                    with self.subTest(extra=extra, check=check):
+                        output.write_text("last valid", encoding="utf-8")
+                        arguments = ["generate_builtin_mods.py",
+                                     "--source", str(source),
+                                     "--output", str(output)]
+                        for entry in extra:
+                            arguments += ["--extra-platform-mod", entry]
+                        if check:
+                            arguments.append("--check")
+                        with patch.object(sys, "argv", arguments):
+                            self.assertEqual(main(), 1)
+                        self.assertEqual(
+                            output.read_text(encoding="utf-8"), "last valid"
+                        )
+
     def test_check_mode_is_non_mutating_and_detects_stale_output(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

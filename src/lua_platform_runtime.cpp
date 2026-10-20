@@ -12028,6 +12028,16 @@ bool content_transaction::find_martial_art_handler(
     return false;
 }
 
+bool has_event_handler( event_type )
+{
+    return false;
+}
+
+bool has_damage_type_handler( std::string_view )
+{
+    return false;
+}
+
 void invoke_damage_type_handler( std::string_view, std::string_view,
                                  Creature *, Creature *, std::string_view,
                                  double, double )
@@ -12210,6 +12220,11 @@ std::optional<double> invoke_magic_type_number_handler(
     std::string_view, std::string_view, std::string_view, const Creature *, double )
 {
     return std::nullopt;
+}
+
+bool has_magic_type_failure_handler( std::string_view )
+{
+    return false;
 }
 
 void invoke_magic_type_failure_handler( std::string_view, std::string_view,

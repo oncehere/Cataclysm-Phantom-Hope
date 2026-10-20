@@ -1,4 +1,5 @@
 #include "actor_control_save.h"
+#include "actor_control_files.h"
 
 #include <array>
 #include <cerrno>
@@ -6,6 +7,7 @@
 #include <filesystem>
 #include <iomanip>
 #include <ios>
+#include <locale>
 #include <memory>
 #include <random>
 #include <set>
@@ -14,22 +16,20 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+    #include "platform_win.h"
+#endif
+
 #include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
 
-#ifdef __linux__
-    #include <fcntl.h>
-    #include <sys/file.h>
-    #include <sys/stat.h>
-    #include <unistd.h>
-#endif
 
 namespace cata::actor_control::save_transaction
 {
 namespace
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
 constexpr std::size_t maximum_files = 16384;
 constexpr std::uint64_t maximum_file_bytes = 1024ULL * 1024 * 1024;
 constexpr std::uint64_t maximum_total_bytes = 16ULL * 1024 * 1024 * 1024;
@@ -42,7 +42,7 @@ class descriptor
         explicit descriptor( int value = -1 ) : value_( value ) {}
         ~descriptor() {
             if( value_ >= 0 ) {
-                ::close( value_ );
+                files::close( value_ );
             }
         }
         descriptor( const descriptor & ) = delete;
@@ -81,6 +81,23 @@ std::unique_ptr<journal> current;
     throw std::ios::failure( code );
 }
 
+struct path_order {
+    bool operator()( const std::filesystem::path &left, const std::filesystem::path &right ) const {
+#ifdef _WIN32
+        const auto a = left.generic_wstring();
+        const auto b = right.generic_wstring();
+        return CompareStringOrdinal( a.c_str(), -1, b.c_str(), -1, TRUE ) == CSTR_LESS_THAN;
+#else
+        return left < right;
+#endif
+    }
+};
+
+bool same_path( const std::filesystem::path &left, const std::filesystem::path &right )
+{
+    return !path_order{}( left, right )&& !path_order{}( right, left );
+}
+
 std::filesystem::path absolute_path( const std::filesystem::path &path )
 {
     auto result = std::filesystem::absolute( path ).lexically_normal();
@@ -99,7 +116,7 @@ bool safe_relative( const std::filesystem::path &path )
     }
     for( const auto &part : path ) {
         if( part.empty() || part == "." || part == ".." ||
-            part.native().find( '\0' ) != std::string::npos ) {
+            part.u8string().find( '\0' ) != std::string::npos ) {
             return false;
         }
     }
@@ -110,7 +127,7 @@ bool inside( const std::filesystem::path &root, const std::filesystem::path &pat
 {
     auto cursor = path.begin();
     for( const auto &part : root ) {
-        if( cursor == path.end() || *cursor++ != part ) {
+        if( cursor == path.end() || !same_path( *cursor++, part ) ) {
             return false;
         }
     }
@@ -119,22 +136,22 @@ bool inside( const std::filesystem::path &root, const std::filesystem::path &pat
 
 void check_directories( const std::filesystem::path &path, bool allow_missing )
 {
-    std::filesystem::path prefix;
+    std::filesystem::path prefix = path.root_path();
     bool missing = false;
-    for( const auto &part : path ) {
+    for( const auto &part : path.relative_path() ) {
         prefix /= part;
         if( missing ) {
             continue;
         }
-        struct stat info {};
-        if( lstat( prefix.c_str(), &info ) != 0 ) {
+        files::info info {};
+        if( files::inspect( prefix.c_str(), info ) != 0 ) {
             if( allow_missing && errno == ENOENT ) {
                 missing = true;
                 continue;
             }
             fail( "save_journal_directory_unavailable" );
         }
-        if( !S_ISDIR( info.st_mode ) ) {
+        if( !info.directory ) {
             fail( "save_journal_unsafe_path" );
         }
     }
@@ -142,8 +159,7 @@ void check_directories( const std::filesystem::path &path, bool allow_missing )
 
 void sync_directory( const std::filesystem::path &path )
 {
-    descriptor fd( open( path.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC ) );
-    if( fd.get() < 0 || fsync( fd.get() ) != 0 ) {
+    if( files::sync_directory( path ) != 0 ) {
         fail( "save_journal_directory_sync_failed" );
     }
 }
@@ -151,7 +167,7 @@ void sync_directory( const std::filesystem::path &path )
 void write_all( int fd, const char *data, std::size_t size )
 {
     while( size > 0 ) {
-        const ssize_t count = ::write( fd, data, size );
+        const std::ptrdiff_t count = files::write( fd, data, size );
         if( count < 0 && errno == EINTR ) {
             continue;
         }
@@ -186,6 +202,7 @@ std::uint32_t crc_update( std::uint32_t crc, const char *data, std::size_t size 
 std::string crc_string( std::uint32_t crc )
 {
     std::ostringstream result;
+    result.imbue( std::locale::classic() );
     result << std::hex << std::setw( 8 ) << std::setfill( '0' ) << ( crc ^ 0xffffffffU );
     return result.str();
 }
@@ -200,6 +217,7 @@ std::string new_identity()
 {
     std::random_device random;
     std::ostringstream value;
+    value.imbue( std::locale::classic() );
     value << std::hex << std::setfill( '0' );
     for( int index = 0; index < 4; ++index ) {
         value << std::setw( 8 ) << static_cast<std::uint32_t>( random() );
@@ -210,17 +228,17 @@ std::string new_identity()
 void copy_checked( const std::filesystem::path &source, int destination,
                    std::uint64_t &bytes, std::string &checksum )
 {
-    descriptor input( open( source.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC ) );
-    struct stat info {};
-    if( input.get() < 0 || fstat( input.get(), &info ) != 0 || !S_ISREG( info.st_mode ) ||
-        info.st_size < 0 || static_cast<std::uint64_t>( info.st_size ) > maximum_file_bytes ) {
+    descriptor input( files::open( source.c_str(), files::access::read ) );
+    files::info info {};
+    if( input.get() < 0 || files::inspect( input.get(), info ) != 0 || !info.regular ||
+        info.size < 0 || static_cast<std::uint64_t>( info.size ) > maximum_file_bytes ) {
         fail( "save_journal_invalid_file" );
     }
     std::array<char, 65536> buffer;
     std::uint32_t crc = 0xffffffffU;
     bytes = 0;
     for( ;; ) {
-        const ssize_t count = read( input.get(), buffer.data(), buffer.size() );
+        const std::ptrdiff_t count = files::read( input.get(), buffer.data(), buffer.size() );
         if( count < 0 && errno == EINTR ) {
             continue;
         }
@@ -240,7 +258,7 @@ void copy_checked( const std::filesystem::path &source, int destination,
         }
     }
     checksum = crc_string( crc );
-    if( destination >= 0 && fsync( destination ) != 0 ) {
+    if( destination >= 0 && files::sync( destination ) != 0 ) {
         fail( "save_journal_backup_sync_failed" );
     }
 }
@@ -271,14 +289,13 @@ void replace_manifest( const journal &state )
         fail( "save_journal_manifest_limit" );
     }
     const auto temporary = state.directory / ( "manifest-" + new_identity() + ".tmp" );
-    descriptor output( open( temporary.c_str(), O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW |
-                             O_CLOEXEC, 0600 ) );
+    descriptor output( files::open( temporary.c_str(), files::access::create_new ) );
     if( output.get() < 0 ) {
         fail( "save_journal_manifest_open_failed" );
     }
     write_all( output.get(), encoded.data(), encoded.size() );
-    if( fsync( output.get() ) != 0 ||
-        ::rename( temporary.c_str(), ( state.directory / "manifest.json" ).c_str() ) != 0 ) {
+    if( files::sync( output.get() ) != 0 ||
+        files::replace( temporary.c_str(), ( state.directory / "manifest.json" ).c_str() ) != 0 ) {
         fail( "save_journal_manifest_commit_failed" );
     }
     sync_directory( state.directory );
@@ -287,26 +304,26 @@ void replace_manifest( const journal &state )
 bool load_manifest( journal &state )
 {
     const auto path = state.directory / "manifest.json";
-    struct stat info {};
-    if( lstat( path.c_str(), &info ) != 0 ) {
+    files::info info {};
+    if( files::inspect( path.c_str(), info ) != 0 ) {
         if( errno == ENOENT ) {
             return false;
         }
         fail( "save_journal_manifest_unavailable" );
     }
-    if( !S_ISREG( info.st_mode ) || info.st_uid != getuid() ||
-        ( info.st_mode & 0777 ) != 0600 || info.st_size < 0 ||
-        static_cast<std::uint64_t>( info.st_size ) > maximum_manifest_bytes ) {
+    if( !info.regular || !info.private_access || info.links != 1 || info.size < 0 ||
+        static_cast<std::uint64_t>( info.size ) > maximum_manifest_bytes ) {
         fail( "save_journal_unsafe_manifest" );
     }
-    descriptor input( open( path.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC ) );
+    descriptor input( files::open( path.c_str(), files::access::read ) );
     if( input.get() < 0 ) {
         fail( "save_journal_manifest_unavailable" );
     }
-    std::string encoded( static_cast<std::size_t>( info.st_size ), '\0' );
+    std::string encoded( static_cast<std::size_t>( info.size ), '\0' );
     std::size_t offset = 0;
     while( offset < encoded.size() ) {
-        const ssize_t count = read( input.get(), encoded.data() + offset, encoded.size() - offset );
+        const std::ptrdiff_t count = files::read( input.get(), encoded.data() + offset,
+                                     encoded.size() - offset );
         if( count < 0 && errno == EINTR ) {
             continue;
         }
@@ -334,7 +351,7 @@ bool load_manifest( journal &state )
     }
     state.identity = object.get_string( "transaction_id" );
     state.committed = phase == "committed";
-    std::set<std::string> paths;
+    std::set<std::filesystem::path, path_order> paths;
     for( const JsonObject &entry : object.get_array( "files" ) ) {
         entry.allow_omitted_members();
         const std::set<std::string> fields { "path", "existed", "backup", "bytes", "crc32" };
@@ -351,8 +368,8 @@ bool load_manifest( journal &state )
         file.crc = entry.get_string( "crc32" );
         const std::string expected = "before-" + state.identity + "-" +
                                      std::to_string( state.files.size() ) + ".bin";
-        if( !safe_relative( file.relative ) || *file.relative.begin() == journal_name ||
-            !paths.insert( file.relative.generic_u8string() ).second || bytes < 0 ||
+        if( !safe_relative( file.relative ) || same_path( *file.relative.begin(), journal_name ) ||
+            !paths.insert( file.relative ).second || bytes < 0 ||
             static_cast<std::uint64_t>( bytes ) > maximum_file_bytes ||
             ( file.existed ? file.backup != expected || !hexadecimal( file.crc, 8 ) :
               !file.backup.empty() || bytes != 0 || !file.crc.empty() ) ) {
@@ -374,21 +391,21 @@ std::unique_ptr<journal> lock_world( const std::filesystem::path &world_root )
     state->root = absolute_path( world_root );
     check_directories( state->root, false );
     state->directory = state->root / journal_name;
-    if( mkdir( state->directory.c_str(), 0700 ) != 0 && errno != EEXIST ) {
+    if( files::create_private_directory( state->directory ) != 0 ) {
         fail( "save_journal_directory_create_failed" );
     }
-    struct stat info {};
-    if( lstat( state->directory.c_str(), &info ) != 0 || !S_ISDIR( info.st_mode ) ||
-        info.st_uid != getuid() || ( info.st_mode & 0777 ) != 0700 ) {
+    files::info info {};
+    if( files::inspect( state->directory.c_str(), info ) != 0 || !info.directory ||
+        !info.private_access ) {
         fail( "save_journal_unsafe_directory" );
     }
-    state->lock = std::make_unique<descriptor>( open( ( state->directory / "lock" ).c_str(),
-                  O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0600 ) );
-    if( state->lock->get() < 0 || fstat( state->lock->get(), &info ) != 0 ||
-        !S_ISREG( info.st_mode ) || info.st_uid != getuid() || ( info.st_mode & 0777 ) != 0600 ) {
+    state->lock = std::make_unique<descriptor>( files::open( ( state->directory / "lock" ).c_str(),
+                  files::access::read_write_create ) );
+    if( state->lock->get() < 0 || files::inspect( state->lock->get(), info ) != 0 ||
+        !info.regular || !info.private_access || info.links != 1 ) {
         fail( "save_journal_unsafe_lock" );
     }
-    if( flock( state->lock->get(), LOCK_EX | LOCK_NB ) != 0 ) {
+    if( files::lock( state->lock->get() ) != 0 ) {
         fail( "save_journal_world_busy" );
     }
     sync_directory( state->root );
@@ -401,9 +418,9 @@ void validate_backups( const journal &state )
     // backup must not leave an earlier inventory partially restored.
     for( const saved_file &file : state.files ) {
         check_directories( ( state.root / file.relative ).parent_path(), !file.existed );
-        struct stat target {};
-        if( lstat( ( state.root / file.relative ).c_str(), &target ) == 0 ) {
-            if( !S_ISREG( target.st_mode ) ) {
+        files::info target {};
+        if( files::inspect( ( state.root / file.relative ).c_str(), target ) == 0 ) {
+            if( !target.regular || target.links != 1 ) {
                 fail( "save_journal_unsafe_target" );
             }
         } else if( errno != ENOENT ) {
@@ -413,9 +430,9 @@ void validate_backups( const journal &state )
             continue;
         }
         const auto backup = state.directory / file.backup;
-        struct stat info {};
-        if( lstat( backup.c_str(), &info ) != 0 || !S_ISREG( info.st_mode ) ||
-            info.st_uid != getuid() || ( info.st_mode & 0777 ) != 0600 ) {
+        files::info info {};
+        if( files::inspect( backup.c_str(), info ) != 0 || !info.regular ||
+            !info.private_access || info.links != 1 ) {
             fail( "save_journal_unsafe_backup" );
         }
         std::uint64_t bytes = 0;
@@ -430,13 +447,13 @@ void validate_backups( const journal &state )
 void cleanup( const journal &state )
 {
     for( const saved_file &file : state.files ) {
-        if( file.existed && unlink( ( state.directory / file.backup ).c_str() ) != 0 &&
+        if( file.existed && files::remove( ( state.directory / file.backup ).c_str() ) != 0 &&
             errno != ENOENT ) {
             fail( "save_journal_cleanup_failed" );
         }
     }
     // Unknown files and the stable lock inode deliberately survive cleanup.
-    if( unlink( ( state.directory / "manifest.json" ).c_str() ) != 0 && errno != ENOENT ) {
+    if( files::remove( ( state.directory / "manifest.json" ).c_str() ) != 0 && errno != ENOENT ) {
         fail( "save_journal_cleanup_failed" );
     }
     sync_directory( state.directory );
@@ -448,7 +465,7 @@ void rollback( journal &state )
     for( const saved_file &file : state.files ) {
         const auto target = state.root / file.relative;
         if( !file.existed ) {
-            if( unlink( target.c_str() ) != 0 && errno != ENOENT ) {
+            if( files::remove( target.c_str() ) != 0 && errno != ENOENT ) {
                 fail( "save_journal_remove_created_failed" );
             }
             // A recorded creation may have failed before its parent was made.
@@ -460,8 +477,7 @@ void rollback( journal &state )
         // A crash may leave an unpublished temporary file. Never replace or
         // delete an unknown file to retry: choose a fresh private name instead.
         const auto temporary = state.directory / ( "restore-" + new_identity() + ".tmp" );
-        descriptor output( open( temporary.c_str(), O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW |
-                                 O_CLOEXEC, 0600 ) );
+        descriptor output( files::open( temporary.c_str(), files::access::create_new ) );
         if( output.get() < 0 ) {
             fail( "save_journal_restore_open_failed" );
         }
@@ -469,7 +485,7 @@ void rollback( journal &state )
         std::string crc;
         copy_checked( state.directory / file.backup, output.get(), bytes, crc );
         if( bytes != file.bytes || crc != file.crc ||
-            ::rename( temporary.c_str(), target.c_str() ) != 0 ) {
+            files::replace( temporary.c_str(), target.c_str() ) != 0 ) {
             fail( "save_journal_restore_failed" );
         }
         sync_directory( target.parent_path() );
@@ -500,10 +516,10 @@ void sync_targets( const journal &state )
     for( const saved_file &file : state.files ) {
         const auto target = state.root / file.relative;
         check_directories( target.parent_path(), true );
-        struct stat info {};
-        if( lstat( target.c_str(), &info ) == 0 ) {
-            descriptor input( open( target.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC ) );
-            if( !S_ISREG( info.st_mode ) || input.get() < 0 || fsync( input.get() ) != 0 ) {
+        files::info info {};
+        if( files::inspect( target.c_str(), info ) == 0 ) {
+            descriptor input( files::open( target.c_str(), files::access::read_write ) );
+            if( !info.regular || input.get() < 0 || files::sync( input.get() ) != 0 ) {
                 fail( "save_journal_target_sync_failed" );
             }
         } else if( errno != ENOENT ) {
@@ -525,7 +541,7 @@ void sync_targets( const journal &state )
 
 bool active()
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     return current != nullptr;
 #else
     return false;
@@ -534,7 +550,7 @@ bool active()
 
 bool capturing()
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     return current && current->capture;
 #else
     return false;
@@ -543,9 +559,9 @@ bool capturing()
 
 bool owns_world( const std::filesystem::path &world_root )
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     try {
-        return current && current->root == absolute_path( world_root );
+        return current && same_path( current->root, absolute_path( world_root ) );
     } catch( const std::exception & ) {
         return false;
     }
@@ -558,7 +574,7 @@ bool owns_world( const std::filesystem::path &world_root )
 bool begin( const std::filesystem::path &world_root, std::string &error, bool capture )
 {
     error.clear();
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     if( current ) {
         error = "save_journal_already_active";
         return false;
@@ -592,7 +608,7 @@ bool begin( const std::filesystem::path &world_root, std::string &error, bool ca
 
 void before_write( const std::filesystem::path &path )
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     if( !current || !current->capture ) {
         return;
     }
@@ -605,21 +621,29 @@ void before_write( const std::filesystem::path &path )
         if( !inside( state.root, target ) ) {
             return;
         }
-        const auto relative = target.lexically_relative( state.root );
-        if( !safe_relative( relative ) || *relative.begin() == journal_name ) {
+        auto cursor = target.begin();
+        for( const auto &part : state.root ) {
+            ( void )part;
+            ++cursor;
+        }
+        std::filesystem::path relative;
+        for( ; cursor != target.end(); ++cursor ) {
+            relative /= *cursor;
+        }
+        if( !safe_relative( relative ) || same_path( *relative.begin(), journal_name ) ) {
             fail( "save_journal_reserved_path" );
         }
         check_directories( target.parent_path(), true );
-        struct stat target_info {};
-        if( lstat( target.c_str(), &target_info ) == 0 ) {
-            if( !S_ISREG( target_info.st_mode ) || target_info.st_nlink != 1 ) {
+        files::info target_info {};
+        if( files::inspect( target.c_str(), target_info ) == 0 ) {
+            if( !target_info.regular || target_info.links != 1 ) {
                 fail( "save_journal_invalid_target" );
             }
         } else if( errno != ENOENT ) {
             fail( "save_journal_target_unavailable" );
         }
         for( const saved_file &file : state.files ) {
-            if( file.relative == relative ) {
+            if( same_path( file.relative, relative ) ) {
                 return;
             }
         }
@@ -628,17 +652,17 @@ void before_write( const std::filesystem::path &path )
         }
         saved_file file;
         file.relative = relative;
-        struct stat info {};
-        if( lstat( target.c_str(), &info ) == 0 ) {
-            if( !S_ISREG( info.st_mode ) || info.st_nlink != 1 || info.st_size < 0 ||
-                static_cast<std::uint64_t>( info.st_size ) > maximum_file_bytes ||
-                static_cast<std::uint64_t>( info.st_size ) > maximum_total_bytes - state.total_bytes ) {
+        files::info info {};
+        if( files::inspect( target.c_str(), info ) == 0 ) {
+            if( !info.regular || info.links != 1 || info.size < 0 ||
+                static_cast<std::uint64_t>( info.size ) > maximum_file_bytes ||
+                static_cast<std::uint64_t>( info.size ) > maximum_total_bytes - state.total_bytes ) {
                 fail( "save_journal_invalid_target" );
             }
             file.existed = true;
             file.backup = "before-" + state.identity + "-" + std::to_string( state.files.size() ) + ".bin";
-            descriptor output( open( ( state.directory / file.backup ).c_str(), O_WRONLY | O_CREAT |
-                                     O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0600 ) );
+            descriptor output( files::open( ( state.directory / file.backup ).c_str(),
+                                            files::access::create_new ) );
             if( output.get() < 0 ) {
                 fail( "save_journal_backup_open_failed" );
             }
@@ -665,7 +689,7 @@ void before_write( const std::filesystem::path &path )
 bool finish( bool success, std::string &error )
 {
     error.clear();
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     if( !current ) {
         return true;
     }
@@ -705,7 +729,7 @@ bool finish( bool success, std::string &error )
 bool recover( const std::filesystem::path &world_root, std::string &error )
 {
     error.clear();
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
     if( current ) {
         error = "save_journal_already_active";
         return false;
@@ -713,8 +737,8 @@ bool recover( const std::filesystem::path &world_root, std::string &error )
     try {
         const auto root = absolute_path( world_root );
         // Loading ordinary worlds does not create a journal or lock file.
-        struct stat info {};
-        if( lstat( ( root / journal_name ).c_str(), &info ) != 0 && errno == ENOENT ) {
+        files::info info {};
+        if( files::inspect( ( root / journal_name ).c_str(), info ) != 0 && errno == ENOENT ) {
             return true;
         }
         auto state = lock_world( root );

@@ -1158,7 +1158,7 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( cata::actor_control::enabled() || cata::actor_control::has_binding() ) {
-        nmenu.addentry( NPC_CHAT_AI_COMPANION, true, 'A', _( "AI companion" ) );
+        nmenu.addentry( NPC_CHAT_AI_COMPANION, true, 'I', _( "AI companion" ) );
     }
     std::vector<npc *> native_task_actors;
     for( Creature *candidate : available ) {

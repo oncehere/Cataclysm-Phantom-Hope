@@ -131,3 +131,11 @@ execution, save/load hooks and arbitrary game-state setters are not Lua tools.
 The service is dormant until enabled by an active Mod; it does not call a model.
 See [ActorControl](../../docs/project/actor-control.md) for the loopback protocol,
 native action/knowledge boundaries, lifecycle and independent companion package.
+
+Native companion ability-support checks inspect registered spellbook-event,
+damage and magic-type failure hooks without invoking those hooks. The checked
+NPC caster reports these unaudited dependencies as unsupported; ability queries
+do not run spellbook preparation events. The detection helpers are internal C++
+and add no public Lua services or callback permissions. See the
+[checked spell subset](../../docs/project/actor-control.md#known-abilities-and-checked-casting)
+for the supported native effects and resource checks.

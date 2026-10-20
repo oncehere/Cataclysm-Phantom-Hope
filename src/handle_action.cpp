@@ -2071,9 +2071,7 @@ static void open_movement_mode_menu()
 static void cast_spell( bool recast_spell = false )
 {
     Character &player_character = get_player_character();
-    player_character.magic->clear_opens_spellbook_data();
-    get_event_bus().send<event_type::opens_spellbook>( player_character.getID() ); // trigger EoC
-    player_character.magic->evaluate_opens_spellbook_data();
+    player_character.magic->prepare_casting( player_character );
     std::vector<spell_id> spells = player_character.magic->spells();
 
     if( player_character.has_flag( json_flag_CANNOT_ATTACK ) ) {
