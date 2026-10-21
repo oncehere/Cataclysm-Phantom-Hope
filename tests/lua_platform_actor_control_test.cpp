@@ -141,6 +141,80 @@ TEST_CASE( "lua_platform_actor_control_binding_rejects_stale_typed_handles",
     CHECK( result["error"]["code"].get<std::string>() == expected );
 }
 
+TEST_CASE( "lua_platform_spell_guards_detect_registered_callbacks_without_invoking_them",
+           "[lua][platform][actor_control][spell][safety]" )
+{
+    namespace platform = cata::lua_platform;
+    platform::clear_active_runtimes();
+    sol::state lua;
+    lua.open_libraries( sol::lib::base );
+    sol::table ccb = lua.create_table();
+    const auto owner = platform::make_runtime( "spell_guard_fixture", 78432, lua );
+    const on_out_of_scope cleanup( [&]() {
+        platform::clear_active_runtimes();
+        platform::rollback_runtime_content( owner );
+    } );
+    platform::install_runtime_api( owner, lua, ccb );
+    lua["ccb"] = ccb;
+    bool magic = false;
+    std::string phase;
+    SECTION( "magic failure callback" ) {
+        magic = true;
+        phase = "on_failure";
+    }
+    SECTION( "magic failure cost policy" ) {
+        magic = true;
+        phase = "failure_cost";
+    }
+    SECTION( "damage on-hit callback" ) {
+        phase = "on_hit";
+    }
+    SECTION( "damage on-damage callback" ) {
+        phase = "on_damage";
+    }
+    lua["guard_is_magic"] = magic;
+    lua["guard_phase"] = phase;
+    CHECK_FALSE( platform::has_magic_type_failure_handler( "spell_guard_magic" ) );
+    CHECK_FALSE( platform::has_damage_type_handler( "spell_guard_damage" ) );
+    const sol::protected_function_result registered = lua.safe_script( R"lua(
+guard_callback_calls = 0
+ccb.runtime.handler("guard_must_not_run", function()
+    guard_callback_calls = guard_callback_calls + 1
+    error("Guard inspection must not execute this callback")
+end)
+ccb.content.add(ccb.content.MagicType { id = "spell_guard_plain_magic" })
+ccb.content.add(ccb.content.DamageType { id = "spell_guard_plain_damage" })
+local definition
+if guard_is_magic then
+    definition = ccb.content.MagicType { id = "spell_guard_magic" }
+else
+    definition = ccb.content.DamageType { id = "spell_guard_damage" }
+end
+definition[guard_phase](definition, "guard_must_not_run")
+ccb.content.add(definition)
+)lua", sol::script_pass_on_error );
+    if( !registered.valid() ) {
+        const sol::error error = registered;
+        INFO( error.what() );
+    }
+    REQUIRE( registered.valid() );
+    std::string error;
+    INFO( error );
+    REQUIRE( platform::validate_runtime( owner, true, error ) );
+    REQUIRE( platform::apply_runtime_content( owner, error ) );
+    platform::set_active_runtimes( { owner } );
+    owner->world_is_ready = true;
+    CHECK( platform::has_magic_type_failure_handler( "spell_guard_magic" ) == magic );
+    CHECK( platform::has_damage_type_handler( "spell_guard_damage" ) == !magic );
+    CHECK_FALSE( platform::has_magic_type_failure_handler( "spell_guard_plain_magic" ) );
+    CHECK_FALSE( platform::has_damage_type_handler( "spell_guard_plain_damage" ) );
+    CHECK( lua["guard_callback_calls"].get<int>() == 0 );
+    platform::clear_active_runtimes();
+    CHECK_FALSE( platform::has_magic_type_failure_handler( "spell_guard_magic" ) );
+    CHECK_FALSE( platform::has_damage_type_handler( "spell_guard_damage" ) );
+    CHECK( lua["guard_callback_calls"].get<int>() == 0 );
+}
+
 #ifndef _WIN32
 TEST_CASE( "lua_platform_actor_control_world_callbacks_use_the_sole_ccb_surface",
            "[lua][platform][actor_control][lifecycle]" )

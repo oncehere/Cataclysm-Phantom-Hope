@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import time
 
@@ -86,6 +87,7 @@ def main() -> int:
         "test_case": "mp_native_two_process_session",
         "binary": str(binary),
         "source_dir": str(source),
+        "platform": sys.platform,
         "rng_seed": 424242,
         "commands": commands,
         "returncodes": returncodes,
@@ -94,9 +96,11 @@ def main() -> int:
         "completed_checkpoints": sorted(
             path.name for path in ipc.iterdir() if path.is_file()),
         "coverage": ("real JOIN/proxies, intent sender/receiver reset, "
-                     "grant/move/state, sleep ACK, disconnect"),
+                     "grant/move/state, resolved monster spells/effects, "
+                     "single-tile friendly fire, duplicate/stale spell messages, "
+                     "load callback/resync, sleep ACK, disconnect"),
         "limits": ("loopback native processes; no GUI, WAN, real save, "
-                   "Windows runtime or hosted CI"),
+                   "hosted CI"),
     }
     (output / "result.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n",

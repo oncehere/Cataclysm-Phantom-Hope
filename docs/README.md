@@ -14,6 +14,7 @@
 | 查看世界生成高级规则、逐项影响和 MOD 兼容边界 | [世界高级规则](project/world-advanced-options.md) |
 | 使用双人联机、睡眠与实验性 Magiclysm | [联机操作和限制](project/multiplayer.md) |
 | 开发或单独打包 AI 同伴 | [同仓开发与独立发行](project/ai-companion-monorepo.md)、[Python/MOD 子项目](../companion/README.md)、[原生 ActorControl](project/actor-control.md) |
+| 查阅 AI 同伴持续任务与信息边界 | [任务设计及验证范围](project/companion-avatar-design.md)、[领域词汇](../GLOSSARY.md)、[任务执行取舍](adr/0001-companion-tasks-and-delayed-planning.md) |
 | 查阅四平台发布目标及本地实现边界 | [发布契约](project/release-contract.md#目标发布协议) |
 | 完成任务并处理工作树/输出 | [任务收尾与清理](project/workspace-layout.md#任务收尾与清理) |
 | 阅读历史来源、初次 fork 上传和阶段回证 | [来源锁定](project/upstreams.md)、[建仓回证](project/fork-deployment.md)、[继承工作流审计](project/inherited-workflows.md) |

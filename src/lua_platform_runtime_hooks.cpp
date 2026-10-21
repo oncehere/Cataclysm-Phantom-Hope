@@ -1283,13 +1283,7 @@ static void dispatch_platform_event( const cata::event &event, const item *event
         return;
     }
     const std::string event_name = "game:" + io::enum_to_string( event.type() );
-    const bool has_subscriber = std::any_of(
-                                    active_runtime_values().begin(), active_runtime_values().end(),
-    [&event_name]( const std::shared_ptr<runtime> &owner ) {
-        return owner && owner->world_is_ready &&
-               owner->subscriptions.find( event_name ) != owner->subscriptions.end();
-    } );
-    if( !has_subscriber ) {
+    if( !has_event_handler( event.type() ) ) {
         return;
     }
     if( platform_event_dispatch_depth >= 16 ) {
@@ -2769,6 +2763,37 @@ void invoke_examine_handler(
     }
 }
 
+bool has_event_handler( const event_type type )
+{
+    const std::string event_name = "game:" + io::enum_to_string( type );
+    return std::any_of( detail::active_runtime_values().begin(),
+                       detail::active_runtime_values().end(),
+    [&event_name]( const std::shared_ptr<runtime> &owner ) {
+        if( !owner || !owner->world_is_ready ) {
+            return false;
+        }
+        const auto subscription = owner->subscriptions.find( event_name );
+        return subscription != owner->subscriptions.end() && !subscription->second.empty();
+    } );
+}
+
+bool has_damage_type_handler( const std::string_view damage_id )
+{
+    for( const std::shared_ptr<runtime> &owner : detail::active_runtime_values() ) {
+        if( !owner ) {
+            continue;
+        }
+        for( const char *phase : { "on_hit", "on_damage" } ) {
+            std::string handler_id;
+            if( owner->content.find_damage_handler( damage_id, phase, handler_id ) &&
+                !handler_id.empty() ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void invoke_damage_type_handler( const std::string_view damage_id,
                                  const std::string_view phase,
                                  Creature *source, Creature *target,
@@ -3367,6 +3392,22 @@ std::optional<double> invoke_magic_type_number_handler(
         return value;
     }
     return std::nullopt;
+}
+
+bool has_magic_type_failure_handler( const std::string_view magic_type_id )
+{
+    for( const std::shared_ptr<runtime> &owner : detail::active_runtime_values() ) {
+        std::string handler_id;
+        if( owner ) {
+            for( const char *phase : { "on_failure", "failure_cost" } ) {
+                if( owner->content.find_magic_type_handler(
+                        magic_type_id, phase, handler_id ) && !handler_id.empty() ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void invoke_magic_type_failure_handler( const std::string_view magic_type_id,

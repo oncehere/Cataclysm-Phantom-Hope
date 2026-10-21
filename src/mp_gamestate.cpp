@@ -2713,6 +2713,18 @@ static void mp_cleanup_stale_npcs()
 
 void mp_cleanup_stale_npcs_after_load()
 {
+    // Every actual load replaces the timeline, including a same-turn reload.
+    // This must precede the one-shot orphan-migration guard below.
+    if( is_hosting() ) {
+        mp_set_magic_generation( std::to_string( ++g_mp_item_resync_epoch ) );
+    } else {
+        mp_invalidate_magic_generation_for_load();
+        if( is_client_mode() && client_join_is_sent() ) {
+            // Reuse the existing authority handshake: restarting a local send
+            // sequence against the old host generation would reject new casts.
+            client_send( R"({"type":"item_resync_request"})" );
+        }
+    }
     if( mp_cleanup_done || !world_generator || !world_generator->active_world ) {
         return;
     }
@@ -2773,6 +2785,7 @@ static void mp_cull_local_npcs()
 // that enters a world twice per launch hits it.
 void mp_on_world_exit()
 {
+    mp_set_magic_generation( "" );
     mp_cleanup_done = false;
     mp_reset_turn_catchup_state();
     mp_reset_deferred_item_state();
@@ -2959,6 +2972,7 @@ static void spawn_remote_player( const std::string &name )
         g->add_npc_follower( rn->getID() );
     }
     remote_player_connected = true;
+    mp_set_magic_generation( std::to_string( ++g_mp_item_resync_epoch ) );
     g_remote_moves = rn ? rn->get_speed() : 100;  // grant first turn immediately
     g_client_acted_this_turn = false;
     // MP DIAG (2026-07-29, rejoin resync scope): both resyncs below are bounded
@@ -3048,6 +3062,7 @@ static void remove_remote_player( bool announce = true )
     }
 
     remote_player_connected = false;
+    mp_set_magic_generation( "" );
     remote_player_npc_id = character_id();
     g_proxy_was_alive = false;
     g_separation_tier = 0;
@@ -4140,6 +4155,13 @@ static void handle_remote_action( const std::string_view/*name*/, const std::str
     // part in the grant/ack cycle.  Body in mp_magic.cpp.
     if( msg.find( "\"type\":\"client_summon\"" ) != std::string::npos ) {
         mp_handle_client_summon( msg );
+        return;
+    }
+
+    // The cast already consumed the client's activity budget.  Keep result
+    // delivery behind connection/proxy and rollback guards, without an AP grant.
+    if( msg.find( "\"type\":\"client_monster_op\"" ) != std::string::npos ) {
+        mp_handle_client_monster_op( msg );
         return;
     }
 
@@ -10986,6 +11008,7 @@ static bool apply_one_state_message( const std::string &msg )
         return true;
     }
     if( msg.find( "\"reconnected\":true" ) != std::string::npos ) {
+        mp_set_magic_generation( "" );
         mp_log( "[cdda-mp] RECONNECT: re-joined host — resuming (client)" );
         add_msg( m_good, _( "Reconnected to the host — resuming." ) );
         // Clear stale grant/ack state so the host's re-sent grant is accepted.
@@ -11013,6 +11036,7 @@ static bool apply_one_state_message( const std::string &msg )
         return true;
     }
     if( msg.find( "\"connected\":false" ) != std::string::npos ) {
+        mp_set_magic_generation( "" );
         if( !g_server_died ) {
             g_server_died = true;
             remove_client_host_npc();
@@ -11026,6 +11050,9 @@ static bool apply_one_state_message( const std::string &msg )
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
 
+        if( jo.has_string( "magic_epoch" ) ) {
+            mp_set_magic_generation( jo.get_string( "magic_epoch" ) );
+        }
         // Sync host's calendar turn so the client sees the correct time, lighting, and weather.
         if( jo.has_int( "calendar_turn" ) ) {
             calendar::turn = time_point( jo.get_int( "calendar_turn" ) );
@@ -12064,6 +12091,7 @@ void client_process_incoming()
     const bool was_joined = client_join_is_sent();
     client_send_join();
     if( !was_joined && client_join_is_sent() ) {
+        mp_set_magic_generation( "" );
         // Just sent the join — clear any stale ack/seq state from a previous session
         // so the server's first move grant isn't silently ignored after reconnect.
         g_client_waiting_for_ack = false;
@@ -12537,6 +12565,36 @@ static std::string build_client_veh_cargo_changes( int radius = 12 )
     }
     out += ']';
     return out;
+}
+
+int mp_client_monster_unreported_damage( const monster &mon )
+{
+    if( !is_client_mode() || mon.mp_net_id == 0 ) {
+        return 0;
+    }
+    const auto known = g_last_monster_hp.find( mon.mp_net_id );
+    if( known == g_last_monster_hp.end() ) {
+        return 0;
+    }
+    const auto reported = g_last_reported_monster_hp.find( mon.mp_net_id );
+    const int baseline = reported == g_last_reported_monster_hp.end() ?
+                         known->second : reported->second;
+    return std::max( 0, baseline - ( mon.is_dead() ? 0 : mon.get_hp() ) );
+}
+
+void mp_client_monster_op_sent( const monster &mon, bool killed )
+{
+    if( !is_client_mode() || mon.mp_net_id == 0 ) {
+        return;
+    }
+    const uint32_t nid = mon.mp_net_id;
+    if( killed ) {
+        g_last_monster_hp.erase( nid );
+        g_last_reported_monster_hp.erase( nid );
+        g_client_pending_kill[nid] = CLIENT_PENDING_KILL_SYNCS;
+    } else if( g_last_monster_hp.count( nid ) ) {
+        g_last_reported_monster_hp[nid] = mon.get_hp();
+    }
 }
 
 // Build JSON array of damage the client has dealt, since the last report, to
@@ -13743,6 +13801,11 @@ static std::string build_tile_changes( const tripoint_abs_ms &center, int radius
     return out;
 }
 
+void mp_server_mon_force_resend( uint32_t nid )
+{
+    g_server_mon_last_sent.erase( nid );
+}
+
 static std::string build_monster_list( const tripoint_abs_ms &center, int radius )
 {
     // Periodic keyframe: every KEYFRAME_INTERVAL broadcasts, drop the delta cache
@@ -13813,6 +13876,7 @@ static std::string build_monster_list( const tripoint_abs_ms &center, int radius
                           // Part of the record string, so the delta gate re-sends a monster
                           // whose friendliness changes.
                           + ",\"fr\":" + std::to_string( mon_ptr->friendly )
+                          + mp_monster_effects_wire( *mon_ptr )
                           + ",\"facing\":" + std::to_string( mon_facing ) + rider_field + "}";
         // Delta gate: emit only if new or changed since last broadcast. nid + id
         // are stable, so an identical record string means x/y/z/hp/facing are all
@@ -14934,6 +14998,13 @@ static void apply_monster_sync( JsonObject &jo )
 
         matched.insert( best );
 
+        // A polymorph preserves its network identity.  Match by nid first,
+        // then update type through the native path, before authoritative HP.
+        const mtype_id server_type( mo.get_string( "id", "" ) );
+        if( server_type.is_valid() && best->type->id != server_type ) {
+            best->poly( server_type );
+        }
+
         // Host is authoritative on friendliness, for spawned and matched alike.
         // "friendly" is per-instance state, not part of the mtype, so a monster
         // rebuilt from its id alone is always hostile until told otherwise.
@@ -15007,6 +15078,10 @@ static void apply_monster_sync( JsonObject &jo )
             } else {
                 best->set_hp( server_hp );
             }
+        }
+
+        if( !best->is_dead() ) {
+            mp_apply_monster_effects( *best, mo );
         }
 
         // Sync facing direction for correct sprite flip.
@@ -16492,6 +16567,7 @@ std::string serialize_remote_player_state( bool skip_tile_scan )
     }() +
     ",\"msgs\":" + msgs_json +
     ",\"grant_seq\":" + std::to_string( g_grant_seq ) +
+    ",\"magic_epoch\":\"" + mp_magic_generation() + "\"" +
     ",\"sfx\":" + [&]() -> std::string {
         std::string j = "[";
         bool first = true;
@@ -16577,6 +16653,9 @@ static void mp_send_authoritative_item_resync()
     g_client_known_veh_nids.clear();
     mp_reset_vehicle_payload_cache();
     g_mp_force_full_item_scan = true;
+    // Effects delivered before this rollback belong to the discarded world.
+    // Include the new generation in the embedded authoritative snapshot.
+    mp_set_magic_generation( std::to_string( ++g_mp_item_resync_epoch ) );
     // A recovery snapshot cannot grant an action before its epoch is acked.
     // In particular, a sleeping client must not send an early wait which the
     // host will discard while awaiting item_resync_ack.
@@ -16588,7 +16667,6 @@ static void mp_send_authoritative_item_resync()
     }
     g_mp_force_full_item_scan = false;
     g_mp_host_waiting_for_item_resync_ack = true;
-    ++g_mp_item_resync_epoch;
     std::ostringstream out;
     JsonOut jo( out );
     jo.start_object();

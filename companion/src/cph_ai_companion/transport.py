@@ -7,7 +7,6 @@ import contextlib
 import os
 import re
 import socket
-import stat
 import threading
 import time
 import uuid
@@ -16,9 +15,21 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .protocol import MAX_MESSAGE_BYTES, PROTOCOL_VERSION, schema_digest
+from . import platform_io
 
 
 MAX_DESCRIPTOR_BYTES = 16384
+
+# Bounded native business rejections can be corrected in the same planning
+# episode. Connection/authentication failures are deliberately excluded.
+CANDIDATE_REJECTION_CODES = frozenset({
+    "unsupported_action", "invalid_request", "invalid_plan", "policy_rejected", "bridge_rejected",
+    "plan_not_allowed", "behavior_disabled", "refusal_requires_requirement",
+    "requirement_association_required", "unknown_requirement", "requirement_refused", "requirement_withdrawn",
+    "invalid_dialogue_text", "reserved_step_id", "operation_payload_conflict",
+    "task_outside_duties", "task_outside_duty_scope", "task_payload_conflict", "task_target_outside_area",
+    "invalid_task_dependency", "task_limit",
+})
 
 
 class TransportError(Exception):
@@ -51,6 +62,11 @@ def strict_json(data: bytes) -> dict[str, Any]:
 
 
 def runtime_directory() -> Path:
+    if platform_io.WINDOWS:
+        base = os.environ.get("LOCALAPPDATA")
+        if not base:
+            raise TransportError("no_private_runtime_directory")
+        return Path(base) / "cph-ai-companion" / "run"
     runtime = os.environ.get("XDG_RUNTIME_DIR")
     if runtime:
         return Path(runtime) / "cph-ai-companion"
@@ -60,22 +76,22 @@ def runtime_directory() -> Path:
 
 def _private_directory(path: Path) -> None:
     try:
-        info = path.lstat()
-    except OSError:
+        platform_io.private_directory(path)
+    except FileNotFoundError:
         raise TransportError("session_missing") from None
-    if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid() or info.st_mode & 0o077:
-        raise TransportError("insecure_session_permissions")
+    except OSError:
+        raise TransportError("insecure_session_permissions") from None
 
 
 def _read_private(path: Path, maximum: int) -> bytes:
     _private_directory(path.parent)
     try:
-        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        fd = platform_io.open_file(path, os.O_RDONLY)
     except OSError:
         raise TransportError("session_file_unavailable") from None
     try:
         info = os.fstat(fd)
-        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_mode & 0o077:
+        if not platform_io.private_file(fd):
             raise TransportError("insecure_session_permissions")
         if info.st_size > maximum:
             raise TransportError("session_file_too_large")
@@ -174,7 +190,7 @@ def discover_sessions(root: str | Path | None = None) -> list[SessionDescriptor]
 
 
 def resolve_session(value: str, root: str | Path | None = None) -> SessionDescriptor:
-    if "/" in value or value.endswith(".json"):
+    if "/" in value or "\\" in value or value.endswith(".json"):
         return SessionDescriptor.load(value)
     if not re.fullmatch(r"[A-Za-z0-9_-]{1,128}", value):
         raise TransportError("invalid_session_id")
@@ -261,7 +277,9 @@ class JsonRpcClient:
                         "invalid_plan", "not_bound", "actor_unavailable", "busy", "policy_rejected",
                         "unauthorized", "incompatible_bridge", "detached", "session_stopped",
                         "memory_conflict", "checkpoint_mismatch", "not_ready",
+                        "candidate_pending",
                     }
+                    safe_codes.update(CANDIDATE_REJECTION_CODES)
                     raise TransportError(code if code in safe_codes else "bridge_rejected")
                 if "result" not in response:
                     raise TransportError("invalid_response")
@@ -290,9 +308,4 @@ class JsonRpcClient:
 
 
 def process_start(pid: int) -> str | None:
-    """Linux process identity, including start time to reject recycled PIDs."""
-    try:
-        value = Path(f"/proc/{pid}/stat").read_text(encoding="ascii")
-        return value[value.rfind(")") + 2:].split()[19]
-    except (OSError, UnicodeError, IndexError):
-        return None
+    return platform_io.process_start(pid)

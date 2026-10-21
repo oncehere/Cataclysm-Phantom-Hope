@@ -4,13 +4,16 @@
 
 #include <string>
 
+#include "coords_fwd.h"
 #include "type_id.h"
 
 class Character;
 class Creature;
+class JsonObject;
 class event_bus;
 class monster;
 class spell;
+class time_duration;
 
 // Co-op spell synchronization and diagnostics.  Magiclysm support remains
 // experimental: this module forwards summons, deliberate HP changes and
@@ -73,6 +76,30 @@ void mp_on_summon_placed( monster &mon, int summon_turns, bool permanent );
 // Host: apply a {"type":"client_summon",...} packet.
 void mp_handle_client_summon( const std::string &msg );
 
+// Client-avatar spell results on host-owned monsters.  NPC casts and solo play
+// keep their native local effect; only monsters with a network id are reported.
+void mp_on_monster_spell_op( monster &mon, const Creature &caster, const char *op,
+                             int prior_dealt = 0 );
+// Capture pending native hit damage before a polymorph changes the HP scale.
+// The resulting op delivers it before transforming the authoritative monster.
+int mp_client_monster_unreported_damage( const monster &mon );
+void mp_on_spell_effect_applied( Creature &target, const Creature &caster,
+                                 const efftype_id &eff, const time_duration &dur );
+void mp_handle_client_monster_op( const std::string &msg );
+
+// The host supplies a fresh generation on connection and rollback.  Both ends
+// reset the narrow magic sequence only when that generation changes.
+void mp_set_magic_generation( const std::string &generation );
+const std::string &mp_magic_generation();
+// Reject in-flight snapshots from a client's discarded timeline until the
+// existing authority-resync handshake supplies a different generation.
+void mp_invalidate_magic_generation_for_load();
+
+// Host effect snapshots use absolute expiry turns to preserve the monster delta
+// cache.  Applying a snapshot never runs on-add effects or reports client hits.
+std::string mp_monster_effects_wire( const monster &mon );
+void mp_apply_monster_effects( monster &mon, const JsonObject &record );
+
 // --- Deliberate client HP changes (ROADMAP B2) ----------------------------
 //
 // The host's proxy HP is authoritative: apply_monster_sync's sibling, the
@@ -130,13 +157,15 @@ void mp_log_ally_target_check( const Creature &caster, const Creature &target,
 // forwarded and the caller must NOT apply it locally.  False means "not mine",
 // and the normal SP path runs unchanged.
 //
-// v1 forwards DELIBERATE SUPPORT ONLY -- spells that accept `ally` but not
-// `hostile`.  A spell that accepts both is an area attack that caught the
-// partner incidentally, and forwarding it would need the whole blast geometry
-// re-resolved on the far side to be correct; those keep today's behavior
-// (partner untouched) until that is worth building.  Of the 124 Magiclysm
-// spells accepting `ally`, 18 are support and 106 are area attacks.
+// Attack spells accepting allies are forwarded for support in either direction,
+// and for client friendly fire on the host.  The receiver resolves only its own
+// target tile, without repeating the area or extra effects of the cast.
 bool mp_dispatch_spell_at_partner( const spell &sp, Creature &caster, Creature &target );
+
+// The native per-target attack path, shared by local spells and the receiver of
+// a partner hit.  This does not replay the spell's area or extra effects.
+void mp_spell_hit_single_target( const spell &sp, Creature &caster,
+                                 const tripoint_bub_ms &target );
 
 // Co-op guard for long casts.  SP's safe-mode warns about hostiles near YOU; this
 // asks about hostiles near your PARTNER, which is the half of the shared world you

@@ -1,17 +1,21 @@
 #include "mp_magic.h"
 
+#include <limits>
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "line.h"
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "effect.h"
 #include "coordinates.h"
 #include "event.h"
@@ -33,6 +37,9 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_ridden( "ridden" );
+
 namespace cata_mp
 {
 
@@ -44,6 +51,33 @@ namespace
 // applier a "was this near a cast?" discriminator within a session.
 int g_last_cast_turn = -1;
 std::string g_last_cast_spell;
+
+// This is effect delivery, independent of AP grants and the saved character.
+std::string g_magic_generation;
+std::string g_magic_discarded_generation;
+int g_magic_sent_seq = 0;
+int g_magic_received_seq = 0;
+
+std::string magic_packet_envelope()
+{
+    if( g_magic_generation.empty() || g_magic_sent_seq == std::numeric_limits<int>::max() ) {
+        return {};
+    }
+    return ",\"magic_epoch\":\"" + g_magic_generation + "\",\"magic_seq\":" +
+           std::to_string( ++g_magic_sent_seq );
+}
+
+bool accept_magic_packet( const JsonObject &packet )
+{
+    const int seq = packet.get_int( "magic_seq", 0 );
+    if( g_magic_generation.empty() ||
+        packet.get_string( "magic_epoch", "" ) != g_magic_generation ||
+        seq <= g_magic_received_seq ) {
+        return false;
+    }
+    g_magic_received_seq = seq;
+    return true;
+}
 
 std::string role_tag()
 {
@@ -305,6 +339,238 @@ void mp_handle_client_summon( const std::string &msg )
             " turns=" + std::to_string( turns ) );
 }
 
+void mp_set_magic_generation( const std::string &generation )
+{
+    if( !generation.empty() && generation == g_magic_discarded_generation ) {
+        return;
+    }
+    g_magic_discarded_generation.clear();
+    if( generation != g_magic_generation ) {
+        g_magic_generation = generation;
+        g_magic_sent_seq = 0;
+        g_magic_received_seq = 0;
+    }
+}
+
+void mp_invalidate_magic_generation_for_load()
+{
+    const std::string discarded = is_client_mode() ?
+                                  ( g_magic_generation.empty() ? g_magic_discarded_generation :
+                                    g_magic_generation ) : "";
+    mp_set_magic_generation( "" );
+    g_magic_discarded_generation = discarded;
+}
+
+const std::string &mp_magic_generation()
+{
+    return g_magic_generation;
+}
+
+void mp_on_monster_spell_op( monster &mon, const Creature &caster, const char *op,
+                             int prior_dealt )
+{
+    if( !is_client_mode() || !caster.is_avatar() || mon.mp_net_id == 0 ) {
+        return;
+    }
+    const std::string operation( op );
+    if( operation != "poly" && operation != "charm" && operation != "banish" ) {
+        return;
+    }
+    const std::string envelope = magic_packet_envelope();
+    if( envelope.empty() ) {
+        return;
+    }
+    const std::string payload =
+        std::string( "{\"type\":\"client_monster_op\",\"op\":\"" ) + op +
+        "\",\"nid\":" + std::to_string( mon.mp_net_id ) +
+        ",\"to\":\"" + mon.type->id.str() + "\"" +
+        ",\"fr\":" + std::to_string( mon.friendly ) +
+        ",\"pet\":" + ( mon.has_effect( effect_pet ) ? "true" : "false" ) +
+        ( operation == "poly" ? ",\"prior_dealt\":" + std::to_string( prior_dealt ) : "" ) +
+        envelope + "}";
+    client_send( payload );
+    if( operation != "charm" ) {
+        mp_client_monster_op_sent( mon, operation == "banish" );
+    }
+}
+
+void mp_on_spell_effect_applied( Creature &target, const Creature &caster,
+                                 const efftype_id &eff, const time_duration &dur )
+{
+    const monster *mon = target.as_monster();
+    if( !is_client_mode() || !caster.is_avatar() || mon == nullptr || mon->mp_net_id == 0 ||
+        !eff.is_valid() || dur <= 0_turns ) {
+        return;
+    }
+    const std::string envelope = magic_packet_envelope();
+    if( envelope.empty() ) {
+        return;
+    }
+    client_send( "{\"type\":\"client_monster_op\",\"op\":\"effect\",\"nid\":" +
+                 std::to_string( mon->mp_net_id ) + ",\"eff\":\"" + eff.str() + "\"" +
+                 ",\"turns\":" + std::to_string( to_turns<int>( dur ) ) + envelope + "}" );
+}
+
+void mp_handle_client_monster_op( const std::string &msg )
+{
+    if( !is_hosting() || get_partner_npc() == nullptr ) {
+        return;
+    }
+    try {
+        const JsonObject packet = json_loader::from_string( msg ).get_object();
+        packet.allow_omitted_members();
+        if( packet.get_string( "type", "" ) != "client_monster_op" ||
+            !accept_magic_packet( packet ) ) {
+            return;
+        }
+        const int wire_nid = packet.get_int( "nid", 0 );
+        if( wire_nid <= 0 ) {
+            return;
+        }
+        const uint32_t nid = static_cast<uint32_t>( wire_nid );
+        monster *mon = nullptr;
+        for( const shared_ptr_fast<monster> &ptr : get_creature_tracker().get_monsters_list() ) {
+            if( ptr && ptr->mp_net_id == nid && !ptr->is_dead() ) {
+                mon = ptr.get();
+                break;
+            }
+        }
+        if( mon == nullptr ) {
+            return;
+        }
+        const std::string op = packet.get_string( "op", "" );
+        if( op == "poly" ) {
+            const mtype_id new_id( packet.get_string( "to", "" ) );
+            const int friendly = packet.get_int( "fr", 0 );
+            const int prior_dealt = packet.get_int( "prior_dealt", 0 );
+            if( !new_id.is_valid() || friendly < -1 || prior_dealt < 0 ) {
+                return;
+            }
+            // These hits preceded the client's HP rescale.  Subtract them from
+            // the current authoritative HP, just like client_monster_hits.
+            if( prior_dealt > 0 ) {
+                const int remaining_hp = mon->get_hp() - prior_dealt;
+                if( remaining_hp <= 0 ) {
+                    mon->die( &get_map(), get_partner_npc() );
+                    g->cleanup_dead();
+                    return;
+                }
+                mon->set_hp( remaining_hp );
+            }
+            if( mon->type->id != new_id ) {
+                mon->poly( new_id );
+            }
+            mon->friendly = friendly;
+        } else if( op == "charm" ) {
+            const int friendly = packet.get_int( "fr", 0 );
+            const bool pet = packet.get_bool( "pet", false );
+            if( friendly < -1 ) {
+                return;
+            }
+            mon->unset_dest();
+            mon->friendly = friendly;
+            if( pet && !mon->has_effect( effect_pet ) ) {
+                mon->add_effect( effect_pet, 1_turns, true );
+            }
+        } else if( op == "effect" ) {
+            const efftype_id eff( packet.get_string( "eff", "" ) );
+            const int turns = packet.get_int( "turns", 0 );
+            // Even refusal must reach the optimistic client copy immediately.
+            mp_server_mon_force_resend( nid );
+            if( !eff.is_valid() || eff == effect_ridden || turns <= 0 ) {
+                return;
+            }
+            mon->add_effect( eff, time_duration::from_turns( turns ) );
+        } else if( op == "banish" ) {
+            mon->death_drops = false;
+            mon->die( &get_map(), get_partner_npc() );
+            g->cleanup_dead();
+        }
+    } catch( const std::exception &e ) {
+        mp_log( std::string( "[cdda-mp] HOST-MON-OP parse error: " ) + e.what() );
+    }
+}
+
+std::string mp_monster_effects_wire( const monster &mon )
+{
+    std::string out;
+    const int now = to_turn<int>( calendar::turn );
+    for( const effect &eff : mon.get_effects() ) {
+        // Ridden already has its own player/mount linkage in monster sync.
+        if( eff.get_id() == effect_ridden ) {
+            continue;
+        }
+        out += out.empty() ? "[" : ",";
+        out += "[\"" + eff.get_id().str() + "\"," + std::to_string( eff.get_intensity() ) + "," +
+               std::to_string( eff.is_permanent() ? -1 : now + to_turns<int>( eff.get_duration() ) );
+        if( eff.get_bp() != bodypart_str_id::NULL_ID() ) {
+            out += ",\"" + eff.get_bp().id().str() + "\"";
+        }
+        out += "]";
+    }
+    return out.empty() ? out : ",\"eff\":" + out + "]";
+}
+
+void mp_apply_monster_effects( monster &mon, const JsonObject &record )
+{
+    struct wanted_effect {
+        int intensity;
+        int end_turn;
+    };
+    std::map<std::pair<efftype_id, bodypart_id>, wanted_effect> wanted;
+    const int now = to_turn<int>( calendar::turn );
+    // Validate the complete snapshot before changing the local copy.
+    if( record.has_member( "eff" ) && !record.has_array( "eff" ) ) {
+        return;
+    }
+    const JsonArray effects = record.has_array( "eff" ) ? record.get_array( "eff" ) : JsonArray();
+    for( const JsonValue &value : effects ) {
+        const JsonArray entry = value.get_array();
+        const efftype_id id( entry.get_string( 0 ) );
+        const int intensity = entry.get_int( 1 );
+        const int end_turn = entry.get_int( 2 );
+        bodypart_id bp = bodypart_str_id::NULL_ID();
+        if( entry.size() > 3 ) {
+            const bodypart_str_id bp_str( entry.get_string( 3 ) );
+            if( !bp_str.is_valid() ) {
+                return;
+            }
+            bp = bp_str;
+        }
+        if( !id.is_valid() || id == effect_ridden || intensity <= 0 || end_turn < -1 ) {
+            return;
+        }
+        if( end_turn == -1 || end_turn > now ) {
+            wanted[ { id, bp } ] = { intensity, end_turn };
+        }
+    }
+    std::vector<std::pair<efftype_id, bodypart_id>> drop;
+    for( const effect &eff : mon.get_effects() ) {
+        if( eff.get_id() != effect_ridden && !wanted.count( { eff.get_id(), eff.get_bp() } ) ) {
+            drop.emplace_back( eff.get_id(), eff.get_bp() );
+        }
+    }
+    for( const std::pair<efftype_id, bodypart_id> &key : drop ) {
+        mon.remove_effect( key.first, key.second );
+    }
+    for( const std::pair<const std::pair<efftype_id, bodypart_id>, wanted_effect> &entry : wanted ) {
+        const efftype_id &id = entry.first.first;
+        const bodypart_id &bp = entry.first.second;
+        const bool permanent = entry.second.end_turn == -1;
+        const time_duration duration = time_duration::from_turns( permanent ? 1 :
+                                       entry.second.end_turn - now );
+        if( mon.has_effect( id, bp ) ) {
+            effect &eff = mon.get_effect( id, bp );
+            eff.set_intensity( entry.second.intensity );
+            permanent ? eff.pause_effect() : eff.unpause_effect();
+            eff.set_duration( duration );
+        } else {
+            mon.add_effect( id, duration, bp, permanent, entry.second.intensity,
+                            /*force=*/true, /*deferred=*/true );
+        }
+    }
+}
+
 // --- Deliberate client HP changes (ROADMAP B2) ----------------------------
 
 namespace
@@ -419,13 +685,18 @@ bool mp_dispatch_spell_at_partner( const spell &sp, Creature &caster, Creature &
     if( tgt == nullptr || !is_partner_npc( tgt->getID() ) ) {
         return false;
     }
-    // Support only, for now -- see the note in the header.
-    if( !sp.is_valid_target( spell_target::ally ) ||
-        sp.is_valid_target( spell_target::hostile ) ) {
+    const bool support = !sp.is_valid_target( spell_target::hostile );
+    if( sp.effect() != "attack" || !sp.is_valid_target( spell_target::ally ) ||
+        ( !support && !is_client_mode() ) ) {
+        return false;
+    }
+    const std::string envelope = magic_packet_envelope();
+    if( envelope.empty() ) {
         return false;
     }
     const std::string payload = "{\"type\":\"partner_spell\",\"spell\":\"" + sp.id().str() +
-                                "\",\"level\":" + std::to_string( sp.get_level() ) + "}";
+                                "\",\"level\":" + std::to_string( sp.get_level() ) +
+                                ( support ? "" : ",\"hit\":true" ) + envelope + "}";
     mp_log( "[cdda-mp] PARTNER-SPELL-SEND: " + payload );
     if( is_client_mode() ) {
         client_send( payload );
@@ -440,17 +711,23 @@ bool mp_dispatch_spell_at_partner( const spell &sp, Creature &caster, Creature &
 
 void mp_handle_partner_spell( const std::string &msg )
 {
-    if( !is_hosting() && !is_client_mode() ) {
+    npc *proxy = get_partner_npc();
+    if( ( !is_hosting() && !is_client_mode() ) || proxy == nullptr ) {
         return;
     }
     std::string sp_str;
     int level = 0;
+    bool hit = false;
     try {
         JsonValue jv = json_loader::from_string( msg );
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
+        if( jo.get_string( "type", "" ) != "partner_spell" || !accept_magic_packet( jo ) ) {
+            return;
+        }
         sp_str = jo.get_string( "spell", "" );
         level = jo.get_int( "level", 0 );
+        hit = jo.get_bool( "hit", false );
     } catch( const std::exception &e ) {
         mp_log( std::string( "[cdda-mp] PARTNER-SPELL parse error: " ) + e.what() );
         return;
@@ -462,6 +739,12 @@ void mp_handle_partner_spell( const std::string &msg )
     }
     avatar &av = get_avatar();
     spell sp( sid );
+
+    const bool hostile = sp.is_valid_target( spell_target::hostile );
+    if( level < 0 || sp.effect() != "attack" || !sp.is_valid_target( spell_target::ally ) ||
+        ( hit ? ( !is_hosting() || !hostile ) : hostile ) ) {
+        return;
+    }
 
     // The caster is the PARTNER, not us, and that distinction is load-bearing
     // rather than bookkeeping.  spell::damage() builds its dialogue from
@@ -480,33 +763,18 @@ void mp_handle_partner_spell( const std::string &msg )
     // which only feeds the damage_increment term of min_leveled_damage(), and
     // druidic_healing declares no damage_increment — all of its scaling lives
     // inside the math formula.  The level has to be visible on the caster.
-    npc *proxy = get_partner_npc();
-    Character &caster = proxy ? static_cast<Character &>( *proxy )
-                        : static_cast<Character &>( av );
-    if( proxy ) {
-        // Mirror the caster's level onto the proxy, the same way the fork
-        // already mirrors str/dex/int/per, skills and proficiencies so that
-        // host-side SP handlers see real values instead of the proxy's blanks.
-        // Only write when it actually differs: set_spell_level() emits
-        // character_learns_spell the first time it adds an unknown spell, and
-        // there is no reason to re-fire that on every cast.
-        if( !proxy->magic->knows_spell( sid ) ||
-            proxy->magic->get_spell( sid ).get_level() != level ) {
-            proxy->magic->set_spell_level( sid, level, proxy );
-        }
+    Character &caster = *proxy;
+    // Only mirror on change: adding a spell fires character_learns_spell.
+    if( !proxy->magic->knows_spell( sid ) ||
+        proxy->magic->get_spell( sid ).get_level() != level ) {
+        proxy->magic->set_spell_level( sid, level, proxy );
     }
     sp.set_level( caster, level );
-    // Cast at our own position, with the caster's level.  Runs the real SP
-    // effect path rather than a reimplementation of it, so heals, effect_str,
-    // DOTs and extra_effects all behave exactly as in single player.
-    //
-    // Known v1 limitation: an area support spell re-centres on the receiver
-    // rather than preserving the original blast geometry.  Acceptable while
-    // this is restricted to deliberate support -- the receiver IS the intended
-    // beneficiary and any splash lands where the caster was aiming anyway.
+    // The caster already resolved the area and extra effects.  Resolve only
+    // this player's share, against their actual armor, dodge and body parts.
+    const restore_on_out_of_scope<bool> restore_applying( g_applying_partner_spell );
     g_applying_partner_spell = true;
-    sp.cast_all_effects( caster, av.pos_bub() );
-    g_applying_partner_spell = false;
+    mp_spell_hit_single_target( sp, caster, av.pos_bub() );
     // Log the damage resolved against BOTH characters.  caster_dmg is what the
     // spell is now worth; self_dmg is what the old code would have produced.
     // While this is fresh, a log line showing the two still equal means the

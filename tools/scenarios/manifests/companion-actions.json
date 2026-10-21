@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "companion-actions",
+  "title": "AI 同伴：follow / move / gather / craft 手动验收清单",
+  "mods": ["ccb", "cph_ai_companion"],
+  "fixture_files": [],
+  "setup": [
+    "此清单复用原生 actor_control_tasks_test 的小物料：rock、sheet_cotton、bandages_makeshift；不是自动生成的地图或自动通关脚本。",
+    "新建隔离测试世界与友好同伴，在可见、无敌人、无遮挡的短距离内测试。不要启用 TEST_DATA；它只供 native tests 使用。",
+    "按 AI 同伴文档配置测试用模型和授权范围；这个启动工具不读取密钥、不配置 provider、不发模型请求。模型调用另需用户授权；没有授权只运行原生回归，游戏内 AI 结果记 NOT_RUN。",
+    "准备地上分散的三块 rock、同伴已知配方 bandages_makeshift 及其完整工具和材料（包括 sheet_cotton），先确认同伴用原生制作菜单能制作一批。不要用调试补物资掩盖任务执行失败。"
+  ],
+  "checks": [
+    {
+      "id": "follow-move",
+      "steps": "给出跟随指令，玩家走几格；随后指定一个已看见的邻近空地，给出移动到该处的明确指令。",
+      "expected": "同伴跟随、到达目标；移动消耗游戏回合。角色自述不算到达证据；只记录实际位置变化。"
+    },
+    {
+      "id": "gather",
+      "steps": "记录同伴初始 rock 库存，要求从当前允许范围收集三块新增 rock；让游戏继续推进，核对地上与库存。",
+      "expected": "任务取得三块新增 rock，来源与库存数量一致，不超收、不从隐藏或不允许来源取物。预存库存不抵扣 acquired 目标。"
+    },
+    {
+      "id": "craft",
+      "steps": "要求制作一批 bandages_makeshift，记录原料与成品数量，推进原生制作活动至结束。",
+      "expected": "实际原料消耗和新增成品与原生配方一致；同一任务不重复产出。若材料、知识或授权不足，应明确受阻而不是宣称完成。"
+    }
+  ]
+}

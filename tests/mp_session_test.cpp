@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <limits>
 #include <string>
 #include <thread>
 #include <utility>
@@ -12,16 +13,23 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "game.h"
+#include "json_loader.h"
+#include "magic.h"
 #include "map.h"
 #include "mp_client_conn.h"
 #include "mp_gamestate.h"
 #include "mp_intent.h"
+#include "mp_magic.h"
 #include "mp_queue.h"
 #include "mp_server.h"
+#include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "point.h"
@@ -142,6 +150,9 @@ void prepare_probe_map( const std::string &name )
     calendar::turn = calendar::turn_zero + 12_hours;
     get_options().get_option( "COOP_PARTNER_INTENT" ).setValue( "true" );
     cata_mp::mp_reset_intent_state();
+    // Complete the ordinary load's one-shot orphan migration before JOIN.
+    // Later callbacks in this same session must still invalidate magic.
+    cata_mp::mp_cleanup_stale_npcs_after_load();
 }
 
 cata_mp::intent_kind partner_hint( point &direction )
@@ -187,6 +198,55 @@ void restore_received_events( std::vector<cata_mp::mp_event> &events )
         cata_mp::get_mp_queue().push( std::move( event ) );
     }
     events.clear();
+}
+
+spell probe_monster_spell( const std::string &operation )
+{
+    const spell_id id( "test_mp_session_" + operation );
+    if( !id.is_valid() ) {
+        std::string properties = "\"effect\":\"" + operation +
+                                 "\",\"min_damage\":10000,\"max_damage\":10000";
+        if( operation == "charm_monster" ) {
+            properties += ",\"min_duration\":2000,\"max_duration\":2000";
+        } else if( operation == "targeted_polymorph" ) {
+            properties += ",\"effect_str\":\"mon_zombie\"";
+        } else if( operation == "attack" ) {
+            properties = "\"effect\":\"attack\",\"effect_str\":\"stunned\","
+                         "\"min_duration\":1000,\"max_duration\":1000";
+        } else if( operation == "friendly_hit" ) {
+            properties = "\"effect\":\"attack\",\"damage_type\":\"pure\","
+                         "\"min_damage\":7,\"max_damage\":7,"
+                         "\"min_accuracy\":100,\"max_accuracy\":100,\"min_aoe\":3,\"max_aoe\":3";
+        } else if( operation == "support_heal" ) {
+            properties = "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7";
+        }
+        const std::string targets = operation == "support_heal" ? "[\"ally\"]" :
+                                    "[\"ally\",\"hostile\"]";
+        spell_type::load_spell( json_loader::from_string(
+                                    "{\"id\":\"" + id.str() + "\",\"name\":\"Session test spell\","
+                                    "\"description\":\"Real co-op spell event probe.\","
+                                    "\"valid_targets\":" + targets + ","
+                                    "\"flags\":[\"SILENT\",\"NO_EXPLOSION_SFX\"],"
+                                    "\"shape\":\"blast\",\"max_level\":1," + properties + "}" ), "" );
+    }
+    return spell( id );
+}
+
+monster *probe_monster( uint32_t net_id )
+{
+    for( const auto &entry : get_creature_tracker().get_monsters_list() ) {
+        if( entry && entry->mp_net_id == net_id && !entry->is_dead() ) {
+            return entry.get();
+        }
+    }
+    return nullptr;
+}
+
+void broadcast_probe_state()
+{
+    REQUIRE( cata_mp::get_active_server() != nullptr );
+    cata_mp::get_active_server()->post_broadcast(
+        cata_mp::serialize_remote_player_state( true ) + "\n" );
 }
 
 void host_probe( session_probe &probe )
@@ -255,15 +315,122 @@ void host_probe( session_probe &probe )
     probe.publish( "move-applied" );
     REQUIRE( probe.wait_for( [&probe] { return probe.has( "move-confirmed" ); }, pump ) );
 
+    monster *victim = g->place_critter_at( mtype_id( "test_mon_mummy" ),
+                                           tripoint_bub_ms( 66, 60, 0 ) );
+    REQUIRE( victim != nullptr );
+    broadcast_probe_state();
+    REQUIRE( victim->mp_net_id != 0 );
+    const uint32_t magic_net_id = victim->mp_net_id;
+    probe.publish( "magic-ready", std::to_string( magic_net_id ) );
+    cata_mp::mp_event old_magic_event;
+    for( const std::string operation : {
+             "charm", "effect", "poly"
+         } ) {
+        probe.publish( "magic-" + operation + "-ready" );
+        std::vector<cata_mp::mp_event> batch;
+        receive_through( probe, batch, [&operation]( const cata_mp::mp_event & event ) {
+            return is_action_frame( event, R"("type":"client_monster_op")" ) &&
+                   event.data.find( "\"op\":\"" + operation + "\"" ) != std::string::npos;
+        } );
+        // Requeue the same authenticated socket event twice: a retry must not
+        // stack a status or repeat any native effect.
+        const cata_mp::mp_event duplicate = batch.back();
+        batch.pop_back();
+        if( operation == "charm" ) {
+            // The preserved ordinary hit travels on a genuine wait action.
+            // Let that action consume its legitimate budget before measuring
+            // the independent magic result's delivery.
+            receive_through( probe, batch, []( const cata_mp::mp_event & event ) {
+                return is_action_frame( event, R"("magic_damage_probe":true)" );
+            } );
+        }
+        restore_received_events( batch );
+        cata_mp::process_mp_events();
+        int expected_polymorph_hp = 0;
+        if( operation == "poly" ) {
+            const JsonObject packet = json_loader::from_string( duplicate.data ).get_object();
+            packet.allow_omitted_members();
+            CHECK( packet.get_int( "prior_dealt" ) == 2 );
+            expected_polymorph_hp = static_cast<int>(
+                                        static_cast<double>( victim->get_hp() - 2 ) / victim->type->hp *
+                                        mtype_id( "mon_zombie" )->hp );
+        }
+        if( operation == "effect" ) {
+            old_magic_event = duplicate;
+        }
+        const int remote_moves = remote->get_moves();
+        const int host_moves = get_avatar().get_moves();
+        cata_mp::get_mp_queue().push( duplicate );
+        cata_mp::get_mp_queue().push( duplicate );
+        cata_mp::process_mp_events();
+        REQUIRE( probe_monster( magic_net_id ) == victim );
+        CHECK( remote->get_moves() == remote_moves );
+        CHECK( get_avatar().get_moves() == host_moves );
+        if( operation == "charm" ) {
+            CHECK( victim->friendly == 20 );
+        } else if( operation == "effect" ) {
+            CHECK( victim->get_effect_dur( efftype_id( "stunned" ) ) == 10_turns );
+        } else {
+            CHECK( victim->type->id == mtype_id( "mon_zombie" ) );
+            CHECK( victim->get_hp() == expected_polymorph_hp );
+        }
+        broadcast_probe_state();
+        probe.publish( "magic-" + operation + "-applied" );
+        REQUIRE( probe.wait_for( [&probe, &operation] {
+            return probe.has( "magic-" + operation + "-confirmed" );
+        }, pump ) );
+    }
+    probe_monster_spell( "friendly_hit" );
+    const int hp_before_hit = get_avatar().get_hp();
+    probe.publish( "magic-hit-ready" );
+    std::vector<cata_mp::mp_event> hit_batch;
+    receive_through( probe, hit_batch, []( const cata_mp::mp_event & event ) {
+        return is_action_frame( event, R"("type":"partner_spell")" );
+    } );
+    const cata_mp::mp_event repeated_hit = hit_batch.back();
+    restore_received_events( hit_batch );
+    cata_mp::process_mp_events();
+    const int hp_after_hit = get_avatar().get_hp();
+    CHECK( hp_after_hit < hp_before_hit );
+    cata_mp::get_mp_queue().push( repeated_hit );
+    cata_mp::process_mp_events();
+    CHECK( get_avatar().get_hp() == hp_after_hit );
+    broadcast_probe_state();
+    probe.publish( "magic-hit-applied" );
+
+    const time_point load_turn = calendar::turn;
+    const std::string before_load = cata_mp::mp_magic_generation();
+    cata_mp::mp_cleanup_stale_npcs_after_load();
+    CHECK( calendar::turn == load_turn );
+    CHECK( cata_mp::mp_magic_generation() != before_load );
+    REQUIRE( cata_mp::get_partner_npc() == remote );
+    victim->remove_effect( efftype_id( "stunned" ) );
+    cata_mp::get_mp_queue().push( old_magic_event );
+    cata_mp::process_mp_events();
+    CHECK_FALSE( victim->has_effect( efftype_id( "stunned" ) ) );
+    broadcast_probe_state();
+
     int stale_apply_count = 0;
     {
         cata_mp::mp_ui_item_ref_guard held_items;
         cata_mp::mp_defer_item_apply( [&stale_apply_count] { ++stale_apply_count; } );
-        probe.publish( "resync-ready" );
+        probe.publish( "resync-ready", cata_mp::mp_magic_generation() );
         // No game-thread pump before the grant: the peer queues its rollback
         // request first, then the positive sleep grant is sent ahead of the
         // authoritative zero-budget snapshot produced while processing it.
         REQUIRE( probe.wait_for( [&probe] { return probe.has( "sleep-ready" ); } ) );
+        // Deliver an old ordinary state and a valid old support spell through
+        // real TCP while the client's load-resync request is still held.
+        const std::string discarded = cata_mp::mp_magic_generation();
+        const spell support = probe_monster_spell( "support_heal" );
+        cata_mp::get_active_server()->post_broadcast(
+            "{\"type\":\"state\",\"magic_epoch\":\"" + discarded + "\"}\n" );
+        cata_mp::get_active_server()->post_broadcast(
+            "{\"type\":\"partner_spell\",\"spell\":\"" + support.id().str() +
+            "\",\"level\":0,\"magic_epoch\":\"" + discarded + "\",\"magic_seq\":1}\n" );
+        cata_mp::get_active_server()->post_broadcast(
+            "{\"type\":\"state\",\"host_activity_pct\":73}\n" );
+        REQUIRE( probe.wait_for( [&probe] { return probe.has( "stale-load-state-confirmed" ); } ) );
         calendar::turn += 1_turns;
         cata_mp::grant_client_turn();
         REQUIRE( probe.wait_for( [&probe] { return probe.has( "old-sleep-wait-sent" ); } ) );
@@ -282,6 +449,10 @@ void host_probe( session_probe &probe )
         restore_received_events( before_rollback );
         cata_mp::process_mp_events();
         CHECK_FALSE( cata_mp::client_acted_this_turn() );
+        victim->remove_effect( efftype_id( "stunned" ) );
+        cata_mp::get_mp_queue().push( old_magic_event );
+        cata_mp::process_mp_events();
+        CHECK_FALSE( victim->has_effect( efftype_id( "stunned" ) ) );
         probe.publish( "resync-dispatched" );
 
         std::vector<cata_mp::mp_event> coalesced;
@@ -307,12 +478,45 @@ void host_probe( session_probe &probe )
         // The stale wait must not consume this drain's valid turn-action slot.
         cata_mp::process_mp_events();
         REQUIRE( cata_mp::client_acted_this_turn() );
+        // After ACK the old generation remains invalid even though the barrier
+        // is open and the same network identity is still alive.
+        cata_mp::get_mp_queue().push( old_magic_event );
+        cata_mp::process_mp_events();
+        CHECK_FALSE( victim->has_effect( efftype_id( "stunned" ) ) );
         probe.publish( "resync-coalesced", std::to_string( coalesced_event_count ) );
         CHECK( remote->pos_abs() == initial_remote + tripoint_rel_ms::east );
         probe.publish( "sleep-acked" );
         REQUIRE( probe.wait_for( [&probe] { return probe.has( "sleep-confirmed" ); }, pump ) );
     }
     CHECK( stale_apply_count == 0 );
+    broadcast_probe_state();
+    probe.publish( "magic-banish-ready" );
+    REQUIRE( probe.wait_for( [magic_net_id] {
+        return probe_monster( magic_net_id ) == nullptr;
+    }, pump ) );
+    CHECK( get_map().i_at( tripoint_bub_ms( 66, 60, 0 ) ).empty() );
+    broadcast_probe_state();
+    probe.publish( "magic-banish-applied" );
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-banish-confirmed" ); }, pump ) );
+    // Exercise malformed and lethal operations in the same real host session.
+    // No later cast follows these final sequence numbers.
+    monster *lethal = g->place_critter_at( mtype_id( "test_mon_mummy" ),
+                                           tripoint_bub_ms( 67, 60, 0 ) );
+    REQUIRE( lethal != nullptr );
+    broadcast_probe_state();
+    const uint32_t lethal_id = lethal->mp_net_id;
+    REQUIRE( lethal_id != 0 );
+    const std::string envelope = ",\"magic_epoch\":\"" + cata_mp::mp_magic_generation() +
+                                 "\",\"nid\":" + std::to_string( lethal_id );
+    cata_mp::mp_handle_client_monster_op(
+        "{\"type\":\"client_monster_op\",\"op\":\"charm\",\"fr\":20,\"pet\":\"invalid\","
+        "\"magic_seq\":" + std::to_string( std::numeric_limits<int>::max() - 1 ) + envelope + "}" );
+    CHECK( lethal->friendly == 0 );
+    cata_mp::mp_handle_client_monster_op(
+        "{\"type\":\"client_monster_op\",\"op\":\"poly\",\"to\":\"mon_zombie\",\"fr\":0,"
+        "\"prior_dealt\":" + std::to_string( lethal->get_hp() ) + ",\"magic_seq\":" +
+        std::to_string( std::numeric_limits<int>::max() ) + envelope + "}" );
+    CHECK( probe_monster( lethal_id ) == nullptr );
     probe.publish( "host-complete" );
     REQUIRE( probe.wait_for( [] { return cata_mp::get_partner_npc() == nullptr; }, pump ) );
     CHECK( cata_mp::mp_host_partner_last_message_ms() == 0 );
@@ -369,11 +573,77 @@ void client_probe( session_probe &probe )
     CHECK( get_avatar().get_moves() <= 0 );
     probe.publish( "move-confirmed" );
 
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-ready" ); }, pump ) );
+    const uint32_t magic_net_id = static_cast<uint32_t>( std::stoul( probe.read( "magic-ready" ) ) );
+    REQUIRE( probe.wait_for( [magic_net_id] { return probe_monster( magic_net_id ) != nullptr; },
+                             pump ) );
+    for( const std::string operation : {
+             "charm", "effect", "poly"
+         } ) {
+        REQUIRE( probe.wait_for( [&probe, &operation] {
+            return probe.has( "magic-" + operation + "-ready" );
+        }, pump ) );
+        monster *victim = probe_monster( magic_net_id );
+        REQUIRE( victim != nullptr );
+        const std::string effect = operation == "charm" ? "charm_monster" :
+                                   operation == "poly" ? "targeted_polymorph" : "attack";
+        if( operation == "charm" || operation == "poly" ) {
+            victim->apply_damage( &get_avatar(), bodypart_str_id::NULL_ID().id(),
+                                  operation == "charm" ? 3 : 2 );
+        }
+        probe_monster_spell( effect ).cast_spell_effect( get_avatar(), victim->pos_bub() );
+        if( operation == "charm" ) {
+            CHECK( cata_mp::mp_client_monster_unreported_damage( *victim ) == 3 );
+            const std::string report = cata_mp::client_enrich_action(
+                                           R"({"type":"action","action":"wait","magic_damage_probe":true})" );
+            CHECK( report.find( R"("dealt":3)" ) != std::string::npos );
+            cata_mp::client_send( report );
+        } else if( operation == "poly" ) {
+            CHECK( cata_mp::mp_client_monster_unreported_damage( *victim ) == 0 );
+        }
+        REQUIRE( probe.wait_for( [&probe, &operation] {
+            return probe.has( "magic-" + operation + "-applied" );
+        }, pump ) );
+        victim = probe_monster( magic_net_id );
+        REQUIRE( victim != nullptr );
+        if( operation == "charm" ) {
+            CHECK( victim->friendly == 20 );
+        } else if( operation == "effect" ) {
+            CHECK( victim->get_effect_dur( efftype_id( "stunned" ) ) == 10_turns );
+        } else {
+            CHECK( victim->type->id == mtype_id( "mon_zombie" ) );
+        }
+        probe.publish( "magic-" + operation + "-confirmed" );
+    }
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-hit-ready" ); }, pump ) );
+    npc *host = cata_mp::get_partner_npc();
+    REQUIRE( host != nullptr );
+    REQUIRE( cata_mp::mp_dispatch_spell_at_partner( probe_monster_spell( "friendly_hit" ),
+             get_avatar(), *host ) );
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-hit-applied" ); }, pump ) );
+
     REQUIRE( probe.wait_for( [&probe] { return probe.has( "resync-ready" ); }, pump ) );
+    REQUIRE( probe.wait_for( [&probe] {
+        return cata_mp::mp_magic_generation() == probe.read( "resync-ready" );
+    }, pump ) );
+    probe_monster_spell( "support_heal" );
     get_avatar().add_effect( effect_sleep, 10_minutes );
     get_avatar().set_moves( 0 );
-    cata_mp::client_send( R"({"type":"item_resync_request"})" );
+    const time_point load_turn = calendar::turn;
+    const std::string before_load = cata_mp::mp_magic_generation();
+    REQUIRE_FALSE( before_load.empty() );
+    cata_mp::mp_cleanup_stale_npcs_after_load();
+    CHECK( calendar::turn == load_turn );
+    CHECK( cata_mp::mp_magic_generation().empty() );
+    REQUIRE( cata_mp::get_partner_npc() != nullptr );
+    const int torso_hp = get_avatar().get_part_hp_cur( bodypart_id( "torso" ) );
+    get_avatar().set_part_hp_cur( bodypart_id( "torso" ), 10 );
     probe.publish( "sleep-ready" );
+    REQUIRE( probe.wait_for( [] { return cata_mp::partner_activity_pct() == 73; }, pump ) );
+    CHECK( cata_mp::mp_magic_generation().empty() );
+    CHECK( get_avatar().get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+    get_avatar().set_part_hp_cur( bodypart_id( "torso" ), torso_hp );
+    probe.publish( "stale-load-state-confirmed" );
     REQUIRE( probe.wait_for( [] {
         return cata_mp::is_client_waiting_for_ack() &&
         cata_mp::get_client_turn_activity() == "MP_ASLEEP";
@@ -389,7 +659,16 @@ void client_probe( session_probe &probe )
     CHECK( get_avatar().get_moves() == 0 );
     CHECK( get_avatar().has_effect( effect_sleep ) );
     CHECK( get_avatar().pos_abs() == initial_position + tripoint_rel_ms::east );
+    CHECK_FALSE( cata_mp::mp_magic_generation().empty() );
+    CHECK( cata_mp::mp_magic_generation() != before_load );
     probe.publish( "sleep-confirmed" );
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-banish-ready" ); }, pump ) );
+    monster *victim = probe_monster( magic_net_id );
+    REQUIRE( victim != nullptr );
+    probe_monster_spell( "banishment" ).cast_spell_effect( get_avatar(), victim->pos_bub() );
+    REQUIRE( probe.wait_for( [&probe] { return probe.has( "magic-banish-applied" ); }, pump ) );
+    CHECK( probe_monster( magic_net_id ) == nullptr );
+    probe.publish( "magic-banish-confirmed" );
     REQUIRE( probe.wait_for( [&probe] { return probe.has( "host-complete" ); }, pump ) );
     cata_mp::client_disable_reconnect();
     cata_mp::client_send( R"({"type":"quit"})" );

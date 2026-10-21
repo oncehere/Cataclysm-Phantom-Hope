@@ -54,7 +54,7 @@ def validate_ledger(ledger: dict) -> dict[str, int]:
     for source in ledger["sources"]:
         path, selector = INVENTORIES[source["id"]]
         if (
-            source["path"] != str(path.relative_to(ROOT)) or
+            source["path"] != path.relative_to(ROOT).as_posix() or
             source["selector"] != selector
         ):
             raise RuntimeError(

@@ -1,15 +1,22 @@
 # Install, configure and safely stop
 
+For the Windows player workflow, start with the
+[中文快速上手](quickstart.zh-CN.md). It covers the in-game menus without Python
+commands. The build and historical standalone instructions below are for developers
+or users of those exact older artifacts.
+
 The Python project and MOD source now live in `companion/` in the
 [CPH source repository](https://github.com/oncehere/Cataclysm-Phantom-Hope).
-They retain separate builds, package releases, installation and explicit
-startup. The local source migration does not replace the installed game or the
+Windows delivery now stages the built-in Mod and matching Python/SDK runtime in
+the game package. The wheel remains a separate build and test input; the player
+uses the game menu for configuration and explicit startup. This does not replace
+an existing installed game or the
 [published 0.1.1 release](https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.1),
 and does not delete the original independent repository.
 
-This checkout's **0.1.2.dev0 / protocol 1.1** is an unpublished candidate. It
+This checkout's **0.1.2.dev0 / protocol 1.2** is an unpublished candidate. It
 cannot be paired with the old native revision or wheel below. Imported
-review-fix evidence in `docs/evidence/pre-monorepo-compatibility.json` belongs to its recorded inputs;
+review-fix evidence in [the historical compatibility record](https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence/pre-monorepo-compatibility.json) belongs to its recorded inputs;
 the monorepo candidate needs its own installed-package/native validation.
 
 ## Build the companion from a CPH source checkout
@@ -28,11 +35,47 @@ uv build --python .venv/bin/python --no-build-isolation --out-dir dist
 uv run --locked python tools/build_release.py --dist dist --candidate-only
 ```
 
+For the Windows game delivery, stage the matching game first, then invoke the
+same release entry point with a complete Windows CPython 3.12 x64 installation
+and a clean SDK-only environment synced from `requirements.lock`:
+
+```powershell
+uv run --locked python tools/build_release.py --dist dist --candidate-only `
+  --windows-python C:/build/python-3.12 `
+  --windows-site-packages C:/build/companion-sdk/Lib/site-packages `
+  --windows-game-root C:/build/staged-game
+```
+
+This copies the exact wheel's canonical Mod into `data/mods/cph_ai_companion` and
+stages `companion-runtime/python/python.exe`, the standard library, locked SDK
+dependencies and package. No download or dependency resolution occurs in the
+bundler. It rejects incomplete/wrong dependency versions and reparse inputs.
+Use a fresh stage: it does not overwrite an existing runtime or user-edited Mod.
+The small runtime manifest binds wheel, protocol, dependency lock and full file
+inventory hashes. Assembly labels this an unvalidated Windows bundle; run the
+matching Windows native/package/joint/GUI checks before recording acceptance.
+
+In the resulting game, enable the bundled Mod in the world, open the game's chat
+menu (default **Shift+C**) and press **Shift+I** to choose **AI companion**.
+Bind a visible recruited NPC,
+configure endpoint/model, background and scoped
+daily duties, enter a masked API key, save, and explicitly start AI. The key stays
+only in memory and the child environment. Configuration is the existing profile
+schema under `userdir/ai-companion/profiles/<encoded-profile-id>/`; it contains no
+key. Stop AI through the native menu, which waits for a safe handoff. Endpoint
+and configuration editing are disabled while the game-owned process is running;
+stop it before applying provider changes. Normal players need no Python install,
+session ID or shell command.
+
 Use uv 0.12.17 and Python 3.12. The native check reads the package's authoritative
 protocol and fixture files directly; the former protocol export step is
 retired. The package commands operate relative to `companion/`, and the resulting
 wheel, source archive and MOD ZIP remain separate from the game binary. The
 Python source archive also builds independently using its packaged resources.
+It includes build/test sources and manuals, while historical raw acceptance
+attachments remain in the [fixed repository archive](https://github.com/oncehere/Cataclysm-Phantom-Hope/tree/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence).
+Historical evidence links resolve there; excluding those attachments from the
+source archive neither removes repository history nor validates a new package.
 The assembled candidate has no validated native/package combinations and marks
 acceptance as `NOT_RUN`. It does not import historical PASS results. After
 separate acceptance, `--compatibility /absolute/tested-compatibility.json` can

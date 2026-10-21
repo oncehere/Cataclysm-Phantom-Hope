@@ -31,7 +31,7 @@ class ProtocolGeneratorTests(unittest.TestCase):
         self.output.parent.mkdir()
         self.inputs = {
             name: (ROOT / RESOURCE / name).read_bytes()
-            for name in ("protocol.json", "fixtures.json")
+            for name in ("protocol.json", "fixtures.json", "task_fixtures.json")
         }
         for name, raw in self.inputs.items():
             (self.resource / name).write_bytes(raw)
@@ -53,10 +53,14 @@ class ProtocolGeneratorTests(unittest.TestCase):
         raw = (json.dumps(fixtures) + "\n").encode()
         (self.resource / "fixtures.json").write_bytes(raw)
         header = self.generate().decode()
+        self.assertNotIn("\r\n", header)
         self.assertIn("edited-without-a-commit", header)
         self.assertIn(hashlib.sha256(raw).hexdigest(), header)
         self.assertIn(hashlib.sha256(self.inputs["protocol.json"]).hexdigest(),
                       header)
+        self.assertIn(hashlib.sha256(self.inputs["task_fixtures.json"]).hexdigest(),
+                      header)
+        self.assertIn("protocol_task_fixtures_json", header)
         for name in self.inputs:
             self.assertIn((RESOURCE / name).as_posix(), header)
         self.assertFalse((self.root / "data/reference/actor_control").exists())
@@ -83,7 +87,10 @@ class ProtocolGeneratorTests(unittest.TestCase):
             ("fixtures.json", b'[{"name":"x","valid":true,"plan":{}},'
              b'{"name":"x","valid":false,"plan":{}}]'),
             ("fixtures.json", b'[{"name":"x","valid":false,"plan":NaN}]'),
-            ("protocol.json", b'{"schema_version":1,"protocol_version":"1.1",'
+            ("task_fixtures.json", b"[]"),
+            ("task_fixtures.json", b'[{"name":"x","valid":true,"plan":{}}]'),
+            ("task_fixtures.json", b'[{"name":"x","valid":false,"offer":NaN}]'),
+            ("protocol.json", b'{"schema_version":1,"protocol_version":"1.2",'
              b'"protocol_version":"1.0"}'),
         )
         for name, raw in invalid:

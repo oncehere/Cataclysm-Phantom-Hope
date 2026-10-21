@@ -3587,12 +3587,15 @@ void npc::update_bodytemp_and_wetness()
     }
 }
 
-// A throtled version of player::update_body since npc's don't need to-the-turn updates.
+// Ordinary NPC bodies are throttled; finite stamina needs the actual turn clock.
 void npc::npc_update_body()
 {
-    if( calendar::once_every( 10_seconds ) ) {
+    if( ( uses_stamina() && !cata_mp::is_remote_player( getID() ) ) ||
+        calendar::once_every( 10_seconds ) ) {
         update_body( last_updated, calendar::turn );
         last_updated = calendar::turn;
+    }
+    if( calendar::once_every( 10_seconds ) ) {
         update_bodytemp_and_wetness();
         reconcile_schedule();
     }
@@ -3600,6 +3603,14 @@ void npc::npc_update_body()
 
 void npc::on_load( map *here )
 {
+    // Migrate older companion saves before catch-up, without granting stamina.
+    if( get_value( "cph_ai.bound" ) == "true" &&
+        get_value( "cph_ai.real_stamina" ) != "true" && !maybe_get_value( "mp_proxy" ) &&
+        !cata_mp::is_partner_npc( getID() ) ) {
+        set_value( "cph_ai.real_stamina", "true" );
+        set_stamina( std::clamp( get_stamina(), 0, get_stamina_max() ) );
+    }
+    const bool local_stamina = uses_stamina() && !cata_mp::is_remote_player( getID() );
     // Reconcile only changed traits; an unchanged personality must not
     // repeatedly activate passive enchantments when re-entering the bubble.
     generate_personality_traits();
@@ -3631,28 +3642,32 @@ void npc::on_load( map *here )
     // Cap at some reasonable number, say 2 days
     const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
-    last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
+    last_updated = local_stamina ? cur : calendar::turn;
     add_msg_debug( debugmode::DF_NPC, "on_load() by %s, dt=%d turns, activity=%s, has_dest=%s",
                    get_name(), to_turns<int>( dt ), activity ? "yes" : "no",
                    has_destination() ? "yes" : "no" );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
-        update_body( cur, cur + 30_minutes );
+        update_body( local_stamina ? last_updated : cur, cur + 30_minutes );
         advance_effects( 30_minutes );
         advance_focus( 30 );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
-        update_body( cur, cur + 5_minutes );
+        update_body( local_stamina ? last_updated : cur, cur + 5_minutes );
         advance_effects( 5_minutes );
         advance_focus( 5 );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
-        update_body( cur, cur + 1_turns );
+        update_body( local_stamina ? last_updated : cur, cur + 1_turns );
         process_effects();
         if( ( cur - calendar::turn_zero ) % 1_minutes == 0_turns ) {
             update_mental_focus();
         }
+    }
+    if( local_stamina ) {
+        update_body( last_updated, calendar::turn );
+        last_updated = calendar::turn;
     }
 
     // Reconcile body temperature and wetness with current weather.
@@ -3784,14 +3799,8 @@ void npc::process_turn()
 {
     Character::process_turn();
 
-    // NPCs shouldn't be using stamina, but if they have, set it back to max
-    // If the stamina is higher than the max (Languorous), set it back to max
-#ifdef MP_ENABLED
-    if( !cata_mp::is_remote_player( getID() ) &&
-        calendar::once_every( 1_minutes ) && get_stamina() != get_stamina_max() ) {
-#else
-    if( calendar::once_every( 1_minutes ) && get_stamina() != get_stamina_max() ) {
-#endif
+    if( !uses_stamina() && calendar::once_every( 1_minutes ) &&
+        get_stamina() != get_stamina_max() ) {
         set_stamina( get_stamina_max() );
     }
 

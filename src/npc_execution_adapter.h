@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "actor_control_types.h"
+#include "coords_fwd.h"
+#include "type_id.h"
 
 class Character;
 class item;
@@ -21,6 +23,9 @@ class NpcExecutionAdapter
         static std::string observe( const npc &actor );
         static bool available( const npc &actor, const std::string &action );
         static execution_result execute( npc &actor, const action_step &step );
+        /** Rechecked by the native activity before spending resources or applying effects. */
+        static execution_result validate_spell_cast( npc &actor, const spell_id &id,
+                const tripoint_bub_ms &target, bool completing = false );
         /** Projects native pocket placement for the entire transaction without world mutation. */
         static bool can_receive_items( Character &recipient, const std::vector<item> &items );
         /** Remains available after external control and the MOD are removed. */

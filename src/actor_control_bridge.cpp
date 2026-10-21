@@ -10,16 +10,18 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <locale>
 #include <random>
 #include <sstream>
 #include <system_error>
 
-#ifndef _WIN32
-    #include <fcntl.h>
-    #include <sys/stat.h>
+#ifdef _WIN32
+    #include "platform_win.h"
+#else
     #include <unistd.h>
 #endif
 
+#include "actor_control_files.h"
 #include "actor_control_protocol.h"
 #include "actor_control_protocol_generated.h"
 #include "path_info.h"
@@ -39,55 +41,64 @@ std::string environment( const char *name )
 
 std::string actual_directory( const std::string &path )
 {
-    return std::filesystem::absolute( path ).lexically_normal().string();
+    return std::filesystem::absolute( std::filesystem::u8path( path ) ).lexically_normal().u8string();
 }
 
 bool private_directory( const std::filesystem::path &path )
 {
-#ifndef _WIN32
-    std::error_code error;
-    std::filesystem::create_directories( path, error );
-    struct stat info;
-    if( error || lstat( path.c_str(), &info ) != 0 || !S_ISDIR( info.st_mode ) ||
-        info.st_uid != getuid() || chmod( path.c_str(), 0700 ) != 0 ) {
-        return false;
+    auto prefix = path.root_path();
+    for( const auto &part : path.parent_path().relative_path() ) {
+        prefix /= part;
+        files::info value;
+        if( files::inspect( prefix, value ) != 0 ) {
+            if( errno != ENOENT || files::create_private_directory( prefix ) != 0 ) {
+                return false;
+            }
+        } else if( !value.directory ) {
+            return false;
+        }
     }
-    return true;
-#else
-    ( void )path;
-    return false;
-#endif
+    return files::create_private_directory( path ) == 0;
 }
 
 bool private_file( const std::filesystem::path &path, const std::string &content )
 {
-#ifndef _WIN32
-    const int fd = open( path.c_str(), O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0600 );
+    const int fd = files::open( path, files::access::create_new );
     if( fd < 0 ) {
         return false;
     }
     std::size_t offset = 0;
     while( offset < content.size() ) {
-        const ssize_t count = write( fd, content.data() + offset, content.size() - offset );
+        const auto count = files::write( fd, content.data() + offset, content.size() - offset );
         if( count <= 0 ) {
-            ::close( fd );
+            files::close( fd );
             return false;
         }
         offset += count;
     }
-    const bool saved = fsync( fd ) == 0;
-    ::close( fd );
+    const bool saved = files::sync( fd ) == 0;
+    files::close( fd );
     return saved;
+}
+
+int process_id()
+{
+#ifdef _WIN32
+    return static_cast<int>( GetCurrentProcessId() );
 #else
-    ( void )path;
-    ( void )content;
-    return false;
+    return getpid();
 #endif
 }
 
 std::string process_start()
 {
-#ifdef __linux__
+#ifdef _WIN32
+    FILETIME created, exited, kernel, user;
+    if( GetProcessTimes( GetCurrentProcess(), &created, &exited, &kernel, &user ) ) {
+        return std::to_string( ( static_cast<std::uint64_t>( created.dwHighDateTime ) << 32 ) |
+                               created.dwLowDateTime );
+    }
+#elif defined(__linux__)
     std::ifstream file( "/proc/self/stat" );
     std::string line;
     std::getline( file, line );
@@ -110,6 +121,7 @@ std::string new_identity()
 {
     std::random_device source;
     std::ostringstream output;
+    output.imbue( std::locale::classic() );
     output << std::hex << std::setfill( '0' );
     for( int count = 0; count < 4; ++count ) {
         output << std::setw( 8 ) << source();
@@ -141,12 +153,16 @@ loopback_bridge::~loopback_bridge()
 bool loopback_bridge::start( std::string &error )
 {
     close();
-#ifdef _WIN32
-    error = "unsupported_private_runtime_directory";
-    return false;
-#else
     try {
         std::filesystem::path root;
+#ifdef _WIN32
+        const wchar_t *local = _wgetenv( L"LOCALAPPDATA" );
+        if( !local || !*local ) {
+            error = "no_private_runtime_directory";
+            return false;
+        }
+        root = std::filesystem::path( local ) / "cph-ai-companion" / "run";
+#else
         const std::string runtime = environment( "XDG_RUNTIME_DIR" );
         if( !runtime.empty() ) {
             root = std::filesystem::path( runtime ) / "cph-ai-companion";
@@ -160,6 +176,7 @@ bool loopback_bridge::start( std::string &error )
             root = ( cache.empty() ? std::filesystem::path( home ) / ".cache" :
                      std::filesystem::path( cache ) ) / "cph-ai-companion" / "run";
         }
+#endif
         if( !private_directory( root ) ) {
             error = "unsafe_runtime_directory";
             return false;
@@ -176,13 +193,13 @@ bool loopback_bridge::start( std::string &error )
         impl_->acceptor.bind( address );
         impl_->acceptor.listen( 1 );
         impl_->acceptor.non_blocking( true );
-        impl_->descriptor = ( impl_->directory / "session.json" ).string();
+        impl_->descriptor = ( impl_->directory / "session.json" ).u8string();
         const std::string json = "{\"session_id\":" + quote( impl_->identity ) +
                                  ",\"host\":\"127.0.0.1\",\"port\":" +
                                  std::to_string( impl_->acceptor.local_endpoint().port() ) +
                                  ",\"credential_file\":\"credential\",\"protocol_version\":" +
                                  quote( protocol_version ) + ",\"schema_digest\":" + quote( protocol_digest ) +
-                                 ",\"pid\":" + std::to_string( getpid() ) +
+                                 ",\"pid\":" + std::to_string( process_id() ) +
                                  ",\"process_start\":" + quote( process_start() ) +
                                  ",\"user_dir\":" + quote( actual_directory( PATH_INFO::user_dir() ) ) +
                                  ",\"save_dir\":" + quote( actual_directory( PATH_INFO::savedir() ) ) +
@@ -199,7 +216,6 @@ bool loopback_bridge::start( std::string &error )
         close();
         return false;
     }
-#endif
 }
 
 void loopback_bridge::disconnect()

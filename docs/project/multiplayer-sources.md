@@ -2,7 +2,7 @@
 
 This is the source manifest for the CPH multiplayer adaptation of
 [busterbogheart/Cataclysm-DDA-multi](https://github.com/busterbogheart/Cataclysm-DDA-multi).
-The source interval excludes `79113712e4469b931b568b388f6e1f89326e3a01` and
+The original September source interval excludes `79113712e4469b931b568b388f6e1f89326e3a01` and
 includes `5cf9a79c66ec82ea6d5710fb277db5ac62a71681`. The CPH adaptation starts
 from `df8fe8ead66bbdfe9efb307ea4367bc121138db1`.
 
@@ -20,6 +20,27 @@ implementation coverage, and validation. It is independent of the fixed CDDA
 pre704 ledger. The dated record retains the full 486-source classification,
 paths, complete commit messages and source chains; this portable document
 retains the selected source IDs and paths alongside the shipped source.
+
+## Additional scoped spell synchronization fixes
+
+The following later changes are adapted separately from the original interval.
+They retain Ethan Kemp's upstream authorship and the license notices below.
+Only the listed effects and necessary synchronization hooks are selected; this
+does not advance the whole CDDA source baseline or the CCB synchronization cursor.
+
+| Fixed upstream commit | Selected effect and CPH boundary |
+| --- | --- |
+| [`9715305886a8`](https://github.com/busterbogheart/Cataclysm-DDA-multi/commit/9715305886a8c5ed4db120a5a42dceb2a627339a) | Forward resolved monster charm, polymorph and banishment; reconcile authoritative monster type and disposition. |
+| [`4fd131d614d5`](https://github.com/busterbogheart/Cataclysm-DDA-multi/commit/4fd131d614d5f1a3da8a35d221d3306236b0f03c) | Apply monster spell status effects on the host and mirror authoritative effects. Preserve CPH's existing ridden-monster handling. |
+| [`4ee8c0a7407e`](https://github.com/busterbogheart/Cataclysm-DDA-multi/commit/4ee8c0a7407ebd7b06659d5ef7ccc5a4fc53db6a) | Resolve client spell friendly fire on the receiving player's tile without replaying the whole area or extra-effect chain. |
+
+CPH retains its existing connection and rollback checks and adds a scoped
+generation/sequence check for these spell results. These network messages do not
+authorize AI NPC abilities; NPCs use native effects in their own world, with the
+existing AI permissions, resource checks, receipts and supported-effect boundary.
+The corresponding focused tests distinguish native NPC execution, result
+validation and transport/session replay. Full Mod and WAN gameplay remain
+separate acceptance work.
 
 ## Authors and licenses
 

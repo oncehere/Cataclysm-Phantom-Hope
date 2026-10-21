@@ -80,10 +80,6 @@ class PersonalityPolicy:
             data["traits"][name] = value
         self._data = data
 
-    @classmethod
-    def from_mapping(cls, config: Mapping[str, Any] | None = None) -> PersonalityPolicy:
-        return cls(config)
-
     def allows(self, behavior: str) -> bool:
         if behavior not in BEHAVIORS:
             return False
@@ -124,7 +120,3 @@ class PersonalityPolicy:
                     raise PersonalityError("unknown_social_intent")
                 if not self.allows(intent):
                     raise PersonalityError("behavior_disabled")
-
-    def filter_plan(self, steps: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-        self.validate_plan(steps)
-        return deepcopy(list(steps))

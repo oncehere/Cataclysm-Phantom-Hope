@@ -1945,7 +1945,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | loses_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
 | npc_becomes_hostile | Triggers when NPC's attitude is set to `NPCATT_KILL` via dialogue effect `hostile` | { "npc", `character_id` },<br/> { "npc_name", `string` }, | NPC / NONE |
 | opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
-| opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
+| opens_spellbook | Triggers when the player opens the spell menu or an NPC prepares native spell selection/casting; read-only companion ability queries do not trigger it | { "character", `character_id` } | character / NONE |
 | opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
 | phase_move | Triggers after a phasing enchant movement is completed | { "distance_traveled", `int` },<br/> { "is_bionic", `bool` }, | avatar / NONE |
 | player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
@@ -1967,6 +1967,14 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | vehicle_moves | | { "avatar_on_board", `bool` },<br/> { "avatar_is_driving", `bool` },<br/> { "avatar_remote_control", `bool` },<br/> { "is_flying_aircraft", `bool` },<br/> { "is_floating_watercraft", `bool` },<br/> { "is_on_rails", `bool` },<br/> { "is_falling", `bool` },<br/> { "is_sinking", `bool` },<br/> { "is_skidding", `bool` },<br/> { "velocity", `int` }, // vehicle current velocity, mph * 100<br/> { "z", `int` }, | vehicle / avatar |
 
 **Note on plant events:** For fungal/marloss seed harvests, `flower_marloss` picking, and vehicle reaper overgrown cleanup, `character_harvests_plant` sets `plant_count` and `seed_count` to `0` because these paths do not produce normal harvest quantities.
+
+Native `opens_spellbook` preparation supplies the actual player or NPC caster
+as alpha and leaves beta absent. Spell adjustments and level limits use that
+caster's context; an NPC cast does not borrow the local avatar's attributes.
+The checked companion cast interface currently rejects registered spellbook
+EVENT hooks until their noninteractive NPC behavior is supported. This retains
+the existing event name and fields; the companion chat menu's keyboard shortcut
+does not change EOC registrations or require content migration.
 
 ## Context Variables For Other EOCs
 Other EOCs have some variables as well that they have access to, they are as follows:

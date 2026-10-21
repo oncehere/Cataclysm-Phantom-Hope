@@ -179,11 +179,11 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(restored["records"][0]["text"], "值得信任")
         self.assertEqual(restored["records"][0]["continuity"], "imported_experience_not_current_world_fact")
         self.assertEqual(restored["records"][0]["context"]["branch_id"], "branch-a")
-        self.assertTrue(all("continuity" not in json.loads(path.read_text()) for path in self.record_paths(store, rid)))
+        self.assertTrue(all("continuity" not in json.loads(path.read_text(encoding="utf-8")) for path in self.record_paths(store, rid)))
         with self.assertRaisesRegex(MemoryStoreError, "checkpoint_context_mismatch"):
             store.restore({**CONTEXT, "actor_id": "other-npc"}, checkpoint)
         paths = self.record_paths(store, rid)
-        current = next(p for p in paths if json.loads(p.read_text())["text"] == "可疑")
+        current = next(p for p in paths if json.loads(p.read_text(encoding="utf-8"))["text"] == "可疑")
         self.edit(current, text="手工决定暂不信任")
         self.assertEqual(store.restore(CONTEXT, checkpoint)["records"][0]["text"], "手工决定暂不信任")
 
@@ -280,7 +280,7 @@ class MemoryTests(unittest.TestCase):
         migrated = self.open(config)
         other = {**CONTEXT, "world_id": "new-world"}
         self.assertEqual([r["text"] for r in migrated.retrieve(other)], ["Legacy lesson"])
-        current = json.loads(sorted((migrated.memory_root / "manifests").glob("*.json"))[-1].read_text())
+        current = json.loads(sorted((migrated.memory_root / "manifests").glob("*.json"))[-1].read_text(encoding="utf-8"))
         self.assertEqual(current["schema_version"], 1)
         self.assertTrue(current["imports"])
 
@@ -569,7 +569,7 @@ class MemoryTests(unittest.TestCase):
         for rid, event in zip(ids, expected):
             self.assertEqual(records[rid]["data"], event["data"])
             audit = next((store.memory_root / "evidence").glob(f"*/{rid}-*.json"))
-            self.assertEqual(json.loads(audit.read_text())["data"], event["data"])
+            self.assertEqual(json.loads(audit.read_text(encoding="utf-8"))["data"], event["data"])
         revision = store.revision
         self.assertEqual(store.ingest({**CONTEXT, "game_time": 110}, expected), ids)
         self.assertEqual(store.revision, revision)
@@ -640,10 +640,10 @@ class MemoryTests(unittest.TestCase):
         traces = list((store.memory_root / "evidence/deletions").glob("*.json"))
         self.assertTrue(traces)
         for trace in traces:
-            value = json.loads(trace.read_text())
+            value = json.loads(trace.read_text(encoding="utf-8"))
             self.assertEqual(set(value), {"schema_version", "id", "body_sha256", "reason"})
-            self.assertNotIn("SENTINEL_DELETED_DATA", trace.read_text())
-        self.assertEqual(background.read_text(), "Background keeps SENTINEL_DELETED_DATA as authored text")
+            self.assertNotIn("SENTINEL_DELETED_DATA", trace.read_text(encoding="utf-8"))
+        self.assertEqual(background.read_text(encoding="utf-8"), "Background keeps SENTINEL_DELETED_DATA as authored text")
         self.assertEqual([record["id"] for record in store.restore(CONTEXT, checkpoint)["records"]], [unrelated])
         store.ingest(CONTEXT, [source_event])
         self.assertFalse(any(record["id"] == source for record in store.retrieve(CONTEXT)))
@@ -811,7 +811,7 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(store.revision, revision)
         self.assertEqual(store.restore(CONTEXT, checkpoint)["records"], [])
         self.assertEqual(list((store.memory_root / "evidence").glob(f"*/{rid}-*.json")), [])
-        self.assertEqual(set(json.loads((store.memory_root / "checkpoints" / (checkpoint["id"] + ".json")).read_text())),
+        self.assertEqual(set(json.loads((store.memory_root / "checkpoints" / (checkpoint["id"] + ".json")).read_text(encoding="utf-8"))),
                          {"schema_version", "id", "context", "revision", "state", "heads"})
 
     def test_interrupted_delete_finishes_purging_bodies_on_reopen(self):
@@ -846,7 +846,7 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(reopened.ingest(CONTEXT, [event]), [])
         self.assertEqual(reopened.retrieve(CONTEXT), [])
         for path in reopened.memory_root.rglob("*.json"):
-            self.assertNotIn("DELETED_PRIVATE_TEXT", path.read_text())
+            self.assertNotIn("DELETED_PRIVATE_TEXT", path.read_text(encoding="utf-8"))
 
     def test_record_size_limit_is_independent_of_compact_event_size(self):
         store = self.open()
@@ -949,6 +949,88 @@ class MemoryTests(unittest.TestCase):
         later = {**CONTEXT, "game_time": 200}
         store.ingest(later, [event])
         self.assertEqual([record["id"] for record in store.retrieve(later)], [rid])
+
+
+    def task_event(self, identity, task, phase, *, requirement="request-one", reason="", time=100):
+        return {"id": identity, "kind": "receipt", "text": "task_" + phase, "game_time": time,
+                "data": {"operation_id": identity, "action": "task", "requirement_id": requirement,
+                         "state": "failed" if phase == "failed" else "succeeded",
+                         "detail": {"task_id": task, "task_kind": "gather", "task_state": phase,
+                                    "reason": reason, "progress": 0, "target": 2}}}
+
+    def task_commitments(self, store, context=CONTEXT):
+        return [record for record in store.retrieve(context, "", 100)
+                if record["kind"] == "commitment"]
+
+    def test_task_adoption_commits_and_only_all_same_request_tasks_fulfill(self):
+        store = self.open()
+        summary = [{"id": "one", "state": "queued", "requirement_id": "request-one"},
+                   {"id": "two", "state": "queued", "requirement_id": "request-one"}]
+        store.ingest_task_obligations(CONTEXT, summary)
+        self.assertEqual(self.task_commitments(store), [])  # Summary is not evidence of adoption.
+        store.ingest(CONTEXT, [self.task_event("accepted.1", "one", "queued", reason="accepted"),
+                               self.task_event("accepted.2", "two", "queued", reason="accepted")])
+        store.ingest_task_obligations(CONTEXT, summary)
+        self.assertEqual(self.task_commitments(store)[0]["status"], "accepted")
+        store.ingest(CONTEXT, [self.task_event("completed.3", "one", "completed")])
+        summary[0]["state"] = "completed"
+        store.ingest_task_obligations(CONTEXT, summary)
+        partial = self.task_commitments(store)[0]
+        self.assertEqual(partial["status"], "accepted")
+        self.assertEqual(partial["data"]["completed_task_ids"], ["one"])
+        store.ingest(CONTEXT, [self.task_event("completed.4", "two", "completed")])
+        summary[1]["state"] = "completed"
+        store.ingest_task_obligations(CONTEXT, summary)
+        completed = self.task_commitments(store)[0]
+        self.assertEqual(completed["id"], partial["id"])
+        self.assertEqual(completed["status"], "fulfilled")
+        self.assertEqual(completed["data"]["completed_task_ids"], ["one", "two"])
+        revision = store.revision
+        store.ingest_task_obligations(CONTEXT, summary)
+        self.assertEqual(store.revision, revision)  # Polling does not create new cognition.
+
+    def test_pruned_or_partial_summary_does_not_hide_an_accepted_task(self):
+        store = self.open()
+        store.ingest(CONTEXT, [self.task_event("accepted.1", "one", "queued", reason="accepted"),
+                               self.task_event("accepted.2", "two", "queued", reason="accepted"),
+                               self.task_event("completed.3", "one", "completed")])
+        store.ingest_task_obligations(CONTEXT, [{"id": "one", "state": "completed", "requirement_id": "request-one"}])
+        record = self.task_commitments(store)[0]
+        self.assertEqual(record["status"], "accepted")
+        self.assertEqual(record["data"]["task_ids"], ["one", "two"])
+
+    def test_task_failure_and_cancellation_are_distinct_from_fulfillment_or_false_promise(self):
+        store = self.open()
+        for index, phase in enumerate(("failed", "cancelled")):
+            requirement = "request-" + str(index)
+            store.ingest(CONTEXT, [self.task_event("accepted." + str(index), phase, "queued",
+                                                   requirement=requirement, reason="accepted"),
+                                   self.task_event("terminal." + str(index), phase, phase, requirement=requirement)])
+            store.ingest_task_obligations(CONTEXT, [{"id": phase, "state": phase, "requirement_id": requirement}])
+        self.assertEqual({record["status"] for record in self.task_commitments(store)}, {"failed", "cancelled"})
+        self.assertTrue(all("false_promise" not in record["text"] for record in self.task_commitments(store)))
+
+    def test_private_task_or_model_proposal_never_creates_player_commitment(self):
+        store = self.open()
+        store.ingest(CONTEXT, [self.task_event("private.1", "private", "queued", requirement="", reason="accepted"),
+                               self.task_event("proposal.2", "proposed", "queued", reason="proposal")])
+        store.ingest_task_obligations(CONTEXT, [{"id": "private", "state": "queued", "requirement_id": ""},
+                                               {"id": "proposed", "state": "queued", "requirement_id": "request-one"}])
+        self.assertEqual(self.task_commitments(store), [])
+
+    def test_task_commitment_checkpoint_restores_accepted_not_future_fulfillment(self):
+        store = self.open()
+        summary = [{"id": "one", "state": "queued", "requirement_id": "request-one"}]
+        store.ingest(CONTEXT, [self.task_event("accepted.1", "one", "queued", reason="accepted")])
+        store.ingest_task_obligations(CONTEXT, summary)
+        checkpoint = store.checkpoint(CONTEXT)
+        later = {**CONTEXT, "game_time": 101}
+        store.ingest(later, [self.task_event("completed.2", "one", "completed", time=101)])
+        store.ingest_task_obligations(later, [{**summary[0], "state": "completed"}])
+        self.assertEqual(self.task_commitments(store, later)[0]["status"], "fulfilled")
+        store.restore(CONTEXT, checkpoint)
+        store.ingest_task_obligations(CONTEXT, summary)
+        self.assertEqual(self.task_commitments(store)[0]["status"], "accepted")
 
 
 if __name__ == "__main__":

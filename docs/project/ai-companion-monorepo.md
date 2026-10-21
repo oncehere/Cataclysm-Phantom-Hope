@@ -1,6 +1,6 @@
 # AI companion source and distribution
 
-The AI companion is maintained in this repository under [`companion/`](../../companion/README.md). Its Python runtime, Mod, local memory, package name and release lifecycle remain independent of the game executable. Native ActorControl continues to control the original recruited NPC; multiplayer retains its own sessions, synchronization and scheduling. Moving source does not enable model calls or change gameplay rules.
+The AI companion is maintained in this repository under [`companion/`](../../companion/README.md). The original monorepo import retained independent package distribution. The Windows delivery now stages that package's canonical Mod and matching Python/SDK runtime with the game; players configure and explicitly start it from the recruited NPC menu. Python remains a child process with file-backed memory. Native ActorControl controls the original recruited NPC; multiplayer retains its own sessions, synchronization and scheduling. Merely loading the Mod does not start model calls.
 
 ## Source and license boundaries
 
@@ -46,6 +46,22 @@ Run it from the CPH source root with isolated test state. It uses the determinis
 
 ## Releases and future changes
 
-The independently versioned package remains `cph-ai-companion`. Package assembly records artifact hashes; a supported combination additionally requires evidence identifying the monorepo revision/tree, installed wheel and native binary. Rebuilding the same package version is not proof that an older tested wheel has identical bytes. CPH's game release checks remain separate.
+The build package remains `cph-ai-companion`. `build_release.py` accepts explicit
+Windows interpreter, SDK site-packages and game-stage paths to assemble the
+built-in Mod and hidden game-owned runtime. Canonical Mod files remain only in
+the Python package resources; delivery copies bytes from the built wheel instead
+of maintaining another source copy in `data/mods`. Package assembly records
+artifact hashes; a supported combination additionally requires evidence
+identifying the monorepo revision/tree, installed wheel and native binary.
+Rebuilding the same package version does not prove identical bytes. Game release
+and actual Windows GUI acceptance remain separate checks.
 
 New changes to the protocol, native adapter and Python client can now be reviewed in one commit. Extract shared native operations only when two actual callers have equivalent semantics and old implementations can be removed. Multiplayer coexistence and player-avatar control remain future scope; this migration does not add either capability.
+
+The protocol 1.2 task candidate adds native persistent work, bounded delayed
+planning and a provider-consumption ledger while preserving those source and license
+boundaries. See [ActorControl](actor-control.md) for the current task/UI/save
+contract and [the accepted design](companion-avatar-design.md) for its broader
+intent and verification scope. Historical wheel/native evidence still names
+its original protocol; a new package must be checked against the new native
+binary and exact schema digest.

@@ -112,6 +112,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_execution_adapter.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
@@ -3063,6 +3064,81 @@ void spellcasting_activity_actor::finish( player_activity &act, Character &who )
         spell_being_cast.set_level( who, *fake_spell_level );
     }
 
+    // The activity token survives independently from Character metadata, so a
+    // damaged checkpoint cannot turn an externally owned cast into an unrestricted one.
+    const bool companion_owned = !act.str_values.empty() &&
+                                 act.str_values.front() == "cph_ai.cast_spell";
+    std::string companion_step = companion_owned && act.str_values.size() == 2 ?
+                                 act.str_values[1] : std::string();
+    bool companion_context_valid = companion_owned && !companion_step.empty() &&
+                                   who.is_npc() && !is_fake_spell;
+    if( companion_context_valid ) {
+        const diag_value *marker = who.maybe_get_value( "cph_ai.spell_step" );
+        const diag_value *arguments = who.maybe_get_value( "cph_ai.spell_args" );
+        if( marker && marker->to_string() == companion_step ) {
+            companion_context_valid = false;
+            if( arguments && spell_target ) {
+                try {
+                    const JsonObject args = json_loader::from_string( arguments->to_string() ).get_object();
+                    args.allow_omitted_members();
+                    companion_context_valid = args.get_string( "spell" ) == sp.str() &&
+                                              *spell_target == tripoint_abs_ms( args.get_int( "x" ), args.get_int( "y" ),
+                                                      args.get_int( "z" ) );
+                    for( const JsonMember &member : args ) {
+                        if( member.name() != "spell" && member.name() != "x" && member.name() != "y" &&
+                            member.name() != "z" ) {
+                            companion_context_valid = false;
+                        }
+                    }
+                } catch( const std::exception & ) {
+                    // A damaged owned operation cannot fall through to unrestricted casting.
+                }
+            }
+        } else {
+            companion_context_valid = false;
+        }
+    }
+    const auto companion_receipt = [&]( bool succeeded, const std::string &code ) {
+        if( companion_step.empty() ) {
+            return;
+        }
+        std::ostringstream details;
+        JsonOut detail( details );
+        detail.start_object();
+        detail.member( "spell", sp.str() );
+        if( spell_target ) {
+            detail.member( "target", *spell_target );
+        }
+        detail.end_object();
+        std::ostringstream receipt;
+        JsonOut out( receipt );
+        out.start_object();
+        out.member( "state", succeeded ? "succeeded" : "failed" );
+        out.member( "code", code );
+        out.member( "detail", details.str() );
+        out.end_object();
+        who.set_value( "cph_ai.spell_completed_step", companion_step );
+        who.set_value( "cph_ai.spell_result", receipt.str() );
+    };
+    if( companion_owned ) {
+        const diag_value *completed = who.maybe_get_value( "cph_ai.spell_completed_step" );
+        if( completed && completed->to_string() == companion_step ) {
+            // Reconcile an inconsistent checkpoint without replaying a real effect.
+            return;
+        }
+        if( !companion_context_valid ) {
+            companion_receipt( false, "spell_context_changed" );
+            return;
+        }
+        const cata::actor_control::execution_result checked =
+            cata::actor_control::NpcExecutionAdapter::validate_spell_cast(
+                *who.as_npc(), sp, get_map().get_bub( *spell_target ), true );
+        if( checked.state != cata::actor_control::execution_state::succeeded ) {
+            companion_receipt( false, checked.code );
+            return;
+        }
+    }
+
     // choose target for spell before continuing
     const std::optional<tripoint_bub_ms> target = !spell_target ? spell_being_cast.select_target(
             &who ) : get_map().get_bub( *spell_target );
@@ -3094,6 +3170,7 @@ void spellcasting_activity_actor::finish( player_activity &act, Character &who )
                         spell_being_cast.spell_class(), spell_being_cast.get_difficulty( who ),
                         spell_being_cast.energy_cost( who ), spell_being_cast.casting_time( who ),
                         spell_being_cast.damage( who ) );
+                companion_receipt( false, "spell_failed" );
                 return;
             }
 
@@ -3112,6 +3189,7 @@ void spellcasting_activity_actor::finish( player_activity &act, Character &who )
                         spell_being_cast.spell_class(), spell_being_cast.get_difficulty( who ),
                         spell_being_cast.energy_cost( who ), spell_being_cast.casting_time( who ),
                         spell_being_cast.damage( who ) );
+                companion_receipt( false, "native_spell_requirements" );
                 return;
             }
 
@@ -3173,11 +3251,16 @@ void spellcasting_activity_actor::finish( player_activity &act, Character &who )
                     spell_being_cast.spell_class(), spell_being_cast.get_difficulty( who ),
                     spell_being_cast.energy_cost( who ), spell_being_cast.casting_time( who ),
                     spell_being_cast.damage( who ) );
+            companion_receipt( true, "spell_cast" );
+        } else {
+            companion_receipt( false, "invalid_spell_target" );
         }
         who.last_magic_target_pos = get_map().get_abs( *target );
         if( spell_being_cast.is_channeling_spell() ) {
             who.add_effect( effect_magic_channeling, calendar::INDEFINITELY_LONG_DURATION );
         }
+    } else {
+        companion_receipt( false, "invalid_spell_target" );
     }
 }
 

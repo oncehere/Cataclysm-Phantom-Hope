@@ -20,6 +20,7 @@
 class Character;
 class Creature;
 class item;
+class monster;
 class npc;
 class item_location;
 class player_activity;
@@ -269,6 +270,14 @@ int get_separation_tier();
 // the client that's the host's proxy. Used by the tile renderer to draw a
 // direction indicator when the partner is off-screen.
 ::npc *get_partner_npc();
+
+// A resolved monster spell op replaces the corresponding HP report.  A banish
+// must not also become a normal kill with drops, nor a polymorph an HP hit.
+void mp_client_monster_op_sent( const monster &mon, bool killed );
+
+// Reconcile a client's optimistic effect even when host immunity left the
+// authoritative monster unchanged, so the usual delta gate would omit it.
+void mp_server_mon_force_resend( uint32_t nid );
 
 // Host: true while wait_for_client_action() is blocking — i.e. the host has
 // no moves and is waiting for the client to ack the current turn.  Used to

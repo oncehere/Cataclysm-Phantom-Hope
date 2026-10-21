@@ -1,9 +1,9 @@
 schema_version: 1
 kind: documentation_registry
-source_commit: ed6e400dea5b509d6a1764eca7981de687019534
+source_commit: 71db54271124f072c330ef3da101c1480ef6aae8
 scope: Tracked documentation and machine contracts from the Git index; untracked build caches are never
   traversed.
-entry_count: 270
+entry_count: 278
 entries:
 - id: repo.github-agents-md
   path: .github/AGENTS.md
@@ -56,6 +56,17 @@ entries:
   authority: governance_contract
   source_of_truth: true
   stable_document_id: governance.contributing
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.glossary-md
+  path: GLOSSARY.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-glossary
   ccb_docs_ids: []
   generated: false
   generated_by: null
@@ -476,6 +487,17 @@ entries:
   authority: explanatory
   source_of_truth: false
   stable_document_id: cph.companion-install
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.companion-docs-quickstart-zh-cn-md
+  path: companion/docs/quickstart.zh-CN.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-quickstart
   ccb_docs_ids: []
   generated: false
   generated_by: null
@@ -936,6 +958,17 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: false
+- id: repo.data-mods-scenario-story-smoke-readme-md
+  path: data/mods/Scenario_Story_Smoke/README.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: lua.platform.story-smoke-example
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
 - id: repo.data-mods-sky-island-readme-md
   path: data/mods/Sky_Island/README.md
   category: third_party_document
@@ -2576,6 +2609,39 @@ entries:
   generated: false
   generated_by: null
   include_in_ai_index: true
+- id: repo.docs-adr-0001-companion-tasks-and-delayed-planning-md
+  path: docs/adr/0001-companion-tasks-and-delayed-planning.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-tasks-adr
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.docs-adr-0002-avatar-intent-and-local-autonomy-md
+  path: docs/adr/0002-avatar-intent-and-local-autonomy.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-autonomy-adr
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.docs-adr-0003-world-bound-avatar-history-md
+  path: docs/adr/0003-world-bound-avatar-history.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-history-adr
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
 - id: repo.docs-project-actor-control-md
   path: docs/project/actor-control.md
   category: maintained_document
@@ -2605,6 +2671,17 @@ entries:
   authority: explanatory
   source_of_truth: false
   stable_document_id: null
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.docs-project-companion-avatar-design-md
+  path: docs/project/companion-avatar-design.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.companion-avatar-design
   ccb_docs_ids: []
   generated: false
   generated_by: null
@@ -3079,6 +3156,17 @@ entries:
   authority: explanatory
   source_of_truth: false
   stable_document_id: lua.platform.native-probe-fixture
+  ccb_docs_ids: []
+  generated: false
+  generated_by: null
+  include_in_ai_index: true
+- id: repo.tools-scenarios-readme-md
+  path: tools/scenarios/README.md
+  category: maintained_document
+  status: active
+  authority: explanatory
+  source_of_truth: false
+  stable_document_id: cph.scenario-tools
   ccb_docs_ids: []
   generated: false
   generated_by: null

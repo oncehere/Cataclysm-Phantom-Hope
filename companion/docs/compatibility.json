@@ -27,10 +27,10 @@
     "status": "LOCAL_MONOREPO_CANDIDATE"
   },
   "evidence": {
-    "pre_monorepo": "docs/evidence/pre-monorepo-compatibility.json",
-    "prior_release": "docs/evidence/v0.1.1-compatibility.json"
+    "pre_monorepo": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence/pre-monorepo-compatibility.json",
+    "prior_release": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence/v0.1.1-compatibility.json"
   },
-  "evidence_as_of": "2026-10-01",
+  "evidence_as_of": "2026-10-19",
   "formats": {
     "checkpoint": 1,
     "configuration": 1,
@@ -39,21 +39,23 @@
   },
   "historical_context": {
     "adjacent_native_regressions": "Older adjacent failures and focused reruns remain recorded with their original inputs.",
-    "evidence": "docs/evidence/pre-monorepo-compatibility.json",
+    "evidence": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence/pre-monorepo-compatibility.json",
     "boundary": "No historical test result certifies this monorepo candidate."
   },
   "openai_sdk": "3.22.1",
   "package_version": "0.1.2.dev0",
   "previous_release": {
     "boundary": "Published assets and historical tests remain unchanged and do not certify this candidate.",
-    "compatibility_snapshot": "docs/evidence/v0.1.1-compatibility.json",
+    "compatibility_snapshot": "https://github.com/oncehere/Cataclysm-Phantom-Hope/blob/71db54271124f072c330ef3da101c1480ef6aae8/companion/docs/evidence/v0.1.1-compatibility.json",
     "url": "https://github.com/oncehere/cph-ai-companion/releases/tag/v0.1.1",
     "version": "0.1.1"
   },
-  "protocol_version": "1.1",
+  "protocol_version": "1.2",
   "python": ">=3.12,<3.13",
-  "schema_digest": "8a8e3f131065bf5eb82cec3233f5dc9c94d4ab2f97143627e49505d5726840a7",
+  "schema_digest": "84058afc100c0298cce8fac2bbaa452ffd5888530f726ae7a2b2308b1942e459",
   "schema_version": 1,
-  "target_platform": "linux-x86_64",
+  "target_platform": "windows-x86_64",
+  "windows_delivery": "Built-in Mod and matched game-owned Python/SDK runtime; exact current Windows acceptance is recorded separately",
+  "historical_developer_platform": "linux-x86_64",
   "validated_combinations": []
 }

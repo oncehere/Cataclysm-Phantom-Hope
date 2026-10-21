@@ -93,7 +93,8 @@ void event_bus::send_with_talker( Creature *alpha, Creature *beta,
                                   const cata::event &e ) const
 {
     for( event_subscriber *s : subscribers ) {
-        s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
+        s->notify( e, alpha ? get_talker_for( alpha ) : nullptr,
+                   beta ? get_talker_for( beta ) : nullptr );
     }
 }
 

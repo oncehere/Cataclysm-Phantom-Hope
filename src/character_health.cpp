@@ -2377,14 +2377,21 @@ void Character::invalidate_leak_level_cache()
     leak_level_dirty = true;
 }
 
+bool Character::uses_stamina() const
+{
+    if( !is_npc() || get_value( "cph_ai.real_stamina" ) == "true" ) {
+        return true;
+    }
+#ifdef MP_ENABLED
+    return cata_mp::is_remote_player( getID() );
+#else
+    return false;
+#endif
+}
+
 int Character::get_stamina() const
 {
-#ifdef MP_ENABLED
-    if( is_npc() && !cata_mp::is_remote_player( getID() ) ) {
-#else
-    if( is_npc() ) {
-#endif
-        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+    if( !uses_stamina() ) {
         return get_stamina_max();
     }
     return stamina;
@@ -2392,12 +2399,7 @@ int Character::get_stamina() const
 
 int Character::get_stamina_max() const
 {
-#ifdef MP_ENABLED
-    if( is_npc() && !cata_mp::is_remote_player( getID() ) ) {
-#else
-    if( is_npc() ) {
-#endif
-        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+    if( !uses_stamina() ) {
         return 10000;
     }
     // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
@@ -2422,12 +2424,7 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod )
 {
-    // TODO: Make NPCs smart enough to use stamina
-#ifdef MP_ENABLED
-    if( ( is_npc() && !cata_mp::is_remote_player( getID() ) ) || has_trait( trait_DEBUG_STAMINA ) ) {
-#else
-    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
-#endif
+    if( !uses_stamina() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
 
@@ -2574,16 +2571,9 @@ void Character::update_stamina( int turns )
 
 int Character::get_cardiofit() const
 {
-    // GH #19 (host-vs-client move cadence, log-confirmed 2026-07-26): mirrors the
-    // same is_remote_player() exception get_stamina_max() (above) already has —
-    // get_stamina_max() calls this function, so without the same exception here
-    // a remote player's host-side proxy took the flat NPC shortcut below instead
-    // of the real fitness-based formula, computing a stamina_max wildly different
-    // from the real client's (13500 vs 8500 in the confirmed repro) even with
-    // otherwise-identical synced stats. That single mismatch was the entire
-    // source of the host-vs-client movement-cost/cadence gap.
-    if( is_npc() && !cata_mp::is_remote_player( getID() ) ) {
-        // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
+    // Keep the same eligibility as get_stamina_max(): a proxy must use its
+    // synced fitness, and a companion uses its own saved fitness.
+    if( !uses_stamina() ) {
         return 2 * get_cardio_acc_base();
     }
 

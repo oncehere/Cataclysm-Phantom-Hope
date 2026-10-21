@@ -1,0 +1,916 @@
+[
+  {
+    "name": "follow_defaults",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        }
+      ]
+    }
+  },
+  {
+    "name": "guard_prioritize",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {}
+        }
+      ],
+      "mode": "prioritize"
+    }
+  },
+  {
+    "name": "move_bounded",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "move-1",
+          "kind": "move",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0
+          },
+          "constraints": {
+            "max_distance": 60
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "gather_acquired",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-1",
+          "kind": "gather",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0,
+            "item_type": "bandages",
+            "count": 3
+          },
+          "quantity_mode": "acquired",
+          "requirement_id": "requirement-1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "gather_inventory",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-1",
+          "kind": "gather",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0,
+            "item_type": "bandages",
+            "count": 3
+          },
+          "quantity_mode": "inventory",
+          "requirement_id": "requirement-1"
+        }
+      ]
+    }
+  },
+  {
+    "name": "craft_defaults",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "craft-1",
+          "kind": "craft",
+          "args": {
+            "recipe": "bandages"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "durable_and_forward_dependencies",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "depends_on": [
+            "previous-task",
+            "guard-2"
+          ]
+        },
+        {
+          "id": "guard-2",
+          "kind": "guard",
+          "args": {}
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty_offer",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": []
+    }
+  },
+  {
+    "name": "unknown_mode",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        }
+      ],
+      "mode": "replace"
+    },
+    "error": "invalid_enum"
+  },
+  {
+    "name": "unknown_offer_member",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        }
+      ],
+      "python_code": "exec(...)"
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "unknown_task_kind",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "teleport",
+          "args": {}
+        }
+      ]
+    },
+    "error": "invalid_enum"
+  },
+  {
+    "name": "unknown_task_member",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "intent": "propose_own_goals"
+        }
+      ]
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "follow_args_are_empty",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {
+            "target": 1
+          }
+        }
+      ]
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "guard_args_are_empty",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0
+          }
+        }
+      ]
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "move_missing_z",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "move-1",
+          "kind": "move",
+          "args": {
+            "x": 10,
+            "y": 20
+          }
+        }
+      ]
+    },
+    "error": "missing_field"
+  },
+  {
+    "name": "craft_batch_bound",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "craft-1",
+          "kind": "craft",
+          "args": {
+            "recipe": "bandages",
+            "batch": 21
+          }
+        }
+      ]
+    },
+    "error": "integer_range"
+  },
+  {
+    "name": "gather_count_not_boolean",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-1",
+          "kind": "gather",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0,
+            "item_type": "bandages",
+            "count": true
+          },
+          "quantity_mode": "acquired",
+          "requirement_id": "requirement-1"
+        }
+      ]
+    },
+    "error": "integer_required"
+  },
+  {
+    "name": "unknown_quantity_mode",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-1",
+          "kind": "gather",
+          "args": {
+            "x": 10,
+            "y": 20,
+            "z": 0,
+            "item_type": "bandages",
+            "count": 3
+          },
+          "quantity_mode": "total",
+          "requirement_id": "requirement-1"
+        }
+      ]
+    },
+    "error": "invalid_enum"
+  },
+  {
+    "name": "quantity_only_for_gather",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "quantity_mode": "acquired"
+        }
+      ]
+    },
+    "error": "invalid_quantity_mode"
+  },
+  {
+    "name": "duplicate_task_id",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        },
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        }
+      ]
+    },
+    "error": "duplicate_task"
+  },
+  {
+    "name": "self_dependency",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "depends_on": [
+            "follow-1"
+          ]
+        }
+      ]
+    },
+    "error": "invalid_dependency"
+  },
+  {
+    "name": "repeated_dependency",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "depends_on": [
+            "previous",
+            "previous"
+          ]
+        }
+      ]
+    },
+    "error": "duplicate_dependency"
+  },
+  {
+    "name": "empty_dependency_id",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {},
+          "depends_on": [
+            ""
+          ]
+        }
+      ]
+    },
+    "error": "string_size"
+  },
+  {
+    "name": "task_count_bound",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "0",
+          "kind": "guard",
+          "args": {}
+        },
+        {
+          "id": "1",
+          "kind": "guard",
+          "args": {}
+        },
+        {
+          "id": "2",
+          "kind": "guard",
+          "args": {}
+        },
+        {
+          "id": "3",
+          "kind": "guard",
+          "args": {}
+        },
+        {
+          "id": "4",
+          "kind": "guard",
+          "args": {}
+        },
+        {
+          "id": "5",
+          "kind": "guard",
+          "args": {}
+        }
+      ]
+    },
+    "error": "array_size"
+  },
+  {
+    "name": "max_distance_zero",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {},
+          "constraints": {
+            "max_distance": 0
+          }
+        }
+      ]
+    },
+    "error": "integer_range"
+  },
+  {
+    "name": "max_distance_large",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {},
+          "constraints": {
+            "max_distance": 61
+          }
+        }
+      ]
+    },
+    "error": "integer_range"
+  },
+  {
+    "name": "max_distance_boolean",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {},
+          "constraints": {
+            "max_distance": true
+          }
+        }
+      ]
+    },
+    "error": "integer_required"
+  },
+  {
+    "name": "unknown_constraint",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "guard-1",
+          "kind": "guard",
+          "args": {},
+          "constraints": {
+            "teleport": true
+          }
+        }
+      ]
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "context_unchanged",
+    "valid": false,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0,
+        "task_generation": 2
+      },
+      "tasks": [
+        {
+          "id": "follow-1",
+          "kind": "follow",
+          "args": {}
+        }
+      ]
+    },
+    "error": "unknown_field"
+  },
+  {
+    "name": "gather_multiple_local_sources",
+    "valid": true,
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-local",
+          "kind": "gather",
+          "args": {
+            "item_type": "bandages",
+            "count": 10
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "gather_partial_position",
+    "valid": false,
+    "error": "incomplete_gather_position",
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-local",
+          "kind": "gather",
+          "args": {
+            "item_type": "bandages",
+            "count": 10,
+            "x": 1
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "gather_requires_count",
+    "valid": false,
+    "error": "missing_field",
+    "offer": {
+      "context": {
+        "world_id": "world-test",
+        "branch_id": "branch-test",
+        "actor_id": 7,
+        "load_epoch": "load-1",
+        "request_id": "req-1",
+        "event_watermark": 3,
+        "policy_version": "policy-1",
+        "memory_version": "memory-1",
+        "game_time": 0
+      },
+      "tasks": [
+        {
+          "id": "gather-local",
+          "kind": "gather",
+          "args": {
+            "item_type": "bandages"
+          }
+        }
+      ]
+    }
+  }
+]

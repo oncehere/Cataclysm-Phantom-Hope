@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cstddef>
 #include <exception>
+#include <iomanip>
+#include <limits>
+#include <locale>
 #include <set>
 #include <sstream>
 #include <utility>
@@ -41,10 +44,7 @@ std::string quote( const std::string &text )
 std::string stringify( const JsonValue &value )
 {
     if( value.test_object() ) {
-        const JsonObject object = value.get_object();
-        // Serialization retains every member; it is not a partial schema read.
-        object.allow_omitted_members();
-        return object.str();
+        return stringify( value.get_object() );
     }
     if( value.test_array() ) {
         std::string result = "[";
@@ -67,12 +67,34 @@ std::string stringify( const JsonValue &value )
     if( value.test_int() ) {
         return std::to_string( value.get_int64() );
     }
-    return std::to_string( value.get_float() );
+    std::ostringstream output;
+    output.imbue( std::locale::classic() );
+    output << std::setprecision( std::numeric_limits<double>::max_digits10 ) << value.get_float();
+    const std::string number = output.str();
+    // Keep a floating-point token even for whole values and negative zero.
+    return number.find_first_of( ".eE" ) == std::string::npos ? number + ".0" : number;
+}
+
+std::string stringify( const JsonObject &object )
+{
+    // FlexBuffers' ToString inherits the user's numeric locale. Machine JSON
+    // must keep numeric formatting independent of the display locale.
+    object.allow_omitted_members();
+    std::string result = "{";
+    for( const JsonMember &entry : object ) {
+        result += ( result.size() == 1 ? "" : "," ) + quote( entry.name() ) + ":" + stringify( entry );
+    }
+    return result + "}";
 }
 
 std::string capability_catalog()
 {
     return stringify( contract().get_member( "actions" ) );
+}
+
+std::string task_capability_catalog()
+{
+    return stringify( contract().get_member( "tasks" ) );
 }
 
 bool is_behavior( const std::string &name )
@@ -249,7 +271,7 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
                     worked.insert( requirement );
                 }
             }
-            candidate.push_back( action_step { id, action, arguments.str(),
+            candidate.push_back( action_step { id, action, stringify( arguments ),
                                                entry.get_string( "intent", "" ), {}, requirement } );
         }
         for( const std::string &requirement : refused ) {
@@ -258,6 +280,92 @@ bool parse_plan( const std::string &text, std::vector<action_step> &steps,
             }
         }
         steps = std::move( candidate );
+        return true;
+    } catch( const std::exception & ) {
+        return fail( error, "invalid_json" );
+    }
+}
+
+bool parse_status_parameters( const std::string &text, std::string &error )
+{
+    error.clear();
+    if( text.size() > 1048576 ) {
+        return fail( error, "message_too_large" );
+    }
+    try {
+        const JsonObject schemas = contract().get_object( "schemas" );
+        schemas.allow_omitted_members();
+        return validate_schema( json_loader::from_string( text ),
+                                schemas.get_member( "status_params" ), error );
+    } catch( const std::exception & ) {
+        return fail( error, "invalid_json" );
+    }
+}
+
+bool parse_tasks( const std::string &text, std::string &error )
+{
+    error.clear();
+    if( text.size() > 1048576 ) {
+        return fail( error, "message_too_large" );
+    }
+    try {
+        const JsonValue parsed = json_loader::from_string( text );
+        const JsonObject schemas = contract().get_object( "schemas" );
+        schemas.allow_omitted_members();
+        if( !validate_schema( parsed, schemas.get_member( "tasks" ), error ) ) {
+            return false;
+        }
+        const JsonObject offer = parsed.get_object();
+        offer.allow_omitted_members();
+        std::set<std::string> seen;
+        for( const JsonObject &entry : offer.get_array( "tasks" ) ) {
+            entry.allow_omitted_members();
+            const std::string id = entry.get_string( "id" );
+            if( !seen.insert( id ).second ) {
+                return fail( error, "duplicate_task" );
+            }
+            const std::string kind = entry.get_string( "kind" );
+            bool found = false;
+            for( const JsonObject &definition : contract().get_array( "tasks" ) ) {
+                definition.allow_omitted_members();
+                if( definition.get_string( "name" ) == kind ) {
+                    found = true;
+                    if( !validate_schema( entry.get_member( "args" ), definition.get_member( "args" ),
+                                          error ) ) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+            if( !found ) {
+                return fail( error, "unknown_task" );
+            }
+            if( entry.has_member( "quantity_mode" ) && kind != "gather" ) {
+                return fail( error, "invalid_quantity_mode" );
+            }
+            const JsonObject arguments = entry.get_object( "args" );
+            arguments.allow_omitted_members();
+            if( kind == "gather" ) {
+                const bool any_position = arguments.has_member( "x" ) || arguments.has_member( "y" ) ||
+                                          arguments.has_member( "z" );
+                const bool complete_position = arguments.has_member( "x" ) && arguments.has_member( "y" ) &&
+                                               arguments.has_member( "z" );
+                if( any_position && !complete_position ) {
+                    return fail( error, "incomplete_gather_position" );
+                }
+            }
+            std::set<std::string> dependencies;
+            if( entry.has_array( "depends_on" ) ) {
+                for( const std::string &dependency : entry.get_array( "depends_on" ) ) {
+                    if( dependency == id ) {
+                        return fail( error, "invalid_dependency" );
+                    }
+                    if( !dependencies.insert( dependency ).second ) {
+                        return fail( error, "duplicate_dependency" );
+                    }
+                }
+            }
+        }
         return true;
     } catch( const std::exception & ) {
         return fail( error, "invalid_json" );

@@ -116,11 +116,19 @@ file(GLOB_RECURSE BUILTIN_MOD_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/data/mods/**/modinfo.json
     ${CMAKE_SOURCE_DIR}/data/mods/*/main.lua
     ${CMAKE_SOURCE_DIR}/data/mods/*/mod.lua)
+set(COMPANION_MOD_RESOURCE_DIR
+    ${CMAKE_SOURCE_DIR}/companion/src/cph_ai_companion/resources/mod)
+list(APPEND BUILTIN_MOD_SOURCES
+    ${COMPANION_MOD_RESOURCE_DIR}/mod.lua
+    ${COMPANION_MOD_RESOURCE_DIR}/main.lua)
+set(BUILTIN_MOD_EXTRA_ARGS --extra-platform-mod
+    "cph_ai_companion=${COMPANION_MOD_RESOURCE_DIR}")
 set(BUILTIN_MODS_HEADER ${CMAKE_CURRENT_BINARY_DIR}/builtin_mods_generated.h)
 execute_process(
         COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/generate_builtin_mods.py
                 --source ${CMAKE_SOURCE_DIR}/data/mods
                 --output ${BUILTIN_MODS_HEADER}
+                ${BUILTIN_MOD_EXTRA_ARGS}
         RESULT_VARIABLE BUILTIN_MODS_RESULT
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 if (NOT BUILTIN_MODS_RESULT STREQUAL "0")
@@ -131,6 +139,7 @@ add_custom_command(
         COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/generate_builtin_mods.py
                 --source ${CMAKE_SOURCE_DIR}/data/mods
                 --output ${BUILTIN_MODS_HEADER}
+                ${BUILTIN_MOD_EXTRA_ARGS}
         DEPENDS ${CMAKE_SOURCE_DIR}/tools/generate_builtin_mods.py ${BUILTIN_MOD_SOURCES}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         VERBATIM)
@@ -256,7 +265,7 @@ if (TILES)
     endif ()
     if (WIN32)
         # Multiplayer socket and adapter enumeration APIs.
-        target_link_libraries(cataclysm-tiles-common PUBLIC ws2_32.lib iphlpapi.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ws2_32.lib iphlpapi.lib advapi32.lib)
         # Global settings for Windows targets (at end)
         target_link_libraries(cataclysm-tiles-common PUBLIC gdi32.lib)
         target_link_libraries(cataclysm-tiles-common PUBLIC winmm.lib)
@@ -429,7 +438,7 @@ if (CURSES)
     endif ()
 
     if (WIN32)
-        target_link_libraries(cataclysm-common PUBLIC ws2_32.lib iphlpapi.lib)
+        target_link_libraries(cataclysm-common PUBLIC ws2_32.lib iphlpapi.lib advapi32.lib)
         # Global settings for Windows targets (at end)
         if(USE_PDCURSES)
             target_compile_definitions(cataclysm-common PUBLIC USE_PDCURSES)
@@ -509,7 +518,7 @@ if (HEADLESS)
         target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
         target_link_libraries(cataclysm-common PUBLIC winmm.lib)
         target_link_libraries(cataclysm-common PUBLIC imm32.lib)
-        target_link_libraries(cataclysm-common PUBLIC ws2_32.lib iphlpapi.lib)
+        target_link_libraries(cataclysm-common PUBLIC ws2_32.lib iphlpapi.lib advapi32.lib)
         target_link_libraries(cataclysm-common PUBLIC ole32.lib)
         target_link_libraries(cataclysm-common PUBLIC oleaut32.lib)
         target_link_libraries(cataclysm-common PUBLIC version.lib)

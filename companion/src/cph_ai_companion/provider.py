@@ -13,6 +13,8 @@ import logging
 import math
 import multiprocessing
 import os
+import socket
+import ssl
 import threading
 import time
 from dataclasses import asdict, dataclass
@@ -22,12 +24,104 @@ from urllib.parse import urlsplit
 
 MAX_COMPLETION_BYTES = 1024 * 1024
 
+_DIAGNOSTIC_VALUES = {
+    "reason": frozenset({"bad_request", "authentication_failed", "insufficient_balance",
+                         "permission_denied", "not_found", "conflict", "unprocessable_request",
+                         "rate_limited", "server_error", "http_error", "connection_failed",
+                         "request_timeout", "client_type_error", "client_error", "unknown_error",
+                         "tls_verification_failed", "dns_failure", "connection_refused", "proxy_error"}),
+    "exception_type": frozenset({"BadRequestError", "AuthenticationError", "PermissionDeniedError",
+                                 "NotFoundError", "ConflictError", "UnprocessableEntityError",
+                                 "RateLimitError", "InternalServerError", "APIStatusError",
+                                 "APITimeoutError", "APIConnectionError", "APIResponseValidationError",
+                                 "APIError", "TypeError", "ValueError", "UnknownError"}),
+    "error_type": frozenset({"invalid_request_error", "authentication_error", "permission_error",
+                             "not_found_error", "rate_limit_error", "server_error", "insufficient_quota",
+                             "billing_error"}),
+    "error_code": frozenset({"unsupported_parameter", "unknown_parameter", "invalid_parameter", "invalid_value",
+                             "model_not_found", "context_length_exceeded", "insufficient_quota",
+                             "insufficient_balance", "rate_limit_exceeded", "invalid_api_key",
+                             "internal_error", "invalid_request_error", "unsupported_value"}),
+    "parameter": frozenset({"model", "messages", "stream", "max_tokens", "response_format",
+                            "thinking", "thinking.type", "extra_body", "tools"}),
+}
+
+
+def _safe_diagnostics(value: Any) -> dict[str, Any]:
+    """Only fixed public labels and an HTTP status may cross the worker seam."""
+    if not isinstance(value, Mapping):
+        return {}
+    result: dict[str, Any] = {}
+    status = value.get("http_status")
+    if type(status) is int and 400 <= status <= 599:
+        result["http_status"] = status
+    for field, allowed in _DIAGNOSTIC_VALUES.items():
+        item = value.get(field)
+        if type(item) is str and item in allowed:
+            result[field] = item
+    return result
+
+
+def _network_reason(error: Exception) -> str | None:
+    """Inspect known types at the error and at most three explicit cause levels."""
+    current: BaseException | None = error
+    network_modules = {"httpx2", "httpx2._exceptions", "httpcore2", "httpcore2._exceptions",
+                       "httpx", "httpx._exceptions", "httpcore", "httpcore._exceptions"}
+    for _ in range(4):
+        if current is None:
+            break
+        if isinstance(current, ssl.SSLCertVerificationError):
+            return "tls_verification_failed"
+        if isinstance(current, socket.gaierror):
+            return "dns_failure"
+        if isinstance(current, ConnectionRefusedError):
+            return "connection_refused"
+        if isinstance(current, TimeoutError):
+            return "request_timeout"
+        if type(current).__module__ in network_modules:
+            if type(current).__name__ == "ProxyError":
+                return "proxy_error"
+            if type(current).__name__ in {"TimeoutException", "ConnectTimeout", "ReadTimeout", "WriteTimeout", "PoolTimeout"}:
+                return "request_timeout"
+        current = current.__cause__
+    return None
+
+
+def _request_diagnostics(error: Exception) -> dict[str, Any]:
+    """Do not read exception text, raw response bytes, URLs or headers."""
+    name = type(error).__name__
+    exception_type = name if name in _DIAGNOSTIC_VALUES["exception_type"] else "UnknownError"
+    result: dict[str, Any] = {"exception_type": exception_type}
+    status = getattr(error, "status_code", None)
+    if type(status) is int and 400 <= status <= 599:
+        result["http_status"] = status
+        result["reason"] = {
+            400: "bad_request", 401: "authentication_failed", 402: "insufficient_balance",
+            403: "permission_denied", 404: "not_found", 408: "request_timeout", 409: "conflict",
+            422: "unprocessable_request", 429: "rate_limited",
+        }.get(status, "server_error" if status >= 500 else "http_error")
+        # The SDK exposes a parsed error object separately from its raw text.
+        # Copy only exact known enum values, never message or arbitrary strings.
+        body = getattr(error, "body", None)
+        if isinstance(body, Mapping):
+            if isinstance(body.get("error"), Mapping):
+                body = body["error"]
+            result.update(error_type=body.get("type"), error_code=body.get("code"), parameter=body.get("param"))
+    else:
+        result["reason"] = _network_reason(error) or {
+            "APITimeoutError": "request_timeout", "APIConnectionError": "connection_failed",
+            "TypeError": "client_type_error", "ValueError": "client_error",
+            "APIResponseValidationError": "client_error", "APIError": "client_error",
+        }.get(exception_type, "unknown_error")
+    return _safe_diagnostics(result)
+
 
 class ProviderError(Exception):
     """Public errors contain a stable code, never SDK response text."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: str, *, diagnostics: Mapping[str, Any] | None = None) -> None:
         self.code = code
+        self.diagnostics = _safe_diagnostics(diagnostics)
         super().__init__(code)
 
 
@@ -63,6 +157,7 @@ class ProviderConfig:
     api_key_env: str | None = None
     max_output_tokens: int = 2048
     json_mode: bool = False
+    thinking_mode: str | None = None
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any]) -> "ProviderConfig":
@@ -75,6 +170,11 @@ class ProviderConfig:
         model = value.get("model")
         key_env = value.get("api_key_env")
         max_output = value.get("max_output_tokens", 2048)
+        thinking_mode = value.get("thinking_mode")
+        if "thinking_mode" in value and thinking_mode not in ("enabled", "disabled"):
+            raise ProviderError("invalid_thinking_mode")
+        if "json_mode" in value and type(value["json_mode"]) is not bool:
+            raise ProviderError("invalid_json_mode")
         if not isinstance(base_url, str) or not isinstance(model, str) or not model.strip():
             raise ProviderError("provider_not_configured")
         try:
@@ -95,7 +195,7 @@ class ProviderConfig:
             raise ProviderError("invalid_credential_reference")
         if type(max_output) is not int or not 1 <= max_output <= 65536:
             raise ProviderError("invalid_output_limit")
-        return cls(base_url, model, key_env, max_output, value.get("json_mode") is True)
+        return cls(base_url, model, key_env, max_output, value.get("json_mode") is True, thinking_mode)
 
 
 @dataclass(frozen=True)
@@ -135,7 +235,7 @@ def _call_openai(config: dict[str, Any], messages: list[dict[str, str]], timeout
                  max_output_tokens: int) -> dict[str, Any]:
     # Unsetting this in the child prevents SDK debug logs from disclosing payloads.
     os.environ.pop("OPENAI_LOG", None)
-    for name in ("openai", "httpx", "httpcore"):
+    for name in ("openai", "httpx", "httpcore", "httpx2", "httpcore2"):
         logging.getLogger(name).disabled = True
     try:
         from openai import OpenAI
@@ -153,14 +253,16 @@ def _call_openai(config: dict[str, Any], messages: list[dict[str, str]], timeout
             }
             if config.get("json_mode"):
                 params["response_format"] = {"type": "json_object"}
+            if config.get("thinking_mode") is not None:
+                params["extra_body"] = {"thinking": {"type": config["thinking_mode"]}}
             response = client.chat.completions.create(**params)
             result = decode_completion(response)
             return {"value": result.value, "usage": result.usage}
     except ProviderError:
         raise
-    except Exception:
+    except Exception as exc:
         # HTTP bodies and SDK exception messages can contain prompts, URLs or keys.
-        raise ProviderError("provider_request_failed") from None
+        raise ProviderError("provider_request_failed", diagnostics=_request_diagnostics(exc)) from None
 
 
 def _worker_entry(connection: Any, config: dict[str, Any], messages: list[dict[str, str]],
@@ -170,7 +272,7 @@ def _worker_entry(connection: Any, config: dict[str, Any], messages: list[dict[s
             try:
                 result = {"ok": True, "result": worker(config, messages, timeout, max_output_tokens)}
             except ProviderError as exc:
-                result = {"ok": False, "code": exc.code}
+                result = {"ok": False, "code": exc.code, "diagnostics": _safe_diagnostics(exc.diagnostics)}
             except BaseException:
                 result = {"ok": False, "code": "provider_worker_failed"}
             data = json.dumps(result, ensure_ascii=False, allow_nan=False).encode("utf-8")
@@ -277,7 +379,8 @@ class ProcessProvider:
                             "invalid_model_json", "invalid_completion", "incomplete_completion",
                             "unexpected_tool_call", "model_refused", "completion_too_large",
                         }
-                        raise ProviderError(code if code in allowed else "provider_worker_failed")
+                        raise ProviderError(code if code in allowed else "provider_worker_failed",
+                                            diagnostics=packet.get("diagnostics") if code == "provider_request_failed" else None)
                     result = packet.get("result")
                     if not isinstance(result, dict) or not isinstance(result.get("value"), dict):
                         raise ProviderError("invalid_completion")

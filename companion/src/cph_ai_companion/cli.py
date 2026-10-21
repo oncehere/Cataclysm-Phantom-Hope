@@ -16,6 +16,7 @@ from typing import Any
 from uuid import uuid4
 
 from .config import ConfigError, default_config, load_config
+from . import platform_io
 from .memory import MemoryStore, MemoryStoreError
 from .personality import PersonalityError
 from .protocol import PROTOCOL_VERSION, ProtocolError, schema_digest
@@ -36,7 +37,7 @@ def _json(value: Any) -> bytes:
 
 
 def _new_file(path: Path, data: bytes) -> None:
-    fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
+    fd = platform_io.open_file(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     try:
         with os.fdopen(fd, "wb", closefd=False) as out:
             out.write(data)
@@ -177,7 +178,7 @@ def initialize_profile(profile: str | Path, *, actor_id: int | None = None,
     config = default_config()
     config["profile_id"] = uuid4().hex
     config["actor_id"] = actor_id
-    root.mkdir(mode=0o700, parents=True, exist_ok=True)
+    platform_io.private_directory(root, create=True)
     _new_file(config_path, _json(config))
     _new_file(background_path, files("cph_ai_companion").joinpath("resources/templates/background.md").read_bytes())
     if user_dir is not None:
@@ -227,16 +228,17 @@ def _runtime_record(descriptor: SessionDescriptor) -> dict[str, Any] | None:
         raise CliError("invalid_runtime_identity")
     if process_start(pid) != record["process_start"]:
         return None
-    try:
-        if Path(f"/proc/{pid}").stat().st_uid != os.getuid():
-            raise CliError("runtime_owner_mismatch")
-    except OSError:
-        return None
+    # process_start validates the owner as well as creation identity.
     return record
 
 
 def _signal_owned_runtime(record: dict[str, Any]) -> bool:
     """Signal the exact Linux process handle after checking its advertised age."""
+    if platform_io.WINDOWS:
+        try:
+            return platform_io.request_stop_event(record["pid"], record["process_start"], record.get("nonce", ""))
+        except (OSError, ValueError):
+            raise CliError("runtime_stop_unavailable") from None
     try:
         process_fd = os.pidfd_open(record["pid"], 0)
     except ProcessLookupError:
@@ -274,7 +276,30 @@ def stop_session(descriptor: SessionDescriptor) -> dict[str, Any]:
         client.close()
 
 
+@contextlib.contextmanager
+def _session_writer(descriptor: SessionDescriptor):
+    """One runtime owns a session across profiles, including stale-record repair."""
+    fd = -1
+    try:
+        fd = platform_io.open_file(descriptor.path.parent / ".runtime-session.lock", os.O_CREAT | os.O_RDWR)
+        if not platform_io.private_file(fd):
+            raise CliError("invalid_runtime_identity")
+        try:
+            platform_io.lock_file(fd, blocking=False)
+        except OSError:
+            raise CliError("session_runtime_already_running") from None
+        yield
+    finally:
+        if fd >= 0:
+            os.close(fd)
+
+
 def run_session(descriptor: SessionDescriptor, profile: str | Path) -> dict[str, Any]:
+    with _session_writer(descriptor):
+        return _run_locked_session(descriptor, profile)
+
+
+def _run_locked_session(descriptor: SessionDescriptor, profile: str | Path) -> dict[str, Any]:
     config = load_config(profile)
     ProviderConfig.from_mapping(config)  # Invalid endpoints never start a worker.
     registry = descriptor.path.parent / "runtime.json"
@@ -292,10 +317,11 @@ def run_session(descriptor: SessionDescriptor, profile: str | Path) -> dict[str,
     handlers: dict[int, Any] = {}
     runtime: AgentRuntime | None = None
     memory: MemoryStore | None = None
-    _new_file(registry, _json(record))
+    notification = platform_io.StopEvent(nonce)
     try:
+        _new_file(registry, _json(record))
         memory = MemoryStore(profile, config)
-        runtime = AgentRuntime(config, memory, JsonRpcClient(descriptor), profile=profile)
+        runtime = AgentRuntime(config, memory, JsonRpcClient(descriptor), profile=profile, stop_requested=notification.is_set)
         for sig in (signal.SIGINT, signal.SIGTERM):
             handlers[sig] = signal.getsignal(sig)
             signal.signal(sig, lambda *_: runtime.request_stop())
@@ -303,6 +329,7 @@ def run_session(descriptor: SessionDescriptor, profile: str | Path) -> dict[str,
         # The result is lifecycle-only; runtime never prints prompts or plans.
         return result
     finally:
+        notification.close()
         if runtime is not None:
             runtime.close()
         if memory is not None:

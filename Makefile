@@ -930,7 +930,7 @@ endif
 
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  LDFLAGS += -lws2_32 -liphlpapi -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -lWindowsApp -lmincore -lBcrypt
+  LDFLAGS += -lws2_32 -liphlpapi -ladvapi32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -lWindowsApp -lmincore -lBcrypt
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
   endif
@@ -1377,12 +1377,15 @@ src/version.h: version
 src/version.cpp: src/version.h
 
 BUILTIN_MODS_HEADER := $(ODIR)/builtin_mods_generated.h
-BUILTIN_MOD_SOURCES := $(shell find data/mods -type f \( -name modinfo.json -o -name main.lua -o -name mod.lua \))
+COMPANION_MOD_RESOURCE_DIR := companion/src/cph_ai_companion/resources/mod
+BUILTIN_MOD_SOURCES := $(shell find data/mods -type f \( -name modinfo.json -o -name main.lua -o -name mod.lua \)) \
+    $(COMPANION_MOD_RESOURCE_DIR)/mod.lua $(COMPANION_MOD_RESOURCE_DIR)/main.lua
+BUILTIN_MOD_EXTRA_ARGS := --extra-platform-mod "cph_ai_companion=$(COMPANION_MOD_RESOURCE_DIR)"
 
 .PHONY: check-builtin-mod-manifest
 check-builtin-mod-manifest:
 	mkdir -p $(dir $(BUILTIN_MODS_HEADER))
-	python3 tools/generate_builtin_mods.py --source data/mods --output $(BUILTIN_MODS_HEADER)
+	python3 tools/generate_builtin_mods.py --source data/mods --output $(BUILTIN_MODS_HEADER) $(BUILTIN_MOD_EXTRA_ARGS)
 
 $(BUILTIN_MODS_HEADER): tools/generate_builtin_mods.py $(BUILTIN_MOD_SOURCES) | check-builtin-mod-manifest
 	@:

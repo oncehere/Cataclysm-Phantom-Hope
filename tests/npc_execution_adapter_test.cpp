@@ -7,11 +7,15 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
 #include "effect.h"
+#include "effect_on_condition.h"
+#include "enum_bitset.h"
+#include "event.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "inventory.h"
@@ -19,14 +23,18 @@
 #include "item_location.h"
 #include "json.h"
 #include "json_loader.h"
+#include "magic.h"
+#include "magic_type.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "mission.h"
+#include "monster.h"
 #include "native_item_transfer.h"
 #include "npc.h"
 #include "npc_execution_adapter.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "recipe.h"
@@ -161,6 +169,32 @@ std::string ground_contents( const tripoint_bub_ms &pos )
     }
     out.end_array();
     return serialized.str();
+}
+
+spell_id native_test_spell( const std::string &suffix, const std::string &overrides = {} )
+{
+    const spell_id id( "test_actor_control_" + suffix );
+    if( !id.is_valid() ) {
+        const std::string definition = "{\"id\":\"" + id.str() +
+                                      "\",\"name\":\"Test native ability\","
+                                      "\"description\":\"Deterministic native ability regression.\","
+                                      "\"valid_targets\":[\"self\",\"ally\",\"hostile\",\"ground\"],"
+                                      "\"flags\":[\"NO_FAIL\",\"SILENT\",\"NO_HANDS\",\"NO_LEGS\"],"
+                                      "\"shape\":\"blast\",\"max_level\":1,\"min_range\":6,\"max_range\":6,"
+                                      "\"base_casting_time\":200,\"base_energy_cost\":50," +
+                                      ( overrides.empty() ?
+                                        "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7,"
+                                        "\"energy_source\":\"MANA\"" : overrides ) + "}";
+        spell_type::load_spell( json_loader::from_string( definition ), "" );
+    }
+    return id;
+}
+
+void teach_native_spell( Character &actor, const spell_id &id )
+{
+    actor.magic->learn_spell( id, actor, true );
+    actor.magic->set_spell_level( id, 1, &actor );
+    actor.magic->set_mana( actor.magic->max_mana( actor ) );
 }
 
 } // namespace
@@ -866,4 +900,529 @@ TEST_CASE( "native_item_transfer_failed_batch_keeps_stock_and_selection_uncommit
     std::vector<item> too_large( 1000, item( itype_id( "2x4" ), calendar::turn ) );
     CHECK_FALSE( cata::native_item_transfer::can_receive( *f.other, too_large ) );
     CHECK( amount( *f.other, "2x4" ) == 0 );
+}
+
+TEST_CASE( "npc_actor_abilities_report_only_own_knowledge_and_bound_the_snapshot",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const spell_id private_spell = native_test_spell( "other_private" );
+    teach_native_spell( *f.other, private_spell );
+    teach_native_spell( get_avatar(), private_spell );
+    CHECK( NpcExecutionAdapter::observe( *f.actor ).find( private_spell.str() ) == std::string::npos );
+    for( int i = 0; i < 66; ++i ) {
+        teach_native_spell( *f.actor, native_test_spell( "bounded_" + std::to_string( i ) ) );
+    }
+    const JsonObject observation = inspected_object( json_loader::from_string(
+                                       NpcExecutionAdapter::observe( *f.actor ) ) );
+    const JsonObject actor = inspected_object( observation.get_object( "actor" ) );
+    const JsonArray abilities = actor.get_array( "abilities" );
+    CHECK( actor.get_int( "ability_count" ) == 66 );
+    CHECK( actor.get_bool( "abilities_truncated" ) );
+    CHECK( abilities.size() == 64 );
+    CHECK( actor.get_int( "mana" ) == f.actor->magic->available_mana() );
+    CHECK( actor.get_int( "mana_max" ) == f.actor->magic->max_mana( *f.actor ) );
+    for( const JsonValue value : abilities ) {
+        const JsonObject ability = inspected_object( value.get_object() );
+        CHECK( f.actor->magic->knows_spell( ability.get_string( "id" ) ) );
+        CHECK( ability.get_bool( "supported" ) );
+        CHECK( ability.get_string( "energy_source" ) == "MANA" );
+        CHECK( ability.get_int( "energy_cost" ) == 50 );
+        CHECK( ability.get_int( "casting_time_moves" ) >= 200 );
+        CHECK( ability.get_bool( "castable" ) );
+    }
+    CHECK( NpcExecutionAdapter::observe( *f.actor ).find( private_spell.str() ) == std::string::npos );
+}
+
+TEST_CASE( "npc_actor_checked_cast_spends_native_time_resources_and_never_replays",
+           "[actor_control][native][magic][save]" )
+{
+    native_fixture f;
+    const spell_id healing = native_test_spell( "heal" );
+    teach_native_spell( *f.actor, healing );
+    f.actor->set_part_hp_cur( bodypart_id( "torso" ), 10 );
+    const int mana = f.actor->magic->available_mana();
+    const int player_moves = get_avatar().get_moves();
+    const std::string args = f.position( f.actor->pos_bub(),
+                                       ",\"spell\":\"" + healing.str() + "\"" );
+    REQUIRE( f.act( "cast_spell", args, "heal-once" ).state == execution_state::running );
+    REQUIRE( f.actor->activity );
+    CHECK( f.actor->activity.moves_total >= 200 );
+    CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( f.act( "cast_spell", args, "heal-once" ).state == execution_state::running );
+
+    SECTION( "finishing and saving preserve the real receipt" ) {
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        const execution_result finished = f.act( "cast_spell", args, "heal-once" );
+        INFO( finished.code );
+        REQUIRE( finished.state == execution_state::succeeded );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+        CHECK( f.actor->magic->available_mana() == mana - 50 );
+        std::ostringstream data;
+        JsonOut out( data );
+        f.actor->serialize( out );
+        f.actor->setID( character_id(), true );
+        f.actor->deserialize( json_loader::from_string( data.str() ) );
+        CHECK( f.act( "cast_spell", args, "heal-once" ).state == execution_state::succeeded );
+        CHECK_FALSE( f.actor->activity );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+        CHECK( f.actor->magic->available_mana() == mana - 50 );
+    }
+    SECTION( "cancelled activity cannot report success or restart" ) {
+        f.actor->cancel_activity();
+        CHECK( f.act( "cast_spell", args, "heal-once" ).state == execution_state::failed );
+        CHECK_FALSE( f.actor->activity );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+        CHECK( f.actor->magic->available_mana() == mana );
+    }
+    SECTION( "resources are rechecked before the delayed effect" ) {
+        f.actor->magic->set_mana( 0 );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        const execution_result rejected = f.act( "cast_spell", args, "heal-once" );
+        CHECK( rejected.state == execution_state::failed );
+        CHECK( rejected.code == "insufficient_spell_energy" );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+        CHECK( f.actor->magic->available_mana() == 0 );
+    }
+    SECTION( "an in-flight saved activity resumes once" ) {
+        f.actor->set_moves( 50 );
+        f.actor->activity.do_turn( *f.actor );
+        REQUIRE( f.actor->activity );
+        std::ostringstream data;
+        JsonOut out( data );
+        f.actor->serialize( out );
+        f.actor->setID( character_id(), true );
+        f.actor->deserialize( json_loader::from_string( data.str() ) );
+        REQUIRE( f.actor->activity );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        REQUIRE( f.act( "cast_spell", args, "heal-once" ).state == execution_state::succeeded );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+        CHECK( f.actor->magic->available_mana() == mana - 50 );
+        CHECK( f.act( "cast_spell", args, "heal-once" ).state == execution_state::succeeded );
+        CHECK_FALSE( f.actor->activity );
+        CHECK( f.actor->magic->available_mana() == mana - 50 );
+    }
+    CHECK( get_avatar().get_moves() == player_moves );
+}
+
+TEST_CASE( "npc_actor_owned_spell_activity_refuses_missing_or_corrupt_saved_context",
+           "[actor_control][native][magic][save]" )
+{
+    native_fixture f;
+    const spell_id healing = native_test_spell( "heal" );
+    teach_native_spell( *f.actor, healing );
+    f.actor->set_part_hp_cur( bodypart_id( "torso" ), 10 );
+    const int mana = f.actor->magic->available_mana();
+    const std::string args = f.position( f.actor->pos_bub(),
+                                       ",\"spell\":\"" + healing.str() + "\"" );
+    REQUIRE( f.act( "cast_spell", args, "owned-context" ).state == execution_state::running );
+    REQUIRE( f.actor->activity );
+    const std::vector<std::string> ownership = { "cph_ai.cast_spell", "owned-context" };
+    REQUIRE( f.actor->activity.str_values == ownership );
+    const std::string damage = GENERATE( "missing_step", "missing_args", "bad_args", "different_args",
+                                        "missing_target" );
+    if( damage == "missing_step" ) {
+        f.actor->remove_value( "cph_ai.spell_step" );
+    } else if( damage == "missing_args" ) {
+        f.actor->remove_value( "cph_ai.spell_args" );
+    } else if( damage == "bad_args" ) {
+        f.actor->set_value( "cph_ai.spell_args", "{broken" );
+    } else if( damage == "missing_target" ) {
+        f.actor->remove_value( "cph_ai.spell_target" );
+    } else {
+        f.actor->set_value( "cph_ai.spell_args", f.position( f.other->pos_bub(),
+                          ",\"spell\":\"" + healing.str() + "\"" ) );
+    }
+    std::ostringstream data;
+    JsonOut out( data );
+    f.actor->serialize( out );
+    f.actor->setID( character_id(), true );
+    f.actor->deserialize( json_loader::from_string( data.str() ) );
+    REQUIRE( f.actor->activity );
+    REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+    CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( stored( *f.actor, "spell_completed_step" ) == "owned-context" );
+    const JsonObject receipt = inspected_object( json_loader::from_string(
+                                   stored( *f.actor, "spell_result" ) ) );
+    CHECK( receipt.get_string( "state" ) == "failed" );
+    CHECK( receipt.get_string( "code" ) == "spell_context_changed" );
+}
+
+TEST_CASE( "npc_ordinary_native_spell_ignores_unrelated_companion_markers",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const spell_id healing = native_test_spell( "heal" );
+    teach_native_spell( *f.actor, healing );
+    f.actor->set_part_hp_cur( bodypart_id( "torso" ), 10 );
+    const int mana = f.actor->magic->available_mana();
+    SECTION( "without companion markers" ) {}
+    SECTION( "with corrupt markers from an unrelated old operation" ) {
+        f.actor->set_value( "cph_ai.spell_step", "old-unrelated-step" );
+        f.actor->set_value( "cph_ai.spell_args", "{broken" );
+    }
+    REQUIRE( f.actor->cast_spell( f.actor->magic->get_spell( healing ), false, f.actor->pos_bub() ) );
+    REQUIRE( f.actor->activity );
+    REQUIRE( f.actor->activity.str_values.empty() );
+    REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+    CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+    CHECK( f.actor->magic->available_mana() == mana - 50 );
+    CHECK( stored( *f.actor, "spell_completed_step" ).empty() );
+    CHECK( stored( *f.actor, "spell_result" ).empty() );
+}
+
+TEST_CASE( "npc_actor_checked_cast_rejects_unsupported_or_unavailable_without_effects",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const std::string variant = GENERATE( "unknown", "mana", "hp", "eoc", "extra", "field", "dot",
+                                        "random_target", "status", "stamina_unsupported", "stamina_recovery",
+                                        "components", "failure_eoc", "damage_eoc" );
+    spell_id selected;
+    if( variant == "hp" ) {
+        selected = native_test_spell( "reject_hp_source",
+                                     "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7,\"energy_source\":\"HP\"" );
+    } else if( variant == "eoc" ) {
+        selected = native_test_spell( "reject_eoc_effect",
+                                     "\"effect\":\"effect_on_condition\",\"effect_str\":\"EOC_teleport_test\",\"energy_source\":\"MANA\"" );
+    } else if( variant == "extra" ) {
+        selected = native_test_spell( "reject_extra_effect",
+                                     "\"effect\":\"attack\",\"extra_effects\":[{\"id\":\"test_spell_pew\"}],\"energy_source\":\"MANA\"" );
+    } else if( variant == "field" ) {
+        selected = native_test_spell( "reject_field_effect",
+                                     "\"effect\":\"attack\",\"field_id\":\"fd_fire\",\"min_field_intensity\":1,\"max_field_intensity\":1,\"energy_source\":\"MANA\"" );
+    } else if( variant == "dot" ) {
+        selected = native_test_spell( "reject_dot_effect",
+                                     "\"effect\":\"attack\",\"min_dot\":1,\"max_dot\":1,\"energy_source\":\"MANA\"" );
+    } else if( variant == "status" ) {
+        selected = native_test_spell( "reject_status_effect",
+                                     "\"effect\":\"attack\",\"effect_str\":\"blind\",\"energy_source\":\"MANA\"" );
+    } else if( variant == "stamina_unsupported" ) {
+        selected = native_test_spell( "reject_stamina_unsupported",
+                                     "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7,\"energy_source\":\"STAMINA\"" );
+    } else if( variant == "stamina_recovery" ) {
+        selected = native_test_spell( "reject_stamina_recovery",
+                                     "\"effect\":\"recover_energy\",\"effect_str\":\"STAMINA\",\"min_damage\":50,\"max_damage\":50,\"energy_source\":\"NONE\"" );
+    } else if( variant == "components" ) {
+        selected = native_test_spell( "reject_components",
+                                     "\"effect\":\"attack\",\"components\":\"test_components\",\"energy_source\":\"MANA\"" );
+        add_owned( *f.actor, "test_rag" );
+    } else if( variant == "damage_eoc" ) {
+        selected = native_test_spell( "reject_damage_eoc",
+                                     "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7,\"damage_type\":\"test_fire\",\"energy_source\":\"MANA\"" );
+    } else if( variant == "failure_eoc" ) {
+        const magic_type_id failure_type( "test_actor_control_failure_type" );
+        if( !failure_type.is_valid() ) {
+            magic_type::load_magic_type( json_loader::from_string( R"({
+                "id":"test_actor_control_failure_type","energy_source":"MANA",
+                "failure_eocs":["EOC_teleport_test"]
+            })" ), "" );
+        }
+        selected = native_test_spell( "reject_failure_eoc",
+                                     "\"effect\":\"attack\",\"magic_type\":\"test_actor_control_failure_type\",\"energy_source\":\"MANA\"" );
+    } else if( variant == "random_target" ) {
+        const spell_id random( "test_actor_control_random_target" );
+        if( !random.is_valid() ) {
+            spell_type::load_spell( json_loader::from_string( R"({
+                "id":"test_actor_control_random_target","name":"Random target",
+                "description":"Reject uncontrolled target selection.",
+                "valid_targets":["self"],"flags":["RANDOM_TARGET","NO_FAIL"],
+                "effect":"attack","shape":"blast","max_level":1,
+                "min_damage":-7,"max_damage":-7,"energy_source":"MANA"
+            })" ), "" );
+        }
+        selected = random;
+    }
+    if( variant == "unknown" || variant == "mana" ) {
+        selected = native_test_spell( "reject_" + variant );
+    }
+    if( variant != "unknown" ) {
+        teach_native_spell( *f.actor, selected );
+    }
+    if( variant == "mana" ) {
+        f.actor->magic->set_mana( 0 );
+    }
+    const int mana = f.actor->magic->available_mana();
+    const int hp = f.actor->get_hp();
+    const int moves = f.actor->get_moves();
+    const int player_hp = get_avatar().get_hp();
+    const int stamina = f.actor->get_stamina();
+    const std::string args = f.position( f.actor->pos_bub(),
+                                       ",\"spell\":\"" + selected.str() + "\"" );
+    const execution_result rejected = f.act( "cast_spell", args, "rejected-cast" );
+    INFO( variant );
+    INFO( rejected.code );
+    CHECK( rejected.state == execution_state::failed );
+    if( variant == "damage_eoc" ) {
+        CHECK( rejected.code == "npc_unsupported_damage_effect" );
+    }
+    if( variant == "stamina_unsupported" || variant == "stamina_recovery" ) {
+        CHECK( rejected.code == "npc_unsupported_energy_source" );
+    }
+    CHECK_FALSE( f.actor->activity );
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( f.actor->get_hp() == hp );
+    CHECK( f.actor->get_moves() == moves );
+    CHECK( f.actor->get_stamina() == stamina );
+    if( variant == "components" ) {
+        CHECK( amount( *f.actor, "test_rag" ) == 1 );
+    }
+    CHECK( get_avatar().get_hp() == player_hp );
+}
+
+TEST_CASE( "npc_actor_checked_cast_requires_its_own_perception_and_range",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const spell_id attack = native_test_spell( "attack",
+                            "\"effect\":\"attack\",\"min_damage\":7,\"max_damage\":7,\"damage_type\":\"pure\",\"energy_source\":\"MANA\"" );
+    teach_native_spell( *f.actor, attack );
+    const bool blind = GENERATE( false, true );
+    const tripoint_bub_ms target = blind ? tripoint_bub_ms( 60, 62, 0 ) :
+                                  tripoint_bub_ms( 60, 70, 0 );
+    monster &foe = spawn_test_monster( "mon_zombie", target );
+    if( blind ) {
+        f.actor->add_effect( efftype_id( "blind" ), 1_hours );
+        f.actor->recalc_sight_limits();
+        REQUIRE( f.actor->is_blind() );
+    }
+    const int hp = foe.get_hp();
+    const int mana = f.actor->magic->available_mana();
+    const int moves = f.actor->get_moves();
+    const execution_result result = f.act( "cast_spell", f.position( target,
+                                   ",\"spell\":\"" + attack.str() + "\"" ) );
+    INFO( result.code );
+    CHECK( result.state == execution_state::failed );
+    CHECK_FALSE( f.actor->activity );
+    CHECK( foe.get_hp() == hp );
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( f.actor->get_moves() == moves );
+}
+
+TEST_CASE( "npc_actor_checked_cast_damages_only_the_actual_observed_target_once",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const spell_id attack = native_test_spell( "attack",
+                            "\"effect\":\"attack\",\"min_damage\":7,\"max_damage\":7,\"damage_type\":\"pure\",\"energy_source\":\"MANA\"" );
+    teach_native_spell( *f.actor, attack );
+    monster &foe = spawn_test_monster( "mon_zombie", tripoint_bub_ms( 60, 62, 0 ) );
+    const int hp = foe.get_hp();
+    const int mana = f.actor->magic->available_mana();
+    const int player_hp = get_avatar().get_hp();
+    const std::string args = f.position( foe.pos_bub(), ",\"spell\":\"" + attack.str() + "\"" );
+    REQUIRE( f.act( "cast_spell", args, "strike-once" ).state == execution_state::running );
+    CHECK( foe.get_hp() == hp );
+    SECTION( "the chosen creature receives the effect" ) {
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        REQUIRE( f.act( "cast_spell", args, "strike-once" ).state == execution_state::succeeded );
+        CHECK( foe.get_hp() == hp - 7 );
+        CHECK( f.actor->magic->available_mana() == mana - 50 );
+        CHECK( f.act( "cast_spell", args, "strike-once" ).state == execution_state::succeeded );
+        CHECK( foe.get_hp() == hp - 7 );
+        const std::string changed = f.position( get_avatar().pos_bub(),
+                                    ",\"spell\":\"" + attack.str() + "\"" );
+        CHECK( f.act( "cast_spell", changed, "strike-once" ).code == "receipt_conflict" );
+        CHECK_FALSE( f.actor->activity );
+    }
+    SECTION( "a creature replacing the target cannot inherit permission" ) {
+        const tripoint_bub_ms target = foe.pos_bub();
+        foe.setpos( get_map(), tripoint_bub_ms( 60, 63, 0 ) );
+        monster &replacement = spawn_test_monster( "mon_zombie", target );
+        const int replacement_hp = replacement.get_hp();
+        const bool missing_target = GENERATE( false, true );
+        if( missing_target ) {
+            f.actor->remove_value( "cph_ai.spell_target" );
+        }
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        const execution_result rejected = f.act( "cast_spell", args, "strike-once" );
+        CHECK( rejected.state == execution_state::failed );
+        CHECK( rejected.code == ( missing_target ? "spell_context_changed" : "spell_target_changed" ) );
+        CHECK( foe.get_hp() == hp );
+        CHECK( replacement.get_hp() == replacement_hp );
+        CHECK( f.actor->magic->available_mana() == mana );
+    }
+    CHECK( get_avatar().get_hp() == player_hp );
+}
+
+// Explicitly opt in with --mods magiclysm,mindovermatter,xedra_evolved.
+// Fixture knowledge does not claim that progression or learning is supported.
+TEST_CASE( "npc_actor_magic_mod_abilities_keep_the_same_native_safety_boundary",
+           "[.actor_control_magic_mods][actor_control][native][magic]" )
+{
+    native_fixture f;
+    const std::string id = GENERATE( "point_flare", "classless_specific_concentration_end",
+                                    "fire_teleport", "telepathic_blast", "boann_heal" );
+    const spell_id selected( id );
+    REQUIRE( selected.is_valid() );
+    teach_native_spell( *f.actor, selected );
+    // Loaded spellbook hooks are gameplay prerequisites. Until audited, even
+    // an otherwise pure helper may not bypass that Mod's preparation.
+    const bool supported = false;
+    const JsonObject observation = inspected_object( json_loader::from_string(
+                                       NpcExecutionAdapter::observe( *f.actor ) ) );
+    const JsonArray abilities = inspected_object( observation.get_object( "actor" ) ).get_array(
+                                   "abilities" );
+    REQUIRE( abilities.size() == 1 );
+    const JsonObject ability = inspected_object( abilities.get_object( 0 ) );
+    CHECK( ability.get_string( "id" ) == id );
+    INFO( ability.get_string( "reason" ) );
+    CHECK( ability.get_bool( "supported" ) == supported );
+    if( id == "boann_heal" ) {
+        CHECK( ability.get_string( "reason" ) == "npc_unsupported_spellbook_event" );
+    }
+    const std::string args = f.position( f.actor->pos_bub(), ",\"spell\":\"" + id + "\"" );
+    if( !supported ) {
+        const int mana = f.actor->magic->available_mana();
+        const int stamina = f.actor->get_stamina();
+        CHECK( f.act( "cast_spell", args, "mod-rejected" ).state == execution_state::failed );
+        CHECK_FALSE( f.actor->activity );
+        CHECK( f.actor->magic->available_mana() == mana );
+        CHECK( f.actor->get_stamina() == stamina );
+    }
+}
+
+TEST_CASE( "npc_actor_checked_stamina_cast_spends_native_energy_once",
+           "[actor_control][native][magic][stamina]" )
+{
+    native_fixture f;
+    f.actor->set_value( "cph_ai.real_stamina", "true" );
+    f.actor->set_stamina( 1000 );
+    const spell_id selected = native_test_spell( "finite_stamina",
+                              "\"effect\":\"attack\",\"min_damage\":-7,\"max_damage\":-7,"
+                              "\"energy_source\":\"STAMINA\"" );
+    teach_native_spell( *f.actor, selected );
+    f.actor->set_part_hp_cur( bodypart_id( "torso" ), 10 );
+    const int cost = f.actor->magic->get_spell( selected ).energy_cost( *f.actor );
+    REQUIRE( cost > 0 );
+    const int player_stamina = get_avatar().get_stamina();
+    const int mana = f.actor->magic->available_mana();
+    const std::string args = f.position( f.actor->pos_bub(),
+                                       ",\"spell\":\"" + selected.str() + "\"" );
+    SECTION( "success_and_repeated_receipt" ) {
+        REQUIRE( f.act( "cast_spell", args, "paid" ).state == execution_state::running );
+        CHECK( f.actor->get_stamina() == 1000 );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        REQUIRE( f.act( "cast_spell", args, "paid" ).state == execution_state::succeeded );
+        CHECK( f.actor->get_stamina() == 1000 - cost );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+        // Exclude the fixture's synthetic nutrition hash from this resource/
+        // receipt roundtrip; it is unrelated to the saved casting state.
+        f.actor->consumption_history.clear();
+        std::ostringstream stream;
+        JsonOut output( stream );
+        f.actor->serialize( output );
+        npc restored;
+        restored.deserialize( json_loader::from_string( stream.str() ).get_object() );
+        CHECK( NpcExecutionAdapter::execute( restored, { "paid", "cast_spell", args } ).state ==
+               execution_state::succeeded );
+        CHECK( restored.get_stamina() == 1000 - cost );
+        CHECK( restored.get_part_hp_cur( bodypart_id( "torso" ) ) == 17 );
+    }
+    SECTION( "insufficient_at_start" ) {
+        f.actor->set_stamina( cost - 1 );
+        CHECK( f.act( "cast_spell", args, "paid" ).code == "insufficient_spell_energy" );
+        CHECK_FALSE( f.actor->activity );
+        CHECK( f.actor->get_stamina() == cost - 1 );
+    }
+    SECTION( "energy_changed_while_casting" ) {
+        REQUIRE( f.act( "cast_spell", args, "paid" ).state == execution_state::running );
+        f.actor->set_stamina( cost - 1 );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        CHECK( f.act( "cast_spell", args, "paid" ).code == "insufficient_spell_energy" );
+        CHECK( f.actor->get_stamina() == cost - 1 );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+    }
+    SECTION( "native_failure_cost_is_spent_once" ) {
+        spell_type &definition = const_cast<spell_type &>( selected.obj() );
+        restore_on_out_of_scope restore_flags( definition.flags );
+        restore_on_out_of_scope restore_tags( definition.spell_tags );
+        restore_on_out_of_scope restore_difficulty( definition.difficulty );
+        restore_on_out_of_scope restore_school( definition.magic_type );
+        definition.flags.erase( "NO_FAIL" );
+        definition.spell_tags.reset( spell_flag::NO_FAIL );
+        definition.difficulty = 100;
+        definition.magic_type = magic_type_id( "test_magic_available" );
+        magic_type &school = const_cast<magic_type &>( definition.magic_type->obj() );
+        restore_on_out_of_scope restore_cost( school.failure_cost_percent );
+        school.failure_cost_percent = 0.5;
+        REQUIRE( f.actor->magic->get_spell( selected ).spell_fail( *f.actor ) == 1.0f );
+        REQUIRE( f.act( "cast_spell", args, "paid" ).state == execution_state::running );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        CHECK( f.act( "cast_spell", args, "paid" ).code == "spell_failed" );
+        CHECK( f.actor->get_stamina() == 1000 - static_cast<int>( cost * 0.5 ) );
+        CHECK( f.actor->get_part_hp_cur( bodypart_id( "torso" ) ) == 10 );
+        CHECK( f.act( "cast_spell", args, "paid" ).code == "spell_failed" );
+        CHECK( f.actor->get_stamina() == 1000 - static_cast<int>( cost * 0.5 ) );
+    }
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( get_avatar().get_stamina() == player_stamina );
+}
+
+TEST_CASE( "npc_actor_checked_stamina_recovery_is_self_only_and_clamped",
+           "[actor_control][native][magic][stamina]" )
+{
+    native_fixture f;
+    f.actor->set_value( "cph_ai.real_stamina", "true" );
+    const spell_id selected = native_test_spell( "finite_recovery",
+                              "\"effect\":\"recover_energy\",\"effect_str\":\"STAMINA\","
+                              "\"min_damage\":100,\"max_damage\":100,\"energy_source\":\"MANA\"" );
+    teach_native_spell( *f.actor, selected );
+    f.actor->set_stamina( f.actor->get_stamina_max() - 10 );
+    const int mana = f.actor->magic->available_mana();
+    const int cost = f.actor->magic->get_spell( selected ).energy_cost( *f.actor );
+    SECTION( "self_recovery_is_capped" ) {
+        const std::string args = f.position( f.actor->pos_bub(),
+                                           ",\"spell\":\"" + selected.str() + "\"" );
+        REQUIRE( f.act( "cast_spell", args, "recover" ).state == execution_state::running );
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+        CHECK( f.act( "cast_spell", args, "recover" ).state == execution_state::succeeded );
+        CHECK( f.actor->get_stamina() == f.actor->get_stamina_max() );
+        CHECK( f.actor->magic->available_mana() == mana - cost );
+        CHECK( f.act( "cast_spell", args, "recover" ).state == execution_state::succeeded );
+        CHECK( f.actor->magic->available_mana() == mana - cost );
+    }
+    SECTION( "other_target_is_rejected" ) {
+        CHECK( f.act( "cast_spell", f.position( f.other->pos_bub(),
+                                              ",\"spell\":\"" + selected.str() + "\"" ) ).code ==
+               "npc_unsupported_spell_target" );
+        CHECK( f.actor->magic->available_mana() == mana );
+        CHECK( f.actor->get_stamina() == f.actor->get_stamina_max() - 10 );
+    }
+}
+
+TEST_CASE( "npc_actor_spellbook_scripts_are_rejected_before_side_effects",
+           "[actor_control][native][magic]" )
+{
+    native_fixture f;
+    const spell_id selected = native_test_spell( "spellbook_guard" );
+    teach_native_spell( *f.actor, selected );
+    const std::string args = f.position( f.actor->pos_bub(),
+                                       ",\"spell\":\"" + selected.str() + "\"" );
+    const bool already_started = GENERATE( false, true );
+    if( already_started ) {
+        REQUIRE( f.act( "cast_spell", args, "guard" ).state == execution_state::running );
+    }
+    const auto &eocs = effect_on_conditions::get_all();
+    const auto existing_event = std::find_if( eocs.begin(), eocs.end(),
+    []( const effect_on_condition & eoc ) {
+        return eoc.type == eoc_type::EVENT;
+    } );
+    REQUIRE( existing_event != eocs.end() );
+    effect_on_condition &hook = const_cast<effect_on_condition &>( *existing_event );
+    restore_on_out_of_scope restore_event( hook.required_event );
+    hook.required_event = event_type::opens_spellbook;
+    const int mana = f.actor->magic->available_mana();
+    const int hp = f.actor->get_hp();
+    const int host_hp = get_avatar().get_hp();
+    if( already_started ) {
+        REQUIRE( process_activity_bounded( *f.actor, 20, 100 ) );
+    }
+    CHECK( f.act( "cast_spell", args, "guard" ).code == "npc_unsupported_spellbook_event" );
+    CHECK_FALSE( f.actor->activity );
+    CHECK( f.actor->magic->available_mana() == mana );
+    CHECK( f.actor->get_hp() == hp );
+    CHECK( get_avatar().get_hp() == host_hp );
 }

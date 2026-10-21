@@ -5,8 +5,9 @@ This project's original Python, Lua, protocol, tests and documentation are
 licensed under the Apache License, Version 2.0. See LICENSE.
 
 The original independent project is preserved in CPH's companion/ subtree,
-including its source history and attribution. The Python package and MOD remain
-separately distributed from the game.
+including its source history and attribution. The Python package remains a
+separate build input; Windows delivery includes its Mod and matched runtime
+with the game.
 
 Changes outside this subproject in the CPH source tree remain
 subject to its existing licenses, including CC BY-SA 3.0; this package's license

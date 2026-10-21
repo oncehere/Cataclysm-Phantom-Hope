@@ -1,5 +1,5 @@
 {
-  "protocol_version": "1.1",
+  "protocol_version": "1.2",
   "schema_version": 1,
   "max_message_bytes": 1048576,
   "methods": [
@@ -10,6 +10,7 @@
     "sync_memory",
     "take_request",
     "offer_plan",
+    "offer_tasks",
     "cancel",
     "stop",
     "checkpoint",
@@ -33,6 +34,62 @@
     "attack_allies"
   ],
   "schemas": {
+    "status_params": {
+      "type": "object",
+      "properties": {
+        "include_debug": {
+          "type": "boolean"
+        },
+        "operation_id": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "planning_report": {
+          "type": "object",
+          "properties": {
+            "decision_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "request_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "thinking",
+                "suspended",
+                "failed"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "enum": [
+                "",
+                "provider_failed",
+                "invalid_model_response",
+                "planning_failed",
+                "decision_timeout",
+                "call_budget_exhausted",
+                "token_budget_exhausted"
+              ]
+            }
+          },
+          "required": [
+            "decision_id",
+            "request_id",
+            "state",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
     "context": {
       "type": "object",
       "properties": {
@@ -105,6 +162,7 @@
             "move",
             "gather",
             "craft",
+            "cast_spell",
             "attack",
             "talk",
             "trade",
@@ -246,6 +304,7 @@
                   "move",
                   "gather",
                   "craft",
+                  "cast_spell",
                   "attack",
                   "talk",
                   "trade",
@@ -342,6 +401,212 @@
       "required": [
         "context",
         "steps"
+      ],
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "follow",
+            "guard",
+            "move",
+            "gather",
+            "craft"
+          ]
+        },
+        "args": {
+          "type": "object"
+        },
+        "quantity_mode": {
+          "type": "string",
+          "enum": [
+            "acquired",
+            "inventory"
+          ],
+          "default": "acquired"
+        },
+        "requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "maxItems": 5
+        },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "max_distance": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60,
+              "default": 12
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    "tasks": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "type": "object",
+          "properties": {
+            "world_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "branch_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "actor_id": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "load_epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "request_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "event_watermark": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "policy_version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "memory_version": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "game_time": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "world_id",
+            "branch_id",
+            "actor_id",
+            "load_epoch",
+            "request_id",
+            "event_watermark",
+            "policy_version",
+            "memory_version"
+          ],
+          "additionalProperties": false
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "append",
+            "prioritize"
+          ],
+          "default": "append"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "follow",
+                  "guard",
+                  "move",
+                  "gather",
+                  "craft"
+                ]
+              },
+              "args": {
+                "type": "object"
+              },
+              "quantity_mode": {
+                "type": "string",
+                "enum": [
+                  "acquired",
+                  "inventory"
+                ],
+                "default": "acquired"
+              },
+              "requirement_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "depends_on": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "maxItems": 5
+              },
+              "constraints": {
+                "type": "object",
+                "properties": {
+                  "max_distance": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60,
+                    "default": 12
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "args"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 5
+        }
+      },
+      "required": [
+        "context",
+        "tasks"
       ],
       "additionalProperties": false
     }
@@ -453,6 +718,42 @@
         },
         "required": [
           "recipe"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "cast_spell",
+      "description": "Cast one currently known, native-supported NPC ability at an actually perceived absolute map-square x/y/z. Native checks permissions, targets, resources and activity costs; unsupported effects are rejected. Never use Lua/EOC or infer success from admission.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "spell": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "x": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "y": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "z": {
+            "type": "integer",
+            "minimum": -10,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "spell",
+          "x",
+          "y",
+          "z"
         ],
         "additionalProperties": false
       }
@@ -1518,5 +1819,124 @@
     "version": "params.version and reference.projection_version bind the captured native checkpoint_context.memory_version.",
     "file_revision": "reference.revision identifies the local immutable checkpoint file revision; it is distinct from native projection_version and remains authoritative for local restore.",
     "commit": "A prepared reference is not proof of a successful physical game save."
+  },
+  "tasks": [
+    {
+      "name": "follow",
+      "description": "Follow the player with native NPC movement until interrupted or cancelled.",
+      "args": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "guard",
+      "description": "Guard the actor position captured on admission using native NPC behavior.",
+      "args": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "move",
+      "description": "Travel to an actually perceived absolute map tile as persistent native work.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "y": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "z": {
+            "type": "integer",
+            "minimum": -10,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "z"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "gather",
+      "description": "Gather perceived permitted ground items. With x/y/z, collect only from that exact tile; without coordinates, combine allowed sources within the task distance bound.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "y": {
+            "type": "integer",
+            "minimum": -2147483647,
+            "maximum": 2147483647
+          },
+          "z": {
+            "type": "integer",
+            "minimum": -10,
+            "maximum": 10
+          },
+          "item_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          }
+        },
+        "required": [
+          "item_type",
+          "count"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "craft",
+      "description": "Complete a noninteractive native craft with real requirements and progress.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "recipe": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "batch": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "required": [
+          "recipe"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "task_admission": {
+    "mode": "Omitted mode means append. Prioritize waits for a safe native boundary; a candidate never executes early.",
+    "identity": "The unchanged context and request_id bind admission to the current native planning generation.",
+    "quantity_mode": "Only gather may provide quantity_mode. Omitted means acquired during this task; inventory means the actor target stock.",
+    "dependencies": "Native admission resolves durable task IDs and dependency state. Wire validation rejects duplicate task IDs, repeated dependencies and self-dependencies without rejecting references to older task candidates.",
+    "scheduling": "Tasks and short actions consume only native game-stage move budgets. Model latency and wall-clock timers never grant moves.",
+    "distance": "max_distance is measured from the task initial anchor; omitted means 12 native map tiles.",
+    "gather_sources": "Optional x/y/z must be supplied together and restrict gathering to that exact absolute map tile. Omit all coordinates to combine actually perceived, permitted sources within max_distance of the initial task anchor."
   }
 }

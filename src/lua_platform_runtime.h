@@ -24,6 +24,7 @@ class mapgendata;
 class npc;
 class player_activity;
 class vehicle;
+enum class event_type : int;
 struct dialogue;
 struct talk_topic;
 struct vehicle_part;
@@ -235,6 +236,9 @@ cata::lua_platform::native_hook_result dispatch_runtime_hook(
 
 #endif
 
+/** Whether a live runtime has callbacks for this game event.  Does not dispatch them. */
+bool has_event_handler( event_type type );
+
 /** Return whether a Platform item definition owns a Lua use handler. */
 bool has_platform_item_use_handler( std::string_view item_id );
 
@@ -257,6 +261,7 @@ struct emission_profile {
 };
 
 /** Dispatch a native damage-type callback; a non-Lua build provides a no-op. */
+bool has_damage_type_handler( std::string_view damage_id );
 void invoke_damage_type_handler( std::string_view damage_id,
                                  std::string_view phase,
                                  Creature *source, Creature *target,
@@ -439,6 +444,8 @@ std::optional<double> invoke_magic_type_number_handler(
     std::string_view spell_id, const Creature *caster = nullptr,
     double input = 0.0 );
 
+/** Detect custom failure callbacks/cost policies without invoking them. */
+bool has_magic_type_failure_handler( std::string_view magic_type_id );
 /** Dispatch a native Lua magic-type cast-failure callback. */
 void invoke_magic_type_failure_handler( std::string_view magic_type_id,
                                         std::string_view spell_id,

@@ -4,6 +4,7 @@
 import argparse
 import json
 from pathlib import Path
+import re
 import sys
 
 
@@ -124,6 +125,26 @@ def find_mod_roots(source: Path) -> set[str]:
     return result
 
 
+def extra_platform_roots(entries: list[str]) -> set[str]:
+    """Register only explicitly distributed roots with both Lua resources."""
+    roots: set[str] = set()
+    for entry in entries:
+        name, separator, resource = entry.partition("=")
+        if (not separator or not re.fullmatch(r"[A-Za-z0-9_-]+", name)
+                or not resource or name in roots):
+            raise ValueError(
+                "extra Platform Mod requires a distinct ROOT=PATH"
+            )
+        directory = Path(resource)
+        if not all((directory / filename).is_file()
+                   for filename in ("mod.lua", "main.lua")):
+            raise ValueError(
+                f"{directory}: extra Platform Mod needs mod.lua and main.lua"
+            )
+        roots.add(name)
+    return roots
+
+
 def write_header(
     output: Path,
     available: bool,
@@ -167,11 +188,24 @@ def main() -> int:
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument(
+        "--extra-platform-mod", action="append", default=[],
+        metavar="ROOT=PATH",
+        help="explicit distributed root with canonical mod.lua and main.lua; "
+             "does not scan siblings or execute Lua",
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help="fail without writing when the generated header is stale",
     )
     args = parser.parse_args()
+
+    try:
+        extra_roots = extra_platform_roots(args.extra_platform_mod)
+    except (OSError, ValueError) as error:
+        print(f"Unable to generate built-in mod manifest: {error}",
+              file=sys.stderr)
+        return 1
 
     if not args.source.is_dir():
         print(
@@ -201,7 +235,7 @@ def main() -> int:
             args.output,
             True,
             sorted(mod_ids),
-            sorted(find_mod_roots(args.source)),
+            sorted(find_mod_roots(args.source) | extra_roots),
             check=args.check,
         )
     except (OSError, ValueError) as error:

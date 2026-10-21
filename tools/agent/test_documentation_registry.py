@@ -7,6 +7,30 @@ import generate_documentation_registry as registry
 
 
 class DocumentationRegistryTest(unittest.TestCase):
+    def test_scenario_tool_and_independent_example_are_current(self):
+        for path, stable_id in (
+            ("tools/scenarios/README.md", "cph.scenario-tools"),
+            ("data/mods/Scenario_Story_Smoke/README.md", "lua.platform.story-smoke-example"),
+        ):
+            with self.subTest(path=path):
+                entry = registry.classify(path, {})
+                self.assertEqual(entry["stable_document_id"], stable_id)
+                self.assertEqual(entry["status"], "active")
+                self.assertEqual(entry["authority"], "explanatory")
+                self.assertTrue(entry["include_in_ai_index"])
+
+    def test_companion_glossary_and_decisions_are_current_explanatory_documents(self):
+        for path in ("GLOSSARY.md", "docs/project/companion-avatar-design.md",
+                     "docs/adr/0001-companion-tasks-and-delayed-planning.md",
+                     "docs/adr/0002-avatar-intent-and-local-autonomy.md",
+                     "docs/adr/0003-world-bound-avatar-history.md"):
+            with self.subTest(path=path):
+                current = registry.classify(path, {})
+                self.assertEqual(current["status"], "active")
+                self.assertEqual(current["authority"], "explanatory")
+                self.assertTrue(current["include_in_ai_index"])
+                self.assertTrue(current["stable_document_id"].startswith("cph.companion-"))
+
     def test_companion_manuals_current_and_imported_evidence_historical(self):
         current = registry.classify("companion/README.md", {})
         self.assertEqual(current["stable_document_id"], "cph.companion")
