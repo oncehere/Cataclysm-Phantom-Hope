@@ -1,0 +1,17 @@
+[
+  {
+    "type": "enchantment",
+    "id": "dreamer_regen_no",
+    "name": { "str": "情绪回流" },
+    "description": "平静时也能缓慢恢复魔力。强烈情绪，无论积极还是消极，都会连续提高恢复速度。",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "-0.9 + abs(u_val('morale')) / 41" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "dreamer_regen_yes",
+    "condition": { "math": [ "0 == 1" ] },
+    "values": [  ]
+  }
+]
