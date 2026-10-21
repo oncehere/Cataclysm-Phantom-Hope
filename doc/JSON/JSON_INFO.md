@@ -4795,3 +4795,11 @@ how the `"val"` field is interpreted:
 For stackable materials, item weight and volume apply per charge; audit spawn
 counts and recipe quantities together when changing those units.  A regenerated
 inventory does not verify the resulting total mass or container capacity.
+
+## Maintaining generated reference indexes
+
+The JSON/EOC indexes in `data/reference/json/` record source fingerprints and
+source or documentation locations. After changing their inputs or reference
+documentation, regenerate them with `python3 tools/json_api/generate_contracts.py`,
+as declared in `ai/generated-files.yml`. Refreshing only fingerprints or location
+evidence leaves the existing JSON syntax and inheritance rules unchanged.
