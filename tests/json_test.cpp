@@ -15,9 +15,11 @@
 
 #include "bodypart.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "colony.h"
 #include "damage.h"
 #include "debug.h"
@@ -1063,10 +1065,10 @@ TEST_CASE( "serialize_optional", "[json]" )
     }
 }
 
-TEST_CASE( "json_integer_input_rejects_int64_overflow", "[json]" )
+TEST_CASE( "json_integer_input_rejects_64_bit_overflow", "[json]" )
 {
-    const std::string number = GENERATE( "9223372036854775808", "-9223372036854775809",
-                                         "18446744073709551615", "18446744073709551616" );
+    const std::string number = GENERATE( "-9223372036854775809", "-18446744073709551615",
+                                         "18446744073709551616", "184467440737095516160000" );
     CAPTURE( number );
     CHECK_THROWS_AS( json_loader::from_string( number ), JsonError );
     CHECK_THROWS_AS( json_loader::from_string( "[" + number + "]" ), JsonError );
@@ -1084,6 +1086,61 @@ TEST_CASE( "json_integer_input_preserves_int64_boundaries", "[json]" )
     CHECK( json_loader::from_string( "[" + number + "]" ).get_array()[0].get_int64() == value );
     CHECK( json_loader::from_string( R"({"value":)" + number + "}" ).get_object().get_int64(
                "value" ) == value );
+}
+
+TEST_CASE( "json_integer_input_preserves_uint64_boundaries", "[json]" )
+{
+    const std::uint64_t value = GENERATE( std::uint64_t( 9223372036854775808ULL ),
+                                          std::uint64_t( 14695981039346656037ULL ),
+                                          std::numeric_limits<std::uint64_t>::max() );
+    CAPTURE( value );
+    const std::string number = std::to_string( value );
+    test_serialization( value, number );
+    test_serialization( std::vector<std::uint64_t> { value }, "[" + number + "]" );
+    const std::map<std::string, std::uint64_t> object{ { "value", value } };
+    test_serialization( object, R"({"value":)" + number + "}" );
+
+    const JsonValue root = json_loader::from_string( number );
+    const JsonArray array = json_loader::from_string( "[" + number + "]" ).get_array();
+    const JsonObject member = json_loader::from_string( R"({"value":)" + number + "}" ).get_object();
+    CHECK_THROWS_AS( root.get_int64(), JsonError );
+    CHECK_THROWS_AS( array[0].get_int64(), JsonError );
+    CHECK_THROWS_AS( member.get_int64( "value" ), JsonError );
+}
+
+TEST_CASE( "json_integer_input_rejects_negative_uint64", "[json]" )
+{
+    const std::int64_t negative = GENERATE( std::int64_t( -1 ),
+                                            std::numeric_limits<std::int64_t>::min() );
+    const std::string number = std::to_string( negative );
+    CAPTURE( number );
+    std::uint64_t value = 0;
+    const JsonValue root = json_loader::from_string( number );
+    const JsonArray array = json_loader::from_string( "[" + number + "]" ).get_array();
+    const JsonObject object = json_loader::from_string( R"({"value":)" + number + "}" ).get_object();
+    CHECK_THROWS_AS( root.read( value, true ), JsonError );
+    CHECK_THROWS_AS( array[0].read( value, true ), JsonError );
+    CHECK_THROWS_AS( object.read( "value", value ), JsonError );
+}
+
+TEST_CASE( "consumption_event_preserves_unsigned_component_hash", "[json]" )
+{
+    consumption_event event;
+    event.time = time_point::from_turn( 5212922 );
+    event.type_id = itype_id( "protein_bar_evac" );
+    event.component_hash = 14695981039346656037ULL;
+
+    std::ostringstream os;
+    JsonOut jsout( os );
+    event.serialize( jsout );
+    CHECK( os.str() ==
+           R"({"time":5212922,"type_id":"protein_bar_evac","component_hash":14695981039346656037})" );
+
+    consumption_event restored;
+    restored.deserialize( json_loader::from_string( os.str() ).get_object() );
+    CHECK( restored.time == event.time );
+    CHECK( restored.type_id == event.type_id );
+    CHECK( restored.component_hash == event.component_hash );
 }
 
 TEST_CASE( "json_integer_input_rejects_hexadecimal_tokens", "[json]" )
