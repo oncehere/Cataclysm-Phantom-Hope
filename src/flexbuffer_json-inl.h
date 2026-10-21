@@ -4,6 +4,7 @@
 
 // IWYU pragma: private, include "flexbuffer_json.h"
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -127,6 +128,10 @@ inline JsonValue::operator int() const
 inline JsonValue::operator int64_t() const
 {
     if( json_.IsIntOrUint() ) {
+        if( json_.IsUInt() &&
+            json_.AsUInt64() > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
+            throw_error( "int64_t value out of range" );
+        }
         return static_cast<int64_t>( json_.AsInt64() );
     }
     throw_error( "Expected an int64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
@@ -134,8 +139,10 @@ inline JsonValue::operator int64_t() const
 
 inline JsonValue::operator uint64_t() const
 {
-    if( json_.IsIntOrUint() ) {
-        // These are always stored as signed ints.
+    if( json_.IsUInt() ) {
+        return json_.AsUInt64();
+    }
+    if( json_.IsInt() ) {
         int64_t signed_value = json_.AsInt64();
         if( signed_value >= 0 ) {
             return static_cast<uint64_t>( signed_value );

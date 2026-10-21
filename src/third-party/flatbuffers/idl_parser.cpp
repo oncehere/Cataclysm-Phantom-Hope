@@ -3049,10 +3049,18 @@ CheckedError Parser::ParseFlexBufferValue(flexbuffers::Builder *builder) {
       break;
     case kTokenIntegerConstant: {
       int64_t value;
-      if (!StringToIntegerImpl(&value, attribute_.c_str(), 10)) {
-        return Error("invalid number: \"" + attribute_ + "\"");
+      if (StringToIntegerImpl(&value, attribute_.c_str(), 10)) {
+        builder->Int(value);
+      } else {
+        // Saves also contain uint64_t hashes above the signed integer range.
+        // Do not let unsigned conversion wrap an overflowing negative value.
+        uint64_t unsigned_value;
+        if (attribute_[0] == '-' ||
+            !StringToIntegerImpl(&unsigned_value, attribute_.c_str(), 10)) {
+          return Error("invalid number: \"" + attribute_ + "\"");
+        }
+        builder->UInt(unsigned_value);
       }
-      builder->Int(value);
       EXPECT(kTokenIntegerConstant);
       break;
     }
