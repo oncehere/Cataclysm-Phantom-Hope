@@ -22,6 +22,11 @@ generated from the current source and data tree with
 change can refresh fingerprints and source locations without changing the
 available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
 
+Mounted and manual techniques use the native technique path and the Lua
+technique-condition hook described in the [Lua authoring contract](../../data/lua/README.md).
+Their content updates can change lexical example counts and JSON pointers in
+these inventories without adding EOC conditions or effects.
+
 The inherited compatibility path also registers `map_is_passable` and paired
 `u_`/`npc_` forms of `add_addiction`, `lose_addiction`, `add_memorial`,
 `fall_asleep`, `fill_stomach`, `heal_all`, `hurt_all`, `marlossify` and `vomit`.
