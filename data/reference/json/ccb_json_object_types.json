@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:af2c9b9f350cccf50bb3ab086ed806441b9c439f024724951a33c1e9e6d0873a",
+    "source_fingerprint": "sha256:cd319d3c5da67c430f1fadb891d1831c5245c6a8fe4dda60d7a3a2a994f9218e",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -29,8 +29,8 @@
       "wound_fix"
     ],
     "observed_not_registered": [],
-    "tracked_json_files": 6818,
-    "top_level_objects": 95271,
+    "tracked_json_files": 6820,
+    "top_level_objects": 95295,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -113,7 +113,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 15178,
+        "occurrences": 15191,
         "examples": [
           {
             "path": "data/json/artifact/artifact_item_types.json",
@@ -304,7 +304,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1715
+            "line": 1723
           }
         ],
         "confidence": "lexical_only"
@@ -339,7 +339,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 1111,
+        "occurrences": 1103,
         "examples": [
           {
             "path": "data/json/items/comestibles/irradiated_fruit_migration.json",
@@ -594,7 +594,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INHERITANCE.md",
-            "line": 183
+            "line": 188
           }
         ],
         "confidence": "lexical_only"
@@ -1071,7 +1071,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 207,
+        "occurrences": 208,
         "examples": [
           {
             "path": "data/json/obsoletion_and_migration_0.J/player_activities.json",
@@ -1189,7 +1189,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 121,
+        "occurrences": 122,
         "examples": [
           {
             "path": "data/json/ammo_effects.json",
@@ -1331,7 +1331,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 548
+            "line": 556
           }
         ],
         "confidence": "lexical_only"
@@ -1390,7 +1390,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 715
+            "line": 723
           }
         ],
         "confidence": "lexical_only"
@@ -1744,7 +1744,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1023
+            "line": 1031
           }
         ],
         "confidence": "lexical_only"
@@ -1970,7 +1970,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1300
+            "line": 1308
           }
         ],
         "confidence": "lexical_only"
@@ -2147,7 +2147,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INHERITANCE.md",
-            "line": 195
+            "line": 200
           }
         ],
         "confidence": "lexical_only"
@@ -2265,7 +2265,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 241
+            "line": 249
           }
         ],
         "confidence": "lexical_only"
@@ -2658,7 +2658,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1550
+            "line": 1558
           }
         ],
         "confidence": "lexical_only"
@@ -2894,7 +2894,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1609
+            "line": 1617
           }
         ],
         "confidence": "lexical_only"
@@ -2953,7 +2953,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 558
+            "line": 566
           }
         ],
         "confidence": "lexical_only"
@@ -3334,7 +3334,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 280,
+        "occurrences": 282,
         "examples": [
           {
             "path": "data/json/artifact/legacy_artifact_passive.json",
@@ -3417,7 +3417,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1634
+            "line": 1642
           }
         ],
         "confidence": "lexical_only"
@@ -3476,7 +3476,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 126
+            "line": 134
           }
         ],
         "confidence": "lexical_only"
@@ -3535,7 +3535,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 125
+            "line": 133
           }
         ],
         "confidence": "lexical_only"
@@ -3825,7 +3825,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1769
+            "line": 1777
           }
         ],
         "confidence": "lexical_only"
@@ -4356,7 +4356,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3262
+            "line": 3270
           }
         ],
         "confidence": "lexical_only"
@@ -4558,7 +4558,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 7809,
+        "occurrences": 7812,
         "examples": [
           {
             "path": "data/json/deconstruction.json",
@@ -4676,7 +4676,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 925,
+        "occurrences": 927,
         "examples": [
           {
             "path": "data/json/flags.json",
@@ -5307,7 +5307,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 4538
+            "line": 4546
           }
         ],
         "confidence": "lexical_only"
@@ -5597,7 +5597,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 2699
+            "line": 2707
           }
         ],
         "confidence": "lexical_only"
@@ -5833,7 +5833,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 616
+            "line": 624
           }
         ],
         "confidence": "lexical_only"
@@ -6231,7 +6231,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 4739
+            "line": 4747
           }
         ],
         "confidence": "lexical_only"
@@ -6408,7 +6408,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 4502
+            "line": 4510
           }
         ],
         "confidence": "lexical_only"
@@ -6639,7 +6639,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INHERITANCE.md",
-            "line": 195
+            "line": 200
           }
         ],
         "confidence": "lexical_only"
@@ -6851,7 +6851,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 5,
+        "occurrences": 7,
         "examples": [
           {
             "path": "data/json/pet_slots/pet_slots.json",
@@ -7219,7 +7219,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 2183
+            "line": 2191
           }
         ],
         "confidence": "lexical_only"
@@ -7278,7 +7278,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 2014
+            "line": 2022
           }
         ],
         "confidence": "lexical_only"
@@ -7490,7 +7490,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 8208,
+        "occurrences": 8214,
         "examples": [
           {
             "path": "data/json/items/armor/jewelry.json",
@@ -8743,7 +8743,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 2290
+            "line": 2298
           }
         ],
         "confidence": "lexical_only"
@@ -9377,7 +9377,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 2657
+            "line": 2665
           }
         ],
         "confidence": "lexical_only"
@@ -9490,7 +9490,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 4381
+            "line": 4389
           }
         ],
         "confidence": "lexical_only"
@@ -9549,7 +9549,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 1086
+            "line": 1094
           }
         ],
         "confidence": "lexical_only"
@@ -9643,7 +9643,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 350,
+        "occurrences": 352,
         "examples": [
           {
             "path": "data/json/martialarts_fictional.json",
@@ -10478,7 +10478,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3118
+            "line": 3126
           }
         ],
         "confidence": "lexical_only"
@@ -10537,7 +10537,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 313
+            "line": 321
           }
         ],
         "confidence": "lexical_only"
@@ -10650,7 +10650,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3067
+            "line": 3075
           }
         ],
         "confidence": "lexical_only"
@@ -10768,7 +10768,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3119
+            "line": 3127
           }
         ],
         "confidence": "lexical_only"
@@ -10827,7 +10827,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3113
+            "line": 3121
           }
         ],
         "confidence": "lexical_only"
@@ -10945,7 +10945,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 3153
+            "line": 3161
           }
         ],
         "confidence": "lexical_only"
@@ -11122,7 +11122,7 @@
         "evidence": [
           {
             "path": "doc/JSON/JSON_INFO.md",
-            "line": 4698
+            "line": 4706
           }
         ],
         "confidence": "lexical_only"

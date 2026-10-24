@@ -171,6 +171,11 @@ contract does not declare graphical or real-provider validation.
 
 ## Native execution and knowledge
 
+Mounted movement continues through the NPC's native movement and turn budget.
+The player's active-technique menu does not add an ActorControl command or change
+the control protocol. New native riding rules therefore remain subject to the
+same ownership and scheduling checks as other NPC actions.
+
 Emergency reactions and current native activities precede queued actions;
 otherwise accepted steps run before normal NPC logic. Polling communication,
 including while waiting for player input, grants no action points and advances

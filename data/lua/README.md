@@ -38,6 +38,14 @@ destruction continue to invalidate their contexts. See
 
 ## Domain services and callback ownership
 
+Active techniques use `TechniqueDefinition.manual_activation` and an optional
+`active_when` handler registered through the same Platform runtime. The handler
+receives a detached state payload with `phase` (`menu`, `start`, or `continue`),
+mount, stance and movement state, and must return exactly one boolean. Core
+`data/mods/dda/main.lua` uses this condition for mounted charge. Technique
+replacement and rollback restore the existing registry slot without treating a
+transaction snapshot as a duplicate definition.
+
 The public services include character progression, skill and spell queries,
 effects, wounds, variables and native NPC interactions. Use explicit typed
 handles and the phase requirements of each operation. The current signatures

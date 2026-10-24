@@ -61,7 +61,7 @@ void run_sdl_input_frame( cataimgui::client &client, sdl_input_probe_window &win
 }
 
 void process_window_mouse_event( cataimgui::client &client, Uint32 type,
-                                 const ImVec2 &buffer_point, int scale, int buffer_w, int buffer_h )
+                                 const ImVec2 &buffer_point, int scale )
 {
     SDL_Event event = {};
     event.type = type;
@@ -79,7 +79,7 @@ void process_window_mouse_event( cataimgui::client &client, Uint32 type,
     // Use the exact production polling boundary: window coordinates are mapped
     // once, then process_input must forward them to the real SDL3 backend.
     convert_event_to_display_buffer_coords( &event );
-    client.process_input( &event, buffer_w, buffer_h, scale );
+    client.process_input( &event );
 }
 } // namespace
 
@@ -136,17 +136,15 @@ TEST_CASE( "imgui_sdl3_scaled_mouse_reaches_lower_right_button",
         REQUIRE( target.x > buffer_w * 0.5F );
         REQUIRE( target.y > buffer_h * 0.5F );
 
-        process_window_mouse_event( client, SDL_EVENT_MOUSE_MOTION, target, scale, buffer_w, buffer_h );
+        process_window_mouse_event( client, SDL_EVENT_MOUSE_MOTION, target, scale );
         run_sdl_input_frame( client, window, buffer_w, buffer_h, errors );
         CHECK( io.MousePos.x == Approx( target.x ).margin( 1.0F ) );
         CHECK( io.MousePos.y == Approx( target.y ).margin( 1.0F ) );
         REQUIRE( window.hovered );
-        process_window_mouse_event( client, SDL_EVENT_MOUSE_BUTTON_DOWN, target, scale,
-                                    buffer_w, buffer_h );
+        process_window_mouse_event( client, SDL_EVENT_MOUSE_BUTTON_DOWN, target, scale );
         run_sdl_input_frame( client, window, buffer_w, buffer_h, errors );
         CHECK( window.activations == 0 );
-        process_window_mouse_event( client, SDL_EVENT_MOUSE_BUTTON_UP, target, scale,
-                                    buffer_w, buffer_h );
+        process_window_mouse_event( client, SDL_EVENT_MOUSE_BUTTON_UP, target, scale );
         run_sdl_input_frame( client, window, buffer_w, buffer_h, errors );
         CHECK( window.activations == 1 );
 
@@ -155,7 +153,7 @@ TEST_CASE( "imgui_sdl3_scaled_mouse_reaches_lower_right_button",
         SDL_Event leave = {};
         leave.type = SDL_EVENT_WINDOW_MOUSE_LEAVE;
         leave.window.windowID = SDL_GetWindowID( get_sdl_window() );
-        client.process_input( &leave, buffer_w, buffer_h, scale );
+        client.process_input( &leave );
         run_sdl_input_frame( client, window, buffer_w, buffer_h, errors );
         CHECK( io.MousePos.x == -FLT_MAX );
         CHECK( io.MousePos.y == -FLT_MAX );
