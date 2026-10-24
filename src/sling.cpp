@@ -247,12 +247,12 @@ void aim_sling( avatar &who )
         return;
     }
     const auto ready_ammo = std::find_if( candidates.begin(), candidates.end(),
-    [&]( const item_location & loc ) {
+    [&who]( const item_location & loc ) {
         return can_launch_sling( who, loc ).success();
     } );
     item_location ammo = ready_ammo == candidates.end() ? candidates.front() : *ready_ammo;
     const bool multiple_types = std::any_of( candidates.begin(), candidates.end(),
-    [&]( const item_location & loc ) {
+    [&ammo]( const item_location & loc ) {
         return loc->typeId() != ammo->typeId();
     } );
     if( multiple_types ) {

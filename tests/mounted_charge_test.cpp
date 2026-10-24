@@ -181,7 +181,7 @@ TEST_CASE( "mounted_saber_charge_scales_cut_damage_only", "[mounted][charge][dam
     const item &saber = *player.get_wielded_item();
     REQUIRE( saber.type->mounted_charge.has_value() );
 
-    const auto roll = [&]() {
+    const auto roll = [&player, &saber]() {
         damage_instance result;
         player.roll_all_damage( false, result, true, saber, attack_vector_id::NULL_ID(),
                                 sub_bodypart_str_id::NULL_ID(), nullptr, bodypart_id( "torso" ) );

@@ -22,7 +22,7 @@ TEST_CASE( "overmap_mod_source_can_be_hidden_at_every_elevation", "[overmap][mod
     const tripoint_abs_omt pos( 60, 60, z );
     const oter_id old_terrain = overmap_buffer.ter( pos );
     const om_vision_level old_vision = overmap_buffer.seen( pos );
-    on_out_of_scope restore( [&]() {
+    on_out_of_scope restore( [&pos, &old_terrain, &old_vision]() {
         overmap_buffer.ter_set( pos, old_terrain );
         overmap_buffer.set_seen( pos, old_vision );
     } );
