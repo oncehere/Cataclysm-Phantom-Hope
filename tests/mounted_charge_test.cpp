@@ -33,6 +33,7 @@
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "martialarts.h"
+#include "melee.h"
 #include "monster.h"
 #include "mounted_charge.h"
 #include "npc.h"
@@ -43,6 +44,7 @@
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_pet( "pet" );
 static const itype_id itype_mc_cavalry_sabre( "mc_cavalry_sabre" );
 static const itype_id itype_mounted_lance( "mounted_lance" );
@@ -444,14 +446,17 @@ TEST_CASE( "mounted_charge_attacks_friendly_creature", "[mounted][charge][activi
     monster &pet = spawn_test_monster( "mon_dog", start + tripoint::east );
     pet.friendly = 1;
     pet.add_effect( effect_pet, 1_turns, true );
-    const int hp_before = pet.get_hp();
+    REQUIRE_FALSE( pet.has_effect( effect_hit_by_player ) );
+    const int attacks_before = melee::get_stats().attack_count;
 
     start_mounted_charge( player, horse );
     REQUIRE( player.activity );
     player.activity.do_turn( player );
 
     CHECK( player.pos_bub() == start + tripoint::east );
-    CHECK( pet.get_hp() < hp_before );
+    // A normal melee attack may miss, but it must still target the friendly creature.
+    CHECK( melee::get_stats().attack_count == attacks_before + 1 );
+    CHECK( pet.has_effect( effect_hit_by_player ) );
     CHECK( player.activity );
     player.cancel_activity();
     player.forced_dismount();
