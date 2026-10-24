@@ -2322,6 +2322,8 @@ std::optional<bool> invoke_technique_condition_handler(
         return std::nullopt;
     }
 
+    // Lua allocations may run finalizers that register more handlers.
+    sol::protected_function callback = handler->second.callback;
     const avatar *const player = character.as_avatar();
     const item_location weapon = character.used_weapon();
     std::string mount_kind = "none";
@@ -2356,7 +2358,6 @@ std::optional<bool> invoke_technique_condition_handler(
     payload["can_attack"] = !character.has_flag( json_flag_CANNOT_ATTACK );
     payload["can_move"] = !character.has_flag( json_flag_CANNOT_MOVE );
 
-    sol::protected_function callback = handler->second.callback;
     callback_scope scope( *owner );
     const sol::protected_function_result result = callback( payload );
     if( !result.valid() ) {

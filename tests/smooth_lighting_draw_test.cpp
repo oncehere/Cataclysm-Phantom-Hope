@@ -551,7 +551,7 @@ TEST_CASE( "colored_lighting_option_changes_pixels_without_changing_world_light"
     }
     const float brightness = cache.lm[player_pos.x()][player_pos.y()].max();
     const auto visibility = cache.visibility_cache[player_pos.x()][player_pos.y()];
-    const auto draw_pixel = [&fx, &here, &cache, &player_pos, &brightness,
+    const auto draw_pixel = [&fx, &here, &cache, &brightness,
          &visibility]( const std::string & enabled ) {
         override_option colored( "COLORED_LIGHTING", enabled );
         display_buffer_draw_scope target;
