@@ -6639,6 +6639,24 @@ function CcbPlatformContent.edit_forest_biome_mapgen(id) end
 ---@field cancellable true Returning false prevents death by restoring each vital body part to at least one HP.
 ---@field results table Aggregate results from earlier handlers; `allowed` is false after a veto.
 
+---@class CcbPlatformItemDescriptionAppendHook
+---@field hook 'on_item_description_append'
+---@field item_id string Stable string id of the item being examined.
+---@field variant_id? string Visual variant id, when present.
+---@field language string Current effective language code ('zh_CN', 'en', etc.).
+
+---@class CcbPlatformItemDescriptionAppendResult
+---@field text string Footnote paragraph to append to the item description.
+
+---@class CcbPlatformItemAsciiArtFallbackHook
+---@field hook 'on_item_ascii_art_fallback'
+---@field item_id string Stable string id of the item being examined.
+---@field variant_id? string Visual variant id, when present.
+---@field language string Current effective language code ('zh_CN', 'en', etc.).
+
+---@class CcbPlatformItemAsciiArtFallbackResult
+---@field art_id string Valid registered ascii_art id.
+
 ---@class CcbPlatformRuntime
 local CcbPlatformRuntime = {}
 

@@ -241,6 +241,14 @@ bool allow_native_elevator_use(
 std::vector<native_menu_entry> collect_native_hook_menu_entries(
     std::string_view name,
     const native_callback_arguments &arguments = {} );
+std::optional<std::string> dispatch_item_description_append(
+    const std::string &item_id,
+    const std::optional<std::string> &variant_id = std::nullopt,
+    const std::string &language = "en" );
+std::optional<std::string> dispatch_item_ascii_art_fallback(
+    const std::string &item_id,
+    const std::optional<std::string> &variant_id = std::nullopt,
+    const std::string &language = "en" );
 
 enum class script_hook_mode : int {
     observe,

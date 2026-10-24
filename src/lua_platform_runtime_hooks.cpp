@@ -1,4 +1,5 @@
 #include "lua_platform_runtime_internal.h"
+#include "ascii_art.h"
 #include "item_category.h"
 #include "itype.h"
 
@@ -43,6 +44,7 @@
 #include "profession.h"
 #include "scenario.h"
 #include "talker.h"
+#include "thread_pool.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "weakpoint.h"
@@ -3635,6 +3637,288 @@ std::optional<emission_profile> invoke_emission_profile_handler(
     return std::nullopt;
 }
 
+namespace
+{
+
+bool is_valid_utf8_and_clean_controls( const std::string &str, bool allow_newlines )
+{
+    const unsigned char *bytes = reinterpret_cast<const unsigned char *>( str.data() );
+    const std::size_t len = str.size();
+    std::size_t i = 0;
+    while( i < len ) {
+        unsigned char c = bytes[i];
+        if( c < 0x80 ) {
+            if( c == 0x7F ) { // DEL
+                return false;
+            }
+            if( c < 32 ) {
+                if( allow_newlines ) {
+                    if( c == '\n' ) {
+                        ++i;
+                        continue;
+                    }
+                    if( c == '\r' ) {
+                        // CRLF is allowed, lone CR is forbidden
+                        if( i + 1 < len && bytes[i + 1] == '\n' ) {
+                            i += 2;
+                            continue;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            ++i;
+        } else if( ( c & 0xE0 ) == 0xC0 ) {
+            // 2-byte sequence: 0xC2..0xDF
+            if( c < 0xC2 || i + 1 >= len ) {
+                return false;
+            }
+            unsigned char c1 = bytes[i + 1];
+            if( ( c1 & 0xC0 ) != 0x80 ) {
+                return false;
+            }
+            // Reject C1 control characters (U+0080..U+009F -> 0xC2 0x80..0xC2 0x9F)
+            if( c == 0xC2 && c1 <= 0x9F ) {
+                return false;
+            }
+            i += 2;
+        } else if( ( c & 0xF0 ) == 0xE0 ) {
+            // 3-byte sequence: 0xE0..0xEF
+            if( i + 2 >= len ) {
+                return false;
+            }
+            unsigned char c1 = bytes[i + 1];
+            unsigned char c2 = bytes[i + 2];
+            if( ( c1 & 0xC0 ) != 0x80 || ( c2 & 0xC0 ) != 0x80 ) {
+                return false;
+            }
+            if( c == 0xE0 && c1 < 0xA0 ) { // overlong
+                return false;
+            }
+            if( c == 0xED && c1 >= 0xA0 ) { // surrogate U+D800..U+DFFF
+                return false;
+            }
+            i += 3;
+        } else if( ( c & 0xF8 ) == 0xF0 ) {
+            // 4-byte sequence: 0xF0..0xF4
+            if( i + 3 >= len ) {
+                return false;
+            }
+            unsigned char c1 = bytes[i + 1];
+            unsigned char c2 = bytes[i + 2];
+            unsigned char c3 = bytes[i + 3];
+            if( ( c1 & 0xC0 ) != 0x80 || ( c2 & 0xC0 ) != 0x80 || ( c3 & 0xC0 ) != 0x80 ) {
+                return false;
+            }
+            if( c == 0xF0 && c1 < 0x90 ) { // overlong
+                return false;
+            }
+            if( c == 0xF4 && c1 > 0x8F ) { // out of range > U+10FFFF
+                return false;
+            }
+            if( c > 0xF4 ) {
+                return false;
+            }
+            i += 4;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::optional<std::string> invoke_item_display_handler(
+    runtime &owner, const std::string_view hook_name, const std::string &handler_id,
+    const std::string &item_id, const std::optional<std::string> &variant_id,
+    const std::string &language, const std::string &result_field )
+{
+    const auto handler = owner.handlers.find( handler_id );
+    if( handler == owner.handlers.end() ) {
+        return std::nullopt;
+    }
+    if( owner.callback_depth >= 16 ) {
+        DebugLog( D_ERROR, D_MAIN ) << "Lua-first native hook recursion limit reached for '"
+                                    << owner.mod_id << ':' << hook_name << "'";
+        return std::nullopt;
+    }
+
+    // Lua allocations may run finalizers that register more handlers.
+    sol::protected_function callback = handler->second.callback;
+    sol::table payload = owner.lua->create_table();
+    payload["hook"] = std::string( hook_name );
+    payload["item_id"] = item_id;
+    if( variant_id.has_value() ) {
+        payload["variant_id"] = *variant_id;
+    } else {
+        payload["variant_id"] = sol::lua_nil;
+    }
+    payload["language"] = language;
+
+    callback_scope scope( owner );
+    const sol::protected_function_result result = callback( payload );
+    if( !result.valid() ) {
+        report_callback_error( owner, handler_id, result, "hook " + std::string( hook_name ) );
+        return std::nullopt;
+    }
+    if( result.return_count() == 0 ) {
+        return std::nullopt;
+    }
+    sol::object returned = result.get<sol::object>();
+    if( returned.get_type() == sol::type::nil ) {
+        return std::nullopt;
+    }
+    if( returned.get_type() != sol::type::table ) {
+        DebugLog( D_ERROR, D_MAIN ) << hook_name << " from '" << owner.mod_id << ':' << handler_id
+                                    << "' must return a table or nil";
+        return std::nullopt;
+    }
+
+    sol::table ret_table = returned.as<sol::table>();
+    for( const auto &pair : ret_table ) {
+        if( pair.first.get_type() != sol::type::string ||
+            pair.first.as<std::string>() != result_field ) {
+            DebugLog( D_ERROR, D_MAIN ) << hook_name << " from '" << owner.mod_id << ':' << handler_id
+                                        << "' returned unrecognized fields; only '" << result_field << "' is permitted";
+            return std::nullopt;
+        }
+    }
+    sol::object value = ret_table.raw_get<sol::object>( result_field );
+    if( !value.valid() || value.get_type() != sol::type::string ) {
+        DebugLog( D_ERROR, D_MAIN ) << hook_name << " from '" << owner.mod_id << ':' << handler_id
+                                    << "' '" << result_field << "' field must be a string";
+        return std::nullopt;
+    }
+    return value.as<std::string>();
+}
+
+} // namespace
+
+std::optional<std::string> dispatch_item_description_append(
+    const std::string &item_id,
+    const std::optional<std::string> &variant_id,
+    const std::string &language )
+{
+    if( is_pool_worker_thread() ) {
+        return std::nullopt;
+    }
+    static constexpr std::string_view hook_name = "on_item_description_append";
+    std::string aggregate_text;
+    static constexpr std::size_t max_single_entry = 4096;
+    static constexpr std::size_t max_aggregate_total = 32768;
+
+    for( const std::shared_ptr<runtime> &owner : detail::active_runtime_values() ) {
+        if( !owner || !owner->world_is_ready ) {
+            continue;
+        }
+        const auto subscription = owner->hooks.find( std::string( hook_name ) );
+        if( subscription == owner->hooks.end() ) {
+            continue;
+        }
+        const std::vector<std::string> handlers = subscription->second;
+        for( const std::string &handler_id : handlers ) {
+            const std::optional<std::string> value = invoke_item_display_handler(
+                        *owner, hook_name, handler_id, item_id, variant_id, language, "text" );
+            if( !value ) {
+                continue;
+            }
+            const std::string &text_val = *value;
+            if( text_val.empty() ) {
+                continue;
+            }
+            if( text_val.size() > max_single_entry ) {
+                DebugLog( D_ERROR, D_MAIN ) << "on_item_description_append from '"
+                                            << owner->mod_id << ':' << handler_id
+                                            << "' single entry text exceeds 4096 bytes";
+                continue;
+            }
+
+            if( !is_valid_utf8_and_clean_controls( text_val, true ) ) {
+                DebugLog( D_ERROR, D_MAIN ) << "on_item_description_append from '"
+                                            << owner->mod_id << ':' << handler_id
+                                            << "' text contains invalid UTF-8 or forbidden control characters";
+                continue;
+            }
+
+            std::string normalized;
+            normalized.reserve( text_val.size() );
+            for( std::size_t i = 0; i < text_val.size(); ++i ) {
+                if( text_val[i] == '\r' && i + 1 < text_val.size() && text_val[i + 1] == '\n' ) {
+                    continue;
+                }
+                normalized.push_back( text_val[i] );
+            }
+
+            std::size_t additional_size = normalized.size() + ( aggregate_text.empty() ? 0 : 1 );
+            if( aggregate_text.size() + additional_size > max_aggregate_total ) {
+                DebugLog( D_ERROR, D_MAIN ) <<
+                                            "on_item_description_append aggregate text exceeds 32768 bytes; candidate dropped";
+                continue;
+            }
+
+            if( !aggregate_text.empty() ) {
+                aggregate_text.push_back( '\n' );
+            }
+            aggregate_text += normalized;
+        }
+    }
+
+    return aggregate_text.empty() ? std::nullopt : std::make_optional( aggregate_text );
+}
+
+std::optional<std::string> dispatch_item_ascii_art_fallback(
+    const std::string &item_id,
+    const std::optional<std::string> &variant_id,
+    const std::string &language )
+{
+    if( is_pool_worker_thread() ) {
+        return std::nullopt;
+    }
+    static constexpr std::string_view hook_name = "on_item_ascii_art_fallback";
+
+    for( const std::shared_ptr<runtime> &owner : detail::active_runtime_values() ) {
+        if( !owner || !owner->world_is_ready ) {
+            continue;
+        }
+        const auto subscription = owner->hooks.find( std::string( hook_name ) );
+        if( subscription == owner->hooks.end() ) {
+            continue;
+        }
+        const std::vector<std::string> handlers = subscription->second;
+        for( const std::string &handler_id : handlers ) {
+            const std::optional<std::string> value = invoke_item_display_handler(
+                        *owner, hook_name, handler_id, item_id, variant_id, language, "art_id" );
+            if( !value ) {
+                continue;
+            }
+            const std::string &art_id_val = *value;
+            if( art_id_val.empty() || art_id_val.size() > 512 ) {
+                DebugLog( D_ERROR, D_MAIN ) << "on_item_ascii_art_fallback from '"
+                                            << owner->mod_id << ':' << handler_id
+                                            << "' 'art_id' length invalid";
+                continue;
+            }
+
+            if( !is_valid_utf8_and_clean_controls( art_id_val, false ) ) {
+                DebugLog( D_ERROR, D_MAIN ) << "on_item_ascii_art_fallback from '"
+                                            << owner->mod_id << ':' << handler_id
+                                            << "' 'art_id' contains invalid UTF-8 or forbidden control characters";
+                continue;
+            }
+
+            const ascii_art_id candidate( art_id_val );
+            if( candidate.is_valid() ) {
+                return art_id_val;
+            } else {
+                DebugLog( D_ERROR, D_MAIN ) << "on_item_ascii_art_fallback candidate '"
+                                            << art_id_val << "' is not a valid registered ascii_art_id";
+                continue;
+            }
+        }
+    }
+
+    return std::nullopt;
+}
 
 } // namespace cata::lua_platform
 

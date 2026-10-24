@@ -36,6 +36,37 @@ pending choice. Selected callbacks are consumed once; topic changes, moves and
 destruction continue to invalidate their contexts. See
 [nested dialogue ownership](LUA_FIRST_PLATFORM.md#dialogue-presentation-and-nested-callbacks--对话界面与嵌套回调).
 
+## Item display callbacks
+
+Register item display handlers through `ccb.runtime.handler` and subscribe with
+`ccb.runtime.hook`. Both `on_item_description_append` and
+`on_item_ascii_art_fallback` receive `hook`, `item_id`, optional `variant_id`,
+and the effective `language` code. These are detached values: changing the
+payload does not change the native item, and no borrowed item pointer or item
+handle is supplied. Keep display handlers free of gameplay side effects;
+examining or rendering an item can query them repeatedly.
+Calls from pool worker threads contribute no display result and do not enter
+Lua, matching the existing native-hook threading boundary.
+
+`on_item_description_append` returns `nil` or `{ text = "..." }`. Nonempty text
+is appended after the native description; accepted handlers are combined in
+dispatch order, separated by a newline. Each result is limited to 4096 UTF-8
+bytes and the combined text to 32768 bytes, including separators. Valid UTF-8
+and line feeds are accepted, CRLF is normalized to LF, and other control
+characters, including DEL and C1 controls, are rejected.
+
+`on_item_ascii_art_fallback` is queried only when the item and its visual
+variant have no valid native art. Return `nil` or `{ art_id = "registered_id" }`;
+the first accepted ID that resolves to registered ASCII art wins. The ID must
+be nonempty valid UTF-8, contain no control characters, and fit in 512 bytes.
+Native item or variant art always takes priority.
+
+Only the documented result field is accepted for each callback. Invalid
+return shapes, text, or art IDs are logged and ignored without replacing the
+native description or art. Handler subscriptions and functions are snapshotted
+before invocation, including before Lua payload allocation can run finalizers.
+The callback contract is general; Mods provide their own text and art data.
+
 ## Domain services and callback ownership
 
 Active techniques use `TechniqueDefinition.manual_activation` and an optional
