@@ -4,11 +4,14 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
+#include "mission.h"
 #include "monster.h"
 #include "mtype.h"
 #include "point.h"
@@ -16,6 +19,7 @@
 #include "type_id.h"
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION1( "TEST_MISSION_GOAL_CONDITION1" );
 
 namespace
 {
@@ -96,13 +100,22 @@ TEST_CASE( "mapgen_spawns_catch_up_with_world_time", "[monster][mapgen][spawn]" 
     // Mission targets must keep their original form, otherwise MGOAL_KILL_MONSTERS
     // asks the player to kill a type that the mission never placed.
     SECTION( "mission spawns keep their original form" ) {
+        mission *target_mission = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION1,
+                                  character_id() );
+        REQUIRE( target_mission != nullptr );
+        const int mission_id = target_mission->get_id();
+        const on_out_of_scope cleanup( [mission_id]() {
+            // Monsters must not outlive the mission whose ID they retain.
+            clear_creatures();
+            mission::remove_unassigned( mission_id );
+        } );
         int checked = 0;
         for( int attempt = 0; attempt < 20 && checked == 0; ++attempt ) {
             clear_map_without_vision();
             calendar::turn = long_after_cataclysm;
             map &here = get_map();
             here.place_spawns( GROUP_ZOMBIE, 1, first_corner, last_corner, 0, 1.0f, true, false,
-                               std::nullopt, 1 );
+                               std::nullopt, mission_id );
             here.spawn_monsters( true );
             for( const Creature *crt : here.get_creatures_in_radius( queued_at, SEEX ) ) {
                 if( !crt->is_monster() ) {

@@ -7,7 +7,9 @@
 #include <point.h>
 #include <algorithm>
 #include <cstdint>
+#include <filesystem>
 #include <initializer_list>
+#include <memory>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -26,6 +28,7 @@
 #include "json.h"
 #include "json_loader.h"
 #include "lua_platform_loader.h"
+#include "lua_platform_runtime_internal.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
@@ -33,6 +36,7 @@
 #include "monster.h"
 #include "mounted_charge.h"
 #include "npc.h"
+#include "path_info.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
@@ -54,16 +58,37 @@ namespace
 
 monster &setup_mounted_weapon( avatar &player, const itype_id &weapon_type )
 {
-#if defined(CATA_ENABLE_LUA_PLATFORM) && CATA_ENABLE_LUA_PLATFORM
-    static bool platform_world_ready = false;
-    if( !platform_world_ready ) {
-        cata::lua_platform::on_world_ready( true );
-        platform_world_ready = true;
-    }
-#endif
     clear_avatar();
     clear_map_without_vision();
     clear_creatures();
+
+#if defined(CATA_ENABLE_LUA_PLATFORM) && CATA_ENABLE_LUA_PLATFORM
+    namespace platform = cata::lua_platform;
+    std::shared_ptr<platform::runtime> core = platform::detail::find_active_runtime( "ccb" );
+    // Runtime-isolation tests may have retired the core runtime loaded at startup.
+    if( !core ) {
+        const std::filesystem::path root = PATH_INFO::moddir().get_unrelative_path() /
+                                           std::filesystem::u8path( "dda" );
+        const platform::mod_source source { "ccb", root, root / std::filesystem::u8path( "main.lua" ) };
+        std::string error;
+        const bool prepared = platform::prepare_mods( { source }, error );
+        INFO( error );
+        REQUIRE( prepared );
+        const bool applied = platform::apply_prepared_content( error );
+        INFO( error );
+        REQUIRE( applied );
+        const bool finalized = platform::validate_finalized_prepared_content( error );
+        INFO( error );
+        REQUIRE( finalized );
+        platform::commit_prepared_mods();
+        core = platform::detail::find_active_runtime( "ccb" );
+        REQUIRE( core );
+    }
+    if( !core->world_is_ready ) {
+        platform::on_world_ready( true );
+    }
+    REQUIRE( core->world_is_ready );
+#endif
 
     monster &horse = spawn_test_monster( "mon_horse", player.pos_bub() + tripoint::east );
     horse.friendly = -1;
@@ -87,6 +112,7 @@ void start_mounted_charge( avatar &player, monster &horse )
                                 player.pos_abs() + tripoint( 4, 0, 0 ),
                                 horse.uid().get_value(), lance->uid().get_value(),
                                 player.pos_abs(), lance->typeId() ) );
+    REQUIRE( player.activity );
 }
 
 } // namespace
