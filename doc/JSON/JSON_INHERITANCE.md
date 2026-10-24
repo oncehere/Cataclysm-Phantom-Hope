@@ -26,6 +26,11 @@ after JSON starting-location inheritance resolves. Refer to the existing
 location IDs; this does not add a Lua spelling for JSON inheritance. Validate
 the resulting scenario with its intended Mods loaded.
 
+Restored Ranger Plate magazine definitions use these existing item inheritance
+rules. Their IDs remain distinct from ordinary magazines; the former migrations
+that replaced them are removed together with the restored definitions, recipes
+and compatibility lists. This does not change `copy-from` resolution.
+
 ## Examples
 
 Items are one of the most common JSON types, so the "subtypes" field splits data into optional chunks. See [the item docs](ITEM.md#subtypes) for an explanation of how it works.

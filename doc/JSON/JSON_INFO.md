@@ -20,6 +20,14 @@ skills and mounted-combat proficiencies use the existing `skill` and
 `src/riding_config.cpp` define their fields; these types do not introduce a
 second content-loading or inheritance system.
 
+Mounted equipment can occupy separate tack and horseshoe slots, with its effects
+and installation requirements defined by the item and slot loaders. Riding now
+uses Athletics (the existing `swimming` skill ID); old `riding` levels and theory
+are migrated during character loading. A technique's `manual_activation` flag
+removes it from ordinary random technique selection. Conditional activation is
+authored through the Lua `TechniqueDefinition.active_when` handler rather than
+introducing another JSON object type; see the [Platform overview](../../data/lua/README.md).
+
 Co-op menu tips use the existing `snippet` type with category `coop_tip`.
 Refreshing these snippets updates the inventory's content fingerprint and
 observed-object count. The multiplayer wire protocol remains internal to the
