@@ -640,6 +640,14 @@ const std::vector<script_hook_spec> &script_hook_specs()
         { "on_game_save", script_hook_mode::observe, {} },
         { "on_game_started", script_hook_mode::observe, {} },
         {
+            "on_item_ascii_art_fallback", script_hook_mode::intercept,
+            { "item_id", "variant_id", "language" }, { "art_id" }
+        },
+        {
+            "on_item_description_append", script_hook_mode::intercept,
+            { "item_id", "variant_id", "language" }, { "text" }
+        },
+        {
             "on_make_mapgen_factory_list", script_hook_mode::intercept,
             { "candidates" }, { "results" }
         },

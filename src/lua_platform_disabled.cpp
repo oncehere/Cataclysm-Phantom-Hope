@@ -345,4 +345,20 @@ bool dispatch_mapgen_generate( mapgendata & )
     return false;
 }
 
+std::optional<std::string> dispatch_item_description_append(
+    const std::string &,
+    const std::optional<std::string> &,
+    const std::string & )
+{
+    return std::nullopt;
+}
+
+std::optional<std::string> dispatch_item_ascii_art_fallback(
+    const std::string &,
+    const std::optional<std::string> &,
+    const std::string & )
+{
+    return std::nullopt;
+}
+
 } // namespace cata::lua_platform
