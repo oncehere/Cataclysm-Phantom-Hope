@@ -57,6 +57,7 @@
 #include "panels.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -502,6 +503,10 @@ void advanced_inventory::print_items( side p, bool active )
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol(), item_name );
         }
+        const std::string chevron = !it.has_flag( json_flag_NO_UNLOAD ) &&
+                                    !it.all_items_top( pocket_type::CONTAINER ).empty() ?
+                                    ( pane.is_expanded( sitem.items.front() ) ? "▼ " : "▶ " ) : "  ";
+        item_name = std::string( sitem.indent * 2, ' ' ) + chevron + item_name;
 
         //print item name
         trim_and_print( window, point( compact ? 1 : 4, 6 + item_line ), max_name_length, thiscolor,
@@ -817,6 +822,14 @@ void advanced_inventory::recalc_pane( side p )
     // Sort all items
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
 
+    // Sort siblings before inserting children, so sorting never separates a
+    // container from its contents. Totals above count the source items only.
+    std::vector<advanced_inv_listitem> entries;
+    for( const advanced_inv_listitem &entry : pane.items ) {
+        append_contents( pane, entry, entries );
+    }
+    pane.items = std::move( entries );
+
     // Attempt to move to the target item if there is one.
     if( pane.target_item_after_recalc ) {
         for( size_t i = 0; i < pane.items.size(); i++ ) {
@@ -826,6 +839,26 @@ void advanced_inventory::recalc_pane( side p )
                 break;
             }
         }
+    }
+}
+
+void advanced_inventory::append_contents( const advanced_inventory_pane &pane,
+        const advanced_inv_listitem &entry, std::vector<advanced_inv_listitem> &entries ) const
+{
+    entries.push_back( entry );
+    std::vector<advanced_inv_listitem> children = pane.get_contents( entry );
+    std::stable_sort( children.begin(), children.end(), advanced_inv_sorter( pane.sortby ) );
+    for( advanced_inv_listitem &child : children ) {
+        // Corpse loot is already exposed as ordinary source entries.
+        const bool already_listed = std::any_of( pane.items.begin(), pane.items.end(),
+        [&child]( const advanced_inv_listitem & root ) {
+            return std::find( root.items.begin(), root.items.end(), child.items.front() ) != root.items.end();
+        } );
+        if( already_listed ) {
+            continue;
+        }
+        child.cat = entry.cat;
+        append_contents( pane, child, entries );
     }
 }
 
@@ -874,8 +907,8 @@ void advanced_inventory::redraw_pane( side p )
             }
         }
         const int max_page = pagination.page;
-        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), cur_page + 1,
-                   max_page + 1 );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, "[%s] %d/%d [%s]",
+                   ctxt.get_desc( "PAGE_UP" ), cur_page + 1, max_page + 1, ctxt.get_desc( "PAGE_DOWN" ) );
     }
 
     if( active ) {
@@ -911,6 +944,13 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white, filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
+    } else if( active && !filter_edit ) {
+        const std::string hint = string_format( "[%s] %s", ctxt.get_desc( "SHOW_HIDE_CONTENTS" ),
+                                                _( "Show/hide contents" ) );
+        const int hint_x = getmaxx( w ) - utf8_width( hint ) - 2;
+        if( hint_x > utf8_width( fprefix ) + 7 ) {
+            mvwprintz( w, point( hint_x, getmaxy( w ) - 1 ), c_white, "%s", hint );
+        }
     }
 }
 
@@ -926,6 +966,11 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
     bool try_unwield = false;
     item_location stashed_bucket;
     for( const advanced_inv_listitem &listit : spane.items ) {
+        // Inline children travel inside their source container. Including them
+        // again would unpack bags or invalidate queued item locations.
+        if( listit.indent > 0 ) {
+            continue;
+        }
         if( listit.items.front() == dpane.container ) {
             continue;
         }
@@ -1316,6 +1361,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS" );
     ctxt.register_action( "UNLOAD_CONTAINER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
@@ -1613,7 +1659,9 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         return false;
     }
     aim_location destarea = dpane.get_area();
-    aim_location srcarea = sitem->area;
+    aim_location srcarea = sitem->indent > 0 ? AIM_CONTAINER : sitem->area;
+    const item_location source_container = sitem->indent > 0 ?
+                                           sitem->items.front().parent_item() : spane.container;
     bool restore_area = destarea == AIM_ALL;
     if( !query_destination( destarea ) ) {
         return false;
@@ -1626,8 +1674,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // AIM_ALL should disable same area check and handle it with proper filtering instead.
     // This is a workaround around the lack of vehicle location info in
     // either aim_location or advanced_inv_listitem.
-    if( spane.container ) {
-        if( spane.container == dpane.container ) {
+    if( source_container ) {
+        if( source_container == dpane.container ) {
             popup_getkey( _( "The %1$s is already in the %2$s." ),
                           sitem->items.front()->type_name(), dpane.container->type_name() );
             return false;
@@ -1668,8 +1716,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( it_copy.count_by_charges() ) {
         it_copy.charges = std::min( amount_to_move, sitem->items.front()->charges );
     }
-    if( spane.get_area() == AIM_CONTAINER &&
-        spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
+    if( source_container && source_container->has_flag( json_flag_NO_UNLOAD ) ) {
         popup_getkey( _( "Source container can't be unloaded." ) );
         return false;
     }
@@ -1701,7 +1748,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     cata_assert( amount_to_move > 0 );
 
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
-        spane.container.held_by( player_character ) ) {
+        source_container.held_by( player_character ) ) {
         popup_getkey( _( "The %s is already in your inventory.  You may want to (U)nload" ),
                       sitem->items.front()->tname() );
 
@@ -1978,6 +2025,8 @@ void advanced_inventory::process_action( const std::string &input_action )
         if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
             action_examine( sitem, spane );
         }
+    } else if( action == "SHOW_HIDE_CONTENTS" ) {
+        spane.toggle_contents();
     } else if( action == "UNLOAD_CONTAINER" ) {
         recalc = action_unload( sitem, spane, dpane );
     } else if( action == "QUIT" ) {

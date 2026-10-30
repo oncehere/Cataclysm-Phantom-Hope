@@ -1,5 +1,6 @@
 ﻿#include "advanced_inv_pane.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <list>
@@ -106,7 +107,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
 
 /** converts a raw list of items to "stacks" - items that are not count_by_charges that otherwise stack go into one stack */
 static std::vector<std::vector<item_location>> item_list_to_stack(
-    const item_location &parent, std::list<item *> item_list )
+            const item_location &parent, std::list<item *> item_list )
 {
     std::vector<std::vector<item_location>> ret;
     for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ++iter_outer ) {
@@ -122,6 +123,56 @@ static std::vector<std::vector<item_location>> item_list_to_stack(
         ret.push_back( item_stack );
     }
     return ret;
+}
+
+bool advanced_inventory_pane::is_expanded( const item_location &loc ) const
+{
+    return std::find( expanded_containers.begin(), expanded_containers.end(), loc ) !=
+           expanded_containers.end();
+}
+
+void advanced_inventory_pane::toggle_contents()
+{
+    const advanced_inv_listitem *entry = get_cur_item_ptr();
+    if( !entry || entry->items.front()->has_flag( flag_NO_UNLOAD ) ||
+        entry->items.front()->all_items_top( pocket_type::CONTAINER ).empty() ) {
+        return;
+    }
+    const bool expand = !is_expanded( entry->items.front() );
+    expanded_containers.erase( std::remove_if( expanded_containers.begin(), expanded_containers.end(),
+    [entry, expand]( const item_location & loc ) {
+        return !loc || ( !expand && std::find( entry->items.begin(), entry->items.end(), loc ) !=
+                         entry->items.end() );
+    } ), expanded_containers.end() );
+    if( expand ) {
+        for( const item_location &loc : entry->items ) {
+            if( !is_expanded( loc ) ) {
+                expanded_containers.push_back( loc );
+            }
+        }
+    }
+    target_item_after_recalc = entry->items.front();
+    recalc = true;
+}
+
+std::vector<advanced_inv_listitem> advanced_inventory_pane::get_contents(
+    const advanced_inv_listitem &entry ) const
+{
+    std::vector<advanced_inv_listitem> children;
+    for( item_location loc : entry.items ) {
+        if( !is_expanded( loc ) || loc->has_flag( flag_NO_UNLOAD ) ) {
+            continue;
+        }
+        for( const std::vector<item_location> &stack : item_list_to_stack( loc,
+                loc->all_items_top( pocket_type::CONTAINER ) ) ) {
+            advanced_inv_listitem child( stack, children.size(), entry.area, entry.from_vehicle );
+            child.indent = entry.indent + 1;
+            if( !is_filtered( *child.items.front() ) ) {
+                children.push_back( child );
+            }
+        }
+    }
+    return children;
 }
 
 std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index, avatar &you,
@@ -159,7 +210,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     size_t item_index = 0;
 
     std::vector<advanced_inv_listitem> items = worn.get_AIM_inventory( item_index, *this, pane,
-        square );
+            square );
 
     item_location weapon = get_wielded_item();
     if( weapon && weapon->is_container() ) {
@@ -260,8 +311,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             return;
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
-            square.i_stacked( square.get_vehicle_stack() ) :
-            square.i_stacked( m.i_at( square.pos ) );
+                square.i_stacked( square.get_vehicle_stack() ) :
+                square.i_stacked( m.i_at( square.pos ) );
 
         map_cursor loc_cursor( square.pos );
         for( size_t x = 0; x < stacks.size(); ++x ) {

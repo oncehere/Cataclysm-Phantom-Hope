@@ -24,6 +24,8 @@ class advanced_inv_listitem
          * Index of the item in the itemstack.
          */
         int idx = 0;
+        /** Nesting depth in the pane; zero denotes an ordinary source entry. */
+        int indent = 0;
         /**
          * The location of the item, never AIM_ALL.
          */

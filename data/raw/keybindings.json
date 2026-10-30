@@ -4288,12 +4288,14 @@
     "id": "PAGE_DOWN",
     "category": "ADVANCED_INVENTORY",
     "name": "Page down",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "NPAGE" },
-      { "input_method": "keyboard_char", "key": ">" },
-      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "ALT_DOWN" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" }, { "input_method": "gamepad", "key": "ALT_DOWN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_HIDE_CONTENTS",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Show/hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

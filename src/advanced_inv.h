@@ -173,6 +173,9 @@ class advanced_inventory
 
         static std::string get_sortname( advanced_inv_sortby sortby );
         void print_items( side p, bool active );
+        void append_contents( const advanced_inventory_pane &pane,
+                              const advanced_inv_listitem &entry,
+                              std::vector<advanced_inv_listitem> &entries ) const;
 
         void redraw_pane( side p );
         void redraw_sidebar();
