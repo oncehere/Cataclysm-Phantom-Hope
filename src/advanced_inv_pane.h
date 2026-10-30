@@ -124,6 +124,10 @@ class advanced_inventory_pane
          * item in @ref items.
          */
         advanced_inv_listitem *get_cur_item_ptr();
+        /** Toggle inline contents for every container in the selected stack. */
+        void toggle_contents();
+        bool is_expanded( const item_location &loc ) const;
+        std::vector<advanced_inv_listitem> get_contents( const advanced_inv_listitem &entry ) const;
         /**
          * @return free volume capacity of the pane's container or area
          */
@@ -144,6 +148,8 @@ class advanced_inventory_pane
          * The current filter string. And function representing that filter.
          */
         std::string filter;
+        // Presentation state belongs to this pane and survives transfer activities.
+        std::vector<item_location> expanded_containers;
         std::function<bool( const item & )> filter_function;
         /** Only add offset to index, but wrap around! */
         void mod_index( int offset );

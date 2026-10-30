@@ -21,7 +21,11 @@
 #include "cata_scope_helpers.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "flag.h"
 #include "inventory_ui.h"
+#include "input.h"
+#include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
@@ -34,6 +38,8 @@
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 
 static const itype_id itype_9mm( "9mm" );
@@ -174,6 +180,343 @@ static void do_activity( advanced_inventory &advinv, const std::string &activity
     process_activity( u );
     REQUIRE_FALSE( u.activity );
     recalc_panes( advinv );
+}
+
+TEST_CASE( "AIM_inline_contents_toggle", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    item &stored = get_map().add_item( get_avatar().pos_bub(), bag );
+
+    advanced_inventory advinv;
+    advinv.init();
+    init_panes( advinv, AIM_CENTER, AIM_INVENTORY );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    REQUIRE( pane.items.size() == 1 );
+    REQUIRE( pane.items.front().items.front().get_item() == &stored );
+
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( pane.get_area() == AIM_CENTER );
+    REQUIRE( pane.items.size() == 2 );
+    CHECK( pane.index == 0 );
+    CHECK( pane.items[1].items.front()->typeId() == itype_test_9mm_ammo );
+    CHECK( pane.items[1].items.front().parent_item().get_item() == &stored );
+
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( pane.items.size() == 1 );
+    CHECK( pane.index == 0 );
+    CHECK( pane.items.front().items.front().get_item() == &stored );
+}
+
+TEST_CASE( "AIM_inline_contents_keybindings", "[input][advanced_inv][contents]" )
+{
+    input_context ctxt( "ADVANCED_INVENTORY" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS" );
+    CHECK( ctxt.input_to_action( input_event( '>', input_event_t::keyboard_char ) ) ==
+           "SHOW_HIDE_CONTENTS" );
+    CHECK( ctxt.input_to_action( input_event( { keymod_t::shift }, '.',
+                                 input_event_t::keyboard_code ) ) == "SHOW_HIDE_CONTENTS" );
+    CHECK( ctxt.input_to_action( input_event( inp_mngr.get_keycode( input_event_t::keyboard_code,
+                                 "NPAGE" ), input_event_t::keyboard_code ) ) ==
+           "PAGE_DOWN" );
+}
+
+TEST_CASE( "AIM_inline_contents_nested_sorting_and_totals", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    item pack( itype_backpack );
+    REQUIRE( pack.put_in( bag, pocket_type::CONTAINER ).success() );
+    item &stored = get_map().add_item( get_avatar().pos_bub(), pack );
+    get_map().add_item( get_avatar().pos_bub(), item( itype_knife_combat ) );
+
+    advanced_inventory advinv;
+    advinv.init();
+    const aim_location source = GENERATE( AIM_CENTER, AIM_ALL );
+    init_panes( advinv, source, AIM_INVENTORY );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    pane.sortby = GENERATE( SORTBY_NONE, SORTBY_NAME, SORTBY_CATEGORY, SORTBY_WEIGHT, SORTBY_VOLUME );
+    recalc_panes( advinv );
+    const units::mass weight = advinv.get_one_square( source ).weight;
+    const units::volume volume = advinv.get_one_square( source ).volume;
+    const auto outer = std::find_if( pane.items.begin(), pane.items.end(),
+    [&stored]( const advanced_inv_listitem & entry ) {
+        return entry.items.front().get_item() == &stored;
+    } );
+    REQUIRE( outer != pane.items.end() );
+    pane.index = std::distance( pane.items.begin(), outer );
+    const int parent_index = pane.index;
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( pane.items.size() == 3 );
+    CHECK( pane.index == parent_index );
+    pane.index++;
+    REQUIRE( pane.get_cur_item_ptr()->items.front()->typeId() == itype_bag_plastic );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( pane.items.size() == 4 );
+    CHECK( pane.items[parent_index + 1].indent == 1 );
+    CHECK( pane.items[parent_index + 2].indent == 2 );
+    CHECK( pane.items[parent_index + 2].items.front()->typeId() == itype_test_9mm_ammo );
+    CHECK( pane.items[parent_index + 2].cat == pane.items[parent_index].cat );
+    CHECK( advinv.get_one_square( source ).weight == weight );
+    CHECK( advinv.get_one_square( source ).volume == volume );
+
+    pane.index = parent_index;
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    CHECK( pane.items.size() == 2 );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    CHECK( pane.items.size() == 4 );
+    CHECK( pane.index == parent_index );
+}
+
+TEST_CASE( "AIM_inline_contents_move_child", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    avatar &you = get_avatar();
+    REQUIRE( you.wear_item( item( itype_debug_backpack ) ) );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo, calendar::turn, 7 ),
+                         pocket_type::CONTAINER ).success() );
+    item &stored = get_map().add_item( you.pos_bub(), bag );
+    advanced_inventory advinv;
+    advinv.init();
+    const aim_location dest = GENERATE( AIM_INVENTORY, AIM_NORTH, AIM_CENTER );
+    init_panes( advinv, AIM_CENTER, AIM_NORTH );
+    advinv.get_pane( advinv.get_dest() ).set_area( advinv.get_one_square( dest ) );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    REQUIRE( pane.items.size() == 2 );
+    pane.index = 1;
+    do_activity( advinv, "MOVE_ITEM_STACK" );
+    CHECK( stored.empty_container() );
+    if( dest == AIM_INVENTORY ) {
+        CHECK( you.charges_of( itype_test_9mm_ammo ) == 7 );
+    } else {
+        const tripoint_bub_ms target = advinv.get_one_square( dest ).pos;
+        int charges = 0;
+        for( const item &it : get_map().i_at( target ) ) {
+            if( it.typeId() == itype_test_9mm_ammo ) {
+                charges += it.charges;
+            }
+        }
+        CHECK( charges == 7 );
+    }
+}
+
+TEST_CASE( "AIM_inline_contents_move_all_preserves_container", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    avatar &you = get_avatar();
+    REQUIRE( you.wear_item( item( itype_debug_backpack ) ) );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    get_map().add_item( you.pos_bub(), bag );
+    advanced_inventory advinv;
+    advinv.init();
+    const aim_location dest = GENERATE( AIM_INVENTORY, AIM_NORTH );
+    init_panes( advinv, AIM_CENTER, dest );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( advinv.get_pane( advinv.get_src() ).items.size() == 2 );
+    do_activity( advinv, "MOVE_ALL_ITEMS" );
+    CHECK( get_map().i_at( you.pos_bub() ).empty() );
+    advanced_inventory_pane &destination = advinv.get_pane( advinv.get_dest() );
+    REQUIRE( destination.items.size() == 1 );
+    const item_location moved = destination.items.front().items.front();
+    CHECK( moved->typeId() == itype_bag_plastic );
+    REQUIRE( moved->all_items_top().size() == 1 );
+    CHECK( moved->all_items_top().front()->typeId() == itype_test_9mm_ammo );
+}
+
+TEST_CASE( "AIM_inline_contents_stacked_containers", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    get_map().add_item( get_avatar().pos_bub(), bag );
+    get_map().add_item( get_avatar().pos_bub(), bag );
+    advanced_inventory advinv;
+    advinv.init();
+    init_panes( advinv, AIM_CENTER, AIM_INVENTORY );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    REQUIRE( pane.items.size() == 1 );
+    REQUIRE( pane.items.front().stacks == 2 );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    REQUIRE( pane.items.size() == 3 );
+    CHECK( pane.items[1].items.front().parent_item() != pane.items[2].items.front().parent_item() );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    CHECK( pane.items.size() == 1 );
+}
+
+TEST_CASE( "AIM_inline_contents_from_carried_and_container_views",
+           "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    avatar &you = get_avatar();
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    item pack( itype_backpack );
+    REQUIRE( pack.put_in( bag, pocket_type::CONTAINER ).success() );
+    const aim_location source = GENERATE( AIM_INVENTORY, AIM_WORN, AIM_CONTAINER );
+    if( source == AIM_CONTAINER ) {
+        get_map().add_item( you.pos_bub(), pack );
+    } else {
+        REQUIRE( you.wear_item( pack ) );
+    }
+    advanced_inventory advinv;
+    advinv.init();
+    init_panes( advinv, source == AIM_CONTAINER ? AIM_CENTER : source, AIM_NORTH );
+    if( source == AIM_CONTAINER ) {
+        advinv.process_action( "ITEMS_CONTAINER" );
+        recalc_panes( advinv );
+    }
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    REQUIRE( pane.items.size() == 1 );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    if( source == AIM_WORN ) {
+        REQUIRE( pane.items.size() == 2 );
+        pane.index = 1;
+        advinv.process_action( "SHOW_HIDE_CONTENTS" );
+        recalc_panes( advinv );
+    }
+    REQUIRE( pane.items.size() == ( source == AIM_WORN ? 3 : 2 ) );
+    CHECK( pane.get_area() == source );
+    pane.index = pane.items.size() - 1;
+    REQUIRE( pane.get_cur_item_ptr()->items.front()->typeId() == itype_test_9mm_ammo );
+    do_activity( advinv, "MOVE_ITEM_STACK" );
+    map_stack moved = get_map().i_at( advinv.get_one_square( AIM_NORTH ).pos );
+    REQUIRE( moved.size() == 1 );
+    CHECK( moved.only_item().typeId() == itype_test_9mm_ammo );
+}
+
+TEST_CASE( "AIM_inline_contents_ignores_empty_entries", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    advanced_inventory advinv;
+    advinv.init();
+    init_panes( advinv, AIM_CENTER, AIM_INVENTORY );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    CHECK( pane.items.empty() );
+    const itype_id type = GENERATE( itype_bag_plastic, itype_knife_combat );
+    get_map().add_item( get_avatar().pos_bub(), item( type ) );
+    recalc_panes( advinv );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    CHECK( pane.items.size() == 1 );
+    CHECK( pane.index == 0 );
+}
+
+TEST_CASE( "AIM_inline_contents_from_vehicle", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    avatar &you = get_avatar();
+    REQUIRE( you.wear_item( item( itype_debug_backpack ) ) );
+    map &here = get_map();
+    const tripoint_bub_ms vehicle_pos = you.pos_bub() + tripoint::east;
+    REQUIRE( here.add_vehicle( vproto_id( "test_shopping_cart" ), vehicle_pos,
+                               0_degrees, 0, veh_spawn_status::UNDAMAGED ) );
+    const std::optional<vpart_reference> cargo = here.veh_at( vehicle_pos ).cargo();
+    REQUIRE( cargo );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    REQUIRE( cargo->vehicle().add_item( here, cargo->part(), bag ) );
+    advanced_inventory advinv;
+    advinv.init();
+    const aim_location source = GENERATE( AIM_EAST, AIM_ALL );
+    init_panes( advinv, source, AIM_INVENTORY );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    advanced_inventory_pane &pane = advinv.get_pane( advinv.get_src() );
+    REQUIRE( pane.items.size() == 2 );
+    CHECK( pane.items[1].from_vehicle );
+    CHECK( pane.items[1].area == AIM_EAST );
+    pane.index = 1;
+    do_activity( advinv, "MOVE_ITEM_STACK" );
+    CHECK( you.has_amount( itype_test_9mm_ammo, 1 ) );
+    CHECK( cargo->vehicle().get_items( cargo->part() ).only_item().empty_container() );
+}
+
+TEST_CASE( "AIM_inline_contents_respects_unload_restriction", "[items][advanced_inv][contents]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    restore_on_out_of_scope<advanced_inv_save_state> restore( uistate.transfer_save );
+    on_out_of_scope reset_menu( []() {
+        uistate.open_menu = nullptr;
+        cancel_aim_processing();
+    } );
+    item bag( itype_bag_plastic );
+    REQUIRE( bag.put_in( item( itype_test_9mm_ammo ), pocket_type::CONTAINER ).success() );
+    bag.set_flag( flag_NO_UNLOAD );
+    get_map().add_item( get_avatar().pos_bub(), bag );
+    advanced_inventory advinv;
+    advinv.init();
+    init_panes( advinv, AIM_CENTER, AIM_INVENTORY );
+    advinv.process_action( "SHOW_HIDE_CONTENTS" );
+    recalc_panes( advinv );
+    CHECK( advinv.get_pane( advinv.get_src() ).items.size() == 1 );
 }
 
 TEST_CASE( "advanced_inventory_keeps_source_pane_after_moving_one_item",
