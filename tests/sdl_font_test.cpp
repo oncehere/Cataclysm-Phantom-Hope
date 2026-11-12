@@ -11,14 +11,20 @@
 #include <vector>
 
 #include "cata_catch.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "cursesport.h"
+#include "font_loader.h"
+#include "imgui/imgui.h"
+#include "json.h"
+#include "json_loader.h"
 #include "options_helpers.h"
 #include "path_info.h"
 #include "point.h"
 #include "sdl_font.h"
+#include "sdl_geometry.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
@@ -424,6 +430,106 @@ TEST_CASE( "sarasa_cjk_glyphs_survive_gpu_menu_redraw", "[.][tiles][sdl_font][re
     check_sarasa_incremental_menu( blending, atlas );
 }
 #endif
+
+TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][imgui]" )
+{
+    software_render_fixture fixture;
+    REQUIRE( fixture.available() );
+    // The fixture initializes SDL/TTF and supplies the same default cell height.
+    REQUIRE( renderer_recovery_test_support::install_test_font(
+                 PATH_INFO::fontdir() + "sarasa-fixed-sc-semibold.ttf", cell_w, cell_h,
+                 font_size, false ) );
+    Font *sarasa = renderer_recovery_test_support::test_font();
+    REQUIRE( sarasa );
+    REQUIRE( sarasa->isGlyphProvided( "中" ) );
+    REQUIRE( sarasa->isGlyphProvided( "文" ) );
+    REQUIRE( sarasa->isGlyphProvided( "A" ) );
+
+    const auto data = json_loader::from_path_opt( PATH_INFO::legacy_fontdata() );
+    REQUIRE( data.has_value() );
+    JsonObject config = data->get_object();
+    config.allow_omitted_members();
+    std::vector<font_config> typefaces;
+    for( JsonValue entry : config.get_array( "gui_typeface" ) ) {
+        if( entry.test_string() ) {
+            typefaces.emplace_back( entry.get_string() );
+        } else {
+            font_config parsed;
+            REQUIRE( entry.read( parsed, false ) );
+            typefaces.push_back( parsed );
+        }
+    }
+    REQUIRE_FALSE( typefaces.empty() );
+    REQUIRE( typefaces.front().path == "data/font/sarasa-fixed-sc-semibold.ttf" );
+    REQUIRE( typefaces.front().hinting == ImGuiFreeTypeLoaderFlags_Bitmap );
+
+    SDL_Window_Ptr window( SDL_CreateWindow( "", 160, 64, SDL_WINDOW_HIDDEN ) );
+    REQUIRE( window );
+    SDL_Renderer_Ptr renderer( SDL_CreateRenderer( window.get(), "software" ) );
+    REQUIRE( renderer );
+    GeometryRenderer_Ptr geometry = std::make_unique<DefaultGeometryRenderer>();
+    ImGuiContext *previous_context = ImGui::GetCurrentContext();
+    on_out_of_scope restore_context( [previous_context] { ImGui::SetCurrentContext( previous_context ); } );
+    cataimgui::client client( renderer, window, geometry );
+    Font_Ptr empty_font;
+    client.load_fonts( empty_font, empty_font, windowsPalette, typefaces, typefaces );
+    std::vector<Uint32> first;
+    for( int frame = 0; frame < 3; ++frame ) {
+        CAPTURE( frame );
+        REQUIRE( SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 ) );
+        REQUIRE( SDL_RenderClear( renderer.get() ) );
+        client.new_frame( 160, 64 );
+        ImFontBaked *baked = ImGui::GetFont()->GetFontBaked( ImGui::GetFontSize() );
+        REQUIRE( baked );
+        const ImFontGlyph *han1 = baked->FindGlyphNoFallback( 0x4e2d );
+        const ImFontGlyph *han2 = baked->FindGlyphNoFallback( 0x6587 );
+        const ImFontGlyph *latin = baked->FindGlyphNoFallback( 'A' );
+        REQUIRE( han1 );
+        REQUIRE( han2 );
+        REQUIRE( latin );
+        REQUIRE( han1->Codepoint == 0x4e2d );
+        REQUIRE( han2->Codepoint == 0x6587 );
+        REQUIRE( latin->Codepoint == 'A' );
+        ImDrawList *draw = ImGui::GetForegroundDrawList();
+        draw->AddText( ImVec2( 4, 4 ), IM_COL32_WHITE, "中" );
+        draw->AddText( ImVec2( 44, 4 ), IM_COL32_WHITE, "文" );
+        draw->AddText( ImVec2( 84, 4 ), IM_COL32_WHITE, "A" );
+        client.end_frame();
+        SDL_Surface_Ptr source( SDL_RenderReadPixels( renderer.get(), nullptr ) );
+        REQUIRE( source );
+        SDL_Surface_Ptr rgba( SDL_ConvertSurface( source.get(), SDL_PIXELFORMAT_RGBA32 ) );
+        REQUIRE( rgba );
+        REQUIRE( rgba->w == 160 );
+        REQUIRE( rgba->h == 64 );
+        std::vector<Uint32> pixels( 160 * 64 );
+        std::array<int, 3> ink{};
+        std::array<std::vector<Uint32>, 3> masks;
+        for( int y = 0; y < 32; ++y ) {
+            const auto *row = static_cast<const Uint8 *>( rgba->pixels ) + y * rgba->pitch;
+            for( int group = 0; group < 3; ++group ) {
+                for( int x = 0; x < 32; ++x ) {
+                    const int column = group * 40 + x;
+                    const Uint8 *pixel = row + column * 4;
+                    const Uint32 rgb = ( static_cast<Uint32>( pixel[0] ) << 16 ) |
+                                       ( static_cast<Uint32>( pixel[1] ) << 8 ) | pixel[2];
+                    pixels[static_cast<size_t>( y ) * 160 + column] = rgb;
+                    masks[group].push_back( rgb );
+                    ink[group] += rgb != 0 ? 1 : 0;
+                }
+            }
+        }
+        CHECK( ink[0] > 0 );
+        CHECK( ink[1] > 0 );
+        CHECK( ink[2] > 0 );
+        CHECK( masks[0] != masks[1] );
+        CHECK( masks[0] != masks[2] );
+        if( frame == 0 ) {
+            first = pixels;
+        } else {
+            CHECK( pixels == first );
+        }
+    }
+}
 
 TEST_CASE( "hidpi_terminal_draws_past_logical_window_bounds", "[tiles][sdl_font][sdl3]" )
 {
