@@ -178,7 +178,7 @@ Character *visible_character( npc &actor, int id )
            observes( actor, get_map(), *target ) ? target : nullptr;
 }
 
-bool near( const npc &actor, const Character &target )
+bool within_interaction_range( const npc &actor, const Character &target )
 {
     return rl_dist( actor.pos_abs(), target.pos_abs() ) <= 2;
 }
@@ -293,7 +293,7 @@ std::string spell_support( const npc &actor, const spell &known )
     const auto &effects = effect_on_conditions::get_all();
     if( std::any_of( effects.begin(), effects.end(), []( const effect_on_condition & eoc ) {
     return eoc.type == eoc_type::EVENT && eoc.required_event == event_type::opens_spellbook;
-    } ) || cata::lua_platform::has_event_handler( event_type::opens_spellbook ) ) {
+} ) || cata::lua_platform::has_event_handler( event_type::opens_spellbook ) ) {
         // Preparation is gameplay, not observation. Do not silently skip Mod
         // prerequisites or run unaudited scripts under a spell's permission.
         return "npc_unsupported_spellbook_event";
@@ -416,7 +416,8 @@ execution_result cast_spell( npc &actor, const action_step &step, const JsonObje
     actor.activity.str_values = { "cph_ai.cast_spell", step.id };
     actor.set_value( "cph_ai.spell_step", step.id );
     actor.set_value( "cph_ai.spell_args", step.args_json );
-    actor.set_value( "cph_ai.spell_target", spell_target_identity( *spell_target_at( actor, target ) ) );
+    actor.set_value( "cph_ai.spell_target", spell_target_identity( *spell_target_at( actor,
+                     target ) ) );
     actor.remove_value( "cph_ai.spell_invalidated" );
     actor.remove_value( "cph_ai.spell_completed_step" );
     actor.remove_value( "cph_ai.spell_result" );
@@ -498,7 +499,7 @@ execution_result exchange( npc &actor, const action_step &step, const JsonObject
                            bool human_confirmed = false )
 {
     Character *target = visible_character( actor, args.get_int( "target" ) );
-    if( !target || !near( actor, *target ) ) {
+    if( !target || !within_interaction_range( actor, *target ) ) {
         return result( execution_state::failed, "trade_partner_unavailable" );
     }
     const std::string receipt_id = args.get_string( "receipt_id", step.id );
@@ -693,7 +694,7 @@ execution_result speak( npc &actor, const JsonObject &args, const std::string &c
     }
     if( args.has_int( "target" ) ) {
         Character *target = visible_character( actor, args.get_int( "target" ) );
-        if( !target || !near( actor, *target ) || !target->can_hear( actor.pos_bub(),
+        if( !target || !within_interaction_range( actor, *target ) || !target->can_hear( actor.pos_bub(),
                 actor.get_shout_volume() ) ) {
             return result( execution_state::failed, "listener_unavailable" );
         }
@@ -745,7 +746,7 @@ execution_result NpcExecutionAdapter::validate_spell_cast( npc &actor, const spe
     }
     if( !known.is_target_in_range( actor, target ) || !known.is_valid_target( actor, target ) ||
         ( recipient != &actor && ( target.z() != actor.pos_bub().z() ||
-                                  !here.sees( actor.pos_bub(), target, known.range( actor ) ) ) ) ) {
+                                   !here.sees( actor.pos_bub(), target, known.range( actor ) ) ) ) ) {
         return result( execution_state::failed, "invalid_spell_target" );
     }
     if( !known.has_flag( spell_flag::NO_PROJECTILE ) ) {
@@ -869,7 +870,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
         for( const mission *task : mission::get_all_active() ) {
             const npc *issuer = g->find_npc( task->get_npc_id() );
             if( !task->supports_npc_assignment() || !issuer || issuer->is_dead_state() ||
-                !near( actor, *issuer ) || !observes( actor, here, *issuer ) ) {
+                !within_interaction_range( actor, *issuer ) || !observes( actor, here, *issuer ) ) {
                 continue;
             }
             if( action == "accept_mission" && !task->is_assigned() &&
@@ -902,7 +903,7 @@ bool NpcExecutionAdapter::available( const npc &actor, const std::string &action
         if( action == "attack_allies" && person && person->as_npc() && actor.is_ally( *person ) ) {
             return true;
         }
-        if( !person || !near( actor, *person ) ) {
+        if( !person || !within_interaction_range( actor, *person ) ) {
             continue;
         }
         if( action == "talk" || action == "trade" || action == "disclose_known_information" ) {
@@ -1053,7 +1054,7 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
             out.member( "topic", "TALK_FIRST_TOPIC" );
             out.member( "available_missions" );
             out.start_array();
-            if( near( actor, *other ) ) {
+            if( within_interaction_range( actor, *other ) ) {
                 for( const mission *offer : other->chatbin.missions ) {
                     if( mission_offer_count >= 16 ) {
                         break;
@@ -1073,8 +1074,8 @@ std::string NpcExecutionAdapter::observe( const npc &actor )
             out.end_array();
             out.member( "trade_offers" );
             out.start_array();
-            if( near( actor, *other ) && value( actor, "heard_trade." +
-                                                std::to_string( other->getID().get_value() ) ) == "true" ) {
+            if( within_interaction_range( actor, *other ) && value( actor, "heard_trade." +
+                    std::to_string( other->getID().get_value() ) ) == "true" ) {
                 int offered_count = 0;
                 npc *seller = g->find_npc( other->getID() );
                 const std::vector<item_location> stock_items = seller ? seller->all_items_loc() :
@@ -1294,7 +1295,7 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
             }
             Character *target = visible_character( actor, args.get_int( "target" ) );
             npc *other = target ? target->as_npc() : nullptr;
-            if( !other || !near( actor, *other ) ) {
+            if( !other || !within_interaction_range( actor, *other ) ) {
                 return result( execution_state::failed, "dialogue_partner_unavailable" );
             }
             if( actor.is_mute() || other->is_mute() ||
@@ -1455,7 +1456,7 @@ execution_result NpcExecutionAdapter::execute( npc &actor, const action_step &st
             if( step.action == "misappropriate_items" && !target ) {
                 return gather( actor, step, args, true );
             }
-            if( !target || !near( actor, *target ) ||
+            if( !target || !within_interaction_range( actor, *target ) ||
                 ( step.action == "aid_conflicting_party" && !target->as_npc() ) ) {
                 return result( execution_state::failed, "social_target_unavailable" );
             }
@@ -1583,7 +1584,7 @@ void NpcExecutionAdapter::open_native_management_menu( npc &actor )
         return;
     }
     npc *issuer = g->find_npc( task.get_npc_id() );
-    if( !issuer || task.npc_reward_remaining() <= 0 || !near( actor, *issuer ) ) {
+    if( !issuer || task.npc_reward_remaining() <= 0 || !within_interaction_range( actor, *issuer ) ) {
         popup( _( "The original mission giver and remaining reward credit are required." ) );
         return;
     }
