@@ -6,11 +6,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import tempfile
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 from urllib.request import url2pathname
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -259,9 +260,12 @@ def check_mod(mod: Path, language_server: str) -> list[str]:
             if uri.startswith("file:"):
                 parsed = urlparse(uri)
                 host = parsed.netloc if parsed.netloc != "localhost" else ""
-                path = url2pathname(
-                    ("//" + host if host else "") + parsed.path
-                )
+                uri_path = ("//" + host if host else "") + parsed.path
+                # Python before 3.13 retains a spurious leading slash for
+                # file:///c:/... on Windows; leave UNC paths untouched.
+                if os.name == "nt" and not host and re.match(r"^/[a-zA-Z]:/", unquote(uri_path)):
+                    uri_path = uri_path[1].upper() + uri_path[2:]
+                path = url2pathname(uri_path)
             for entry in sorted(entries, key=lambda e: (
                 e["range"]["start"]["line"],
                 e["range"]["start"]["character"], str(e.get("code", "")),

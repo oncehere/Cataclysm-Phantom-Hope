@@ -868,11 +868,11 @@ Guns can be defined like this:
 "overheat_threshold": 100, // Heat value, at which fault may occur, see #Item faults; values below zero mean item won't be able to fault
 "ammo_to_fire" 1,          // Amount of ammo used
 "modes": [                        // Firing modes on this gun
-  [ "DEFAULT", "semi-auto", 1 ],  // First value is id of a fire more, and generally used for NPC stuff. Consider using AUTO, BURST or DEFAULT for modes intended for NPCs
-  [ "AUTO", "auto", 4 ]           // Second value is a name of a fire mod, that would be printed in the menu
-  [ "RANDOM_ID", "Mag dump", 30 ] // Third value is amount of rounds this fire mode will shoot
-  [ "FOOBAR", "Volley", 2, "VOLLEY" ] // Fourth value is an optional flags. Possible flags are:
-  [ "FOOBAR2", "alternative_notation", 3, [ "VOLLEY" ] ] // VOLLEY - all rounds shot by this mode would shoot at once, 
+  [ "DEFAULT", "semi-auto", 1 ],  // Mode id, translated display name, quantity or RPM string, optional flags
+  [ "AUTO", "auto", "750" ],      // A positive integer string specifies rounds per minute
+  [ "BURST", "burst", 3 ],         // Legacy non-melee, non-volley quantities above 1 convert to quantity * 300 RPM
+  [ "FOOBAR", "Volley", 2, "VOLLEY" ], // VOLLEY retains a fixed quantity and fires all rounds together
+  [ "FOOBAR2", "alternative_notation", 3, [ "VOLLEY" ] ] // Flags accept a string or array; MELEE and VOLLEY require an integer quantity
 ],                                                       // in that the recoil would be applied not after each shot, but only in the end
 "firing_requirements": {          // Optional. Multimag per-shot consumption keyed by gun mode. Mutually exclusive with non-zero `energy_drain` unless `FIRING_EXT_POWER` is set, and mutually exclusive with non-default `ammo_to_fire`. Each entry references a `pocket_data.id` on a MAGAZINE_WELL pocket or an integral MAGAZINE pocket with `ammo_restriction`. Every base mode listed in `modes` must have an explicit entry; a gunmod-added mode (via `mode_modifier`) uses the gunmod's own `mode_firing_requirements` for that mode, or inherits DEFAULT cost when the gunmod provides none. `qty` must be >= 1. Local battery consumption must be represented by a battery pocket entry; `FIRING_EXT_POWER` only lets `energy_drain` draw one external source, either `USE_UPS` or `USES_BIONIC_POWER`.
   "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "battery", "qty": 5 } ],

@@ -275,12 +275,12 @@ def parse_unit(val, stops):
 
 # Parse the gun data represented in JSON to what we care about
 def simplify_gun_data(jo):
-    # We only care about what modes it has, and how many bullets
+    # Keep legacy quantities and explicit RPM strings distinct.
     if "modes" in jo:
         modes = []
         for mode in jo["modes"]:
             modes.append(mode[2])
-        jo["modes"] = sorted(modes)
+        jo["modes"] = sorted(modes, key=lambda value: (isinstance(value, str), value))
     else:
         jo["modes"] = [1]
     # We only care how much damage it deals

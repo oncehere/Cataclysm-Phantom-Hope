@@ -547,6 +547,7 @@ class aim_activity_actor : public activity_actor
 
     public:
         std::string action;
+        int burst_rounds = 0; // Confirmed rounds while an aim-and-fire action is pending.
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
         bool should_unload_RAS = false;
@@ -707,6 +708,8 @@ class gunmod_remove_activity_actor : public activity_actor
         int gunmod_idx;
 
     public:
+        bool reopen_menu = false;
+
         gunmod_remove_activity_actor(
             int moves_total,
             const item_location &gun,
@@ -1953,6 +1956,9 @@ class close_tile_activity_actor : public activity_actor
         tripoint_bub_ms tile_location;
         close_tile_result close_success = close_tile_result::CLOSE_FAIL;
         int closed_vehicle_part = -1;
+        std::optional<tripoint_abs_ms> target_location;
+        int64_t vehicle_uid = 0;
+        int64_t part_uid = 0;
 };
 
 class consume_activity_actor : public activity_actor
@@ -3921,6 +3927,8 @@ class fix_wound_activity_actor : public activity_actor
 class gunmod_add_activity_actor : public activity_actor
 {
     public:
+        bool reopen_menu = false;
+
         gunmod_add_activity_actor() = default;
         gunmod_add_activity_actor( int moves, std::string name ) : moves( moves ),
             name( std::move( name ) ) {}

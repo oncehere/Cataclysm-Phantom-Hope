@@ -12,6 +12,12 @@ is generated from the current source and data tree. Regenerate it with
 source fingerprints or reference locations can change without adding a new
 JSON object type. The extractor reuses a comment mask within each parse, preserving registration order and original source coordinates; `generate_contracts.py --check` verifies inventories without rewriting them. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
+Gun `modes` and gunmod `mode_modifier` use the same firing-mode parser. Their
+third value accepts an integer quantity or a positive-integer RPM string;
+legacy non-melee, non-volley quantities above one convert to 300 RPM per
+round. See [item firing modes](ITEM.md) for examples and flag restrictions.
+These are fields of existing item types and use the existing inheritance path.
+
 `pet_slot` defines named equipment positions on friendly creatures; examples
 live in `data/json/pet_slots/pet_slots.json`. `riding_config` loads the shared
 animal-riding balance parameters from `data/json/riding_config.json`. Riding

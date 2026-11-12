@@ -1,19 +1,19 @@
 {
-  "//1": "See docs/user-guides/FONT_OPTIONS.md for how to configure your fonts.",
+  "//1": "See doc/user-guides/FONT_OPTIONS.md for how to configure your fonts.",
   "typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "gui_typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "map_typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "overmap_typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ]
 }

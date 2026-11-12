@@ -86,7 +86,8 @@ int run_windows_child( const std::filesystem::path &root, const wchar_t *mode )
     const std::wstring saved_mode = old_mode ? old_mode : L"";
     REQUIRE( _wputenv_s( L"CPH_ACTOR_SAVE_CHILD_ROOT", root.c_str() ) == 0 );
     REQUIRE( _wputenv_s( L"CPH_ACTOR_SAVE_CHILD_MODE", mode ) == 0 );
-    STARTUPINFOW startup { sizeof( STARTUPINFOW ) };
+    STARTUPINFOW startup {};
+    startup.cb = sizeof( startup );
     PROCESS_INFORMATION process {};
     const BOOL started = CreateProcessW( executable.data(), command.data(), nullptr, nullptr, FALSE,
                                          CREATE_NO_WINDOW, nullptr, nullptr, &startup, &process );

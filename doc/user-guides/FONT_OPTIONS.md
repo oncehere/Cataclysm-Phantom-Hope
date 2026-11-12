@@ -23,25 +23,27 @@
 
 Fonts can be configured through changing the config/fonts.json file. This file is created with
 default options on game load, so if it doesn't exist try loading the game.
+Existing `config/fonts.json` files take precedence over the bundled defaults;
+changing the defaults does not replace a player's existing font choices.
+The bundled Sarasa Fixed SC Semibold font and its license are in `data/font/`.
 
 The default options (available in data/fontdata.json) might look like the following:
 ```jsonc
 {
   "typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "gui_typeface": [
-    { "path": "data/font/Roboto-Medium.ttf", "hinting": "Light" },
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "map_typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "overmap_typeface": [
-    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
+    { "path": "data/font/sarasa-fixed-sc-semibold.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ]
 }
@@ -122,5 +124,5 @@ tells the renderer to ignore any vector glyphs in the font in favor of
 bitmapped glyphs. As bitmapped glyphs are never antialiased at all
 they will be extremely sharp, but also pixelated. In most contexts the
 pixelation would be inappropriate, but it may lend the game a retro
-aesthetic that many find appealing. Currently the game defaults to
-using the Terminus font with this setting.
+aesthetic that many find appealing. CPH defaults to Sarasa Fixed SC
+SemiBold with this setting.

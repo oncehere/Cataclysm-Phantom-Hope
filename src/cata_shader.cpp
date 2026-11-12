@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "map_scale_constants.h"
 #include "path_info.h"
+#include "sdl_renderer_recovery.h"
 #include "smooth_lighting.h"
 #include "tile_tint.h"
 
@@ -115,8 +116,28 @@ std::vector<unsigned char> read_file_bytes( const std::string &path )
 
 } // namespace
 
+struct fragment_shader_cache {
+    struct entry {
+        SDL_GPUDevice *device;
+        SDL_GPUShaderFormat format;
+        unsigned int samplers;
+        unsigned int uniforms;
+        std::vector<unsigned char> code;
+        shader program;
+    };
+    std::vector<entry> entries;
+
+    void abandon() {
+        for( entry &cached : entries ) {
+            cached.program.abandon();
+        }
+        entries.clear();
+    }
+};
+
 shader shader::load_fragment( SDL_GPUDevice *device, const std::string &basename,
-                              unsigned int num_samplers, unsigned int num_uniform_buffers )
+                              unsigned int num_samplers, unsigned int num_uniform_buffers,
+                              fragment_shader_cache *cache )
 {
     if( !device ) {
         return shader{};
@@ -126,7 +147,7 @@ shader shader::load_fragment( SDL_GPUDevice *device, const std::string &basename
     if( available == SDL_GPU_SHADERFORMAT_INVALID ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader: SDL_GetGPUShaderFormats returned INVALID; "
-           "no shader formats supported by GPU device";
+                "no shader formats supported by GPU device";
         return shader{};
     }
 
@@ -141,7 +162,7 @@ shader shader::load_fragment( SDL_GPUDevice *device, const std::string &basename
     if( !chosen ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader: no shipped shader artifact matches GPU "
-           "device's supported formats (mask=" << static_cast<unsigned>( available ) << ")";
+                "device's supported formats (mask=" << static_cast<unsigned>( available ) << ")";
         return shader{};
     }
 
@@ -152,6 +173,16 @@ shader shader::load_fragment( SDL_GPUDevice *device, const std::string &basename
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader: failed to read shader artifact at " << artifact_path;
         return shader{};
+    }
+
+    if( cache ) {
+        for( const fragment_shader_cache::entry &cached : cache->entries ) {
+            if( cached.device == device && cached.format == chosen->shader_format &&
+                cached.samplers == num_samplers && cached.uniforms == num_uniform_buffers &&
+                cached.code == bytes ) {
+                return shader( device, cached.program.get(), false );
+            }
+        }
     }
 
     SDL_GPUShaderCreateInfo info{};
@@ -171,18 +202,22 @@ shader shader::load_fragment( SDL_GPUDevice *device, const std::string &basename
                 << "cata_shader: SDL_CreateGPUShader failed: " << SDL_GetError();
         return shader{};
     }
-    return shader( device, raw );
+    if( cache ) {
+        cache->entries.push_back( { device, chosen->shader_format, num_samplers,
+                                    num_uniform_buffers, std::move( bytes ), shader( device, raw ) } );
+    }
+    return shader( device, raw, cache == nullptr );
 }
 
 shader::~shader()
 {
-    if( ptr_ && device_ ) {
+    if( ptr_ && device_ && owned_ ) {
         SDL_ReleaseGPUShader( device_, ptr_ );
     }
 }
 
 shader::shader( shader &&other ) noexcept
-    : device_( other.device_ ), ptr_( other.ptr_ )
+    : device_( other.device_ ), ptr_( other.ptr_ ), owned_( other.owned_ )
 {
     other.device_ = nullptr;
     other.ptr_ = nullptr;
@@ -191,11 +226,12 @@ shader::shader( shader &&other ) noexcept
 shader &shader::operator=( shader &&other ) noexcept
 {
     if( this != &other ) {
-        if( ptr_ && device_ ) {
+        if( ptr_ && device_ && owned_ ) {
             SDL_ReleaseGPUShader( device_, ptr_ );
         }
         device_ = other.device_;
         ptr_ = other.ptr_;
+        owned_ = other.owned_;
         other.device_ = nullptr;
         other.ptr_ = nullptr;
     }
@@ -348,7 +384,7 @@ bool tint_predicate( int r, int g, int b )
     // identity shader returns source gray and fails
     const auto expected = []( const uint8_t mod_channel ) {
         return static_cast<int>( std::lround( tint_mix_channel( 128.0f, mod_channel,
-            tint_probe_mod.a ) ) );
+                                              tint_probe_mod.a ) ) );
     };
     return std::abs( r - expected( tint_probe_mod.r ) ) <= 4 &&
            std::abs( g - expected( tint_probe_mod.g ) ) <= 4 &&
@@ -420,7 +456,8 @@ static uint32_t next_resource_generation()
 }
 
 variant_pass::variant_pass( SDL_Renderer *renderer )
-    : renderer_( renderer ), resource_generation_( next_resource_generation() )
+    : renderer_( renderer ), shader_cache_( std::make_unique<fragment_shader_cache>() ),
+      resource_generation_( next_resource_generation() )
 {
 }
 
@@ -527,7 +564,7 @@ std::vector<probe_case> cases()
     out.back().frame.per_tile = true;
 
     out.push_back( make_case( "per tile, no light", std::vector<std::string>( probe_rows,
-            "zzzzzzzz" ), point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+                              "zzzzzzzz" ), point( 3, 3 ), { 3.5f, 3.5f }, false ) );
     out.back().frame.per_tile = true;
     out.back().frame.blend_memory = true;
 
@@ -576,7 +613,7 @@ std::vector<probe_case> cases()
 
     // light gradient across a quad four pixels wide
     probe_case gradient = make_case( "coordinates across a quad", std::vector<std::string>( probe_rows,
-        "12345555" ), point( 2, 3 ), { 2.0f, 3.5f }, false );
+                                     "12345555" ), point( 2, 3 ), { 2.0f, 3.5f }, false );
     gradient.size = point( 4, 1 );
     gradient.corners[1].x = 3.0f;
     gradient.corners[2].x = 3.0f;
@@ -595,7 +632,7 @@ std::vector<probe_case> cases()
 
     // quad running into the sight edge, part way into the memory look
     probe_case edge = make_case( "into the edge of sight", std::vector<std::string>( probe_rows,
-        "oooo    " ), point( 3, 3 ), { 3.0f, 3.5f }, false );
+                                 "oooo    " ), point( 3, 3 ), { 3.0f, 3.5f }, false );
     edge.size = point( 4, 1 );
     edge.corners[1].x = 4.0f;
     edge.corners[2].x = 4.0f;
@@ -615,7 +652,7 @@ std::vector<probe_case> cases()
     // levels above and below it
     const probe_layout packed{ MAPSIZE_X, MAPSIZE_Y, OVERMAP_LAYERS, OVERMAP_LAYERS - 2 };
     probe_case corner = make_case( "corner of a packed level", std::vector<std::string>( MAPSIZE_Y,
-        std::string( MAPSIZE_X, 'f' ) ), point( MAPSIZE_X - 1, MAPSIZE_Y - 1 ),
+                                   std::string( MAPSIZE_X, 'f' ) ), point( MAPSIZE_X - 1, MAPSIZE_Y - 1 ),
     { MAPSIZE_X - 0.02f, MAPSIZE_Y - 0.02f }, false, packed );
     const int packed_width = 2 * MAPSIZE_X;
     for( const int level : {
@@ -696,7 +733,7 @@ static std::vector<rgb> readback_of( const probe_case &c,
             const smooth_lighting::lit_sample s = sample( at_pixel( c, i, j ) );
             const std::array<float, 3> rgb = source_rgb( c );
             out.push_back( to_rgb( over_black( c, c.night ? smooth_lighting::reference_night_rgb( look, rgb,
-                    s ) : smooth_lighting::reference_lit_rgb( look, rgb, s ) ) ) );
+                                               s ) : smooth_lighting::reference_lit_rgb( look, rgb, s ) ) ) );
         }
     }
     return out;
@@ -724,7 +761,7 @@ std::vector<rgb> readback_if_full_light( const probe_case &c )
 std::vector<rgb> readback_if_ignored( const probe_case &c )
 {
     return std::vector<rgb>( static_cast<size_t>( c.size.x ) * c.size.y, to_rgb( over_black( c,
-            source_rgb( c ) ) ) );
+                             source_rgb( c ) ) ) );
 }
 
 bool matches( const std::vector<rgb> &expected, const std::vector<rgb> &readback )
@@ -750,6 +787,9 @@ variant_pass::~variant_pass()
     // On flush failure the handles may still be referenced; abandon rather
     // than have RAII teardown call SDL on a still-bound resource.
     clear_state_arrays( !flushed );
+    if( !flushed ) {
+        shader_cache_->abandon();
+    }
 }
 
 namespace
@@ -785,7 +825,7 @@ target_readback draw_into_probe_target( SDL_Renderer *renderer, SDL_GPURenderSta
         return res;
     }
     SDL_FillSurfaceRect( src_surf, nullptr, SDL_MapSurfaceRGBA( src_surf, source[0], source[1],
-            source[2], source[3] ) );
+                         source[2], source[3] ) );
     SDL_Texture *src = SDL_CreateTextureFromSurface( renderer, src_surf );
     SDL_DestroySurface( src_surf );
     if( !src ) {
@@ -889,7 +929,7 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
     // tells "shader ran" from "bind silently ignored"
     static constexpr std::array<Uint8, 4> mid_gray = { 128, 128, 128, 255 };
     const target_readback rb = draw_into_probe_target( renderer, state, point::south_east, mid_gray,
-        mod,
+                               mod,
     [renderer]( SDL_Texture * src ) {
         const SDL_FRect dst{ 0.0f, 0.0f, 1.0f, 1.0f };
         return SDL_RenderTexture( renderer, src, nullptr, &dst );
@@ -920,9 +960,10 @@ enum class load_outcome {
 load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
                              const char *basename, probe_predicate pred,
                              shader &out_shader, render_state &out_state,
+                             fragment_shader_cache *cache,
                              const std::optional<tint_texture_mod> &mod = std::nullopt )
 {
-    shader frag = shader::load_fragment( device, basename, 1, 0 );
+    shader frag = shader::load_fragment( device, basename, 1, 0, cache );
     if( !frag.is_valid() ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: shader load failed for "
@@ -940,8 +981,8 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
     if( !res.boundary_safe ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: probe left renderer in undefined "
-           "state for " << basename << "; abandoning shader + render_state "
-           "to avoid destroying a bound resource";
+                "state for " << basename << "; abandoning shader + render_state "
+                "to avoid destroying a bound resource";
         state.abandon();
         frag.abandon();
         return load_outcome::failed_unsafe;
@@ -950,7 +991,7 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: textured-draw probe failed for "
                 << basename << " (silent miswire?  readback did not match "
-                       "expected variant transform); shader variant path disabled";
+                "expected variant transform); shader variant path disabled";
         return load_outcome::failed_clean;
     }
     out_shader = std::move( frag );
@@ -1072,7 +1113,7 @@ void variant_pass::probe()
     if( std::getenv( "CATA_DISABLE_SPRITE_SHADERS" ) ) {
         DebugLog( D_INFO, DC_ALL )
                 << "cata_shader::variant_pass: CATA_DISABLE_SPRITE_SHADERS set; "
-           "shader variant path disabled";
+                "shader variant path disabled";
         return;
     }
     if( test_probe_unsafe_countdown > 0 ) {
@@ -1085,7 +1126,7 @@ void variant_pass::probe()
     if( !device ) {
         DebugLog( D_INFO, DC_ALL )
                 << "cata_shader::variant_pass: SDL_GetGPURendererDevice "
-           "returned NULL (renderer is not gpu); shader variant path disabled";
+                "returned NULL (renderer is not gpu); shader variant path disabled";
         return;
     }
     for( int i = 0; i < static_cast<int>( variant_kind::count ); ++i ) {
@@ -1095,7 +1136,7 @@ void variant_pass::probe()
             continue;
         }
         const load_outcome o = load_and_probe( device, renderer_, basename,
-                                               predicate_for( v ), shaders_[i], states_[i] );
+                                               predicate_for( v ), shaders_[i], states_[i], shader_cache_.get() );
         if( o == load_outcome::failed_unsafe ) {
             mark_probe_unsafe();
             return;
@@ -1111,7 +1152,7 @@ void variant_pass::probe()
             continue;
         }
         const load_outcome o = load_and_probe( device, renderer_, basename,
-                                               predicate_for( p ), memory_shaders_[i], memory_states_[i] );
+                                               predicate_for( p ), memory_shaders_[i], memory_states_[i], shader_cache_.get() );
         if( o == load_outcome::failed_unsafe ) {
             mark_probe_unsafe();
             return;
@@ -1121,7 +1162,7 @@ void variant_pass::probe()
         }
     }
     const load_outcome tint = load_and_probe( device, renderer_, "tint.frag", tint_predicate,
-        tint_shader_, tint_state_, tint_probe_mod );
+                              tint_shader_, tint_state_, shader_cache_.get(), tint_probe_mod );
     if( tint == load_outcome::failed_unsafe ) {
         mark_probe_unsafe();
         return;
@@ -1335,7 +1376,7 @@ lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
         }
         SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer_ );
         SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
-                SDL_GetTextureProperties( lightmap ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
+                                                SDL_GetTextureProperties( lightmap ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
         if( !device || !gpu_texture ) {
             DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lightmap has no GPU texture";
             return failed( lit_failure::state_create );
@@ -1355,8 +1396,9 @@ lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
             return failed( lit_failure::sampler_create );
         }
         lit_device_ = device;
-        lit_shader_ = shader::load_fragment( device, "lit.frag", 2, 1 );
-        nv_lit_shader_ = shader::load_fragment( device, "nightvision_lit.frag", 2, 1 );
+        lit_shader_ = shader::load_fragment( device, "lit.frag", 2, 1, shader_cache_.get() );
+        nv_lit_shader_ = shader::load_fragment( device, "nightvision_lit.frag", 2, 1,
+                                                shader_cache_.get() );
         if( !lit_shader_.is_valid() || !nv_lit_shader_.is_valid() ) {
             release_lit( false );
             return failed( lit_failure::shader_load );
@@ -1431,12 +1473,12 @@ variant_pass::lit_probe_outcome variant_pass::probe_lit()
             return lit_probe_outcome::mismatch;
         }
         SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
-                SDL_GetTextureProperties( tex ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
+                                                SDL_GetTextureProperties( tex ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
         SDL_GPUTextureSamplerBinding binding{};
         binding.texture = gpu_texture;
         binding.sampler = lit_sampler_;
         render_state state = gpu_texture ? render_state::create( renderer_,
-            c.night ? nv_lit_shader_ : lit_shader_, &binding, 1 ) : render_state{};
+                             c.night ? nv_lit_shader_ : lit_shader_, &binding, 1 ) : render_state{};
         lit_params params = make_lit_params( c.frame );
         params.size = { view.width, view.height, view.rows_per_level, view.reach_column };
         if( !state.is_valid() ||
@@ -1485,7 +1527,7 @@ variant_pass::lit_probe_outcome variant_pass::probe_lit()
             DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit shader probe failed: " << c.name;
             for( size_t i = 0; i < want.size() && i < got.size(); ++i ) {
                 DebugLog( D_ERROR, DC_ALL ) << "  pixel " << i << " want " << want[i].r << "," << want[i].g <<
-                                               "," << want[i].b << " got " << got[i].r << "," << got[i].g << "," << got[i].b;
+                                            "," << want[i].b << " got " << got[i].r << "," << got[i].g << "," << got[i].b;
             }
             return lit_probe_outcome::mismatch;
         }
@@ -1509,7 +1551,7 @@ void variant_pass::drop_lit()
     release_lit( !flushed );
 }
 
-void variant_pass::release_gpu_resources()
+void variant_pass::release_gpu_resources( const bool retiring_renderer )
 {
     if( abandoned_pending_rebind_ ) {
         // Embargo already raised; nothing to do until rebind.
@@ -1522,6 +1564,11 @@ void variant_pass::release_gpu_resources()
         flushed = flush();
     }
     clear_state_arrays( !flushed );
+    if( !flushed ) {
+        shader_cache_->abandon();
+    } else if( retiring_renderer ) {
+        shader_cache_->entries.clear();
+    }
     bound_state_ = nullptr;
     probe_attempted_ = false;
     probed_ok_ = false;
@@ -1538,6 +1585,7 @@ void variant_pass::release_gpu_resources()
 void variant_pass::force_abandon_gpu_resources()
 {
     clear_state_arrays( true );
+    shader_cache_->abandon();
     bound_state_ = nullptr;
     probe_attempted_ = false;
     probed_ok_ = false;
@@ -1552,6 +1600,9 @@ void variant_pass::rebind_renderer( SDL_Renderer *renderer )
     // renderer_, already destroyed on a LOST recovery. Callers release against
     // the OLD renderer first, so the arrays are already empty by now.
     clear_state_arrays( true );
+    if( renderer != renderer_ ) {
+        shader_cache_->abandon();
+    }
     bound_state_ = nullptr;
     unbind_required_ = false;
     probe_attempted_ = false;
@@ -1563,6 +1614,12 @@ void variant_pass::rebind_renderer( SDL_Renderer *renderer )
 }
 
 } // namespace cata_shader
+
+std::size_t renderer_recovery_test_support::variant_shader_count(
+    const cata_shader::variant_pass &pass )
+{
+    return pass.shader_cache_->entries.size();
+}
 
 
 #endif // TILES

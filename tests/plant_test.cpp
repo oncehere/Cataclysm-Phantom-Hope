@@ -17,6 +17,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "event_subscriber.h"
+#include "game.h"
 #include "global_vars.h"
 #include "iexamine.h"
 #include "item.h"
@@ -27,6 +28,7 @@
 #include "map_helpers.h"
 #include "mapdata.h"
 #include "math_parser_diag_value.h"
+#include "npc.h"
 #include "options.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -484,6 +486,126 @@ TEST_CASE( "plant_fertilizer_quality_affects_reduction", "[plant][fertilize]" )
            iexamine::get_plant_effective_growth_turns( *seed_liquid ) );
 }
 
+TEST_CASE( "fertilizing_event_revalidates_seed_and_actor", "[plant][fertilize][regression]" )
+{
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    const bool remove_npc = GENERATE( false, true );
+    Character &actor = remove_npc ? static_cast<Character &>( spawn_npc( { 60, 60 }, "test_talker" ) ) :
+                       static_cast<Character &>( get_avatar() );
+    const character_id actor_id = actor.getID();
+    const tripoint_bub_ms plot = actor.pos_bub() + tripoint::east;
+    here.add_item( plot, item( itype_test_seed_eoc ) );
+    here.furn_set( plot, furn_test_f_plant_seedling );
+    actor.i_add( item( itype_fertilizer_commercial, calendar::turn ) );
+    iexamine::fertilize_plant( actor, plot, itype_fertilizer_commercial );
+    REQUIRE( actor.activity.actor );
+    struct replacing_subscriber : event_subscriber {
+        map &here;
+        tripoint_bub_ms plot;
+        character_id id;
+        bool remove_npc;
+        bool fired = false;
+        replacing_subscriber( map &m, tripoint_bub_ms p, character_id i, bool remove ) :
+            here( m ), plot( p ), id( i ), remove_npc( remove ) {}
+        using event_subscriber::notify;
+        void notify( const cata::event &e ) override {
+            if( e.type() != event_type::character_fertilizes_plant ||
+                e.get<character_id>( "character" ) != id ) {
+                return;
+            }
+            fired = true;
+            if( remove_npc ) {
+                g->remove_npc( id );
+            } else {
+                here.i_clear( plot );
+                here.add_item( plot, item( itype_test_seed_eoc ) );
+            }
+        }
+    } subscriber( here, plot, actor_id, remove_npc );
+    event_bus &bus = get_event_bus();
+    bus.subscribe( &subscriber );
+    const on_out_of_scope cleanup( [&]() {
+        bus.unsubscribe( &subscriber );
+    } );
+
+    actor.activity.actor->finish( actor.activity, actor );
+
+    CHECK( subscriber.fired );
+    const item *seed = iexamine::get_seed_at( here, plot );
+    REQUIRE( seed );
+    CHECK( iexamine::is_plant_fertilized( *seed ) == remove_npc );
+    CHECK( get_globals().get_global_value( "test_fertilizer" ).to_string().empty() );
+}
+
+TEST_CASE( "planting_keeps_seed_on_selected_valid_plot", "[plant][regression]" )
+{
+    map &here = get_map();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    const tripoint_bub_ms plot = u.pos_bub() + tripoint::east;
+    here.ter_set( plot, ter_t_dirtmound );
+    u.i_add( item( itype_test_seed_eoc ) );
+    iexamine::plant_seed( u, plot, itype_test_seed_eoc );
+    SECTION( "unchanged plot contains planted seed" ) {
+        process_activity( u );
+        const item *seed = iexamine::get_seed_at( here, plot );
+        REQUIRE( seed );
+        CHECK( seed->typeId() == itype_test_seed_eoc );
+    }
+    SECTION( "changed terrain does not consume seed" ) {
+        here.ter_set( plot, ter_t_dirt );
+        process_activity( u );
+        CHECK( u.has_amount( itype_test_seed_eoc, 1 ) );
+        CHECK_FALSE( iexamine::get_seed_at( here, plot ) );
+    }
+}
+
+TEST_CASE( "planting_stops_when_event_removes_npc", "[plant][regression]" )
+{
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    npc &actor = spawn_npc( { 60, 60 }, "test_talker" );
+    const character_id actor_id = actor.getID();
+    const tripoint_bub_ms plot = actor.pos_bub() + tripoint::east;
+    here.ter_set( plot, ter_t_dirtmound );
+    actor.i_add( item( itype_test_seed_eoc ) );
+    iexamine::plant_seed( actor, plot, itype_test_seed_eoc );
+    REQUIRE( actor.activity.actor );
+    struct removing_subscriber : event_subscriber {
+        character_id id;
+        bool fired = false;
+        explicit removing_subscriber( character_id value ) : id( value ) {}
+        using event_subscriber::notify;
+        void notify( const cata::event &e ) override {
+            if( e.type() == event_type::character_plants_seed &&
+                e.get<character_id>( "character" ) == id ) {
+                fired = true;
+                g->remove_npc( id );
+            }
+        }
+    } subscriber( actor_id );
+    event_bus &bus = get_event_bus();
+    bus.subscribe( &subscriber );
+    const on_out_of_scope cleanup( [&]() {
+        bus.unsubscribe( &subscriber );
+    } );
+
+    actor.activity.actor->finish( actor.activity, actor );
+
+    CHECK( subscriber.fired );
+    const item *seed = iexamine::get_seed_at( here, plot );
+    REQUIRE( seed );
+    CHECK( seed->typeId() == itype_test_seed_eoc );
+    CHECK( get_globals().get_global_value( "test_planted" ).to_string().empty() );
+}
+
 TEST_CASE( "plant_water_eoc_and_event", "[plant][water]" )
 {
     map &here = get_map();
@@ -502,9 +624,129 @@ TEST_CASE( "plant_water_eoc_and_event", "[plant][water]" )
 
     iexamine::water_plant( u, plot );
 
+    item *watered_seed = iexamine::get_seed_at( here, plot );
+    REQUIRE( watered_seed );
+    CHECK( iexamine::get_plant_water( *watered_seed ) > 0 );
+
     const std::string water_added = get_globals().get_global_value( "test_water_added" ).to_string();
     REQUIRE( !water_added.empty() );
     CHECK( std::stoi( water_added ) > 0 );
+}
+
+TEST_CASE( "watering_rechecks_seed_after_event", "[plant][water][regression]" )
+{
+    map &here = get_map();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    const tripoint_bub_ms plot = u.pos_bub() + tripoint::east;
+    here.add_item( plot, item( itype_test_seed_eoc ) );
+    here.furn_set( plot, furn_f_planter_seed );
+    const item *initial_seed = iexamine::get_seed_at( here, plot );
+    REQUIRE( initial_seed );
+    const auto initial_uid = initial_seed->uid().get_value();
+    item water( itype_water_clean, calendar::turn, 1 );
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( water, pocket_type::CONTAINER ).success() );
+    u.i_add( bottle );
+
+    struct replacing_subscriber : event_subscriber {
+        map &here;
+        tripoint_bub_ms plot;
+        bool observed_original_watered = false;
+        replacing_subscriber( map &m, const tripoint_bub_ms &p ) : here( m ), plot( p ) {}
+        using event_subscriber::notify;
+        void notify( const cata::event &e ) override {
+            if( e.type() == event_type::character_waters_plant ) {
+                const item *original = iexamine::get_seed_at( here, plot );
+                observed_original_watered = original && iexamine::get_plant_water( *original ) > 0;
+                here.i_clear( plot );
+                here.add_item( plot, item( itype_test_seed_eoc ) );
+            }
+        }
+    } subscriber( here, plot );
+    event_bus &bus = get_event_bus();
+    bus.subscribe( &subscriber );
+    const on_out_of_scope cleanup( [&]() {
+        bus.unsubscribe( &subscriber );
+    } );
+    iexamine::water_plant( u, plot );
+    const item *replacement = iexamine::get_seed_at( here, plot );
+    REQUIRE( replacement );
+    CHECK( replacement->uid().get_value() != initial_uid );
+    CHECK( subscriber.observed_original_watered );
+    CHECK( u.charges_of( itype_water_clean ) == 0 );
+    CHECK( iexamine::get_plant_water( *replacement ) == 0 );
+    CHECK( get_globals().get_global_value( "test_water_added" ).to_string().empty() );
+}
+
+TEST_CASE( "watering_stops_when_event_removes_npc", "[plant][water][regression]" )
+{
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    npc &actor = spawn_npc( { 60, 60 }, "test_talker" );
+    const character_id actor_id = actor.getID();
+    const tripoint_bub_ms plot = actor.pos_bub() + tripoint::east;
+    here.add_item( plot, item( itype_test_seed_eoc ) );
+    here.furn_set( plot, furn_f_planter_seed );
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 1 ),
+                            pocket_type::CONTAINER ).success() );
+    actor.i_add( bottle );
+    struct removing_subscriber : event_subscriber {
+        character_id id;
+        bool fired = false;
+        explicit removing_subscriber( character_id value ) : id( value ) {}
+        using event_subscriber::notify;
+        void notify( const cata::event &e ) override {
+            if( e.type() == event_type::character_waters_plant &&
+                e.get<character_id>( "character" ) == id ) {
+                fired = true;
+                g->remove_npc( id );
+            }
+        }
+    } subscriber( actor_id );
+    event_bus &bus = get_event_bus();
+    bus.subscribe( &subscriber );
+    const on_out_of_scope cleanup( [&]() {
+        bus.unsubscribe( &subscriber );
+    } );
+
+    iexamine::water_plant( actor, plot );
+
+    CHECK( subscriber.fired );
+    const item *seed = iexamine::get_seed_at( here, plot );
+    REQUIRE( seed );
+    CHECK( iexamine::get_plant_water( *seed ) > 0 );
+    CHECK( get_globals().get_global_value( "test_water_added" ).to_string().empty() );
+}
+
+TEST_CASE( "watering_lifecycle_survives_seed_removal", "[plant][water][regression]" )
+{
+    map &here = get_map();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+    reset_test_globals();
+    const tripoint_bub_ms plot = u.pos_bub() + tripoint::east;
+    item planted( itype_test_seed_eoc );
+    planted.set_owner( u );
+    here.add_item( plot, std::move( planted ) );
+    here.furn_set( plot, furn_str_id( "test_f_water_removes_seed" ) );
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 1 ),
+                            pocket_type::CONTAINER ).success() );
+    u.i_add( bottle );
+
+    iexamine::water_plant( u, plot );
+
+    CHECK_FALSE( iexamine::get_seed_at( here, plot ) );
+    CHECK( u.charges_of( itype_water_clean ) == 0 );
+    // The seed callback still receives the original watered snapshot.
+    CHECK_FALSE( get_globals().get_global_value( "test_water_added" ).to_string().empty() );
 }
 
 TEST_CASE( "plant_vehicle_operations", "[plant][vehicle]" )

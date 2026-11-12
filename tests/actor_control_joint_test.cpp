@@ -215,7 +215,8 @@ class joint_driver_process
             limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
             REQUIRE( SetInformationJobObject( job_, JobObjectExtendedLimitInformation,
                                               &limits, sizeof( limits ) ) );
-            STARTUPINFOW startup { sizeof( STARTUPINFOW ) };
+            STARTUPINFOW startup {};
+            startup.cb = sizeof( startup );
             PROCESS_INFORMATION child {};
             REQUIRE( CreateProcessW( std::filesystem::u8path( arguments_.front() ).c_str(), command.data(),
                                      nullptr, nullptr, FALSE, CREATE_NO_WINDOW | CREATE_SUSPENDED,

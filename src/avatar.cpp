@@ -56,9 +56,9 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "level_cache.h"
 #include "lua_platform_hooks.h"
 #include "lua_platform_runtime.h"
-#include "level_cache.h"
 #include "map.h"
 #include "map_memory.h"
 #include "map_scale_constants.h"
@@ -291,6 +291,12 @@ bool avatar::has_memory_at( const tripoint_abs_ms &p ) const
 {
     const memorized_tile &mt = get_memorized_tile( p );
     return !mt.get_ter_id().empty() || !mt.get_dec_id().empty();
+}
+
+bool avatar::has_map_memory_in_region( const tripoint_abs_ms &p1,
+                                       const tripoint_abs_ms &p2 ) const
+{
+    return should_show_map_memory() && player_map_memory->has_memory_in_region( p1, p2 );
 }
 
 void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
@@ -1244,7 +1250,7 @@ void avatar::rebuild_aim_cache() const
     double pi = 2 * acos( 0.0 );
 
     const tripoint_bub_ms local_last_target = here.get_bub(
-            last_target_pos.value() );
+                last_target_pos.value() );
     const tripoint_bub_ms pos = pos_bub( here );
     float base_angle = atan2f( local_last_target.y() - pos.y(),
                                local_last_target.x() - pos.x() );

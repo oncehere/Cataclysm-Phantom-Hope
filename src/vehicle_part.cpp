@@ -527,6 +527,13 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
+    if( is_tank() ) {
+        if( !obj.is_null() && obj.made_of( phase_id::LIQUID ) ) {
+            return base.get_remaining_capacity_for_liquid( obj, true ) > 0;
+        }
+        return ammo_current().is_null() || ammo_remaining() < item_capacity( ammo_current() );
+    }
+
     if( ammo_current().is_null() ) {
         return true; // empty tank
     }
@@ -819,7 +826,7 @@ bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 
     // FIXME/HACK: Always checks buckwheat seeds!
     ret_val<void>can_plant = warm_enough_to_plant( get_player_character().pos_bub(),
-        itype_seed_buckwheat );
+                             itype_seed_buckwheat );
     if( pt.info().has_flag( "PLANTER" ) && !can_plant.success() ) {
         if( alert ) {
             add_msg( m_bad, can_plant.c_str() );

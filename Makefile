@@ -1284,9 +1284,11 @@ ifeq ($(RELEASE), 1)
   endif
 endif
 
+# GCC can omit project headers from -MMD dependencies when using a PCH.
+# Use -MD for compile dependencies so header changes reliably rebuild objects.
 $(PCH_P): $(PCH_H)
 	@mkdir -p "$(@D)"
-	-$(COMPILE.cc) $(OUTPUT_OPTION) -MMD -MP -Wno-error $<
+	-$(COMPILE.cc) $(OUTPUT_OPTION) -MD -MP -Wno-error $<
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS) $(LUA_PLATFORM_LINK_MODE_STAMP)
 	$(RM) $@
@@ -1344,27 +1346,27 @@ includes: $(OBJS:.o=.inc)
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	@mkdir -p "$(@D)"
-	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cc
 	@mkdir -p "$(@D)"
-	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
 	@mkdir -p "$(@D)"
-	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MD -MP $<
 
 $(ODIR)/lua/%.o: $(SRC_DIR)/lua/%.c
 	@mkdir -p "$(@D)"
-	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) $(LUA_NATIVE_CFLAGS) -w -MMD -MP $<
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) $(LUA_NATIVE_CFLAGS) -w -MD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	@mkdir -p "$(@D)"
-	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p "$(@D)"
-	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -MMD -MP $<
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -MD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	@mkdir -p "$(@D)"
@@ -1677,14 +1679,14 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	$(JSON_STYLE_FIND) | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party $^
+	$(LINK.cc) $(OUTPUT_OPTION) -MD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party $^
 
 $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) $(AR_FLAGS) rcs $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
   # Remove SDL libraries used by cataclysm
-	$(subst $(LDFLAGS),,$(LINK.cc)) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
+	$(subst $(LDFLAGS),,$(LINK.cc)) $(OUTPUT_OPTION) -MD -MP -isystem src/third-party $^
 
 python-check:
 	git ls-files -z -- '*.py' ':!obj-lua' ':!obj-lua/**' | xargs -0 flake8
@@ -1704,5 +1706,8 @@ compile_commands.txt:
 	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}
+ifneq ($(strip $(PCH_P)),)
+-include $(basename $(PCH_P)).d
+endif
 
 endif # build rules (not a clean-only invocation)

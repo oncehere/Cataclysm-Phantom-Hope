@@ -30,11 +30,13 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "distraction_manager.h"
+#include "effect.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "gunmod_ui.h"
 #include "gun_mode.h"
 #include "input.h"
 #include "input_context.h"
@@ -68,6 +70,7 @@
 #include "rng.h"
 #include "sling.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -907,6 +910,18 @@ void avatar_action::active_technique( avatar &you, map &m )
         menu.addentry_desc( i, enabled, MENU_AUTOASSIGN, available[i]->name.translated(),
                             available[i]->get_description() );
     }
+    for( size_t i = 0; i < available.size(); ++i ) {
+        if( available[i]->grapple_action.empty() ) {
+            continue;
+        }
+        uilist_entry &entry = menu.entries[i];
+        entry.enabled = entry.enabled && available[i]->activation_allowed( you, "start" );
+        if( you.has_effect( available[i]->grapple_cooldown_effect() ) ) {
+            const effect &cooldown = you.get_effect( available[i]->grapple_cooldown_effect() );
+            entry.desc += string_format( _( "\nRecovering: %s remaining.\n" ),
+                                         to_string( cooldown.get_duration() ) );
+        }
+    }
     menu.query( true, 50, true );
     if( menu.ret < 0 ) {
         return;
@@ -1443,6 +1458,25 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
     if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
         return;
+    }
+
+    if( loc->is_gun() && !loc->is_gunmod() && method.empty() ) {
+        bool manage = true;
+        if( loc->type->has_use() || loc->has_relic_activation() ) {
+            uilist actions;
+            actions.text = loc->tname();
+            actions.addentry( 0, true, 'm', _( "Manage gun modifications" ) );
+            actions.addentry( 1, true, 'a', _( "Activate item" ) );
+            actions.query();
+            if( actions.ret < 0 ) {
+                return;
+            }
+            manage = actions.ret == 0;
+        }
+        if( manage ) {
+            gunmod_ui::show( you, loc );
+            return;
+        }
     }
 
     loc.overflow( here );

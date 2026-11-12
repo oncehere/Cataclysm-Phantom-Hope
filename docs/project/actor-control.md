@@ -367,6 +367,11 @@ Mod files, the installation manifest limits removal to files it actually install
 
 ## Verification
 
+The native bridge keeps platform-specific runtime-directory discovery separate:
+Windows reads `LOCALAPPDATA` through the wide-character environment API, while
+the narrow environment helper is compiled only in non-Windows builds. This preserves Windows
+Unicode paths and does not change the controller protocol or its permissions.
+
 Focused tests use `[actor_control]` for the controller, native adapter, bridge,
 protocol fixtures, Lua surface, native writer hooks, crash recovery and snapshot
 exclusion. The Windows/Linux hidden test

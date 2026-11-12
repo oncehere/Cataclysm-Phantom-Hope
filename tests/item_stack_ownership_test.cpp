@@ -40,3 +40,57 @@ TEST_CASE( "stacking_preserves_ownership", "[item][stacking][ownership]" )
     CHECK( lhs.charges == 10 );
     CHECK( rhs.charges == 10 );
 }
+
+TEST_CASE( "liquid_mixing_retains_the_available_ownership_record",
+           "[item][stacking][ownership][liquid]" )
+{
+    const bool owned_first = GENERATE( false, true );
+    const bool theft_history = GENERATE( false, true );
+    CAPTURE( owned_first, theft_history );
+    item lhs( itype_id( "water_clean" ), calendar::turn_zero, 10 );
+    item rhs( itype_id( "water_clean" ), calendar::turn_zero + 1_days, 20 );
+    item &owned = owned_first ? lhs : rhs;
+    owned.set_owner( faction_id( "your_followers" ) );
+    if( theft_history ) {
+        owned.set_old_owner( faction_id( "free_merchants" ) );
+    }
+
+    CHECK_FALSE( lhs.stacks_with( rhs ) );
+    CHECK_FALSE( lhs.same_for_rle( rhs ) );
+    REQUIRE( lhs.can_combine( rhs ) );
+    REQUIRE( rhs.can_combine( lhs ) );
+    REQUIRE( lhs.combine( rhs ) );
+    CHECK( lhs.charges == 30 );
+    CHECK( rhs.charges == 20 );
+    CHECK( lhs.get_owner() == faction_id( "your_followers" ) );
+    CHECK( lhs.get_old_owner() == ( theft_history ? faction_id( "free_merchants" ) :
+                                    faction_id::NULL_ID() ) );
+}
+
+TEST_CASE( "liquid_mixing_keeps_conflicting_ownership_records_separate",
+           "[item][stacking][ownership][liquid]" )
+{
+    item lhs( itype_id( "water_clean" ), calendar::turn_zero, 10 );
+    item rhs( itype_id( "water_clean" ), calendar::turn_zero, 20 );
+    lhs.set_owner( faction_id( "your_followers" ) );
+    SECTION( "different_current_owners" ) {
+        rhs.set_owner( faction_id( "free_merchants" ) );
+    }
+    SECTION( "different_theft_histories" ) {
+        rhs.set_owner( faction_id( "your_followers" ) );
+        lhs.set_old_owner( faction_id( "your_followers" ) );
+        rhs.set_old_owner( faction_id( "free_merchants" ) );
+    }
+    const faction_id lhs_owner = lhs.get_owner();
+    const faction_id rhs_owner = rhs.get_owner();
+    const faction_id lhs_history = lhs.get_old_owner();
+    const faction_id rhs_history = rhs.get_old_owner();
+    CHECK_FALSE( lhs.can_combine( rhs ) );
+    CHECK_FALSE( lhs.combine( rhs ) );
+    CHECK( lhs.charges == 10 );
+    CHECK( rhs.charges == 20 );
+    CHECK( lhs.get_owner() == lhs_owner );
+    CHECK( rhs.get_owner() == rhs_owner );
+    CHECK( lhs.get_old_owner() == lhs_history );
+    CHECK( rhs.get_old_owner() == rhs_history );
+}

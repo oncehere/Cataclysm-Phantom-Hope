@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <optional>
+#include <utility>
 #include <string>
 #include <vector>
 
@@ -23,6 +25,19 @@ struct vehicle_part;
 
 // Recoil change less or equal to this value (in MoA) stops further aiming
 constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
+
+constexpr int min_firearm_burst_rounds = 2;
+constexpr int max_firearm_burst_rounds = 30;
+
+constexpr bool valid_firearm_burst_rounds( int rounds )
+{
+    return rounds >= min_firearm_burst_rounds && rounds <= max_firearm_burst_rounds;
+}
+
+/** Inclusive round count range before ammunition or weapon faults interrupt the burst. */
+std::pair<int, int> firearm_burst_round_range( int rounds, float skill );
+/** AP corresponding to rounds / RPM at the character's current moves per game second. */
+int firearm_burst_move_cost( int rounds, int rpm, int moves_per_second );
 
 namespace target_handler
 {
@@ -100,5 +115,11 @@ struct Target_attributes {
     explicit Target_attributes( tripoint_bub_ms src, tripoint_bub_ms target );
     explicit Target_attributes( int rng, double size, float l, bool can_see );
 };
+
+
+double aim_turning_recoil( const Character &you, const tripoint_bub_ms &src,
+                           const std::optional<tripoint_bub_ms> &previous, const tripoint_bub_ms &dst );
+bool aim_gun_until_threshold( Character &you, const item &weapon, const tripoint_bub_ms &dst,
+                              int threshold );
 
 #endif // CATA_SRC_RANGED_H

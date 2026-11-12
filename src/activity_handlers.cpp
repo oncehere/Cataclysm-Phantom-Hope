@@ -130,7 +130,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             case liquid_source_type::FINITE_MAP:
                 liquid = finite_water::finite_liquid_from( act_ref.coords.at( 0 ),
-                    &finite_body_tiles );
+                         &finite_body_tiles );
                 if( liquid.is_null() ) {
                     act_ref.set_to_null();
                     return;
@@ -436,8 +436,8 @@ struct weldrig_hack {
             return null_item_reference();
         }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( here,  itype_battery,
-                pseudo.ammo_capacity( ammo_battery ),
-                return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
+                         pseudo.ammo_capacity( ammo_battery ),
+                         return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
     }
 
@@ -468,7 +468,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     map &here = get_map();
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
-        static_cast<int>( repeat_type::INIT ) ) );
+                         static_cast<int>( repeat_type::INIT ) ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 
@@ -513,7 +513,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
-            fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
+                fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
         // Warning: The above call to `repair_item_actor::repair` might
         // invalidate the item and the item_location, for example when
         // spilling items from spillable containers. It is therefore
@@ -715,20 +715,25 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             return;
         }
         const tripoint_abs_omt next_omt = you->omt_path.back();
+        constexpr int waypoint_radius = 2;
         tripoint_abs_ms waypoint;
         if( you->omt_path.size() == 1 ) {
             // if next omt is the final one, target its midpoint
             waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
         } else {
-            // otherwise target the middle of the edge nearest to our current location
+            // keep the target radius inside the next OMT near its closest edge
             const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
-                ( you->pos_abs_omt() ) );
-            waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
+                                                ( you->pos_abs_omt() ) );
+            half_open_cuboid<tripoint_abs_ms> bounds = project_bounds<coords::ms>( next_omt );
+            const tripoint_rel_ms margin( waypoint_radius, waypoint_radius, 0 );
+            bounds.p_min += margin;
+            bounds.p_max -= margin;
+            waypoint = clamp( cur_omt_mid, bounds );
         }
         map &here = get_map();
         tripoint_bub_ms centre_sub = here.get_bub( waypoint );
         const std::vector<tripoint_bub_ms> route_to =
-            here.route( *you, pathfinding_target::radius( centre_sub, 2 ) );
+            here.route( *you, pathfinding_target::radius( centre_sub, waypoint_radius ) );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );

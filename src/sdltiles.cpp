@@ -7,6 +7,7 @@
 #include "cata_shader.h"
 #include "cuboid_rectangle.h"
 #include "point.h"
+#include "render3d.h"
 
 #if defined(TILES)
 
@@ -150,6 +151,9 @@ static bool last_input_has_explicit_mouse_pos = false;
 #if defined(__ANDROID__)
     static hover_mouse_input_state android_hover_mouse_input;
 #endif
+// Camera motion can arrive much faster than frames. Mark the main UI dirty
+// immediately, but coalesce redraws to the normal presentation interval.
+static bool render3d_camera_redraw_pending = false;
 palette_array windowsPalette;
 
 static Font_Ptr font;
@@ -487,12 +491,6 @@ static void detect_renderer_backend()
     const char *actual_name = props != 0
                               ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
                               : "";
-    // Diagnostic: the selected renderer name alone is not enough to predict the
-    // mid-frame render-target-switch crash. When the renderer is "gpu", the real
-    // culprit is the backing SDL_gpu device driver (direct3d12 vs vulkan): the
-    // crash was only seen on direct3d12. Use DebugLog(..., DC_ALL) rather than the
-    // file-local dbg() macro: dbg() logs under category D_SDL, which is filtered
-    // out of debug.log by default, so it would never land. DC_ALL always shows.
     const char *gpu_driver = "n/a";
     SDL_GPUDevice *gpu_dev = props != 0
                              ? static_cast<SDL_GPUDevice *>( SDL_GetPointerProperty(
@@ -510,12 +508,6 @@ static void detect_renderer_backend()
     if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
         direct3d_mode = true;
     }
-    // The "gpu" renderer on the D3D12 driver crashes on mid-frame render-target
-    // switches (see gpu_d3d12_mode doc). Detect that exact combination so the
-    // tint overlay can avoid its render-target-switching path on this backend.
-    gpu_d3d12_mode = actual_name &&
-                     std::string( actual_name ) == "gpu" &&
-                     std::string( gpu_driver ).find( "direct3d12" ) != std::string::npos;
 }
 
 // Pick the geometry renderer matching the live renderer's capabilities:
@@ -872,6 +864,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    render3d::on_renderer_created( renderer.get() );
     shared_lightmap = std::make_unique<smooth_lightmap>();
     select_applied_memory_preset();
 
@@ -899,6 +892,7 @@ static void WinDestroy()
     imclient.reset();
     shutdown_sound();
     tilecontext.reset();
+    render3d::on_renderer_destroyed();
     gamepad::quit();
     geometry.reset();
     reset_shared_lightmap();
@@ -2240,6 +2234,9 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
+    // Device reset invalidates the 3D textures and in-flight frames too. The
+    // next terrain draw re-probes the still-live renderer from scratch.
+    render3d::on_renderer_destroyed();
     reset_context_minimaps();
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
@@ -2358,6 +2355,11 @@ bool renderer_resource_coordinator::install_renderer_with_fallback()
         if( check_pause_abort() ) {
             return false;
         }
+        // A failed fallback may have created 3D resources on this renderer.
+        render3d::on_renderer_destroyed();
+        if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+            vp->release_gpu_resources( true );
+        }
         renderer.reset();
         if( check_pause_abort() ) {
             return false;
@@ -2443,6 +2445,7 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     // Drop atlas textures against the dying-but-still-live renderer before it
     // is destroyed in the fallback install below.
     release_live_atlases();
+    render3d::on_renderer_destroyed();
     // The renderer is about to be destroyed: abandon any quarantined replay
     // candidates so their deleters skip SDL_DestroyTexture on the dead
     // renderer.
@@ -2764,6 +2767,11 @@ void renderer_recovery_test_support::draw_test_map( cata_tiles &tiles,
                 color_blocks );
 }
 
+SDL_Texture *renderer_recovery_test_support::tint_mask( const cata_tiles &tiles )
+{
+    return tiles.tint_mask_tex.get();
+}
+
 void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
         const tripoint_abs_omt &center )
 {
@@ -2796,6 +2804,11 @@ void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
 
 bool renderer_recovery_test_support::setup_software_renderer()
 {
+    return setup_renderer( "software" );
+}
+
+bool renderer_recovery_test_support::setup_renderer( const std::string &driver )
+{
     if( renderer || window ) {
         return false;
     }
@@ -2804,7 +2817,9 @@ bool renderer_recovery_test_support::setup_software_renderer()
     const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
     test_fixture_had_prior_driver = prior != nullptr;
     test_fixture_prior_driver = prior != nullptr ? prior : std::string();
-    set_videodriver_env( "dummy" );
+    if( driver == "software" ) {
+        set_videodriver_env( "dummy" );
+    }
 
     test_fixture_acquired_video = !SDL_WasInit( SDL_INIT_VIDEO );
     if( test_fixture_acquired_video ) {
@@ -2835,7 +2850,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
         teardown_software_renderer();
         return false;
     }
-    renderer = create_game_renderer( {}, true );
+    renderer = create_game_renderer( driver, driver == "software" );
     if( !renderer ) {
         teardown_software_renderer();
         return false;
@@ -2854,7 +2869,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     // Seed the drawable track from the hidden fixture window before tests consume
     // it; production seeds it in WinCreate.
     refresh_drawable_dims();
-    renderer_coordinator.seed_renderer_policy( {} );
+    renderer_coordinator.seed_renderer_policy( driver );
     renderer_coordinator.finish_bootstrap();
     return true;
 }
@@ -4545,6 +4560,17 @@ bool renderer_recovery_test_support::draw_test_window( const catacurses::window 
     return true;
 }
 
+bool renderer_recovery_test_support::refresh_test_window( const catacurses::window &w )
+{
+    if( !fixture_font ) {
+        return false;
+    }
+    font.swap( fixture_font );
+    on_out_of_scope restore_font( [] { font.swap( fixture_font ); } );
+    catacurses::wnoutrefresh( w );
+    return !w.get<cata_cursesport::WINDOW>()->draw;
+}
+
 Font *renderer_recovery_test_support::test_font()
 {
     return fixture_font.get();
@@ -4605,13 +4631,38 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
-        tilecontext->draw(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            g->ter_view_p,
-            TERRAIN_WINDOW_TERM_WIDTH * font->width,
-            TERRAIN_WINDOW_TERM_HEIGHT * font->height,
-            overlay_strings,
-            color_blocks );
+        if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) ) {
+            const SDL_FRect dest3d{
+                static_cast<float>( win->pos.x * fontwidth ),
+                static_cast<float>( win->pos.y * fontheight ),
+                static_cast<float>( TERRAIN_WINDOW_TERM_WIDTH * font->width ),
+                static_cast<float>( TERRAIN_WINDOW_TERM_HEIGHT * font->height )
+            };
+            render3d::draw_terrain_window( renderer.get(), dest3d, g->ter_view_p, tilecontext.get() );
+            // Any full terrain draw satisfies a pending camera request, even if
+            // another UI path happened to redraw before the camera interval.
+            render3d_camera_redraw_pending = false;
+            if( !render3d::available() ) {
+                // 3D backend unavailable (software renderer, missing shaders,
+                // probe failure): fall back to 2D tiles for this frame
+                tilecontext->draw(
+                    point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+                    g->ter_view_p,
+                    TERRAIN_WINDOW_TERM_WIDTH * font->width,
+                    TERRAIN_WINDOW_TERM_HEIGHT * font->height,
+                    overlay_strings,
+                    color_blocks );
+            }
+        } else {
+            render3d::sync_mouse_capture( renderer.get(), false );
+            tilecontext->draw(
+                point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+                g->ter_view_p,
+                TERRAIN_WINDOW_TERM_WIDTH * font->width,
+                TERRAIN_WINDOW_TERM_HEIGHT * font->height,
+                overlay_strings,
+                color_blocks );
+        }
 
         // color blocks overlay
         if( !color_blocks.second.empty() ) {
@@ -6507,6 +6558,24 @@ static bool pop_extra_button_input( input_event &event )
     return true;
 }
 #endif
+static void request_render3d_camera_redraw()
+{
+    render3d_camera_redraw_pending = true;
+    needupdate = true;
+    if( g ) {
+        g->invalidate_main_ui_adaptor();
+    }
+}
+
+static void redraw_render3d_camera_if_due()
+{
+    if( !render3d_camera_redraw_pending ||
+        GetTicks() - lastupdate < interval ) {
+        return;
+    }
+    render3d_camera_redraw_pending = false;
+    ui_manager::redraw_invalidated();
+}
 
 //Check for any window messages (keypress, paint, mousemove, etc)
 static void CheckMessages()
@@ -6935,6 +7004,13 @@ static void CheckMessages()
 #else
                 case CATA_WINDOWEVENT_FOCUS_LOST:
                     window_focus = false;
+                    if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) &&
+                        render3d::mouse_captured() ) {
+                        render3d::sync_mouse_capture( renderer.get(), false );
+                        request_render3d_camera_redraw();
+                    } else {
+                        render3d::sync_mouse_capture( renderer.get(), false );
+                    }
                     if( IsTextInputActive( ::window.get() ) ) {
                         text_input_active_when_regaining_focus = true;
                         // Stop text input to not interfere with other programs
@@ -7180,6 +7256,14 @@ static void CheckMessages()
                     if( ! mouse.enabled ) {
                         break;
                     }
+                    if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) &&
+                        render3d::mouse_captured() ) {
+                        // middle-drag orbit: relative motion steers the 3D
+                        // camera; do not feed the game's mouseover pipeline
+                        render3d::note_mouse_look( ev.motion.xrel, ev.motion.yrel );
+                        request_render3d_camera_redraw();
+                        break;
+                    }
                     if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                         get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
                         // Cursor visibility must run even when ImGui owns
@@ -7210,6 +7294,13 @@ static void CheckMessages()
                         case SDL_BUTTON_RIGHT:
                             last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
                             break;
+                        case SDL_BUTTON_MIDDLE:
+                            if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) ) {
+                                // middle-drag orbits the 3D camera; not a game action
+                                render3d::sync_mouse_capture( renderer.get(), true );
+                                request_render3d_camera_redraw();
+                            }
+                            break;
                         case SDL_BUTTON_X1:
                             last_input = input_event( MouseInput::X1ButtonPressed, input_event_t::mouse );
                             break;
@@ -7233,6 +7324,12 @@ static void CheckMessages()
                         case SDL_BUTTON_RIGHT:
                             last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
                             break;
+                        case SDL_BUTTON_MIDDLE:
+                            if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) ) {
+                                render3d::sync_mouse_capture( renderer.get(), false );
+                                request_render3d_camera_redraw();
+                            }
+                            break;
                         case SDL_BUTTON_X1:
                             last_input = input_event( MouseInput::X1ButtonReleased, input_event_t::mouse );
                             break;
@@ -7247,6 +7344,12 @@ static void CheckMessages()
                         break;
                     }
                     if( cataimgui::client::want_capture_mouse() ) {
+                        break;
+                    }
+                    if( get_option<bool>( "RENDER3D_EXPERIMENTAL" ) ) {
+                        // 3D camera zoom; do not feed the game's scroll pipeline
+                        render3d::note_mouse_wheel( static_cast<float>( ev.wheel.y ) );
+                        request_render3d_camera_redraw();
                         break;
                     }
                     if( ev.wheel.y > 0 ) {
@@ -7704,6 +7807,7 @@ static void CheckMessages()
     }
 
 #endif
+    redraw_render3d_camera_if_due();
     if( needupdate ) {
         try_sdl_update();
     }
@@ -8117,6 +8221,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         try_sdl_update();
     }
 
+#if defined(EMSCRIPTEN)
     // The host game thread also services its partner while a modal owns input.
     // The timer/heartbeat live on the IO thread; this pump handles game events.
     uint32_t mp_last_pump = 0;
@@ -8136,7 +8241,6 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         }
     };
 
-#if defined(EMSCRIPTEN)
     // emscripten must yield to the browser through Asyncify, which SDL_Delay does
     if( inputdelay < 0 ) {
         do {
@@ -8371,6 +8475,12 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
     }
 
     const point screen_pos = coordinate - win_min;
+
+    if( use_tiles && g && capture_win == g->w_terrain &&
+        get_option<bool>( "RENDER3D_EXPERIMENTAL" ) && render3d::available() ) {
+        // 3D mode: unproject through the 3D camera instead of the 2D tile grid
+        return render3d::screen_to_tile( coordinate );
+    }
 
     const bool use_isometric = g->w_overmap &&
                                capture_win == g->w_overmap ? false : g->is_tileset_isometric();

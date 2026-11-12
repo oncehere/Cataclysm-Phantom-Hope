@@ -1,10 +1,10 @@
 #include "surroundings_menu.h"
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include <algorithm>
 #include <cfloat>
 #include <functional>
-#include <imgui/imgui.h>
-#include <imgui/imgui_internal.h>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -44,6 +44,9 @@
 #include "output.h"
 #include "panels.h"
 #include "point.h"
+#if defined(TILES)
+    #include "render3d.h"
+#endif
 #include "safemode_ui.h"
 #include "string_formatter.h"
 #include "text.h"
@@ -1326,6 +1329,9 @@ void surroundings_menu::update_path_end()
 
     if( p ) {
         path_end = you.pos_bub() + *p;
+#if defined(TILES)
+        render3d::push_cursor( *path_end, true );
+#endif
     } else {
         path_end = std::nullopt;
     }

@@ -1,6 +1,24 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_PLANT_REMOVE_WATERED_SEED",
+    "effect": [ { "u_consume_item_sum": [ { "item": "test_seed_eoc", "amount": 1 } ] } ]
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_water_removes_seed",
+    "copy-from": "f_planter_seed",
+    "name": "test water-removing planter",
+    "delete": { "flags": [ "SEALED", "NOITEM" ] },
+    "plant_data": {
+      "transform": "f_planter_seedling",
+      "base": "f_planter",
+      "max_water_storage": 100,
+      "eoc_on_water": [ "EOC_TEST_PLANT_REMOVE_WATERED_SEED" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEST_PLANT_PLANTED",
     "effect": [ { "math": [ "test_planted = 1" ] } ]
   },

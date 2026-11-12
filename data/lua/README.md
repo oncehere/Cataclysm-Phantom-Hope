@@ -36,6 +36,13 @@ pending choice. Selected callbacks are consumed once; topic changes, moves and
 destruction continue to invalidate their contexts. See
 [nested dialogue ownership](LUA_FIRST_PLATFORM.md#dialogue-presentation-and-nested-callbacks--对话界面与嵌套回调).
 
+## Windows editor diagnostics
+
+For Windows editor checks, the Mod SDK resolves LuaLS `file:///C:/...`
+diagnostic paths to native drive paths, including percent-encoded names. UNC
+hosts remain UNC paths. This affects diagnostic filenames; it does not change
+Mod discovery, runtime trust or the Platform API.
+
 ## Item display callbacks
 
 Register item display handlers through `ccb.runtime.handler` and subscribe with

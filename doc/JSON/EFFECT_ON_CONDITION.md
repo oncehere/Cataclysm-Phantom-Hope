@@ -1973,6 +1973,12 @@ Every event EOC passes context vars with each of their key value pairs that the 
 
 **Note on plant events:** For fungal/marloss seed harvests, `flower_marloss` picking, and vehicle reaper overgrown cleanup, `character_harvests_plant` sets `plant_count` and `seed_count` to `0` because these paths do not produce normal harvest quantities.
 
+Manual planting and fertilizing activities, and the watering examination,
+recheck the original crop identity and the live actor after callbacks. If a
+handler replaces or removes that crop, the remaining native stages stop;
+they do not apply the old action to the replacement. The event's position and
+IDs describe the action being reported, even when a handler changes the map.
+
 Native `opens_spellbook` preparation supplies the actual player or NPC caster
 as alpha and leaves beta absent. Spell adjustments and level limits use that
 caster's context; an NPC cast does not borrow the local avatar's attributes.

@@ -276,6 +276,35 @@ void clear_to_sentinel()
 
 } // namespace
 
+TEST_CASE( "incremental_menu_survives_background_redraw", "[tiles][sdl_font][renderer_boundary]" )
+{
+    software_render_fixture fx;
+    REQUIRE( fx.available() );
+    restore_on_out_of_scope<palette_t> restore_palette( windowsPalette );
+    windowsPalette = test_palette();
+    REQUIRE( renderer_recovery_test_support::install_test_font(
+                 PATH_INFO::fontdir() + typeface_unifont, cell_w, cell_h, font_size, false ) );
+    display_buffer_draw_scope scope;
+    REQUIRE( scope.should_draw() );
+    restore_on_out_of_scope restore_stdscr( catacurses::stdscr );
+    catacurses::stdscr = catacurses::newwin( 4, 8, point::zero );
+    const catacurses::window menu = catacurses::newwin( 2, 4, point( 1, 1 ) );
+    for( int frame = 0; frame < 2; ++frame ) {
+        catacurses::erase();
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        catacurses::werase( menu );
+        auto *win = menu.get<cata_cursesport::WINDOW>();
+        win->line[0].chars[0].BG = catacurses::red;
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( menu ) );
+        // The input loop refreshes stdscr again after the menu has painted.
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        const std::vector<Uint32> pixels = read_canvas( canvas_w, canvas_h );
+        const point center( cell_w + cell_w / 2, cell_h + cell_h / 2 );
+        CHECK( pixels[static_cast<size_t>( center.y ) * canvas_w + center.x] ==
+               rgb_of( windowsPalette[catacurses::red] ) );
+    }
+}
+
 TEST_CASE( "hidpi_terminal_draws_past_logical_window_bounds", "[tiles][sdl_font][sdl3]" )
 {
     software_render_fixture fx;

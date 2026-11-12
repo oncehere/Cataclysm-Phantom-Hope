@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_actor.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "cata_catch.h"
@@ -16,12 +17,52 @@
 #include "point.h"
 #include "sounds.h"
 #include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
 
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked( "t_door_locked" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 static const ter_str_id ter_t_window_no_curtains_open( "t_window_no_curtains_open" );
+
+TEST_CASE( "delayed_vehicle_closing_revalidates_target", "[gates][vehicle][regression]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+    avatar &you = get_avatar();
+    you.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    const tripoint_bub_ms target = you.pos_bub() + point::east;
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), target, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_id( "frame" ) ) >= 0 );
+    const int door = veh->install_part( here, point_rel_ms::zero, vpart_id( "door" ) );
+    REQUIRE( door >= 0 );
+    veh->set_owner( you );
+    veh->open( here, door );
+    veh->refresh();
+    here.add_vehicle_to_cache( veh );
+    you.assign_activity( close_tile_activity_actor( target ) );
+    REQUIRE_FALSE( you.activity.is_null() );
+    SECTION( "the unchanged door closes" ) {
+        you.activity.actor->finish( you.activity, you );
+        CHECK_FALSE( veh->part( door ).open );
+    }
+    SECTION( "a removed vehicle cancels safely" ) {
+        here.destroy_vehicle( veh );
+        you.activity.actor->finish( you.activity, you );
+        CHECK( you.activity.is_null() );
+    }
+    SECTION( "a moved actor cannot close the door" ) {
+        you.setpos( here, tripoint_bub_ms( 65, 65, 0 ) );
+        you.activity.actor->finish( you.activity, you );
+        CHECK( veh->part( door ).open );
+    }
+    clear_vehicles();
+}
 
 TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
 {
