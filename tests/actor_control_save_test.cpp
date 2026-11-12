@@ -175,7 +175,7 @@ void expect_private( const std::filesystem::path &path, int mode )
     struct stat info {};
     REQUIRE( lstat( path.c_str(), &info ) == 0 );
     CHECK( info.st_uid == getuid() );
-    CHECK( ( info.st_mode & 0777 ) == mode );
+    CHECK( ( info.st_mode & 0777 ) == static_cast<decltype( info.st_mode )>( mode ) );
 #endif
 }
 
