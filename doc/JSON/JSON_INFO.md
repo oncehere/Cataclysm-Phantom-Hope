@@ -4810,6 +4810,27 @@ For stackable materials, item weight and volume apply per charge; audit spawn
 counts and recipe quantities together when changing those units.  A regenerated
 inventory does not verify the resulting total mass or container capacity.
 
+## Zone sorting activity saves
+
+Sorting and unloading activities save their zone selection as `scope`: `0`
+selects all zones, `1` selects static and vehicle zones, and `2` selects the
+acting character's personal zones. The existing sorting menu selects this
+scope; the existing unloading action defaults to all zones.
+
+`personal_origin` is the absolute position where the activity started, and
+`zone_owner` identifies its acting character. Personal-zone queries use that
+fixed origin while the character walks to work, including after activity
+cloning or save/reload. The scope applies to sources, destinations, ignore
+rules, unloading options and capacity checks; selecting a scope does not
+change the zones' enabled state.
+
+Old activity records without `scope` default to all zones. Missing origin and
+owner fields initialize from the character when the activity resumes; an old
+record cannot recover a historical origin it never saved. An out-of-range
+scope value is a JSON error. Personal zone records may store `personal_owner`;
+legacy personal zones without an owner remain available to the avatar, while
+NPC sorting continues to exclude the avatar's personal zones.
+
 ## Maintaining generated reference indexes
 
 The JSON/EOC indexes in `data/reference/json/` record source fingerprints and

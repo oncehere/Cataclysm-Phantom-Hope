@@ -1789,8 +1789,6 @@ static void loot()
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
-    bool recache = false;
-
     switch( flags ) {
         case None:
             add_msg( _( "Never mind." ) );
@@ -1799,34 +1797,10 @@ static void loot()
             player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootStatic:
-            //temporarily disable personal zones
-            for( const auto &i : mgr.get_zones() ) {
-                zone_data &zone = i.get();
-                if( zone.get_is_personal() && zone.get_enabled() ) {
-                    zone.set_enabled( false );
-                    zone.set_temporary_disabled( true );
-                    recache = true;
-                }
-            }
-            if( recache ) {
-                mgr.cache_data();
-            }
-            player_character.assign_activity( zone_sort_activity_actor() );
+            player_character.assign_activity( zone_sort_activity_actor( zone_scope::static_only ) );
             break;
         case SortLootPersonal:
-            //temporarily disable non personal zones
-            for( const auto &i : mgr.get_zones() ) {
-                zone_data &zone = i.get();
-                if( !zone.get_is_personal() && zone.get_enabled() ) {
-                    zone.set_enabled( false );
-                    zone.set_temporary_disabled( true );
-                    recache = true;
-                }
-            }
-            if( recache ) {
-                mgr.cache_data();
-            }
-            player_character.assign_activity( zone_sort_activity_actor() );
+            player_character.assign_activity( zone_sort_activity_actor( zone_scope::personal_only ) );
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );

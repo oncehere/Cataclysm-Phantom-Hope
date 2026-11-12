@@ -12466,6 +12466,26 @@ std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+zone_query_context zone_activity_actor::query_for( const Character &who ) const
+{
+    return zone_query_context::for_character( who,
+            !zone_owner.is_valid() || zone_owner == who.getID() ? personal_origin.value_or( who.pos_abs() ) :
+            who.pos_abs(), scope );
+}
+
+void zone_activity_actor::ensure_zone_origin( const Character &who )
+{
+    if( zone_owner.is_valid() && zone_owner != who.getID() ) {
+        personal_origin.reset();
+        coord_set.clear();
+        stage = UNINIT;
+    }
+    zone_owner = who.getID();
+    if( !personal_origin ) {
+        personal_origin = who.pos_abs();
+    }
+}
+
 void zone_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -12475,6 +12495,9 @@ void zone_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "stage", stage );
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
+    jsout.member( "scope", static_cast<int>( scope ) );
+    jsout.member( "personal_origin", personal_origin );
+    jsout.member( "zone_owner", zone_owner );
 
     jsout.end_object();
 }
@@ -12490,18 +12513,28 @@ std::unique_ptr<activity_actor> unload_loot_activity_actor::deserialize( JsonVal
     data.read( "stage", actor.stage );
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
+    const int scope_value = data.get_int( "scope", 0 );
+    if( scope_value < 0 || scope_value > static_cast<int>( zone_scope::personal_only ) ) {
+        data.throw_error_at( "scope", "Invalid sorting scope" );
+    }
+    actor.scope = static_cast<zone_scope>( scope_value );
+    data.read( "personal_origin", actor.personal_origin );
+    data.read( "zone_owner", actor.zone_owner );
 
     return actor.clone();
 }
 
-void zone_activity_actor::start( player_activity &act, Character & )
+void zone_activity_actor::start( player_activity &act, Character &who )
 {
+    ensure_zone_origin( who );
     act.moves_total = moves;
     act.moves_left = moves;
 }
 
 void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
 {
+    ensure_zone_origin( you );
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -12510,13 +12543,13 @@ void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
     coord_set.clear();
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
-                       fac_id ) ) {
+                       fac_id, &query ) ) {
         coord_set.insert( p );
     }
 
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
-                       fac_id ) ) {
+                       fac_id, &query ) ) {
         coord_set.insert( p );
     }
     stage = THINK;
@@ -12524,6 +12557,7 @@ void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
 
 bool unload_loot_activity_actor::stage_think( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -12546,7 +12580,10 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
 
         const tripoint_bub_ms &src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you, unload_loot_activity_actor() ) ) {
+            unload_loot_activity_actor restart( scope );
+            restart.personal_origin = personal_origin;
+            restart.zone_owner = zone_owner;
+            if( zone_sorting::sorter_out_of_bounds( you, restart ) ) {
                 return false;
             }
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
@@ -12556,7 +12593,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
         }
 
         if( zone_sorting::ignore_zone_position( you, src, mgr.has( zone_type_LOOT_IGNORE, src,
-                                                fac_id ) ) ) {
+                                                fac_id, &query ), &query ) ) {
             continue;
         }
 
@@ -12589,6 +12626,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
 
 void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
 {
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     const map &here = get_map();
@@ -12607,7 +12645,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false );
+            false, &query );
 
     //Skip items that have already been processed
     for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
@@ -12621,7 +12659,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
         }
 
         // skip favorite items in ignore favorite zones
-        if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ) ) {
+        if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id, &query ) ) {
             ++num_processed;
             continue;
         }
@@ -12631,7 +12669,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
         if( !zone_sorting::unload_item( you, src,
                                         zone_unload_options,
                                         it->second ? zone_sorting::cargo_part_from_index( src_bub, *it->second ) : std::nullopt,
-                                        it->first, dest_set, num_processed ) ) {
+                                        it->first, dest_set, num_processed, &query ) ) {
             // Starting gunmod removal replaces this actor.  Resume from the
             // saved zone activity instead of continuing through destroyed state.
             return;
@@ -15693,6 +15731,7 @@ std::unique_ptr<activity_actor> vehicle_part_remove_service_activity_actor::dese
 
 void zone_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    ensure_zone_origin( you );
     update_vehicle_zone_cache();
 
     //Prepare activity stage
@@ -15860,6 +15899,8 @@ void zone_sort_activity_actor::restore_viewport( Character &you )
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 {
+    ensure_zone_origin( you );
+    const zone_query_context query = query_for( you );
     zone_manager &mgr = zone_manager::get_manager();
     mgr.cache_avatar_location();
     if( you.is_avatar() ) {
@@ -15868,12 +15909,8 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
     coord_set.clear();
     unreachable_sources.clear();
     const faction_id fac = you.get_faction_id();
-    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     for( const tripoint_abs_ms &p :
-         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac ) ) {
-        if( skip_personal && !mgr.has_nonpersonal( zone_type_LOOT_UNSORTED, p, fac ) ) {
-            continue;
-        }
+         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac, &query ) ) {
         coord_set.insert( p );
     }
 
@@ -15905,6 +15942,7 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
     const map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
     mgr.cache_avatar_location();
@@ -16027,7 +16065,10 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you, zone_sort_activity_actor() ) ) {
+            zone_sort_activity_actor restart( scope );
+            restart.personal_origin = personal_origin;
+            restart.zone_owner = zone_owner;
+            if( zone_sorting::sorter_out_of_bounds( you, restart ) ) {
                 return false;
             }
             zero_move_dispatches = 0;
@@ -16038,15 +16079,15 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             return false;
         }
 
-        bool ignore_contents = zone_sorting::ignore_contents( you, src );
+        bool ignore_contents = zone_sorting::ignore_contents( you, src, &query );
 
-        if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
+        if( zone_sorting::ignore_zone_position( you, src, ignore_contents, &query ) ) {
             coord_set.erase( src );
             continue;
         }
 
         zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-                true );
+                true, &query );
 
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
@@ -16054,7 +16095,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         bool pickup_failure;
         bool spillable_skipped = false;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items, &pickup_failure, &spillable_skipped );
+                                    other_activity_items, items, &pickup_failure, &spillable_skipped, &query );
 
         if( pickup_failure && !pickup_failure_reported ) {
             pickup_failure_reported = true;
@@ -16176,6 +16217,7 @@ void zone_sort_activity_actor::return_items_to_source( Character &you,
 void zone_sort_activity_actor::deliver_picked_items( Character &you,
         const tripoint_bub_ms &src_bub )
 {
+    const zone_query_context query = query_for( you );
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -16229,10 +16271,10 @@ void zone_sort_activity_actor::deliver_picked_items( Character &you,
             // determines the fallback chain: vehicle-only zones skip
             // ground, everything else tries cargo then ground.
             const zone_type_id drop_zt = mgr.get_near_zone_type_for_item( **iter,
-                                         drop_dest, 0, fac_id, iter->spoil_multiplier() );
+                                         drop_dest, 0, fac_id, iter->spoil_multiplier(), &query );
             const bool vehicle_only = drop_zt != zone_type_id::NULL_ID() &&
-                                      mgr.has_vehicle( drop_zt, drop_dest, fac_id ) &&
-                                      !mgr.has_terrain( drop_zt, drop_dest, fac_id );
+                                      mgr.has_vehicle( drop_zt, drop_dest, fac_id, &query ) &&
+                                      !mgr.has_terrain( drop_zt, drop_dest, fac_id, &query );
             bool placed = false;
             item copy( **iter );
             for( const vpart_reference &ovp : zone_sorting::cargo_parts_at( drop_bub ) ) {
@@ -16288,6 +16330,7 @@ bool zone_sort_activity_actor::try_adjacent_delivery( Character &you, item &this
         const tripoint_bub_ms &src_bub,
         zone_sorting::zone_items::iterator it )
 {
+    const zone_query_context query = query_for( you );
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -16309,8 +16352,8 @@ bool zone_sort_activity_actor::try_adjacent_delivery( Character &you, item &this
         // Vehicle-only zones don't fall back to ground placement.
         // All other zones (terrain, dual-bound) try cargo first, then ground.
         // No overflow to adjacent tiles in either case.
-        const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id ) &&
-                                  !mgr.has_terrain( zt_id, dest, fac_id );
+        const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id, &query ) &&
+                                  !mgr.has_terrain( zt_id, dest, fac_id, &query );
         bool placed = false;
         for( const vpart_reference &ovp : zone_sorting::cargo_parts_at( dest_bub ) ) {
             if( ovp.vehicle().add_item( here, ovp.part(), copy_thisitem ) ) {
@@ -16496,6 +16539,7 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
         const tripoint_bub_ms &src_bub,
         tripoint_abs_ms &destination )
 {
+    const zone_query_context query = query_for( you );
     ( void )src_bub;
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -16505,11 +16549,11 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
     // (place items then remove them) destroyed count_by_charges items at
     // the destination via merge_charges. This volume check is conservative
     // but safe; the actual dropoff loop handles edge cases if we're wrong.
-    auto dest_free_volume = [this, &here, &mgr, fac_id]( const tripoint_bub_ms & dest_bub )
+    auto dest_free_volume = [this, &here, &mgr, &query, fac_id]( const tripoint_bub_ms & dest_bub )
     -> units::volume {
         const bool dest_vehicle_only = current_dropoff_zt_id != zone_type_id::NULL_ID() &&
-        mgr.has_vehicle( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id ) &&
-        !mgr.has_terrain( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id );
+        mgr.has_vehicle( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id, &query ) &&
+        !mgr.has_terrain( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id, &query );
         units::volume avail = 0_ml;
         for( const vpart_reference &vp_dest : zone_sorting::cargo_parts_at( dest_bub ) )
         {
@@ -16558,12 +16602,12 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
 
 void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
     ( void )act;
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
 
     const faction_id fac_id = you.get_faction_id();
-    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     const tripoint_abs_ms src( placement );
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
@@ -16603,13 +16647,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false );
+            false, &query );
 
     // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
     // zone), it's being used for transport - don't re-sort its cargo.
     // If there IS a vehicle zone on the cart, the user explicitly wants
     // the cart's cargo sorted.
-    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id,
+                                          &query );
     bool skip_cart_cargo = false;
     if( !src_has_vehicle_unsorted && you.is_avatar() &&
         you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -16649,29 +16694,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
 
         if( zone_sorting::sort_skip_item( you, it->first, other_activity_items,
-                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ),
-                                          src, spoil_multiplier ) ) {
+                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id, &query ),
+                                          src, spoil_multiplier, nullptr, &query ) ) {
             continue;
         }
 
         const zone_type_id zt_id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                   MAX_VIEW_DISTANCE, fac_id, spoil_multiplier );
+                                   MAX_VIEW_DISTANCE, fac_id, spoil_multiplier, &query );
 
         std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
-        if( skip_personal ) {
-            for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
-                if( !mgr.has_nonpersonal( zt_id, *dit, fac_id ) ) {
-                    dit = dest_set.erase( dit );
-                } else {
-                    ++dit;
-                }
-            }
-        }
+            mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id, &query );
         // Drop count-full destinations so pickup does not bounce.
         for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
             if( zt_id != zone_type_id::NULL_ID() &&
-                !zone_sorting::dest_has_capacity( *dit, zt_id, thisitem, fac_id ) ) {
+                !zone_sorting::dest_has_capacity( *dit, zt_id, thisitem, fac_id, &query ) ) {
                 dit = dest_set.erase( dit );
             } else {
                 ++dit;
@@ -16681,7 +16717,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
                                              zone_unload_options,
                                              it->second ? zone_sorting::cargo_part_from_index( src_bub, *it->second ) : std::nullopt,
-                                             it->first, dest_set, num_processed );
+                                             it->first, dest_set, num_processed, &query );
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
@@ -16709,7 +16745,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( !picked_up_stuff.empty() ) {
             bool thisitem_shares_existing_dest = false;
             for( const tripoint_abs_ms &possible_dest : dropoff_coords ) {
-                zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id );
+                zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id, 1.0f,
+                                       &query );
                 if( zt_dest == zt_id ) {
                     // Found a valid destination.
                     thisitem_shares_existing_dest = true;
@@ -16861,6 +16898,9 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "stage", stage );
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
+    jsout.member( "scope", static_cast<int>( scope ) );
+    jsout.member( "personal_origin", personal_origin );
+    jsout.member( "zone_owner", zone_owner );
     jsout.member( "other_activity_items", other_activity_items );
     // Purge stale item_locations before serializing - items on vehicles that
     // are no longer on the map would trigger debugmsg during serialization.
@@ -16904,6 +16944,13 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "stage", actor.stage );
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
+    const int scope_value = data.get_int( "scope", 0 );
+    if( scope_value < 0 || scope_value > static_cast<int>( zone_scope::personal_only ) ) {
+        data.throw_error_at( "scope", "Invalid sorting scope" );
+    }
+    actor.scope = static_cast<zone_scope>( scope_value );
+    data.read( "personal_origin", actor.personal_origin );
+    data.read( "zone_owner", actor.zone_owner );
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );

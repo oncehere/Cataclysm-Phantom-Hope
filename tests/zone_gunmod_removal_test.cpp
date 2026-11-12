@@ -32,11 +32,14 @@ TEST_CASE( "zone_gunmod_removal_preserves_location_and_resumes_sorting",
     clear_avatar();
     clear_map_without_vision();
     avatar &you = get_avatar();
+    // This test finishes sorting without a pending auto-move route.
+    you.clear_destination();
     map &here = get_map();
     zone_manager &zones = zone_manager::get_manager();
     zones.clear();
     on_out_of_scope cleanup( [&]() {
         you.cancel_activity();
+        you.clear_destination();
         you.backlog.clear();
         zones.clear();
     } );
