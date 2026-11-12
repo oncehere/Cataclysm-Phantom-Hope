@@ -431,10 +431,10 @@ TEST_CASE( "sarasa_cjk_glyphs_survive_gpu_menu_redraw", "[.][tiles][sdl_font][re
 }
 #endif
 
-TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][imgui]" )
+namespace
 {
-    software_render_fixture fixture;
-    REQUIRE( fixture.available() );
+void check_imgui_default_sarasa( const SDL_Renderer_Ptr &renderer, const SDL_Window_Ptr &window )
+{
     // The fixture initializes SDL/TTF and supplies the same default cell height.
     REQUIRE( renderer_recovery_test_support::install_test_font(
                  PATH_INFO::fontdir() + "sarasa-fixed-sc-semibold.ttf", cell_w, cell_h,
@@ -463,10 +463,6 @@ TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][
     REQUIRE( typefaces.front().path == "data/font/sarasa-fixed-sc-semibold.ttf" );
     REQUIRE( typefaces.front().hinting == ImGuiFreeTypeLoaderFlags_Bitmap );
 
-    SDL_Window_Ptr window( SDL_CreateWindow( "", 160, 64, SDL_WINDOW_HIDDEN ) );
-    REQUIRE( window );
-    SDL_Renderer_Ptr renderer( SDL_CreateRenderer( window.get(), "software" ) );
-    REQUIRE( renderer );
     GeometryRenderer_Ptr geometry = std::make_unique<DefaultGeometryRenderer>();
     ImGuiContext *previous_context = ImGui::GetCurrentContext();
     on_out_of_scope restore_context( [previous_context] { ImGui::SetCurrentContext( previous_context ); } );
@@ -481,21 +477,20 @@ TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][
         client.new_frame( 160, 64 );
         ImFontBaked *baked = ImGui::GetFont()->GetFontBaked( ImGui::GetFontSize() );
         REQUIRE( baked );
-        const ImFontGlyph *han1 = baked->FindGlyphNoFallback( 0x4e2d );
-        const ImFontGlyph *han2 = baked->FindGlyphNoFallback( 0x6587 );
-        const ImFontGlyph *latin = baked->FindGlyphNoFallback( 'A' );
-        REQUIRE( han1 );
-        REQUIRE( han2 );
-        REQUIRE( latin );
-        REQUIRE( han1->Codepoint == 0x4e2d );
-        REQUIRE( han2->Codepoint == 0x6587 );
-        REQUIRE( latin->Codepoint == 'A' );
+        for( const ImWchar codepoint : {
+                 ImWchar( 0x4e2d ), ImWchar( 0x6587 ), ImWchar( 'A' )
+             } ) {
+            const ImFontGlyph *glyph = baked->FindGlyphNoFallback( codepoint );
+            REQUIRE( glyph );
+            REQUIRE( glyph->Codepoint == codepoint );
+        }
         ImDrawList *draw = ImGui::GetForegroundDrawList();
         draw->AddText( ImVec2( 4, 4 ), IM_COL32_WHITE, "中" );
         draw->AddText( ImVec2( 44, 4 ), IM_COL32_WHITE, "文" );
         draw->AddText( ImVec2( 84, 4 ), IM_COL32_WHITE, "A" );
         client.end_frame();
-        SDL_Surface_Ptr source( SDL_RenderReadPixels( renderer.get(), nullptr ) );
+        const SDL_Rect sample = { 0, 0, 160, 64 };
+        SDL_Surface_Ptr source( SDL_RenderReadPixels( renderer.get(), &sample ) );
         REQUIRE( source );
         SDL_Surface_Ptr rgba( SDL_ConvertSurface( source.get(), SDL_PIXELFORMAT_RGBA32 ) );
         REQUIRE( rgba );
@@ -530,6 +525,62 @@ TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][
         }
     }
 }
+} // namespace
+
+TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][imgui]" )
+{
+    software_render_fixture fixture;
+    REQUIRE( fixture.available() );
+    SDL_Window_Ptr window( SDL_CreateWindow( "", 160, 64, SDL_WINDOW_HIDDEN ) );
+    REQUIRE( window );
+    SDL_Renderer_Ptr renderer( SDL_CreateRenderer( window.get(), "software" ) );
+    REQUIRE( renderer );
+    check_imgui_default_sarasa( renderer, window );
+}
+
+#if defined(_WIN32)
+TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_gpu_redraw",
+           "[.][tiles][sdl_font][imgui][renderer_backend]" )
+{
+    const std::string driver = GENERATE( "direct3d12", "vulkan" );
+    CAPTURE( driver );
+    const char *prior = SDL_GetHint( SDL_HINT_GPU_DRIVER );
+    const std::string prior_driver = prior ? prior : "";
+    on_out_of_scope restore_driver( [prior_driver] {
+        if( prior_driver.empty() )
+        {
+            SDL_ResetHint( SDL_HINT_GPU_DRIVER );
+        } else
+        {
+            SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, prior_driver.c_str(), SDL_HINT_OVERRIDE );
+        }
+    } );
+    REQUIRE( SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, driver.c_str(), SDL_HINT_OVERRIDE ) );
+    if( !renderer_recovery_test_support::setup_renderer( "gpu" ) ) {
+        WARN( "SDL GPU renderer unavailable for " << driver << ": " << SDL_GetError() );
+        return;
+    }
+    on_out_of_scope teardown( [] { renderer_recovery_test_support::teardown_software_renderer(); } );
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+    REQUIRE( std::string( SDL_GetRendererName( renderer.get() ) ) == "gpu" );
+    SDL_GPUDevice *device = SDL_GetGPURendererDevice( renderer.get() );
+    REQUIRE( device );
+    const char *actual_driver = SDL_GetGPUDeviceDriver( device );
+    REQUIRE( actual_driver );
+    REQUIRE( std::string( actual_driver ) == driver );
+    renderer_recovery_test_support::set_scaling_and_resize_window( 1, 640, 384 );
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.is_render_allowed() );
+    display_buffer_draw_scope scope;
+    REQUIRE( scope.should_draw() );
+    // The fixture owns this hidden window; release the temporary wrapper before
+    // fixture teardown, including on assertion failure.
+    SDL_Window_Ptr window( get_sdl_window() );
+    REQUIRE( window );
+    on_out_of_scope release_window( [&window] { window.release(); } );
+    check_imgui_default_sarasa( renderer, window );
+}
+#endif
 
 TEST_CASE( "hidpi_terminal_draws_past_logical_window_bounds", "[tiles][sdl_font][sdl3]" )
 {
