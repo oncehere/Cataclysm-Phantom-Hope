@@ -141,7 +141,7 @@ void require_permissions( const std::filesystem::path &path, const int permissio
     struct stat info {};
     REQUIRE( lstat( path.c_str(), &info ) == 0 );
     CHECK( info.st_uid == getuid() );
-    CHECK( ( info.st_mode & 0777 ) == permissions );
+    CHECK( ( info.st_mode & 0777 ) == static_cast<decltype( info.st_mode )>( permissions ) );
 #endif
 }
 
