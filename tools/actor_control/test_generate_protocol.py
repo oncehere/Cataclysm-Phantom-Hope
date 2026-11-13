@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -66,6 +67,23 @@ class ProtocolGeneratorTests(unittest.TestCase):
         self.assertFalse((self.root / "data/reference/actor_control").exists())
         result = self.invoke("--check")
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_large_json_uses_exact_null_terminated_byte_array(self):
+        fixtures = json.loads(self.inputs["fixtures.json"])
+        fixtures[0]["name"] = "large-" + "x" * 17000
+        (self.resource / "fixtures.json").write_text(json.dumps(fixtures), encoding="utf-8")
+        header = self.generate().decode()
+        for name, value in (("protocol_json", json.loads(self.inputs["protocol.json"])),
+                            ("protocol_fixtures_json", fixtures)):
+            with self.subTest(name=name):
+                match = re.search(r"inline constexpr char " + name +
+                                  r"\[\] = \{(.*?)\};", header, re.DOTALL)
+                self.assertIsNotNone(match)
+                actual = bytes(int(n) for n in re.findall(r"\d+", match.group(1)))
+                expected = json.dumps(value, ensure_ascii=True,
+                                      separators=(",", ":")).encode("ascii") + b"\0"
+                self.assertEqual(actual, expected)
+        self.assertEqual(self.invoke("--check").returncode, 0)
 
     def test_check_detects_either_changed_input_without_writing(self):
         header = self.generate()

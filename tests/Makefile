@@ -34,7 +34,7 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CPPFLAGS += -I. -I../src -I../src/lua -isystem ../src/third-party
+CPPFLAGS += -I. -I../src -I../src/lua -isystem ../src/third-party -isystem ../src/third-party/asio/asio/include
 CXXFLAGS += -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses
 CXXFLAGS += -Wall -Wextra
 
@@ -108,9 +108,10 @@ $(ODIR)/.test-suite: FORCE
 		printf '%s\n' "$(CATA_TEST_SUITE) $(sort $(SOURCES))" > "$@"; \
 	fi
 
+# Match the main build: -MD retains project headers with GCC PCH enabled.
 $(PCH_P): $(PCH_H)
 	@mkdir -p "$(@D)"
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MD -MP -Wno-error -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
 ifeq ($(CATA_TEST_SUITE),lua)
@@ -129,7 +130,7 @@ check-single: $(TEST_TARGET)
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
 	@mkdir -p "$(@D)"
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 $(ODIR)/%.inc: %.cpp
 	@mkdir -p "$(@D)"
@@ -143,5 +144,8 @@ includes: $(OBJS:.o=.inc)
 .SECONDARY: $(OBJS)
 
 -include ${OBJS:.o=.d}
+ifneq ($(strip $(PCH_P)),)
+-include $(basename $(PCH_P)).d
+endif
 
 endif # build rules

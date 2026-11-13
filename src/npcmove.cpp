@@ -102,6 +102,7 @@
 #include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "simple_pathfinding.h"
 #include "sleep.h"
 #include "sounds.h"
@@ -1545,6 +1546,28 @@ void npc::move()
         move_pause();
         return;
     }
+    item_location held = get_wielded_item();
+    if( held && held->has_flag( flag_NPC_THROW_NOW ) && !is_hallucination() ) {
+        // Disposing of an already armed explosive cannot depend on having a
+        // combat target or on the combat/needs decision chosen this turn.
+        npc_attack_throw emergency_throw( *held, nullptr, speed_rating() );
+        const npc_attack_rating destination = emergency_throw.evaluate( *this, current_target() );
+        if( destination.value() ) {
+            emergency_throw.use( *this, destination.target() );
+        } else {
+            // No unobstructed throw exists. Leave the live item on the map,
+            // where the existing explosion-avoidance code can flee from it.
+            const shared_ptr_fast<npc> retained = g ? g->shared_from( *this ) : nullptr;
+            const auto context = get_map().get_context_reference();
+            const tripoint_abs_ms origin = pos_abs();
+            mod_moves( -100 );
+            item dropped = remove_weapon();
+            if( context && context->inbounds( origin ) ) {
+                context->add_item_or_charges( context->get_bub( origin ), std::move( dropped ) );
+            }
+        }
+        return;
+    }
     act_on_danger_assessment();
     // Reactions remain native and precede external plans.  Calling the
     // controller consumes only the NPC's existing turn budget.
@@ -2353,9 +2376,9 @@ void npc::execute_action( npc_action action )
             }
             aim( Target_attributes( pos_bub(), tar ) );
             if( is_hallucination() ) {
-                pretend_fire( this, mode.qty, *mode );
+                pretend_fire( mode );
             } else {
-                fire_gun( here, tar, mode.qty, *mode );
+                fire_gun( here, tar, mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -2676,7 +2699,8 @@ void npc::evaluate_best_attack( const Creature *target )
                            ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                              !mode.second->is_silent() ) ) ) {
                         if( it->shots_remaining( here, this ) > 0 || can_reload_current() ) {
-                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ), "(as FIRED) ", it );
+                            compare( std::make_shared<npc_attack_gun>( *it, mode.first, mode.second ),
+                                     "(as FIRED) ", it );
                         } else {
                             compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) ", it );
                         }

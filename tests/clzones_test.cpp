@@ -3,6 +3,8 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <filesystem>
+#include <fstream>
 #include <initializer_list>
 #include <list>
 #include <memory>
@@ -22,12 +24,14 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "character_attire.h"
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "item.h"
 #include "item_location.h"
@@ -38,6 +42,7 @@
 #include "map_helpers.h"
 #include "map_scale_constants.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -226,7 +231,7 @@ TEST_CASE( "vehicle_zone_identity_distinguishes_same_mount_and_refresh_return",
                           false, true, zone_abs, zone_abs );
     cart->zones_dirty = true;
     zone_data *first = zm.create_vehicle_loot_zone( *cart, cargo->mount_pos(), first_data,
-        &here );
+                       &here );
     REQUIRE( first != nullptr );
 
     bool returned_pointer_is_current = false;
@@ -240,7 +245,7 @@ TEST_CASE( "vehicle_zone_identity_distinguishes_same_mount_and_refresh_return",
     zone_data second_data( "Second", zone_type_LOOT_FOOD, faction_your_followers,
                            false, true, zone_abs, zone_abs );
     zone_data *second = zm.create_vehicle_loot_zone( *cart, cargo->mount_pos(), second_data,
-        &here );
+                        &here );
     REQUIRE( second != nullptr );
 
     REQUIRE( zm.remove( *first, &here ) );
@@ -345,7 +350,7 @@ TEST_CASE( "vehicle_zone_remove_uses_non_global_map_context", "[zones][vehicle]"
     zone_data new_zone( "Outside reality bubble", zone_type_LOOT_FOOD,
                         faction_your_followers, false, true, zone_abs, zone_abs );
     zone_data *created = zm.create_vehicle_loot_zone( *cart, cargo->mount_pos(), new_zone,
-        other_map.cast_to_map() );
+                         other_map.cast_to_map() );
     REQUIRE( created != nullptr );
     created->set_enabled( false );
     CHECK_FALSE( created->get_enabled() );
@@ -365,12 +370,14 @@ TEST_CASE( "vehicle_zone_edit_snapshot_failure_is_fail_closed", "[zones][vehicle
     zone_data detached_zone( "Detached", zone_type_LOOT_FOOD, faction_your_followers,
                              false, true, tripoint_abs_ms::zero, tripoint_abs_ms::zero );
     detached_zone.set_is_vehicle( true );
-    CHECK_FALSE( zm.zone_edited( detached_zone ) );
-
-    CHECK_FALSE( detached_zone.set_name( "Must stay detached" ) );
-    CHECK( detached_zone.get_name() == "Detached" );
-    detached_zone.set_enabled( false );
-    CHECK( detached_zone.get_enabled() );
+    const std::string diagnostic = capture_debugmsg_during( [&]() {
+        CHECK_FALSE( zm.zone_edited( detached_zone ) );
+        CHECK_FALSE( detached_zone.set_name( "Must stay detached" ) );
+        CHECK( detached_zone.get_name() == "Detached" );
+        detached_zone.set_enabled( false );
+        CHECK( detached_zone.get_enabled() );
+    } );
+    CHECK( diagnostic.find( "Could not snapshot vehicle zone before editing" ) != std::string::npos );
 }
 
 TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][unload]" )
@@ -737,7 +744,7 @@ TEST_CASE( "zone_sorting_skips_source_when_all_destinations_count_full",
         int inserted = 0;
         for( int i = 0; i < max_item_in_square; ++i ) {
             item *added = here.add_item_or_charges_ret_loc( dest_pos, item( itype_test_rod_14cm ),
-                false ).get_item();
+                          false ).get_item();
             if( added == nullptr ) {
                 break;
             }
@@ -762,10 +769,10 @@ TEST_CASE( "zone_sorting_skips_source_when_all_destinations_count_full",
     bool spillable_skipped = false;
     zone_sorting::zone_items items = zone_sorting::populate_items( src_pos );
     zone_sorting::unload_sort_options opts = zone_sorting::set_unload_options( dummy, src_abs,
-        false );
+            false );
     std::vector<item_location> other_activity;
     CHECK_FALSE( zone_sorting::has_items_to_sort( dummy, src_abs, opts, other_activity, items,
-            &pickup_failure, &spillable_skipped ) );
+                 &pickup_failure, &spillable_skipped ) );
 }
 
 // Activity must terminate even when every destination is count-full.
@@ -1004,7 +1011,7 @@ TEST_CASE( "zone_sorting_cart_on_source_full_inventory",
     zone_manager &zm = zone_manager::get_manager();
     item test_food( itype_test_apple );
     REQUIRE( zm.get_near_zone_type_for_item( test_food,
-            here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
+             here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
 
     // Run the sort activity
     dummy.assign_activity( zone_sort_activity_actor() );
@@ -1066,7 +1073,7 @@ TEST_CASE( "zone_sorting_virtual_pickup_from_cart",
     zone_manager &zm = zone_manager::get_manager();
     item test_food( itype_test_apple );
     REQUIRE( zm.get_near_zone_type_for_item( test_food,
-            here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
+             here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
 
     dummy.assign_activity( zone_sort_activity_actor() );
     process_activity( dummy );
@@ -1129,7 +1136,7 @@ TEST_CASE( "zone_sorting_virtual_pickup_full_inventory",
     zone_manager &zm = zone_manager::get_manager();
     item test_food( itype_test_apple );
     REQUIRE( zm.get_near_zone_type_for_item( test_food,
-            here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
+             here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
 
     dummy.assign_activity( zone_sort_activity_actor() );
     process_activity( dummy );
@@ -1185,7 +1192,7 @@ TEST_CASE( "zone_sorting_direct_delivery_to_cart",
     zone_manager &zm = zone_manager::get_manager();
     item test_food( itype_test_apple );
     REQUIRE( zm.get_near_zone_type_for_item( test_food,
-            here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
+             here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
 
     dummy.assign_activity( zone_sort_activity_actor() );
     process_activity( dummy );
@@ -1426,7 +1433,7 @@ TEST_CASE( "zone_sorting_virtual_pickup_walled_dest_preserves_item",
 
     const int at_source = count_items_or_charges( src_pos, itype_test_apple, cargo );
     const int at_destination = count_items_or_charges( dest_pos, itype_test_apple,
-        std::nullopt );
+                               std::nullopt );
     CHECK( at_source + at_destination == 1 );
     CHECK( !dummy.activity );
 }
@@ -2437,7 +2444,7 @@ TEST_CASE( "zone_sorting_fast_delivery_preserves_heavy_items_with_cart",
         REQUIRE( worst.has_value() );
         if( worst ) {
             int req_at_worst = cart->drag_str_req_at( here, *worst,
-                cart->total_mass( here ) + 200_kilogram );
+                               cart->total_mass( here ) + 200_kilogram );
             CAPTURE( req_at_worst );
             CAPTURE( worst->x() );
             CAPTURE( worst->y() );
@@ -3295,7 +3302,7 @@ TEST_CASE( "has_items_to_sort_returns_false_for_spillable_only_source",
     bool pickup_failure = false;
 
     bool result = zone_sorting::has_items_to_sort( dummy, start_abs, zone_unload_options,
-        other_activity_items, items, &pickup_failure );
+                  other_activity_items, items, &pickup_failure );
 
     CHECK_FALSE( result );
 }
@@ -4130,7 +4137,7 @@ TEST_CASE( "zone_sorting_drag_refused_items_reach_the_inventory",
         dummy.activity.do_turn( dummy );
 
         const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
-            std::nullopt );
+                              std::nullopt );
         const int carried = count_carried( dummy, itype_test_heavy_boulder );
         CAPTURE( at_source );
         CAPTURE( carried );
@@ -4152,7 +4159,7 @@ TEST_CASE( "zone_sorting_drag_refused_items_reach_the_inventory",
         dummy.activity.do_turn( dummy );
 
         const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
-            std::nullopt );
+                              std::nullopt );
         CAPTURE( at_source );
         CHECK( at_source < boulders - 1 );
     }
@@ -4417,4 +4424,301 @@ TEST_CASE( "zone_activity_zero_move_passes_are_bounded",
         REQUIRE( actor != nullptr );
         CHECK_FALSE( actor->recovered );
     }
+}
+
+TEST_CASE( "zone_scope_filters_owned_personal_and_fixed_areas", "[zones][personal_scope]" )
+{
+    avatar &you = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+    const on_out_of_scope cleanup( [&]() {
+        zones.clear();
+    } );
+    you.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+    const tripoint_abs_ms origin = you.pos_abs();
+    const tripoint_abs_ms fixed = origin + tripoint::east;
+    const tripoint_rel_ms relative( 2, 0, 0 );
+    const tripoint_rel_ms foreign( 3, 0, 0 );
+    REQUIRE( zones.add( "fixed", zone_type_LOOT_FOOD, faction_your_followers, false, true,
+                        fixed, fixed, nullptr, true, nullptr, false ) );
+    REQUIRE( zones.add( "personal", zone_type_LOOT_FOOD, faction_your_followers, false, true,
+                        relative, relative, nullptr, you.getID() ) );
+    REQUIRE( zones.add( "foreign", zone_type_LOOT_FOOD, faction_your_followers, false, true,
+                        foreign, foreign, nullptr, character_id( 999999 ) ) );
+    for( zone_scope selected : {
+             zone_scope::all, zone_scope::static_only, zone_scope::personal_only
+         } ) {
+        const zone_query_context query = zone_query_context::for_character( you, origin, selected );
+        const auto points = zones.get_near( zone_type_LOOT_FOOD, origin, 10, nullptr,
+                                            faction_your_followers, &query );
+        CHECK( points.count( fixed ) == ( selected != zone_scope::personal_only ) );
+        CHECK( points.count( origin + relative ) == ( selected != zone_scope::static_only ) );
+        CHECK( points.count( origin + foreign ) == 0 );
+        CHECK( zones.has_terrain( zone_type_LOOT_FOOD, origin + relative,
+                                  faction_your_followers, &query ) ==
+               ( selected != zone_scope::static_only ) );
+    }
+    const zone_query_context shifted = zone_query_context::for_character(
+                                           you, origin + tripoint::south, zone_scope::personal_only );
+    CHECK( zones.has( zone_type_LOOT_FOOD, origin + tripoint::south + relative,
+                      faction_your_followers, &shifted ) );
+    CHECK_FALSE( zones.has( zone_type_LOOT_FOOD, origin + relative,
+                            faction_your_followers, &shifted ) );
+    npc &worker = spawn_npc( { 70, 70 }, "test_talker" );
+    const auto npc_query = zone_query_context::for_character( worker, origin, zone_scope::all );
+    CHECK_FALSE( zones.has( zone_type_LOOT_FOOD, origin + relative,
+                            faction_your_followers, &npc_query ) );
+    CHECK( zones.has( zone_type_LOOT_FOOD, fixed, faction_your_followers, &npc_query ) );
+}
+
+TEST_CASE( "zone_activity_scope_survives_clone_and_save", "[zones][personal_scope][save]" )
+{
+    clear_avatar();
+    avatar &you = get_avatar();
+    const tripoint_abs_ms original = you.pos_abs();
+    for( zone_scope selected : {
+             zone_scope::all, zone_scope::static_only, zone_scope::personal_only
+         } ) {
+        zone_sort_activity_actor actor( selected );
+        actor.ensure_zone_origin( you );
+        auto clone = actor.clone();
+        const auto *cloned = dynamic_cast<const zone_sort_activity_actor *>( clone.get() );
+        REQUIRE( cloned );
+        CHECK( cloned->query_for( you ).scope == selected );
+        CHECK( cloned->query_for( you ).origin == original );
+        std::ostringstream stream;
+        JsonOut output( stream );
+        actor.serialize( output );
+        JsonValue saved = json_loader::from_string( stream.str() );
+        auto restored = zone_sort_activity_actor::deserialize( saved );
+        const auto *sorter = dynamic_cast<const zone_sort_activity_actor *>( restored.get() );
+        REQUIRE( sorter );
+        CHECK( sorter->query_for( you ).scope == selected );
+        CHECK( sorter->query_for( you ).origin == original );
+        unload_loot_activity_actor unloading( selected );
+        unloading.ensure_zone_origin( you );
+        std::ostringstream unload_stream;
+        JsonOut unload_output( unload_stream );
+        unloading.serialize( unload_output );
+        JsonValue unload_saved = json_loader::from_string( unload_stream.str() );
+        auto loaded_unload = unload_loot_activity_actor::deserialize( unload_saved );
+        const auto *unload_copy = dynamic_cast<const unload_loot_activity_actor *>( loaded_unload.get() );
+        REQUIRE( unload_copy );
+        CHECK( unload_copy->query_for( you ).scope == selected );
+        CHECK( unload_copy->query_for( you ).origin == original );
+    }
+    JsonValue legacy = json_loader::from_string( "{}" );
+    auto old = unload_loot_activity_actor::deserialize( legacy );
+    const auto *unload = dynamic_cast<const unload_loot_activity_actor *>( old.get() );
+    REQUIRE( unload );
+    CHECK( unload->query_for( you ).scope == zone_scope::all );
+    for( int invalid : {
+             -1, 3
+             } ) {
+        JsonValue bad = json_loader::from_string( "{\"scope\":" + std::to_string( invalid ) + "}" );
+        CHECK_THROWS_AS( unload_loot_activity_actor::deserialize( bad ), JsonError );
+    }
+}
+
+TEST_CASE( "personal_zone_copy_rebinds_to_destination_avatar", "[zones][personal_scope][save]" )
+{
+    clear_avatar();
+    avatar &you = get_avatar();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+    const cata_path source( cata_path::root_path::user, "personal-zone-source-test.json" );
+    const cata_path target( cata_path::root_path::user, "personal-zone-target-test.json" );
+    const on_out_of_scope cleanup( [&]() {
+        zones.clear();
+        std::filesystem::remove( source.get_unrelative_path() );
+        std::filesystem::remove( target.get_unrelative_path() );
+    } );
+    const tripoint_rel_ms relative( 1, 0, 0 );
+    zone_data *owned = zones.add( "foreign", zone_type_LOOT_FOOD, faction_your_followers,
+                                  false, true, relative, relative, nullptr, character_id( 999999 ) );
+    REQUIRE( owned );
+    {
+        std::ostringstream saved;
+        JsonOut output( saved );
+        owned->serialize( output );
+        JsonValue value = json_loader::from_string( saved.str() );
+        JsonObject object = value.get_object();
+        zone_data restored;
+        restored.deserialize( object );
+        const zone_query_context local = zone_query_context::for_character( you, you.pos_abs() );
+        CHECK( restored.get_personal_owner() == character_id( 999999 ) );
+        CHECK_FALSE( restored.matches_query( local ) );
+    }
+    {
+        std::ofstream file( source.get_unrelative_path(), std::ios::binary );
+        REQUIRE( file.good() );
+        JsonOut output( file );
+        output.start_array();
+        owned->serialize( output );
+        output.end_array();
+    }
+    int count = 0;
+    const std::string copied = zone_manager::copy_personal_zones( source, count );
+    REQUIRE( count == 1 );
+    REQUIRE( zone_manager::paste_personal_zones( target, copied ) );
+    std::ifstream file( target.get_unrelative_path(), std::ios::binary );
+    REQUIRE( file.good() );
+    const std::string text( ( std::istreambuf_iterator<char>( file ) ),
+                            std::istreambuf_iterator<char>() );
+    JsonValue json = json_loader::from_string( text );
+    JsonArray entries = json.get_array();
+    REQUIRE( entries.size() == 1 );
+    JsonObject data = entries.next_object();
+    CHECK_FALSE( data.has_member( "personal_owner" ) );
+    zone_data pasted;
+    pasted.deserialize( data );
+    const zone_query_context local = zone_query_context::for_character( you, you.pos_abs() );
+    CHECK( pasted.matches_query( local ) );
+    CHECK( !owned->matches_query( local ) );
+}
+
+TEST_CASE( "zone_scope_distinguishes_vehicle_and_personal", "[zones][personal_scope][vehicle]" )
+{
+    avatar &you = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+    const on_out_of_scope cleanup( [&]() {
+        zones.clear();
+        clear_vehicles();
+    } );
+    const tripoint_bub_ms pos( 60, 60, 0 );
+    you.setpos( here, pos );
+    here.ter_set( pos, ter_t_floor );
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart, pos, 0_degrees, 0,
+                                      veh_spawn_status::UNDAMAGED );
+    REQUIRE( cart );
+    const auto cargo = here.veh_at( pos ).cargo();
+    REQUIRE( cargo );
+    const tripoint_abs_ms absolute = here.get_abs( pos );
+    zone_data vehicle_zone( "vehicle", zone_type_LOOT_FOOD, faction_your_followers,
+                            false, true, absolute, absolute );
+    REQUIRE( zones.create_vehicle_loot_zone( *cart, cargo->mount_pos(), vehicle_zone, &here ) );
+    for( zone_scope selected : {
+             zone_scope::all, zone_scope::static_only, zone_scope::personal_only
+         } ) {
+        const auto query = zone_query_context::for_character( you, absolute, selected );
+        CHECK( zones.has_vehicle( zone_type_LOOT_FOOD, absolute, faction_your_followers, &query ) ==
+               ( selected != zone_scope::personal_only ) );
+        CHECK( zones.get_near( zone_type_LOOT_FOOD, absolute, 2, nullptr,
+                               faction_your_followers, &query ).count( absolute ) ==
+               ( selected != zone_scope::personal_only ) );
+    }
+}
+
+TEST_CASE( "zone_sort_activity_applies_scope_to_sources_and_destinations",
+           "[zones][personal_scope][activities][sorting]" )
+{
+    avatar &you = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+    const on_out_of_scope cleanup( [&]() {
+        zones.clear();
+    } );
+    const zone_scope selected = GENERATE( zone_scope::all, zone_scope::static_only,
+                                          zone_scope::personal_only );
+    const bool reload = GENERATE( false, true );
+    CAPTURE( selected, reload );
+    const tripoint_bub_ms start( 60, 60, 0 );
+    you.setpos( here, start );
+    you.worn.wear_item( you, item( itype_backpack ), false, false );
+    const tripoint_bub_ms static_src = start + tripoint::east;
+    const tripoint_bub_ms personal_src = start + tripoint::west;
+    const tripoint_bub_ms static_dst = start + tripoint( 1, 1, 0 );
+    const tripoint_bub_ms personal_dst = start + tripoint( -1, 1, 0 );
+    for( const tripoint_bub_ms &p : {
+             static_src, personal_src, static_dst, personal_dst
+         } ) {
+        here.ter_set( p, ter_t_floor );
+    }
+    REQUIRE( zones.add( "static source", zone_type_LOOT_UNSORTED, faction_your_followers,
+                        false, true, here.get_abs( static_src ), here.get_abs( static_src ),
+                        nullptr, true, nullptr, false ) );
+    REQUIRE( zones.add( "static target", zone_type_LOOT_FOOD, faction_your_followers,
+                        false, true, here.get_abs( static_dst ), here.get_abs( static_dst ),
+                        nullptr, true, nullptr, false ) );
+    REQUIRE( zones.add( "personal source", zone_type_LOOT_UNSORTED, faction_your_followers,
+                        false, true, tripoint_rel_ms( -1, 0, 0 ), tripoint_rel_ms( -1, 0, 0 ), nullptr ) );
+    REQUIRE( zones.add( "personal target", zone_type_LOOT_FOOD, faction_your_followers,
+                        false, true, tripoint_rel_ms( -1, 1, 0 ), tripoint_rel_ms( -1, 1, 0 ), nullptr ) );
+    here.add_item_or_charges( static_src, item( itype_test_apple ) );
+    here.add_item_or_charges( personal_src, item( itype_test_apple ) );
+    zone_sort_activity_actor initial( selected );
+    initial.ensure_zone_origin( you );
+    if( reload ) {
+        std::ostringstream stream;
+        JsonOut output( stream );
+        initial.serialize( output );
+        JsonValue saved = json_loader::from_string( stream.str() );
+        auto restored = zone_sort_activity_actor::deserialize( saved );
+        you.assign_activity( *restored );
+    } else {
+        you.assign_activity( initial );
+    }
+    // The running operation keeps its original personal-zone origin even if
+    // the actor moves before its first turn, including after save/reload.
+    you.setpos( here, start + tripoint::south );
+    process_activity( you );
+    CHECK( count_items_or_charges( static_src, itype_test_apple, std::nullopt ) ==
+           ( selected == zone_scope::personal_only ? 1 : 0 ) );
+    CHECK( count_items_or_charges( personal_src, itype_test_apple, std::nullopt ) ==
+           ( selected == zone_scope::static_only ? 1 : 0 ) );
+    CHECK( count_items_or_charges( static_dst, itype_test_apple, std::nullopt ) +
+           count_items_or_charges( personal_dst, itype_test_apple, std::nullopt ) ==
+           ( selected == zone_scope::all ? 2 : 1 ) );
+    if( selected == zone_scope::static_only ) {
+        CHECK( count_items_or_charges( personal_dst, itype_test_apple, std::nullopt ) == 0 );
+    } else if( selected == zone_scope::personal_only ) {
+        CHECK( count_items_or_charges( static_dst, itype_test_apple, std::nullopt ) == 0 );
+    }
+}
+
+TEST_CASE( "zone_sort_out_of_bounds_restart_preserves_context",
+           "[zones][personal_scope][activities][npc]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    map &here = get_map();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+    const on_out_of_scope cleanup( [&]() {
+        zones.clear();
+    } );
+    npc &worker = spawn_npc( { 10, 60 }, "test_talker" );
+    worker.set_fac( faction_your_followers );
+    const shared_ptr_fast<npc> retained = overmap_buffer.find_npc( worker.getID() );
+    REQUIRE( retained.get() == &worker );
+    const tripoint_abs_ms source = here.get_abs( tripoint_bub_ms( -1, 60, 0 ) );
+    REQUIRE( zones.add( "outside", zone_type_LOOT_UNSORTED, faction_your_followers,
+                        false, true, source, source, nullptr, true, nullptr, false ) );
+    zone_sort_activity_actor original( zone_scope::static_only );
+    original.ensure_zone_origin( worker );
+    const tripoint_abs_ms origin = worker.pos_abs();
+    worker.assign_activity( original );
+    auto *running = dynamic_cast<zone_sort_activity_actor *>( worker.activity.actor.get() );
+    REQUIRE( running );
+    running->stage_init( worker.activity, worker );
+    worker.set_pos_abs_only( here.get_abs( tripoint_bub_ms( -2, 60, 0 ) ) );
+    // This enters the real out-of-bounds branch, which cancels and replaces
+    // the actor before returning from stage_think.
+    CHECK_FALSE( running->stage_think( worker.activity, worker ) );
+    const auto *restored = dynamic_cast<const zone_sort_activity_actor *>
+                           ( worker.activity.actor.get() );
+    REQUIRE( restored );
+    CHECK( restored->query_for( worker ).scope == zone_scope::static_only );
+    CHECK( restored->query_for( worker ).origin == origin );
 }

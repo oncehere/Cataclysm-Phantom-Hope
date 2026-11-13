@@ -4,8 +4,10 @@
     #define __has_feature(x) 0
 #endif
 
-// snmalloc isn't compatible with any sanitizers.
-#if !defined(__SANITIZE_ADDRESS__) && !__has_feature(address_sanitizer)
+// MinGW shares allocation callbacks with the UCRT; replacing global new/delete
+// can pass UCRT-owned memory to snmalloc during shutdown. Use its native
+// allocator there, and when sanitizers require control of allocation.
+#if !defined(__MINGW32__) && !defined(__SANITIZE_ADDRESS__) && !__has_feature(address_sanitizer)
     #define CATA_USE_SNMALLOC
 #endif
 

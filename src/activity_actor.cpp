@@ -35,6 +35,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "gunmod_ui.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery.h"
@@ -649,7 +650,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    who.fire_gun( here, fin_trajectory.back(), gun, reload_loc, burst_rounds );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ||
         weapon.get_item()->has_fault_of_type( gun_mechanical_simple ) ) {
@@ -683,6 +684,9 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "fin_trajectory", fin_trajectory );
+    if( burst_rounds != 0 ) {
+        jsout.member( "burst_rounds", burst_rounds );
+    }
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
@@ -706,6 +710,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "fin_trajectory", actor.fin_trajectory );
+    actor.burst_rounds = data.get_int( "burst_rounds", 0 );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
@@ -999,6 +1004,8 @@ void gunmod_remove_activity_actor::start( player_activity &act, Character & )
 
 void gunmod_remove_activity_actor::finish( player_activity &act, Character &who )
 {
+    const bool show_menu = reopen_menu;
+    const item_location gun_location = gun;
     item *it_gun = gun.get_item();
     if( !it_gun ) {
         debugmsg( "ACT_GUNMOD_REMOVE lost target gun" );
@@ -1017,6 +1024,9 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
     act.set_to_null();
     gunmod_remove( who, *it_gun, *it_mod );
     it_gun->on_contents_changed();
+    if( show_menu ) {
+        gunmod_ui::show( who, gun_location, true );
+    }
 }
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
@@ -1090,6 +1100,7 @@ void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "moves_total", moves_total );
     jsout.member( "gun", gun );
     jsout.member( "gunmod", gunmod_idx );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -1103,6 +1114,7 @@ std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonV
     data.read( "moves_total", actor.moves_total );
     data.read( "gun", actor.gun );
     data.read( "gunmod", actor.gunmod_idx );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }
@@ -6344,6 +6356,14 @@ void close_tile_activity_actor::start( player_activity &act, Character &who )
 
     const bool inside = !here.is_outside( who.pos_bub() );
     const tripoint_bub_ms closep = tile_location;
+    target_location = here.get_abs( closep );
+
+    if( !here.inbounds( closep ) || !here.inbounds( who.pos_abs() ) ||
+        who.pos_bub().z() != closep.z() ||
+        square_dist( who.pos_bub().xy(), closep.xy() ) > 1 || who.is_dead_state() ) {
+        act.set_to_null();
+        return;
+    }
 
     if( doors::check_mon_blocking_door( who, here.get_abs( closep ) ) ) {
         act.set_to_null();
@@ -6364,6 +6384,8 @@ void close_tile_activity_actor::start( player_activity &act, Character &who )
                 return;
             }
             if( veh->can_close( closed_vehicle_part, who ) ) {
+                vehicle_uid = veh->uid().get_value();
+                part_uid = veh->part( veh->get_non_fake_part( closed_vehicle_part ) ).get_base().uid().get_value();
                 close_success = close_tile_result::CLOSE_VEHICLE;
                 act.moves_left = act.moves_total;
                 return;
@@ -6424,7 +6446,13 @@ void close_tile_activity_actor::start( player_activity &act, Character &who )
 void close_tile_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    const tripoint_bub_ms closep = tile_location;
+    const tripoint_bub_ms closep = target_location ? here.get_bub( *target_location ) : tile_location;
+    if( !here.inbounds( closep ) || !here.inbounds( who.pos_abs() ) ||
+        who.pos_bub().z() != closep.z() ||
+        square_dist( who.pos_bub().xy(), closep.xy() ) > 1 || who.is_dead_state() ) {
+        act.set_to_null();
+        return;
+    }
     const bool inside = !here.is_outside( who.pos_bub() );
     map_stack items_in_way = here.i_at( closep );
 
@@ -6436,12 +6464,31 @@ void close_tile_activity_actor::finish( player_activity &act, Character &who )
 
     if( close_success == close_tile_result::CLOSE_VEHICLE ) {
         optional_vpart_position vp = here.veh_at( closep );
-        // There is a vehicle part here; see if it has anything that can be closed
+        if( !vp || vehicle_uid <= 0 || part_uid <= 0 ||
+            vp->vehicle().uid().get_value() != vehicle_uid ) {
+            act.set_to_null();
+            return;
+        }
         vehicle *const veh = &vp->vehicle();
+        int target_part = -1;
+        for( int index = 0; index < veh->part_count(); ++index ) {
+            const vehicle_part &part = veh->part( index );
+            if( !part.removed && !part.is_fake && part.get_base().uid().get_value() == part_uid ) {
+                target_part = index;
+                break;
+            }
+        }
+        const bool outside = veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != veh;
+        const int closing_part = veh->next_part_to_close( vp->part_index(), outside );
+        if( target_part < 0 || closing_part < 0 ||
+            veh->get_non_fake_part( closing_part ) != target_part || !veh->can_close( closing_part, who ) ) {
+            act.set_to_null();
+            return;
+        }
         who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name,
-                               veh->part( closed_vehicle_part ).name() );
+                               veh->part( closing_part ).name() );
         // close vehicle part
-        veh->close( here, closed_vehicle_part );
+        veh->close( here, closing_part );
     } else if( close_success == close_tile_result::CLOSE_DOOR ) {
 
         const std::string door_name = here.obstacle_name( closep );
@@ -6472,6 +6519,9 @@ void close_tile_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "tile_location", tile_location );
     jsout.member( "close_success", close_success );
     jsout.member( "closed_vehicle_part", closed_vehicle_part );
+    jsout.member( "target_location", target_location );
+    jsout.member( "vehicle_uid", vehicle_uid );
+    jsout.member( "part_uid", part_uid );
 
     jsout.end_object();
 }
@@ -6485,6 +6535,9 @@ std::unique_ptr<activity_actor> close_tile_activity_actor::deserialize( JsonValu
     data.read( "tile_location", actor.tile_location );
     data.read( "close_success", actor.close_success );
     data.read( "closed_vehicle_part", actor.closed_vehicle_part );
+    data.read( "target_location", actor.target_location );
+    data.read( "vehicle_uid", actor.vehicle_uid );
+    data.read( "part_uid", actor.part_uid );
 
     return actor.clone();
 }
@@ -7920,8 +7973,30 @@ void plant_seed_activity_actor::start( player_activity &act, Character & )
 void plant_seed_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    tripoint_bub_ms examp = here.get_bub( plant_location );
+    const auto retained = g ? g->shared_from( who ) : nullptr;
+    const auto actor_ref = who.get_safe_reference();
+    const auto actor_id = who.getID();
+    const auto context = here.get_context_reference();
+    const bool owned_activity = &act == &who.activity && who.activity.actor.get() == this;
+    const auto active = [&]() {
+        Creature *actor = actor_ref.get();
+        return context && actor && actor->as_character() == &who && who.getID() == actor_id &&
+               !who.is_dead_state() && ( !retained || !who.is_npc() ||
+                                         ( g && g->shared_from( who ).get() == retained.get() ) ) &&
+               ( !owned_activity || who.activity.actor.get() == this );
+    };
+    const tripoint_abs_ms plot = plant_location;
+    tripoint_bub_ms examp = here.get_bub( plot );
     const itype_id seed_id = seed_type;
+    if( !seed_id.is_valid() || !seed_id->seed || !here.inbounds( examp ) ||
+        here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, examp ) ||
+        !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ||
+        !here.i_at( examp ).empty() ) {
+        act.set_to_null();
+        return;
+    }
+    const ter_id original_terrain = here.ter( examp );
+    const furn_id original_furniture = here.furn( examp );
     std::list<item> used_seed;
     // Planning picked an instance and passed only its type, so the filter has to be
     // reapplied where the seed is actually taken
@@ -7930,16 +8005,36 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
     } else {
         used_seed = who.use_amount( seed_id, 1, craft_reservation::usable_by_automation );
     }
+    if( !active() ) {
+        return;
+    }
     if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
+        examp = here.get_bub( plot );
+        if( !here.inbounds( examp ) || here.ter( examp ) != original_terrain ||
+            here.furn( examp ) != original_furniture || !here.i_at( examp ).empty() ||
+            here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, examp ) ) {
+            who.i_add_or_drop( used_seed.front() );
+            act.set_to_null();
+            return;
         }
-        used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
-        iexamine::set_plant_water( used_seed.front(), 0 );
-        iexamine::set_plant_last_water_check( used_seed.front(), calendar::turn );
-        iexamine::set_plant_effective_growth_turns( used_seed.front(), 0 );
-        here.add_item_or_charges( examp, used_seed.front() );
+        item prepared_seed = used_seed.front();
+        prepared_seed.set_age( 0_turns );
+        if( prepared_seed.has_var( "activity_var" ) ) {
+            prepared_seed.erase_var( "activity_var" );
+        }
+        prepared_seed.set_flag( json_flag_HIDDEN_ITEM );
+        iexamine::set_plant_water( prepared_seed, 0 );
+        iexamine::set_plant_last_water_check( prepared_seed, calendar::turn );
+        iexamine::set_plant_effective_growth_turns( prepared_seed, 0 );
+        // Place directly on the selected plot; normal drop handling may overflow
+        // to a neighbouring tile, leaving planted furniture with no seed.
+        item &planted = here.add_item( examp, std::move( prepared_seed ) );
+        if( planted.is_null() ) {
+            who.i_add_or_drop( used_seed.front() );
+            act.set_to_null();
+            return;
+        }
+        const auto planted_uid = planted.uid().get_value();
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
             here.furn( examp )->plant != nullptr ) {
             here.furn_set( examp, here.furn( examp )->plant->transform );
@@ -7957,12 +8052,26 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
         }
 
         item *planted_seed = iexamine::get_seed_at( here, examp );
-        if( planted_seed != nullptr ) {
+        if( planted_seed != nullptr && planted_seed->uid().get_value() == planted_uid ) {
             const furn_t &new_furn = here.furn( examp ).obj();
 
             // Send global event before per-seed/per-furniture hooks.
             get_event_bus().send<event_type::character_plants_seed>(
                 who.getID(), here.get_abs( examp ).raw(), planted_seed->typeId(), new_furn.id );
+
+            if( !active() ) {
+                return;
+            }
+            examp = here.get_bub( plot );
+            if( !here.inbounds( examp ) ) {
+                act.set_to_null();
+                return;
+            }
+            planted_seed = iexamine::get_seed_at( here, examp );
+            if( !planted_seed || planted_seed->uid().get_value() != planted_uid ) {
+                act.set_to_null();
+                return;
+            }
 
             const std::string seed_stage( "GROWTH_SEED" );
             const std::map<std::string, double> num_ctx = {
@@ -7971,6 +8080,9 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
             iexamine::run_plant_lifecycle_event(
                 "plant", who, here, examp, *planted_seed,
                 seed_stage, seed_stage, {}, num_ctx );
+            if( !active() ) {
+                return;
+            }
         }
 
         who.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
@@ -11051,8 +11163,23 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
     }
 
     map &here = get_map();
+    const auto retained = g ? g->shared_from( who ) : nullptr;
+    const auto actor_ref = who.get_safe_reference();
+    const auto actor_id = who.getID();
+    const auto context = here.get_context_reference();
+    const bool owned_activity = &act == &who.activity && who.activity.actor.get() == this;
+    const tripoint_abs_ms plot = here.get_abs( plant_position );
+    const auto active = [&]() {
+        Creature *actor = actor_ref.get();
+        return context && actor && actor->as_character() == &who && who.getID() == actor_id &&
+               !who.is_dead_state() && ( !retained || !who.is_npc() ||
+                                         ( g && g->shared_from( who ).get() == retained.get() ) ) &&
+               ( !owned_activity || who.activity.actor.get() == this );
+    };
 
-    const ter_t &terrain = here.ter( plant_position ).obj();
+    const ter_id original_terrain = here.ter( plant_position );
+    const furn_id terrain_furniture = here.furn( plant_position );
+    const ter_t &terrain = original_terrain.obj();
     if( terrain.terrain_growth ) {
         const ret_val<void> can_fert = multi_farm_activity_actor::can_fertilize( who,
                                        plant_position );
@@ -11081,14 +11208,22 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
         } else {
             planted = who.use_amount( fertilizer, 1, craft_reservation::usable_by_automation );
         }
+        if( !active() ) {
+            return;
+        }
         if( planted.empty() ) {
             act.set_to_null();
             return;
         }
 
+        if( !here.inbounds( plot ) || here.ter( here.get_bub( plot ) ) != original_terrain ||
+            here.furn( here.get_bub( plot ) ) != terrain_furniture ) {
+            act.set_to_null();
+            return;
+        }
         terrain_growth_state growth_state;
         growth_state.fertilized_at = calendar::turn - real_reduction;
-        here.set_terrain_growth( plant_position, growth_state );
+        here.set_terrain_growth( here.get_bub( plot ), growth_state );
         //~ %1$s: plant name, %2$s: fertilizer name
         add_msg( m_info, _( "You fertilize the %1s with the %2s." ), terrain.name(),
                  planted.front().tname() );
@@ -11108,6 +11243,16 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
         return;
     }
 
+    const auto seed_uid = seed->uid().get_value();
+    const furn_id original_furniture = here.furn( plant_position );
+    const auto original_seed = [&]() -> item * {
+        if( !context || !context->inbounds( plot ) )
+        {
+            return nullptr;
+        }
+        item *current = iexamine::get_seed_at( *context, context->get_bub( plot ) );
+        return current && current->uid().get_value() == seed_uid ? current : nullptr;
+    };
     const float growth_multiplier = here.furn( plant_position )->plant->growth_multiplier;
 
     // Time required to reach the mature stage in effective growth units.
@@ -11154,6 +11299,14 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
     } else {
         planted = who.use_amount( fertilizer, 1, craft_reservation::usable_by_automation );
     }
+    if( !active() ) {
+        return;
+    }
+    item *current_seed = original_seed();
+    if( !current_seed || here.furn( here.get_bub( plot ) ) != original_furniture ) {
+        act.set_to_null();
+        return;
+    }
     if( planted.empty() ) {
         debugmsg( "Failed to consume fertilizer %s", fertilizer.c_str() );
         act.set_to_null();
@@ -11173,40 +11326,59 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
     const time_duration new_effective = current_effective + reduction;
 
     // Advance effective growth time, mark the plant as fertilized, and keep birthday in sync.
-    iexamine::set_plant_fertilized( *seed, true );
-    iexamine::set_plant_effective_growth_time( *seed, new_effective, growth_multiplier,
+    iexamine::set_plant_fertilized( *current_seed, true );
+    iexamine::set_plant_effective_growth_time( *current_seed, new_effective, growth_multiplier,
             crop_growth_speed );
 
     // Apply any stage advances immediately.
-    here.grow_plant( plant_position );
+    const std::string plant_name = current_seed->get_plant_name();
+    here.grow_plant( here.get_bub( plot ) );
+    if( !active() ) {
+        return;
+    }
+    item *fertilized_seed = original_seed();
+    if( !fertilized_seed ) {
+        act.set_to_null();
+        return;
+    }
+    const tripoint_bub_ms fertilized_position = here.get_bub( plot );
+    const furn_str_id furniture = here.furn( fertilized_position ).id();
 
-    item *fertilized_seed = iexamine::get_seed_at( here, plant_position );
-    if( fertilized_seed != nullptr ) {
-        const furn_t &furn = here.furn( plant_position ).obj();
+    // Send global event before per-seed/per-furniture hooks.
+    get_event_bus().send<event_type::character_fertilizes_plant>(
+        who.getID(), plot.raw(), fertilized_seed->typeId(), furniture,
+        fertilizer, to_turns<int>( reduction ) );
 
-        // Send global event before per-seed/per-furniture hooks.
-        get_event_bus().send<event_type::character_fertilizes_plant>(
-            who.getID(), here.get_abs( plant_position ).raw(), fertilized_seed->typeId(), furn.id,
-            fertilizer, to_turns<int>( reduction ) );
-
-        const int stage_idx = iexamine::get_plant_current_stage_idx_from_effective( here, plant_position );
-        const std::string stage = stage_idx >= 0 ?
-                                  fertilized_seed->type->seed->get_growth_stages()[stage_idx].first.str() : "";
-        const std::map<std::string, std::string> string_ctx = {
-            { "fertilizer_id", fertilizer.str() }
-        };
-        const std::map<std::string, double> num_ctx = {
-            { "reduction_turns", static_cast<double>( to_turns<int>( reduction ) ) },
-            { "actor_is_npc", who.is_npc() ? 1.0 : 0.0 }
-        };
-        iexamine::run_plant_lifecycle_event(
-            "fertilize", who, here, plant_position, *fertilized_seed,
-            stage, stage, string_ctx, num_ctx );
+    if( !active() ) {
+        return;
+    }
+    fertilized_seed = original_seed();
+    if( !fertilized_seed || here.furn( here.get_bub( plot ) ).id() != furniture ) {
+        act.set_to_null();
+        return;
+    }
+    const tripoint_bub_ms current_position = here.get_bub( plot );
+    const int stage_idx = iexamine::get_plant_current_stage_idx_from_effective( here,
+                          current_position );
+    const std::string stage = stage_idx >= 0 ?
+                              fertilized_seed->type->seed->get_growth_stages()[stage_idx].first.str() : "";
+    const std::map<std::string, std::string> string_ctx = {
+        { "fertilizer_id", fertilizer.str() }
+    };
+    const std::map<std::string, double> num_ctx = {
+        { "reduction_turns", static_cast<double>( to_turns<int>( reduction ) ) },
+        { "actor_is_npc", who.is_npc() ? 1.0 : 0.0 }
+    };
+    iexamine::run_plant_lifecycle_event(
+        "fertilize", who, here, current_position, *fertilized_seed,
+        stage, stage, string_ctx, num_ctx );
+    if( !active() ) {
+        return;
     }
 
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ),
-             fertilized_seed ? fertilized_seed->get_plant_name() : planted.front().tname(),
+             plant_name,
              planted.front().tname() );
 
     act.set_to_null();
@@ -11934,6 +12106,7 @@ void gunmod_add_activity_actor::start( player_activity &act, Character & )
 
 void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
 {
+    const bool show_menu = reopen_menu;
     act.set_to_null();
     // first unpack all of our arguments
     if( act.values.size() != 4 ) {
@@ -11941,6 +12114,11 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    if( act.targets.size() != 2 || !act.targets[0] || !act.targets[1] ) {
+        add_msg( m_info, _( "The gun or modification is no longer available." ) );
+        return;
+    }
+    const item_location gun_location = act.targets[0];
     item &gun = *act.targets.at( 0 );
     item &mod = *act.targets.at( 1 );
 
@@ -11952,6 +12130,14 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
     // any tool charges used during installation
     const itype_id tool( act.name );
     const int qty = act.values[3];
+
+    if( !tool.is_empty() && qty > 0 && !who.has_charges( tool, qty ) ) {
+        add_msg( m_info, _( "The installation tool no longer has enough charges." ) );
+        if( show_menu ) {
+            gunmod_ui::show( who, gun_location, true );
+        }
+        return;
+    }
 
     if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
@@ -11987,6 +12173,9 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
     }
+    if( show_menu ) {
+        gunmod_ui::show( who, gun_location, true );
+    }
 }
 
 void gunmod_add_activity_actor::serialize( JsonOut &jsout ) const
@@ -11995,6 +12184,7 @@ void gunmod_add_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     jsout.member( "name", name );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -12007,6 +12197,7 @@ std::unique_ptr<activity_actor> gunmod_add_activity_actor::deserialize( JsonValu
 
     data.read( "moves", actor.moves );
     data.read( "name", actor.name );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }
@@ -12275,6 +12466,26 @@ std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+zone_query_context zone_activity_actor::query_for( const Character &who ) const
+{
+    return zone_query_context::for_character( who,
+            !zone_owner.is_valid() || zone_owner == who.getID() ? personal_origin.value_or( who.pos_abs() ) :
+            who.pos_abs(), scope );
+}
+
+void zone_activity_actor::ensure_zone_origin( const Character &who )
+{
+    if( zone_owner.is_valid() && zone_owner != who.getID() ) {
+        personal_origin.reset();
+        coord_set.clear();
+        stage = UNINIT;
+    }
+    zone_owner = who.getID();
+    if( !personal_origin ) {
+        personal_origin = who.pos_abs();
+    }
+}
+
 void zone_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -12284,6 +12495,9 @@ void zone_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "stage", stage );
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
+    jsout.member( "scope", static_cast<int>( scope ) );
+    jsout.member( "personal_origin", personal_origin );
+    jsout.member( "zone_owner", zone_owner );
 
     jsout.end_object();
 }
@@ -12299,18 +12513,28 @@ std::unique_ptr<activity_actor> unload_loot_activity_actor::deserialize( JsonVal
     data.read( "stage", actor.stage );
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
+    const int scope_value = data.get_int( "scope", 0 );
+    if( scope_value < 0 || scope_value > static_cast<int>( zone_scope::personal_only ) ) {
+        data.throw_error_at( "scope", "Invalid sorting scope" );
+    }
+    actor.scope = static_cast<zone_scope>( scope_value );
+    data.read( "personal_origin", actor.personal_origin );
+    data.read( "zone_owner", actor.zone_owner );
 
     return actor.clone();
 }
 
-void zone_activity_actor::start( player_activity &act, Character & )
+void zone_activity_actor::start( player_activity &act, Character &who )
 {
+    ensure_zone_origin( who );
     act.moves_total = moves;
     act.moves_left = moves;
 }
 
 void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
 {
+    ensure_zone_origin( you );
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -12319,13 +12543,13 @@ void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
     coord_set.clear();
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
-                       fac_id ) ) {
+                       fac_id, &query ) ) {
         coord_set.insert( p );
     }
 
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
-                       fac_id ) ) {
+                       fac_id, &query ) ) {
         coord_set.insert( p );
     }
     stage = THINK;
@@ -12333,6 +12557,7 @@ void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
 
 bool unload_loot_activity_actor::stage_think( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -12355,7 +12580,10 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
 
         const tripoint_bub_ms &src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you, unload_loot_activity_actor() ) ) {
+            unload_loot_activity_actor restart( scope );
+            restart.personal_origin = personal_origin;
+            restart.zone_owner = zone_owner;
+            if( zone_sorting::sorter_out_of_bounds( you, restart ) ) {
                 return false;
             }
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
@@ -12365,7 +12593,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
         }
 
         if( zone_sorting::ignore_zone_position( you, src, mgr.has( zone_type_LOOT_IGNORE, src,
-                                                fac_id ) ) ) {
+                                                fac_id, &query ), &query ) ) {
             continue;
         }
 
@@ -12398,6 +12626,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
 
 void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
 {
+    const zone_query_context query = query_for( you );
 
     const zone_manager &mgr = zone_manager::get_manager();
     const map &here = get_map();
@@ -12416,7 +12645,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false );
+            false, &query );
 
     //Skip items that have already been processed
     for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
@@ -12430,7 +12659,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
         }
 
         // skip favorite items in ignore favorite zones
-        if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ) ) {
+        if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id, &query ) ) {
             ++num_processed;
             continue;
         }
@@ -12440,7 +12669,7 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
         if( !zone_sorting::unload_item( you, src,
                                         zone_unload_options,
                                         it->second ? zone_sorting::cargo_part_from_index( src_bub, *it->second ) : std::nullopt,
-                                        it->first, dest_set, num_processed ) ) {
+                                        it->first, dest_set, num_processed, &query ) ) {
             // Starting gunmod removal replaces this actor.  Resume from the
             // saved zone activity instead of continuing through destroyed state.
             return;
@@ -15502,6 +15731,7 @@ std::unique_ptr<activity_actor> vehicle_part_remove_service_activity_actor::dese
 
 void zone_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    ensure_zone_origin( you );
     update_vehicle_zone_cache();
 
     //Prepare activity stage
@@ -15669,6 +15899,8 @@ void zone_sort_activity_actor::restore_viewport( Character &you )
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 {
+    ensure_zone_origin( you );
+    const zone_query_context query = query_for( you );
     zone_manager &mgr = zone_manager::get_manager();
     mgr.cache_avatar_location();
     if( you.is_avatar() ) {
@@ -15677,12 +15909,8 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
     coord_set.clear();
     unreachable_sources.clear();
     const faction_id fac = you.get_faction_id();
-    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     for( const tripoint_abs_ms &p :
-         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac ) ) {
-        if( skip_personal && !mgr.has_nonpersonal( zone_type_LOOT_UNSORTED, p, fac ) ) {
-            continue;
-        }
+         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac, &query ) ) {
         coord_set.insert( p );
     }
 
@@ -15714,6 +15942,7 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
     const map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
     mgr.cache_avatar_location();
@@ -15836,7 +16065,10 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you, zone_sort_activity_actor() ) ) {
+            zone_sort_activity_actor restart( scope );
+            restart.personal_origin = personal_origin;
+            restart.zone_owner = zone_owner;
+            if( zone_sorting::sorter_out_of_bounds( you, restart ) ) {
                 return false;
             }
             zero_move_dispatches = 0;
@@ -15847,15 +16079,15 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             return false;
         }
 
-        bool ignore_contents = zone_sorting::ignore_contents( you, src );
+        bool ignore_contents = zone_sorting::ignore_contents( you, src, &query );
 
-        if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
+        if( zone_sorting::ignore_zone_position( you, src, ignore_contents, &query ) ) {
             coord_set.erase( src );
             continue;
         }
 
         zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-                true );
+                true, &query );
 
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
@@ -15863,7 +16095,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         bool pickup_failure;
         bool spillable_skipped = false;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items, &pickup_failure, &spillable_skipped );
+                                    other_activity_items, items, &pickup_failure, &spillable_skipped, &query );
 
         if( pickup_failure && !pickup_failure_reported ) {
             pickup_failure_reported = true;
@@ -15985,6 +16217,7 @@ void zone_sort_activity_actor::return_items_to_source( Character &you,
 void zone_sort_activity_actor::deliver_picked_items( Character &you,
         const tripoint_bub_ms &src_bub )
 {
+    const zone_query_context query = query_for( you );
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -16038,10 +16271,10 @@ void zone_sort_activity_actor::deliver_picked_items( Character &you,
             // determines the fallback chain: vehicle-only zones skip
             // ground, everything else tries cargo then ground.
             const zone_type_id drop_zt = mgr.get_near_zone_type_for_item( **iter,
-                                         drop_dest, 0, fac_id, iter->spoil_multiplier() );
+                                         drop_dest, 0, fac_id, iter->spoil_multiplier(), &query );
             const bool vehicle_only = drop_zt != zone_type_id::NULL_ID() &&
-                                      mgr.has_vehicle( drop_zt, drop_dest, fac_id ) &&
-                                      !mgr.has_terrain( drop_zt, drop_dest, fac_id );
+                                      mgr.has_vehicle( drop_zt, drop_dest, fac_id, &query ) &&
+                                      !mgr.has_terrain( drop_zt, drop_dest, fac_id, &query );
             bool placed = false;
             item copy( **iter );
             for( const vpart_reference &ovp : zone_sorting::cargo_parts_at( drop_bub ) ) {
@@ -16097,6 +16330,7 @@ bool zone_sort_activity_actor::try_adjacent_delivery( Character &you, item &this
         const tripoint_bub_ms &src_bub,
         zone_sorting::zone_items::iterator it )
 {
+    const zone_query_context query = query_for( you );
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = you.get_faction_id();
@@ -16118,8 +16352,8 @@ bool zone_sort_activity_actor::try_adjacent_delivery( Character &you, item &this
         // Vehicle-only zones don't fall back to ground placement.
         // All other zones (terrain, dual-bound) try cargo first, then ground.
         // No overflow to adjacent tiles in either case.
-        const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id ) &&
-                                  !mgr.has_terrain( zt_id, dest, fac_id );
+        const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id, &query ) &&
+                                  !mgr.has_terrain( zt_id, dest, fac_id, &query );
         bool placed = false;
         for( const vpart_reference &ovp : zone_sorting::cargo_parts_at( dest_bub ) ) {
             if( ovp.vehicle().add_item( here, ovp.part(), copy_thisitem ) ) {
@@ -16305,6 +16539,7 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
         const tripoint_bub_ms &src_bub,
         tripoint_abs_ms &destination )
 {
+    const zone_query_context query = query_for( you );
     ( void )src_bub;
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -16314,11 +16549,11 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
     // (place items then remove them) destroyed count_by_charges items at
     // the destination via merge_charges. This volume check is conservative
     // but safe; the actual dropoff loop handles edge cases if we're wrong.
-    auto dest_free_volume = [this, &here, &mgr, fac_id]( const tripoint_bub_ms & dest_bub )
+    auto dest_free_volume = [this, &here, &mgr, &query, fac_id]( const tripoint_bub_ms & dest_bub )
     -> units::volume {
         const bool dest_vehicle_only = current_dropoff_zt_id != zone_type_id::NULL_ID() &&
-        mgr.has_vehicle( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id ) &&
-        !mgr.has_terrain( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id );
+        mgr.has_vehicle( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id, &query ) &&
+        !mgr.has_terrain( current_dropoff_zt_id, here.get_abs( dest_bub ), fac_id, &query );
         units::volume avail = 0_ml;
         for( const vpart_reference &vp_dest : zone_sorting::cargo_parts_at( dest_bub ) )
         {
@@ -16367,12 +16602,12 @@ bool zone_sort_activity_actor::find_dropoff_destination( Character &you,
 
 void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
+    const zone_query_context query = query_for( you );
     ( void )act;
     map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
 
     const faction_id fac_id = you.get_faction_id();
-    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     const tripoint_abs_ms src( placement );
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
@@ -16412,13 +16647,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false );
+            false, &query );
 
     // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
     // zone), it's being used for transport - don't re-sort its cargo.
     // If there IS a vehicle zone on the cart, the user explicitly wants
     // the cart's cargo sorted.
-    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id,
+                                          &query );
     bool skip_cart_cargo = false;
     if( !src_has_vehicle_unsorted && you.is_avatar() &&
         you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -16458,29 +16694,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
 
         if( zone_sorting::sort_skip_item( you, it->first, other_activity_items,
-                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ),
-                                          src, spoil_multiplier ) ) {
+                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id, &query ),
+                                          src, spoil_multiplier, nullptr, &query ) ) {
             continue;
         }
 
         const zone_type_id zt_id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                   MAX_VIEW_DISTANCE, fac_id, spoil_multiplier );
+                                   MAX_VIEW_DISTANCE, fac_id, spoil_multiplier, &query );
 
         std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
-        if( skip_personal ) {
-            for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
-                if( !mgr.has_nonpersonal( zt_id, *dit, fac_id ) ) {
-                    dit = dest_set.erase( dit );
-                } else {
-                    ++dit;
-                }
-            }
-        }
+            mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id, &query );
         // Drop count-full destinations so pickup does not bounce.
         for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
             if( zt_id != zone_type_id::NULL_ID() &&
-                !zone_sorting::dest_has_capacity( *dit, zt_id, thisitem, fac_id ) ) {
+                !zone_sorting::dest_has_capacity( *dit, zt_id, thisitem, fac_id, &query ) ) {
                 dit = dest_set.erase( dit );
             } else {
                 ++dit;
@@ -16490,7 +16717,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
                                              zone_unload_options,
                                              it->second ? zone_sorting::cargo_part_from_index( src_bub, *it->second ) : std::nullopt,
-                                             it->first, dest_set, num_processed );
+                                             it->first, dest_set, num_processed, &query );
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
@@ -16518,7 +16745,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( !picked_up_stuff.empty() ) {
             bool thisitem_shares_existing_dest = false;
             for( const tripoint_abs_ms &possible_dest : dropoff_coords ) {
-                zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id );
+                zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id, 1.0f,
+                                       &query );
                 if( zt_dest == zt_id ) {
                     // Found a valid destination.
                     thisitem_shares_existing_dest = true;
@@ -16670,6 +16898,9 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "stage", stage );
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
+    jsout.member( "scope", static_cast<int>( scope ) );
+    jsout.member( "personal_origin", personal_origin );
+    jsout.member( "zone_owner", zone_owner );
     jsout.member( "other_activity_items", other_activity_items );
     // Purge stale item_locations before serializing - items on vehicles that
     // are no longer on the map would trigger debugmsg during serialization.
@@ -16713,6 +16944,13 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "stage", actor.stage );
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
+    const int scope_value = data.get_int( "scope", 0 );
+    if( scope_value < 0 || scope_value > static_cast<int>( zone_scope::personal_only ) ) {
+        data.throw_error_at( "scope", "Invalid sorting scope" );
+    }
+    actor.scope = static_cast<zone_scope>( scope_value );
+    data.read( "personal_origin", actor.personal_origin );
+    data.read( "zone_owner", actor.zone_owner );
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );

@@ -36,7 +36,7 @@ class ModSdkTest(unittest.TestCase):
         self, root: Path, name: str, text: str = DECLARATIONS,
     ) -> Path:
         source = root / (name + ".d.lua")
-        source.write_text(text, encoding="utf-8")
+        source.write_bytes(text.encode("utf-8"))
         mod = root / name
         mod.mkdir()
         mod_sdk.write_editor_files(mod, source)
@@ -90,6 +90,17 @@ class ModSdkTest(unittest.TestCase):
             self.assertFalse((mod / ".ccb-sdk").exists())
             self.assertEqual(config.read_text(), "concurrent author settings")
 
+    def test_snapshot_preserves_crlf_bytes_and_hash(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            declarations = DECLARATIONS.replace("\n", "\r\n")
+            mod = self.make_sdk(root, "crlf", declarations)
+            metadata, text = mod_sdk.read_sdk(mod)
+            contents = declarations.encode("utf-8")
+            self.assertEqual(text, declarations)
+            self.assertEqual((mod / ".ccb-sdk/ccb.lua").read_bytes(), contents)
+            self.assertEqual(metadata["declarations_sha256"], mod_sdk.digest(contents))
+
     def test_snapshot_survives_source_changes_and_project_move(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -99,6 +110,8 @@ class ModSdkTest(unittest.TestCase):
             shutil.move(mod, moved)
             metadata, text = mod_sdk.read_sdk(moved)
             self.assertEqual(text, DECLARATIONS)
+            self.assertEqual(metadata["declarations_sha256"],
+                             mod_sdk.digest(DECLARATIONS.encode("utf-8")))
             self.assertEqual(metadata["platform_version"], 1)
             settings = json.loads((moved / ".luarc.json").read_text())
             library = moved / settings["workspace.library"][0]

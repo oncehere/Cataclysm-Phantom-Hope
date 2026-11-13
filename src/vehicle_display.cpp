@@ -178,10 +178,14 @@ int vehicle::print_part_list( const catacurses::window &win, int y1,
                     partname += string_format( _( " (%d/%d charge)" ), vp.ammo_remaining( ),
                                                vp.ammo_capacity( ammo_battery ) );
                 } else if( vp.ammo_current()->stack_size > 0 ) {
-                    const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
-                    auto stack = 250_ml / pt_ammo_cur->stack_size;
+                    units::volume volume = 0_ml;
+                    if( vp.ammo_remaining() > 0 ) {
+                        const item &base = vp.get_base();
+                        const item &fuel = vp.is_tank() ? base.legacy_front() : base.first_ammo();
+                        volume = fuel.volume();
+                    }
                     partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining( ) * stack ), 1 ),
+                                               round_up( units::to_liter( volume ), 1 ),
                                                item::nname( vp.ammo_current() ) );
                 }
             } else {

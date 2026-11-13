@@ -774,6 +774,29 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
     }
 }
 
+TEST_CASE( "empty_autopickup_rules_do_not_match_uncached_items", "[autopickup][regression]" )
+{
+    const itype_id type = GENERATE( itype_bottle_plastic, itype_bag_plastic );
+    const bool exclude = GENERATE( false, true );
+    const bool item_overload = GENERATE( false, true );
+    auto_pickup::rule_list rules;
+    rules.emplace_back( "", true, exclude );
+    auto_pickup::cache cache;
+    rules.refresh_map_items( cache );
+    REQUIRE( cache.empty() );
+    const item container( type );
+    const std::string name = container.tname( 1, false );
+    if( item_overload ) {
+        rules.create_rule( cache, container );
+    } else {
+        rules.create_rule( cache, name );
+    }
+    CHECK( cache.find( name ) == cache.end() );
+    rules.emplace_back( "*", true, exclude );
+    rules.create_rule( cache, container );
+    CHECK( cache.at( name ) == ( exclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED ) );
+}
+
 TEST_CASE( "auto_pickup_item_rule_cache", "[autopickup][item]" )
 {
     clear_everything();

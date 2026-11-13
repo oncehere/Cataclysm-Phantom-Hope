@@ -11,14 +11,20 @@
 #include <vector>
 
 #include "cata_catch.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "cursesport.h"
+#include "font_loader.h"
+#include "imgui/imgui.h"
+#include "json.h"
+#include "json_loader.h"
 #include "options_helpers.h"
 #include "path_info.h"
 #include "point.h"
 #include "sdl_font.h"
+#include "sdl_geometry.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
@@ -275,6 +281,306 @@ void clear_to_sentinel()
 }
 
 } // namespace
+
+TEST_CASE( "incremental_menu_survives_background_redraw", "[tiles][sdl_font][renderer_boundary]" )
+{
+    software_render_fixture fx;
+    REQUIRE( fx.available() );
+    restore_on_out_of_scope<palette_t> restore_palette( windowsPalette );
+    windowsPalette = test_palette();
+    REQUIRE( renderer_recovery_test_support::install_test_font(
+                 PATH_INFO::fontdir() + typeface_unifont, cell_w, cell_h, font_size, false ) );
+    display_buffer_draw_scope scope;
+    REQUIRE( scope.should_draw() );
+    restore_on_out_of_scope restore_stdscr( catacurses::stdscr );
+    catacurses::stdscr = catacurses::newwin( 4, 8, point::zero );
+    const catacurses::window menu = catacurses::newwin( 2, 4, point( 1, 1 ) );
+    for( int frame = 0; frame < 2; ++frame ) {
+        catacurses::erase();
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        catacurses::werase( menu );
+        auto *win = menu.get<cata_cursesport::WINDOW>();
+        win->line[0].chars[0].BG = catacurses::red;
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( menu ) );
+        // The input loop refreshes stdscr again after the menu has painted.
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        const std::vector<Uint32> pixels = read_canvas( canvas_w, canvas_h );
+        const point center( cell_w + cell_w / 2, cell_h + cell_h / 2 );
+        CHECK( pixels[static_cast<size_t>( center.y ) * canvas_w + center.x] ==
+               rgb_of( windowsPalette[catacurses::red] ) );
+    }
+}
+
+namespace
+{
+void check_sarasa_incremental_menu( const bool blending, const bool atlas )
+{
+    override_text_atlas( std::optional<bool>( atlas ) );
+    on_out_of_scope restore_atlas( [] { override_text_atlas( std::nullopt ); } );
+    restore_on_out_of_scope<palette_t> restore_palette( windowsPalette );
+    windowsPalette = test_palette();
+    windowsPalette[catacurses::black] = SDL_Color{ 0, 0, 0, 255 };
+    const std::string typeface = PATH_INFO::fontdir() + "sarasa-fixed-sc-semibold.ttf";
+    REQUIRE( renderer_recovery_test_support::install_test_font( typeface, cell_w, cell_h,
+             font_size, blending ) );
+    for( const std::string &glyph : {
+             std::string( "中" ), std::string( "文" ), std::string( "A" )
+         } ) {
+        REQUIRE( renderer_recovery_test_support::test_font()->isGlyphProvided( glyph ) );
+    }
+    restore_on_out_of_scope restore_stdscr( catacurses::stdscr );
+    catacurses::stdscr = catacurses::newwin( win_rows, win_cols, point::zero );
+    const catacurses::window menu = catacurses::newwin( win_rows, win_cols, point::zero );
+    const auto fill_menu = [&] {
+        catacurses::werase( menu );
+        put_cell( menu, { point( 0, 0 ), "中", 15, 0 } );
+        put_cell( menu, { point( 1, 0 ), "", 15, 0 } );
+        put_cell( menu, { point( 2, 0 ), "文", 15, 0 } );
+        put_cell( menu, { point( 3, 0 ), "", 15, 0 } );
+        put_cell( menu, { point( 4, 0 ), "A", 15, 0 } );
+    };
+    fill_menu();
+    oracle_canvas expected( typeface, windowsPalette, blending );
+    REQUIRE( expected.ready() );
+    compose_expected( expected, menu, false );
+    display_buffer_draw_scope scope;
+    REQUIRE( scope.should_draw() );
+    std::vector<Uint32> first;
+    for( int frame = 0; frame < 3; ++frame ) {
+        CAPTURE( frame );
+        catacurses::erase();
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        fill_menu();
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( menu ) );
+        REQUIRE( renderer_recovery_test_support::refresh_test_window( catacurses::stdscr ) );
+        const std::vector<Uint32> actual = read_canvas( canvas_w, canvas_h );
+        int mismatches = 0;
+        std::array<int, 3> ink{};
+        for( int y = 0; y < canvas_h; ++y ) {
+            for( int x = 0; x < canvas_w; ++x ) {
+                const Uint32 pixel = actual[static_cast<size_t>( y ) * canvas_w + x];
+                mismatches += channel_delta( pixel, expected.rgb_at( point( x, y ) ) ) >
+                              ( blending ? 1 : 0 ) ? 1 : 0;
+                if( y < cell_h && pixel != rgb_of( windowsPalette[catacurses::black] ) ) {
+                    if( x < 2 * cell_w ) {
+                        ++ink[0];
+                    } else if( x < 4 * cell_w ) {
+                        ++ink[1];
+                    } else if( x < 5 * cell_w ) {
+                        ++ink[2];
+                    }
+                }
+            }
+        }
+        CHECK( mismatches == 0 );
+        CHECK( ink[0] > 0 );
+        CHECK( ink[1] > 0 );
+        CHECK( ink[2] > 0 );
+        if( frame == 0 ) {
+            first = actual;
+        } else {
+            CHECK( actual == first );
+        }
+    }
+}
+} // namespace
+
+TEST_CASE( "sarasa_cjk_glyphs_survive_incremental_menu_redraw",
+           "[tiles][sdl_font][renderer_boundary]" )
+{
+    const bool blending = GENERATE( false, true );
+    const bool atlas = GENERATE( false, true );
+    CAPTURE( blending, atlas );
+    software_render_fixture fx;
+    REQUIRE( fx.available() );
+    check_sarasa_incremental_menu( blending, atlas );
+}
+
+#if defined(_WIN32)
+TEST_CASE( "sarasa_cjk_glyphs_survive_gpu_menu_redraw", "[.][tiles][sdl_font][renderer_backend]" )
+{
+    const std::string driver = GENERATE( "direct3d12", "vulkan" );
+    const bool blending = GENERATE( false, true );
+    const bool atlas = GENERATE( false, true );
+    CAPTURE( driver, blending, atlas );
+    const char *prior = SDL_GetHint( SDL_HINT_GPU_DRIVER );
+    const std::string prior_driver = prior ? prior : "";
+    on_out_of_scope restore_driver( [prior_driver] {
+        if( prior_driver.empty() )
+        {
+            SDL_ResetHint( SDL_HINT_GPU_DRIVER );
+        } else
+        {
+            SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, prior_driver.c_str(), SDL_HINT_OVERRIDE );
+        }
+    } );
+    REQUIRE( SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, driver.c_str(), SDL_HINT_OVERRIDE ) );
+    if( !renderer_recovery_test_support::setup_renderer( "gpu" ) ) {
+        WARN( "SDL GPU renderer unavailable for " << driver << ": " << SDL_GetError() );
+        return;
+    }
+    on_out_of_scope teardown( [] { renderer_recovery_test_support::teardown_software_renderer(); } );
+    SDL_Renderer *renderer = get_sdl_renderer().get();
+    REQUIRE( std::string( SDL_GetRendererName( renderer ) ) == "gpu" );
+    SDL_GPUDevice *device = SDL_GetGPURendererDevice( renderer );
+    REQUIRE( device );
+    const char *actual_driver = SDL_GetGPUDeviceDriver( device );
+    REQUIRE( actual_driver );
+    REQUIRE( std::string( actual_driver ) == driver );
+    check_sarasa_incremental_menu( blending, atlas );
+}
+#endif
+
+namespace
+{
+void check_imgui_default_sarasa( const SDL_Renderer_Ptr &renderer, const SDL_Window_Ptr &window )
+{
+    // The fixture initializes SDL/TTF and supplies the same default cell height.
+    REQUIRE( renderer_recovery_test_support::install_test_font(
+                 PATH_INFO::fontdir() + "sarasa-fixed-sc-semibold.ttf", cell_w, cell_h,
+                 font_size, false ) );
+    Font *sarasa = renderer_recovery_test_support::test_font();
+    REQUIRE( sarasa );
+    REQUIRE( sarasa->isGlyphProvided( "中" ) );
+    REQUIRE( sarasa->isGlyphProvided( "文" ) );
+    REQUIRE( sarasa->isGlyphProvided( "A" ) );
+
+    const auto data = json_loader::from_path_opt( PATH_INFO::legacy_fontdata() );
+    REQUIRE( data.has_value() );
+    JsonObject config = data->get_object();
+    config.allow_omitted_members();
+    std::vector<font_config> typefaces;
+    for( JsonValue entry : config.get_array( "gui_typeface" ) ) {
+        if( entry.test_string() ) {
+            typefaces.emplace_back( entry.get_string() );
+        } else {
+            font_config parsed;
+            REQUIRE( entry.read( parsed, false ) );
+            typefaces.push_back( parsed );
+        }
+    }
+    REQUIRE_FALSE( typefaces.empty() );
+    REQUIRE( typefaces.front().path == "data/font/sarasa-fixed-sc-semibold.ttf" );
+    REQUIRE( typefaces.front().hinting == ImGuiFreeTypeLoaderFlags_Bitmap );
+
+    GeometryRenderer_Ptr geometry = std::make_unique<DefaultGeometryRenderer>();
+    ImGuiContext *previous_context = ImGui::GetCurrentContext();
+    on_out_of_scope restore_context( [previous_context] { ImGui::SetCurrentContext( previous_context ); } );
+    cataimgui::client client( renderer, window, geometry );
+    Font_Ptr empty_font;
+    client.load_fonts( empty_font, empty_font, windowsPalette, typefaces, typefaces );
+    std::vector<Uint32> first;
+    for( int frame = 0; frame < 3; ++frame ) {
+        CAPTURE( frame );
+        REQUIRE( SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 ) );
+        REQUIRE( SDL_RenderClear( renderer.get() ) );
+        client.new_frame( 160, 64 );
+        ImFontBaked *baked = ImGui::GetFont()->GetFontBaked( ImGui::GetFontSize() );
+        REQUIRE( baked );
+        for( const ImWchar codepoint : {
+                 ImWchar( 0x4e2d ), ImWchar( 0x6587 ), ImWchar( 'A' )
+             } ) {
+            const ImFontGlyph *glyph = baked->FindGlyphNoFallback( codepoint );
+            REQUIRE( glyph );
+            REQUIRE( glyph->Codepoint == codepoint );
+        }
+        ImDrawList *draw = ImGui::GetForegroundDrawList();
+        draw->AddText( ImVec2( 4, 4 ), IM_COL32_WHITE, "中" );
+        draw->AddText( ImVec2( 44, 4 ), IM_COL32_WHITE, "文" );
+        draw->AddText( ImVec2( 84, 4 ), IM_COL32_WHITE, "A" );
+        client.end_frame();
+        const SDL_Rect sample = { 0, 0, 160, 64 };
+        SDL_Surface_Ptr source( SDL_RenderReadPixels( renderer.get(), &sample ) );
+        REQUIRE( source );
+        SDL_Surface_Ptr rgba( SDL_ConvertSurface( source.get(), SDL_PIXELFORMAT_RGBA32 ) );
+        REQUIRE( rgba );
+        REQUIRE( rgba->w == 160 );
+        REQUIRE( rgba->h == 64 );
+        std::vector<Uint32> pixels( 160 * 64 );
+        std::array<int, 3> ink{};
+        std::array<std::vector<Uint32>, 3> masks;
+        for( int y = 0; y < 32; ++y ) {
+            const auto *row = static_cast<const Uint8 *>( rgba->pixels ) + y * rgba->pitch;
+            for( int group = 0; group < 3; ++group ) {
+                for( int x = 0; x < 32; ++x ) {
+                    const int column = group * 40 + x;
+                    const Uint8 *pixel = row + column * 4;
+                    const Uint32 rgb = ( static_cast<Uint32>( pixel[0] ) << 16 ) |
+                                       ( static_cast<Uint32>( pixel[1] ) << 8 ) | pixel[2];
+                    pixels[static_cast<size_t>( y ) * 160 + column] = rgb;
+                    masks[group].push_back( rgb );
+                    ink[group] += rgb != 0 ? 1 : 0;
+                }
+            }
+        }
+        CHECK( ink[0] > 0 );
+        CHECK( ink[1] > 0 );
+        CHECK( ink[2] > 0 );
+        CHECK( masks[0] != masks[1] );
+        CHECK( masks[0] != masks[2] );
+        if( frame == 0 ) {
+            first = pixels;
+        } else {
+            CHECK( pixels == first );
+        }
+    }
+}
+} // namespace
+
+TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_redraw", "[tiles][sdl_font][imgui]" )
+{
+    software_render_fixture fixture;
+    REQUIRE( fixture.available() );
+    SDL_Window_Ptr window( SDL_CreateWindow( "", 160, 64, SDL_WINDOW_HIDDEN ) );
+    REQUIRE( window );
+    SDL_Renderer_Ptr renderer( SDL_CreateRenderer( window.get(), "software" ) );
+    REQUIRE( renderer );
+    check_imgui_default_sarasa( renderer, window );
+}
+
+#if defined(_WIN32)
+TEST_CASE( "imgui_default_sarasa_cjk_glyphs_survive_gpu_redraw",
+           "[.][tiles][sdl_font][imgui][renderer_backend]" )
+{
+    const std::string driver = GENERATE( "direct3d12", "vulkan" );
+    CAPTURE( driver );
+    const char *prior = SDL_GetHint( SDL_HINT_GPU_DRIVER );
+    const std::string prior_driver = prior ? prior : "";
+    on_out_of_scope restore_driver( [prior_driver] {
+        if( prior_driver.empty() )
+        {
+            SDL_ResetHint( SDL_HINT_GPU_DRIVER );
+        } else
+        {
+            SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, prior_driver.c_str(), SDL_HINT_OVERRIDE );
+        }
+    } );
+    REQUIRE( SDL_SetHintWithPriority( SDL_HINT_GPU_DRIVER, driver.c_str(), SDL_HINT_OVERRIDE ) );
+    if( !renderer_recovery_test_support::setup_renderer( "gpu" ) ) {
+        WARN( "SDL GPU renderer unavailable for " << driver << ": " << SDL_GetError() );
+        return;
+    }
+    on_out_of_scope teardown( [] { renderer_recovery_test_support::teardown_software_renderer(); } );
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+    REQUIRE( std::string( SDL_GetRendererName( renderer.get() ) ) == "gpu" );
+    SDL_GPUDevice *device = SDL_GetGPURendererDevice( renderer.get() );
+    REQUIRE( device );
+    const char *actual_driver = SDL_GetGPUDeviceDriver( device );
+    REQUIRE( actual_driver );
+    REQUIRE( std::string( actual_driver ) == driver );
+    renderer_recovery_test_support::set_scaling_and_resize_window( 1, 640, 384 );
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.is_render_allowed() );
+    display_buffer_draw_scope scope;
+    REQUIRE( scope.should_draw() );
+    // The fixture owns this hidden window; release the temporary wrapper before
+    // fixture teardown, including on assertion failure.
+    SDL_Window_Ptr window( get_sdl_window() );
+    REQUIRE( window );
+    on_out_of_scope release_window( [&window] { window.release(); } );
+    check_imgui_default_sarasa( renderer, window );
+}
+#endif
 
 TEST_CASE( "hidpi_terminal_draws_past_logical_window_bounds", "[tiles][sdl_font][sdl3]" )
 {

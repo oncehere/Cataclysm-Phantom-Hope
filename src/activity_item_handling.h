@@ -21,6 +21,7 @@ class player_activity;
 class vpart_reference;
 class zone_data;
 class zone_manager;
+struct zone_query_context;
 enum zone_activity_stage : int;
 
 struct requirement_failure_reasons {
@@ -81,7 +82,8 @@ bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
                      bool ignore_favorite, const tripoint_abs_ms &src,
                      float base_spoil_multiplier = 1.0f,
-                     bool *spillable_skipped = nullptr );
+                     bool *spillable_skipped = nullptr,
+                     const zone_query_context *query = nullptr );
 
 /**
 * Sets sorting options given nearby UNLOAD_ALL zones
@@ -89,7 +91,7 @@ bool sort_skip_item( Character &you, const item *it,
 * @param unloading - whether to set unload_always
 */
 unload_sort_options set_unload_options( Character &you, const tripoint_abs_ms &src,
-                                        bool use_zone_type );
+                                        bool use_zone_type, const zone_query_context *query = nullptr );
 
 // return items at the given location from vehicle cargo and ground
 // TODO: build into map class
@@ -101,12 +103,14 @@ std::vector<vpart_reference> cargo_parts_at( const tripoint_bub_ms &pos );
 std::optional<vpart_reference> cargo_part_from_index( const tripoint_bub_ms &pos, int part_index );
 
 // if one zone is ignored, all will be
-bool ignore_contents( Character &you, const tripoint_abs_ms &src );
+bool ignore_contents( Character &you, const tripoint_abs_ms &src,
+                      const zone_query_context *query = nullptr );
 
 // skip tiles in IGNORE zone or with ignore option,
 // tiles on fire (to prevent taking out wood off the lit brazier)
 // and inaccessible furniture, like filled charcoal kiln
-bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool ignore_contents );
+bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool ignore_contents,
+                           const zone_query_context *query = nullptr );
 
 // of `items` at `src`, do any need to be sorted?
 // If pickup_failure is true on return, at least one item can't be sorted because it can't be picked up.
@@ -115,9 +119,11 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         zone_sorting::unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
                         const zone_sorting::zone_items &items, bool *pickup_failure,
-                        bool *spillable_skipped = nullptr );
+                        bool *spillable_skipped = nullptr,
+                        const zone_query_context *query = nullptr );
 bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
-                        const item &sample, const faction_id &fac );
+                        const item &sample, const faction_id &fac,
+                        const zone_query_context *query = nullptr );
 
 // why the carry gate turned an item down. the pickup path reports a knock-down
 // refusal to the player and stays quiet about the others
@@ -144,7 +150,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  zone_sorting::unload_sort_options zone_unload_options,
                                  const std::optional<vpart_reference> &vpr_src,
                                  item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
-                                 int &num_processed );
+                                 int &num_processed, const zone_query_context *query = nullptr );
 void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );

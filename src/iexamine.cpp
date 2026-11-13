@@ -452,7 +452,7 @@ void iexamine::iso_recycler( Character &, const tripoint_bub_ms &examp )
     bool chastize = false;
 
     cur.visit_items( [&basic_count, &ammo_mass, &premium_count, &chastize, &recyclables,
-    &cur ]( item * it, item * ) {
+                  &cur ]( item * it, item * ) {
 
         if( it->is_ammo() ) {
             const damage_instance &dam = it->ammo_data()->ammo->damage;
@@ -672,7 +672,7 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
         return p1.second < p2.second;
     } );
     const mutation_category_trait &highest_mct = mutation_category_trait::get_category(
-            highest_id->first );
+                highest_id->first );
 
     //Since chimera grants access to most post thresh traits with little inconvenience, we prevent the player from getting it through genemill.
     if( highest_id->first != mutation_category_CHIMERA &&
@@ -1204,7 +1204,7 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const point padding( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4, std::max( 0,
-                TERMY - FULL_SCREEN_HEIGHT ) / 6 );
+                             TERMY - FULL_SCREEN_HEIGHT ) / 6 );
         const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
         const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
         w_items_w  = window_w / 2;
@@ -1530,8 +1530,8 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
 
     for( vehicle *v : vehs.v ) {
         tripoint_bub_ms const p = _rotate_point_sm( { v->pos_bub( here ).xy(), movez},
-            erot,
-            sm_orig );
+                                  erot,
+                                  sm_orig );
         here.displace_vehicle( *v, p - v->pos_bub( here ) );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );
@@ -2089,7 +2089,7 @@ void iexamine::locked_object( Character &you, const tripoint_bub_ms &examp )
     // Check if the locked thing is a lockable door part.
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -2158,7 +2158,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
 
     if( veh ) {
         const std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -2578,7 +2578,7 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
     }
 
     weather_sum recentWeather = sum_conditions( calendar::turn - 10_minutes, calendar::turn,
-        you.pos_abs() );
+                                you.pos_abs() );
 
     // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
@@ -3044,8 +3044,8 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
         } else if( you.has_trait( trait_M_DEFENDER ) || ( ( you.has_trait( trait_M_SPORES ) ||
-                you.has_trait( trait_M_FERTILE ) ) &&
-                one_in( 2 ) ) ) {
+                   you.has_trait( trait_M_FERTILE ) ) &&
+                   one_in( 2 ) ) ) {
             g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
         } else if( you.has_trait( trait_THRESH_MYCUS ) || one_in( 4 ) ) {
@@ -3173,7 +3173,6 @@ void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
         here.furn_set( examp, furn_str_id::NULL_ID() );
         return;
     }
-
     const std::string pname = seed->get_plant_name();
     const bool can_harvest = is_plant_harvestable( here, examp );
     const bool can_fertilize = multi_farm_activity_actor::can_fertilize( you, examp ).success();
@@ -3333,6 +3332,19 @@ void iexamine::set_plant_effective_growth_time( item &seed, time_duration effect
 void iexamine::water_plant( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
+    const auto retained = g ? g->shared_from( you ) : nullptr;
+    const auto actor_ref = you.get_safe_reference();
+    const auto actor_id = you.getID();
+    const auto context = here.get_context_reference();
+    const auto active = [&]() {
+        Creature *actor = actor_ref.get();
+        return context && actor && actor->as_character() == &you && you.getID() == actor_id &&
+               !you.is_dead_state() && ( !retained || !you.is_npc() ||
+                                         ( g && g->shared_from( you ).get() == retained.get() ) );
+    };
+    if( !active() ) {
+        return;
+    }
     const furn_t &furn = here.furn( examp ).obj();
     const int max_water = get_plant_max_water( furn );
     if( max_water <= 0 ) {
@@ -3345,6 +3357,22 @@ void iexamine::water_plant( Character &you, const tripoint_bub_ms &examp )
         you.add_msg_if_player( m_info, _( "There is no plant here to water." ) );
         return;
     }
+    const tripoint_abs_ms plot = here.get_abs( examp );
+    const auto seed_uid = seed->uid().get_value();
+    const furn_id original_furniture = here.furn( examp );
+    const auto original_seed = [&]() -> item * {
+        if( !here.inbounds( plot ) )
+        {
+            return nullptr;
+        }
+        const tripoint_bub_ms current_position = here.get_bub( plot );
+        if( here.furn( current_position ) != original_furniture )
+        {
+            return nullptr;
+        }
+        item *current = get_seed_at( here, current_position );
+        return current && current->uid().get_value() == seed_uid ? current : nullptr;
+    };
 
     const itype_id *water_type = nullptr;
     if( you.charges_of( itype_water_clean ) > 0 ) {
@@ -3366,30 +3394,56 @@ void iexamine::water_plant( Character &you, const tripoint_bub_ms &examp )
     }
 
     if( you.use_charges( *water_type, 1, -1 ).empty() ) {
-        you.add_msg_if_player( m_info, _( "You have no water to pour." ) );
+        if( active() ) {
+            you.add_msg_if_player( m_info, _( "You have no water to pour." ) );
+        }
+        return;
+    }
+    if( !active() ) {
+        return;
+    }
+
+    seed = original_seed();
+    if( !seed ) {
         return;
     }
 
     if( !seed->has_var( "seed_last_water_check" ) ) {
         set_plant_last_water_check( *seed, calendar::turn );
     }
-    set_plant_water( *seed, std::min( max_water, current_water + irrigation::WATER_PER_POUR ) );
+    set_plant_water( *seed, std::min( max_water,
+                                      get_plant_water( *seed ) + irrigation::WATER_PER_POUR ) );
 
     // Send global event before per-seed/per-furniture hooks.
     get_event_bus().send<event_type::character_waters_plant>(
-        you.getID(), here.get_abs( examp ).raw(), seed->typeId(), furn.id,
+        you.getID(), plot.raw(), seed->typeId(), original_furniture.id(),
         irrigation::WATER_PER_POUR );
 
-    const int stage_idx = get_plant_current_stage_idx_from_effective( here, examp );
+    if( !active() ) {
+        return;
+    }
+    seed = original_seed();
+    if( !seed ) {
+        return;
+    }
+
+    const tripoint_bub_ms current_position = here.get_bub( plot );
+    const int stage_idx = get_plant_current_stage_idx_from_effective( here, current_position );
     const std::string stage = stage_idx >= 0 ?
                               seed->type->seed->get_growth_stages()[stage_idx].first.str() : "";
     const std::map<std::string, double> water_context = {
         { "water_added", static_cast<double>( irrigation::WATER_PER_POUR ) }
     };
+    // Lifecycle callbacks can remove the planted item. Keep the data needed by
+    // later callbacks and the message alive for the duration of the dispatch.
+    const item seed_snapshot = *seed;
+    const std::string plant_name = seed_snapshot.get_plant_name();
     run_plant_lifecycle_event(
-        "water", you, here, examp, *seed, stage, stage, {}, water_context );
+        "water", you, here, current_position, seed_snapshot, stage, stage, {}, water_context );
 
-    you.add_msg_if_player( m_good, _( "You pour some water on the %s." ), seed->get_plant_name() );
+    if( active() ) {
+        you.add_msg_if_player( m_good, _( "You pour some water on the %s." ), plant_name );
+    }
 }
 
 bool iexamine::can_water_plant( Character &you, const tripoint_bub_ms &examp )
@@ -3450,7 +3504,7 @@ std::string iexamine::plant_water_description( map &here, const tripoint_bub_ms 
         const float crop_water_consumption = ::get_option<float>( "CROP_WATER_CONSUMPTION" );
         const int consumption = std::max( 1,
                                           static_cast<int>( base_consumption * consumption_mult *
-                                              crop_water_consumption ) );
+                                                  crop_water_consumption ) );
         std::string desc = string_format(
                                _( "Water: <color_cyan>%d</color>/<color_cyan>%d</color>\n"
                                   "Daily consumption: <color_cyan>%d</color>\n"
@@ -3563,7 +3617,7 @@ int iexamine::get_plant_current_stage_idx_from_effective( map &here, const tripo
         return -1;
     }
     const time_duration effective_time = get_plant_effective_growth_time( *seed,
-        furn.plant->growth_multiplier );
+                                         furn.plant->growth_multiplier );
     return get_plant_stage_idx_from_effective_time( *seed->type->seed, effective_time );
 }
 
@@ -3611,7 +3665,7 @@ bool iexamine::is_plant_overgrown( map &here, const tripoint_bub_ms &p )
         return false;
     }
     const std::vector<std::pair<flag_id, time_duration>> &growth_stages =
-        seed->type->seed->get_growth_stages();
+                seed->type->seed->get_growth_stages();
     const int overgrown_stage_idx = get_plant_overgrown_stage_idx( *seed->type->seed );
     if( overgrown_stage_idx < 0 ) {
         return false;
@@ -3661,7 +3715,17 @@ void iexamine::run_plant_eocs(
         write_var_value( var_type::context, kv.first, &d, kv.second );
     }
 
+    const auto retained = g ? g->shared_from( alpha ) : nullptr;
+    const auto actor_ref = alpha.get_safe_reference();
+    const auto actor_id = alpha.getID();
+    const auto context = here.get_context_reference();
     for( const effect_on_condition_id &eoc : eocs ) {
+        Creature *actor = actor_ref.get();
+        if( !context || !actor || actor->as_character() != &alpha || alpha.getID() != actor_id ||
+            alpha.is_dead_state() || ( retained && alpha.is_npc() &&
+                                       ( !g || g->shared_from( alpha ).get() != retained.get() ) ) ) {
+            return;
+        }
         eoc->activate_activation_only( d, "a plant lifecycle event", "plant event", "plant" );
     }
 }
@@ -3719,16 +3783,37 @@ void iexamine::run_plant_lifecycle_event(
         debugmsg( "unknown plant lifecycle phase '%s'", phase );
         return;
     }
-    const std::string seed_id = seed.typeId().str();
-    const int effective_growth_turns = get_plant_effective_growth_turns( seed );
-    const int water = get_plant_water( seed );
-    const furn_t &furniture = here.furn( plant_pos ).obj();
-    if( furniture.plant ) {
-        run_plant_eocs( *select_eocs( *furniture.plant ), alpha, here, plant_pos,
-                        seed, old_stage, new_stage, string_context, num_context );
+    const auto retained = g ? g->shared_from( alpha ) : nullptr;
+    const auto actor_ref = alpha.get_safe_reference();
+    const auto actor_id = alpha.getID();
+    const auto context = here.get_context_reference();
+    const auto active = [&]() {
+        Creature *actor = actor_ref.get();
+        return context && actor && actor->as_character() == &alpha && alpha.getID() == actor_id &&
+               !alpha.is_dead_state() && ( !retained || !alpha.is_npc() ||
+                                           ( g && g->shared_from( alpha ).get() == retained.get() ) );
+    };
+    if( !active() ) {
+        return;
     }
-    run_plant_eocs( *seed_eocs, alpha, here, plant_pos, seed,
+    const item snapshot = seed;
+    const eoc_collection seed_hooks = *seed_eocs;
+    const std::string seed_id = snapshot.typeId().str();
+    const int effective_growth_turns = get_plant_effective_growth_turns( snapshot );
+    const int water = get_plant_water( snapshot );
+    const furn_t &furniture = here.furn( plant_pos ).obj();
+    const eoc_collection furniture_hooks = furniture.plant ?
+                                           *select_eocs( *furniture.plant ) : eoc_collection{};
+    run_plant_eocs( furniture_hooks, alpha, here, plant_pos,
+                    snapshot, old_stage, new_stage, string_context, num_context );
+    if( !active() ) {
+        return;
+    }
+    run_plant_eocs( seed_hooks, alpha, here, plant_pos, snapshot,
                     old_stage, new_stage, string_context, num_context );
+    if( !active() ) {
+        return;
+    }
     cata::lua_platform::invoke_plant_lifecycle_handlers(
         phase, alpha, here, plant_pos, seed_id, old_stage, new_stage,
         effective_growth_turns, water, string_context, num_context );
@@ -3840,7 +3925,7 @@ bool iexamine::kiln_prep( Character &, const tripoint_bub_ms &examp )
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
-                    false ) );
+                     false ) );
             return false;
         }
     }
@@ -4128,7 +4213,7 @@ void iexamine::stook_empty( Character &, const tripoint_bub_ms &examp )
             grain_present = true;
         } else {
             add_msg( m_bad, _( "This pile contains %s, which can't be dried here!" ), i.tname( 1,
-                    false ) );
+                     false ) );
             return;
         }
     }
@@ -4851,7 +4936,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
     // the biomass birthday when collecting gas: that would restart fermentation.
     const double production_start = to_turns<int>( 30_days );
     const double last_collection_turns = compost_i.get_var( "compost_last_gas_collection",
-        production_start );
+                                         production_start );
     const time_duration last_collection = time_duration::from_turns(
             static_cast<int>( last_collection_turns ) );
     const int gas_gatherable = std::max( 0, to_days<int>( compost_i.age() - last_collection ) );
@@ -5248,7 +5333,7 @@ void iexamine::tree_hickory( Character &you, const tripoint_bub_ms &examp )
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
         here.spawn_item( you.pos_bub(), itype_hickory_root, rng( 1,
-                round( 3 + you.get_skill_level( skill_survival ) ) ),
+                         round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
         here.ter_set( examp, ter_t_tree_hickory_dead );
@@ -5767,7 +5852,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     }
 
     const int amount_in_furn_after_placing = count_charges_in_list( opt_type,
-        here.i_at( examp ) );
+            here.i_at( examp ) );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
              opt_type->nname( amount_in_furn_after_placing ) );
@@ -5786,8 +5871,8 @@ void iexamine::curtains( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     const bool closed_window_with_curtains = here.has_flag(
-            ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
-            examp );
+                ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
+                examp );
     if( here.is_outside( you.pos_bub() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
             closed_window_with_curtains ) ) {
         locked_object( you, examp );
@@ -6154,18 +6239,18 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
 
     amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( string_format( _( "Buy %s." ),
-            fuelTypeStr ) ) );
+                    fuelTypeStr ) ) );
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
-        fuelTypeStr ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
+                                  fuelTypeStr ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
                     str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelTypeStr ) ) );
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
     amenu.addentry( 0, false, -1, string_format( str_to_illiterate_str(
-                _( "Your price per %s unit: " ) ), fuelTypeStr )
+                        _( "Your price per %s unit: " ) ), fuelTypeStr )
                     +
                     format_money( pricePerUnit ) );
 
@@ -6224,7 +6309,7 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
         clamp( liters, 0, maximum_liters );
 
         const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( examp,
-            uistate.ags_pay_gas_selected_pump );
+                uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
         }
@@ -6247,14 +6332,14 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
     if( refund == choice ) {
         std::vector<item_location> cash_cards = you.cache_get_items_with( "is_cash_card",
-            &item::is_cash_card );
+                                                &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
         }
 
         const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( examp,
-            uistate.ags_pay_gas_selected_pump );
+                uistate.ags_pay_gas_selected_pump );
         int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
         if( amount_fuel < 0 ) {
             popup( _( "Unable to refund, no fuel in pump." ) );
@@ -6648,9 +6733,9 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     if( unsafe_usage ) {
         const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
-            c_red ) + colorize( "\\", c_yellow );
+                                          c_red ) + colorize( "\\", c_yellow );
         const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
-            c_red ) + warning_sign;
+                                     c_red ) + warning_sign;
         autodoc_header = warning +
                          _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
@@ -6721,7 +6806,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
             bool has_install_program = false;
 
             std::vector<const item *> install_programs = you.crafting_inventory().items_with( [itemtype](
-                    const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
 
             if( !install_programs.empty() ) {
                 has_install_program = true;
@@ -7216,7 +7301,7 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
         }
         if( it.typeId() != itype_charcoal && !it.is_smokable() ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
-                    false ) );
+                     false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             here.add_item_or_charges( you.pos_bub(), it );
             you.mod_moves( -you.item_handling_cost( it ) );
@@ -7625,7 +7710,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
     } );
 
     comp_selection<item_comp> selected = you.select_item_component( comps, 1, inv, true,
-        is_non_rotten_crafting_component );
+                                         is_non_rotten_crafting_component );
     std::list<item> moved = you.consume_items( selected, 1, is_non_rotten_crafting_component );
     for( const item &m : moved ) {
         here.add_item( examp, m );
@@ -8428,7 +8513,7 @@ void iexamine::practice_survival_while_foraging( Character &who )
     const int max_forage_skill = who.get_int() / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
-            skill_survival ) ) );
+                                  skill_survival ) ) );
     // Award experience for foraging attempt regardless of success
     who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

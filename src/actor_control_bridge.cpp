@@ -33,11 +33,13 @@ namespace
 constexpr std::size_t maximum_message = 1048576;
 constexpr std::size_t maximum_outgoing = maximum_message * 4;
 
+#ifndef _WIN32
 std::string environment( const char *name )
 {
     const char *value = std::getenv( name );
     return value == nullptr ? std::string() : std::string( value );
 }
+#endif
 
 std::string actual_directory( const std::string &path )
 {

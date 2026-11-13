@@ -1789,8 +1789,6 @@ static void loot()
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
-    bool recache = false;
-
     switch( flags ) {
         case None:
             add_msg( _( "Never mind." ) );
@@ -1799,34 +1797,10 @@ static void loot()
             player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootStatic:
-            //temporarily disable personal zones
-            for( const auto &i : mgr.get_zones() ) {
-                zone_data &zone = i.get();
-                if( zone.get_is_personal() && zone.get_enabled() ) {
-                    zone.set_enabled( false );
-                    zone.set_temporary_disabled( true );
-                    recache = true;
-                }
-            }
-            if( recache ) {
-                mgr.cache_data();
-            }
-            player_character.assign_activity( zone_sort_activity_actor() );
+            player_character.assign_activity( zone_sort_activity_actor( zone_scope::static_only ) );
             break;
         case SortLootPersonal:
-            //temporarily disable non personal zones
-            for( const auto &i : mgr.get_zones() ) {
-                zone_data &zone = i.get();
-                if( !zone.get_is_personal() && zone.get_enabled() ) {
-                    zone.set_enabled( false );
-                    zone.set_temporary_disabled( true );
-                    recache = true;
-                }
-            }
-            if( recache ) {
-                mgr.cache_data();
-            }
-            player_character.assign_activity( zone_sort_activity_actor() );
+            player_character.assign_activity( zone_sort_activity_actor( zone_scope::personal_only ) );
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
@@ -2422,6 +2396,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_shell()
         { ACTION_DISASSEMBLE,        _( "You can't disassemble while you're in your shell." ) },
         { ACTION_CONSTRUCT,          _( "You can't construct while you're in your shell." ) },
         { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while you're in your shell." ) },
+        { ACTION_VEHICLE_TURNING_ASSIST, _( "You can't operate a vehicle while you're in your shell." ) },
     };
 }
 
@@ -2444,6 +2419,7 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_DISASSEMBLE,
     ACTION_CONSTRUCT,
     ACTION_CONTROL_VEHICLE,
+    ACTION_VEHICLE_TURNING_ASSIST,
 };
 
 static std::map<action_id, std::string> get_actions_disabled_in_handless_temporary_shapeshift()
@@ -2466,6 +2442,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_handless_tempora
         { ACTION_DISASSEMBLE,        _( "You can't disassemble while shapeshifted." ) },
         { ACTION_CONSTRUCT,          _( "You can't construct while shapeshifted." ) },
         { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while shapeshifted." ) },
+        { ACTION_VEHICLE_TURNING_ASSIST, _( "You can't operate a vehicle while shapeshifted." ) },
     };
 }
 
@@ -4103,6 +4080,16 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SLEEP:
             sleep();
+            break;
+
+        case ACTION_VEHICLE_TURNING_ASSIST:
+            vehicle_turning_assist();
+            break;
+
+        case ACTION_VEHICLE_GUIDANCE:
+            vehicle_guidance = !vehicle_guidance;
+            add_msg( m_info, vehicle_guidance ? _( "Driving guidance ON." ) :
+                     _( "Driving guidance OFF." ) );
             break;
 
         case ACTION_CONTROL_VEHICLE:

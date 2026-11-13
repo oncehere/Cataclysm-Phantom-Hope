@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "character_id.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "game.h"
@@ -403,13 +404,27 @@ class study_zone_options : public zone_options
 /**
  * These are zones the player can designate.
  */
+enum class zone_scope { all, static_only, personal_only };
+
+// Per-operation query state. Personal areas stay anchored at the initiating
+// character's position while that character travels to do the work.
+struct zone_query_context {
+    character_id owner;
+    tripoint_abs_ms origin;
+    zone_scope scope = zone_scope::all;
+    bool personal_allowed = false;
+    bool legacy_personal = false;
+
+    static zone_query_context for_character( const Character &who,
+            const tripoint_abs_ms &origin, zone_scope scope = zone_scope::all );
+};
+
 class zone_data
 {
     private:
         friend class map;
         friend class vehicle;
         friend class zone_manager;
-
         std::string name;
         zone_type_id type;
         faction_id faction;
@@ -422,6 +437,7 @@ class zone_data
         tripoint_abs_ms end;
         //centered on the player
         bool is_personal;
+        character_id personal_owner;
         tripoint_rel_ms personal_start;
         tripoint_rel_ms personal_end;
         // for personal zones a cached value for the global shift to where the player was at activity start
@@ -568,6 +584,11 @@ class zone_data
         bool get_is_personal() const {
             return is_personal;
         }
+        character_id get_personal_owner() const {
+            return personal_owner;
+        }
+        bool matches_query( const zone_query_context &query ) const;
+        std::pair<tripoint_abs_ms, tripoint_abs_ms> query_bounds( const zone_query_context &query ) const;
         std::weak_ptr<const void> get_lifetime_identity() const {
             return lifetime_identity;
         }
@@ -714,14 +735,16 @@ class zone_manager
         zone_data *add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                         bool invert, bool enabled,
                         const tripoint_rel_ms &start, const tripoint_rel_ms &end,
-                        const shared_ptr_fast<zone_options> &options = nullptr );
+                        const shared_ptr_fast < zone_options > &options = nullptr,
+                        character_id owner = character_id() );
 
         // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
-                                      const faction_id &fac = your_fac ) const;
+                                      const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
-        std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
-                const faction_id &fac = your_fac ) const;
+        std::vector < zone_data const * > get_zones_at( const tripoint_abs_ms &where,
+                const zone_type_id &type,
+                const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         zone_data *create_vehicle_loot_zone( vehicle &vehicle, const point_rel_ms &mount_point,
                                              zone_data &new_zone, map *pmap = nullptr );
 
@@ -743,52 +766,55 @@ class zone_manager
         void unfreeze_personal_shift();
         void cache_vzones( map *pmap = nullptr );
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
-                  const faction_id &fac = your_fac ) const;
+                  const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         bool has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
-                          const faction_id &fac = your_fac ) const;
+                          const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         bool has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
-                          const faction_id &fac = your_fac ) const;
+                          const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
-                       int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
+                       int range = MAX_DISTANCE, const faction_id &fac = your_fac,
+                       const zone_query_context *query = nullptr ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         // `memo` stores per-zone filter results for one query, so a multi-tile
         // zone is only matched against `it` once
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
                               const zone_type_id &ztype, const faction_id &fac = your_fac,
-                              std::optional<bool> from_vehicle = std::nullopt,
-                              std::unordered_map<const zone_data *, bool> *memo = nullptr ) const;
-        std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
+                              std::optional < bool > from_vehicle = std::nullopt,
+                              std::unordered_map < const zone_data *, bool > *memo = nullptr,
+                              const zone_query_context *query = nullptr ) const;
+        std::vector < zone_data const * > get_near_zones( const zone_type_id &type,
                 const tripoint_abs_ms &where, int range,
                 const faction_id &fac = your_fac ) const;
-        std::unordered_set<tripoint_abs_ms> get_near(
+        std::unordered_set < tripoint_abs_ms > get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
-            const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        std::optional<tripoint_abs_ms> get_nearest(
+            const item *it = nullptr, const faction_id &fac = your_fac,
+            const zone_query_context *query = nullptr ) const;
+        std::optional < tripoint_abs_ms > get_nearest(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
                 int range = MAX_DISTANCE, const faction_id &fac = your_fac,
-                float base_spoil_multiplier = 1.0f ) const;
-        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint_abs_ms &where,
-                                          const faction_id &fac = your_fac ) const;
+                float base_spoil_multiplier = 1.0f, const zone_query_context *query = nullptr ) const;
+        std::vector < zone_data > get_zones( const zone_type_id &type, const tripoint_abs_ms &where,
+                                             const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         const zone_data *get_zone_at( const tripoint_abs_ms &where, bool loot_only = false,
-                                      const faction_id &fac = your_fac ) const;
+                                      const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
         const zone_data *get_bottom_zone( const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
-        std::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        std::optional<zone_type_id> query_type( bool personal = false ) const;
+        std::optional < std::string > query_name( const std::string &default_name = "" ) const;
+        std::optional < zone_type_id > query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
-        std::unordered_set<tripoint_bub_ms> get_point_set_loot(
+        std::unordered_set < tripoint_bub_ms > get_point_set_loot(
             const tripoint_abs_ms &where, int radius, const faction_id &fac = your_fac ) const;
-        std::unordered_set<tripoint_bub_ms> get_point_set_loot(
+        std::unordered_set < tripoint_bub_ms > get_point_set_loot(
             const tripoint_abs_ms &where, int radius, bool npc_search,
-            const faction_id &fac = your_fac ) const;
+            const faction_id &fac = your_fac, const zone_query_context *query = nullptr ) const;
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
-        std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );
-        std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
+        std::vector < ref_zone_data > get_zones( const faction_id &fac = your_fac );
+        std::vector < ref_const_zone_data > get_zones( const faction_id &fac = your_fac ) const;
 
         bool has_personal_zones() const;
         // Returns true if at least one enabled non-personal zone of the

@@ -37,6 +37,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
@@ -46,6 +47,8 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "talker_topic.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
@@ -1289,6 +1292,24 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     CHECK( d.responses[7].create_option_line( d, input_event() ).text ==
            "Context tag is set to It's context." );
     globvars.clear_global_values();
+}
+
+TEST_CASE( "trait_description_handles_non_character_talkers", "[npc_talk][regression]" )
+{
+    clear_avatar();
+    avatar &you = get_avatar();
+    monster target( mon_zombie );
+    const trait_id trait( "eye_color" );
+    dialogue d( get_talker_for( you ),
+                get_talker_for( std::vector<std::string> { "TALK_TEST_TAGS" } ) );
+    std::string text = "<trait_description:eye_color>";
+    parse_tags( text, *d.const_actor( false ), *d.const_actor( true ), d );
+    CHECK( text == you.mutation_desc( trait ) );
+    d = dialogue( get_talker_for( target ),
+                  get_talker_for( std::vector<std::string> { "TALK_TEST_TAGS" } ) );
+    text = "<trait_description:eye_color>";
+    parse_tags( text, *d.const_actor( false ), *d.const_actor( true ), d );
+    CHECK( text == trait->desc() );
 }
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )

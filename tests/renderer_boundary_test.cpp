@@ -29,12 +29,16 @@
 #include "sdltiles.h"
 #include "type_id.h"
 
+static const itype_id itype_rock( "rock" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+
 static std::array<std::uint32_t, 4096> draw_boundary_pixels( const tripoint_bub_ms &center,
         int extent = 64, std::multimap<point, formatted_text> *annotations = nullptr )
 {
     display_buffer_draw_scope scope;
     REQUIRE_FALSE( display_buffer_scope_is_invalid() );
-    const auto &renderer = get_sdl_renderer();
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     RenderClear( renderer );
     std::multimap<point, formatted_text> text;
@@ -182,14 +186,14 @@ TEST_CASE( "draw_cache_sprite_indices_follow_append_relocation_and_rebuild",
                               tile_render_info::vision_effect{ visibility_type::HIDDEN } );
         }
     };
-    auto &row = cache[0][10];
+    draw_points_cache_t::row_vec &row = cache[0][10];
     for( int i = 0; i < 80; ++i ) {
         add( row, i, i % 3 == 1 );
     }
     const auto verify = [&]( draw_points_cache_t::row_vec & values ) {
         std::vector<std::size_t> expected;
         std::size_t index = 0;
-        for( const auto &entry : values ) {
+        for( const tile_render_info &entry : values ) {
             if( std::holds_alternative<tile_render_info::sprite>( entry.var ) ) {
                 expected.push_back( index );
             }
@@ -269,7 +273,7 @@ TEST_CASE( "renderer_mixed_cache_keeps_worker_indices_and_preview_counts",
         } else {
             CHECK( pixels == serial );
         }
-        tilecontext->init_draw_monster_override( center + point::east, mtype_id( "mon_zombie" ),
+        tilecontext->init_draw_monster_override( center + point::east, mon_zombie,
                 3, false, Creature::Attitude::HOSTILE );
         std::multimap<point, formatted_text> annotations;
         draw_boundary_pixels( center, 1024, &annotations );

@@ -48,6 +48,7 @@
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
@@ -638,7 +639,7 @@ units::length item_pocket::item_length_modifier() const
     units::length total_length = 0_mm;
     for( const item &it : contents ) {
         total_length = std::max( static_cast<units::length>( it.length() * std::cbrt(
-                data->volume_multiplier ) ),
+                                     data->volume_multiplier ) ),
                                  total_length );
     }
     return total_length;
@@ -976,11 +977,11 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( !get_description().empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
-                get_description().translated() ) );
+                           get_description().translated() ) );
     } else if( name_as_description ) {
         // fallback to the original items name as a description
         info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
-                get_name().translated() ) );
+                           get_name().translated() ) );
     }
 
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -1004,7 +1005,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         for( const ammotype &at : ammo_types() ) {
             int capacity = ammo_capacity( at );
             fmts.emplace_back( string_format( n_gettext( "<num> round of %s",
-                    "<num> rounds of %s", capacity ),
+                                              "<num> rounds of %s", capacity ),
                                               at->name() ),
                                capacity );
         }
@@ -1163,13 +1164,13 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         } );
         if( !no_rigid_vec.empty() ) {
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate(
-                    no_rigid_vec );
+                        no_rigid_vec );
             std::string bps = enumerate_as_string( to_print.begin(),
             to_print.end(), []( const translation & t ) {
                 return t.translated();
             } );
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>." ),
-                    bps ) );
+                               bps ) );
         }
     }
 }
@@ -1186,14 +1187,14 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     if( disp_pocket_number ) {
         if( sealable() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s pocket %d</bold>" ),
-                    translated_sealed_prefix(),
-                    pocket_number ) );
+                               translated_sealed_prefix(),
+                               pocket_number ) );
         } else if( is_ablative() && !contents.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>: %s" ),
-                    pocket_number, contents.front().display_name() ) );
+                               pocket_number, contents.front().display_name() ) );
         } else {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>" ),
-                    pocket_number ) );
+                               pocket_number ) );
         }
     }
     if( contents.empty() ) {
@@ -1233,7 +1234,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
             size_t idx = 0;
             const std::vector<damage_info_order> &all_ablate = damage_info_order::get_all(
-                    damage_info_order::info_type::ABLATE );
+                        damage_info_order::info_type::ABLATE );
             for( const damage_info_order &dio : all_ablate ) {
                 std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) :
                                                    pgettext( "protection info", " %s: " ),
@@ -2264,7 +2265,8 @@ int item_pocket::fill_with( const item &contained, Character &guy, int amount,
     if( !contained.count_by_charges() || amount <= 0 ) {
         return 0;
     }
-    if( !ignore_settings && !settings.accepts_item( contained ) ) {
+    if( !ignore_settings && ( !settings.accepts_item( contained ) ||
+                              ( guy.is_avatar() && settings.is_disabled() ) ) ) {
         return 0;
     }
     if( !allow_unseal && sealed() ) {
@@ -2380,10 +2382,12 @@ std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
+    const Character *carrier = this_loc ? this_loc.carrier() : nullptr;
     // If the current pocket has restrictions or blacklists the item or is a holster,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
+        ( !ignore_settings && carrier && carrier->is_avatar() && settings.is_disabled() ) ||
         !get_pocket_data()->get_flag_restrictions().empty() ||
         settings.priority() > 0 || is_holster();
 
@@ -2393,7 +2397,7 @@ std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
         }
         item_location new_loc( this_loc, &contained_item );
         std::pair<item_location, item_pocket *> nested_pocket = contained_item.best_pocket( it, new_loc,
-            avoid, allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity );
+                avoid, allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity );
         if( nested_pocket.second != nullptr &&
             ( ret.second == nullptr ||
               ret.second->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
@@ -2577,7 +2581,7 @@ std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
     const std::string &s )
 {
     std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
-        pocket_presets.end(),
+            pocket_presets.end(),
     [&s]( const item_pocket::favorite_settings & preset ) {
         return preset.get_preset_name().value() == s;
     } );
@@ -2692,7 +2696,7 @@ bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
            category_whitelist.empty() && category_blacklist.empty() &&
-           priority() == 0 && !collapsed && !disabled && unload;
+           priority() == 0 && !collapsed && !disabled.has_value() && unload;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -2806,7 +2810,7 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
 bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     // if this pocket is disabled it accepts nothing
-    if( disabled ) {
+    if( disabled.value_or( false ) ) {
         return false;
     }
     const itype_id &id = it.typeId();
@@ -2863,7 +2867,7 @@ void item_pocket::favorite_settings::set_collapse( bool flag )
 
 bool item_pocket::favorite_settings::is_disabled() const
 {
-    return disabled;
+    return disabled.has_value() ? *disabled : get_option<bool>( "AUTO_INSERT_POCKETS_DISABLED" );
 }
 
 void item_pocket::favorite_settings::set_disabled( bool flag )
@@ -2913,7 +2917,7 @@ static std::string enumerate( const cata::flat_set<T> &container )
 
 void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
-    if( disabled ) {
+    if( is_disabled() ) {
         info.emplace_back( "BASE", string_format(
                                _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them." ) ) );
     }
@@ -2927,19 +2931,19 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
-            item_whitelist.empty() ? _( "(empty)" ) :
+                       item_whitelist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_whitelist.begin(), item_whitelist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
     } ) ) );
     info.emplace_back( "BASE", string_format( _( "Item Blacklist: %s" ),
-            item_blacklist.empty() ? _( "(empty)" ) :
+                       item_blacklist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_blacklist.begin(), item_blacklist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
     } ) ) );
     info.emplace_back( "BASE", string_format( _( "Category Whitelist: %s" ),
-            category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) );
+                       category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) );
     info.emplace_back( "BASE", string_format( _( "Category Blacklist: %s" ),
-            category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) );
+                       category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) );
 }
 
 void pocket_constraint::constrain_by( const item_pocket *outer )
