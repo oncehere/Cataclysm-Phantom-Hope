@@ -114,6 +114,12 @@ struct faction_epilogue_data {
 };
 
 
+struct camp_food_portion {
+    std::map<time_point, nutrients> by_expiry;
+    nutrients total() const;
+    camp_food_portion take_share( int eaters );
+};
+
 class faction_template
 {
         friend class cata::lua_platform::world_content_transaction;
@@ -132,7 +138,9 @@ class faction_template
         nutrients food_supply() const;
         void add_kcal( int kcal, time_point expires );
         void empty_food_supply();
-        // returns what could not be consumed
+        // returns what was taken, perishable stock first
+        camp_food_portion take_food_supply( const nutrients &consumed );
+        // Legacy interface used by Lua and resource-work: returns unmet nutrients.
         nutrients consume_food_supply( const nutrients &consumed );
         nutrients add_to_food_supply( const std::map<time_point, nutrients> &added );
 

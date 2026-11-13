@@ -47,6 +47,7 @@ class npc;
 class recipe;
 enum class farm_ops;
 struct MonsterGroupResult;
+struct camp_food_portion;
 
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;
@@ -535,20 +536,24 @@ class basecamp
         bool set_sort_points();
 
         // food utility
-        /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
-        /// total food supply hurts morale
+        /// Withdraws the negative @ref change and returns actual positive nutrients by expiry.
+        /// Unmet food requests affect faction morale.
         /// Handles vitamin consumption when only a kcal value is supplied
-        nutrients camp_food_supply( nutrients change );
+        camp_food_portion camp_food_supply( nutrients change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
-        nutrients camp_food_supply( int change );
+        camp_food_portion camp_food_supply( int change );
         /// Calculates raw kcal cost from duration (including non-work hours) and work exercise, then forwards it to above
-        nutrients camp_food_supply( const time_duration &total_time, float exertion_level = NO_EXERCISE,
-                                    const time_duration &travel_time = 0_hours );
-        /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
-        void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
-                           bool is_player_meal = false );
+        camp_food_portion camp_food_supply( const time_duration &total_time,
+                                            float exertion_level = NO_EXERCISE,
+                                            const time_duration &travel_time = 0_hours );
+        /// Distributes whole-kcal portions; personal meals refund uneaten shares by expiry.
+        /// Mission provisions remain spent. Returns the kcal actually eaten.
+        void return_food_supply( const camp_food_portion &portion );
+        int feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
+                          camp_food_portion food,
+                          bool is_player_meal = false );
         /// Helper, forwards to above
-        void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
+        int feed_workers( Character &worker, camp_food_portion food, bool is_player_meal = false );
         void player_eats_meal();
         item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction

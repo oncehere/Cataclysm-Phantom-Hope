@@ -1144,6 +1144,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
 
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::west, furn_str_id( "f_firering" ) );
         here.build_map_cache( 0 );
         behavior::character_oracle_t oracle( &guy );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
@@ -6288,6 +6289,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         // Drop a 2x4 on an adjacent tile to make it flammable.
         const tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.furn_set( adj, furn_str_id( "f_firering" ) );
         here.add_item_or_charges( adj, item( itype_2x4 ) );
         here.build_map_cache( 0 );
         REQUIRE( guy.find_fire_spot().has_value() );
@@ -6302,6 +6304,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
     SECTION( "charged lighter + firewood + nonflammable tile: starts fire" ) {
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::east, furn_str_id( "f_firering" ) );
         // Default terrain is t_grass (outdoor, non-flammable, not shelter).
         // Verify preconditions: fire spot exists, no shelter/clothing candidates.
         here.build_map_cache( 0 );
@@ -6381,6 +6384,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.get_wielded_item()->typeId() == itype_2x4 );
         // Also add a 2x4 to inventory so there IS valid fuel.
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::east, furn_str_id( "f_firering" ) );
         here.build_map_cache( 0 );
         REQUIRE( guy.find_fire_spot().has_value() );
 
@@ -7110,6 +7114,8 @@ TEST_CASE( "npc_guard_uses_warmth_executor", "[npc][needs][warmth][guard]" )
     SECTION( "cold guard with lighter starts fire" ) {
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::east, furn_str_id( "f_firering" ) );
+        here.build_map_cache( 0 );
 
         // Verify no warm clothing or shelter available.
         REQUIRE( guy.find_nearby_warm_clothing().empty() );

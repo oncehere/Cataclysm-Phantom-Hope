@@ -469,6 +469,15 @@ static bool only_spirv_shader_artifacts_present()
 // Create an SDL renderer for the window with no render target. software picks
 // the software backend (renderer_name ignored), else accelerated. Null on
 // failure. Deferring the target lets recreation rebind variant_pass first.
+std::optional<std::string> gpu_backend_hint( const std::string &option_value,
+        const bool env_override )
+{
+    if( env_override || option_value.empty() || option_value == "auto" ) {
+        return std::nullopt;
+    }
+    return option_value;
+}
+
 static SDL_Renderer_Ptr create_game_renderer( const std::string &renderer_name, bool software )
 {
     if( software ) {
@@ -777,6 +786,14 @@ static void WinCreate()
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
+#endif
+
+#if !defined(__ANDROID__)
+    const bool gpu_driver_from_env = std::getenv( "SDL_GPU_DRIVER" ) != nullptr;
+    const std::string gpu_backend = get_option<std::string>( "GPU_BACKEND" );
+    if( const std::optional<std::string> hint = gpu_backend_hint( gpu_backend, gpu_driver_from_env ) ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, hint->c_str() );
+    }
 #endif
 
 #  if defined(_WIN32)

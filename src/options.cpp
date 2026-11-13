@@ -3402,6 +3402,17 @@ void options_manager::add_options_graphics()
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
              default_renderer, COPT_ALWAYS_HIDE );
+
+        std::vector<id_and_option> gpu_backends = { { "auto", to_translation( "GPU backend", "Automatic" ) } };
+        for( int i = 0; i < SDL_GetNumGPUDrivers(); ++i ) {
+            const char *name = SDL_GetGPUDriver( i );
+            if( name && *name ) {
+                gpu_backends.emplace_back( name, no_translation( name ) );
+            }
+        }
+        add( "GPU_BACKEND", page_id, to_translation( "GPU backend" ),
+             to_translation( "Sets which graphics API the GPU renderer uses.  An SDL_GPU_DRIVER environment variable overrides this.  Requires restart." ),
+             gpu_backends, "auto", COPT_CURSES_HIDE );
 #   endif
 
 #else

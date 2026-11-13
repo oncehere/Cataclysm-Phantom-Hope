@@ -925,16 +925,16 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_wear( *obj ).success(), '3', item_wear_cost( *obj ),
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) )
-        {
-            return false;
-        }
+            {
+                return false;
+            }
 
-        item it = *obj;
-        obj.remove_item();
-        const std::optional<std::list<item>::iterator> worn_it = wear_item( it );
-        if( worn_it )
-        {
-            craft_relocated( item_location( *this, & **worn_it ) );
+            item it = *obj;
+            obj.remove_item();
+            const std::optional<std::list<item>::iterator> worn_it = wear_item( it );
+            if( worn_it && *worn_it != worn.worn.end() )
+            {
+                craft_relocated( item_location( *this, & **worn_it ) );
             }
             return !!worn_it;
         }

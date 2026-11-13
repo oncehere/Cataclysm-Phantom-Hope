@@ -22,6 +22,12 @@ generated from the current source and data tree with
 change can refresh fingerprints and source locations without changing the
 available EOC operations. Item-group acquisition changes also require checking the resulting items with the intended Mods loaded; inventory regeneration alone does not validate those runtime results.
 
+Sky Island replaces selected Balthazar bunker EOCs with empty activation
+effects to suppress their ordinary-dimension behavior. Verify the loaded EOC
+after the Mod overrides resolve. Its Mind over Matter interaction also
+replaces the tear-closing terrain transform; validate that combination with
+both Mods loaded rather than inferring the active effect from core JSON.
+
 Mounted and manual techniques use the native technique path and the Lua
 technique-condition hook described in the [Lua authoring contract](../../data/lua/README.md).
 Their content updates can change lexical example counts and JSON pointers in

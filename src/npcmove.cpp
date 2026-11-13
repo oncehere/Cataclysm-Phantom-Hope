@@ -24,6 +24,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor_definitions.h"
+#include "activity_actor.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -39,6 +40,7 @@
 #include "character_id.h"
 #include "character_oracle.h"
 #include "clzones.h"
+#include "clone_ptr.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
 #include "creature.h"
@@ -53,6 +55,7 @@
 #include "explosion.h"
 #include "faction.h"
 #include "field.h"
+#include "fire.h"
 #include "field_type.h"
 #include "finite_water.h"
 #include "flag.h"
@@ -65,6 +68,8 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "item_location.h"
 #include "item_transformation.h"
 #include "itype.h"
@@ -110,6 +115,7 @@
 #include "string_formatter.h"
 #include "talker.h"  // IWYU pragma: keep
 #include "translation.h"
+#include "trap.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -123,6 +129,8 @@
 #include "vpart_range.h"
 
 enum class side : int;
+
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -397,7 +405,7 @@ const int avoidance_vehicles_radius = 5;
 
 bool good_for_pickup( const item &it, npc &who, const tripoint_bub_ms &there )
 {
-    return who.can_take_that( it ) &&
+    return ( who.can_take_that( it ) || who.can_empty_for_pickup( it ) ) &&
            who.wants_take_that( it ) &&
            who.would_take_that( it, there );
 }
@@ -1522,6 +1530,21 @@ void npc::regen_ai_cache()
     }
 }
 
+// NPC drinks from a container on the ground only while this holds
+bool npc::may_drink_here() const
+{
+    for( const weak_ptr_fast<Creature> &enemy : ai_cache.hostile_guys ) {
+        if( const shared_ptr_fast<Creature> hostile = enemy.lock() ) {
+            if( rl_dist( pos_bub(), hostile->pos_bub() ) <= 6 ) {
+                return false;
+            }
+        }
+    }
+    return get_ai_danger() <= NPC_DANGER_VERY_LOW &&
+           !sees_dangerous_field( pos_bub() ) && !has_effect( effect_npc_fire_bad ) &&
+           ai_cache.dangerous_explosives.empty() && !is_no_go_position( pos_abs() );
+}
+
 void npc::move()
 {
     const map &here = get_map();
@@ -1569,6 +1592,22 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
+    if( activity.id() == ACT_CONSUME ) {
+        const consume_activity_actor *drink =
+            dynamic_cast<const consume_activity_actor *>( activity.actor.get() );
+        const bool in_reach = drink == nullptr || !drink->location() ||
+                              rl_dist( pos_abs(), drink->location().pos_abs() ) <= 1;
+        if( in_reach && may_drink_here() ) {
+            execute_action( npc_player_activity );
+            return;
+        }
+        cancel_activity();
+        if( !backlog.empty() && backlog.front().id() == ACT_CONSUME ) {
+            backlog.pop_front();
+        }
+        fetching_item = false;
+        wanted_item = {};
+    }
     // Reactions remain native and precede external plans.  Calling the
     // controller consumes only the NPC's existing turn budget.
     const bool control_urgent = ai_cache.danger > 0 ||
@@ -4455,6 +4494,10 @@ void npc::find_item()
             best_value = has_item_whitelist() ? 1000 : value( it );
             return true;
         } else {
+            // whether an open container can be emptied first depends on NPC, not tile
+            if( it.is_bucket_nonempty() ) {
+                declined_dynamically = true;
+            }
             return false;
         }
     };
@@ -4650,6 +4693,15 @@ void npc::pick_up_item()
 
     // We're adjacent to the item; grab it!
 
+    if( wanted_item && wanted_item->is_bucket_nonempty() ) {
+        if( !empty_before_pickup() ) {
+            fetching_item = false;
+            wanted_item = {};
+            move_pause();
+        }
+        return;
+    }
+
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
         picked_up = pick_up_item_vehicle( vp->vehicle(), vp->part_index() );
@@ -4696,6 +4748,73 @@ void npc::pick_up_item()
     has_new_items = true;
 }
 
+// first liquid in the open pockets; nullptr if none, or if an open pocket holds a solid
+template<typename Item>
+static Item *liquid_to_empty( Item &container )
+{
+    Item *liquid = nullptr;
+    for( auto *pocket : container.get_container_pockets() ) {
+        if( !pocket->will_spill() ) {
+            continue;
+        }
+        for( Item *it : pocket->all_items_top() ) {
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                return nullptr;
+            }
+            if( liquid == nullptr ) {
+                liquid = it;
+            }
+        }
+    }
+    return liquid;
+}
+
+bool npc::can_empty_for_pickup( const item &it )
+{
+    if( !it.is_bucket_nonempty() ) {
+        return false;
+    }
+    item emptied( it );
+    emptied.get_contents().clear_items();
+    if( !can_take_that( emptied ) ) {
+        return false;
+    }
+    const item *liquid = liquid_to_empty( it );
+    return liquid != nullptr && ( carried_container_for( *liquid ) ||
+                                  ( wants_to_consume_now( *liquid ) && may_drink_here() ) );
+}
+
+bool npc::empty_before_pickup()
+{
+    item *liquid = wanted_item ? liquid_to_empty( *wanted_item ) : nullptr;
+    if( liquid == nullptr ) {
+        return false;
+    }
+    item_location liquid_loc( wanted_item, liquid );
+    item_location target = carried_container_for( *liquid );
+    const int before = liquid->charges;
+    if( target && pour_into( target, *liquid, true, true ) && liquid->charges < before ) {
+        // same cost as player's pour
+        target.make_active();
+        mod_moves( -100 );
+        if( liquid->charges <= 0 ) {
+            liquid_loc.remove_item();
+        }
+        wanted_item->on_contents_changed();
+        return true;
+    }
+    if( wants_to_consume_now( *liquid ) && may_drink_here() ) {
+        const npc_attitude saved_att = attitude;
+        const npc_mission saved_mis = mission;
+        assign_activity( consume_activity_actor( liquid_loc ) );
+        // self-initiated drink, not a task: keep attitude and mission, as address_needs does
+        attitude = saved_att;
+        mission = saved_mis;
+        return activity.id() == ACT_CONSUME;
+    }
+    return false;
+}
+
 template <typename T>
 static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
@@ -4720,6 +4839,10 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 bool npc::can_take_that( const item &it )
 {
+    // open container would spill once carried
+    if( it.is_bucket_nonempty() ) {
+        return false;
+    }
     bool good = false;
 
     auto weight_allowed = weight_capacity() - weight_carried();
@@ -5518,9 +5641,7 @@ bool npc::consume_food_from_camp( consume_filter filter )
         int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply().kcal() );
 
         if( kcals_to_eat > 0 ) {
-            bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ) );
-
-            return true;
+            return bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ), true ) > 0;
         } else {
             // We need food but there's none to eat :(
             complain_about( "camp_larder_empty", 1_hours,
@@ -6988,13 +7109,72 @@ static bool is_usable_npc_firestarter( const npc &who, const item &it )
     return true;
 }
 
+npc::fire_spot_verdict npc::check_fire_spot( const tripoint_bub_ms &p ) const
+{
+    map &here = get_map();
+    const map_data_common_t &top = here.has_furn( p ) ?
+                                   static_cast<const map_data_common_t &>( here.furn( p ).obj() ) :
+                                   static_cast<const map_data_common_t &>( here.ter( p ).obj() );
+    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, p ) ||
+        !top.has_examine( iexamine::fireplace ) || square_dist( pos_bub(), p ) != 1 ||
+        !here.can_put_items_ter_furn( p ) || here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
+        here.get_field( p, fd_fire ) || get_creature_tracker().creature_at( p ) || here.veh_at( p ) ||
+        is_no_go_position( here.get_abs( p ) ) ||
+        here.tr_at( p ).id == trap_str_id( "tr_firewood_source" ) ||
+        !zone_manager::get_manager().get_zones( zone_type_id( "SOURCE_FIREWOOD" ),
+                here.get_abs( p ) ).empty() ) {
+        return {};
+    }
+    bool fuel_here = false;
+    for( item &it : here.i_at( p ) ) {
+        if( craft_reservation::contains_reserved( it ) || !it.is_owned_by( *this, true ) ||
+            it.will_explode_in_fire() ) {
+            return {};
+        }
+        if( it.has_flag( flag_FIREWOOD ) || it.has_flag( flag_TINDER ) ) {
+            fuel_here = fuel_here || it.flammable();
+        } else {
+            fire_data probe( 1, true );
+            if( it.simulate_burn( probe ) > 0.0f ) {
+                return {};
+            }
+        }
+    }
+    if( fuel_here ) {
+        return { fire_spot_check::tile_fuel, nullptr };
+    }
+    item *fuel = nullptr;
+    const item *wielded_ptr = get_wielded_item().get_item();
+    visit_items( [&fuel, wielded_ptr]( item * it, item * ) -> VisitResponse {
+        if( it == wielded_ptr )
+        {
+            return VisitResponse::NEXT;
+        }
+        if( craft_reservation::contains_reserved( *it ) )
+        {
+            return VisitResponse::SKIP;
+        }
+        if( it->has_flag( flag_FIREWOOD ) && it->flammable() && !it->type->drop_action )
+        {
+            fuel = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( !fuel || here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ||
+        here.free_volume( p ) < fuel->volume() ||
+        static_cast<int>( here.i_at( p ).size() ) >= here.i_at( p ).count_limit() ) {
+        return {};
+    }
+    return { fire_spot_check::own_fuel, fuel };
+}
+
 std::optional<tripoint_bub_ms> npc::find_fire_spot()
 {
-    // Check that the NPC has a usable firestarter tool.
     bool found_tool = false;
     visit_items( [this, &found_tool]( item * it, item * ) -> VisitResponse {
-        if( craft_reservation::usable_by_automation( *it ) &&
-            is_usable_npc_firestarter( *this, *it ) )
+        if( craft_reservation::usable_by_automation( *it ) && is_usable_npc_firestarter( *this, *it ) )
         {
             found_tool = true;
             return VisitResponse::ABORT;
@@ -7004,70 +7184,14 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     if( !found_tool ) {
         return std::nullopt;
     }
-
-    // Scan adjacent tiles for a valid fire location.
     map &here = get_map();
-    std::optional<tripoint_bub_ms> best_flammable;
-    std::optional<tripoint_bub_ms> fallback;
-    // Exclude the wielded weapon from fuel consideration so the NPC
-    // doesn't drop its own weapon into the fire.
-    const item *wielded_ptr = get_wielded_item().get_item();
-    bool has_firewood = false;
-    visit_items( [&has_firewood, wielded_ptr]( item * it, item * ) -> VisitResponse {
-        if( it == wielded_ptr )
-        {
-            return VisitResponse::NEXT;
-        }
-        if( craft_reservation::contains_reserved( *it ) )
-        {
-            return VisitResponse::SKIP;
-        }
-        if( it->has_flag( flag_FIREWOOD ) )
-        {
-            has_firewood = true;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-
     for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
-        if( adj == pos_bub() ) {
-            continue;
-        }
-        if( here.move_cost( adj ) == 0 ) {
-            continue;
-        }
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, adj ) ||
-            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, adj ) ) {
-            continue;
-        }
-        if( here.get_field( adj, fd_fire ) ) {
-            continue;
-        }
-        if( get_creature_tracker().creature_at( adj ) ) {
-            continue;
-        }
-        if( is_no_go_position( here.get_abs( adj ) ) ) {
-            continue;
-        }
-        if( here.veh_at( adj ) ) {
-            continue;
-        }
-        if( here.is_flammable( adj ) ) {
-            // Tile already has fuel (flammable terrain/items). No need
-            // for inventory firewood.
-            if( !best_flammable ) {
-                best_flammable = adj;
-            }
-        } else if( has_firewood && !fallback ) {
-            // Tile not flammable but NPC can drop firewood to make it so.
-            fallback = adj;
+        if( check_fire_spot( adj ).usable() ) {
+            return adj;
         }
     }
-
-    return best_flammable ? best_flammable : fallback;
+    return std::nullopt;
 }
-
 npc::need_result npc::execute_seek_warmth()
 {
     const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
@@ -7258,32 +7382,15 @@ npc::need_result npc::execute_seek_warmth()
             plan.clear();
             return need_result::blocked;
         }
-        // Ensure the target tile is flammable; drop safe fuel if needed.
-        // Skip the wielded weapon so the NPC doesn't burn its own weapon.
-        if( !here.is_flammable( target_bub ) ) {
-            item *fuel = nullptr;
-            const item *wielded_ptr = get_wielded_item().get_item();
-            visit_items( [&fuel, wielded_ptr]( item * it, item * ) -> VisitResponse {
-                if( it == wielded_ptr )
-                {
-                    return VisitResponse::NEXT;
-                }
-                if( craft_reservation::contains_reserved( *it ) )
-                {
-                    return VisitResponse::SKIP;
-                }
-                if( it->has_flag( flag_FIREWOOD ) )
-                {
-                    fuel = it;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( !fuel ) {
-                plan.clear();
-                return need_result::impossible;
-            }
-            here.add_item_or_charges( target_bub, i_rem( fuel ) );
+        const fire_spot_verdict spot = check_fire_spot( target_bub );
+        if( !spot.usable() ) {
+            failed.insert( plan.target );
+            plan.clear();
+            plan.last_result = need_result::impossible;
+            return need_result::impossible;
+        }
+        if( spot.check == fire_spot_check::own_fuel ) {
+            here.add_item_or_charges( target_bub, i_rem( spot.firewood ), false );
         }
         if( actor->npc_start_fire( *this, *fire_tool, target_bub ) ) {
             plan.last_result = need_result::progressed;
@@ -7942,8 +8049,16 @@ bool outfit::adjust_worn( npc &guy )
             //create an item_location for takeoff() to handle.
             item_location loc_for_takeoff = item_location( guy, &elem );
             // Try to change side (if it makes sense), or take off.
-            std::list<item> temp_list;
-            if( ( needs_change && guy.change_side( elem ) ) || takeoff( loc_for_takeoff, &temp_list, guy ) ) {
+            if( needs_change && guy.change_side( elem ) ) {
+                return true;
+            }
+            std::list<item> taken_off;
+            if( takeoff( loc_for_takeoff, &taken_off, guy ) ) {
+                // NPC owns what it takes off, stowed, wielded or dropped at its feet
+                for( item &it : taken_off ) {
+                    it.set_owner( guy );
+                    guy.i_add_or_drop( it );
+                }
                 return true;
             }
         }
