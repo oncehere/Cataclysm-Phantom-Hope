@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -58,7 +60,7 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
     shared_ptr_fast<npc> companion = make_shared_fast<npc>();
     SECTION( "zero chance leaves both items" ) {
         CHECK( talk_function::om_harvest_itm( companion, target, 0, true ).count == 0 );
-        CHECK( companion->companion_mission_inv.empty() );
+        CHECK( companion->companion_mission_inv.size() == 0 );
         tinymap result;
         result.load( target, false );
         CHECK( result.i_at( pos ).size() == 2 );
@@ -66,7 +68,7 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
     SECTION( "certain collection leaves liquid" ) {
         CHECK( talk_function::om_harvest_itm( companion, target, 100, true ).count == 1 );
         REQUIRE( companion->companion_mission_inv.size() == 1 );
-        CHECK( companion->companion_mission_inv.front().typeId() == rock );
+        CHECK( companion->companion_mission_inv.const_stack( 0 ).front().typeId() == rock );
         tinymap result;
         result.load( target, false );
         REQUIRE( result.i_at( pos ).size() == 1 );
@@ -78,7 +80,7 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
         CHECK( estimate.count == 1 );
         CHECK( estimate.wgt == item( rock, calendar::turn ).weight( true ) );
         CHECK( estimate.vol == item( rock, calendar::turn ).volume( true ) );
-        CHECK( companion->companion_mission_inv.empty() );
+        CHECK( companion->companion_mission_inv.size() == 0 );
         tinymap result;
         result.load( target, false );
         CHECK( result.i_at( pos ).size() == 2 );
@@ -114,11 +116,13 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
         }
         CHECK( harvested.count > 0 );
         CHECK( remaining_rocks > 0 );
-        CHECK( harvested.count == static_cast<int>( companion->companion_mission_inv.size() ) );
+        std::vector<const item *> collected;
+        companion->companion_mission_inv.dump( collected );
+        CHECK( harvested.count == static_cast<int>( collected.size() ) );
         CHECK( harvested.count + remaining_rocks == extra_rocks + 1 );
         CHECK( remaining_water == 1 );
-        for( const item &it : companion->companion_mission_inv ) {
-            CHECK( it.typeId() == rock );
+        for( const item *it : collected ) {
+            CHECK( it->typeId() == rock );
         }
     }
 }

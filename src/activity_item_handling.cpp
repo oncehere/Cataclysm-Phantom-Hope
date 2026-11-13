@@ -841,21 +841,37 @@ static std::vector<item_location> fetchable_items_at( const tripoint_bub_ms &p )
 
 static void unseal_source_pocket( const item_location &loc )
 {
-    if( item_pocket *const pocket = loc.parent_pocket() ) {
-        pocket->unseal();
+    for( item_location current = loc; current.has_parent(); current = current.parent_item() ) {
+        if( item_pocket *const pocket = current.parent_pocket() ) {
+            pocket->unseal();
+        }
+    }
+}
+
+static void notify_source_containers( item_location parent )
+{
+    while( parent ) {
+        parent.on_contents_changed();
+        if( !parent.has_parent() ) {
+            break;
+        }
+        parent = parent.parent_item();
     }
 }
 
 static item take_out_of_container( item_location &loc, const int quantity )
 {
     unseal_source_pocket( loc );
+    const item_location parent = loc.parent_item();
     item taken = loc->split( quantity );
     if( !taken.is_null() ) {
         loc.on_contents_changed();
+        notify_source_containers( parent );
         return taken;
     }
     taken = *loc;
     loc.remove_item();
+    notify_source_containers( parent );
     return taken;
 }
 

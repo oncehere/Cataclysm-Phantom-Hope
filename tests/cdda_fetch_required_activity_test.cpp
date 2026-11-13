@@ -94,7 +94,13 @@ TEST_CASE( "construction_fetch_unseals_source_pocket",
     REQUIRE( jug.put_in( item( itype_nail, calendar::turn, 10 ),
                          pocket_type::CONTAINER ).success() );
     REQUIRE( jug.seal() );
-    const item &stored = here.add_item( loot, jug );
+    const bool nested = GENERATE( false, true );
+    item outer( itype_id( "backpack" ) );
+    if( nested ) {
+        REQUIRE( outer.put_in( jug, pocket_type::CONTAINER ).success() );
+    }
+    const item &placed = here.add_item( loot, nested ? outer : jug );
+    const item &stored = nested ? placed.only_item() : placed;
     REQUIRE( stored.all_pockets_sealed() );
     const requirement_id req = multi_activity_actor::synthesize_requirements(
     { { item_comp( itype_pockknife, 1 ) } }, {}, {} );
@@ -104,6 +110,8 @@ TEST_CASE( "construction_fetch_unseals_source_pocket",
     REQUIRE( fetch.fetch_activity( u, loot, ACT_FETCH_REQUIRED ) );
     CHECK_FALSE( stored.any_pockets_sealed() );
     CHECK( stored.only_item().typeId() == itype_nail );
+    CHECK( here.i_at( loot ).size() == 1 );
+    CHECK( placed.typeId() == ( nested ? itype_id( "backpack" ) : itype_sealed_jug ) );
     REQUIRE( here.i_at( work ).size() == 1 );
     CHECK( here.i_at( work ).only_item().typeId() == itype_pockknife );
     get_craft_reservations().clear();
