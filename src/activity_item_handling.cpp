@@ -811,6 +811,18 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     }
 }
 
+static void append_fetchable_contents( item_location parent,
+                                      std::vector<item_location> &contained )
+{
+    for( item *it : parent->all_items_container_top() ) {
+        item_location child( parent, it );
+        if( !it->made_of_from_type( phase_id::LIQUID ) ) {
+            contained.push_back( child );
+        }
+        append_fetchable_contents( child, contained );
+    }
+}
+
 static std::vector<item_location> fetchable_items_at( const tripoint_bub_ms &p )
 {
     std::vector<item_location> loose;
@@ -821,12 +833,7 @@ static std::vector<item_location> fetchable_items_at( const tripoint_bub_ms &p )
         }
         const item_location top_loc( map_cursor( p ), &top );
         loose.push_back( top_loc );
-        top_loc.visit_contents( [&contained]( const item_location & node ) {
-            if( !node->made_of_from_type( phase_id::LIQUID ) ) {
-                contained.push_back( node );
-            }
-            return VisitResponse::NEXT;
-        } );
+        append_fetchable_contents( top_loc, contained );
     }
     loose.insert( loose.end(), contained.begin(), contained.end() );
     return loose;
