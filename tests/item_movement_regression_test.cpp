@@ -45,7 +45,9 @@ TEST_CASE( "moving_container_swaps_items_with_destination", "[furniture][regress
 
 TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
 {
-    const tripoint_abs_omt target( 11000, 11000, 0 );
+    clear_map_without_vision();
+    const tripoint_abs_omt target = project_to<coords::omt>(
+                                        get_map().get_abs( tripoint_bub_ms( 30, 30, 0 ) ) );
     const tripoint_omt_ms pos( 5, 5, 0 );
     tinymap setup;
     setup.load( target, false );
@@ -53,8 +55,8 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
             tripoint_omt_ms( 23, 23, 0 ) ) ) {
         setup.i_clear( p );
     }
-    setup.i_at( pos ).insert( item( rock, calendar::turn ) );
-    setup.i_at( pos ).insert( item( water, calendar::turn ) );
+    setup.i_at( pos ).insert( item( plank, calendar::turn ) );
+    setup.i_at( pos ).insert( item( water, calendar::turn, 1 ) );
     setup.save();
 
     shared_ptr_fast<npc> companion = make_shared_fast<npc>();
@@ -68,7 +70,7 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
     SECTION( "certain collection leaves liquid" ) {
         CHECK( talk_function::om_harvest_itm( companion, target, 100, true ).count == 1 );
         REQUIRE( companion->companion_mission_inv.size() == 1 );
-        CHECK( companion->companion_mission_inv.const_stack( 0 ).front().typeId() == rock );
+        CHECK( companion->companion_mission_inv.const_stack( 0 ).front().typeId() == plank );
         tinymap result;
         result.load( target, false );
         REQUIRE( result.i_at( pos ).size() == 1 );
@@ -78,8 +80,8 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
         const talk_function::mass_volume estimate = talk_function::om_harvest_itm( companion, target,
                 100, false );
         CHECK( estimate.count == 1 );
-        CHECK( estimate.wgt == item( rock, calendar::turn ).weight( true ) );
-        CHECK( estimate.vol == item( rock, calendar::turn ).volume( true ) );
+        CHECK( estimate.wgt == item( plank, calendar::turn ).weight( true ) );
+        CHECK( estimate.vol == item( plank, calendar::turn ).volume( true ) );
         CHECK( companion->companion_mission_inv.size() == 0 );
         tinymap result;
         result.load( target, false );
@@ -95,9 +97,9 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
     SECTION( "partial collection conserves solid items" ) {
         constexpr int seed = 58163;
         INFO( "RNG seed: " << seed );
-        constexpr int extra_rocks = 20;
-        for( int i = 0; i < extra_rocks; ++i ) {
-            setup.i_at( tripoint_omt_ms( i, 10, 0 ) ).insert( item( rock, calendar::turn ) );
+        constexpr int extra_planks = 20;
+        for( int i = 0; i < extra_planks; ++i ) {
+            setup.i_at( tripoint_omt_ms( i, 10, 0 ) ).insert( item( plank, calendar::turn ) );
         }
         setup.save();
         rng_set_engine_seed( seed );
@@ -105,24 +107,24 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
                 50, true );
         tinymap result;
         result.load( target, false );
-        int remaining_rocks = 0;
+        int remaining_planks = 0;
         int remaining_water = 0;
         for( const tripoint_omt_ms &p : result.points_in_rectangle( tripoint_omt_ms( 0, 0, 0 ),
                 tripoint_omt_ms( 23, 23, 0 ) ) ) {
             for( const item &it : result.i_at( p ) ) {
-                remaining_rocks += it.typeId() == rock;
+                remaining_planks += it.typeId() == plank;
                 remaining_water += it.typeId() == water;
             }
         }
         CHECK( harvested.count > 0 );
-        CHECK( remaining_rocks > 0 );
+        CHECK( remaining_planks > 0 );
         std::vector<const item *> collected;
         companion->companion_mission_inv.dump( collected );
         CHECK( harvested.count == static_cast<int>( collected.size() ) );
-        CHECK( harvested.count + remaining_rocks == extra_rocks + 1 );
+        CHECK( harvested.count + remaining_planks == extra_planks + 1 );
         CHECK( remaining_water == 1 );
         for( const item *it : collected ) {
-            CHECK( it->typeId() == rock );
+            CHECK( it->typeId() == plank );
         }
     }
 }
