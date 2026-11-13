@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_conditions",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:a0ed41b7bda726edc3690e1a7be14df9358232d92b272aea4abdd4aad22cbfd8",
+    "source_fingerprint": "sha256:e536731f16547eb2c8a22871e1777c8330e1155cb6c8f19ff032d1c6a421f905",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -117,7 +117,7 @@
       "contract_kind": "condition",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 5475,
+        "occurrences": 5476,
         "examples": [
           {
             "path": "data/json/bionics.json",
@@ -305,7 +305,7 @@
       "contract_kind": "condition",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 3199,
+        "occurrences": 3200,
         "examples": [
           {
             "path": "data/json/effects_on_condition/anomalous_mp3_eocs.json",
@@ -491,7 +491,7 @@
       "contract_kind": "condition",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 86,
+        "occurrences": 87,
         "examples": [
           {
             "path": "data/json/debug/teleportation.json",
@@ -18699,7 +18699,7 @@
         "examples": [
           {
             "path": "data/mods/TEST_DATA/EOC.json",
-            "pointer": "/92/condition/not/u_has_martial_art"
+            "pointer": "/93/condition/not/u_has_martial_art"
           }
         ],
         "confidence": "lexical_only",
@@ -21706,7 +21706,7 @@
         "examples": [
           {
             "path": "data/mods/TEST_DATA/EOC.json",
-            "pointer": "/85/effect/5/if"
+            "pointer": "/86/effect/5/if"
           }
         ],
         "confidence": "lexical_only",
@@ -21991,7 +21991,7 @@
         "examples": [
           {
             "path": "data/mods/TEST_DATA/EOC.json",
-            "pointer": "/85/effect/4/if"
+            "pointer": "/86/effect/4/if"
           }
         ],
         "confidence": "lexical_only",

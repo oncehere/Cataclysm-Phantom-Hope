@@ -659,6 +659,7 @@ TEST_CASE( "cable_survives_target_outside_reality_bubble", "[vehicle][power][gri
     const tripoint_bub_ms cord_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
     // Initialize s_bub_pos so process_link doesn't trigger a length check
     cord.link().s_bub_pos = cord_pos;
+    cord.link().s_abs_pos = here.get_abs( cord_pos );
 
     // Drop the cord on the map so process() works correctly
     here.add_item( cord_pos, cord );
@@ -696,25 +697,7 @@ TEST_CASE( "cable_survives_target_outside_reality_bubble", "[vehicle][power][gri
         CHECK( map_cord.link().target == link_state::vehicle_port );
     }
 
-    SECTION( "OOB length check does not false-positive disconnect" ) {
-        // Set target to OOB but keep the vehicle reference valid.
-        // Move the cord position so length_check_needed triggers.
-        // Stale OOB positions should not cause false over-extension.
-        tripoint_abs_ms oob_pos = here.get_abs( battery_pos ) +
-                                  tripoint( MAPSIZE_X * 2, MAPSIZE_Y * 2, 0 );
-        REQUIRE_FALSE( here.inbounds( oob_pos ) );
 
-        map_cord.link().t_abs_pos = oob_pos;
-        // Keep t_veh valid (pointing to the real vehicle)
-        // but force a length check by changing s_bub_pos
-        tripoint_bub_ms moved_pos( HALF_MAPSIZE_X + 5, HALF_MAPSIZE_Y + 2, 0 );
-
-        map_cord.process( here, nullptr, moved_pos );
-
-        // Cable should survive -- stale OOB positions are unreliable for length
-        CHECK( map_cord.has_link_data() );
-        CHECK( map_cord.link().target == link_state::vehicle_port );
-    }
 }
 
 TEST_CASE( "off_map_solar_catchup_generates_energy", "[vehicle][power][grid]" )

@@ -1370,6 +1370,12 @@ class npc : public Character
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
+        /** Whether this NPC can empty an open container where it lies, then take it. */
+        bool can_empty_for_pickup( const item &it );
+        /** One step of emptying wanted_item where it lies; false if no step is possible. */
+        bool empty_before_pickup();
+        /** Whether a drink from a container on the ground may start or go on here. */
+        bool may_drink_here() const;
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint_bub_ms &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1555,6 +1561,15 @@ class npc : public Character
         need_result execute_seek_warmth();
         need_result execute_go_to_sleep();
         std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
+        enum class fire_spot_check : int { unusable, tile_fuel, own_fuel };
+        struct fire_spot_verdict {
+            fire_spot_check check = fire_spot_check::unusable;
+            item *firewood = nullptr;
+            bool usable() const {
+                return check != fire_spot_check::unusable;
+            }
+        };
+        fire_spot_verdict check_fire_spot( const tripoint_bub_ms &p ) const;
         std::optional<tripoint_bub_ms> find_fire_spot();
         bool has_adjacent_fire() const;
         const need_plan &get_food_plan() const {

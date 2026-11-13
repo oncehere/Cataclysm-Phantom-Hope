@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:a0ed41b7bda726edc3690e1a7be14df9358232d92b272aea4abdd4aad22cbfd8",
+    "source_fingerprint": "sha256:e536731f16547eb2c8a22871e1777c8330e1155cb6c8f19ff032d1c6a421f905",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -30,7 +30,7 @@
     ],
     "observed_not_registered": [],
     "tracked_json_files": 6821,
-    "top_level_objects": 95314,
+    "top_level_objects": 95318,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -113,7 +113,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 15192,
+        "occurrences": 15193,
         "examples": [
           {
             "path": "data/json/artifact/artifact_item_types.json",
@@ -3047,7 +3047,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 5640,
+        "occurrences": 5641,
         "examples": [
           {
             "path": "data/json/artifact/altered_object_active.json",
@@ -7490,7 +7490,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 8214,
+        "occurrences": 8216,
         "examples": [
           {
             "path": "data/json/items/armor/jewelry.json",

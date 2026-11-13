@@ -6554,13 +6554,13 @@ std::unique_ptr<activity_actor> close_tile_activity_actor::deserialize( JsonValu
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = 0;
-    Character &player_character = get_player_character();
-    //TODO: why use both `player_character` and `guy`?
-    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
-        ret_val<edible_rating> ret = player_character.will_eat( it, true );
+    auto player_will_eat = [this, &moves, &guy]( const item & it ) {
+        ret_val<edible_rating> ret = guy.will_eat( it, guy.is_avatar() );
         if( !ret.success() ) {
             was_canceled = true;
-            uistate.consume_uistate.clear();
+            if( guy.is_avatar() ) {
+                uistate.consume_uistate.clear();
+            }
         } else {
             moves = to_moves<int>( guy.get_consume_time( it ) );
         }
@@ -6575,14 +6575,16 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
                        "consume activity target is no longer available at start" );
         was_canceled = true;
         reprompt_consume_menu = false;
-        uistate.consume_uistate.clear();
+        if( guy.is_avatar() ) {
+            uistate.consume_uistate.clear();
+        }
     }
 
     act.moves_total = moves;
     act.moves_left = moves;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character & )
+void consume_activity_actor::finish( player_activity &act, Character &who )
 {
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
@@ -6591,18 +6593,19 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     item_location consume_loc = consume_location;
 
-    avatar &player_character = get_avatar();
     if( !was_canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true );
+            who.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            who.consume( consume_item, /*force=*/true );
         } else {
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "consume activity target is no longer available at finish" );
             was_canceled = true;
             reprompt_consume_menu = false;
-            uistate.consume_uistate.clear();
+            if( who.is_avatar() ) {
+                uistate.consume_uistate.clear();
+            }
         }
     }
 
@@ -6615,6 +6618,10 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         act.set_to_null();
     }
 
+    if( !who.is_avatar() ) {
+        return;
+    }
+    avatar &player_character = *who.as_avatar();
     if( act.id() == ACT_FIRSTAID && consume_loc ) {
         uistate.consume_uistate.consume_menu_selected_items = { consume_loc };
     }
@@ -10688,6 +10695,9 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
 
 static bool check_stealing( Character &who, item &it )
 {
+    if( !who.is_avatar() ) {
+        return true;
+    }
     if( !it.is_owned_by( who, true ) ) {
         const std::string thief_mode = who.get_value( "THIEF_MODE" ).str();
         if( thief_mode == "THIEF_HONEST" ) {
@@ -13822,6 +13832,14 @@ void fire_start_activity_actor::finish( player_activity &act, Character &who )
                                      ( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // The hearth may have changed while the NPC was lighting it.
+    const npc *guy = who.as_npc();
+    if( guy != nullptr && !guy->check_fire_spot( here.get_bub( fire_placement ) ).usable() ) {
+        add_msg_if_player_sees( who, m_info, _( "%s can't light a fire there." ), who.get_name() );
         act.set_to_null();
         return;
     }

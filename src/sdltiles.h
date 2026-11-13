@@ -70,6 +70,7 @@ window_dimensions get_window_dimensions( const point &pos, const point &size );
 window_dimensions get_window_dimensions_for_input( const catacurses::window &win );
 
 const SDL_Renderer_Ptr &get_sdl_renderer();
+std::optional<std::string> gpu_backend_hint( const std::string &option_value, bool env_override );
 // Clears the SDL renderer to black. Returns false without clearing when a
 // recovery/pause/resize is queued or the buffer bind failed, so the caller can
 // keep the clear request armed for a later frame.

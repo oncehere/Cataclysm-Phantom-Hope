@@ -1898,6 +1898,16 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
+bool Character::wants_to_consume_now( const item &food ) const
+{
+    if( !needs_food() || !food.is_food() || !will_eat( food ).success() ) {
+        return false;
+    }
+    const bool hungry = get_hunger() > 0 || has_calorie_deficit();
+    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
+           ( food.get_comestible()->quench > 0 && get_thirst() > 0 );
+}
+
 time_duration Character::get_consume_time( const item &it ) const
 {
     const int charges = std::max( it.charges, 1 );

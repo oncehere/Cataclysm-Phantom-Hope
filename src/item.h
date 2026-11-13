@@ -1657,6 +1657,8 @@ class item : public visitable
             point_rel_ms t_mount = point_rel_ms::zero;
             /// Reality bubble position of the link's source cable item.
             tripoint_bub_ms s_bub_pos = tripoint_bub_ms::invalid; // NOLINT(cata-serialize)
+            /// Absolute position at the last length check, unaffected by map shifts.
+            tripoint_abs_ms s_abs_pos = tripoint_abs_ms::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.

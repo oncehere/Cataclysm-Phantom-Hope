@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_effects",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:a0ed41b7bda726edc3690e1a7be14df9358232d92b272aea4abdd4aad22cbfd8",
+    "source_fingerprint": "sha256:e536731f16547eb2c8a22871e1777c8330e1155cb6c8f19ff032d1c6a421f905",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -10456,7 +10456,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 28,
+        "occurrences": 29,
         "examples": [
           {
             "path": "data/json/effects_on_condition/scenario_specific_eocs.json",
@@ -18346,7 +18346,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 5576,
+        "occurrences": 5577,
         "examples": [
           {
             "path": "data/json/artifact/altered_object_active.json",
@@ -22586,7 +22586,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 894,
+        "occurrences": 895,
         "examples": [
           {
             "path": "data/json/effects_on_condition/example_eocs.json",
@@ -24712,7 +24712,7 @@
         "examples": [
           {
             "path": "data/mods/TEST_DATA/EOC.json",
-            "pointer": "/93/effect/u_forget_martial_art"
+            "pointer": "/94/effect/u_forget_martial_art"
           }
         ],
         "confidence": "lexical_only",
@@ -25181,7 +25181,7 @@
         "examples": [
           {
             "path": "data/mods/TEST_DATA/EOC.json",
-            "pointer": "/92/effect/u_learn_martial_art"
+            "pointer": "/93/effect/u_learn_martial_art"
           }
         ],
         "confidence": "lexical_only",

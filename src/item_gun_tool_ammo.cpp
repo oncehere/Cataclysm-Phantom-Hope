@@ -4161,10 +4161,13 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
     // Check if the item has moved positions this turn.
     bool length_check_needed = false;
-    if( link().s_bub_pos != pos ) {
-        link().s_bub_pos = pos;
+    const tripoint_abs_ms abs_pos = here.get_abs( pos );
+    if( link().s_bub_pos == tripoint_bub_ms::invalid || link().s_bub_pos == tripoint_bub_ms::min ||
+        link().s_abs_pos != abs_pos ) {
         length_check_needed = true;
     }
+    link().s_bub_pos = pos;
+    link().s_abs_pos = abs_pos;
 
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link().t_veh ) {
@@ -4214,8 +4217,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
         if( !length_check_needed ) {
             return false;
         }
-        link().length = rl_dist( here.get_abs( pos ), link().t_abs_pos ) +
-                        link().t_mount.abs().x() + link().t_mount.abs().y();
+        link().length = rl_dist( abs_pos, link().t_abs_pos + t_veh->coord_translate( link().t_mount ) );
         if( check_length() ) {
             return reset_link( true, carrier );
         }

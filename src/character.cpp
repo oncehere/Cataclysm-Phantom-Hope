@@ -4333,9 +4333,39 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    get_avatar().invalidate_weight_carried_cache();
+    invalidate_weight_carried_cache();
+    if( Character *carrier = container.carrier() ) {
+        carrier->invalidate_weight_carried_cache();
+    }
 
     return true;
+}
+
+item_location Character::carried_container_for( const item &liquid, const item *avoid ) const
+{
+    item_location found;
+    std::map<item *, item_location> locations;
+    visit_items( [&]( item * it, item * parent ) {
+        if( craft_reservation::contains_reserved( *it ) ) {
+            return VisitResponse::SKIP;
+        }
+        item_location loc = parent ? item_location( locations.at( parent ), it ) :
+                            item_location( const_cast<Character &>( *this ), it );
+        locations.emplace( it, loc );
+        if( it == avoid || it == &liquid || !it->is_watertight_container() ||
+            it->has_item( liquid ) ) {
+            return VisitResponse::NEXT;
+        }
+        const int room = it->get_remaining_capacity_for_liquid( liquid, *this );
+        const int amount = it->all_pockets_rigid() ? room :
+                           std::min( room, loc.max_charges_by_parent_recursive( liquid ).value() );
+        if( amount > 0 ) {
+            found = loc;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return found;
 }
 
 bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
