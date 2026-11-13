@@ -136,20 +136,16 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     return surf;
 }
 
-// Compute opaque bounds and the 3D silhouette within a sprite rect. The
-// surface must be 32-bit RGBA (e.g. from create_surface_32). All coordinates
-// are relative to the sprite rect origin; empty rows/columns stay -1.
-static sprite_alpha_scan compute_alpha_scan( const SDL_Surface_Ptr &surf, const SDL_Rect &rect )
+// Compute the tightest bounding box containing non-transparent pixels within
+// a sprite rect. The surface must be 32-bit RGBA (e.g. from create_surface_32).
+// Returns coordinates relative to the sprite rect origin. A fully transparent
+// sprite returns {0, 0, 0, 0}.
+static SDL_Rect compute_opaque_rect( const SDL_Surface_Ptr &surf, const SDL_Rect &rect )
 {
     int min_x = rect.w; // NOLINT(cata-combine-locals-into-point)
     int min_y = rect.h;
     int max_x = -1; // NOLINT(cata-combine-locals-into-point)
     int max_y = -1;
-    auto profile = std::make_shared<sprite_alpha_profile>();
-    profile->top.assign( rect.w, -1 );
-    profile->bottom.assign( rect.w, -1 );
-    profile->left.assign( rect.h, -1 );
-    profile->right.assign( rect.h, -1 );
     const int pitch = surf->pitch / 4;
     const Uint32 *pixels = static_cast<const Uint32 *>( surf->pixels );
     for( int y = 0; y < rect.h; ++y ) {
@@ -161,28 +157,25 @@ static sprite_alpha_scan compute_alpha_scan( const SDL_Surface_Ptr &surf, const 
             Uint8 a;
             GetRGBA( pixel, surf, r, g, b, a );
             if( a > 0 ) {
-                min_x = std::min( min_x, x );
-                min_y = std::min( min_y, y );
-                max_x = std::max( max_x, x );
-                max_y = std::max( max_y, y );
-                if( profile->top[x] < 0 ) {
-                    profile->top[x] = y;
+                if( x < min_x ) {
+                    min_x = x;
                 }
-                profile->bottom[x] = y;
-                if( profile->left[y] < 0 ) {
-                    profile->left[y] = x;
+                if( y < min_y ) {
+                    min_y = y;
                 }
-                profile->right[y] = x;
+                if( x > max_x ) {
+                    max_x = x;
+                }
+                if( y > max_y ) {
+                    max_y = y;
+                }
             }
         }
     }
     if( max_x < 0 ) {
-        return {};
+        return { 0, 0, 0, 0 };
     }
-    sprite_alpha_scan result;
-    result.bounds = { min_x, min_y, max_x - min_x + 1, max_y - min_y + 1 };
-    result.profile = std::move( profile );
-    return result;
+    return { min_x, min_y, max_x - min_x + 1, max_y - min_y + 1 };
 }
 
 static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
@@ -222,7 +215,7 @@ std::shared_ptr<SDL_Texture> tileset_cache::loader::make_gated_atlas_texture(
 
 void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
         const point &offset, std::vector<texture> &target,
-        const std::vector<sprite_alpha_scan> &opaque_scans,
+        const std::vector<SDL_Rect> &opaque_bounds,
         const atlas_replay_quarantine::gate &abandon_gate )
 {
     cata_assert( surf );
@@ -248,10 +241,10 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
         cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         const size_t in_chunk = ( rect.x / sprite_width ) + ( rect.y / sprite_height ) *
                                 ( surf->w / sprite_width );
-        const sprite_alpha_scan fallback{ { 0, 0, rect.w, rect.h }, nullptr };
-        const sprite_alpha_scan &scan = in_chunk < opaque_scans.size()
-                                        ? opaque_scans[in_chunk] : fallback;
-        target[index] = texture( texture_ptr, rect, scan.bounds, scan.profile );
+        const SDL_Rect &opaque = in_chunk < opaque_bounds.size()
+                                 ? opaque_bounds[in_chunk]
+                                 : SDL_Rect{ 0, 0, rect.w, rect.h };
+        target[index] = texture( texture_ptr, rect, opaque );
     }
 }
 
@@ -278,11 +271,11 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
                                                    tile_atlas->h / sprite_height ) );
     // one entry per sprite of this chunk, however far down the atlas it sits
     const int chunk_cols = tile_atlas->w / sprite_width;
-    std::vector<sprite_alpha_scan> opaque_scans( static_cast<size_t>( chunk_cols ) *
-            ( tile_atlas->h / sprite_height ) );
+    std::vector<SDL_Rect> opaque_bounds( static_cast<size_t>( chunk_cols ) *
+                                         ( tile_atlas->h / sprite_height ), SDL_Rect{ 0, 0, 0, 0 } );
     for( const SDL_Rect rect : scan_range ) {
-        opaque_scans[( rect.x / sprite_width ) + ( rect.y / sprite_height ) * chunk_cols] =
-            compute_alpha_scan( scan_surf, rect );
+        opaque_bounds[( rect.x / sprite_width ) + ( rect.y / sprite_height ) * chunk_cols] =
+            compute_opaque_rect( scan_surf, rect );
     }
 
     /** perform color filter conversion here */
@@ -302,12 +295,12 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
         }
         std::vector<texture> *tile_values = std::get<0>( entry );
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
-                ( entry ) );
+            ( entry ) );
         if( !color_pixel_function ) {
-            copy_surface_to_texture( scan_surf, offset, *tile_values, opaque_scans, abandon_gate );
+            copy_surface_to_texture( scan_surf, offset, *tile_values, opaque_bounds, abandon_gate );
         } else {
             copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
-                                     *tile_values, opaque_scans, abandon_gate );
+                                     *tile_values, opaque_bounds, abandon_gate );
         }
     }
 }
@@ -703,7 +696,7 @@ void tileset_cache::loader::parse_native_mappings(
         }
     }
     dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
-                  " Tile Definitions: " << ts.tile_ids.size();
+                     " Tile Definitions: " << ts.tile_ids.size();
 }
 
 void tileset_cache::loader::parse_native_atlases(
@@ -1134,7 +1127,7 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
         }
     }
     dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
-                  " Tile Definitions: " << ts.tile_ids.size();
+                     " Tile Definitions: " << ts.tile_ids.size();
 }
 
 /**
@@ -1321,12 +1314,12 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
         cata_assert( surface );
         throwErrorIf( FillRect( surface, nullptr, MapRGBA( surface, 0, 0, 127,
-                                highlight_alpha ) ) != 0, "SDL_FillRect failed" );
+                highlight_alpha ) ) != 0, "SDL_FillRect failed" );
         const int idx = *highlight_idx;
         cata_assert( idx >= 0 && idx < static_cast<int>( cand_normal.size() ) );
         cand_normal[idx] = texture(
                                make_gated_atlas_texture( CreateTextureFromSurface( renderer, surface ),
-                                       abandon_gate ),
+                                   abandon_gate ),
                                SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     }
 

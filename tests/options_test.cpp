@@ -40,6 +40,20 @@ TEST_CASE( "retired_renderer_options_remain_loadable_but_hidden", "[option][sdl3
     CHECK_FALSE( manager.has_option( "RENDER_BATCHING" ) );
 }
 
+TEST_CASE( "removed_experimental_3d_option_is_ignored_when_loading", "[option][sdl3]" )
+{
+    options_manager &manager = get_options();
+    override_option restore_pockets( "AUTO_INSERT_POCKETS_DISABLED", "false" );
+
+    CHECK_FALSE( manager.has_option( "RENDER3D_EXPERIMENTAL" ) );
+    manager.deserialize( json_loader::from_string( R"([
+        {"name":"RENDER3D_EXPERIMENTAL","value":"true"},
+        {"name":"AUTO_INSERT_POCKETS_DISABLED","value":"true"}
+    ])" ).get_array() );
+    CHECK_FALSE( manager.has_option( "RENDER3D_EXPERIMENTAL" ) );
+    CHECK( get_option<bool>( "AUTO_INSERT_POCKETS_DISABLED" ) );
+}
+
 TEST_CASE( "option_slider_test", "[option]" )
 {
     options_manager::options_container opts = get_options().get_world_defaults();

@@ -3155,11 +3155,6 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 
-        add( "RENDER3D_EXPERIMENTAL", page_id, to_translation( "Experimental 3D renderer" ),
-             to_translation( "If true, renders the map with an experimental 3D backend instead of the 2D tileset.  Requires the GPU renderer and a restart; falls back to 2D tiles when unavailable." ),
-             false, COPT_CURSES_HIDE
-           );
-
         add( "SWAP_ZOOM", page_id, to_translation( "Zoom Threshold" ),
              to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
              1, 4, 2, COPT_CURSES_HIDE
@@ -3173,7 +3168,6 @@ void options_manager::add_options_graphics()
         get_option( "VEHICLE_EDIT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "VEHICLE_PART_COLOR" ).setPrerequisite( "USE_TILES" );
         get_option( "USE_CHARACTER_PREVIEW" ).setPrerequisite( "USE_TILES" );
-        get_option( "RENDER3D_EXPERIMENTAL" ).setPrerequisite( "USE_TILES" );
 
         add( "USE_OVERMAP_TILES", page_id, to_translation( "Use tiles to display overmap" ),
              to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
@@ -5159,7 +5153,7 @@ void options_manager::deserialize( const JsonArray &ja )
         // yay hardcoded list! remove after 0.J
         std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
-                                                     "PROFICIENCY_TRAINING_SPEED"
+                                                     "PROFICIENCY_TRAINING_SPEED", "RENDER3D_EXPERIMENTAL"
                                                    };
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );

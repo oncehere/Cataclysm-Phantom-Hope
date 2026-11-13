@@ -44,7 +44,6 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
-#include "render3d.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "cursesport.h" // IWYU pragma: keep
 #include "string_formatter.h"
@@ -713,38 +712,34 @@ static std::optional<coords::coord_point<Point, coords::origin::relative, Scale>
         get_direction( const std::string &action, bool iso_mode )
 {
     using CoordPoint = coords::coord_point<Point, coords::origin::relative, Scale>;
-    CoordPoint p;
+    static const auto noop = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
+        return p;
+    } );
+    static const auto rotate = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
+        rotate_direction_cw( p.x(), p.y() );
+        return p;
+    } );
+    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+
     if( action == "UP" ) {
-        p = CoordPoint::north;
+        return transform( CoordPoint::north );
     } else if( action == "DOWN" ) {
-        p = CoordPoint::south;
+        return transform( CoordPoint::south );
     } else if( action == "LEFT" ) {
-        p = CoordPoint::west;
+        return transform( CoordPoint::west );
     } else if( action == "RIGHT" ) {
-        p = CoordPoint::east;
+        return transform( CoordPoint::east );
     } else if( action == "LEFTUP" ) {
-        p = CoordPoint::north_west;
+        return transform( CoordPoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        p = CoordPoint::north_east;
+        return transform( CoordPoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        p = CoordPoint::south_west;
+        return transform( CoordPoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        p = CoordPoint::south_east;
+        return transform( CoordPoint::south_east );
     } else {
         return std::nullopt;
     }
-#if defined(TILES)
-    // 3D: direction prompts follow the camera's screen frame, matching the
-    // movement keys; the camera transform replaces the isometric 45-degree
-    // step rather than stacking on it
-    if( iso_mode && render3d::camera_screen_to_map_delta( p.x(), p.y() ) ) {
-        return p;
-    }
-#endif
-    if( iso_mode && g->is_tileset_isometric() ) {
-        rotate_direction_cw( p.x(), p.y() );
-    }
-    return p;
 }
 
 std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )

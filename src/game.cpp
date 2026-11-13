@@ -203,7 +203,6 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "regional_settings.h"
-#include "render3d.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "safe_reference.h"
@@ -3882,13 +3881,7 @@ void game::draw_vehicle_guidance()
     }
     guides.insert( estimate.begin(), estimate.end() );
     for( const tripoint_bub_ms &p : guides ) {
-        bool in_view = is_in_viewport( p );
-#if defined(TILES)
-        if( use_tiles && get_option<bool>( "RENDER3D_EXPERIMENTAL" ) && render3d::available() ) {
-            in_view = true;
-        }
-#endif
-        if( !here.inbounds( p ) || !in_view || !u.sees( here, p ) ) {
+        if( !here.inbounds( p ) || !is_in_viewport( p ) || !u.sees( here, p ) ) {
             continue;
         }
         if( use_tiles ) {
