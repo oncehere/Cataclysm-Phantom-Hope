@@ -4,6 +4,7 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_attire.h"
 #include "craft_reservation.h"
 #include "field_type.h"
 #include "item.h"
@@ -47,7 +48,11 @@ TEST_CASE( "cdda_npc_fire_requires_safe_hearth", "[npc][cdda_safety]" )
     clear_character( guy, true );
     map &here = get_map();
     const tripoint_bub_ms east = guy.pos_bub() + point::east;
-    guy.i_add( item( itype_id( "2x4" ) ) );
+    guy.worn.wear_item( guy, item( itype_id( "backpack" ) ), false, false );
+    const item_location wood = guy.i_add( item( itype_id( "2x4" ) ) );
+    REQUIRE( wood );
+    REQUIRE( wood.carrier() == &guy );
+    REQUIRE( wood != guy.get_wielded_item() );
     CHECK_FALSE( guy.check_fire_spot( east ).usable() );
     here.furn_set( east, furn_str_id( "f_firering" ) );
     CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );

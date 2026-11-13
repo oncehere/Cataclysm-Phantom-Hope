@@ -1144,6 +1144,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
 
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::west, furn_str_id( "f_firering" ) );
         here.build_map_cache( 0 );
         behavior::character_oracle_t oracle( &guy );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
@@ -7113,6 +7114,8 @@ TEST_CASE( "npc_guard_uses_warmth_executor", "[npc][needs][warmth][guard]" )
     SECTION( "cold guard with lighter starts fire" ) {
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::east, furn_str_id( "f_firering" ) );
+        here.build_map_cache( 0 );
 
         // Verify no warm clothing or shelter available.
         REQUIRE( guy.find_nearby_warm_clothing().empty() );
