@@ -5584,6 +5584,10 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
                 return_food_supply( share );
             }
         };
+        if( share.total().kcal() <= 0 ) {
+            not_eaten();
+            continue;
+        }
         if( worker.is_npc() && !npcs_eat ) {
             not_eaten();
             continue;
@@ -6054,7 +6058,8 @@ camp_food_portion camp_food_portion::take_share( int eaters )
     const nutrients available = total();
     nutrients wanted = available / eaters;
     wanted.calories = divide_round_up<int64_t>( available.kcal(), eaters ) * 1000;
-    for( auto it = by_expiry.begin(); it != by_expiry.end(); ) {
+    // Keep permanent stock until all perishable portions have been allocated.
+    const auto take_bucket = [&]( auto it ) {
         const nutrients before = it->second;
         it->second = consume_left_behind( wanted, before );
         nutrients part = before;
@@ -6064,13 +6069,24 @@ camp_food_portion camp_food_portion::take_share( int eaters )
             share.by_expiry.emplace( it->first, part );
         }
         if( it->second.calories == 0 && it->second.vitamins().empty() ) {
-            it = by_expiry.erase( it );
-        } else {
-            ++it;
+            return by_expiry.erase( it );
         }
+        return ++it;
+    };
+    for( auto it = by_expiry.begin(); it != by_expiry.end(); ) {
+        if( it->first == calendar::turn_zero ) {
+            ++it;
+            continue;
+        }
+        it = take_bucket( it );
         if( wanted.calories == 0 && wanted.vitamins().empty() ) {
             break;
         }
+    }
+    const auto permanent = by_expiry.find( calendar::turn_zero );
+    if( permanent != by_expiry.end() &&
+        ( wanted.calories > 0 || !wanted.vitamins().empty() ) ) {
+        take_bucket( permanent );
     }
     return share;
 }

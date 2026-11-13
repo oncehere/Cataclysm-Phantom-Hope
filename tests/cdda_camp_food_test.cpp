@@ -1,4 +1,6 @@
+#include <functional>
 #include <map>
+#include <vector>
 
 #include "avatar.h"
 #include "basecamp.h"
@@ -139,6 +141,45 @@ TEST_CASE( "cdda_camp_food_refunds", "[camp][cdda_camp_food]" )
     const time_point expiry = calendar::turn + 2_days;
     owner->add_to_food_supply( { { expiry, camp_test_food( 100000, 20 ) } } );
 
+    SECTION( "eaten share uses perishable stock and rejected share keeps permanent expiry" ) {
+        override_option food_on( "NO_NPC_FOOD", "false" );
+        owner->empty_food_supply();
+        owner->add_to_food_supply( { { calendar::turn_zero, camp_test_food( 100000, 20 ) },
+            { expiry, camp_test_food( 100000, 20 ) }
+        } );
+        worker.stomach.empty();
+        worker.set_hunger( 300 );
+        worker.set_stored_kcal( 1000 );
+        standard_npc refusing;
+        refusing.set_fac( your_fac );
+        refusing.add_effect( effect_camp_test_nausea, 10_minutes );
+        const camp_food_portion meal = camp.camp_food_supply( -200 );
+        const std::vector<std::reference_wrapper<Character>> workers{ worker, refusing };
+        CHECK( camp.feed_workers( workers, meal, true ) > 0 );
+        const camp_food_portion returned = owner->take_food_supply( camp_test_food( 200000, 40 ) );
+        REQUIRE( returned.by_expiry.size() == 1 );
+        REQUIRE( returned.by_expiry.count( calendar::turn_zero ) == 1 );
+        CHECK( returned.total().calories == 100000 );
+        CHECK( returned.total().get_vitamin( vitamin_camp_test ) == 20 );
+    }
+    SECTION( "zero calorie portions are not consumed and personal vitamins are returned" ) {
+        override_option food_on( "NO_NPC_FOOD", "false" );
+        owner->empty_food_supply();
+        worker.stomach.empty();
+        camp_food_portion small{ { { expiry, camp_test_food( 500, 3 ) } } };
+        const auto before = worker.stomach.contains();
+        CHECK( camp.feed_workers( worker, small, true ) == 0 );
+        CHECK( worker.stomach.contains() == before );
+        const camp_food_portion returned = owner->take_food_supply( camp_test_food( 500, 3 ) );
+        REQUIRE( returned.by_expiry.count( expiry ) == 1 );
+        CHECK( returned.total().calories == 500 );
+        CHECK( returned.total().get_vitamin( vitamin_camp_test ) == 3 );
+        CHECK( camp.feed_workers( worker, {}, false ) == 0 );
+        CHECK( worker.stomach.contains() == before );
+        CHECK( camp.feed_workers( worker, small, false ) == 0 );
+        CHECK( worker.stomach.contains() == before );
+        CHECK( owner->food_supply().calories == 0 );
+    }
     SECTION( "nauseous worker returns personal meal with its expiry" ) {
         override_option food_on( "NO_NPC_FOOD", "false" );
         worker.add_effect( effect_camp_test_nausea, 10_minutes );
