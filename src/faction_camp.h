@@ -10,8 +10,10 @@
 #include <vector>
 
 #include "coords_fwd.h"
+#include "memory_fast.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units.h"
 
 template <typename E> struct enum_traits;
 
@@ -42,6 +44,15 @@ class JsonObject;
 
 namespace talk_function
 {
+struct mass_volume {
+    units::mass wgt = 0_gram;
+    units::volume vol = 0_ml;
+    int count = 0;
+};
+
+mass_volume om_harvest_itm( const shared_ptr_fast<npc> &comp, const tripoint_abs_omt &omt_tgt,
+                            int chance = 100, bool take = true );
+
 void basecamp_mission( npc & );
 
 /// Start a faction camp on the current OM tile
