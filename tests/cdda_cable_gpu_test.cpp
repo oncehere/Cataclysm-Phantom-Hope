@@ -167,4 +167,3 @@ TEST_CASE( "gpu_backend_hint_respects_environment", "[tiles][renderer]" )
     CHECK( gpu_backend_hint( "vulkan", true ) == std::nullopt );
 }
 #endif
-

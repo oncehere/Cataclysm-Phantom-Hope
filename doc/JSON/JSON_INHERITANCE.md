@@ -31,6 +31,12 @@ rules. Their IDs remain distinct from ordinary magazines; the former migrations
 that replaced them are removed together with the restored definitions, recipes
 and compatibility lists. This does not change `copy-from` resolution.
 
+Innawood overrides the existing `mask_filter` and `churn` recipes to enable
+`autolearn`. These are complete recipe definitions, so their ingredients,
+tools and other learning requirements must stay consistent with the corresponding
+CPH core recipes. Check the loaded recipe with Innawood active; comparing
+the override file alone does not verify the resulting definition.
+
 ## Examples
 
 Items are one of the most common JSON types, so the "subtypes" field splits data into optional chunks. See [the item docs](ITEM.md#subtypes) for an explanation of how it works.

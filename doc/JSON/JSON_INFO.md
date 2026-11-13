@@ -12,6 +12,11 @@ is generated from the current source and data tree. Regenerate it with
 source fingerprints or reference locations can change without adding a new
 JSON object type. The extractor reuses a comment mask within each parse, preserving registration order and original source coordinates; `generate_contracts.py --check` verifies inventories without rewriting them. For traps, higher `avoidance` makes the trap harder to avoid, independently of its damage.
 
+Sky Island compatibility overrides and Innawood recipe overrides use existing
+object types. Their tracked definitions affect inventory usage counts even
+when a particular world does not load those Mods. Validate the effective
+objects with the intended Mod combination as well as checking the inventory.
+
 Gun `modes` and gunmod `mode_modifier` use the same firing-mode parser. Their
 third value accepts an integer quantity or a positive-integer RPM string;
 legacy non-melee, non-volley quantities above one convert to 300 RPM per

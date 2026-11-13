@@ -42,7 +42,7 @@ TEST_CASE( "cdda_npc_camp_meal_reports_actual_consumption", "[camp][npc][cdda_np
     ( *camp )->set_owner( your_fac );
     avatar &you = get_avatar();
     you.camps.clear();
-    you.camps.push_back( camp_omt );
+    you.camps.insert( camp_omt );
     on_out_of_scope remove_camp_reference( [&]() {
         you.camps.clear();
     } );
