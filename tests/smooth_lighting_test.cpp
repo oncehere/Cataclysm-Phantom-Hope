@@ -170,14 +170,14 @@ TEST_CASE( "light_source_seen_from_beyond_unimpaired_range_shows_no_detail",
     Character &you = get_player_character();
     you.set_mutation( trait_MYOPIC );
     you.recalc_sight_limits();
-    const tripoint_bub_ms far = center + tripoint::east * 14;
-    REQUIRE( g->place_critter_at( mon_zombie_electric, far ) );
+    const tripoint_bub_ms light_source_pos = center + tripoint::east * 14;
+    REQUIRE( g->place_critter_at( mon_zombie_electric, light_source_pos ) );
     settle_caches( 0 );
     const map &here = get_map();
     const level_cache &ch = here.access_cache( 0 );
-    const lit_level ll = ch.visibility_cache[far.x()][far.y()];
+    const lit_level ll = ch.visibility_cache[light_source_pos.x()][light_source_pos.y()];
     REQUIRE( ll == lit_level::BRIGHT_ONLY );
-    const float apparent = map::apparent_light_helper( ch, far ).apparent_light;
+    const float apparent = map::apparent_light_helper( ch, light_source_pos ).apparent_light;
     CHECK_FALSE( smooth_lighting::classify_light_cell( ll, apparent,
                  here.get_visibility_variables_cache().vision_threshold ).detail );
 }
