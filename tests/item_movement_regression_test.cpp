@@ -120,11 +120,13 @@ TEST_CASE( "camp_harvest_preserves_uncollected_items", "[camp][regression]" )
         CHECK( remaining_planks > 0 );
         std::vector<const item *> collected;
         companion->companion_mission_inv.dump( collected );
-        CHECK( harvested.count == static_cast<int>( collected.size() ) );
-        CHECK( harvested.count + remaining_planks == extra_planks + 1 );
-        CHECK( remaining_water == 1 );
+        int collected_count = 0;
         for( const item *it : collected ) {
+            collected_count += it->count_by_charges() ? it->charges : 1;
             CHECK( it->typeId() == plank );
         }
+        CHECK( harvested.count == collected_count );
+        CHECK( harvested.count + remaining_planks == extra_planks + 1 );
+        CHECK( remaining_water == 1 );
     }
 }
