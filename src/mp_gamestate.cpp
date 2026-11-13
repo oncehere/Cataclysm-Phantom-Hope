@@ -14474,7 +14474,7 @@ static void apply_vehicle_sync( JsonObject &jo )
                 // pre-loop `vehs` snapshot the match used — to catch a stale-list
                 // miss too.
                 {
-                    std::string near;
+                    std::string nearby_vehicles;
                     for( const wrapped_vehicle &wv : m.get_vehicles() ) {
                         if( !wv.v ) {
                             continue;
@@ -14483,15 +14483,15 @@ static void apply_vehicle_sync( JsonObject &jo )
                         if( p.z() == new_abs.z() &&
                             std::abs( p.x() - new_abs.x() ) <= 12 &&
                             std::abs( p.y() - new_abs.y() ) <= 12 ) {
-                            near += "\"" + wv.v->name + "\"@" +
-                                    std::to_string( p.x() ) + "," +
-                                    std::to_string( p.y() ) + " ";
+                            nearby_vehicles += "\"" + wv.v->name + "\"@" +
+                                               std::to_string( p.x() ) + "," +
+                                               std::to_string( p.y() ) + " ";
                         }
                     }
                     mp_log( "[cdda-mp] CLI-VEH-SKIP-DIAG: nid=" + std::to_string( nid ) +
                             " tracked=" + std::to_string( search_abs.x() ) + "," +
                             std::to_string( search_abs.y() ) +
-                            " nearby=[ " + near + "]" );
+                            " nearby=[ " + nearby_vehicles + "]" );
                 }
                 // Ask the host to re-include a full snapshot for this nid on its
                 // next broadcast — closes the "invisible forever" gap where the
