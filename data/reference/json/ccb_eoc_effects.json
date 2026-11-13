@@ -4,7 +4,7 @@
   "inventory_kind": "eoc_effects",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:e536731f16547eb2c8a22871e1777c8330e1155cb6c8f19ff032d1c6a421f905",
+    "source_fingerprint": "sha256:ab44689489d1a23de01682a3362147467e05d821c67c96b00fc907709af1e810",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -7442,7 +7442,7 @@
       "contract_kind": "effect",
       "example_evidence": {
         "status": "lexical_candidate",
-        "occurrences": 2551,
+        "occurrences": 2553,
         "examples": [
           {
             "path": "data/json/artifact/altered_object_active.json",

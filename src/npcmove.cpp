@@ -5641,9 +5641,7 @@ bool npc::consume_food_from_camp( consume_filter filter )
         int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply().kcal() );
 
         if( kcals_to_eat > 0 ) {
-            bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ), true );
-
-            return true;
+            return bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ), true ) > 0;
         } else {
             // We need food but there's none to eat :(
             complain_about( "camp_larder_empty", 1_hours,

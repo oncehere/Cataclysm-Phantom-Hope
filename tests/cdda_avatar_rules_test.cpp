@@ -36,6 +36,7 @@ TEST_CASE( "berserk_movement_checks_visible_hostiles", "[movement][berserk]" )
     map &here = get_map();
     const tripoint_bub_ms origin{ 60, 60, 0 };
     you.setpos( here, origin );
+    const tripoint_abs_ms origin_abs = you.pos_abs();
     you.add_effect( effect_berserk, 1_hours );
     monster &east = spawn_test_monster( "mon_zombie", origin + tripoint_rel_ms( 3, 0, 0 ) );
     here.invalidate_map_cache( 0 );
@@ -48,9 +49,9 @@ TEST_CASE( "berserk_movement_checks_visible_hostiles", "[movement][berserk]" )
 
     SECTION( "a single hostile prevents moving away" ) {
         CHECK_FALSE( avatar_action::move( you, here, tripoint_rel_ms::west ) );
-        CHECK( you.pos_bub() == origin );
+        CHECK( you.pos_abs() == origin_abs );
         CHECK( avatar_action::move( you, here, tripoint_rel_ms::east ) );
-        CHECK( you.pos_bub() == origin + tripoint_rel_ms::east );
+        CHECK( you.pos_abs() == origin_abs + tripoint_rel_ms::east );
     }
     SECTION( "approaching either of two opposite hostiles is allowed" ) {
         monster &west = spawn_test_monster( "mon_zombie", origin + tripoint_rel_ms( -3, 0, 0 ) );
@@ -58,7 +59,7 @@ TEST_CASE( "berserk_movement_checks_visible_hostiles", "[movement][berserk]" )
         REQUIRE( you.sees( here, west ) );
         get_creature_tracker().invalidate_reachability_cache();
         CHECK( avatar_action::move( you, here, tripoint_rel_ms::west ) );
-        CHECK( you.pos_bub() == origin + tripoint_rel_ms::west );
+        CHECK( you.pos_abs() == origin_abs + tripoint_rel_ms::west );
     }
     SECTION( "an unseen hostile does not prevent retreat" ) {
         here.ter_set( origin + tripoint_rel_ms::east, ter_wall );
@@ -69,6 +70,6 @@ TEST_CASE( "berserk_movement_checks_visible_hostiles", "[movement][berserk]" )
         get_creature_tracker().invalidate_reachability_cache();
         REQUIRE_FALSE( you.sees( here, east ) );
         CHECK( avatar_action::move( you, here, tripoint_rel_ms::west ) );
-        CHECK( you.pos_bub() == origin + tripoint_rel_ms::west );
+        CHECK( you.pos_abs() == origin_abs + tripoint_rel_ms::west );
     }
 }

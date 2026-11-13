@@ -4,7 +4,7 @@
   "inventory_kind": "json_object_types",
   "source": {
     "project": "Cataclysm-Phantom-Hope",
-    "source_fingerprint": "sha256:e536731f16547eb2c8a22871e1777c8330e1155cb6c8f19ff032d1c6a421f905",
+    "source_fingerprint": "sha256:ab44689489d1a23de01682a3362147467e05d821c67c96b00fc907709af1e810",
     "contract_roots": [
       "data/core",
       "data/json",
@@ -29,8 +29,8 @@
       "wound_fix"
     ],
     "observed_not_registered": [],
-    "tracked_json_files": 6821,
-    "top_level_objects": 95318,
+    "tracked_json_files": 6823,
+    "top_level_objects": 95321,
     "top_level_objects_without_string_type": 0,
     "schema_complete_types": 0
   },
@@ -3047,7 +3047,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 5641,
+        "occurrences": 5643,
         "examples": [
           {
             "path": "data/json/artifact/altered_object_active.json",
@@ -9820,7 +9820,7 @@
       ],
       "compile_conditional_variants": false,
       "instance_evidence": {
-        "occurrences": 184,
+        "occurrences": 185,
         "examples": [
           {
             "path": "data/json/effects_on_condition/mutation_eocs/mutation_sleep_eocs.json",
