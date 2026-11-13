@@ -251,15 +251,6 @@ static const std::string cook_recipe_group_string = "COOK";
 static const std::string farm_recipe_group_string = "FARM";
 static const std::string smith_recipe_group_string = "SMITH";
 
-namespace
-{
-struct mass_volume {
-    units::mass wgt = 0_gram;
-    units::volume vol = 0_ml;
-    int count = 0;
-};
-} // namespace
-
 namespace base_camps
 {
 static const translation recover_ally_string = to_translation( "Recover Ally, " );
@@ -290,9 +281,6 @@ static int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, con
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-static mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt,
-                                   int chance = 100,
-                                   bool take = true );
 static void apply_camp_ownership( map &here, const tripoint_bub_ms &camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
@@ -2426,7 +2414,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
         if( comp != nullptr ) {
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_t_tree_young, 50 );
-            const mass_volume results = om_harvest_itm( comp, forest, 95 );
+            const talk_function::mass_volume results = talk_function::om_harvest_itm( comp, forest, 95 );
             const int trips = om_carry_weight_to_trips( results.wgt, results.vol, comp );
             const time_duration travel_time = companion_travel_time_calc( path, trips );
             const time_duration total_time = base_camps::to_workdays( travel_time + chop_time );
@@ -4907,8 +4895,8 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     return harvested;
 }
 
-mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance,
-                            bool take )
+talk_function::mass_volume talk_function::om_harvest_itm( const npc_ptr &comp,
+        const tripoint_abs_omt &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
@@ -4924,7 +4912,9 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() };
     tripoint_range<tripoint_omt_ms> xxx = target_bay.points_in_rectangle( mapmin, mapmax );
     for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        for( const item &i : target_bay.i_at( p ) ) {
+        map_stack stack = target_bay.i_at( p );
+        for( auto it = stack.begin(); it != stack.end(); ) {
+            const item &i = *it;
             if( !i.made_of_from_type( phase_id::LIQUID ) ) {
                 total_m += i.weight( true );
                 total_v += i.volume( true );
@@ -4936,11 +4926,11 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                     harvested_m += i.weight( true );
                     harvested_v += i.volume( true );
                     harvested_num += 1;
+                    it = stack.erase( it );
+                    continue;
                 }
             }
-        }
-        if( take ) {
-            target_bay.i_clear( p );
+            ++it;
         }
     }
     target_bay.save();

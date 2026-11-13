@@ -90,6 +90,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -753,6 +754,23 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     return true;
 }
 
+static void drop_moved_item( Character &you, item &it, const tripoint_bub_ms &src,
+                             const tripoint_bub_ms &dest, const activity_id &activity_to_restore )
+{
+    map &here = get_map();
+    you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
+    if( activity_to_restore == ACT_FETCH_REQUIRED ) {
+        it.set_var( "activity_var", you.name );
+    }
+    const std::vector<item_location> moved = put_into_vehicle_or_drop_ret_locs(
+                you, item_drop_reason::deliberate, { it }, &here, dest );
+    if( activity_to_restore == ACT_FETCH_REQUIRED ) {
+        for( const item_location &loc : moved ) {
+            activity_handlers::reserve_activity_item( you, loc );
+        }
+    }
+}
+
 static void move_item( Character &you, item &it, const int quantity, const tripoint_bub_ms &src,
                        const tripoint_bub_ms &dest, const std::optional<vpart_reference> &vpr_src,
                        const activity_id &activity_to_restore = activity_id::NULL_ID() )
@@ -772,17 +790,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     map &here = get_map();
     // Check that we can pick it up.
     if( !it.made_of_from_type( phase_id::LIQUID ) ) {
-        you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
-        if( activity_to_restore == ACT_FETCH_REQUIRED ) {
-            it.set_var( "activity_var", you.name );
-        }
-        const std::vector<item_location> moved = put_into_vehicle_or_drop_ret_locs(
-                    you, item_drop_reason::deliberate, { it }, &here, dest );
-        if( activity_to_restore == ACT_FETCH_REQUIRED ) {
-            for( const item_location &loc : moved ) {
-                activity_handlers::reserve_activity_item( you, loc );
-            }
-        }
+        drop_moved_item( you, it, src, dest, activity_to_restore );
         // Remove from map or vehicle.
         if( vpr_src ) {
             vpr_src->vehicle().remove_item( vpr_src->part(), &it );
@@ -801,6 +809,70 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
             here.add_item_or_charges( src, leftovers );
         }
     }
+}
+
+static void append_fetchable_contents( item_location parent,
+                                      std::vector<item_location> &contained )
+{
+    for( item *it : parent->all_items_container_top() ) {
+        item_location child( parent, it );
+        if( !it->made_of_from_type( phase_id::LIQUID ) ) {
+            contained.push_back( child );
+        }
+        append_fetchable_contents( child, contained );
+    }
+}
+
+static std::vector<item_location> fetchable_items_at( const tripoint_bub_ms &p )
+{
+    std::vector<item_location> loose;
+    std::vector<item_location> contained;
+    for( item &top : get_map().i_at( p ) ) {
+        if( craft_reservation::contains_reserved( top ) ) {
+            continue;
+        }
+        const item_location top_loc( map_cursor( p ), &top );
+        loose.push_back( top_loc );
+        append_fetchable_contents( top_loc, contained );
+    }
+    loose.insert( loose.end(), contained.begin(), contained.end() );
+    return loose;
+}
+
+static void unseal_source_pocket( const item_location &loc )
+{
+    for( item_location current = loc; current.has_parent(); current = current.parent_item() ) {
+        if( item_pocket *const pocket = current.parent_pocket() ) {
+            pocket->unseal();
+        }
+    }
+}
+
+static void notify_source_containers( item_location parent )
+{
+    while( parent ) {
+        parent.on_contents_changed();
+        if( !parent.has_parent() ) {
+            break;
+        }
+        parent = parent.parent_item();
+    }
+}
+
+static item take_out_of_container( item_location &loc, const int quantity )
+{
+    unseal_source_pocket( loc );
+    const item_location parent = loc.parent_item();
+    item taken = loc->split( quantity );
+    if( !taken.is_null() ) {
+        loc.on_contents_changed();
+        notify_source_containers( parent );
+        return taken;
+    }
+    taken = *loc;
+    loc.remove_item();
+    notify_source_containers( parent );
+    return taken;
 }
 
 namespace zone_sorting
@@ -3120,10 +3192,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     // will be filtered for amounts/charges afterwards.
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( const item &stack_elem : here.i_at( point_elem ) ) {
-            if( craft_reservation::contains_reserved( stack_elem ) ) {
-                continue;
-            }
+        for( const item_location &loc : fetchable_items_at( point_elem ) ) {
+            const item &stack_elem = *loc;
             for( std::vector<item_comp> &elem : req_comps ) {
                 for( item_comp &comp_elem : elem ) {
                     if( comp_elem.type == stack_elem.typeId() ) {
@@ -3395,7 +3465,6 @@ bool fetch_required_activity_actor::fetch_activity(
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_item_map =
                 requirements_map( you, distance );
     int pickup_count = 1;
-    map_stack items_there = here.i_at( src_loc );
     const units::volume volume_allowed = you.free_space();
     const units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
 
@@ -3421,18 +3490,21 @@ bool fetch_required_activity_actor::fetch_activity(
             }
         }
     }
-    for( auto item_iter = items_there.begin(); item_iter != items_there.end(); item_iter++ ) {
-        item &it = *item_iter;
-        if( craft_reservation::contains_reserved( it ) ) {
-            continue;
-        }
+    for( item_location &loc : fetchable_items_at( src_loc ) ) {
+        item &it = *loc;
         for( auto elem : mental_item_map ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // some tasks (construction/crafting) want the required item moved near the work spot.
                 if( !fetch_for_activity->fetch_items_to_zone() ) {
                     //TODO: this teleports the item, assign an item moving activity
-                    move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.get_bub( fetched_item_destination ), ovp, activity_to_restore );
+                    const int quantity = it.count_by_charges() ? std::get<2>( elem ) : 1;
+                    const tripoint_bub_ms dest = here.get_bub( fetched_item_destination );
+                    if( loc.has_parent() ) {
+                        item taken = take_out_of_container( loc, quantity );
+                        drop_moved_item( you, taken, src_loc, dest, activity_to_restore );
+                    } else {
+                        move_item( you, it, quantity, src_loc, dest, std::nullopt, activity_to_restore );
+                    }
 
                     return true;
                     // other tasks want the item picked up
@@ -3443,29 +3515,33 @@ bool fetch_required_activity_actor::fetch_activity(
                         add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
                     }
+                    const bool contained = loc.has_parent();
                     item leftovers = it;
-                    if( pickup_count != 1 && it.count_by_charges() ) {
+                    if( it.count_by_charges() ) {
                         // Reinserting leftovers happens after item removal to avoid stacking issues.
                         leftovers.charges = it.charges - pickup_count;
-                        if( leftovers.charges > 0 ) {
+                        if( leftovers.charges > 0 && !contained ) {
                             it.charges = pickup_count;
                         }
                     } else {
                         leftovers.charges = 0;
                     }
-                    it.set_var( "activity_var", you.name );
-                    activity_handlers::reserve_activity_item( you, you.i_add( it ) );
+                    item picked = contained ? take_out_of_container( loc, pickup_count ) : it;
+                    picked.set_var( "activity_var", you.name );
+                    activity_handlers::reserve_activity_item( you, you.i_add( picked ) );
                     if( you.is_npc() ) {
                         if( pickup_count == 1 ) {
-                            const std::string item_name = it.tname();
+                            const std::string item_name = picked.tname();
                             add_msg( _( "%1$s picks up a %2$s." ), you.disp_name(), item_name );
                         } else {
                             add_msg( _( "%s picks up several items." ),  you.disp_name() );
                         }
                     }
-                    items_there.erase( item_iter );
+                    if( !contained ) {
+                        loc.remove_item();
+                    }
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
-                    if( leftovers.charges > 0 ) {
+                    if( !contained && leftovers.charges > 0 ) {
                         here.add_item_or_charges( src_loc, leftovers );
                     }
                     return true;
@@ -3702,6 +3778,21 @@ void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_
     }
 }
 
+std::unordered_set<tripoint_abs_ms> occupied_construction_sites( const Character &you )
+{
+    std::unordered_set<tripoint_abs_ms> sites;
+    const auto add_site = [&you, &sites]( const Character & guy ) {
+        if( &guy != &you && guy.activity.id() == ACT_BUILD ) {
+            sites.insert( guy.activity.placement );
+        }
+    };
+    add_site( get_avatar() );
+    for( const npc &guy : g->all_npcs() ) {
+        add_site( guy );
+    }
+    return sites;
+}
+
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id )
 {
@@ -3785,7 +3876,6 @@ multi_build_construction_activity_actor::multi_activity_locations(
         }
     }
     multi_activity_actor::prune_dangerous_field_locations( src_set );
-    multi_activity_actor::prune_same_tile_locations( you, src_set );
     multi_activity_actor::prune_dark_locations( you, src_set, act_id );
 
     return src_set;

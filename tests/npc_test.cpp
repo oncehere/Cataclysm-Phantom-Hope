@@ -42,6 +42,8 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "json.h"
+#include "json_loader.h"
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
@@ -4636,7 +4638,7 @@ TEST_CASE( "camp_resident_guard_transitions", "[npc][camp]" )
     }
 }
 
-TEST_CASE( "on_load_migrates_legacy_camp_npcs", "[npc][camp]" )
+TEST_CASE( "on_load_preserves_camp_guard_assignment", "[npc][camp][save]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -4644,46 +4646,43 @@ TEST_CASE( "on_load_migrates_legacy_camp_npcs", "[npc][camp]" )
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
     guy.set_fac( faction_your_followers );
+    guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
+    const auto camp = guy.assigned_camp;
+    const tripoint_abs_ms post = guy.pos_abs();
+    guy.set_guard_pos( post );
 
-    SECTION( "GUARD_ALLY + assigned_camp migrates to CAMP_RESIDENT" ) {
+    SECTION( "guard survives repeated loads" ) {
         guy.set_mission( NPC_MISSION_GUARD_ALLY );
-        guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
-        guy.set_guard_pos( guy.pos_abs() );
-        guy.on_load( &here );
-        CHECK( guy.mission == NPC_MISSION_CAMP_RESIDENT );
-        CHECK_FALSE( guy.get_guard_post().has_value() );
-        CHECK( guy.assigned_camp.has_value() );
+        for( int i = 0; i < 2; ++i ) {
+            guy.on_load( &here );
+            CHECK( guy.mission == NPC_MISSION_GUARD_ALLY );
+            CHECK( guy.get_guard_post() == post );
+            CHECK( guy.assigned_camp == camp );
+        }
     }
-    SECTION( "migration clears stale movement state" ) {
-        guy.set_mission( NPC_MISSION_GUARD_ALLY );
-        guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
-        guy.set_guard_pos( guy.pos_abs() );
-        guy.goal = project_to<coords::omt>( guy.pos_abs() + tripoint( 10 * SEEX, 0, 0 ) );
-        guy.omt_path.push_back( guy.goal );
-        guy.path.push_back( here.get_bub( tripoint_abs_ms( 55, 50, 0 ) ) );
-        guy.set_committed_goal( "return_to_guard_pos" );
-        guy.on_load( &here );
-        CHECK( guy.mission == NPC_MISSION_CAMP_RESIDENT );
-        CHECK( guy.goal == npc::no_goal_point );
-        CHECK( guy.omt_path.empty() );
-        CHECK( guy.path.empty() );
-        CHECK( guy.get_committed_goal().empty() );
-    }
-    SECTION( "migration fixes previous_mission for active workers" ) {
+    SECTION( "activity retains its previous guard mission" ) {
         guy.set_mission( NPC_MISSION_ACTIVITY );
         guy.previous_mission = NPC_MISSION_GUARD_ALLY;
-        guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
-        guy.set_guard_pos( guy.pos_abs() );
         guy.on_load( &here );
         CHECK( guy.mission == NPC_MISSION_ACTIVITY );
-        CHECK( guy.previous_mission == NPC_MISSION_CAMP_RESIDENT );
+        CHECK( guy.previous_mission == NPC_MISSION_GUARD_ALLY );
+        CHECK( guy.get_guard_post() == post );
     }
-    SECTION( "GUARD_ALLY without assigned_camp does not migrate" ) {
+    SECTION( "guard survives JSON round trip and load" ) {
         guy.set_mission( NPC_MISSION_GUARD_ALLY );
-        guy.assigned_camp = std::nullopt;
-        guy.set_guard_pos( guy.pos_abs() );
-        guy.on_load( &here );
-        CHECK( guy.mission == NPC_MISSION_GUARD_ALLY );
+        guy.consumption_history.clear();
+        std::ostringstream stream;
+        JsonOut output( stream );
+        guy.serialize( output );
+        npc restored;
+        restored.deserialize( json_loader::from_string( stream.str() ).get_object() );
+        CHECK( restored.mission == NPC_MISSION_GUARD_ALLY );
+        CHECK( restored.get_guard_post() == post );
+        CHECK( restored.assigned_camp == camp );
+        restored.on_load( &here );
+        CHECK( restored.mission == NPC_MISSION_GUARD_ALLY );
+        CHECK( restored.get_guard_post() == post );
+        CHECK( restored.assigned_camp == camp );
     }
 }
 
