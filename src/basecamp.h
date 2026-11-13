@@ -536,8 +536,8 @@ class basecamp
         bool set_sort_points();
 
         // food utility
-        /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
-        /// total food supply hurts morale
+        /// Withdraws the negative @ref change and returns actual positive nutrients by expiry.
+        /// Unmet food requests affect faction morale.
         /// Handles vitamin consumption when only a kcal value is supplied
         camp_food_portion camp_food_supply( nutrients change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
@@ -546,7 +546,8 @@ class basecamp
         camp_food_portion camp_food_supply( const time_duration &total_time,
                                             float exertion_level = NO_EXERCISE,
                                             const time_duration &travel_time = 0_hours );
-        /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
+        /// Distributes whole-kcal portions; personal meals refund uneaten shares by expiry.
+        /// Mission provisions remain spent. Returns the kcal actually eaten.
         void return_food_supply( const camp_food_portion &portion );
         int feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
                           camp_food_portion food,
